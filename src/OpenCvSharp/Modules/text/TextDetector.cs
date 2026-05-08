@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// An abstract class providing interface for text detection algorithms
 /// </summary>
-public abstract class TextDetector : DisposableCvObject
+public abstract class TextDetector : CvObject
 {
     /// <summary>
     /// Method that provides a quick and simple interface to detect text inside an image
@@ -24,7 +24,7 @@ public abstract class TextDetector : DisposableCvObject
         using (var confidenceVec = new VectorOfFloat())
         {
             NativeMethods.HandleException(
-                NativeMethods.text_TextDetector_detect(ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+                NativeMethods.text_TextDetector_detect(CvPtr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
             bbox = bboxVec.ToArray();
             confidence = confidenceVec.ToArray();
         }

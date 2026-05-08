@@ -129,6 +129,7 @@ UpgradeLog*.XML
 /test/OpenCvSharp.Tests/dll/x64/*.dll
 /test/OpenCvSharp.Tests/dll/x86/*.dll
 /test/OpenCvSharp.Tests/*.dll
+/test/OpenCvSharp.Tests/*.so
 Help
 /tesseract_files
 /opencv_artifacts

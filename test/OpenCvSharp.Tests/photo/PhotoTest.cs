@@ -40,7 +40,7 @@ public class PhotoTest
         using var src3 = new Mat("_data/image/tsukuba_right.png", ImreadModes.Grayscale);
         using var dst = new Mat();
 
-        Cv2.FastNlMeansDenoisingMulti(new[] { src1, src2, src3 }, dst, 1, 3, 3, 3, 7);
+        Cv2.FastNlMeansDenoisingMulti([src1, src2, src3], dst, 1, 3, 3, 3, 7);
 
         if (Debugger.IsAttached)
             Window.ShowImages(src1, src2, dst);

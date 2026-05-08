@@ -12,19 +12,14 @@ namespace OpenCvSharp;
 /// </remarks>
 public class HausdorffDistanceExtractor : ShapeDistanceExtractor
 {
-    private Ptr? ptrObj;
-
     #region Init & Disposal
 
     /// <summary>
     /// 
     /// </summary>
-    protected HausdorffDistanceExtractor(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private HausdorffDistanceExtractor(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(p)))
+    { }
     /// <summary>
     /// Complete constructor
     /// </summary>
@@ -37,19 +32,10 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         NativeMethods.HandleException(
             NativeMethods.shape_createHausdorffDistanceExtractor(
                 (int) distanceFlag, rankProp, out var ret));
-        return new HausdorffDistanceExtractor(ret);
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ret, out var rawPtr));
+        return new HausdorffDistanceExtractor(ret, rawPtr);
     }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
+    
     #endregion
 
     #region Properties
@@ -63,7 +49,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr, out var ret));
+                NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (DistanceTypes)ret;
         }
@@ -71,7 +57,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(ptr, (int) value));
+                NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(RawPtr, (int) value));
             GC.KeepAlive(this);
         }
     }
@@ -85,7 +71,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr, out var ret));
+                NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -93,28 +79,10 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(ptr, value));
+                NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

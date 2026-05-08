@@ -1,4 +1,4 @@
-namespace OpenCvSharp.ImgHash;
+﻿namespace OpenCvSharp.ImgHash;
 
 /// <summary>
 /// 

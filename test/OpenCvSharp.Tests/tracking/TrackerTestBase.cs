@@ -16,7 +16,7 @@ public abstract class TrackerTestBase : TestBase
     protected static void UpdateBase(Tracker tracker)
     {
         if (tracker is null)            
-            throw new System.ArgumentNullException(nameof(tracker));
+            throw new ArgumentNullException(nameof(tracker));
             
         // ETHZ dataset
         // ETHZ is Eidgenössische Technische Hochschule Zürich, in Deutsch
@@ -48,8 +48,8 @@ public abstract class TrackerTestBase : TestBase
             {
                 Directory.CreateDirectory(path);
                 mat.Rectangle(
-                    new Point((int) bb.X, (int) bb.Y),
-                    new Point((int) (bb.X + bb.Width), (int) (bb.Y + bb.Height)),
+                    new Point(bb.X, bb.Y),
+                    new Point(bb.X + bb.Width, bb.Y + bb.Height),
                     new Scalar(0, 0, 255));
                 Cv2.ImWrite(Path.Combine(path, file), mat);
             }

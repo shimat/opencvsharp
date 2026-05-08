@@ -1,6 +1,6 @@
 ﻿![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
-[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu 22.04 Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2022.04/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu 24.04 Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2024.04/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Docker Test Status](https://github.com/shimat/opencvsharp/workflows/Docker%20Test/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions manylinux Status](https://github.com/shimat/opencvsharp/workflows/manylinux/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. It supports .NET 8+, .NET Standard 2.0/2.1, and .NET Framework 4.6.1+.
 
@@ -38,8 +38,9 @@ For more installation options, see the [Installation](#installation) section bel
 ```
 PS1> Install-WindowsFeature Server-Media-Foundation
 ```
-* (Ubuntu) You must pre-install all the dependency packages needed to build OpenCV. Many packages such as libjpeg must be installed for OpenCV to work. 
-https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
+* (Linux) The official `OpenCvSharp4.official.runtime.linux-x64` package is built on manylinux_2_28 and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions with glibc 2.28+. The full package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
+  * The **full** package uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 is pre-installed on standard Ubuntu/Debian/RHEL environments. In minimal or container environments where it is absent, install it manually (`apt-get install libgtk-3-0` or `dnf install gtk3`), or use the **slim** profile instead.
+  * The **slim** package (`OpenCvSharp4.official.runtime.linux-x64.slim`) disables `highgui` and has no GUI dependencies — suitable for headless and container use.
 
 
 **OpenCvSharp won't work on Unity and Xamarin platforms.** For Unity, please consider using [OpenCV for Unity](https://assetstore.unity.com/packages/tools/integration/opencv-for-unity-21088) or some other solutions.
@@ -68,47 +69,38 @@ dotnet add package OpenCvSharp4.official.runtime.linux-x64
 dotnet run
 ```
 
-Distro-specific packages (`OpenCvSharp4.official.runtime.ubuntu.24.04-x64`, `OpenCvSharp4.official.runtime.ubuntu.22.04-x64`) are also available but use distro-specific RIDs that are [no longer resolved automatically by .NET 8+](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/rid-graph). The `linux-x64` package is recommended for most users.
+> ⚠️ The distro-specific `OpenCvSharp4.official.runtime.ubuntu.*` packages are **no longer maintained**. Use `OpenCvSharp4.official.runtime.linux-x64` instead.
 
 
 ### Slim profile module coverage
 
 The `slim` runtime packages keep a practical subset while reducing runtime dependencies.
 
-- Enabled modules: `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo`
-- Disabled modules: `contrib`, `dnn`, `ml`, `video`, `videoio`, `highgui`, `stitching`, `barcode`
+- Enabled modules: `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo`, `ml`, `video`, `stitching`, `barcode`
+- Disabled modules: `contrib`, `dnn`, `videoio`, `highgui`
 
 This profile is used by:
 
 - `OpenCvSharp4.runtime.win.slim`
 - `OpenCvSharp4.Windows.Slim`
 - `OpenCvSharp4.official.runtime.linux-x64.slim`
-- `OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim`
-- `OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim`
 
 ## Usage
 For more details, refer to the **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
 **Always remember to release Mat and other IDisposable resources using the `using` syntax:**
 ```C#
-// C# 8
 // Edge detection by Canny algorithm
 using OpenCvSharp;
 
-class Program 
+using var src = new Mat("lenna.png", ImreadModes.Grayscale);
+using var dst = new Mat();
+
+Cv2.Canny(src, dst, 50, 200);
+using (new Window("src image", src))
+using (new Window("dst image", dst))
 {
-    static void Main() 
-    {
-        using var src = new Mat("lenna.png", ImreadModes.Grayscale);
-        using var dst = new Mat();
-        
-        Cv2.Canny(src, dst, 50, 200);
-        using (new Window("src image", src)) 
-        using (new Window("dst image", dst)) 
-        {
-            Cv2.WaitKey();
-        }
-    }
+    Cv2.WaitKey();
 }
 ```
 
@@ -166,22 +158,17 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 | Package | Description |
 |---------|-------------|
 |**[OpenCvSharp4.runtime.win](https://www.nuget.org/packages/OpenCvSharp4.runtime.win/)**| Native bindings for Windows x64 (except UWP) |
-|**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
-|**[OpenCvSharp4.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended) |
-|**[OpenCvSharp4.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
-|**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64/)**| Native bindings for Ubuntu 22.04 x64 |
-|**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim/)**| Slim native bindings for Ubuntu 22.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
-|**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64/)**| Native bindings for Ubuntu 24.04 x64 |
-|**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim/)**| Slim native bindings for Ubuntu 24.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
+|**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled |
+|**[OpenCvSharp4.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended). Built on manylinux_2_28. Includes FFmpeg and Tesseract statically linked. Requires GTK3 runtime (`libgtk-3.so.0`) for highgui (`Cv2.ImShow` etc.). |
+|**[OpenCvSharp4.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled. No external runtime dependencies. |
 |**[OpenCvSharp4.runtime.linux-arm](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/)**| Native bindings for Linux Arm |
 |**[OpenCvSharp4.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/)**| Native bindings for WebAssembly |
-|**[OpenCvSharp4.runtime.uwp](https://www.nuget.org/packages/OpenCvSharp4.runtime.uwp/)** ⚠️ **Deprecated**| ~~Native bindings for UWP (Universal Windows Platform) x64/x86/ARM~~ — No longer maintained. Last updated for OpenCV 4.9.0. |
 
 > **Note:** Windows x86 (32-bit) support has been dropped as of the OpenCV 4.13.0 release series.
 > The `OpenCvSharp4.runtime.win` and `OpenCvSharp4.runtime.win.slim` packages now ship **x64-only** native binaries.
 > Users requiring x86 Windows support should stay on the last OpenCV 4.12.x-based packages.
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, Ubuntu, Linux ARM, and WebAssembly are available. (UWP binding is deprecated — see above.)
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, Linux x64/ARM, and WebAssembly are available.
 
 Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 > [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) / [OpenCvSharp3-WithoutDll](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) / [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) /  [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)
@@ -250,32 +237,71 @@ https://github.com/shimat?tab=packages
    > For your own application, either add `src\build\OpenCvSharpExtern\Release` to `PATH`, or copy `OpenCvSharpExtern.dll` alongside your app's output directory.
 
 ### Ubuntu
-- Build OpenCV with opencv_contrib: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
-- Install .NET Core SDK: https://learn.microsoft.com/ja-jp/dotnet/core/install/linux-ubuntu
-- Get OpenCvSharp source files
+
+Tesseract and image libraries (libjpeg-turbo, libpng, libtiff, libwebp) can be managed either via **vcpkg** (recommended, consistent with Windows) or via the system package manager.
+
+#### Option A: vcpkg (recommended)
+
+Prerequisites: `cmake`, `git`, `g++`, vcpkg installed.
+
 ```bash
 git clone --recursive https://github.com/shimat/opencvsharp.git
 cd opencvsharp
-git fetch --all --tags --prune && git checkout ${OPENCVSHARP_VERSION}
+git submodule update --init --recursive
 ```
 
-- Build native wrapper `OpenCvSharpExtern`
 ```bash
-cd opencvsharp/src
-mkdir build && cd build
-cmake -D CMAKE_INSTALL_PREFIX=${YOUR_OPENCV_INSTALL_PATH} ..
-make -j
-make install
+# Install dependencies via vcpkg
+/path/to/vcpkg/vcpkg install \
+  --triplet x64-linux-static \
+  --overlay-triplets cmake/triplets
 ```
+
+Build OpenCV and OpenCvSharpExtern pointing to vcpkg:
+```bash
+cmake -C cmake/opencv_build_options.cmake \
+      -S opencv -B opencv/build \
+      -D OPENCV_EXTRA_MODULES_PATH=$PWD/opencv_contrib/modules \
+      -D CMAKE_INSTALL_PREFIX=$PWD/opencv_artifacts \
+      -D CMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
+      -D VCPKG_TARGET_TRIPLET=x64-linux-static
+cmake --build opencv/build -j$(nproc)
+cmake --install opencv/build
+
+cmake -S src -B src/build \
+      -D CMAKE_BUILD_TYPE=Release \
+      -D CMAKE_PREFIX_PATH=$PWD/opencv_artifacts \
+      -D CMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
+      -D VCPKG_TARGET_TRIPLET=x64-linux-static
+cmake --build src/build -j$(nproc)
+```
+
+#### Option B: system packages (apt)
+
+```bash
+sudo apt-get install -y g++ cmake libtesseract-dev \
+  libjpeg-dev libpng-dev libtiff-dev libwebp-dev \
+  libavcodec-dev libavformat-dev libswscale-dev
+```
+
+Build OpenCV from source: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
+
+Then build the native wrapper:
+```bash
+cmake -S src -B src/build \
+      -D CMAKE_BUILD_TYPE=Release \
+      -D CMAKE_PREFIX_PATH=${YOUR_OPENCV_INSTALL_PATH}
+cmake --build src/build -j$(nproc)
+```
+
 Add a reference to the built shared library:
 ```bash
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
-- Build the managed OpenCvSharp library
+#### Build managed library (both options)
 ```bash
-cd opencvsharp
-dotnet build src/OpenCvSharp/OpenCvSharp.csproj
+dotnet build src/OpenCvSharp/OpenCvSharp.csproj -c Release
 ```
 ## Customizing OpenCV and OpenCvSharp for embedded (ARM) Platforms
 

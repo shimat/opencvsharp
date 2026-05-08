@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_FEATURES2D
 
@@ -30,10 +30,10 @@ CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat2(
     BEGIN_WRAP
     std::vector<cv::Mat> imageVec(imageLength);
     std::vector<cv::Mat> maskVec;
-    
+
     for (auto i = 0; i < imageLength; i++)
         imageVec.push_back(*images[i]);
-    
+
     if (mask != nullptr)
     {
         maskVec.reserve(imageLength);
@@ -69,7 +69,7 @@ CVAPI(ExceptionStatus) features2d_Feature2D_compute2(
     BEGIN_WRAP
     std::vector<cv::Mat> imageVec(imageLength);
     std::vector<cv::Mat> descriptorsVec(descriptorsLength);
-    
+
     for (auto i = 0; i < imageLength; i++)
         imageVec.push_back(*images[i]);
     for (auto i = 0; i < descriptorsLength; i++)
@@ -158,13 +158,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_SIFT_delete(cv::Ptr<cv::SIFT> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_SIFT_get(cv::Ptr<cv::SIFT> *ptr, cv::SIFT **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 #pragma endregion
 
 #pragma region BRISK
@@ -223,13 +216,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_BRISK_delete(cv::Ptr<cv::BRISK> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_BRISK_get(cv::Ptr<cv::BRISK> *ptr, cv::BRISK **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 #pragma endregion
 
 #pragma region ORB
@@ -251,14 +237,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
     delete ptr;
     END_WRAP
 }
-
-CVAPI(ExceptionStatus) features2d_Ptr_ORB_get(cv::Ptr<cv::ORB> *ptr, cv::ORB **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 
 CVAPI(ExceptionStatus) features2d_ORB_setMaxFeatures(cv::ORB *obj, int val)
 {
@@ -410,13 +388,6 @@ CVAPI(ExceptionStatus) features2d_MSER_detectRegions(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_MSER_get(cv::Ptr<cv::MSER> *ptr, cv::MSER **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) features2d_MSER_setDelta(cv::MSER *obj, int delta)
 {
     BEGIN_WRAP
@@ -503,13 +474,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::Fas
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_FastFeatureDetector_get(cv::Ptr<cv::FastFeatureDetector> *ptr, cv::FastFeatureDetector **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setThreshold(cv::FastFeatureDetector *obj, int threshold)
 {
     BEGIN_WRAP
@@ -584,13 +548,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_AgastFeatureDetector_delete(cv::Ptr<cv::Ag
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_AgastFeatureDetector_get(cv::Ptr<cv::AgastFeatureDetector> *ptr, cv::AgastFeatureDetector **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setThreshold(cv::AgastFeatureDetector *obj, int val)
 {
     BEGIN_WRAP
@@ -650,13 +607,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetect
 {
     BEGIN_WRAP
     delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_Ptr_GFTTDetector_get(cv::Ptr<cv::GFTTDetector> *ptr, cv::GFTTDetector **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue =  ptr->get();
     END_WRAP
 }
 
@@ -805,14 +755,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::Simp
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_SimpleBlobDetector_get(
-    cv::Ptr<cv::SimpleBlobDetector> *ptr, cv::SimpleBlobDetector **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 #pragma endregion
 
 #pragma region KAZE
@@ -833,13 +775,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_KAZE_delete(cv::Ptr<cv::KAZE> *ptr)
 {
     BEGIN_WRAP
     delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_Ptr_KAZE_get(cv::Ptr<cv::KAZE> *ptr, cv::KAZE **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
     END_WRAP
 }
 
@@ -945,13 +880,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_AKAZE_delete(cv::Ptr<cv::AKAZE> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_AKAZE_get(cv::Ptr<cv::AKAZE> *ptr, cv::AKAZE **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorType(cv::AKAZE *obj, int val)
 {
     BEGIN_WRAP
@@ -1045,4 +973,11 @@ CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *retu
 
 #pragma endregion
 
+
+CVAPI(ExceptionStatus) features2d_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D> *obj, cv::Feature2D **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_FEATURES2D

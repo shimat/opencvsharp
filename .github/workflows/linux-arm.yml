@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
+  CACHE_VERSION: "2"
 
 jobs:
   build:
@@ -46,7 +47,8 @@ jobs:
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
             libx264-dev \
-            libtesseract-dev 
+            libtesseract-dev \
+            ninja-build
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -55,19 +57,40 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-${{ env.OPENCV_VERSION }}-${{ hashFiles('.github/workflows/linux-arm.yml') }}
-          restore-keys: |
-            opencv-arm-${{ env.OPENCV_VERSION }}-
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
 
-      - name: Build OpenCV
+      - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options.cmake \
             -S opencv \
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
-            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            2>&1 | tee /tmp/opencv-configure.log
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          log=/tmp/opencv-configure.log
+          fail=0
+          for feature in Tesseract FFMPEG JPEG PNG TIFF WEBP; do
+            val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+            if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+              echo "OK: $feature = $val"
+            else
+              echo "MISSING or DISABLED: $feature"
+              grep -iE "${feature}" "$log" | tail -3 || true
+              fail=1
+            fi
+          done
+          [ "$fail" -eq 0 ]
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
           sudo ldconfig
@@ -80,11 +103,12 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-${{ env.OPENCV_VERSION }}
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
       
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
@@ -105,7 +129,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Create NuGet package
         env: 
@@ -129,8 +153,8 @@ jobs:
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null

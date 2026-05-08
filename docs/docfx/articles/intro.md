@@ -24,10 +24,10 @@ Install OpenCvSharp via NuGet Package Manager:
 dotnet add package OpenCvSharp4
 
 # Native bindings (choose one based on your platform)
-dotnet add package OpenCvSharp4.runtime.win                      # Windows
-+# dotnet add package OpenCvSharp4.runtime.win.slim                # Windows slim
-dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64         # Ubuntu 24.04
-# dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim # Ubuntu 24.04 slim
+dotnet add package OpenCvSharp4.runtime.win                            # Windows
+# dotnet add package OpenCvSharp4.runtime.win.slim                       # Windows slim
+dotnet add package OpenCvSharp4.official.runtime.linux-x64               # Linux x64
+# dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim        # Linux x64 slim
 ```
 
 ### Quick Example

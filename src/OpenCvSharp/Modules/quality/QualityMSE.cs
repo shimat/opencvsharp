@@ -8,17 +8,12 @@ namespace OpenCvSharp.Quality;
 // ReSharper disable once InconsistentNaming
 public class QualityMSE : QualityBase
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityMSE(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private QualityMSE(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -31,10 +26,11 @@ public class QualityMSE : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityMSE(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityMSE(@ref.CvPtr, out var smartPtr));
 
         GC.KeepAlive(@ref);
-        return new QualityMSE(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_get(smartPtr, out var rawPtr));
+        return new QualityMSE(smartPtr, rawPtr);
     }
 
     // TODO support InputArrayOfArrays
@@ -65,33 +61,5 @@ public class QualityMSE : QualityBase
         GC.KeepAlive(cmp);
         qualityMap?.Fix();
         return ret;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityMSE_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityMSE_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

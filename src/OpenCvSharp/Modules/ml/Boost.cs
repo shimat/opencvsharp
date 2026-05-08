@@ -7,19 +7,14 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class Boost : DTrees
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
     /// Creates instance by raw pointer cv::ml::Boost*
     /// </summary>
-    protected Boost(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private Boost(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model.
     /// </summary>
@@ -27,8 +22,9 @@ public class Boost : DTrees
     public new static Boost Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_create(out var ptr));
-        return new Boost(ptr);
+            NativeMethods.ml_Boost_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -41,8 +37,9 @@ public class Boost : DTrees
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_load(filePath, out var ptr));
-        return new Boost(ptr);
+            NativeMethods.ml_Boost_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -55,18 +52,9 @@ public class Boost : DTrees
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_loadFromString(strModel, out var ptr));
-        return new Boost(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.ml_Boost_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     #endregion
@@ -83,7 +71,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getBoostType(ptr, out var ret));
+                NativeMethods.ml_Boost_getBoostType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (Types)ret;
         }
@@ -91,7 +79,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setBoostType(ptr, (int) value));
+                NativeMethods.ml_Boost_setBoostType(RawPtr, (int) value));
             GC.KeepAlive(this);
         }
     }
@@ -106,7 +94,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeakCount(ptr, out var ret));
+                NativeMethods.ml_Boost_getWeakCount(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -114,7 +102,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeakCount(ptr, value));
+                NativeMethods.ml_Boost_setWeakCount(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -131,7 +119,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeightTrimRate(ptr, out var ret));
+                NativeMethods.ml_Boost_getWeightTrimRate(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -139,7 +127,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeightTrimRate(ptr, value));
+                NativeMethods.ml_Boost_setWeightTrimRate(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -178,22 +166,4 @@ public class Boost : DTrees
     };
 
     #endregion
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_Boost_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_Boost_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

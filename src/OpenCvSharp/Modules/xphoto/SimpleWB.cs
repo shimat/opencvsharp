@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 
@@ -9,17 +9,12 @@ namespace OpenCvSharp.XPhoto;
 /// </summary>
 public class SimpleWB : WhiteBalancer
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
-    internal SimpleWB(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private SimpleWB(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_delete(p)))
+    { }
     /// <summary>
     /// Creates an instance of SimpleWB
     /// </summary>
@@ -27,18 +22,9 @@ public class SimpleWB : WhiteBalancer
     public static SimpleWB Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.xphoto_createSimpleWB(out var ptr));
-        return new SimpleWB(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.xphoto_createSimpleWB(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_get(smartPtr, out var rawPtr));
+        return new SimpleWB(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -50,7 +36,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_InputMax_get(ptr, out var ret));
+                NativeMethods.xphoto_SimpleWB_InputMax_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -58,7 +44,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_InputMax_set(ptr, value));
+                NativeMethods.xphoto_SimpleWB_InputMax_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -72,7 +58,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_InputMin_get(ptr, out var ret));
+                NativeMethods.xphoto_SimpleWB_InputMin_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -80,7 +66,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_InputMin_set(ptr, value));
+                NativeMethods.xphoto_SimpleWB_InputMin_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +80,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_OutputMax_get(ptr, out var ret));
+                NativeMethods.xphoto_SimpleWB_OutputMax_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +88,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_OutputMax_set(ptr, value));
+                NativeMethods.xphoto_SimpleWB_OutputMax_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -116,7 +102,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_OutputMin_get(ptr, out var ret));
+                NativeMethods.xphoto_SimpleWB_OutputMin_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -124,7 +110,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_OutputMin_set(ptr, value));
+                NativeMethods.xphoto_SimpleWB_OutputMin_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -138,7 +124,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_P_get(ptr, out var ret));
+                NativeMethods.xphoto_SimpleWB_P_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -146,7 +132,7 @@ public class SimpleWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_SimpleWB_P_set(ptr, value));
+                NativeMethods.xphoto_SimpleWB_P_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -166,7 +152,7 @@ public class SimpleWB : WhiteBalancer
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.xphoto_SimpleWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_SimpleWB_balanceWhite(RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -174,21 +160,4 @@ public class SimpleWB : WhiteBalancer
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_SimpleWB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_SimpleWB_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

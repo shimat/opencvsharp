@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
+public class VectorOfVec4i : CvObject, IStdVector<Vec4i>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfVec4i()
     {
-        ptr = NativeMethods.vector_Vec4i_new1();
+        var p = NativeMethods.vector_Vec4i_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -25,7 +26,8 @@ public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Vec4i_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Vec4i_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -33,7 +35,7 @@ public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Vec4i_delete(ptr);
+        NativeMethods.vector_Vec4i_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -44,7 +46,7 @@ public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     {
         get
         {
-            var res = NativeMethods.vector_Vec4i_getSize(ptr);
+            var res = NativeMethods.vector_Vec4i_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -57,7 +59,7 @@ public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     {
         get
         {
-            var res = NativeMethods.vector_Vec4i_getPointer(ptr);
+            var res = NativeMethods.vector_Vec4i_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

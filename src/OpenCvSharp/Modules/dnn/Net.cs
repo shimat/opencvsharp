@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -22,7 +22,7 @@ namespace OpenCvSharp.Dnn;
 /// This class supports reference counting of its instances, i.e.copies point to the same instance.
 /// </remarks>
 [SuppressMessage("Microsoft.Design", "CA1724: Type names should not match namespaces")]
-public class Net : DisposableCvObject
+public class Net : CvObject
 {
     #region Init & Disposal
 
@@ -33,7 +33,8 @@ public class Net : DisposableCvObject
     public Net()
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_new(out ptr));
+            NativeMethods.dnn_Net_new(out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -41,17 +42,17 @@ public class Net : DisposableCvObject
     /// </summary>
     protected Net(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.dnn_Net_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.dnn_Net_delete(h))));
     }
 
     /// <summary>
@@ -403,7 +404,7 @@ public class Net : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_empty(ptr, out var ret));
+            NativeMethods.dnn_Net_empty(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -419,7 +420,7 @@ public class Net : DisposableCvObject
 
         using var stdString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_dump(ptr, stdString.CvPtr));
+            NativeMethods.dnn_Net_dump(CvPtr, stdString.CvPtr));
         GC.KeepAlive(this);
         return stdString.ToString();
     }
@@ -433,7 +434,7 @@ public class Net : DisposableCvObject
         if (path is null) 
             throw new ArgumentNullException(nameof(path));
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_dumpToFile(ptr, path));
+            NativeMethods.dnn_Net_dumpToFile(CvPtr, path));
         GC.KeepAlive(this);
     }
 
@@ -449,7 +450,7 @@ public class Net : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayerId(ptr, layer, out var ret));
+            NativeMethods.dnn_Net_getLayerId(CvPtr, layer, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -462,7 +463,7 @@ public class Net : DisposableCvObject
     {
         using var namesVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayerNames(ptr, namesVec.CvPtr));
+            NativeMethods.dnn_Net_getLayerNames(CvPtr, namesVec.CvPtr));
         GC.KeepAlive(this);
         return namesVec.ToArray();
     }
@@ -480,7 +481,7 @@ public class Net : DisposableCvObject
             throw new ArgumentNullException(nameof(inpPin));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_connect1(ptr, outPin, inpPin));
+            NativeMethods.dnn_Net_connect1(CvPtr, outPin, inpPin));
         GC.KeepAlive(this);
     }
 
@@ -494,7 +495,7 @@ public class Net : DisposableCvObject
     public void Connect(int outLayerId, int outNum, int inpLayerId, int inpNum)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_connect2(ptr, outLayerId, outNum, inpLayerId, inpNum));
+            NativeMethods.dnn_Net_connect2(CvPtr, outLayerId, outNum, inpLayerId, inpNum));
         GC.KeepAlive(this);
     }
 
@@ -515,7 +516,7 @@ public class Net : DisposableCvObject
 
         var inputBlobNamesArray = inputBlobNames.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setInputsNames(ptr, inputBlobNamesArray, inputBlobNamesArray.Length));
+            NativeMethods.dnn_Net_setInputsNames(CvPtr, inputBlobNamesArray, inputBlobNamesArray.Length));
         GC.KeepAlive(this);
     }
 
@@ -528,7 +529,7 @@ public class Net : DisposableCvObject
     public Mat Forward(string? outputName = null)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_forward1(ptr, outputName, out var ret));
+            NativeMethods.dnn_Net_forward1(CvPtr, outputName, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -546,7 +547,7 @@ public class Net : DisposableCvObject
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_forward2(ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outputName));
+            NativeMethods.dnn_Net_forward2(CvPtr, outputBlobsPtrs, outputBlobsPtrs.Length, outputName));
 
         GC.KeepAlive(outputBlobs);
         GC.KeepAlive(this);
@@ -568,7 +569,7 @@ public class Net : DisposableCvObject
         var outBlobNamesArray = outBlobNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_forward3(
-                ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
+                CvPtr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
 
         GC.KeepAlive(outputBlobs);
         GC.KeepAlive(this);
@@ -585,7 +586,7 @@ public class Net : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setHalideScheduler(ptr, scheduler));
+            NativeMethods.dnn_Net_setHalideScheduler(CvPtr, scheduler));
         GC.KeepAlive(this);
     }
 
@@ -597,7 +598,7 @@ public class Net : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setPreferableBackend(ptr, (int)backendId));
+            NativeMethods.dnn_Net_setPreferableBackend(CvPtr, (int)backendId));
         GC.KeepAlive(this);
     }
 
@@ -609,7 +610,7 @@ public class Net : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setPreferableTarget(ptr, (int)targetId));
+            NativeMethods.dnn_Net_setPreferableTarget(CvPtr, (int)targetId));
         GC.KeepAlive(this);
     }
 
@@ -629,7 +630,7 @@ public class Net : DisposableCvObject
             throw new ArgumentNullException(nameof(blob));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setInput(ptr, blob.CvPtr, name));
+            NativeMethods.dnn_Net_setInput(CvPtr, blob.CvPtr, name));
         GC.KeepAlive(this);
     }
 
@@ -643,7 +644,7 @@ public class Net : DisposableCvObject
 
         using var resultVec = new VectorOfInt32();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getUnconnectedOutLayers(ptr, resultVec.CvPtr));
+            NativeMethods.dnn_Net_getUnconnectedOutLayers(CvPtr, resultVec.CvPtr));
         GC.KeepAlive(this);
         return resultVec.ToArray();
     }
@@ -658,7 +659,7 @@ public class Net : DisposableCvObject
             
         using var resultVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getUnconnectedOutLayersNames(ptr, resultVec.CvPtr));
+            NativeMethods.dnn_Net_getUnconnectedOutLayersNames(CvPtr, resultVec.CvPtr));
         GC.KeepAlive(this);
         return resultVec.ToArray();
     }
@@ -671,7 +672,7 @@ public class Net : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_enableFusion(ptr, fusion ? 1 : 0));
+            NativeMethods.dnn_Net_enableFusion(CvPtr, fusion ? 1 : 0));
         GC.KeepAlive(this);
     }
 
@@ -688,7 +689,7 @@ public class Net : DisposableCvObject
 
         using var timingsVec = new VectorOfDouble();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getPerfProfile(ptr, timingsVec.CvPtr, out var ret));
+            NativeMethods.dnn_Net_getPerfProfile(CvPtr, timingsVec.CvPtr, out var ret));
         GC.KeepAlive(this);
 
         timings = timingsVec.ToArray();

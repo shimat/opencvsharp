@@ -10,26 +10,9 @@ namespace OpenCvSharp.Face;
 // ReSharper disable once InconsistentNaming
 public sealed class FacemarkAAM : Facemark
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    ///
-    /// </summary>
-    private FacemarkAAM()
-    {
-        ptrObj = null;
-        ptr = IntPtr.Zero;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
+    private FacemarkAAM(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_delete(p)))
+    { }
 
     /// <summary>
     /// 
@@ -39,23 +22,18 @@ public sealed class FacemarkAAM : Facemark
     public static FacemarkAAM Create(Params? parameters = null)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new FacemarkAAM
-        {
-            ptrObj = ptrObj,
-            ptr = ptrObj.Get()
-        };
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_get(smartPtr, out var rawPtr));
+        return new FacemarkAAM(smartPtr, rawPtr);
     }
 
 #pragma warning disable CA1034
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    public sealed class Params : DisposableCvObject
+    public sealed class Params : CvObject
     {
         /// <summary>
         /// Constructor
@@ -63,20 +41,20 @@ public sealed class FacemarkAAM : Facemark
         public Params()
         {
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkAAM_Params_new(out ptr));
-            if (ptr == IntPtr.Zero)
+                NativeMethods.face_FacemarkAAM_Params_new(out var p));
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid {GetType().Name} pointer");
+            InitSafeHandle(p);
         }
 
         /// <summary>
         /// Releases managed resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            if (ptr != IntPtr.Zero)
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_delete(ptr));
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(h))));
         }
 
         /// <summary>
@@ -88,7 +66,7 @@ public sealed class FacemarkAAM : Facemark
             {
                 using var s = new StdString();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_model_filename_get(ptr, s.CvPtr));
+                    NativeMethods.face_FacemarkAAM_Params_model_filename_get(CvPtr, s.CvPtr));
                 GC.KeepAlive(this);
                 return s.ToString();
             }
@@ -97,7 +75,7 @@ public sealed class FacemarkAAM : Facemark
                 if (value is null)
                     throw new ArgumentNullException(nameof(value));
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_model_filename_set(ptr, value));
+                    NativeMethods.face_FacemarkAAM_Params_model_filename_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -110,14 +88,14 @@ public sealed class FacemarkAAM : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_m_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkAAM_Params_m_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_m_set(ptr, value));
+                    NativeMethods.face_FacemarkAAM_Params_m_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -130,14 +108,14 @@ public sealed class FacemarkAAM : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkAAM_Params_n_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_set(ptr, value));
+                    NativeMethods.face_FacemarkAAM_Params_n_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -150,14 +128,14 @@ public sealed class FacemarkAAM : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_iter_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkAAM_Params_n_iter_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_iter_set(ptr, value));
+                    NativeMethods.face_FacemarkAAM_Params_n_iter_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -170,14 +148,14 @@ public sealed class FacemarkAAM : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_verbose_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkAAM_Params_verbose_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_verbose_set(ptr, value ? 1 : 0));
+                    NativeMethods.face_FacemarkAAM_Params_verbose_set(CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -189,14 +167,14 @@ public sealed class FacemarkAAM : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_save_model_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkAAM_Params_save_model_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_save_model_set(ptr, value ? 1 : 0));
+                    NativeMethods.face_FacemarkAAM_Params_save_model_set(CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -210,7 +188,7 @@ public sealed class FacemarkAAM : Facemark
             {
                 using var vec = new VectorOfFloat();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_scales_get(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkAAM_Params_scales_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
@@ -218,7 +196,7 @@ public sealed class FacemarkAAM : Facemark
             {
                 using var vec = new VectorOfFloat(value);
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_scales_set(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkAAM_Params_scales_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -232,7 +210,7 @@ public sealed class FacemarkAAM : Facemark
             if (fn is null)
                 throw new ArgumentNullException(nameof(fn));
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkAAM_Params_write(ptr, fn.CvPtr));
+                NativeMethods.face_FacemarkAAM_Params_write(CvPtr, fn.CvPtr));
             GC.KeepAlive(this);
         }
 
@@ -245,26 +223,9 @@ public sealed class FacemarkAAM : Facemark
             if (fs is null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkAAM_Params_write(ptr, fs.CvPtr));
+                NativeMethods.face_FacemarkAAM_Params_write(CvPtr, fs.CvPtr));
             GC.KeepAlive(this);
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FacemarkAAM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FacemarkAAM_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

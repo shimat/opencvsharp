@@ -15,12 +15,14 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string detector_caffe_model_path,
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_prototxt_path ,
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_caffe_model_path,out IntPtr ptr);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
-        
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus wechat_qrcode_Ptr_WeChatQRCode_get(IntPtr ptr, out IntPtr ret);
+    public static extern ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus wechat_qrcode_Ptr_delete(IntPtr ptr);
+    public static extern ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode_points(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
+
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus wechat_qrcode_delete(IntPtr ptr);
 }

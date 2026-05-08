@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -9,26 +9,13 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class GuidedFilter : Algorithm
 {
-    private Ptr? detectorPtr;
 
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected GuidedFilter(IntPtr p)
-    {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
+    private GuidedFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_delete(p)))
+    { }
 
     /// <summary>
     /// Factory method, create instance of GuidedFilter and produce initialization routines.
@@ -48,10 +35,11 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createGuidedFilter(
-                guide.CvPtr, radius, eps, out var p));
+                guide.CvPtr, radius, eps, out var smartPtr));
             
         GC.KeepAlive(guide); 
-        return new GuidedFilter(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_get(smartPtr, out var rawPtr));
+        return new GuidedFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -72,28 +60,10 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_GuidedFilter_filter(
-                ptr, src.CvPtr, dst.CvPtr, dDepth));
+                RawPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
         dst.Fix();
-    }
-        
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_GuidedFilter_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_GuidedFilter_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

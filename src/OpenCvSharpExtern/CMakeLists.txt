@@ -58,14 +58,19 @@ if(OpenCV_FOUND)
 		target_link_libraries(OpenCvSharpExtern Iconv::Iconv)
 	endif()
 
-	# Link Tesseract on Windows (using vcpkg-style prefix via CMAKE_PREFIX_PATH)
-	if(WIN32 AND NOT EMSCRIPTEN)
+	# Link Tesseract on Windows and Linux.
+	# Windows: installed as a static library via vcpkg (CMAKE_PREFIX_PATH points to vcpkg_installed/).
+	# Linux:   installed as a static library by docker/manylinux/build_static_deps.sh
+	#          into CMAKE_PREFIX_PATH (typically /opt/deps).
+	if(NOT EMSCRIPTEN AND NOT APPLE)
 		find_package(Tesseract QUIET)
 		if(Tesseract_FOUND)
-			# vcpkg installs only the release variant of Tesseract (no debug libs).
-			# Map Debug configuration to Release so the linker does not look for tesseract*d.lib.
-			set_target_properties(Tesseract::libtesseract PROPERTIES
-				MAP_IMPORTED_CONFIG_DEBUG Release)
+			if(WIN32)
+				# vcpkg installs only the release variant of Tesseract (no debug libs).
+				# Map Debug configuration to Release so the linker does not look for tesseract*d.lib.
+				set_target_properties(Tesseract::libtesseract PROPERTIES
+					MAP_IMPORTED_CONFIG_DEBUG Release)
+			endif()
 			target_link_libraries(OpenCvSharpExtern Tesseract::libtesseract)
 		endif()
 	endif()

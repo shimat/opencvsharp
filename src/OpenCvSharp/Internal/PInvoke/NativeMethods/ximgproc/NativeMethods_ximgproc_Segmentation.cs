@@ -173,4 +173,7 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(IntPtr ptr, out IntPtr returnValue);
+
+
+
 }

@@ -10,17 +10,12 @@ namespace OpenCvSharp.Quality;
 /// </summary>
 public class QualitySSIM : QualityBase
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualitySSIM(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private QualitySSIM(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -33,9 +28,10 @@ public class QualitySSIM : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualitySSIM(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_get(smartPtr, out var rawPtr));
+        return new QualitySSIM(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -63,33 +59,5 @@ public class QualitySSIM : QualityBase
         GC.KeepAlive(cmp);
         qualityMap?.Fix();
         return ret;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualitySSIM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualitySSIM_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

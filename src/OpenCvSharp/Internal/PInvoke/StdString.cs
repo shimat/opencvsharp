@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal;
 /// <summary>
 /// C++ std::string
 /// </summary>
-public class StdString : DisposableCvObject
+public class StdString : CvObject
 {
     /// <inheritdoc />
     /// <summary>
     /// </summary>
     public StdString()
     {
-        ptr = NativeMethods.string_new1();
+        var p = NativeMethods.string_new1();
+        InitSafeHandle(p);
     }
         
     /// <inheritdoc />
@@ -26,16 +27,18 @@ public class StdString : DisposableCvObject
             throw new ArgumentNullException(nameof(str));
 
         var utf8Bytes = Encoding.UTF8.GetBytes(str);
-        ptr = NativeMethods.string_new2(utf8Bytes);
+        var p = NativeMethods.string_new2(utf8Bytes);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.string_delete(ptr);
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.string_delete(h)));
     }
 
     /// <summary>
@@ -45,7 +48,7 @@ public class StdString : DisposableCvObject
     {
         get
         {
-            var ret = NativeMethods.string_size(ptr); 
+            var ret = NativeMethods.string_size(CvPtr); 
             GC.KeepAlive(this);
             return ret;
         }
@@ -59,7 +62,7 @@ public class StdString : DisposableCvObject
     {
         unsafe
         {
-            var stringPointer = NativeMethods.string_c_str(ptr);
+            var stringPointer = NativeMethods.string_c_str(CvPtr);
             var ret = Encoding.UTF8.GetString((byte*) stringPointer, (int)Size);
             GC.KeepAlive(this);
             return ret;

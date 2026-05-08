@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
+internal sealed class VectorOfVec6f : CvObject, IStdVector<Vec6f>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfVec6f()
     {
-        ptr = NativeMethods.vector_Vec6f_new1();
+        var p = NativeMethods.vector_Vec6f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -21,7 +22,7 @@ internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Vec6f_delete(ptr);
+        NativeMethods.vector_Vec6f_delete(CvPtr);
         base.DisposeUnmanaged();
     }
         
@@ -32,7 +33,7 @@ internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec6f_getSize(ptr);
+            var res = NativeMethods.vector_Vec6f_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -45,7 +46,7 @@ internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec6f_getPointer(ptr);
+            var res = NativeMethods.vector_Vec6f_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

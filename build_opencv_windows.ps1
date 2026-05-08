@@ -20,6 +20,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = $PSScriptRoot
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Require-Command($name) {
     if (-not (Get-Command $name -ErrorAction SilentlyContinue)) {
@@ -63,20 +64,22 @@ $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.e
 if (-not (Test-Path $vswhere)) {
     throw "vswhere.exe not found at '$vswhere'. Install Visual Studio or Build Tools first."
 }
-$vsInfo = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json 2>$null | ConvertFrom-Json
-if (-not $vsInfo) {
+$vsInstallVersion = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationVersion 2>$null
+$vsDisplayName    = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property displayName    2>$null
+$vsInstallPath    = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath   2>$null
+if (-not $vsInstallVersion) {
     throw "No Visual Studio installation with C++ tools found. Install 'Desktop development with C++' workload."
 }
-$vsMajor = [int]($vsInfo.installationVersion.Split('.')[0])
+$vsMajor = [int]($vsInstallVersion.Split('.')[0])
 $generatorMap = @{
     17 = "Visual Studio 17 2022"
     18 = "Visual Studio 18 2026"
 }
 $vsGenerator = $generatorMap[$vsMajor]
 if (-not $vsGenerator) {
-    throw "Unsupported Visual Studio major version: $vsMajor (from '$($vsInfo.installationVersion)'). Visual Studio 2022 or 2026 is required."
+    throw "Unsupported Visual Studio major version: $vsMajor (from '$vsInstallVersion'). Visual Studio 2022 or 2026 is required."
 }
-Write-Host "Using generator: $vsGenerator ($($vsInfo.displayName))"
+Write-Host "Using generator: $vsGenerator ($vsDisplayName)"
 
 # ---------------------------------------------------------------------------
 # Configure
@@ -109,11 +112,18 @@ $vcpkgInstalledDir = "$RepoRoot/vcpkg_installed"
 Write-Host "Using vcpkg toolchain: $vcpkgToolchain"
 
 Write-Host "Configuring OpenCV $OpenCvVersion ..."
+# Remove stale CMakeCache.txt so generator/compiler settings are never overridden by a previous run.
+$cmakeCache = "$buildDir/CMakeCache.txt"
+if (Test-Path $cmakeCache) {
+    Write-Host "Removing stale CMakeCache.txt ..."
+    Remove-Item $cmakeCache -Force
+}
 cmake `
     -C "$RepoRoot/cmake/opencv_build_options.cmake" `
     -S "$RepoRoot/opencv" `
     -B "$buildDir" `
     -G "$vsGenerator" -A x64 `
+    -D "CMAKE_GENERATOR_INSTANCE=$vsInstallPath" `
     -D "CMAKE_TOOLCHAIN_FILE=$vcpkgToolchain" `
     -D "VCPKG_TARGET_TRIPLET=x64-windows-static" `
     -D "VCPKG_INSTALLED_DIR=$vcpkgInstalledDir" `
@@ -133,6 +143,7 @@ Write-Host "Done. OpenCV installed to: $installDir"
 Write-Host ""
 Write-Host "Next step — configure and build OpenCvSharpExtern:"
 Write-Host "  cmake -S src -B src\build -G `"$vsGenerator`" -A x64 ``"
+Write-Host "        -D `"CMAKE_GENERATOR_INSTANCE=$vsInstallPath`" ``"
 Write-Host "        -D `"CMAKE_PREFIX_PATH=`$PWD\opencv_artifacts`" ``"
 Write-Host "        -D CMAKE_TOOLCHAIN_FILE=`"$vcpkgToolchain`" ``"
 Write-Host "        -D VCPKG_TARGET_TRIPLET=x64-windows-static ``"

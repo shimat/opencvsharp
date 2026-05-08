@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 #pragma warning disable CA1008 // Enums should have zero value
 
@@ -9,19 +9,14 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class KNearest : StatModel
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
     /// Creates instance by raw pointer cv::ml::KNearest*
     /// </summary>
-    protected KNearest(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private KNearest(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model
     /// </summary>
@@ -29,8 +24,9 @@ public class KNearest : StatModel
     public static KNearest Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_KNearest_create(out var ptr));
-        return new KNearest(ptr);
+            NativeMethods.ml_KNearest_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_get(smartPtr, out var rawPtr));
+        return new KNearest(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -43,8 +39,9 @@ public class KNearest : StatModel
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_KNearest_load(filePath, out var ptr));
-        return new KNearest(ptr);
+            NativeMethods.ml_KNearest_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_get(smartPtr, out var rawPtr));
+        return new KNearest(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -57,18 +54,9 @@ public class KNearest : StatModel
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_KNearest_loadFromString(strModel, out var ptr));
-        return new KNearest(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.ml_KNearest_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_get(smartPtr, out var rawPtr));
+        return new KNearest(smartPtr, rawPtr);
     }
 
     #endregion
@@ -83,14 +71,14 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getDefaultK(ptr, out var ret));
+                NativeMethods.ml_KNearest_getDefaultK(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setDefaultK(ptr, value));
+                NativeMethods.ml_KNearest_setDefaultK(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -103,14 +91,14 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getIsClassifier(ptr, out var ret));
+                NativeMethods.ml_KNearest_getIsClassifier(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0));
+                NativeMethods.ml_KNearest_setIsClassifier(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -123,14 +111,14 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getEmax(ptr, out var ret));
+                NativeMethods.ml_KNearest_getEmax(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setEmax(ptr, value));
+                NativeMethods.ml_KNearest_setEmax(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -143,14 +131,14 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getAlgorithmType(ptr, out var ret));
+                NativeMethods.ml_KNearest_getAlgorithmType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (Types)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setAlgorithmType(ptr, (int)value));
+                NativeMethods.ml_KNearest_setAlgorithmType(RawPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -185,7 +173,7 @@ public class KNearest : StatModel
 
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_findNearest(
-                ptr,
+                RawPtr,
                 samples.CvPtr, k, results.CvPtr,
                 Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist), out var ret));
 
@@ -216,22 +204,4 @@ public class KNearest : StatModel
     };
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_KNearest_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_KNearest_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -12,22 +12,9 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapDrago : Tonemap
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    private TonemapDrago(IntPtr ptrObjPtr)
-        : base(GetEntityPointer(ptrObjPtr, out var po))
-    {
-        ptrObj = po;
-    }
-
-    private static IntPtr GetEntityPointer(IntPtr ptrObjPtr, out Ptr ptrObj)
-    {
-        ptrObj = new Ptr(ptrObjPtr);
-        return ptrObj.Get();
-    }
+    private TonemapDrago(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_delete(p)))
+    { }
 
     /// <summary>
     /// Creates TonemapDrago object
@@ -43,18 +30,9 @@ public sealed class TonemapDrago : Tonemap
     public static TonemapDrago Create(float gamma = 1.0f, float saturation = 1.0f, float bias = 0.85f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemapDrago(gamma, saturation, bias, out var ptr));
-        return new TonemapDrago(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.photo_createTonemapDrago(gamma, saturation, bias, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_get(smartPtr, out var rawPtr));
+        return new TonemapDrago(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -67,7 +45,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getSaturation(ptr, out var ret));
+                NativeMethods.photo_TonemapDrago_getSaturation(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -75,11 +53,11 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setSaturation(ptr, value));
+                NativeMethods.photo_TonemapDrago_setSaturation(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
-        
+
     /// <summary>
     /// Gets or sets value for bias function in [0, 1] range. Values from 0.7 to 0.9 usually give best 
     /// results, default value is 0.85.
@@ -90,7 +68,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getBias(ptr, out var ret));
+                NativeMethods.photo_TonemapDrago_getBias(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -98,26 +76,8 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setBias(ptr, value));
+                NativeMethods.photo_TonemapDrago_setBias(RawPtr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapDrago_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapDrago_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

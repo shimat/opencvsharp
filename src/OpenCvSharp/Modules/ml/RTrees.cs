@@ -7,19 +7,14 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class RTrees : DTrees
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
     /// Creates instance by raw pointer cv::ml::RTrees*
     /// </summary>
-    protected RTrees(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private RTrees(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_RTrees_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model.
     /// </summary>
@@ -27,8 +22,9 @@ public class RTrees : DTrees
     public new static RTrees Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_RTrees_create(out var ptr));
-        return new RTrees(ptr);
+            NativeMethods.ml_RTrees_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_RTrees_get(smartPtr, out var rawPtr));
+        return new RTrees(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -41,8 +37,9 @@ public class RTrees : DTrees
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_RTrees_load(filePath, out var ptr));
-        return new RTrees(ptr);
+            NativeMethods.ml_RTrees_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_RTrees_get(smartPtr, out var rawPtr));
+        return new RTrees(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -55,18 +52,9 @@ public class RTrees : DTrees
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_RTrees_loadFromString(strModel, out var ptr));
-        return new RTrees(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.ml_RTrees_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_RTrees_get(smartPtr, out var rawPtr));
+        return new RTrees(smartPtr, rawPtr);
     }
 
     #endregion
@@ -83,7 +71,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getCalculateVarImportance(ptr, out var ret));
+                NativeMethods.ml_RTrees_getCalculateVarImportance(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -91,7 +79,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0));
+                NativeMethods.ml_RTrees_setCalculateVarImportance(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -106,7 +94,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getActiveVarCount(ptr, out var ret));
+                NativeMethods.ml_RTrees_getActiveVarCount(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -114,7 +102,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value));
+                NativeMethods.ml_RTrees_setActiveVarCount(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -128,7 +116,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getTermCriteria(ptr, out var ret));
+                NativeMethods.ml_RTrees_getTermCriteria(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -136,7 +124,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setTermCriteria(ptr, value));
+                NativeMethods.ml_RTrees_setTermCriteria(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -156,28 +144,10 @@ public class RTrees : DTrees
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_RTrees_getVarImportance(ptr, out var ret));
+            NativeMethods.ml_RTrees_getVarImportance(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
 
     #endregion
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_RTrees_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_RTrees_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

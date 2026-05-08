@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Contrast Limited Adaptive Histogram Equalization
 /// </summary>
-public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.Pixel>
+public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
 {
     private readonly Mat img;
     private readonly Point pt1;
@@ -50,17 +50,18 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_LineIterator_new(
-                img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0, out ptr));
+                img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_LineIterator_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.imgproc_LineIterator_delete(h))));
     }
 
     /// <summary>
@@ -73,11 +74,11 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         Initialize();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_LineIterator_count_get(ptr, out var count));
+            NativeMethods.imgproc_LineIterator_count_get(CvPtr, out var count));
         for (var i = 0; i < count; i++)
         {
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_getValuePosAndShiftToNext(ptr, out var value, out var pos));
+                NativeMethods.imgproc_LineIterator_getValuePosAndShiftToNext(CvPtr, out var value, out var pos));
             yield return new Pixel(pos, value);
             GC.KeepAlive(this);
         }
@@ -99,7 +100,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_ptr_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_ptr_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -114,7 +115,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_ptr0_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_ptr0_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -129,7 +130,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_step_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_step_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -144,7 +145,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_elemSize_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_elemSize_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -159,7 +160,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_err_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_err_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -174,7 +175,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_count_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_count_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -189,7 +190,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_minusDelta_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_minusDelta_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -204,7 +205,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_plusDelta_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_plusDelta_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -219,7 +220,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_minusStep_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_minusStep_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -234,7 +235,7 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_plusStep_get(ptr, out var ret));
+                NativeMethods.imgproc_LineIterator_plusStep_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }

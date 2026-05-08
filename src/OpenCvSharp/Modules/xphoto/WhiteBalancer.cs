@@ -5,6 +5,10 @@
 /// </summary>
 public abstract class WhiteBalancer : Algorithm
 {
+    /// <inheritdoc />
+    protected WhiteBalancer(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Applies white balancing to the input image.
     /// </summary>

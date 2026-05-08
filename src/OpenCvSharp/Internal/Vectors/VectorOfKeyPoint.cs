@@ -5,14 +5,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
+public class VectorOfKeyPoint : CvObject, IStdVector<KeyPoint>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfKeyPoint()
     {
-        ptr = NativeMethods.vector_KeyPoint_new1();
+        var p = NativeMethods.vector_KeyPoint_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -23,7 +24,8 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_KeyPoint_new2(size);
+        var p = NativeMethods.vector_KeyPoint_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -35,7 +37,8 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_KeyPoint_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_KeyPoint_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -43,7 +46,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_KeyPoint_delete(ptr);
+        NativeMethods.vector_KeyPoint_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -54,7 +57,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         get
         {
-            var res = NativeMethods.vector_KeyPoint_getSize(ptr);
+            var res = NativeMethods.vector_KeyPoint_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -67,7 +70,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         get
         {
-            var res = NativeMethods.vector_KeyPoint_getPointer(ptr);
+            var res = NativeMethods.vector_KeyPoint_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

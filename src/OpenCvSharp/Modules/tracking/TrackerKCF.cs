@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Tracking;
@@ -17,11 +17,9 @@ public class TrackerKCF : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerKCF(IntPtr p)
-        : base(new Ptr(p)) 
-    {
-    }
-
+    private TrackerKCF(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -29,8 +27,9 @@ public class TrackerKCF : Tracker
     public static TrackerKCF Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_create1(out var p));
-        return new TrackerKCF(p);
+            NativeMethods.tracking_TrackerKCF_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_get(smartPtr, out var rawPtr));
+        return new TrackerKCF(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -41,29 +40,12 @@ public class TrackerKCF : Tracker
     public static TrackerKCF Create(Params parameters)
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_create2(parameters, out var p));
-        return new TrackerKCF(p);
+            NativeMethods.tracking_TrackerKCF_create2(parameters, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_get(smartPtr, out var rawPtr));
+        return new TrackerKCF(smartPtr, rawPtr);
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerKCF_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerKCF_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
 #pragma warning disable CA1051
     /// <summary> 
     /// </summary>

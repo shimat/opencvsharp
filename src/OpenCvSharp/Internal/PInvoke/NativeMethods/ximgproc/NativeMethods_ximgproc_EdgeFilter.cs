@@ -182,4 +182,9 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_l0Smooth(IntPtr src, IntPtr dst, double lambda, double kappa);
+
+
+
+
+
 }

@@ -11,17 +11,12 @@ namespace OpenCvSharp;
 /// </summary>
 public class RidgeDetectionFilter : Algorithm
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
-    protected RidgeDetectionFilter(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private RidgeDetectionFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p)))
+    { }
     /// <summary>
     /// Create pointer to the Ridge detection filter.
     /// </summary>
@@ -51,19 +46,10 @@ public class RidgeDetectionFilter : Algorithm
             NativeMethods.ximgproc_RidgeDetectionFilter_create(
                 ddepthValue, dx, dy, ksize,
                 outDtypeValue, scale, delta, (int)borderType,
-                out var ptr));
+                out var smartPtr));
 
-        return new RidgeDetectionFilter(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RidgeDetectionFilter_get(smartPtr, out var rawPtr));
+        return new RidgeDetectionFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -79,25 +65,7 @@ public class RidgeDetectionFilter : Algorithm
             throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(RawPtr, src.CvPtr, dst.CvPtr));
         GC.KeepAlive(this);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

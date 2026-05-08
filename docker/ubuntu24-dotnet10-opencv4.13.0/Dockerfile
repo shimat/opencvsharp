@@ -1,6 +1,5 @@
 ########## Build arguments ##########
 ARG OPENCV_VERSION=4.13.0
-ARG OPENCVSHARP_REF=main
 
 ########## Build OpenCV ##########
 FROM ubuntu:noble AS opencv-builder
@@ -46,7 +45,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
       libtesseract-dev \
       libgdiplus \
       pkg-config \
-      libavutil-dev
+      libavutil-dev \
+      ninja-build
+
+# Copy cmake options (needed before OpenCV configure)
+COPY cmake/opencv_build_options.cmake /opencv_build_options.cmake
 
 # Fetch OpenCV and opencv_contrib sources
 RUN set -eux; \
@@ -62,46 +65,14 @@ RUN set -eux; \
 # Configure, build, and install OpenCV with ccache and parallel build
 RUN --mount=type=cache,target=/root/.ccache \
     set -eux; \
-    cmake -S /opencv -B /opencv/build \
+    cmake -G Ninja \
+      -C /opencv_build_options.cmake \
+      -S /opencv -B /opencv/build \
       -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_C_COMPILER_LAUNCHER=ccache \
       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -D BUILD_SHARED_LIBS=OFF \
-      -D ENABLE_CXX11=ON \
-      -D BUILD_EXAMPLES=OFF \
-      -D BUILD_DOCS=OFF \
-      -D BUILD_PERF_TESTS=OFF \
-      -D BUILD_TESTS=OFF \
-      -D BUILD_JAVA=OFF \
-      -D BUILD_opencv_app=OFF \
-      -D BUILD_opencv_barcode=OFF \
-      -D BUILD_opencv_java_bindings_generator=OFF \
-      -D BUILD_opencv_js_bindings_generator=OFF \
-      -D BUILD_opencv_python_bindings_generator=OFF \
-      -D BUILD_opencv_python_tests=OFF \
-      -D BUILD_opencv_ts=OFF \
-      -D BUILD_opencv_js=OFF \
-      -D BUILD_opencv_bioinspired=OFF \
-      -D BUILD_opencv_ccalib=OFF \
-      -D BUILD_opencv_datasets=OFF \
-      -D BUILD_opencv_dnn_objdetect=OFF \
-      -D BUILD_opencv_dpm=OFF \
-      -D BUILD_opencv_fuzzy=OFF \
-      -D BUILD_opencv_gapi=OFF \
-      -D BUILD_opencv_intensity_transform=OFF \
-      -D BUILD_opencv_mcc=OFF \
-      -D BUILD_opencv_objc_bindings_generator=OFF \
-      -D BUILD_opencv_rapid=OFF \
-      -D BUILD_opencv_reg=OFF \
-      -D BUILD_opencv_stereo=OFF \
-      -D BUILD_opencv_structured_light=OFF \
-      -D BUILD_opencv_surface_matching=OFF \
-      -D BUILD_opencv_videostab=OFF \
-      -D BUILD_opencv_wechat_qrcode=ON \
-      -D WITH_GSTREAMER=OFF \
-      -D WITH_ADE=OFF \
-      -D OPENCV_ENABLE_NONFREE=ON; \
+      -D CMAKE_INSTALL_PREFIX=/opencv_artifacts; \
     cmake --build /opencv/build --parallel "$(nproc)"; \
     cmake --install /opencv/build; \
     ldconfig
@@ -109,22 +80,19 @@ RUN --mount=type=cache,target=/root/.ccache \
 ########## Build OpenCvSharp native extern ##########
 FROM opencv-builder AS opencvsharp-builder
 
-# Re-declare ARG to use in this stage
-ARG OPENCVSHARP_REF
-
-# Get OpenCvSharp sources
-RUN git clone https://github.com/shimat/opencvsharp.git /opencvsharp && \
-    cd /opencvsharp && \
-    git checkout ${OPENCVSHARP_REF:-main}
+# Copy local OpenCvSharp sources
+COPY src/ /opencvsharp/src/
 
 # Build and install OpenCvSharp native extern with ccache
 RUN --mount=type=cache,target=/root/.ccache \
     set -eux; \
     mkdir -p /opencvsharp/make; \
-    cmake -S /opencvsharp/src -B /opencvsharp/make \
+    cmake -G Ninja \
+      -S /opencvsharp/src -B /opencvsharp/make \
       -D CMAKE_INSTALL_PREFIX=/opencvsharp/make \
       -D CMAKE_C_COMPILER_LAUNCHER=ccache \
-      -D CMAKE_CXX_COMPILER_LAUNCHER=ccache; \
+      -D CMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -D CMAKE_PREFIX_PATH=/opencv_artifacts; \
     cmake --build /opencvsharp/make --parallel "$(nproc)"; \
     cmake --install /opencvsharp/make; \
     rm -rf /opencv /opencv_contrib; \
@@ -150,12 +118,13 @@ int main(){ \n\
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
-COPY --from=opencvsharp-builder /opencvsharp /opencvsharp
+COPY src/ /opencvsharp/src/
+COPY test/ /opencvsharp/test/
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net10.0 && \
     cd /opencvsharp/src/OpenCvSharp.Extensions && \
     dotnet build -c Release -f net10.0
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk

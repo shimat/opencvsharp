@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Text;
@@ -13,19 +13,9 @@ namespace OpenCvSharp.Text;
 /// </summary>
 public sealed class OCRTesseract : BaseOCR
 {
-    private Ptr? ptrObj;
-
-    #region Init & Disposal
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="p"></param>
-    private OCRTesseract(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
+    private OCRTesseract(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(p)))
+    { }
 
     /// <summary>
     /// Creates an instance of the OCRTesseract class. Initializes Tesseract.
@@ -46,21 +36,11 @@ public sealed class OCRTesseract : BaseOCR
         int psmode = 3)
     {
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var p));
-        return new OCRTesseract(p);
+            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.text_Ptr_OCRTesseract_get(smartPtr, out var rawPtr));
+        return new OCRTesseract(smartPtr, rawPtr);
     }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    #endregion
 
     #region Methods
 
@@ -97,7 +77,7 @@ public sealed class OCRTesseract : BaseOCR
         using var componentConfidencesVector = new VectorOfFloat();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run1(
-                ptr,
+                RawPtr,
                 image.CvPtr,
                 outputTextString.CvPtr,
                 componentRectsVector.CvPtr,
@@ -151,7 +131,7 @@ public sealed class OCRTesseract : BaseOCR
         using var componentConfidencesVector = new VectorOfFloat();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run2(
-                ptr,
+                RawPtr,
                 image.CvPtr,
                 mask.CvPtr,
                 outputTextString.CvPtr,
@@ -178,32 +158,11 @@ public sealed class OCRTesseract : BaseOCR
             throw new ArgumentNullException(nameof(charWhitelist));
 
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_setWhiteList(ptr, charWhitelist));
+            NativeMethods.text_OCRTesseract_setWhiteList(RawPtr, charWhitelist));
 
         GC.KeepAlive(this);
     }
 
     #endregion
 
-    internal sealed class Ptr : OpenCvSharp.Ptr
-    {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_OCRTesseract_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_Ptr_OCRTesseract_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

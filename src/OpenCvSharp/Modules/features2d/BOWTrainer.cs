@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// Brute-force descriptor matcher.
 /// For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one.
 /// </summary>
-public abstract class BOWTrainer : DisposableCvObject
+public abstract class BOWTrainer : CvObject
 {
     /// <summary>
     /// Adds descriptors to a training set.
@@ -20,7 +20,7 @@ public abstract class BOWTrainer : DisposableCvObject
         if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWTrainer_add(ptr, descriptors.CvPtr));
+            NativeMethods.features2d_BOWTrainer_add(CvPtr, descriptors.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(descriptors);
     }
@@ -33,7 +33,7 @@ public abstract class BOWTrainer : DisposableCvObject
     {
         using var descriptors = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWTrainer_getDescriptors(ptr, descriptors.CvPtr));
+            NativeMethods.features2d_BOWTrainer_getDescriptors(CvPtr, descriptors.CvPtr));
         GC.KeepAlive(this);
         return descriptors.ToArray();
     }
@@ -45,7 +45,7 @@ public abstract class BOWTrainer : DisposableCvObject
     public int DescriptorsCount()
     {
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWTrainer_descriptorsCount(ptr, out var ret));
+            NativeMethods.features2d_BOWTrainer_descriptorsCount(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -56,7 +56,7 @@ public abstract class BOWTrainer : DisposableCvObject
     public virtual void Clear()
     {
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWTrainer_clear(ptr));
+            NativeMethods.features2d_BOWTrainer_clear(CvPtr));
         GC.KeepAlive(this);
     }
 

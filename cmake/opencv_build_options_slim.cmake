@@ -7,7 +7,7 @@ set(BUILD_SHARED_LIBS OFF     CACHE BOOL   "" FORCE)
 set(ENABLE_CXX11      ON      CACHE BOOL   "" FORCE)
 
 # Restrict to a minimal module subset
-set(BUILD_LIST "core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo" CACHE STRING "" FORCE)
+set(BUILD_LIST "core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode" CACHE STRING "" FORCE)
 
 # Disable DNN and Protobuf (not needed in slim profile)
 set(BUILD_opencv_dnn  OFF CACHE BOOL "" FORCE)

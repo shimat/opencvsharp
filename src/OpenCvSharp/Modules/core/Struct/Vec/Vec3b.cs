@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 3-Tuple of byte (System.Byte)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec3b : IVec<Vec3b, byte>, IEquatable<Vec3b>
 {
@@ -137,6 +136,11 @@ public struct Vec3b : IVec<Vec3b, byte>, IEquatable<Vec3b>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 3 elements of this vector.</summary>
+    public Span<byte> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec3b other) =>
         Item0 == other.Item0 &&
@@ -176,7 +180,7 @@ public struct Vec3b : IVec<Vec3b, byte>, IEquatable<Vec3b>
             return hashCode;
         }
 #else
-            return HashCode.Combine(Item0, Item1, Item2);
+        return HashCode.Combine(Item0, Item1, Item2);
 #endif
     }
 

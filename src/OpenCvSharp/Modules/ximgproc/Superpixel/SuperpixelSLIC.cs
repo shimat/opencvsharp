@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -11,27 +11,12 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once IdentifierTypo
 public class SuperpixelSLIC : Algorithm
 {
-    private Ptr? detectorPtr;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected SuperpixelSLIC(IntPtr p)
-    {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
-
+    private SuperpixelSLIC(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_delete(p)))
+    { }
     /// <summary>
     /// Initialize a SuperpixelSLIC object.
     ///
@@ -60,10 +45,11 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelSLIC(
-                image.CvPtr, (int)algorithm, regionSize, ruler, out var p));
+                image.CvPtr, (int)algorithm, regionSize, ruler, out var smartPtr));
             
         GC.KeepAlive(image); 
-        return new SuperpixelSLIC(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_get(smartPtr, out var rawPtr));
+        return new SuperpixelSLIC(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -76,7 +62,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-                ptr, out var ret));
+                RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -99,7 +85,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_iterate(
-                ptr, numIterations));
+                RawPtr, numIterations));
         GC.KeepAlive(this);
     }
 
@@ -120,7 +106,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabels(
-                ptr, labelsOut.CvPtr));
+                RawPtr, labelsOut.CvPtr));
         GC.KeepAlive(this);
         labelsOut.Fix();
     }
@@ -140,7 +126,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabelContourMask(
-                ptr, image.CvPtr, thickLine ? 1 : 0));
+                RawPtr, image.CvPtr, thickLine ? 1 : 0));
         GC.KeepAlive(this);
         image.Fix();
     }
@@ -159,25 +145,8 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-                ptr, minElementSize));
+                RawPtr, minElementSize));
         GC.KeepAlive(this);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_SuperpixelSLIC_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_SuperpixelSLIC_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

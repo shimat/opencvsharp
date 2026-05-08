@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -9,26 +9,13 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class DTFilter : Algorithm
 {
-    private Ptr? detectorPtr;
 
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected DTFilter(IntPtr p)
-    {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
+    private DTFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_delete(p)))
+    { }
 
     /// <summary>
     /// Factory method, create instance of DTFilter and produce initialization routines.
@@ -53,10 +40,11 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createDTFilter(
-                guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var p));
+                guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
             
         GC.KeepAlive(guide); 
-        return new DTFilter(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_get(smartPtr, out var rawPtr));
+        return new DTFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -78,28 +66,10 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                ptr, src.CvPtr, dst.CvPtr, dDepth));
+                RawPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
         dst.Fix();
-    }
-        
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_DTFilter_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_DTFilter_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

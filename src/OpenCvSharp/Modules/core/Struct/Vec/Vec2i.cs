@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 2-Tuple of int (System.Int32)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
 {
@@ -84,6 +83,7 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     public static Vec2i operator -(Vec2i a, Vec2i b) => a.Subtract(b);
     public static Vec2i operator *(Vec2i a, double alpha) => a.Multiply(alpha);
     public static Vec2i operator /(Vec2i a, double alpha) => a.Divide(alpha);
+    public static Vec2i operator -(Vec2i a) => new(SaturateCast.ToInt32(-(long)a.Item0), SaturateCast.ToInt32(-(long)a.Item1));
 #pragma warning restore 1591
 
     /// <summary>
@@ -120,6 +120,11 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
+    public Span<int> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2i other) =>
         Item0 == other.Item0 &&
@@ -150,10 +155,10 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                return (Item0 * 397) ^ Item1;
-            }
+        unchecked
+        {
+            return (Item0 * 397) ^ Item1;
+        }
 #else
         return HashCode.Combine(Item0, Item1);
 #endif

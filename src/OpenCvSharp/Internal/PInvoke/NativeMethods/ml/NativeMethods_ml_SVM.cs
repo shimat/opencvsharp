@@ -76,10 +76,10 @@ static partial class NativeMethods
     public static extern ExceptionStatus ml_SVM_create(out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ml_Ptr_SVM_delete(IntPtr obj);
+    public static extern ExceptionStatus ml_Ptr_SVM_get(IntPtr obj, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ml_Ptr_SVM_get(IntPtr obj, out IntPtr returnValue);
+    public static extern ExceptionStatus ml_Ptr_SVM_delete(IntPtr obj);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ml_SVM_load(string filePath, out IntPtr returnValue);

@@ -7,14 +7,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
+public class VectorOfRect2d : CvObject, IStdVector<Rect2d>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfRect2d()
     {
-        ptr = NativeMethods.vector_Rect2d_new1();
+        var p = NativeMethods.vector_Rect2d_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -25,7 +26,8 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Rect2d_new2(size);
+        var p = NativeMethods.vector_Rect2d_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -37,7 +39,8 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Rect2d_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Rect2d_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -45,7 +48,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Rect2d_delete(ptr);
+        NativeMethods.vector_Rect2d_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -56,7 +59,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         get
         {
-            var res = NativeMethods.vector_Rect2d_getSize(ptr);
+            var res = NativeMethods.vector_Rect2d_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -69,7 +72,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         get
         {
-            var res = NativeMethods.vector_Rect2d_getPointer(ptr);
+            var res = NativeMethods.vector_Rect2d_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

@@ -8,15 +8,12 @@ namespace OpenCvSharp.Features2D;
 /// </summary>
 public class SIFT : Feature2D
 {
-    private Ptr? detectorPtr;
-
     /// <summary>
     /// Creates instance by raw pointer cv::SIFT*
     /// </summary>
-    protected SIFT(IntPtr p)
+    private SIFT(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_delete(p)))
     {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
     }
 
     /// <summary>
@@ -39,35 +36,9 @@ public class SIFT : Feature2D
         NativeMethods.HandleException(
             NativeMethods.features2d_SIFT_create(
                 nFeatures, nOctaveLayers,
-                contrastThreshold, edgeThreshold, sigma, out var ptr));
-        return new SIFT(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SIFT_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SIFT_delete(ptr));
-            base.DisposeUnmanaged();
-        }
+                contrastThreshold, edgeThreshold, sigma, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new SIFT(smartPtr, rawPtr);
     }
 }

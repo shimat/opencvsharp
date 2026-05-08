@@ -17,17 +17,12 @@ namespace OpenCvSharp.Quality;
 /// </summary>
 public class QualityBRISQUE : QualityBase
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityBRISQUE(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private QualityBRISQUE(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -42,8 +37,9 @@ public class QualityBRISQUE : QualityBase
             throw new ArgumentNullException(nameof(rangeFilePath));
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityBRISQUE1(modelFilePath, rangeFilePath, out var ptr));
-        return new QualityBRISQUE(ptr);
+            NativeMethods.quality_createQualityBRISQUE1(modelFilePath, rangeFilePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(smartPtr, out var rawPtr));
+        return new QualityBRISQUE(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -62,10 +58,11 @@ public class QualityBRISQUE : QualityBase
         range.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityBRISQUE2(model.CvPtr, range.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityBRISQUE2(model.RawPtr, range.CvPtr, out var smartPtr));
         GC.KeepAlive(model);
         GC.KeepAlive(range);
-        return new QualityBRISQUE(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(smartPtr, out var rawPtr));
+        return new QualityBRISQUE(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -111,31 +108,4 @@ public class QualityBRISQUE : QualityBase
         GC.KeepAlive(features);
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityBRISQUE_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityBRISQUE_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-}

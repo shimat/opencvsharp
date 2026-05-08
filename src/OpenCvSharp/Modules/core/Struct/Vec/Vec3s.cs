@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 3-Tuple of short (System.Int16)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
 {
@@ -96,6 +95,7 @@ public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
     public static Vec3s operator -(Vec3s a, Vec3s b) => a.Subtract(b);
     public static Vec3s operator *(Vec3s a, double alpha) => a.Multiply(alpha);
     public static Vec3s operator /(Vec3s a, double alpha) => a.Divide(alpha);
+    public static Vec3s operator -(Vec3s a) => new(SaturateCast.ToInt16(-a.Item0), SaturateCast.ToInt16(-a.Item1), SaturateCast.ToInt16(-a.Item2));
 #pragma warning restore 1591
 
     /// <summary>
@@ -137,6 +137,11 @@ public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 3 elements of this vector.</summary>
+    public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec3s other) =>
         Item0 == other.Item0 &&
@@ -176,7 +181,7 @@ public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
             return hashCode;
         }
 #else
-            return HashCode.Combine(Item0, Item1, Item2);
+        return HashCode.Combine(Item0, Item1, Item2);
 #endif
     }
 

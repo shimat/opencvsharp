@@ -5,25 +5,32 @@ namespace OpenCvSharp.Aruco;
 /// <summary>
 /// Dictionary/Set of markers. It contains the inner codification
 /// </summary>
-public class Dictionary : DisposableCvObject
+public class Dictionary : CvObject
 {
     /// <summary>
     /// 
     /// </summary>
     internal Dictionary(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
+    }
+
+    /// <summary>
+    /// Creates from native pointer with ownership control.
+    /// </summary>
+    internal Dictionary(IntPtr ptr, bool ownsHandle)
+    {
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.aruco_Dictionary_delete(h))));
     }
     
     /// <summary>
@@ -35,7 +42,7 @@ public class Dictionary : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getBytesList(ptr, out var ret));
+                NativeMethods.aruco_Dictionary_getBytesList(CvPtr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -50,7 +57,7 @@ public class Dictionary : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getMarkerSize(ptr, out var ret));
+                NativeMethods.aruco_Dictionary_getMarkerSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -58,7 +65,7 @@ public class Dictionary : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_setMarkerSize(ptr, value));
+                NativeMethods.aruco_Dictionary_setMarkerSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -72,7 +79,7 @@ public class Dictionary : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getMaxCorrectionBits(ptr, out var ret));
+                NativeMethods.aruco_Dictionary_getMaxCorrectionBits(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -80,7 +87,7 @@ public class Dictionary : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_setMaxCorrectionBits(ptr, value));
+                NativeMethods.aruco_Dictionary_setMaxCorrectionBits(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -102,7 +109,7 @@ public class Dictionary : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_identify(ptr, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
+            NativeMethods.aruco_Dictionary_identify(CvPtr, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
         
         GC.KeepAlive(this);
         return ret != 0;
@@ -124,7 +131,7 @@ public class Dictionary : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_getDistanceToId(ptr, bits.CvPtr, id, allRotations ? 1 : 0, out var ret));
+            NativeMethods.aruco_Dictionary_getDistanceToId(CvPtr, bits.CvPtr, id, allRotations ? 1 : 0, out var ret));
         
         GC.KeepAlive(this);
         return ret;
@@ -145,7 +152,7 @@ public class Dictionary : DisposableCvObject
         ThrowIfDisposed();
         
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_generateImageMarker(ptr, id, sidePixels, img.CvPtr, borderBits));
+            NativeMethods.aruco_Dictionary_generateImageMarker(CvPtr, id, sidePixels, img.CvPtr, borderBits));
         
         GC.KeepAlive(this);
     }

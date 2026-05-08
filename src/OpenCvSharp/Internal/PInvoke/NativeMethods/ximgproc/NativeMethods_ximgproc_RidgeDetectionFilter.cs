@@ -24,4 +24,5 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_get(IntPtr ptr, out IntPtr returnValue);
+
 }

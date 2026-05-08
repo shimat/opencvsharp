@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -21,17 +21,18 @@ public class BOWKMeansTrainer : BOWTrainer
     {
         var termCritValue = termcrit.GetValueOrDefault(new TermCriteria());
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_new(clusterCount, termCritValue, attempts, (int)flags, out ptr));
+            NativeMethods.features2d_BOWKMeansTrainer_new(clusterCount, termCritValue, attempts, (int)flags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.features2d_BOWKMeansTrainer_delete(h))));
     }
 
     /// <summary>
@@ -42,7 +43,7 @@ public class BOWKMeansTrainer : BOWTrainer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_cluster1(ptr, out var p));
+            NativeMethods.features2d_BOWKMeansTrainer_cluster1(CvPtr, out var p));
         GC.KeepAlive(this);
         return new Mat(p);
     }
@@ -62,7 +63,7 @@ public class BOWKMeansTrainer : BOWTrainer
         descriptors.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_cluster2(ptr, descriptors.CvPtr, out var p));
+            NativeMethods.features2d_BOWKMeansTrainer_cluster2(CvPtr, descriptors.CvPtr, out var p));
         GC.KeepAlive(this);
         GC.KeepAlive(descriptors);
         return new Mat(p);

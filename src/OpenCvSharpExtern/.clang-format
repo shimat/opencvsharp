@@ -1,0 +1,17 @@
+---
+BasedOnStyle: Microsoft
+ColumnLimit: 0
+PointerAlignment: Right
+SortIncludes: Never
+
+# CVAPI(ReturnType) is a return-type qualifier macro, not a function call.
+# Registering it as an attribute keeps it on the same line as the function name.
+AttributeMacros:
+  - CVAPI
+BreakAfterAttributes: Never
+
+# Treat BEGIN_WRAP / END_WRAP as self-contained statements so that
+# the formatter does not add an extra indentation level between them.
+StatementMacros:
+  - BEGIN_WRAP
+  - END_WRAP

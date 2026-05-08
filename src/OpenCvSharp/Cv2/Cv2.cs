@@ -27,10 +27,8 @@ public static partial class Cv2
     /// <summary>
     /// 引数がnullの時はIntPtr.Zeroに変換する
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    internal static IntPtr ToPtr(ICvPtrHolder? obj)
-    {
-        return obj?.CvPtr ?? IntPtr.Zero;
-    }
+    internal static IntPtr ToPtr(CvObject? obj) => obj?.CvPtr ?? IntPtr.Zero;
+
+    /// <inheritdoc cref="ToPtr(CvObject?)"/>
+    internal static IntPtr ToPtr(CvPtrObject? obj) => obj?.RawPtr ?? IntPtr.Zero;
 }

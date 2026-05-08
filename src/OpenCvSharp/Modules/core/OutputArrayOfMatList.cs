@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -39,7 +39,7 @@ public sealed class OutputArrayOfMatList : OutputArray
             
         using var vectorOfMat = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr));
+            NativeMethods.core_OutputArray_getVectorOfMat(CvPtr, vectorOfMat.CvPtr));
         GC.KeepAlive(this);
         list.Clear();
         list.AddRange(vectorOfMat.ToArray());

@@ -66,159 +66,159 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_get(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getHistory(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getHistory(cv::BackgroundSubtractorMOG2 *ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getHistory();
+    *returnValue = ptr->getHistory();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setHistory(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setHistory(cv::BackgroundSubtractorMOG2 *ptr, int value)
 {
     BEGIN_WRAP
-    (*ptr)->setHistory(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getNMixtures(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getNMixtures();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setNMixtures(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int value)
-{
-    BEGIN_WRAP
-    (*ptr)->setNMixtures(value);
+    ptr->setHistory(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getBackgroundRatio(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getNMixtures(cv::BackgroundSubtractorMOG2 *ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getBackgroundRatio();
+    *returnValue = ptr->getNMixtures();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setBackgroundRatio(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setNMixtures(cv::BackgroundSubtractorMOG2 *ptr, int value)
 {
     BEGIN_WRAP
-    (*ptr)->setBackgroundRatio(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getVarThreshold();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
-{
-    BEGIN_WRAP
-    (*ptr)->setVarThreshold(value);
+    ptr->setNMixtures(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarThresholdGen(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getBackgroundRatio(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
 {
     BEGIN_WRAP
-     *returnValue = (*ptr)->getVarThresholdGen();
+    *returnValue = ptr->getBackgroundRatio();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarThresholdGen(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setBackgroundRatio(cv::BackgroundSubtractorMOG2 *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setVarThresholdGen(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarInit(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getVarInit();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarInit(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
-{
-    BEGIN_WRAP
-    (*ptr)->setVarInit(value);
+    ptr->setBackgroundRatio(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarMin(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarThreshold(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getVarMin();
+    *returnValue = ptr->getVarThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarMin(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarThreshold(cv::BackgroundSubtractorMOG2 *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setVarMin(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarMax(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getVarMax();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarMax(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
-{
-    BEGIN_WRAP
-    (*ptr)->setVarMax(value);
+    ptr->setVarThreshold(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarThresholdGen(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getComplexityReductionThreshold();
+     *returnValue = ptr->getVarThresholdGen();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarThresholdGen(cv::BackgroundSubtractorMOG2 *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setComplexityReductionThreshold(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getDetectShadows(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getDetectShadows() ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setDetectShadows(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int value)
-{
-    BEGIN_WRAP
-    (*ptr)->setDetectShadows(value != 0);
+    ptr->setVarThresholdGen(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getShadowValue(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarInit(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getShadowValue();
+    *returnValue = ptr->getVarInit();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowValue(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarInit(cv::BackgroundSubtractorMOG2 *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setShadowValue(value);
+    ptr->setVarInit(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getShadowThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarMin(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getShadowThreshold();
+    *returnValue = ptr->getVarMin();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowThreshold(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarMin(cv::BackgroundSubtractorMOG2 *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setShadowThreshold(value);
+    ptr->setVarMin(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getVarMax(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getVarMax();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setVarMax(cv::BackgroundSubtractorMOG2 *ptr, double value)
+{
+    BEGIN_WRAP
+    ptr->setVarMax(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getComplexityReductionThreshold();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(cv::BackgroundSubtractorMOG2 *ptr, double value)
+{
+    BEGIN_WRAP
+    ptr->setComplexityReductionThreshold(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getDetectShadows(cv::BackgroundSubtractorMOG2 *ptr, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getDetectShadows() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setDetectShadows(cv::BackgroundSubtractorMOG2 *ptr, int value)
+{
+    BEGIN_WRAP
+    ptr->setDetectShadows(value != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getShadowValue(cv::BackgroundSubtractorMOG2 *ptr, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getShadowValue();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowValue(cv::BackgroundSubtractorMOG2 *ptr, int value)
+{
+    BEGIN_WRAP
+    ptr->setShadowValue(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getShadowThreshold(cv::BackgroundSubtractorMOG2 *ptr, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getShadowThreshold();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowThreshold(cv::BackgroundSubtractorMOG2 *ptr, double value)
+{
+    BEGIN_WRAP
+    ptr->setShadowThreshold(value);
     END_WRAP
 }
 
@@ -251,94 +251,94 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_get(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getHistory(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getHistory(cv::BackgroundSubtractorKNN *ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getHistory();
+    *returnValue = ptr->getHistory();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setHistory(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setHistory(cv::BackgroundSubtractorKNN *ptr, int value)
 {
     BEGIN_WRAP
-    (*ptr)->setHistory(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getNSamples(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getNSamples();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setNSamples(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int value)
-{
-    BEGIN_WRAP
-    (*ptr)->setNSamples(value);
+    ptr->setHistory(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getDist2Threshold(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getNSamples(cv::BackgroundSubtractorKNN *ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getDist2Threshold();
+    *returnValue = ptr->getNSamples();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setDist2Threshold(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setNSamples(cv::BackgroundSubtractorKNN *ptr, int value)
 {
     BEGIN_WRAP
-    (*ptr)->setDist2Threshold(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getkNNSamples(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getkNNSamples();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setkNNSamples(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int value)
-{
-    BEGIN_WRAP
-    (*ptr)->setkNNSamples(value);
+    ptr->setNSamples(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getDetectShadows(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getDist2Threshold(cv::BackgroundSubtractorKNN *ptr, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getDetectShadows() ? 1 : 0;
+    *returnValue = ptr->getDist2Threshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setDetectShadows(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setDist2Threshold(cv::BackgroundSubtractorKNN *ptr, double value)
 {
     BEGIN_WRAP
-    (*ptr)->setDetectShadows(value != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getShadowValue(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*ptr)->getShadowValue();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowValue(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int value)
-{
-    BEGIN_WRAP
-    (*ptr)->setShadowValue(value);
+    ptr->setDist2Threshold(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getShadowThreshold(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, double *returnValue)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getkNNSamples(cv::BackgroundSubtractorKNN *ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*ptr)->getShadowThreshold();
+    *returnValue = ptr->getkNNSamples();
     END_WRAP
 }
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, double value)
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setkNNSamples(cv::BackgroundSubtractorKNN *ptr, int value)
 {
     BEGIN_WRAP
-    (*ptr)->setShadowThreshold(value);
+    ptr->setkNNSamples(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getDetectShadows(cv::BackgroundSubtractorKNN *ptr, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getDetectShadows() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setDetectShadows(cv::BackgroundSubtractorKNN *ptr, int value)
+{
+    BEGIN_WRAP
+    ptr->setDetectShadows(value != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getShadowValue(cv::BackgroundSubtractorKNN *ptr, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getShadowValue();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowValue(cv::BackgroundSubtractorKNN *ptr, int value)
+{
+    BEGIN_WRAP
+    ptr->setShadowValue(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getShadowThreshold(cv::BackgroundSubtractorKNN *ptr, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->getShadowThreshold();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::BackgroundSubtractorKNN *ptr, double value)
+{
+    BEGIN_WRAP
+    ptr->setShadowThreshold(value);
     END_WRAP
 }
 

@@ -17,40 +17,16 @@ public class CompositeIndexParams : IndexParams
     /// <param name="cbIndex">This parameter (cluster boundary index) influences the way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.</param>
     public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11,
         FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
-        : base(null)
+        : base(Create(trees, branching, iterations, centersInit, cbIndex), static h => NativeMethods.flann_Ptr_CompositeIndexParams_delete(h))
+    {
+    }
+
+    private static IntPtr Create(int trees, int branching, int iterations, FlannCentersInit centersInit, float cbIndex)
     {
         NativeMethods.HandleException(
             NativeMethods.flann_Ptr_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(CompositeIndexParams)}");
-
-        PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
-    }
-        
-    /// <summary>
-    /// 
-    /// </summary>
-    protected CompositeIndexParams(OpenCvSharp.Ptr ptrObj)
-        : base(ptrObj)
-    {
-    }
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_CompositeIndexParams_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_CompositeIndexParams_delete(ptr));
-            base.DisposeUnmanaged();
-        }
+        return p;
     }
 }

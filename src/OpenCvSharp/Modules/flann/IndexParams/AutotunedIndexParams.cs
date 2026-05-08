@@ -21,40 +21,16 @@ public class AutotunedIndexParams : IndexParams
     /// Running the algorithm on the full dataset gives the most accurate results, but for very large datasets can take longer than desired. 
     /// In such case using just a fraction of the data helps speeding up this algorithm while still giving good approximations of the optimum parameters.</param>
     public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
-        : base(null)
+        : base(Create(targetPrecision, buildWeight, memoryWeight, sampleFraction), static h => NativeMethods.flann_Ptr_AutotunedIndexParams_delete(h))
+    {
+    }
+
+    private static IntPtr Create(float targetPrecision, float buildWeight, float memoryWeight, float sampleFraction)
     {
         NativeMethods.HandleException(
             NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
-
-        PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected AutotunedIndexParams(OpenCvSharp.Ptr ptrObj)
-        : base(ptrObj)
-    {
-    }
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_AutotunedIndexParams_delete(ptr));
-            base.DisposeUnmanaged();
-        }
+        return p;
     }
 }

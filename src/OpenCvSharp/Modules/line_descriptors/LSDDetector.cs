@@ -24,7 +24,7 @@ namespace OpenCvSharp.LineDescriptor
     /// indicate the order of extraction of a line inside a single octave.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class LSDDetector : DisposableCvObject
+    public class LSDDetector : CvObject
     {
         /// <summary>
         /// Default constructor.
@@ -32,7 +32,8 @@ namespace OpenCvSharp.LineDescriptor
         public LSDDetector()
         {
             NativeMethods.HandleException(
-                NativeMethods.line_descriptor_LSDDetector_new1(out ptr));
+                NativeMethods.line_descriptor_LSDDetector_new1(out var p));
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -49,18 +50,18 @@ namespace OpenCvSharp.LineDescriptor
                     angTh: lsdParam.AngTh,
                     logEps: lsdParam.LogEps,
                     densityTh: lsdParam.DensityTh,
-                    nBins: lsdParam.NBins,
-                    out ptr));
+                    nBins: lsdParam.NBins, out var p));
+            InitSafeHandle(p);
         }
 
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            NativeMethods.HandleException(
-                NativeMethods.line_descriptor_LSDDetector_delete(ptr));
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.HandleException(NativeMethods.line_descriptor_LSDDetector_delete(h))));
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace OpenCvSharp.LineDescriptor
             using var keypointsVec = new VectorOfKeyLine();
             NativeMethods.HandleException(
                 NativeMethods.line_descriptor_LSDDetector_detect1(
-                    ptr, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
+                    CvPtr, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
@@ -121,7 +122,7 @@ namespace OpenCvSharp.LineDescriptor
             using var keypointsVec = new VectorOfVectorKeyLine();
             NativeMethods.HandleException(
                 NativeMethods.line_descriptor_LSDDetector_detect2(
-                    ptr, 
+                    CvPtr, 
                     imagesPtrs, imagesPtrs.Length,
                     keypointsVec.CvPtr, scale, numOctaves,
                     masksPtrs, masksPtrs.Length));

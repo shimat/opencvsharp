@@ -37,13 +37,7 @@ static partial class NativeMethods
     );
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_Ptr_BarcodeDetector_get(
-        IntPtr ptr,
-        out IntPtr ret
-    );
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_Ptr_BarcodeDetector_delete(IntPtr ptr);
+    public static extern ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus barcode_BarcodeDetector_decodeWithType(

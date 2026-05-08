@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -3509,7 +3509,7 @@ public static partial class Cv2
     /// <param name="ptr"></param>
     public static void FastFree(IntPtr ptr)
     {
-        NativeMethods.core_fastFree(ptr);
+        NativeMethods.core_fastFree(CvPtr);
     }
     */
 

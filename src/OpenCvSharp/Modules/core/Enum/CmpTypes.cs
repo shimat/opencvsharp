@@ -1,4 +1,4 @@
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// The flag specifying the relation between the elements to be checked

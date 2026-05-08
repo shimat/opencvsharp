@@ -9,7 +9,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class SimpleBlobDetector : Feature2D
 {
-    private Ptr? ptrObj;
 
 #pragma warning disable CA1034
     /// <summary>
@@ -196,10 +195,9 @@ public class SimpleBlobDetector : Feature2D
     /// <summary>
     /// Constructor
     /// </summary>
-    protected SimpleBlobDetector(IntPtr p)
+    private SimpleBlobDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SimpleBlobDetector_delete(p)))
     {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
     }
 
     /// <summary>
@@ -210,35 +208,9 @@ public class SimpleBlobDetector : Feature2D
     {
         parameters ??= new Params();
         NativeMethods.HandleException(
-            NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.Data, out var ptr));
-        return new SimpleBlobDetector(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SimpleBlobDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SimpleBlobDetector_delete(ptr));
-            base.DisposeUnmanaged();
-        }
+            NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.Data, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new SimpleBlobDetector(smartPtr, rawPtr);
     }
 }

@@ -4,14 +4,15 @@ namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary> 
     /// </summary>
-    public class VectorOfKeyLine : DisposableCvObject, IStdVector<KeyLine>
+    public class VectorOfKeyLine : CvObject, IStdVector<KeyLine>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         public VectorOfKeyLine()
         {
-            ptr = NativeMethods.vector_KeyLine_new1();
+            var p = NativeMethods.vector_KeyLine_new1();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         }
         
         /// <summary>
@@ -19,7 +20,7 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_KeyLine_delete(ptr);
+            NativeMethods.vector_KeyLine_delete(CvPtr);
             base.DisposeUnmanaged();
         }
 
@@ -30,7 +31,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_KeyLine_getSize(ptr);
+                var res = NativeMethods.vector_KeyLine_getSize(CvPtr);
                 GC.KeepAlive(this);
                 return (int)res;
             }
@@ -43,7 +44,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_KeyLine_getPointer(ptr);
+                var res = NativeMethods.vector_KeyLine_getPointer(CvPtr);
                 GC.KeepAlive(this);
                 return res;
             }

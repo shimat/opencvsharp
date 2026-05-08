@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -10,27 +10,12 @@ namespace OpenCvSharp.XImgProc;
 /// </summary>
 public class StructuredEdgeDetection : Algorithm
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected StructuredEdgeDetection(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
+    private StructuredEdgeDetection(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(p)))
+    { }
     /// <summary>
     /// Creates a StructuredEdgeDetection
     /// </summary>
@@ -42,9 +27,10 @@ public class StructuredEdgeDetection : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createStructuredEdgeDetection(
-                model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero, out var p));
+                model, howToGetFeatures?.PtrObj ?? IntPtr.Zero, out var smartPtr));
         GC.KeepAlive(howToGetFeatures);
-        return new StructuredEdgeDetection(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(smartPtr, out var rawPtr));
+        return new StructuredEdgeDetection(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -65,7 +51,7 @@ public class StructuredEdgeDetection : Algorithm
 
         using var boxesVec = new VectorOfRect();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(RawPtr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
         GC.KeepAlive(this);
@@ -90,7 +76,7 @@ public class StructuredEdgeDetection : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -113,7 +99,7 @@ public class StructuredEdgeDetection : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -146,7 +132,7 @@ public class StructuredEdgeDetection : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_StructuredEdgeDetection_edgesNms(
-                ptr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0));
+                RawPtr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0));
 
         GC.KeepAlive(this);
         GC.KeepAlive(edgeImage);
@@ -154,21 +140,4 @@ public class StructuredEdgeDetection : Algorithm
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}
