@@ -10,6 +10,9 @@
 // bgsegm
 #include "cuda_Bgsegm_mog.h"
 #include "cuda_Bgsegm_mog2.h"
+
+// core stuff
+#include "cuda_BufferPool.h"
 #include "cuda_Stream.h"
 #include "cuda_StreamAccessor.h"
 
