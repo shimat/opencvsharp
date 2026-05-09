@@ -25,6 +25,10 @@
 #include "cuda_FastFeatureDetector.h"
 #include "cuda_ORB.h"
 #include "cuda_SURF_CUDA.h"
+
+// filter
+#include "cuda_Filters.h"
+
 // imgproc
 #include "cuda_Imgproc.h"
 // legacy
