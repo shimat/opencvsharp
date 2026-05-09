@@ -17,4 +17,7 @@
 
 // photo
 #include "cuda_Photo.h"
+
+// stereo
+#include "cuda_Stereo.h"
 #endif
