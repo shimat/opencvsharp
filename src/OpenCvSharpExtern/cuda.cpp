@@ -14,4 +14,7 @@
 
 // opengl
 #include "cuda_OpenGL.h"
+
+// photo
+#include "cuda_Photo.h"
 #endif
