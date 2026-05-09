@@ -53,8 +53,17 @@
 #include "cuda_CascadeClassifier.h"
 #include "cuda_HOG.h"
 
-// photo
-#include "cuda_Photo.h"
+// optiflow
+#include "cuda_BroxOpticalFlow.h"
+#include "cuda_DenseOpticalFlow.h"
+#include "cuda_DensePyrLKOpticalFlow.h"
+#include "cuda_FarnebackOpticalFlow.h"
+#include "cuda_OpticalFlowDual_TVL1.h"
+#include "cuda_NvidiaHWOpticalFlow.h"
+#include "cuda_NvidiaOpticalFlow_1_0.h"
+#include "cuda_NvidiaOpticalFlow_2_0.h"
+#include "cuda_SparseOpticalFlow.h"
+#include "cuda_SparsePyrLKOpticalFlow.h"
 
 // stereo
 #include "cuda_Stereo.h"
