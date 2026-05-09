@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Cuda;
-using OpenCvSharp.Modules.core.Enum;
 using OpenCvSharp.Tests.Cuda;
 using Xunit;
 

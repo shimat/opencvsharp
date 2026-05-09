@@ -1986,10 +1986,8 @@ public class CudaArthimTest : CudaTestBase
 
             Assert.False(cpuDst.Empty());
 
-            double stdDev = cpuDst.At<double>(rows / 2, cols / 2);
-
-            // uniform image → stddev ≈ 0
-            Assert.InRange(stdDev, -0.01, 0.01);
+            float stdDev = cpuDst.At<float>(0, 0);
+            Assert.InRange(stdDev, -0.01f, 0.01f);
         }
         catch (OpenCVException ex) when (
             ex.Message.Contains("disabled") ||

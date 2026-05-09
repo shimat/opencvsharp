@@ -47,12 +47,27 @@ public class CudaOpticalFlowDual_TVL1Test : CudaTestBase
 
             tvl1.Calc(gpu1, gpu2, flow);
 
-            using var res = new Mat();
-            flow.Download(res);
+            using var flowCpu = new Mat();
+            flow.Download(flowCpu);
 
-            Assert.False(res.Empty());
-            Vec2f motion = res.At<Vec2f>(15, 15);
-            Assert.True(motion.Item0 > 0, "Expected positive X motion.");
+            // Average X flow over the object region
+            float sumX = 0;
+            int count = 0;
+
+            for (int y = 12; y < 18; y++)
+            {
+                for (int x = 12; x < 18; x++)
+                {
+                    Vec2f v = flowCpu.At<Vec2f>(y, x);
+                    sumX += v.Item0;
+                    count++;
+                }
+            }
+
+            float avgX = sumX / count;
+
+            // Motion should generally point right
+            Assert.True(avgX > 1.0f, $"Expected positive X motion, got {avgX}");
         }
         catch (OpenCVException ex) when (ex.Message.Contains("disabled") || ex.Message.Contains("Not Implemented"))
         {
