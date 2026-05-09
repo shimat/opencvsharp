@@ -11,7 +11,9 @@
 
 #include "cuda_GpuMat.h"
 // arithm
-#include "cuda_Arithm.h"
+#include "cuda_Convolution.h"
+#include "cuda_DFT.h"
+#include "cuda_LookUpTable.h"
 // imgproc
 #include "cuda_Imgproc.h"
 // legacy
