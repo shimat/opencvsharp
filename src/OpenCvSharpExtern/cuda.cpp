@@ -2,5 +2,7 @@
 
 #ifdef ENABLED_CUDA
 #include "cuda.h"
+// core stuff
+#include "cuda_Core.h"
 #include "cuda_GpuMat.h"
 #endif
