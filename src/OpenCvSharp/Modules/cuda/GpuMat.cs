@@ -3,11 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Cuda
 {
+    //https://docs.opencv.org/3.4/d0/d60/classcv_1_1cuda_1_1GpuMat.html
     /// <summary>
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
@@ -33,7 +35,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat()
         {
             ThrowIfNotAvailable();
-            var p = NativeMethods.cuda_GpuMat_new1();
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new1(out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -53,7 +55,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            var p = NativeMethods.cuda_GpuMat_new2(rows, cols, type);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new2(rows, cols, (int)type, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -79,7 +81,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            var p = NativeMethods.cuda_GpuMat_new3(rows, cols, type, data, (ulong)step);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new3(rows, cols, (int)type, data, (ulong)step, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -94,7 +96,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type)
         {
             ThrowIfNotAvailable();
-            var p = NativeMethods.cuda_GpuMat_new6(size, type);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new6(size, (int)type, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -115,7 +117,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type, IntPtr data, long step = 0)
         {
             ThrowIfNotAvailable();
-            var p = NativeMethods.cuda_GpuMat_new7(size, type, data, (ulong)step);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new7(size, (int)type, data, (ulong)step, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -130,7 +132,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            var p = NativeMethods.cuda_GpuMat_new4(m.CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new4(m.CvPtr, out IntPtr p));
             GC.KeepAlive(m);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -146,7 +148,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            var p = NativeMethods.cuda_GpuMat_new5(m.CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new5(m.CvPtr, out IntPtr p));
             GC.KeepAlive(m);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -169,7 +171,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            var p = NativeMethods.cuda_GpuMat_new8(rows, cols, type, s);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new8(rows, cols, (int)type, s, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -186,7 +188,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type, Scalar s)
         {
             ThrowIfNotAvailable();
-            var p = NativeMethods.cuda_GpuMat_new11(size, type, s);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new11(size, (int)type, s, out IntPtr p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
             InitSafeHandle(p);
@@ -204,7 +206,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            var p = NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange , out IntPtr p));
             GC.KeepAlive(m);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -221,7 +223,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            var p = NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi, out IntPtr p));
             GC.KeepAlive(m);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -260,7 +262,7 @@ namespace OpenCvSharp.Cuda
             if (mat is null)
                 return null;
 
-            IntPtr ret = NativeMethods.cuda_GpuMat_opToGpuMat(mat.CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_opToGpuMat(mat.CvPtr, out IntPtr ret));
             GC.KeepAlive(mat);
             return new GpuMat(ret);
         }
@@ -275,7 +277,7 @@ namespace OpenCvSharp.Cuda
             if (gpumat is null)
                 return null;
 
-            IntPtr ret = NativeMethods.cuda_GpuMat_opToMat(gpumat.CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_opToMat(gpumat.CvPtr, out IntPtr ret));
             GC.KeepAlive(gpumat);
             return new Mat(ret);
         }
@@ -297,7 +299,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_flags(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_flags(CvPtr, out int ret));
+                return ret;
             }
         }
 
@@ -310,7 +313,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_rows(CvPtr); 
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_rows(CvPtr, out int ret));
+                return ret;
             }
         }
 
@@ -323,7 +327,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_cols(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_cols(CvPtr, out int ret));
+                return ret;
             }
         }
 
@@ -336,7 +341,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_rows(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_rows(CvPtr, out int ret));
+                return ret;
             }
         }
 
@@ -349,7 +355,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_cols(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_cols(CvPtr, out int ret));
+                return ret;
             }
         }
 
@@ -362,7 +369,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return (IntPtr)NativeMethods.cuda_GpuMat_data(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_data(CvPtr, out IntPtr ret));
+                return ret;
             }
         }
 
@@ -376,7 +384,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_refcount(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_refcount(CvPtr, out IntPtr ret));
+                return ret;
             }
         }
 
@@ -389,7 +398,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_datastart(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_datastart(CvPtr, out IntPtr ret));
+                return ret;
             }
         }
 
@@ -402,7 +412,8 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_dataend(CvPtr);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_dataend(CvPtr, out IntPtr ret));
+                return ret;
             }
         }
         
@@ -416,10 +427,73 @@ namespace OpenCvSharp.Cuda
                 return (int)Math.Pow(2, ((Depth() / 2) + 1) + 2);
             }
         }
-#endregion
 
-#region Indexers
-#region Range Indexer
+        /// <summary>
+        /// Returns the raw CUDA device pointer to the matrix data.
+        /// </summary>
+        public IntPtr CudaPtr
+        {
+            get
+            {
+                ThrowIfDisposed();
+
+                NativeMethods.HandleException(
+                    NativeMethods.cuda_GpuMat_cudaPtr(CvPtr, out IntPtr ptr));
+
+                GC.KeepAlive(this);
+                return ptr;
+            }
+        }
+
+        /// <summary>
+        /// Internal use method: updates the continuity flag.
+        /// Call this if you manually manipulate the GpuMat data pointer or step.
+        /// </summary>
+        public void UpdateContinuityFlag()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_updateContinuityFlag(CvPtr));
+            GC.KeepAlive(this);
+        }
+
+        #endregion
+        #region Static Allocators
+        /// <summary>
+        /// Returns the default allocator.
+        /// </summary>
+        public static IntPtr DefaultAllocator()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_defaultAllocator(out IntPtr ptr));
+            return ptr;
+        }
+
+        /// <summary>
+        /// Returns the standard allocator.
+        /// </summary>
+        public static IntPtr GetStdAllocator()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_getStdAllocator(out IntPtr ptr));
+            return ptr;
+        }
+
+        /// <summary>
+        /// Sets the default allocator.
+        /// </summary>
+        /// <param name="allocator">Pointer to a custom GpuMat::Allocator instance.</param>
+        public static void SetDefaultAllocator(IntPtr allocator)
+        {
+            if (allocator == IntPtr.Zero)
+                throw new ArgumentNullException(nameof(allocator));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_setDefaultAllocator(allocator));
+        }
+        #endregion
+        #region Indexers
+        #region Range Indexer
         /// <summary>
         /// 
         /// </summary>
@@ -429,7 +503,7 @@ namespace OpenCvSharp.Cuda
         {
             get
             {
-                IntPtr ret = NativeMethods.cuda_GpuMat_opRange1(CvPtr, roi);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_opRange1(CvPtr, roi, out IntPtr ret));
                 GC.KeepAlive(this);
                 return new GpuMat(ret);
             }
@@ -445,7 +519,7 @@ namespace OpenCvSharp.Cuda
         {
             get
             {
-                IntPtr ret = NativeMethods.cuda_GpuMat_opRange2(CvPtr, rowRange, colRange);
+                NativeMethods.HandleException(NativeMethods.cuda_GpuMat_opRange2(CvPtr, rowRange, colRange, out IntPtr ret));
                 GC.KeepAlive(this);
                 return new GpuMat(ret);
             }
@@ -467,327 +541,237 @@ namespace OpenCvSharp.Cuda
             }
         }
 #endregion
+        #region Col/ColRange
 
-#region Element Indexer
-
-        /// <summary>
-        /// GpuMat Indexer
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public sealed class Indexer<T> : GpuMatIndexer<T> where T : struct
-        {
-            private readonly long ptrVal;
-
-            internal Indexer(GpuMat parent)
-                : base(parent)
-            {
-                ptrVal = parent.Data.ToInt64();
-            }
-
-            /// <summary>
-            /// 2-dimensional indexer
-            /// </summary>
-            /// <param name="i0">Index along the dimension 0</param>
-            /// <param name="i1">Index along the dimension 1</param>
-            /// <returns>A value to the specified array element.</returns>
-            public override T this[int i0, int i1]
-            {
-                get
+                /// <summary>
+                /// returns a new matrix header for the specified column span
+                /// </summary>
+                /// <param name="startcol"></param>
+                /// <param name="endcol"></param>
+                /// <returns></returns>
+                public GpuMat ColRange(int startcol, int endcol)
                 {
-                    var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
-                    return MarshalHelper.PtrToStructure<T>(p);
-                }
-                set
-                {
-                    var p = new IntPtr(ptrVal + (step*i0) + (sizeOfT*i1));
-                    Marshal.StructureToPtr(value, p, false);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Indexer<T> GetGenericIndexer<T>() where T : struct
-        {
-            return new Indexer<T>(this);
-        }
-
-#endregion
-
-#region Get/Set
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T Get<T>(int i0, int i1) where T : struct
-        {
-            return new Indexer<T>(this)[i0, i1];
-        }
-
-        /// <summary>
-        /// Returns a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1) where T : struct
-        {
-            return new Indexer<T>(this)[i0, i1];
-        }
-
-        /// <summary>
-        /// Set a value to the specified array element.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="value"></param>
-        public void Set<T>(int i0, int i1, T value) where T : struct
-        {
-            (new Indexer<T>(this))[i0, i1] = value;
-        }
-
-#endregion
-        
-#region Col/ColRange
-
-        /// <summary>
-        /// returns a new matrix header for the specified column span
-        /// </summary>
-        /// <param name="startcol"></param>
-        /// <param name="endcol"></param>
-        /// <returns></returns>
-        public GpuMat ColRange(int startcol, int endcol)
-        {
-            ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_colRange(CvPtr, startcol, endcol);
-            GC.KeepAlive(this);
-            return new GpuMat(ret);
-        }
-
-        /// <summary>
-        /// returns a new matrix header for the specified column span
-        /// </summary>
-        /// <param name="r"></param>
-        /// <returns></returns>
-        public GpuMat ColRange(Range r)
-        {
-            return ColRange(r.Start, r.End);
-        }
-
-        /// <summary>
-        /// Mat column's indexer object
-        /// </summary>
-        public class ColIndexer : GpuMatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal ColIndexer(GpuMat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override GpuMat this[int x]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.cuda_GpuMat_col(parent.ptr, x);
+                    ThrowIfDisposed();
+                    NativeMethods.HandleException(NativeMethods.cuda_GpuMat_colRange(CvPtr, startcol, endcol, out IntPtr ret));
                     GC.KeepAlive(this);
-                    return new GpuMat(matPtr);
+                    return new GpuMat(ret);
                 }
-                set
+
+                /// <summary>
+                /// returns a new matrix header for the specified column span
+                /// </summary>
+                /// <param name="r"></param>
+                /// <returns></returns>
+                public GpuMat ColRange(Range r)
                 {
-                    parent.ThrowIfDisposed();
-                    if (value is null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-
-                    var matPtr = NativeMethods.cuda_GpuMat_col(parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new GpuMat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
+                    return ColRange(r.Start, r.End);
                 }
-            }
 
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override GpuMat this[int startCol, int endCol]
-            {
-                get
+                /// <summary>
+                /// Mat column's indexer object
+                /// </summary>
+                public class ColIndexer : GpuMatRowColIndexer
                 {
-                    parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.cuda_GpuMat_colRange(parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    return new GpuMat(matPtr);
+                    /// <summary>
+                    /// 
+                    /// </summary>
+                    /// <param name="parent"></param>
+                    protected internal ColIndexer(GpuMat parent)
+                        : base(parent)
+                    {
+                    }
+
+                    /// <summary>
+                    /// Creates a matrix header for the specified matrix column.
+                    /// </summary>
+                    /// <param name="x">A 0-based column index.</param>
+                    /// <returns></returns>
+                    public override GpuMat this[int x]
+                    {
+                        get
+                        {
+                            parent.ThrowIfDisposed();
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_col(parent.ptr, x, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            return new GpuMat(matPtr);
+                        }
+                        set
+                        {
+                            parent.ThrowIfDisposed();
+                            if (value is null)
+                                throw new ArgumentNullException(nameof(value));
+                            value.ThrowIfDisposed();
+
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_col(parent.ptr, x, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            var mat = new GpuMat(matPtr);
+                            if (mat.Size() != value.Size())
+                                throw new ArgumentException("Specified ROI != mat.Size()");
+                            value.CopyTo(mat);
+                        }
+                    }
+
+                    /// <summary>
+                    /// Creates a matrix header for the specified column span.
+                    /// </summary>
+                    /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+                    /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+                    /// <returns></returns>
+                    public override GpuMat this[int startCol, int endCol]
+                    {
+                        get
+                        {
+                            parent.ThrowIfDisposed();
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_colRange(parent.ptr, startCol, endCol, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            return new GpuMat(matPtr);
+                        }
+                        set
+                        {
+                            parent.ThrowIfDisposed();
+                            if (value is null)
+                                throw new ArgumentNullException(nameof(value));
+                            value.ThrowIfDisposed();
+
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_colRange(parent.ptr, startCol, endCol, out IntPtr colMatPtr));
+                            GC.KeepAlive(this);
+                            var colMat = new GpuMat(colMatPtr);
+                            if (colMat.Size() != value.Size())
+                                throw new ArgumentException("Specified ROI != mat.Size()");
+                            value.CopyTo(colMat);
+                        }
+                    }
                 }
-                set
+
+                /// <summary>
+                /// Indexer to access GpuMat column
+                /// </summary>
+                /// <returns></returns>
+                public ColIndexer Col
                 {
-                    parent.ThrowIfDisposed();
-                    if (value is null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-
-                    var colMatPtr = NativeMethods.cuda_GpuMat_colRange(parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    var colMat = new GpuMat(colMatPtr);
-                    if (colMat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(colMat);
+                    get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
                 }
-            }
-        }
 
-        /// <summary>
-        /// Indexer to access GpuMat column
-        /// </summary>
-        /// <returns></returns>
-        public ColIndexer Col
-        {
-            get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
-        }
+                private ColIndexer colIndexer;
 
-        private ColIndexer colIndexer;
+        #endregion
+        #region Row/RowRange
 
-#endregion
-#region Row/RowRange
-
-        /// <summary>
-        /// returns a new matrix header for the specified row span
-        /// </summary>
-        /// <param name="startrow"></param>
-        /// <param name="endrow"></param>
-        /// <returns></returns>
-        public GpuMat RowRange(int startrow, int endrow)
-        {
-            ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_rowRange(CvPtr, startrow, endrow);
-            GC.KeepAlive(this);
-            return new GpuMat(ret);
-        }
-
-        /// <summary>
-        /// returns a new matrix header for the specified row span
-        /// </summary>
-        /// <param name="r"></param>
-        /// <returns></returns>
-        public GpuMat RowRange(Range r)
-        {
-            return RowRange(r.Start, r.End);
-        }
-
-        /// <summary>
-        /// Mat row's indexer object
-        /// </summary>
-        public class RowIndexer : GpuMatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal RowIndexer(GpuMat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override GpuMat this[int x]
-            {
-                get
+                /// <summary>
+                /// returns a new matrix header for the specified row span
+                /// </summary>
+                /// <param name="startrow"></param>
+                /// <param name="endrow"></param>
+                /// <returns></returns>
+                public GpuMat RowRange(int startrow, int endrow)
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.cuda_GpuMat_row(parent.ptr, x);
+                    ThrowIfDisposed();
+                    NativeMethods.HandleException(NativeMethods.cuda_GpuMat_rowRange(CvPtr, startrow, endrow, out IntPtr ret));
                     GC.KeepAlive(this);
-                    return new GpuMat(matPtr);
+                    return new GpuMat(ret);
                 }
-                set
+
+                /// <summary>
+                /// returns a new matrix header for the specified row span
+                /// </summary>
+                /// <param name="r"></param>
+                /// <returns></returns>
+                public GpuMat RowRange(Range r)
                 {
-                    parent.ThrowIfDisposed();
-                    if (value is null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-
-                    var matPtr = NativeMethods.cuda_GpuMat_row(parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new GpuMat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
+                    return RowRange(r.Start, r.End);
                 }
-            }
 
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override GpuMat this[int startCol, int endCol]
-            {
-                get
+                /// <summary>
+                /// Mat row's indexer object
+                /// </summary>
+                public class RowIndexer : GpuMatRowColIndexer
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.cuda_GpuMat_rowRange(parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    return new GpuMat(matPtr);
+                    /// <summary>
+                    /// 
+                    /// </summary>
+                    /// <param name="parent"></param>
+                    protected internal RowIndexer(GpuMat parent)
+                        : base(parent)
+                    {
+                    }
+
+                    /// <summary>
+                    /// Creates a matrix header for the specified matrix column.
+                    /// </summary>
+                    /// <param name="x">A 0-based column index.</param>
+                    /// <returns></returns>
+                    public override GpuMat this[int x]
+                    {
+                        get
+                        {
+                            parent.ThrowIfDisposed();
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_row(parent.ptr, x, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            return new GpuMat(matPtr);
+                        }
+                        set
+                        {
+                            parent.ThrowIfDisposed();
+                            if (value is null)
+                                throw new ArgumentNullException(nameof(value));
+                            value.ThrowIfDisposed();
+
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_row(parent.ptr, x, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            var mat = new GpuMat(matPtr);
+                            if (mat.Size() != value.Size())
+                                throw new ArgumentException("Specified ROI != mat.Size()");
+                            value.CopyTo(mat);
+                        }
+                    }
+
+                    /// <summary>
+                    /// Creates a matrix header for the specified column span.
+                    /// </summary>
+                    /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+                    /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
+                    /// <returns></returns>
+                    public override GpuMat this[int startCol, int endCol]
+                    {
+                        get
+                        {
+                            parent.ThrowIfDisposed();
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_rowRange(parent.ptr, startCol, endCol, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            return new GpuMat(matPtr);
+                        }
+                        set
+                        {
+                            parent.ThrowIfDisposed();
+                            if (value is null)
+                                throw new ArgumentNullException(nameof(value));
+                            value.ThrowIfDisposed();
+
+                            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_rowRange(parent.ptr, startCol, endCol, out IntPtr matPtr));
+                            GC.KeepAlive(this);
+                            var mat = new GpuMat(matPtr);
+                            if (mat.Size() != value.Size())
+                                throw new ArgumentException("Specified ROI != mat.Size()");
+                            value.CopyTo(mat);
+                        }
+                    }
                 }
-                set
+
+                /// <summary>
+                /// Indexer to access GpuMat row
+                /// </summary>
+                /// <returns></returns>
+                public RowIndexer Row
                 {
-                    parent.ThrowIfDisposed();
-                    if (value is null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-
-                    var matPtr = NativeMethods.cuda_GpuMat_rowRange(parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    var mat = new GpuMat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
+                    get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
                 }
-            }
-        }
 
-        /// <summary>
-        /// Indexer to access GpuMat row
-        /// </summary>
-        /// <returns></returns>
-        public RowIndexer Row
-        {
-            get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
-        }
+                private RowIndexer rowIndexer;
 
-        private RowIndexer rowIndexer;
+        #endregion
+        #endregion
 
-#endregion
-#endregion
-
-#region Public methods
+        #region Public methods
         
         /// <summary>
         /// returns true iff the GpuMatrix data is continuous
@@ -798,9 +782,9 @@ namespace OpenCvSharp.Cuda
         public bool IsContinuous()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_isContinuous(CvPtr) != 0;
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_isContinuous(CvPtr, out int res));
             GC.KeepAlive(this);
-            return res;
+            return res !=0;
         }
 
         /// <summary>
@@ -810,7 +794,7 @@ namespace OpenCvSharp.Cuda
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_channels(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_channels(CvPtr, out int res));
             GC.KeepAlive(this);
             return res;
         }
@@ -822,7 +806,7 @@ namespace OpenCvSharp.Cuda
         public int Depth()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_depth(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_depth(CvPtr, out int res));
             GC.KeepAlive(this);
             return res;
         }
@@ -834,9 +818,9 @@ namespace OpenCvSharp.Cuda
         public long ElemSize()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_elemSize(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_elemSize(CvPtr, out ulong res));
             GC.KeepAlive(this);
-            return res;
+            return (long)res;
         }
 
         /// <summary>
@@ -846,9 +830,9 @@ namespace OpenCvSharp.Cuda
         public long ElemSize1()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_elemSize1(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_elemSize1(CvPtr, out ulong res));
             GC.KeepAlive(this);
-            return res;
+            return (long)res;
         }
 
         /// <summary>
@@ -858,7 +842,7 @@ namespace OpenCvSharp.Cuda
         public Size Size()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_size(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_size(CvPtr, out OpenCvSharp.Size res));
             GC.KeepAlive(this);
             return res;
         }
@@ -869,9 +853,9 @@ namespace OpenCvSharp.Cuda
         public long Step()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_step(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_step(CvPtr, out ulong res));
             GC.KeepAlive(this);
-            return res;
+            return (long)res;
         }
 
         /// <summary>
@@ -880,9 +864,9 @@ namespace OpenCvSharp.Cuda
         public long Step1()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_step1(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_step1(CvPtr, out ulong res));
             GC.KeepAlive(this);
-            return res;
+            return (long)res;
         }
 
         /// <summary>
@@ -892,7 +876,7 @@ namespace OpenCvSharp.Cuda
         public MatType Type()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_type(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_type(CvPtr, out int res));
             GC.KeepAlive(this);
             return res;
         }
@@ -904,16 +888,16 @@ namespace OpenCvSharp.Cuda
         public bool Empty()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_empty(CvPtr) != 0;
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_empty(CvPtr, out int res));
             GC.KeepAlive(this);
-            return res;
+            return res != 0;
         }
 
         /// <summary>
         /// Pefroms blocking upload data to GpuMat.
         /// </summary>
         /// <param name="m"></param>
-        public void Upload(Mat m)
+        public void Upload(OpenCvSharp.InputArray m)
         {
             ThrowIfDisposed();
             NativeMethods.cuda_GpuMat_upload(CvPtr, m.CvPtr);
@@ -922,15 +906,43 @@ namespace OpenCvSharp.Cuda
         }
 
         /// <summary>
+        /// Performs non-blocking upload data to GpuMat.
+        /// </summary>
+        public void Upload(OpenCvSharp.InputArray m, Stream stream)
+        {
+            if (m == null) throw new ArgumentNullException(nameof(m));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            ThrowIfDisposed();
+            // Use m.CvPtr instead of arr.CvPtr
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_upload_stream(CvPtr, m.CvPtr, stream.CvPtr));
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            GC.KeepAlive(stream);
+        }
+
+        /// <summary>
         /// Downloads data from device to host memory. Blocking calls.
         /// </summary>
         /// <param name="m"></param>
-        public void Download(Mat m)
+        public void Download(OpenCvSharp.OutputArray m)
         {
             ThrowIfDisposed();
             NativeMethods.cuda_GpuMat_download(CvPtr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
+        }
+        /// <summary>
+        /// Performs non-blocking download data from GpuMat.
+        /// </summary>
+        public void Download(OpenCvSharp.OutputArray m, Stream stream)
+        {
+            if (m == null) throw new ArgumentNullException(nameof(m));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_download_stream(CvPtr, m.CvPtr, stream.CvPtr));
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            GC.KeepAlive(stream);
         }
 
         /// <summary>
@@ -940,60 +952,275 @@ namespace OpenCvSharp.Cuda
         public GpuMat Clone()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_clone(CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_clone(CvPtr, out IntPtr ret));
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
 
+        #region CopyTo
+
         /// <summary>
-        /// copies those matrix elements to "m"
+        /// bindings overload which copies the GpuMat content to device memory (Blocking call) 
         /// </summary>
-        /// <param name="m"></param>
-        public void CopyTo(GpuMat m)
+        public void CopyTo(GpuMat dst)
         {
             ThrowIfDisposed();
-            if (m is null)
-                throw new ArgumentNullException(nameof(m));
-            NativeMethods.cuda_GpuMat_copyTo1(CvPtr, m.CvPtr);
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo1(CvPtr, dst.CvPtr,  IntPtr.Zero));
+
+            GC.KeepAlive(dst);
             GC.KeepAlive(this);
-            GC.KeepAlive(m);
         }
 
         /// <summary>
-        /// copies those matrix elements to "m" that are marked with non-zero mask elements.
+        /// bindings overload which copies those GpuMat elements to "m" that are marked with non-zero mask elements (Blocking call)
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="mask"></param>
-        public void CopyTo(GpuMat m, GpuMat mask)
+        public void CopyTo(GpuMat dst, GpuMat mask)
         {
             ThrowIfDisposed();
-            if (m is null)
-                throw new ArgumentNullException(nameof(m));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            NativeMethods.cuda_GpuMat_copyTo2(CvPtr, m.CvPtr, mask.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (mask == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo_mask1(CvPtr, dst.CvPtr, mask.CvPtr, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
             GC.KeepAlive(mask);
         }
 
         /// <summary>
-        /// converts matrix to another datatype with optional scalng. See cvConvertScale.
+        /// bindings overload which copies those GpuMat elements to "m" that are marked with non-zero mask elements (Non-Blocking call) 
         /// </summary>
-        /// <param name="dst"></param>
-        /// <param name="rtype"></param>
-        /// <param name="alpha"></param>
-        /// <param name="beta"></param>
-        /// <returns></returns>
-        public void ConvertTo(GpuMat dst, MatType rtype, double alpha = 1, double beta = 0)
+        public void CopyTo(GpuMat dst, GpuMat mask, OpenCvSharp.Cuda.Stream? stream = null)
         {
             ThrowIfDisposed();
-            if (dst is null)
+            if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
-            NativeMethods.cuda_GpuMat_convertTo(CvPtr, dst.CvPtr, rtype, alpha, beta);
-            GC.KeepAlive(this);
+            if (mask == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo_mask1(CvPtr, dst.CvPtr, mask.CvPtr, stream?.CvPtr ?? IntPtr.Zero));
+
             GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
         }
+
+        /// <summary>
+        /// bindings overload which copies the GpuMat content to device memory (Non-Blocking call) 
+        /// </summary>
+        public void CopyTo(GpuMat dst, OpenCvSharp.Cuda.Stream? stream = null)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo1(CvPtr, dst.CvPtr, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// bindings overload which copies the GpuMat content to device memory (Blocking call) 
+        /// </summary>
+        public void CopyTo(OpenCvSharp.Cuda.OutputArray dst)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo2(CvPtr, dst.CvPtr, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// bindings overload which copies those GpuMat elements to "m" that are marked with non-zero mask elements (Blocking call)
+        /// </summary>
+        public void CopyTo(OpenCvSharp.Cuda.OutputArray dst, OpenCvSharp.Cuda.InputArray mask)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (mask == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo_mask2(CvPtr, dst.CvPtr, mask.CvPtr, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// bindings overload which copies those GpuMat elements to "m" that are marked with non-zero mask elements (Non-Blocking call) 
+        /// </summary>
+        public void CopyTo(OpenCvSharp.Cuda.OutputArray dst, OpenCvSharp.Cuda.InputArray mask, OpenCvSharp.Cuda.Stream? stream = null)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (mask == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo_mask2(CvPtr, dst.CvPtr, mask.CvPtr, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// bindings overload which copies the GpuMat content to device memory (Non-Blocking call) 
+        /// </summary>
+        public void CopyTo(OpenCvSharp.Cuda.OutputArray dst, OpenCvSharp.Cuda.Stream? stream = null)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_copyTo2(CvPtr, dst.CvPtr, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        #endregion
+
+        #region ConvertTo
+
+        /// <summary>
+        /// bindings overload which converts GpuMat to another datatype (Blocking call) 
+        /// </summary>
+        public void ConvertTo(GpuMat dst, MatType rtype)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo1(CvPtr, dst.CvPtr, rtype.Value, 1.0, 0.0, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// bindings overload which converts GpuMat to another datatype with scaling (Non-Blocking call) 
+        /// </summary>
+        public void ConvertTo(GpuMat dst, MatType rtype, double alpha, double beta, Stream stream)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo1(CvPtr, dst.CvPtr, rtype.Value, alpha, beta, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// bindings overload which converts GpuMat to another datatype (Non-Blocking call) 
+        /// </summary>
+        public void ConvertTo(GpuMat dst, MatType rtype, Stream stream)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo1(CvPtr, dst.CvPtr, rtype.Value, 1.0, 0.0, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// converts GpuMat to another datatype (Blocking call) 
+        /// </summary>
+        public void ConvertTo(OpenCvSharp.Cuda.OutputArray dst, MatType rtype)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo2(CvPtr, dst.CvPtr, rtype.Value, 1.0, 0.0, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// converts GpuMat to another datatype with scaling (Non-Blocking call) 
+        /// </summary>
+        public void ConvertTo(OpenCvSharp.Cuda.OutputArray dst, MatType rtype, double alpha, double beta, Stream? stream = null)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo2(CvPtr, dst.CvPtr, rtype.Value, alpha, beta, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+
+        /// <summary>
+        /// converts GpuMat to another datatype with scaling (Blocking call) 
+        /// </summary>
+        public void ConvertTo(OpenCvSharp.Cuda.OutputArray dst, MatType rtype, double alpha, double beta = 0.0)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo2(CvPtr, dst.CvPtr, rtype.Value, alpha, beta,  IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// bindings overload which converts GpuMat to another datatype with scaling(Blocking call) 
+        /// </summary>
+        public void ConvertTo(OpenCvSharp.Cuda.OutputArray dst, MatType rtype, double alpha, Stream stream)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo2(CvPtr, dst.CvPtr, rtype.Value, alpha, 0.0, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// converts GpuMat to another datatype (Non-Blocking call) 
+        /// </summary>
+        public void ConvertTo(OutputArray dst, MatType rtype, Stream stream)
+        {
+            ThrowIfDisposed();
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            NativeMethods.HandleException(
+                NativeMethods.cuda_GpuMat_convertTo2(CvPtr, dst.CvPtr, rtype.Value, 1.0, 0.0, stream?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(this);
+        }
+
+        #endregion
 
         /// <summary>
         /// 
@@ -1016,7 +1243,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            NativeMethods.cuda_GpuMat_assignTo(CvPtr, m.CvPtr, type);
+            NativeMethods.cuda_GpuMat_assignTo(CvPtr, m.CvPtr, (int)type);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -1027,13 +1254,56 @@ namespace OpenCvSharp.Cuda
         /// <param name="s"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public GpuMat SetTo(Scalar s, GpuMat mask = null)
+        public GpuMat SetTo(Scalar s)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_setTo(CvPtr, s, Cv2.ToPtr(mask));
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_setTo(CvPtr, s, IntPtr.Zero, out IntPtr ret));
+            GC.KeepAlive(this);
+            return new GpuMat(ret);
+        }
+
+        /// <summary>
+        /// sets some of the matrix elements to s, according to the mask
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public GpuMat SetTo(Scalar s, OpenCvSharp.Cuda.InputArray mask)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_setTo(CvPtr, s, Cv2.ToPtr(mask), out IntPtr ret));
             GC.KeepAlive(this);
             GC.KeepAlive(mask);
             return new GpuMat(ret);
+        }
+
+        /// <summary>
+        /// sets some of the GpuMat elements to s, according to the mask (Non-Blocking call)
+        /// </summary>
+        public void SetTo(Scalar s, OpenCvSharp.Cuda.InputArray mask, Stream stream)
+        {
+            if (stream == null) 
+                throw new ArgumentNullException(nameof(stream));
+            ThrowIfDisposed();
+            // We use Cv2.ToPtr helper to handle the case where mask might be null
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_setTo_stream(CvPtr, s, Cv2.ToPtr(mask), stream.CvPtr, out _));
+            GC.KeepAlive(this);
+            GC.KeepAlive(mask);
+            GC.KeepAlive(stream);
+        }
+
+        /// <summary>
+        /// sets some of the GpuMat elements to s, according to the mask (Non-Blocking call)
+        /// </summary>
+        public void SetTo(Scalar s,  Stream stream)
+        {
+            if (stream == null) 
+                throw new ArgumentNullException(nameof(stream));
+            ThrowIfDisposed();
+            // We use Cv2.ToPtr helper to handle the case where mask might be null
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_setTo_stream(CvPtr, s, IntPtr.Zero, stream.CvPtr, out _));
+            GC.KeepAlive(this);
+            GC.KeepAlive(stream);
         }
 
         /// <summary>
@@ -1046,7 +1316,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat Reshape(int cn, int rows)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_reshape(CvPtr, cn, rows);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_reshape(CvPtr, cn, rows, out IntPtr ret));
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -1061,7 +1331,7 @@ namespace OpenCvSharp.Cuda
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_create1(CvPtr, rows, cols, type);
+            NativeMethods.cuda_GpuMat_create1(CvPtr, rows, cols, (int)type);
             GC.KeepAlive(this);
         }
 
@@ -1074,7 +1344,7 @@ namespace OpenCvSharp.Cuda
         public void Create(Size size, MatType type)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_create2(CvPtr, size, type);
+            NativeMethods.cuda_GpuMat_create2(CvPtr, size, (int)type);
             GC.KeepAlive(this);
         }
 
@@ -1115,7 +1385,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_adjustROI(CvPtr, dtop, dbottom, dleft, dright);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_adjustROI(CvPtr, dtop, dbottom, dleft, dright, out IntPtr ret));
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -1128,9 +1398,9 @@ namespace OpenCvSharp.Cuda
         public unsafe byte* Ptr(int y = 0)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_ptr(CvPtr, y);
+            NativeMethods.HandleException(NativeMethods.cuda_GpuMat_ptr(CvPtr, y, out IntPtr res));
             GC.KeepAlive(this);
-            return res;
+            return (byte*)res;
         }
 
         /// <summary>
@@ -1139,7 +1409,7 @@ namespace OpenCvSharp.Cuda
         /// <returns></returns>
         public override string ToString()
         {
-            return "Mat [ " +
+            return "GpuMat [ " +
                    Rows + "*" + Cols + "*" + Type().ToString() +
                    ", IsContinuous=" + IsContinuous() +
                    ", Ptr=0x" + Convert.ToString(ptr.ToInt64(), 16) +
@@ -1152,9 +1422,10 @@ namespace OpenCvSharp.Cuda
         private void ThrowIfNotAvailable()
         {
             ThrowIfDisposed();
-            if (Cv2.GetCudaEnabledDeviceCount() < 1)
+            if (Cv2.Cuda.GetCudaEnabledDeviceCount() < 1)
                 throw new OpenCvSharpException("GPU module cannot be used.");
         }
+
     }
 }
 
