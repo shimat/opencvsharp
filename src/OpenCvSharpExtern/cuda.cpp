@@ -30,7 +30,19 @@
 #include "cuda_Filters.h"
 
 // imgproc
-#include "cuda_Imgproc.h"
+#include "cuda_CannyEdgeDetector.h"
+#include "cuda_CLAHE.h"
+#include "cuda_CascadeClassifier.h"
+#include "cuda_CornernessCriteria.h"
+#include "cuda_CornersDetector.h"
+#include "cuda_GeneralizedHough.h"
+#include "cuda_GeneralizedHoughBallard.h"
+#include "cuda_GeneralizedHoughGuil.h"
+#include "cuda_HoughCirclesDetector.h"
+#include "cuda_HoughLinesDetector.h"
+#include "cuda_HoughSegmentDetector.h"
+#include "cuda_TemplateMatching.h"
+
 // legacy
 #include "cuda_Legacy.h"
 
