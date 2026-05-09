@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// StereoSGM algorithm mode.
@@ -20,3 +21,4 @@
         HH4 = 1
     }
 }
+#endif

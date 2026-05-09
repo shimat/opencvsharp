@@ -1,4 +1,5 @@
-﻿#pragma warning disable 1591
+﻿#if ENABLED_CUDA
+#pragma warning disable 1591
 
 using System.Runtime.InteropServices;
 
@@ -22,3 +23,4 @@ static partial class NativeMethods
     public static extern ExceptionStatus cuda_NvidiaOpticalFlow_1_0_upSampler(
         IntPtr obj, IntPtr flow, Size imageSize, int gridSize, IntPtr upsampledFlow);
 }
+#endif

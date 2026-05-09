@@ -1,4 +1,5 @@
-﻿#pragma warning disable 1591
+﻿#if ENABLED_CUDA
+#pragma warning disable 1591
 
 using System.Runtime.InteropServices;
 
@@ -27,3 +28,4 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus cuda_NvidiaOpticalFlow_2_0_convertToFloat(IntPtr obj, IntPtr flow, IntPtr floatFlow);
 }
+#endif

@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     public enum NvidiaOfHintGridSize
     {
@@ -10,3 +11,4 @@
         Max = 9
     }
 }
+#endif

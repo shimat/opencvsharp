@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Internal;
@@ -77,3 +78,4 @@ public class BackgroundSubtractorMOG2 : OpenCvSharp.BackgroundSubtractorMOG2
         GC.KeepAlive(this);
     }
 }
+#endif

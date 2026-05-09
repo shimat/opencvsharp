@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -71,3 +72,4 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus cuda_OpticalFlowDual_TVL1_setUseInitialFlow(IntPtr obj, int val);
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using OpenCvSharp.Internal;
+﻿#if ENABLED_CUDA
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Cuda;
 
@@ -246,3 +247,4 @@ public abstract class GeneralizedHough : Algorithm
         votes?.Fix();
     }
 }
+#endif

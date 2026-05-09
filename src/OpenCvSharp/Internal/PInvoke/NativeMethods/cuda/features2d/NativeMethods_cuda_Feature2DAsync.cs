@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if ENABLED_CUDA
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
@@ -24,3 +25,4 @@ static partial class NativeMethods
 
 
 }
+#endif

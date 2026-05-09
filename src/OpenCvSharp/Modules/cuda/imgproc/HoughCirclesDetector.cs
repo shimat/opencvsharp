@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Internal;
@@ -173,3 +174,4 @@ public class HoughCirclesDetector : Algorithm
         }
     }
 }
+#endif

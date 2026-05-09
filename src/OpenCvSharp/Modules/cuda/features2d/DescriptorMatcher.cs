@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -500,3 +501,4 @@ public class DescriptorMatcher : Algorithm
     }
 }
 
+#endif

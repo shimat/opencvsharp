@@ -1,4 +1,5 @@
-﻿#pragma warning disable 1591
+﻿#if ENABLED_CUDA
+#pragma warning disable 1591
 
 using System.Runtime.InteropServices;
 
@@ -68,3 +69,4 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus cuda_ORB_setWTA_K(IntPtr obj, int val);
 }
+#endif

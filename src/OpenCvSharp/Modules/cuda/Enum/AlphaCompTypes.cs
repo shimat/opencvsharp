@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,3 +21,4 @@ public enum AlphaCompTypes
     PlusPremul = 11,
     Premul = 12
 }
+#endif

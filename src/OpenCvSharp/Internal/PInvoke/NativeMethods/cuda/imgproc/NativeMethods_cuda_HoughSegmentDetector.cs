@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenCvSharp.Cuda;
@@ -47,3 +48,4 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus cuda_HoughSegmentDetector_setTheta(IntPtr obj, float val);
     }
 }
+#endif

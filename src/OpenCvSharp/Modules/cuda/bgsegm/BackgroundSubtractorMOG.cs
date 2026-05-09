@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Internal;
@@ -101,3 +102,4 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         set { ThrowIfDisposed(); NativeMethods.HandleException(NativeMethods.cuda_BackgroundSubtractorMOG_setNoiseSigma(RawPtr, value)); GC.KeepAlive(this); }
     }
 }
+#endif

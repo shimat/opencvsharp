@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// Order of image moments.
@@ -27,3 +28,4 @@
         ThirdOrder = 3
     }
 }
+#endif

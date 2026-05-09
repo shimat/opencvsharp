@@ -1,4 +1,5 @@
-﻿using OpenCvSharp.Internal;
+﻿#if ENABLED_CUDA
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Cuda;
 
@@ -179,3 +180,4 @@ public class StereoBeliefPropagation : OpenCvSharp.Cuda.StereoMatcher
         }
     }
 }
+#endif

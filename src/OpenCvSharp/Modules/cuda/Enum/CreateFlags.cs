@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// Enumeration of CUDA event creation flags.
@@ -27,3 +28,4 @@
         Interprocess = 0x04
     }
 }
+#endif

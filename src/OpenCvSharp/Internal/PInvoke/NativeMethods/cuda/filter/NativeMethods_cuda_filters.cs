@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -60,3 +61,4 @@ static partial class NativeMethods
     public static extern ExceptionStatus cuda_createSobelFilter(int srcType, int dstType, int dx, int dy, int ksize, double scale, int rowBorderMode, int columnBorderMode, out IntPtr returnValue);
 
 }
+#endif

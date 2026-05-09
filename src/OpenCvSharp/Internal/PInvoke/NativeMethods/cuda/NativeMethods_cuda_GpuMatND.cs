@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -101,3 +102,4 @@ static partial class NativeMethods
     public static extern ExceptionStatus cuda_GpuMatND_getStep(IntPtr obj, IntPtr resultVector);
 
 }
+#endif

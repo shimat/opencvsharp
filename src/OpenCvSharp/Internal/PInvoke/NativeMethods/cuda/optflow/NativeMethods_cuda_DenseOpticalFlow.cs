@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,3 +16,4 @@ static partial class NativeMethods
     public static extern ExceptionStatus cuda_DenseOpticalFlow_calc(
     IntPtr obj, IntPtr I0, IntPtr I1, IntPtr flow, IntPtr stream);
 }
+#endif

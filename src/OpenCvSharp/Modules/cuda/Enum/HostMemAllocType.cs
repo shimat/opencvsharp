@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// Type of memory allocation for HostMem.
@@ -10,3 +11,4 @@
         WriteCombined = 4
     }
 }
+#endif

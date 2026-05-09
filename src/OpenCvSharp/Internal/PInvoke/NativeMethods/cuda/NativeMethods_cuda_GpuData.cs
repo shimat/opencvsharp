@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -19,3 +20,4 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus cuda_GpuData_size(IntPtr obj, out UIntPtr returnValue);
 }
+#endif

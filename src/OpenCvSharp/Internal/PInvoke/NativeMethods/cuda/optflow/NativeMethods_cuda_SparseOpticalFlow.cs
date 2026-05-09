@@ -1,4 +1,5 @@
-﻿#pragma warning disable 1591
+﻿#if ENABLED_CUDA
+#pragma warning disable 1591
 
 using System.Runtime.InteropServices;
 
@@ -11,3 +12,4 @@ static partial class NativeMethods
     IntPtr obj, IntPtr prevImg, IntPtr nextImg, IntPtr prevPts, IntPtr nextPts,
     IntPtr status, IntPtr err, IntPtr stream);
 }
+#endif

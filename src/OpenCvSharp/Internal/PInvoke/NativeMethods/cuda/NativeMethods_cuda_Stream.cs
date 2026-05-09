@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -73,3 +74,4 @@ static partial class NativeMethods
     public static extern ExceptionStatus cuda_Stream_waitEvent(IntPtr obj, IntPtr eventPtr);
 
 }
+#endif

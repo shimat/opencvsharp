@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Cuda
+﻿#if ENABLED_CUDA
+namespace OpenCvSharp.Cuda
 {
     /// <summary>
     /// Descriptor storage format for CUDA HOG.
@@ -16,3 +17,4 @@
         RowByRow = 1
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -843,3 +844,4 @@ public class InputArray : CvObject
     #endregion
 }
 
+#endif

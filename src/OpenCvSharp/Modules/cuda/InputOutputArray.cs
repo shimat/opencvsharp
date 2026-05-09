@@ -1,4 +1,4 @@
-﻿
+﻿#if ENABLED_CUDA
 using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp.Cuda;
@@ -40,3 +40,4 @@ public class InputOutputArray : OutputArray
     }
 
 }
+#endif
