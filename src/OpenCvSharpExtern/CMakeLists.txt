@@ -32,6 +32,29 @@ endif()
 
 find_package(OpenCV REQUIRED)
 
+# ==========================================================
+# ### START CUDA ADDITION ###
+# ==========================================================
+option(ENABLED_CUDA "Enable CUDA support" OFF)
+
+if(ENABLED_CUDA)
+    # This line tells the C++ compiler to activate #ifdef ENABLED_CUDA
+    add_compile_definitions(ENABLED_CUDA)
+    
+    message(STATUS "------------------------------------------------------------")
+    message(STATUS "  CUDA SUPPORT IS BEING COMPILED INTO OPENCVSHARPEXTERN")
+    message(STATUS "------------------------------------------------------------")
+    
+    # Optional: Logic to ensure CUDA was actually found in OpenCV
+    if(NOT OpenCV_CUDA_VERSION)
+        message(WARNING "ENABLED_CUDA is ON, but OpenCV_CUDA_VERSION is empty. Build might fail if OpenCV wasn't built with CUDA.")
+    endif()
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+# ==========================================================
+# ### END CUDA ADDITION ###
+# ==========================================================
+
 # iconv support isn't automatic on some systems
 find_package(Iconv QUIET)
 if(NOT Iconv_FOUND)
