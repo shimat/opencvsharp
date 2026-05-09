@@ -44,7 +44,10 @@
 #include "cuda_TemplateMatching.h"
 
 // legacy
-#include "cuda_Legacy.h"
+#include "cuda_Bgsegm_gmg.h"
+#include "cuda_Bgsegm_fgd.h"
+#include "cuda_ImagePyramid.h"
+#include "cuda_FastOpticalFlowBM.h"
 
 // opengl
 #include "cuda_OpenGL.h"
