@@ -31,7 +31,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         return new BackgroundSubtractorMOG2(smartPtr, rawPtr);
     }
 
-    private BackgroundSubtractorMOG2(IntPtr smartPtr, IntPtr rawPtr)
+    protected BackgroundSubtractorMOG2(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.video_Ptr_BackgroundSubtractorMOG2_delete(p)))
     { }
     #endregion
