@@ -131,7 +131,7 @@ namespace OpenCvSharp.Cuda
                 if (nullObject is null)
                 {
                     NativeMethods.HandleException(NativeMethods.cuda_Stream_Null(out IntPtr ret));
-                    nullObject = new Stream(ret) {IsEnabledDispose = false};
+                    nullObject = new Stream(ret) { IsEnabledDispose = false };
                 }
                 return nullObject;
             }
@@ -342,7 +342,7 @@ namespace OpenCvSharp.Cuda
             callbackInternal = new StreamCallbackInternal(
                 (rawStream, status, rawUserData) =>
                 {
-                    var streamObj = new Stream(rawStream) {IsEnabledDispose = false};
+                    var streamObj = new Stream(rawStream) { IsEnabledDispose = false };
                     var userDataObj = GCHandle.FromIntPtr(rawUserData).Target;
                     callback(streamObj, status, userDataObj);
                 });
