@@ -134,3 +134,4 @@ Help
 /tesseract_files
 /opencv_artifacts
 /tesseract_artifacts
+/src/test/OpenCvSharp.Tests/OpenCvSharpExtern.dll
