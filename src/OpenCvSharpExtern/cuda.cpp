@@ -7,4 +7,6 @@
 #include "cuda_GpuMat.h"
 // arithm
 #include "cuda_Arithm.h"
+// imgproc
+#include "cuda_Imgproc.h"
 #endif
