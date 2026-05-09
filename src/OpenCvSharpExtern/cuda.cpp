@@ -14,6 +14,8 @@
 // core stuff
 #include "cuda_BufferPool.h"
 #include "cuda_DeviceInfo.h"
+#include "cuda_Event.h"
+#include "cuda_EventAccessor.h"
 #include "cuda_Stream.h"
 #include "cuda_StreamAccessor.h"
 
