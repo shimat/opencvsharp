@@ -22,6 +22,7 @@
 #include "cuda_GpuData.h"
 #include "cuda_GpuMatND.h"
 #include "cuda_HostMem.h"
+#include "cuda_TargetArchs.h"
 
 #include "cuda_GpuMat.h"
 // arithm
