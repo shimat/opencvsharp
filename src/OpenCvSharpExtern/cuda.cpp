@@ -66,9 +66,10 @@
 #include "cuda_SparsePyrLKOpticalFlow.h"
 
 // stereo
-#include "cuda_Stereo.h"
-
-// warping
-#include "cuda_Warping.h"
-
+#include "cuda_DisparityBilateralFilter.h"
+#include "cuda_StereoBeliefPropagation.h"
+#include "cuda_StereoBM.h"
+#include "cuda_StereoConstantSpaceBP.h"
+#include "cuda_StereoMatcher.h"
+#include "cuda_StereoSGM.h"
 #endif
