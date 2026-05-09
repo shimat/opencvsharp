@@ -49,8 +49,9 @@
 #include "cuda_ImagePyramid.h"
 #include "cuda_FastOpticalFlowBM.h"
 
-// opengl
-#include "cuda_OpenGL.h"
+// objectdetect
+#include "cuda_CascadeClassifier.h"
+#include "cuda_HOG.h"
 
 // photo
 #include "cuda_Photo.h"
