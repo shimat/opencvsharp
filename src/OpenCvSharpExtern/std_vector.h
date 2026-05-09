@@ -469,7 +469,49 @@ CVAPI(void) vector_Mat_delete(std::vector<cv::Mat>* vector)
     delete vector;
 }
 #pragma endregion
+#pragma region cv::cuda::GpuMat
+CVAPI(std::vector<cv::cuda::GpuMat> *) vector_GpuMat_new1()
+{
+    return new std::vector<cv::cuda::GpuMat>;
+}
+CVAPI(std::vector<cv::cuda::GpuMat> *) vector_GpuMat_new2(uint32_t size)
+{
+    return new std::vector<cv::cuda::GpuMat>(size);
+}
+CVAPI(std::vector<cv::cuda::GpuMat> *) vector_GpuMat_new3(cv::cuda::GpuMat **data, uint32_t dataLength)
+{
+    auto *vec = new std::vector<cv::cuda::GpuMat>(dataLength);
+    for (size_t i = 0; i < dataLength; i++)
+    {
+        (*vec)[i] = *(data[i]);
+    }
+    return vec;
+}
 
+CVAPI(size_t) vector_GpuMat_getSize(std::vector<cv::cuda::GpuMat> *vector)
+{
+    return vector->size();
+}
+
+CVAPI(cv::cuda::GpuMat *) vector_GpuMat_getPointer(std::vector<cv::cuda::GpuMat> *vector)
+{
+    return &(vector->at(0));
+}
+
+CVAPI(void) vector_GpuMat_assignToArray(std::vector<cv::cuda::GpuMat> *vector, cv::cuda::GpuMat **arr)
+{
+    for (size_t i = 0; i < vector->size(); i++)
+    {
+        (vector->at(i)).assignTo(*(arr[i]));
+    }
+}
+
+CVAPI(void) vector_GpuMat_delete(std::vector<cv::cuda::GpuMat> *vector)
+{
+    // vector->~vector();
+    delete vector;
+}
+#pragma endregion
 #ifndef NO_ML
 #pragma region cv::ml::DTrees::Node
 

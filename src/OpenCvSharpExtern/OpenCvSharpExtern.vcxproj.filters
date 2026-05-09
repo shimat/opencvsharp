@@ -103,6 +103,36 @@
     <ClCompile Include="barcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cuda_Arithm.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_Imgproc.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_Event.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_Bgsegm_mog.h">
+      <Filter>Header Files\cuda\bgsegm</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_CLAHE.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_DisparityBilateralFilter.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_StereoSGM.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_DescriptorMatcher.h">
+      <Filter>Header Files\cuda\features2d</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_FarnebackOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClCompile>
+    <ClCompile Include="cuda_Filters.h">
+      <Filter>Header Files\cuda\filters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgsegm.h">
@@ -300,9 +330,6 @@
     <ClInclude Include="cuda_GpuMat.h">
       <Filter>Header Files\cuda</Filter>
     </ClInclude>
-    <ClInclude Include="cuda.h">
-      <Filter>Header Files\cuda</Filter>
-    </ClInclude>
     <ClInclude Include="face_FaceRecognizer.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
@@ -388,6 +415,165 @@
     <ClInclude Include="objdetect_FaceDetectorYN.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_Warping.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Legacy.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Core.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Stereo.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_OpenGL.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Photo.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Stream.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Bgsegm_mog2.h">
+      <Filter>Header Files\cuda\bgsegm</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_BroxOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_DenseOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_BufferPool.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_CannyEdgeDetector.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_CascadeClassifier.h">
+      <Filter>Header Files\cuda\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_CornernessCriteria.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_CornersDetector.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_GeneralizedHough.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_GeneralizedHoughBallard.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_GeneralizedHoughGuil.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_HoughCirclesDetector.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_HoughLinesDetector.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_HoughSegmentDetector.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_TemplateMatching.h">
+      <Filter>Header Files\cuda\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Convolution.h">
+      <Filter>Header Files\cuda\arithm</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_DFT.h">
+      <Filter>Header Files\cuda\arithm</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_LookUpTable.h">
+      <Filter>Header Files\cuda\arithm</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Bgsegm_gmg.h">
+      <Filter>Header Files\cuda\legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_StereoBeliefPropagation.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_StereoBM.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_StereoConstantSpaceBP.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_StereoMatcher.h">
+      <Filter>Header Files\cuda\stereo</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Bgsegm_fgd.h">
+      <Filter>Header Files\cuda\legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_ImagePyramid.h">
+      <Filter>Header Files\cuda\legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_DensePyrLKOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_DeviceInfo.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_EventAccessor.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_runtime.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_Feature2DAsync.h">
+      <Filter>Header Files\cuda\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_FastFeatureDetector.h">
+      <Filter>Header Files\cuda\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_FastOpticalFlowBM.h">
+      <Filter>Header Files\cuda\legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_GpuData.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_GpuMatND.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_HOG.h">
+      <Filter>Header Files\cuda\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_HostMem.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_OpticalFlowDual_TVL1.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_NvidiaHWOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_NvidiaOpticalFlow_1_0.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_NvidiaOpticalFlow_2_0.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_ORB.h">
+      <Filter>Header Files\cuda\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_SparseOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_SparsePyrLKOpticalFlow.h">
+      <Filter>Header Files\cuda\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_StreamAccessor.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_SURF_CUDA.h">
+      <Filter>Header Files\cuda\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_TargetArchs.h">
+      <Filter>Header Files\cuda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -452,6 +638,33 @@
     </Filter>
     <Filter Include="Header Files\shape">
       <UniqueIdentifier>{b36ab73f-c7bb-491b-aedb-dc16a293c0b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\bgsegm">
+      <UniqueIdentifier>{6aa9055f-d712-47b4-99fe-3a6e2cd43256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\optflow">
+      <UniqueIdentifier>{50a3f8c6-a5fd-478f-b5e3-a3f7373c50fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\imgproc">
+      <UniqueIdentifier>{77dea1f3-efb9-485a-b450-d7c564d5ef20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\objdetect">
+      <UniqueIdentifier>{b41df875-2c88-43f6-b15c-ebe8b1618e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\arithm">
+      <UniqueIdentifier>{4f0670bf-6d1c-4c45-901d-fc99d3ebbe60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\legacy">
+      <UniqueIdentifier>{d5a0c373-60f9-43af-8679-af78ec623d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\filters">
+      <UniqueIdentifier>{dc10d193-acd0-421c-b782-6e63d9b7c5bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\stereo">
+      <UniqueIdentifier>{6e4f3b07-a130-4619-ace7-79c3795baf64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cuda\features2d">
+      <UniqueIdentifier>{747ab544-c00e-4e49-a7df-4645e415fac1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,9 @@
 
 #include <opencv2/opencv.hpp>
 
+#ifdef ENABLED_CUDA
+#include <opencv2/core/cuda.hpp>
+#endif
 
 #ifdef _WIN32
 #ifdef _DEBUG
@@ -90,6 +93,12 @@ static cv::UMat entity(cv::UMat* obj)
 {
     return (obj != nullptr) ? *obj : cv::UMat();
 }
+#ifdef ENABLED_CUDA
+static cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
+{
+    return (obj != nullptr) ? *obj : cv::cuda::GpuMat();
+}
+#endif
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
     return (obj != nullptr) ? *obj : cv::SparseMat();

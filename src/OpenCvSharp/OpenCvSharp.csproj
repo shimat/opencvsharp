@@ -83,5 +83,7 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
-
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);ENABLED_CUDA</DefineConstants>
+	</PropertyGroup>
 </Project>

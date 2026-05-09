@@ -2,10 +2,19 @@
 
 #ifdef ENABLED_CUDA
 #include "cuda.h"
-// core stuff
+
+#include "cuda_runtime.h"
+
 #include "cuda_Core.h"
 
+#include "cuda_Arithm.h"
+#include "cuda_Imgproc.h"
+#include "cuda_Warping.h"
+#include "cuda_Legacy.h"
 
+#include "cuda_Stereo.h"
+#include "cuda_OpenGL.h"
+#include "cuda_Photo.h"
 
 // bgsegm
 #include "cuda_Bgsegm_mog.h"
@@ -24,7 +33,6 @@
 #include "cuda_HostMem.h"
 #include "cuda_TargetArchs.h"
 
-#include "cuda_GpuMat.h"
 // arithm
 #include "cuda_Convolution.h"
 #include "cuda_DFT.h"
