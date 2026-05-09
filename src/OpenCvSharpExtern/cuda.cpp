@@ -9,4 +9,6 @@
 #include "cuda_Arithm.h"
 // imgproc
 #include "cuda_Imgproc.h"
+// legacy
+#include "cuda_Legacy.h"
 #endif
