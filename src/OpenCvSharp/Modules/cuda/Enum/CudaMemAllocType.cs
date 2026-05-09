@@ -9,8 +9,19 @@ namespace OpenCvSharp.Cuda
     [Flags]
     public enum CudaMemAllocType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Locked = 1,
+
+        /// <summary>
+        /// 
+        /// </summary>
         ZeroCopy = 2,
+
+        /// <summary>
+        /// 
+        /// </summary>
         WhiteCombined = 4
     }
 }
