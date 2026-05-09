@@ -25,4 +25,8 @@
 
 // stereo
 #include "cuda_Stereo.h"
+
+// warping
+#include "cuda_Warping.h"
+
 #endif
