@@ -15,6 +15,8 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_InputArray_new_byMatExpr(IntPtr mat, out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_InputArray_new_byGpuMat(IntPtr gpuMat, out IntPtr returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_InputArray_new_byScalar(Scalar val, out IntPtr handle, out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_InputArray_new_byDouble(IntPtr valPointer, out IntPtr returnValue);

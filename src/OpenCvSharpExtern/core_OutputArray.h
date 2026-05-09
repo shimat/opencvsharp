@@ -14,11 +14,13 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byMat(cv::Mat *mat, cv::_OutputArray
     END_WRAP
 }
 
-/*CVAPI(cv::_OutputArray*) core_OutputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
+CVAPI(ExceptionStatus) core_OutputArray_new_byGpuMat(cv::cuda::GpuMat *gm, cv::_OutputArray **returnValue)
 {
+    BEGIN_WRAP
     cv::_OutputArray ia(*gm);
-    return new cv::_OutputArray(ia);
-}*/
+    *returnValue = new cv::_OutputArray(ia);
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) core_OutputArray_new_byUMat(cv::UMat* mat, cv::_OutputArray** returnValue)
 {

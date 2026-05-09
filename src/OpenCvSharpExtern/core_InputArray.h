@@ -48,7 +48,12 @@ CVAPI(ExceptionStatus) core_InputArray_new_byVectorOfMat(std::vector<cv::Mat> *v
     *returnValue = new cv::_InputArray(*vector);
     END_WRAP
 }
-
+CVAPI(ExceptionStatus) core_InputArray_new_byGpuMat(cv::cuda::GpuMat *mat, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(*mat);
+    END_WRAP
+}
 #pragma region new_byVec
 
 CVAPI(ExceptionStatus) core_InputArray_new_byVecb(uchar *vec, int n, cv::_InputArray **returnValue)
@@ -314,3 +319,5 @@ CVAPI(ExceptionStatus) core_InputArray_isGpuMatVector(cv::_InputArray *ia, int *
     *returnValue = ia->isGpuMatVector() ? 1 : 0;
     END_WRAP
 }
+
+

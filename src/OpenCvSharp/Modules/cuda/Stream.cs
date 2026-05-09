@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Cuda
 {
@@ -46,7 +47,7 @@ namespace OpenCvSharp.Cuda
         public Stream()
         {
             ThrowIfNotAvailable();
-            var p = NativeMethods.cuda_Stream_new1();
+            NativeMethods.HandleException(NativeMethods.cuda_Stream_new1(out IntPtr p));
             InitSafeHandle(p);
         }
 
@@ -59,9 +60,36 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            var p = NativeMethods.cuda_Stream_new2(m.CvPtr);
+            NativeMethods.HandleException(NativeMethods.cuda_Stream_new2(m.CvPtr, out IntPtr p));
             GC.KeepAlive(m);
             InitSafeHandle(p);
+        }
+
+        /// <summary>
+        /// Creates a new Stream using flags to determine behaviors.
+        /// </summary>
+        /// <param name="flags">0 for default, 1 for Non-Blocking</param>
+        public Stream(uint flags)
+        {
+            ThrowIfNotAvailable();
+            NativeMethods.HandleException(
+                NativeMethods.cuda_Stream_new3(new UIntPtr(flags), out IntPtr p));
+            InitSafeHandle(p);
+        }
+
+        /// <summary>
+        /// Returns the raw CUDA handle (cudaStream_t).
+        /// </summary>
+        public IntPtr Handle
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.cuda_Stream_cudaPtr(CvPtr, out var handle));
+                GC.KeepAlive(this);
+                return handle;
+            }
         }
 
         /// <summary>
@@ -102,7 +130,7 @@ namespace OpenCvSharp.Cuda
             {
                 if (nullObject is null)
                 {
-                    IntPtr ret = NativeMethods.cuda_Stream_Null();
+                    NativeMethods.HandleException(NativeMethods.cuda_Stream_Null(out IntPtr ret));
                     nullObject = new Stream(ret) {IsEnabledDispose = false};
                 }
                 return nullObject;
@@ -118,9 +146,9 @@ namespace OpenCvSharp.Cuda
         public static explicit operator bool(Stream self)
         {
             self.ThrowIfDisposed();
-            var res = NativeMethods.cuda_Stream_bool(self.ptr) != 0;
+            NativeMethods.HandleException(NativeMethods.cuda_Stream_bool(self.ptr, out int res));
             GC.KeepAlive(self);
-            return res;
+            return res != 0;
         }
 
         /// <summary>
@@ -130,9 +158,9 @@ namespace OpenCvSharp.Cuda
         public bool QueryIfComplete()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_Stream_queryIfComplete(CvPtr) != 0;
+            NativeMethods.HandleException(NativeMethods.cuda_Stream_queryIfComplete(CvPtr, out int res));
             GC.KeepAlive(this);
-            return res;
+            return res != 0;
         }
 
         /// <summary>
@@ -143,6 +171,23 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             NativeMethods.cuda_Stream_waitForCompletion(CvPtr);
             GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Makes the compute stream wait on an event.
+        /// </summary>
+        /// <param name="eventObj"></param>
+        public void WaitEvent(Event eventObj)
+        {
+            if (eventObj == null) throw new ArgumentNullException(nameof(eventObj));
+            ThrowIfDisposed();
+            eventObj.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.cuda_Stream_waitEvent(CvPtr, eventObj.CvPtr));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(eventObj);
         }
 
         /// <summary>
@@ -307,6 +352,20 @@ namespace OpenCvSharp.Cuda
             NativeMethods.cuda_Stream_enqueueHostCallback(
                 CvPtr, callbackPtr, userDataPtr);
             GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Returns true if the stream is not the default stream (0).
+        /// </summary>
+        public bool IsNotNull
+        {
+            get
+            {
+                ThrowIfDisposed();
+                // Logic based on OpenCV's operator bool_type
+                // Usually check if the pointer is not the same as Null.CvPtr
+                return CvPtr != Null.CvPtr;
+            }
         }
     }
 }
