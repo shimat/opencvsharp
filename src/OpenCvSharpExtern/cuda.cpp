@@ -18,6 +18,9 @@
 #include "cuda_EventAccessor.h"
 #include "cuda_Stream.h"
 #include "cuda_StreamAccessor.h"
+#include "cuda_GpuMat.h"
+#include "cuda_GpuData.h"
+#include "cuda_GpuMatND.h"
 
 #include "cuda_GpuMat.h"
 // arithm

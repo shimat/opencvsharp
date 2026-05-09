@@ -1,6 +1,7 @@
 ﻿#if ENABLED_CUDA
 
-using OpenCvSharp.Util;
+using System.Runtime.InteropServices;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Cuda
 {
@@ -41,7 +42,7 @@ namespace OpenCvSharp.Cuda
         {
             this.parent = parent;
             this.step = parent.Step();
-            this.sizeOfT = MarshalHelper.SizeOf<T>();
+            this.sizeOfT = Marshal.SizeOf<T>();
         }
     }
 }
