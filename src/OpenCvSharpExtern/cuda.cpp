@@ -11,4 +11,7 @@
 #include "cuda_Imgproc.h"
 // legacy
 #include "cuda_Legacy.h"
+
+// opengl
+#include "cuda_OpenGL.h"
 #endif
