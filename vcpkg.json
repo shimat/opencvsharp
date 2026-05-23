@@ -3,7 +3,10 @@
     "tesseract",
     "zlib",
     "libpng",
-    "libjpeg-turbo",
+    {
+      "name": "libjpeg-turbo",
+      "features": ["jpeg7"]
+    },
     "tiff",
     "libwebp"
   ],
