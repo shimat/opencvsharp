@@ -142,7 +142,7 @@ jobs:
 
           cd ${GITHUB_WORKSPACE}
           dotnet pack nuget/OpenCvSharp4.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
 
           ls ${GITHUB_WORKSPACE}/artifacts_arm64
 
