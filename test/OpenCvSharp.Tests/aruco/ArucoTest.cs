@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using OpenCvSharp.Aruco;
 using Xunit;
 
@@ -21,8 +21,10 @@ public class ArucoTest : TestBase
         Assert.Equal(0.05, param.MinCornerDistanceRate, 3);
         Assert.Equal(3, param.MinDistanceToBorder);
         Assert.Equal(0.05, param.MinMarkerDistanceRate, 3);
+        Assert.Equal(0.21f, param.MinGroupDistance, 1e-3f);
         Assert.Equal(CornerRefineMethod.None, param.CornerRefinementMethod);
         Assert.Equal(5, param.CornerRefinementWinSize);
+        Assert.Equal(0.3f, param.RelativeCornerRefinmentWinSize, 1e-3f);
         Assert.Equal(30, param.CornerRefinementMaxIterations);
         Assert.Equal(0.1, param.CornerRefinementMinAccuracy, 3);
         Assert.Equal(1, param.MarkerBorderBits);
@@ -44,7 +46,7 @@ public class ArucoTest : TestBase
         Assert.Equal(32, param.MinSideLengthCanonicalImg);
         Assert.Equal(0, param.MinMarkerLengthRatioOriginalImg);
     }
-    
+
     [Fact]
     public void GetPredefinedDictionary()
     {
@@ -79,7 +81,7 @@ public class ArucoTest : TestBase
 
         for (int idx = 0; idx < dictData.Length; idx++)
             Assert.Equal(refData[idx], dictData[idx]);
-        
+
         toCompareWith.Dispose();
         dict.Dispose();
     }
@@ -89,9 +91,9 @@ public class ArucoTest : TestBase
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var detector = new ArucoDetector(dict);
 
-        var param = new DetectorParameters();
-        CvAruco.DetectMarkers(image, dict, out _, out _, param, out _);
+        detector.DetectMarkers(image, out _, out _, out _);
     }
 
     [Fact]
@@ -108,15 +110,15 @@ public class ArucoTest : TestBase
         Assert.Equal(4, dict.MarkerSize);
         Assert.Equal(50, dict.MaxCorrectionBits);
     }
-    
+
     [Fact]
     public void DrawDetectedMarker()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
-        var param = new DetectorParameters();
-        CvAruco.DetectMarkers(image, dict, out var corners, out var ids, param, out var rejectedImgPoints);
+        using var detector = new ArucoDetector(dict);
+        detector.DetectMarkers(image, out var corners, out var ids, out var rejectedImgPoints);
 
         CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
         CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
@@ -128,25 +130,5 @@ public class ArucoTest : TestBase
             Cv2.ImWrite(path, outputImage);
             Process.Start(path);
         }
-    }
-
-    [Fact]
-    public void EstimatePoseSingleMarkers()
-    {
-        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
-        var param = new DetectorParameters();
-        CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);
-
-        using var cameraMatrix = Mat.Eye(3, 3, MatType.CV_64FC1);
-        using var distCoeffs = Mat.Zeros(4, 1, MatType.CV_64FC1);
-        using var rvec = new Mat();
-        using var tvec = new Mat();
-        using var objPoints = new Mat();
-        CvAruco.EstimatePoseSingleMarkers(corners, 6, cameraMatrix, distCoeffs, rvec, tvec, objPoints);
-
-        Assert.Equal(20, rvec.Total());
-        Assert.Equal(20, tvec.Total());
-        Assert.Equal(4, objPoints.Total());
     }
 }

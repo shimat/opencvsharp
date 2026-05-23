@@ -90,11 +90,10 @@ public class ExceptionTest : TestBase
     {
         using var image = new Mat();
         using var dict = OpenCvSharp.Aruco.CvAruco.GetPredefinedDictionary(OpenCvSharp.Aruco.PredefinedDictionaryType.Dict6X6_250);
-
-        var param = new OpenCvSharp.Aruco.DetectorParameters();
+        using var detector = new OpenCvSharp.Aruco.ArucoDetector(dict);
 
         var ex = Assert.Throws<OpenCVException>(
-            () => { OpenCvSharp.Aruco.CvAruco.DetectMarkers(image, dict, out _, out _, param, out _); });
+            () => { detector.DetectMarkers(image, out _, out _, out _); });
 
         Assert.StartsWith("!_image.empty()", ex.ErrMsg, StringComparison.Ordinal);
         Assert.NotEmpty(ex.FileName);
