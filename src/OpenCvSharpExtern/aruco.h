@@ -266,7 +266,8 @@ CVAPI(ExceptionStatus) aruco_drawDetectedCornersCharuco(
 	MyCvScalar cornerColor)
 {
 	BEGIN_WRAP
-	cv::aruco::drawDetectedCornersCharuco(*image, *corners, *ids, cpp(cornerColor));
+	const cv::_InputArray idArray = (ids != nullptr) ? cv::_InputArray(*ids) : cv::noArray();
+	cv::aruco::drawDetectedCornersCharuco(*image, *corners, idArray, cpp(cornerColor));
 	END_WRAP
 }
 
