@@ -18,12 +18,12 @@ jobs:
           name: packages_windows
           branch: ${{ github.ref_name }}
 
-      - name: Download ubuntu arm artifact
+      - name: Download ubuntu arm64 artifact
         uses: dawidd6/action-download-artifact@v19
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: linux-arm.yml
-          name: artifacts_linux_arm
+          workflow: linux-arm64.yml
+          name: artifacts_linux_arm64
           branch: ${{ github.ref_name }}
 
       #- name: Download macos artifact

@@ -22,10 +22,12 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp4.runtime.win.slim` | Windows x64 (slim) |
 | `OpenCvSharp4.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
 | `OpenCvSharp4.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
-| `OpenCvSharp4.runtime.linux-arm` | Linux ARM |
+| `OpenCvSharp4.runtime.linux-arm64` | Linux ARM64 (AArch64) |
+| `OpenCvSharp4.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
 | `OpenCvSharp4.runtime.osx.10.15-x64` | macOS 10.15+ x64 |
 
 > **Note:** `OpenCvSharp4.official.runtime.ubuntu.22.04-x64`, `ubuntu.22.04-x64.slim`, `ubuntu.24.04-x64`, and `ubuntu.24.04-x64.slim` are **deprecated**. Migrate to the portable `linux-x64` packages.
+> **Note:** `OpenCvSharp4.runtime.linux-arm` has been renamed to `OpenCvSharp4.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp4.runtime.linux-arm64` directly.
 
 ## Slim Profile
 

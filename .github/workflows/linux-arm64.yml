@@ -1,4 +1,4 @@
-﻿name: Linux ARM
+﻿name: Linux ARM64
 
 on:
   pull_request:
@@ -57,7 +57,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm64.yml') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -103,8 +103,8 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
-      
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm64.yml') }}
+
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
@@ -132,23 +132,24 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Create NuGet package
-        env: 
+        env:
           BETA: "-beta"
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
-          
+
           cd ${GITHUB_WORKSPACE}
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm -p:Version=$version
-          
-          ls ${GITHUB_WORKSPACE}/artifacts_arm
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
+
+          ls ${GITHUB_WORKSPACE}/artifacts_arm64
 
       - uses: actions/upload-artifact@v6
         with:
-          name: artifacts_linux_arm
-          path: artifacts_arm
+          name: artifacts_linux_arm64
+          path: artifacts_arm64
         
       - name: Test
         run: |
