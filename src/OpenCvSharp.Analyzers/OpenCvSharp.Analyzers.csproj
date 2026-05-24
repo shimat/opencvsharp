@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
     <RootNamespace>OpenCvSharp.Analyzers</RootNamespace>
     <AssemblyName>OpenCvSharp.Analyzers</AssemblyName>
+    <!-- AssemblyVersion must be a valid major.minor.build.revision (each ≤ 65535).
+         The repo uses date-based Version (e.g. 4.13.0.20260524) which exceeds that limit,
+         so we pin the assembly version independently. -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <IsRoslynComponent>true</IsRoslynComponent>
     <!-- EnforceExtendedAnalyzerRules ensures the analyzer follows Roslyn analyzer best practices -->
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
