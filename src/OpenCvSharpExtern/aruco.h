@@ -266,7 +266,8 @@ CVAPI(ExceptionStatus) aruco_drawDetectedCornersCharuco(
 	MyCvScalar cornerColor)
 {
 	BEGIN_WRAP
-	const cv::_InputArray idArray = (ids != nullptr) ? cv::_InputArray(*ids) : cv::noArray();
+	cv::_InputArray idArray = cv::noArray();
+	if (ids != nullptr) idArray = *ids;
 	cv::aruco::drawDetectedCornersCharuco(*image, *corners, idArray, cpp(cornerColor));
 	END_WRAP
 }
@@ -317,8 +318,10 @@ CVAPI(ExceptionStatus) aruco_ArucoDetector_refineDetectedMarkers(
 	std::vector<int>* recoveredIdxs)
 {
 	BEGIN_WRAP
+	cv::_OutputArray recoveredIdxsArr = cv::noArray();
+	if (recoveredIdxs != nullptr) recoveredIdxsArr = *recoveredIdxs;
 	detector->refineDetectedMarkers(*image, *board, *detectedCorners, *detectedIds, *rejectedCorners,
-		entity(cameraMatrix), entity(distCoeffs), entity(recoveredIdxs));
+		entity(cameraMatrix), entity(distCoeffs), recoveredIdxsArr);
 	END_WRAP
 }
 
