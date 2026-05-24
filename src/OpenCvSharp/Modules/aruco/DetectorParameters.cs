@@ -60,10 +60,15 @@ public struct DetectorParameters
     public int MinDistanceToBorder = 3;
 
     /// <summary>
-    /// minimum mean distance between two marker corners to be considered similar, 
+    /// minimum mean distance between two marker corners to be considered similar,
     /// so that the smaller one is removed.The rate is relative to the smaller perimeter of the two markers(default 0.05).
     /// </summary>
     public double MinMarkerDistanceRate = 0.05;
+
+    /// <summary>
+    /// minimum average distance between the corners of the two markers in group to add them to the list of candidates (default 0.21).
+    /// </summary>
+    public float MinGroupDistance = 0.21f;
 
     /// <summary>
     /// corner refinement method.
@@ -76,6 +81,11 @@ public struct DetectorParameters
     /// window size for the corner refinement process (in pixels) (default 5).
     /// </summary>
     public int CornerRefinementWinSize = 5;
+
+    /// <summary>
+    /// Dynamic window size for corner refinement relative to Aruco module size (default 0.3).
+    /// </summary>
+    public float RelativeCornerRefinmentWinSize = 0.3f;
 
     /// <summary>
     /// maximum number of iterations for stop criteria of the corner refinement process(default 30).
