@@ -33,22 +33,19 @@ public class MatTest : TestBase
         using var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value));
         using var imgB = new Mat<byte>(img);
         var indexer = imgB.GetIndexer();
-#pragma warning disable CS0618
-        var genericIndexer = img.GetGenericIndexer<byte>();
-#pragma warning restore CS0618
         var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<byte>();
 
         Assert.Equal(value, indexer[0, 0]);
-        Assert.Equal(value, genericIndexer[0, 0]);
+        Assert.Equal(value, img.At<byte>(0, 0));
         Assert.Equal(value, unsafeGenericIndexer[0, 0]);
 
         Assert.Equal(value, indexer[5, 7]);
-        Assert.Equal(value, genericIndexer[5, 7]);
+        Assert.Equal(value, img.At<byte>(5, 7));
         Assert.Equal(value, unsafeGenericIndexer[5, 7]);
 
         indexer[3, 4] = 1;
         Assert.Equal(1, img.Get<byte>(3, 4));
-        genericIndexer[3, 4] = 2;
+        img.At<byte>(3, 4) = 2;
         Assert.Equal(2, img.Get<byte>(3, 4));
         unsafeGenericIndexer[3, 4] = 3;
         Assert.Equal(3, img.Get<byte>(3, 4));
@@ -63,23 +60,20 @@ public class MatTest : TestBase
         using var img = new Mat(new Size(10, 10), MatType.CV_64FC3, scalarValue);
         using var imgB = new Mat<Vec3d>(img);
         var indexer = imgB.GetIndexer();
-#pragma warning disable CS0618
-        var genericIndexer = img.GetGenericIndexer<Vec3d>();
-#pragma warning restore CS0618
         var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<Vec3d>();
 
         Assert.Equal(expectedValue, indexer[0, 0]);
-        Assert.Equal(expectedValue, genericIndexer[0, 0]);
+        Assert.Equal(expectedValue, img.At<Vec3d>(0, 0));
         Assert.Equal(expectedValue, unsafeGenericIndexer[0, 0]);
 
         Assert.Equal(expectedValue, indexer[5, 7]);
-        Assert.Equal(expectedValue, genericIndexer[5, 7]);
+        Assert.Equal(expectedValue, img.At<Vec3d>(5, 7));
         Assert.Equal(expectedValue, unsafeGenericIndexer[5, 7]);
 
         indexer[3, 4] = new Vec3d(2, 3, 4);
         Assert.Equal(new Vec3d(2, 3, 4), img.Get<Vec3d>(3, 4));
 
-        genericIndexer[3, 4] = new Vec3d(3, 4, 5);
+        img.At<Vec3d>(3, 4) = new Vec3d(3, 4, 5);
         Assert.Equal(new Vec3d(3, 4, 5), img.Get<Vec3d>(3, 4));
 
         unsafeGenericIndexer[3, 4] = new Vec3d(4, 5, 6);
