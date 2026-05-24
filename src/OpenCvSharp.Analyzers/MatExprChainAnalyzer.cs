@@ -65,7 +65,11 @@ public sealed class MatExprChainAnalyzer : DiagnosticAnalyzer
 
         // Flag only when this MatExpr is consumed immediately by another binary expression
         // without being assigned to a variable — that's the intermediate-temporary case.
+        // Unwrap any parentheses: (a + b) + c has a ParenthesizedExpressionSyntax between the
+        // inner binary and the outer one, but the semantics are identical.
         var parent = binary.Parent;
+        while (parent is ParenthesizedExpressionSyntax)
+            parent = parent.Parent;
         if (parent is BinaryExpressionSyntax or AssignmentExpressionSyntax { Left: not IdentifierNameSyntax })
         {
             var operatorToken = binary.OperatorToken.ToString();

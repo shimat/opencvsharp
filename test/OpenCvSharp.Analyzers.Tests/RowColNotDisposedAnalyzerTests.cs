@@ -17,6 +17,8 @@ public class RowColNotDisposedAnalyzerTests
                 public Mat Col(int x) => this;
                 public Mat RowRange(int start, int end) => this;
                 public Mat ColRange(int start, int end) => this;
+                public T At<T>(int i0) where T : struct => default;
+                public Mat Clone() => new Mat();
                 public void Dispose() { }
             }
         }
@@ -82,6 +84,32 @@ public class RowColNotDisposedAnalyzerTests
             }
         }
         """);
+
+    [Fact]
+    public Task ChainedAtCall_NoWarning() => Verify(
+        """
+        class Test
+        {
+            void M(OpenCvSharp.Mat mat)
+            {
+                int v = mat.Row(0).At<int>(3);
+            }
+        }
+        """);
+
+    [Fact]
+    public Task ChainedCloneCall_ReportsWarning() => Verify(
+        """
+        class Test
+        {
+            void M(OpenCvSharp.Mat mat)
+            {
+                var copy = {|#0:mat.Row(0)|}.Clone();
+            }
+        }
+        """,
+        DiagnosticResult.CompilerWarning(RowColNotDisposedAnalyzer.DiagnosticId)
+            .WithLocation(0).WithArguments("Row"));
 
     [Fact]
     public Task ColRangeWithoutUsing_ReportsWarning() => Verify(

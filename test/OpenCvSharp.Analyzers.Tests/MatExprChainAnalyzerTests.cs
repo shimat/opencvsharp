@@ -64,6 +64,20 @@ public class MatExprChainAnalyzerTests
         """);
 
     [Fact]
+    public Task ParenthesizedChain_ReportsWarning() => Verify(
+        """
+        class Test
+        {
+            void M(OpenCvSharp.Mat a, OpenCvSharp.Mat b, OpenCvSharp.Mat c)
+            {
+                OpenCvSharp.Mat result = ({|#0:a + b|}) + c;
+            }
+        }
+        """,
+        DiagnosticResult.CompilerWarning(MatExprChainAnalyzer.DiagnosticId)
+            .WithLocation(0).WithArguments("+"));
+
+    [Fact]
     public Task UsingMatExprVariable_NoWarning() => Verify(
         """
         class Test

@@ -79,6 +79,30 @@ public class RowColInLoopBodyAnalyzerTests
         """);
 
     [Fact]
+    public Task RowInForLoopCondition_NoWarning() => Verify(
+        """
+        class Test
+        {
+            void M(OpenCvSharp.Mat mat)
+            {
+                for (int i = 0; i < mat.Row(0).Rows; i++) { }
+            }
+        }
+        """);
+
+    [Fact]
+    public Task RowInForLoopInitializer_NoWarning() => Verify(
+        """
+        class Test
+        {
+            void M(OpenCvSharp.Mat mat)
+            {
+                for (var r = mat.Row(0); ; ) { }
+            }
+        }
+        """);
+
+    [Fact]
     public Task RowInNestedLambda_NoWarning() => Verify(
         """
         class Test

@@ -84,10 +84,12 @@ public sealed class RowColNotDisposedAnalyzer : DiagnosticAnalyzer
         if (parent is UsingStatementSyntax)
             return true;
 
-        // mat.Row(i).SomeMethod() — member access chain; OCVS001 handles the At<T> case,
-        // and a chained call generally means the caller is using the result.
-        // Skip to avoid double-warning.
-        if (parent is MemberAccessExpressionSyntax)
+        // mat.Row(i).At<T>(col) — OCVS001 already flags this exact pattern; skip here
+        // to avoid a double warning. Only At<T> is exempted; other chains like .Clone()
+        // still leak the submatrix and should be reported.
+        if (parent is MemberAccessExpressionSyntax chainedMa
+            && chainedMa.Parent is InvocationExpressionSyntax
+            && chainedMa.Name.Identifier.Text == "At")
             return true;
 
         // Passed as argument — caller is responsible

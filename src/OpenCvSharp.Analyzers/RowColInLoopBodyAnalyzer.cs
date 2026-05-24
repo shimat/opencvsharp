@@ -73,12 +73,18 @@ public sealed class RowColInLoopBodyAnalyzer : DiagnosticAnalyzer
                          or AnonymousMethodExpressionSyntax)
                 return false;
 
-            // Loop constructs
-            if (current is ForStatementSyntax
-                         or WhileStatementSyntax
-                         or DoStatementSyntax
-                         or ForEachStatementSyntax)
-                return true;
+            // Loop constructs: only flag when node is inside the loop body (Statement),
+            // not in the initializer, condition, or iterator of a for/foreach.
+            StatementSyntax? loopBody = current switch
+            {
+                ForStatementSyntax f       => f.Statement,
+                WhileStatementSyntax w     => w.Statement,
+                DoStatementSyntax d        => d.Statement,
+                ForEachStatementSyntax fe  => fe.Statement,
+                _                          => null,
+            };
+            if (loopBody is not null)
+                return loopBody.FullSpan.Contains(node.FullSpan);
         }
         return false;
     }
