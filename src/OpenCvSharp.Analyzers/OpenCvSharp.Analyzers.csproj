@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>12</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>OpenCvSharp.Analyzers</RootNamespace>
+    <AssemblyName>OpenCvSharp.Analyzers</AssemblyName>
+    <!-- AssemblyVersion must be a valid major.minor.build.revision (each ≤ 65535).
+         The repo uses date-based Version (e.g. 4.13.0.20260524) which exceeds that limit,
+         so we pin the assembly version independently. -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <!-- EnforceExtendedAnalyzerRules ensures the analyzer follows Roslyn analyzer best practices -->
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <!-- Suppress build output from the package; it goes into analyzers/ folder only -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- DiagnosticId, SupportedDiagnostics, Initialize are required overrides; XML comments not needed -->
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+</Project>

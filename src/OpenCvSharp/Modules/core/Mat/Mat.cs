@@ -1552,6 +1552,7 @@ public partial class Mat : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_Mat_row(CvPtr, y, out var matPtr));
+        GC.KeepAlive(this);
         return new Mat(matPtr);
     }
 
@@ -3118,6 +3119,8 @@ public partial class Mat : CvObject
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use At<T>(row, col) for occasional access, or AsRows<T>() for high-performance loops. " +
+              "GetGenericIndexer uses Marshal.PtrToStructure which is slower than both alternatives.")]
     public Indexer<T> GetGenericIndexer<T>() where T : struct
     {
         return new Indexer<T>(this);
@@ -3136,6 +3139,8 @@ public partial class Mat : CvObject
     /// Mat Indexer
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Obsolete("Use At<T>(row, col) for occasional access, or AsRows<T>() for high-performance loops. " +
+              "This class uses Marshal.PtrToStructure which is slower than both alternatives.")]
     public sealed class Indexer<T> : MatIndexer<T> where T : struct
     {
         private readonly long ptrVal;
@@ -3401,13 +3406,23 @@ public partial class Mat : CvObject
     }
 
     /// <summary>
-    /// Returns a value to the specified array element.
+    /// Returns a reference to the specified array element.
+    /// For 2D matrices, <paramref name="i0"/> is the row index (dimension 0).
+    /// Do NOT call this with a column index on a row-submatrix obtained from <see cref="Row"/>;
+    /// use <see cref="At{T}(int, int)"/> or <see cref="RowSpan{T}"/> instead.
+    /// For performance-sensitive pixel loops, prefer <see cref="AsRows{T}"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="i0">Index along the dimension 0</param>
-    /// <returns>A value to the specified array element.</returns>
+    /// <returns>A reference to the specified array element.</returns>
     public unsafe ref T At<T>(int i0) where T : unmanaged
     {
+#if DEBUG
+        if (Dims == 2 && Rows == 1 && Cols > 1)
+            throw new InvalidOperationException(
+                "At<T>(int) on a 1-row 2D matrix treats i0 as a row index, not a column index. " +
+                "Use At<T>(0, col) or RowSpan<T>(0) instead.");
+#endif
         var p = Ptr(i0);
         return ref Unsafe.AsRef<T>(p.ToPointer());
     }
@@ -4242,11 +4257,48 @@ public partial class Mat : CvObject
     #endregion
 
     /// <summary>
+    /// Returns a <see cref="Span{T}"/> over a single row of this matrix without allocating a submatrix object.
+    /// Padding bytes between rows are excluded from the span.
+    /// For iterating all rows in a loop, prefer <see cref="AsRows{T}"/> which captures the step once.
+    /// </summary>
+    /// <typeparam name="T">Element type. Must match the matrix element type.</typeparam>
+    /// <param name="row">Zero-based row index.</param>
+    /// <returns>A span covering the <paramref name="row"/>-th row.</returns>
+    public unsafe Span<T> RowSpan<T>(int row) where T : unmanaged
+    {
+        ThrowIfDisposed();
+        if (Dims != 2)
+            throw new InvalidOperationException("RowSpan is only supported for 2D matrices.");
+        if ((uint)row >= (uint)Rows)
+            throw new ArgumentOutOfRangeException(nameof(row));
+        var rowPtr = DataPointer + (nint)Step(0) * row;
+        return new Span<T>(rowPtr, Cols * ElemSize() / sizeof(T));
+    }
+
+    /// <summary>
+    /// Returns a <see cref="MatRowAccessor{T}"/> that provides efficient row-by-row access
+    /// with no P/Invoke per row or per element.
+    /// The data pointer, step, and dimensions are captured once; all indexing is pure pointer arithmetic.
+    /// </summary>
+    /// <typeparam name="T">Element type. Must match the matrix element type (e.g. <see cref="Vec3b"/> for CV_8UC3).</typeparam>
+    /// <returns>A <see cref="MatRowAccessor{T}"/> over this matrix.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the matrix is not 2-dimensional.</exception>
+    public unsafe MatRowAccessor<T> AsRows<T>() where T : unmanaged
+    {
+        ThrowIfDisposed();
+        if (Dims != 2)
+            throw new InvalidOperationException("AsRows is only supported for 2D matrices.");
+        var elemCount = Cols * ElemSize() / sizeof(T);
+        return new MatRowAccessor<T>((nint)DataPointer, (nint)Step(0), Rows, elemCount);
+    }
+
+    /// <summary>
     /// Creates a new span over the Mat.
+    /// The matrix must be continuous (<see cref="IsContinuous"/>); returns an empty span otherwise.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public unsafe Span<T> AsSpan<T>() where T : unmanaged  
+    public unsafe Span<T> AsSpan<T>() where T : unmanaged
         => IsContinuous() ? new Span<T>(DataPointer, (int)Total() * ElemSize() / sizeof(T)) : [];
 
     #endregion

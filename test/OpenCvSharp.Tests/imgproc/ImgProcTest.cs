@@ -543,13 +543,14 @@ public class ImgProcTest : TestBase
         if (height != expected.GetLength(0) || width != expected.GetLength(1))
             throw new ArgumentException("size mismatch");
 
-        var indexer = img.GetGenericIndexer<Vec3b>();
+        var rows = img.AsRows<Vec3b>();
         for (var y = 0; y < height; y++)
         {
+            var row = rows[y];
             for (var x = 0; x < width; x++)
             {
                 var expectedValue = expected[y, x];
-                var actualValue = indexer[y, x];
+                var actualValue = row[x];
                 Assert.True(
                     expectedValue == actualValue,
                     // ReSharper disable once UseStringInterpolation
