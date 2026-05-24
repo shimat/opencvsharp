@@ -19,7 +19,7 @@ public sealed class MatPropertyInLoopConditionAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor Rule = new(
         id: DiagnosticId,
         title: "Mat property accessed in loop condition",
-        messageFormat: "'{0}' is a P/Invoke call evaluated on every iteration. Cache the value before the loop: 'int {1} = mat.{0};'",
+        messageFormat: "'{0}' is a P/Invoke call on every iteration; cache it before the loop as 'int {1} = mat.{0};'",
         category: "Performance",
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,

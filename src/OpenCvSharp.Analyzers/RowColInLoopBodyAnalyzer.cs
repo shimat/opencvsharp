@@ -9,7 +9,7 @@ namespace OpenCvSharp.Analyzers;
 
 /// <summary>
 /// Detects <c>mat.Row()</c> or <c>mat.Col()</c> called inside a loop body,
-/// suggesting <see cref="Mat.AsRows{T}"/> or <c>AsCols&lt;T&gt;</c> as a zero-allocation alternative.
+/// suggesting <c>AsRows&lt;T&gt;()</c> or <c>AsCols&lt;T&gt;()</c> as a zero-allocation alternative.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class RowColInLoopBodyAnalyzer : DiagnosticAnalyzer

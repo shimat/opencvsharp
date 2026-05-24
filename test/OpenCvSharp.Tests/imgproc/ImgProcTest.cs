@@ -543,7 +543,9 @@ public class ImgProcTest : TestBase
         if (height != expected.GetLength(0) || width != expected.GetLength(1))
             throw new ArgumentException("size mismatch");
 
+#pragma warning disable CS0618
         var indexer = img.GetGenericIndexer<Vec3b>();
+#pragma warning restore CS0618
         for (var y = 0; y < height; y++)
         {
             for (var x = 0; x < width; x++)

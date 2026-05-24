@@ -33,7 +33,9 @@ public class MatTest : TestBase
         using var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value));
         using var imgB = new Mat<byte>(img);
         var indexer = imgB.GetIndexer();
+#pragma warning disable CS0618
         var genericIndexer = img.GetGenericIndexer<byte>();
+#pragma warning restore CS0618
         var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<byte>();
 
         Assert.Equal(value, indexer[0, 0]);
@@ -61,7 +63,9 @@ public class MatTest : TestBase
         using var img = new Mat(new Size(10, 10), MatType.CV_64FC3, scalarValue);
         using var imgB = new Mat<Vec3d>(img);
         var indexer = imgB.GetIndexer();
+#pragma warning disable CS0618
         var genericIndexer = img.GetGenericIndexer<Vec3d>();
+#pragma warning restore CS0618
         var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<Vec3d>();
 
         Assert.Equal(expectedValue, indexer[0, 0]);

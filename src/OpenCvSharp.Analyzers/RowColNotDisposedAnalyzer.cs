@@ -15,7 +15,7 @@ namespace OpenCvSharp.Analyzers;
 /// <remarks>
 /// These methods allocate a native submatrix object. Unlike <c>new Mat()</c> (which CA2000 flags),
 /// these look like simple accessors and are easy to overlook. The recommended alternative for
-/// iteration is <see cref="Mat.AsRows{T}"/> which avoids allocation entirely.
+/// iteration is <c>AsRows&lt;T&gt;()</c> which avoids allocation entirely.
 /// </remarks>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class RowColNotDisposedAnalyzer : DiagnosticAnalyzer

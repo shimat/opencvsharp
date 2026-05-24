@@ -334,8 +334,8 @@ public class ArucoTest : TestBase
             out var markerCorners, out var markerIds);
 
         // No markers or corners should be detected in a blank image
-        Assert.Equal(0, charucoIds.Length);
-        Assert.Equal(0, markerIds.Length);
+        Assert.Empty(charucoIds);
+        Assert.Empty(markerIds);
     }
 
     [Fact]

@@ -12,7 +12,7 @@ namespace OpenCvSharp.Analyzers;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <c>Mat</c> arithmetic operators return <c>MatExpr</c> (an <see cref="IDisposable"/> wrapper
+/// <c>Mat</c> arithmetic operators return <c>MatExpr</c> (an <see cref="System.IDisposable"/> wrapper
 /// around a native lazy-evaluation expression). In a chain such as <c>a + b + c</c>, the
 /// <c>MatExpr</c> produced by <c>a + b</c> is consumed by the second <c>+</c> and never disposed,
 /// leaving the native object to the GC finalizer.
