@@ -62,9 +62,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_SIFT_delete(IntPtr ptr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_SIFT_get(IntPtr ptr, out IntPtr returnValue);
-
     #endregion
 
     #region BRISK
@@ -93,9 +90,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_BRISK_delete(IntPtr ptr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_BRISK_get(IntPtr ptr, out IntPtr returnValue);
-
     #endregion
 
     #region ORB
@@ -107,9 +101,6 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_ORB_delete(IntPtr ptr);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_ORB_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_ORB_setMaxFeatures(IntPtr obj, int val);
@@ -170,9 +161,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus features2d_Ptr_MSER_delete(IntPtr ptr);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_MSER_get(IntPtr ptr, out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_MSER_detectRegions(
         IntPtr obj, IntPtr image, IntPtr msers, IntPtr bboxes);
 
@@ -211,9 +199,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus features2d_Ptr_FastFeatureDetector_delete(IntPtr ptr);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_FastFeatureDetector_get(IntPtr ptr, out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_FastFeatureDetector_setThreshold(IntPtr obj, int threshold);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_FastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
@@ -244,9 +229,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus features2d_Ptr_AgastFeatureDetector_delete(IntPtr ptr);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_AgastFeatureDetector_get(IntPtr ptr, out IntPtr returnValue);
-        
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_AgastFeatureDetector_setThreshold(IntPtr obj, int val);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_AgastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
@@ -268,9 +250,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_GFTTDetector_create(int maxCorners, double qualityLevel, 
         double minDistance, int blockSize, int useHarrisDetector, double k, out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_GFTTDetector_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_GFTTDetector_delete(IntPtr ptr);
@@ -316,9 +295,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_SimpleBlobDetector_delete(IntPtr ptr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_SimpleBlobDetector_get(IntPtr ptr, out IntPtr returnValue);
-
     #endregion
 
     #region KAZE
@@ -330,9 +306,6 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_KAZE_delete(IntPtr ptr);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_KAZE_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_KAZE_setDiffusivity(IntPtr obj, int val);
@@ -375,9 +348,6 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_AKAZE_delete(IntPtr ptr);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features2d_Ptr_AKAZE_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_AKAZE_setDescriptorType(IntPtr obj, int val);
