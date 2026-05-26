@@ -4,12 +4,14 @@ namespace OpenCvSharp.Tests.Photo;
 
 public class MergeExposuresTest : TestBase
 {
+#pragma warning disable CA2000
     private static Mat[] CreateExposureImages() =>
     [
         new Mat(100, 100, MatType.CV_8UC3, new Scalar(64, 64, 64)),
         new Mat(100, 100, MatType.CV_8UC3, new Scalar(128, 128, 128)),
         new Mat(100, 100, MatType.CV_8UC3, new Scalar(192, 192, 192)),
     ];
+#pragma warning restore CA2000
 
     #region MergeDebevec
 
