@@ -68,8 +68,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus photo_CalibrateCRF_process(
         IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times);
 
-    // TODO Exception Handling
-
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus photo_createMergeDebevec(out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -85,9 +83,9 @@ static partial class NativeMethods
     public static extern ExceptionStatus photo_Ptr_MergeMertens_get(IntPtr obj, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void photo_MergeExposures_process(
+    public static extern ExceptionStatus photo_MergeExposures_process(
         IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times, IntPtr response);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_MergeMertens_process(IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst);
+    public static extern ExceptionStatus photo_MergeMertens_process(IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst);
 }

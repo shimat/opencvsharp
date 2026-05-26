@@ -146,67 +146,70 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
     END_WRAP
 }
 
-// TODO Exception Handling
-
-CVAPI(cv::Ptr<cv::MergeDebevec>*) photo_createMergeDebevec()
+CVAPI(ExceptionStatus) photo_createMergeDebevec(cv::Ptr<cv::MergeDebevec>** returnValue)
 {
-    return clone(cv::createMergeDebevec());
+    BEGIN_WRAP
+    *returnValue = clone(cv::createMergeDebevec());
+    END_WRAP
 }
-CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj, cv::MergeDebevec **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
+CVAPI(ExceptionStatus) photo_createMergeMertens(cv::Ptr<cv::MergeMertens>** returnValue)
 {
-    return clone(cv::createMergeMertens());
+    BEGIN_WRAP
+    *returnValue = clone(cv::createMergeMertens());
+    END_WRAP
 }
-CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj, cv::MergeMertens **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(void) photo_MergeExposures_process(
+CVAPI(ExceptionStatus) photo_MergeExposures_process(
     cv::MergeExposures* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
 {
-    // Build Mat Vector of images
+    BEGIN_WRAP
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
-
-    // Build float Vector of times
     std::vector<float> times_vec(srcImgsLength);
-
     for (int i = 0; i < srcImgsLength; i++) {
         srcImgsVec[i] = *srcImgs[i];
         times_vec[i] = times[i];
     }
-
     obj->process(srcImgsVec, *dst, times_vec, *response);
+    END_WRAP
 }
 
-CVAPI(void) photo_MergeMertens_process(
+CVAPI(ExceptionStatus) photo_MergeMertens_process(
     cv::MergeMertens* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
 {
-    // Build Mat Vector of images
+    BEGIN_WRAP
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
-
-    // Build float Vector of times
-    std::vector<float> times_vec(srcImgsLength);
-
     for (int i = 0; i < srcImgsLength; i++) {
         srcImgsVec[i] = *srcImgs[i];
     }
-
     obj->process(srcImgsVec, *dst);
+    END_WRAP
 }
 
 #endif // NO_PHOTO

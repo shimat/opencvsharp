@@ -48,7 +48,8 @@ public sealed class MergeMertens : MergeExposures
 
         var srcArray = src.Select(s => s.CvPtr).ToArray();
 
-        NativeMethods.photo_MergeMertens_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr);
+        NativeMethods.HandleException(
+            NativeMethods.photo_MergeMertens_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
