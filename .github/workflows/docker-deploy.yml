@@ -39,9 +39,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Build and push Docker image
-        id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          context: docker/${{ env.DOCKER_IMAGE_NAME1 }}
+          context: .
+          file: docker/${{ env.DOCKER_IMAGE_NAME1 }}/Dockerfile
           push: true
           tags: ghcr.io/shimat/opencvsharp/${{ env.DOCKER_IMAGE_NAME1 }}:${{ github.event.inputs.docker_image_tag }}
