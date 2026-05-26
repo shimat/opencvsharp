@@ -152,26 +152,34 @@ CVAPI(cv::Ptr<cv::MergeDebevec>*) photo_createMergeDebevec()
 {
     return clone(cv::createMergeDebevec());
 }
-CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj, cv::MergeDebevec **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
 CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
 {
     return clone(cv::createMergeMertens());
 }
-CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
+CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj, cv::MergeMertens **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
 CVAPI(void) photo_MergeExposures_process(
