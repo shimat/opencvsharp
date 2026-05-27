@@ -46,11 +46,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Include the analyzer in this package under analyzers/dotnet/cs/ -->
+    <!-- OutputItemType="Analyzer" enables the analyzer during in-solution builds.
+         The None item below is also required to place the DLL under analyzers/dotnet/cs/
+         inside the NuGet package; OutputItemType alone does not trigger packaging. -->
     <ProjectReference Include="..\OpenCvSharp.Analyzers\OpenCvSharp.Analyzers.csproj"
                       ReferenceOutputAssembly="false"
                       OutputItemType="Analyzer"
                       SetTargetFramework="TargetFramework=netstandard2.0" />
+    <None Include="..\OpenCvSharp.Analyzers\bin\$(Configuration)\netstandard2.0\OpenCvSharp.Analyzers.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
