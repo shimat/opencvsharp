@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "schedule": ["before 9am on Monday"],
+  "packageRules": [
+    {
+      "description": "Group xunit packages",
+      "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Xunit.StaFact"],
+      "groupName": "xunit"
+    },
+    {
+      "description": "Group SixLabors packages",
+      "matchPackageNames": ["SixLabors.ImageSharp", "SixLabors.ImageSharp.Drawing"],
+      "groupName": "SixLabors.ImageSharp"
+    },
+    {
+      "description": "Group GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    }
+  ]
+}
