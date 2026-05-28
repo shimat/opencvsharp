@@ -217,9 +217,10 @@ jobs:
           Write-Host "Security hardening verified: no actionable failures."
 
       - name: Pack NuGet packages
-        shell: powershell
+        shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
 
           $date = Get-Date -Format "yyyyMMdd"
           $version = "${env:OPENCV_VERSION}.${date}-beta"
