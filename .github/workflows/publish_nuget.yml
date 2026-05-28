@@ -53,18 +53,39 @@ jobs:
       - run: |
           ls -l
 
-      - name: Validate windows slim packages exist
+      - name: Validate expected packages exist
         run: |
           set -euo pipefail
 
-          runtime_count=$(find "$PWD" -type f -name "OpenCvSharp4.runtime.win.slim*.nupkg" | wc -l)
-          windows_slim_count=$(find "$PWD" -type f -name "OpenCvSharp4.Windows.Slim*.nupkg" | wc -l)
+          failed=0
+          check_package() {
+            local pattern="$1"
+            local count
+            count=$(find "$PWD" -maxdepth 4 -type f -name "${pattern}" | wc -l)
+            if [ "$count" -eq 0 ]; then
+              echo "MISSING: $pattern"
+              failed=$((failed + 1))
+            else
+              echo "OK: $pattern"
+            fi
+          }
 
-          if [ "$runtime_count" -eq 0 ] || [ "$windows_slim_count" -eq 0 ]; then
-            echo "Expected Windows slim NuGet packages were not found in downloaded artifacts."
-            echo "runtime.win.slim count: $runtime_count"
-            echo "Windows.Slim count: $windows_slim_count"
-            echo "Detected .nupkg files:"
+          check_package "OpenCvSharp4.4.*.nupkg"
+          check_package "OpenCvSharp4.Extensions.*.nupkg"
+          check_package "OpenCvSharp4.WpfExtensions.*.nupkg"
+          check_package "OpenCvSharp4.runtime.win.[0-9]*.nupkg"
+          check_package "OpenCvSharp4.runtime.win.slim.*.nupkg"
+          check_package "OpenCvSharp4.Windows.[0-9]*.nupkg"
+          check_package "OpenCvSharp4.Windows.Slim.*.nupkg"
+          check_package "OpenCvSharp4.runtime.linux-arm.*.nupkg"
+          check_package "OpenCvSharp4.runtime.linux-arm64.*.nupkg"
+          check_package "OpenCvSharp4.runtime.wasm.*.nupkg"
+          check_package "OpenCvSharp4.official.runtime.linux-x64.[0-9]*.nupkg"
+          check_package "OpenCvSharp4.official.runtime.linux-x64.slim.*.nupkg"
+
+          if [ "$failed" -gt 0 ]; then
+            echo ""
+            echo "ERROR: $failed expected package(s) not found. Detected .nupkg files:"
             find "$PWD" -maxdepth 4 -type f -name "*.nupkg" -print
             exit 1
           fi
