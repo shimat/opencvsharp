@@ -227,19 +227,27 @@ jobs:
 
           # Pack main libraries (dotnet pack triggers build implicitly)
           dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
           # Pack runtime packages
           dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet pack nuget/OpenCvSharp4.runtime.win.slim.csproj -o artifacts -p:Version=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
           # Add local artifacts as NuGet source for meta-package
           dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
           # Pack meta-package (depends on packages built above)
           dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet pack nuget/OpenCvSharp4.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Run ReleaseMaker
         shell: powershell
