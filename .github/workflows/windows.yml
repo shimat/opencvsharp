@@ -119,6 +119,10 @@ jobs:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
+      - name: List opencv_artifacts directory structure
+        shell: pwsh
+        run: Get-ChildItem -Recurse "$env:GITHUB_WORKSPACE/opencv_artifacts" -Filter "*.dll" | Select-Object FullName
+
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
       #- name: Install Server-Media-Foundation
