@@ -1,4 +1,4 @@
-// Dev container that reproduces the manylinux_2_28 CI build environment.
+﻿// Dev container that reproduces the manylinux_2_28 CI build environment.
 // Workspace is bind-mounted at /work. All build caches live inside the container.
 //
 // On first container creation, postCreateCommand runs build_extern.sh which does:

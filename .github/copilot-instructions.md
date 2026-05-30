@@ -1,4 +1,4 @@
-﻿# Copilot Instructions
+﻿﻿# Copilot Instructions
 
 ## File encoding
 
@@ -7,10 +7,9 @@ All source files in this repository use **UTF-8 with BOM** (`EF BB BF`).
 When creating or editing files, always save them as UTF-8 with BOM. This applies to `.cs`, `.csproj`, `.yml`, `.md`, `.json`, and all other text files.
 
 **Exception — Linux tooling files: use UTF-8 without BOM.**
-The following file types are processed by Linux tools (Docker, bash, VS Code Dev Containers) that do not tolerate a BOM and must be saved **without** BOM:
+The following file types are processed by Linux tools (Docker, bash) that do not tolerate a BOM and must be saved **without** BOM:
 - `Dockerfile` and any file named `*.Dockerfile`
 - Shell scripts (`.sh`)
-- `devcontainer.json` and all files under `.devcontainer/`
 
 Do **not** save files as UTF-8 without BOM, ANSI, or Shift-JIS — doing so will corrupt Japanese content and break Visual Studio / MSBuild tooling (for the files above that require BOM).
 
