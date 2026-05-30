@@ -20,21 +20,26 @@ Maintain correct encoding **during each edit/create step** — do not correct it
 
 Do not rely on a final "bulk conversion/check" step at the end of the task.
 
-**Important:** The `create_file` tool does **not** interpret `\uFEFF` in the content string as BOM bytes — it writes the literal six characters `\uFEFF`. Never place `\uFEFF` (or any Unicode escape for U+FEFF) directly in the `content` parameter. Instead, create the file first (BOM-free), then immediately apply the PowerShell conversion command below for files that require BOM.
+**⚠️ AI assistants frequently forget the BOM on newly created files.** Every time you create a new file (`.cs`, `.md`, `.csproj`, `.yml`, `.json`, etc.), apply the BOM conversion right away — including `CLAUDE.md`, files under `docs/`, `src/`, `nuget/`, and anywhere else in the repo. There are no exceptions for "small" or "documentation-only" files.
+
+**Important:** The `Write` / `create_file` tool always creates files without BOM. Never assume a newly created file has BOM. Always apply the PowerShell command below immediately after creating any file that requires BOM:
+
+```powershell
+$enc = New-Object System.Text.UTF8Encoding $true
+[System.IO.File]::WriteAllText("path\to\file", [System.IO.File]::ReadAllText("path\to\file"), $enc)
+```
 
 ### Verification
 
 Do not run the verification/conversion commands on every edit by default.
 Prevent encoding issues through edit/create operations that preserve UTF-8 BOM.
 Run the commands below only when preservation cannot be guaranteed or when troubleshooting is required.
+```powershell
 # Check whether a file has UTF-8 BOM
 $b = [System.IO.File]::ReadAllBytes("path\to\file")
 $b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF   # should be True
+```
 
-# Convert a file to UTF-8 with BOM
-$enc = New-Object System.Text.UTF8Encoding $true
-$content = [System.IO.File]::ReadAllText("path\to\file", [System.Text.Encoding]::UTF8)
-[System.IO.File]::WriteAllText("path\to\file", $content, $enc)
 ## NuGet README sync
 
 When editing the root `README.md`, also update the NuGet-specific README files accordingly.
@@ -184,3 +189,30 @@ From `namespace OpenCvSharp.Internal`, types in `namespace OpenCvSharp` are dire
 
 See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, std::vector methods, nested Params struct with bool fields, and VectorOfVec6d.
 
+## Repository structure
+
+OpenCvSharp has three layers:
+
+- **`src/OpenCvSharp/`** — managed C# wrapper (P/Invoke, types, extension methods). Target frameworks: `netstandard2.0`, `netstandard2.1`, `net8.0`. Always verify that any change is consistent across all three.
+- **`src/OpenCvSharpExtern/`** — thin C++ bridge called by the C# side via P/Invoke.
+- **`nuget/`** — NuGet packaging projects (runtime packages that bundle the native DLLs).
+
+## Versioning and release process
+
+See `docs/release-process.md` for the full release workflow.
+
+**Key rule: do not edit version numbers in source files for routine releases.** The NuGet package version is passed via `-p:Version=...` at pack time in CI. `AssemblyVersion` and `FileVersion` are hardcoded to `4.0.0.0` in `src/Directory.Build.props` and must not be changed for patch or minor OpenCV upgrades — only bump the major component on a breaking API change or OpenCV major-version upgrade. `InformationalVersion` is set automatically by the SDK to the full NuGet version string.
+
+## Native DLL loading (Windows)
+
+`WindowsLibraryLoader` (`src/OpenCvSharp/Internal/PInvoke/WindowsLibraryLoader.cs`) handles native DLL loading on Windows for .NET Framework targets:
+
+- Uses `AppContext.BaseDirectory` (not `Assembly.Location`) to avoid IL3000 warnings in AoT/single-file apps.
+- For .NET Framework (net4x), looks for DLLs under `dll/x64/` relative to the base directory. The NuGet `.props` file copies DLLs there at build time.
+- For .NET 5+, returns early — the .NET runtime handles native loading via the `runtimes/` folder layout.
+
+The NuGet runtime packages (`nuget/OpenCvSharp4.runtime.win.*`) include a `.targets` file that suppresses the redundant copy NuGet's PackageReference pipeline would otherwise make to the output root for net4x consumers.
+
+## Issue backlog
+
+`docs/issue-backlog.md` tracks actionable issues identified from closed/stale GitHub issues. Update the checkboxes as items are resolved.
