@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -136,19 +135,13 @@ public sealed class WindowsLibraryLoader
                     if (dllHandle != IntPtr.Zero) return;
                 }
 
-                // Try loading from executing assembly domain
-                var executingAssembly = GetType().GetTypeInfo().Assembly;
-                var baseDirectory = Path.GetDirectoryName(executingAssembly.Location) ?? "";
-                dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                if (dllHandle != IntPtr.Zero) return;
-
                 // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
+                // AppContext.BaseDirectory is preferred over Assembly.Location because the latter returns an empty
+                // string in single-file / AoT published apps and triggers IL3000 trimming warnings.
                 // https://github.com/dotnet/corefx/issues/2221
-#if !NET40
-                baseDirectory = AppContext.BaseDirectory;
+                var baseDirectory = AppContext.BaseDirectory;
                 dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                 if (dllHandle != IntPtr.Zero) return;
-#endif
 
                 // Finally try the working directory
                 baseDirectory = Path.GetFullPath(Directory.GetCurrentDirectory());
