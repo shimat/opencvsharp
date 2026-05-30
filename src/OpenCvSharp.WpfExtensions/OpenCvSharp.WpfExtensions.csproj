@@ -26,8 +26,6 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AssemblyVersion>4.13.0.0</AssemblyVersion>
-    <FileVersion>4.13.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>

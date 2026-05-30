@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      AssemblyVersion is pinned to the major version (4.0.0.0) to avoid breaking
+      strong-named binding for .NET Framework consumers. Bumping AssemblyVersion on
+      every release would require consumers to add binding redirects in app.config,
+      which is a breaking change.
+
+      FileVersion is also pinned to 4.0.0.0 because the date-based 4th component
+      used in NuGet package versions (e.g. 4.13.0.20260530) exceeds the 65535
+      per-component limit of the Windows FILEVERSION PE resource.
+
+      InformationalVersion is NOT set here; the .NET SDK automatically populates it
+      with $(Version) (e.g. "4.13.0.20260530-beta+<commitsha>") at pack/build time,
+      which is the human-readable version visible in file properties ("Product version")
+      and most tooling.
+
+      Individual projects may override these values when they have specific requirements
+      (e.g. OpenCvSharp.Analyzers pins to 1.0.0.0 independently).
+    -->
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+  </PropertyGroup>
+</Project>
