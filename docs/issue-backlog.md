@@ -1,4 +1,4 @@
-# Issue Backlog
+﻿# Issue Backlog
 
 > Last updated: 2026-05-30  
 > Scope: issues closed as stale that appear actionable, plus open issues under investigation.
@@ -42,12 +42,12 @@ Check off items as they are resolved.
 
 ---
 
-### [ ] #1753 — `NativeMethods` static constructor fires too early
+### [x] #1753 — `NativeMethods` static constructor fires too early
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1753
 - **Root cause**: `NativeMethods` calls `TryPInvoke` in its static constructor, which runs before user code has a chance to register a custom `NativeLibrary.SetDllImportResolver`. Custom native loaders therefore cannot intercept the first P/Invoke.
-- **Fix**: Switch to lazy initialization, or expose a public `Initialize()` method that users can call before any OpenCvSharp type is first referenced.
+- **Fix**: Removed the automatic `TryPInvoke()` call from `NativeMethods`' static constructor. `TryPInvoke()` remains public for explicit opt-in validation but is no longer called automatically. Users can now register `NativeLibrary.SetDllImportResolver` (via `typeof(NativeMethods).Assembly`) before any OpenCvSharp API call, then optionally call `NativeMethods.TryPInvoke()` for pre-flight validation.
 - **Effort**: Medium
 
 ---
