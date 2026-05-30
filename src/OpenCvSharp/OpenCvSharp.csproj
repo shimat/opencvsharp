@@ -21,9 +21,6 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AssemblyVersion>4.13.0.0</AssemblyVersion>
-    <FileVersion>4.13.0.0</FileVersion>
-    
     <!-- NuGet Package Metadata -->
     <Title>OpenCvSharp core library. A package of separate native bindings for your OS is required.</Title>
     <Authors>shimat</Authors>

@@ -9,7 +9,7 @@ Check off items as they are resolved.
 
 ## ✅ Quick wins (small, self-contained fixes)
 
-### [ ] #1766 — IL3000 warning with PublishTrimmed / PublishAoT
+### [x] #1766 — IL3000 warning with PublishTrimmed / PublishAoT
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1766
@@ -23,9 +23,10 @@ Check off items as they are resolved.
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1704
-- **Root cause**: `AssemblyVersion` and `FileVersion` in the managed assemblies are not aligned with the NuGet package version, which breaks Windows Installer upgrade detection.
-- **Fix**: Set `<AssemblyVersion>` and `<FileVersion>` to `$(Version)` in `Directory.Build.props`.
-- **Effort**: Low
+- **Root cause**: `AssemblyVersion` and `FileVersion` were not aligned with the NuGet package version. The csproj now has them hardcoded to `4.13.0.0`, so the `0.0.0.0` symptom may already be resolved. The remaining issue is that these values must be updated manually on each release.
+- **Note**: Because OpenCvSharp is a strong-named assembly (`SignAssembly=true`), bumping `AssemblyVersion` on every release would be a breaking change for .NET Framework consumers (binding redirects required). The recommended approach is to keep `AssemblyVersion` pinned to the major version (e.g. `4.0.0.0`) and only align `FileVersion` / `InformationalVersion` with the NuGet package version automatically via CI.
+- **Fix**: Keep `AssemblyVersion` at `4.0.0.0` (major-pinned); automate `FileVersion` and `InformationalVersion` from `$(Version)` in the release pipeline.
+- **Effort**: Low–Medium
 
 ---
 
