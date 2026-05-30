@@ -32,7 +32,7 @@ Check off items as they are resolved.
 
 ## 🔧 Medium effort
 
-### [ ] #1765 — Native DLLs copied twice when targeting .NET Framework 4.8
+### [x] #1765 — Native DLLs copied twice when targeting .NET Framework 4.8
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1765
