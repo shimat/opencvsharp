@@ -42,7 +42,7 @@ Check off items as they are resolved.
 
 ---
 
-### [ ] #1753 — `NativeMethods` static constructor fires too early
+### [x] #1753 — `NativeMethods` static constructor fires too early
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1753
