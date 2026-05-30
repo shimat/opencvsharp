@@ -19,7 +19,7 @@ Check off items as they are resolved.
 
 ---
 
-### [ ] #1704 — Assembly version reported as `0.0.0.0`
+### [x] #1704 — Assembly version reported as `0.0.0.0`
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1704
