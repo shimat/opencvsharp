@@ -184,3 +184,31 @@ From `namespace OpenCvSharp.Internal`, types in `namespace OpenCvSharp` are dire
 
 See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, std::vector methods, nested Params struct with bool fields, and VectorOfVec6d.
 
+## Repository structure
+
+OpenCvSharp has three layers:
+
+- **`src/OpenCvSharp/`** — managed C# wrapper (P/Invoke, types, extension methods). Target frameworks: `netstandard2.0`, `netstandard2.1`, `net8.0`. Always verify that any change is consistent across all three.
+- **`src/OpenCvSharpExtern/`** — thin C++ bridge called by the C# side via P/Invoke.
+- **`nuget/`** — NuGet packaging projects (runtime packages that bundle the native DLLs).
+
+## Versioning and release process
+
+See `docs/release-process.md` for the full release workflow.
+
+**Key rule: do not edit version numbers in source files for routine releases.** The NuGet package version is passed via `-p:Version=...` at pack time in CI. `AssemblyVersion` and `FileVersion` are hardcoded to `4.0.0.0` in `src/Directory.Build.props` and must not be changed for patch or minor OpenCV upgrades — only bump the major component on a breaking API change or OpenCV major-version upgrade. `InformationalVersion` is set automatically by the SDK to the full NuGet version string.
+
+## Native DLL loading (Windows)
+
+`WindowsLibraryLoader` (`src/OpenCvSharp/Internal/PInvoke/WindowsLibraryLoader.cs`) handles native DLL loading on Windows for .NET Framework targets:
+
+- Uses `AppContext.BaseDirectory` (not `Assembly.Location`) to avoid IL3000 warnings in AoT/single-file apps.
+- For .NET Framework (net4x), looks for DLLs under `dll/x64/` relative to the base directory. The NuGet `.props` file copies DLLs there at build time.
+- For .NET 5+, returns early — the .NET runtime handles native loading via the `runtimes/` folder layout.
+
+The NuGet runtime packages (`nuget/OpenCvSharp4.runtime.win.*`) include a `.targets` file that suppresses the redundant copy NuGet's PackageReference pipeline would otherwise make to the output root for net4x consumers.
+
+## Issue backlog
+
+`docs/issue-backlog.md` tracks actionable issues identified from closed/stale GitHub issues. Update the checkboxes as items are resolved.
+
