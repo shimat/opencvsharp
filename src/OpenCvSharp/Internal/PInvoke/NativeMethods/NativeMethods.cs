@@ -44,9 +44,6 @@ public static partial class NativeMethods
     static NativeMethods()
     {
         LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
-
-        // call cv to enable redirecting 
-        TryPInvoke();
     }
 
 #pragma warning disable CA1801
@@ -99,7 +96,9 @@ public static partial class NativeMethods
     }
 
     /// <summary>
-    /// Checks whether PInvoke functions can be called
+    /// Checks whether PInvoke functions can be called and throws a descriptive exception if not.
+    /// This method is not called automatically. Call it explicitly for pre-flight validation
+    /// after setting up any custom native library loading (e.g. NativeLibrary.SetDllImportResolver).
     /// </summary>
     public static void TryPInvoke()
     {
