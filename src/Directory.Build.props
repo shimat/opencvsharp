@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <!--
       AssemblyVersion is pinned to the major version (4.0.0.0) to avoid breaking
