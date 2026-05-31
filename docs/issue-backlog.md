@@ -74,13 +74,11 @@ Check off items as they are resolved.
 
 ---
 
-### [ ] #1737 — Camera calibration with `CharucoBoard` not supported
+### [x] #1737 — Camera calibration with `CharucoBoard` not supported
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1737
-- **Note**: A community fork (`xavave`) has implemented this and can serve as a reference.
-- **Fix**: Add wrappers for `CharucoBoard` and the `Cv2.Aruco.CalibrateCamera` overloads in the aruco module.
-- **Effort**: Large
+- **Resolution**: `CharucoBoard` and `CharucoDetector` are now implemented (`src/OpenCvSharp/Modules/aruco/`). The original request (instantiating a `CharucoBoard`) is fully addressed. A dedicated aruco `CalibrateCamera` overload is not wrapped, but `Cv2.CalibrateCamera` from the `calib3d` module serves as a drop-in alternative.
 
 ---
 
