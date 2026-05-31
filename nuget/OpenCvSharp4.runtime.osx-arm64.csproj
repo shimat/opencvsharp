@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
     <!-- NuGet Package Metadata -->
-    <PackageId>SlideGenerator.OpenCvSharp4.runtime.linux-arm64</PackageId>
-    <Title>OpenCvSharp native bindings for Linux ARM64</Title>
+    <PackageId>SlideGenerator.OpenCvSharp4.runtime.osx-arm64</PackageId>
+    <Title>OpenCvSharp native bindings for macOS ARM64 (Apple Silicon)</Title>
     <Authors>thnhmai06</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Native OpenCvSharpExtern bindings for Linux ARM64. Slim build targeting YuNet face detection (core, imgproc, imgcodecs, dnn, objdetect).</Description>
-    <PackageTags>Image Processing OpenCV Wrapper opencvsharp linux arm64 aarch64 YuNet SlideGenerator</PackageTags>
+    <Description>Native OpenCvSharpExtern bindings for macOS ARM64. Slim build targeting YuNet face detection (core, imgproc, imgcodecs, dnn, objdetect).</Description>
+    <PackageTags>Image Processing OpenCV Wrapper opencvsharp macos arm64 apple silicon YuNet SlideGenerator</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp.git</RepositoryUrl>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/linux-arm64/native/" />
+    <None Include="libOpenCvSharpExtern.dylib" Pack="true" PackagePath="runtimes/osx-arm64/native" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>

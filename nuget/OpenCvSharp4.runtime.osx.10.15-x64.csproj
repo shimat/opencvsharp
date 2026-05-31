@@ -5,17 +5,17 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.osx.10.15-x64</PackageId>
-    <Title>OpenCvSharp native bindings for macOS.10.15-x64</Title>
-    <Authors>shimat,vladkol</Authors>
+    <PackageId>SlideGenerator.OpenCvSharp4.runtime.osx-x64</PackageId>
+    <Title>OpenCvSharp native bindings for macOS x64</Title>
+    <Authors>thnhmai06</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Internal implementation package for OpenCvSharp to work on macOS 10</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp macos</PackageTags>
+    <Description>Native OpenCvSharpExtern bindings for macOS x64. Slim build targeting YuNet face detection (core, imgproc, imgcodecs, dnn, objdetect).</Description>
+    <PackageTags>Image Processing OpenCV Wrapper opencvsharp macos x64 YuNet SlideGenerator</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.runtime.md</PackageReadmeFile>

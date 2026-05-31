@@ -5,31 +5,24 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.win</PackageId>
-    <Title>OpenCvSharp4 native bindings for Windows x64 (except UWP)</Title>
-    <Authors>shimat</Authors>
+    <PackageId>SlideGenerator.OpenCvSharp4.runtime.win-x64</PackageId>
+    <Title>OpenCvSharp native bindings for Windows x64</Title>
+    <Authors>thnhmai06</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Internal implementation package for OpenCvSharp to work on Windows except UWP.</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows</PackageTags>
+    <Description>Native OpenCvSharpExtern bindings for Windows x64. Slim build targeting YuNet face detection (core, imgproc, imgcodecs, dnn, objdetect).</Description>
+    <PackageTags>Image Processing OpenCV Wrapper opencvsharp windows x64 YuNet SlideGenerator</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/thnhmai06/SlideGenerator.OpenCvSharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="../src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
-    <None Include="../opencv_artifacts/x64/vc17/bin/opencv_videoio_ffmpeg4130_64.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>

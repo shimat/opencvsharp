@@ -1,0 +1,279 @@
+name: SlideGenerator Runtimes
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "NuGet package version (e.g. 4.13.0.20260531 or 0.0.1-test)"
+        required: true
+        default: "0.0.1-test"
+      push:
+        description: "Push packages to GitHub Packages"
+        type: boolean
+        default: false
+  push:
+    branches:
+      - main
+
+env:
+  OPENCV_VERSION: "4.13.0"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: win-x64
+            os: windows-2025
+            cmake_arch: x64
+            csproj: OpenCvSharp4.runtime.win.csproj
+            libsrc: src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+            libdest: nuget/OpenCvSharpExtern.dll
+
+          - rid: win-arm64
+            os: windows-11-arm
+            cmake_arch: ARM64
+            csproj: OpenCvSharp4.runtime.win-arm64.csproj
+            libsrc: src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+            libdest: nuget/OpenCvSharpExtern.dll
+
+          - rid: linux-x64
+            os: ubuntu-22.04
+            csproj: OpenCvSharp4.official.runtime.linux-x64.csproj
+            libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so
+            libdest: nuget/libOpenCvSharpExtern.so
+
+          - rid: linux-arm64
+            os: ubuntu-24.04-arm
+            csproj: OpenCvSharp4.runtime.linux-arm64.csproj
+            libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so
+            libdest: nuget/libOpenCvSharpExtern.so
+
+          - rid: osx-x64
+            os: macos-13
+            osx_arch: x86_64
+            csproj: OpenCvSharp4.runtime.osx.10.15-x64.csproj
+            libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib
+            libdest: nuget/libOpenCvSharpExtern.dylib
+
+          - rid: osx-arm64
+            os: macos-14
+            osx_arch: arm64
+            csproj: OpenCvSharp4.runtime.osx-arm64.csproj
+            libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib
+            libdest: nuget/libOpenCvSharpExtern.dylib
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 1
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      # ── Linux deps ────────────────────────────────────────────────
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build g++ pkg-config
+
+      # ── macOS deps ────────────────────────────────────────────────
+      - name: Install macOS build deps
+        if: runner.os == 'macOS'
+        run: brew install ninja protobuf pkg-config
+
+      # ── Cache OpenCV ──────────────────────────────────────────────
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-yunet-${{ env.OPENCV_VERSION }}-${{ matrix.rid }}-${{ hashFiles('cmake/opencv_build_options_yunet.cmake') }}
+
+      # ── Configure OpenCV (Windows) ────────────────────────────────
+      - name: Configure OpenCV (Windows)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          cmake `
+            -C cmake/opencv_build_options_yunet.cmake `
+            -S opencv `
+            -B opencv/build `
+            -G "Visual Studio 17 2022" -A ${{ matrix.cmake_arch }} `
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      # ── Configure OpenCV (Linux/macOS) ────────────────────────────
+      - name: Configure OpenCV (Unix)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
+        shell: bash
+        run: |
+          EXTRA_ARGS=""
+          if [ "${{ matrix.osx_arch }}" != "" ]; then
+            EXTRA_ARGS="-D CMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
+          fi
+          cmake -G Ninja \
+            -C cmake/opencv_build_options_yunet.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D CMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/opencv_artifacts" \
+            $EXTRA_ARGS
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            cmake --build opencv/build --config Release -j 4
+            cmake --install opencv/build --config Release
+          else
+            cmake --build opencv/build -j$(nproc 2>/dev/null || sysctl -n hw.ncpu)
+            cmake --install opencv/build
+          fi
+
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-yunet-${{ env.OPENCV_VERSION }}-${{ matrix.rid }}-${{ hashFiles('cmake/opencv_build_options_yunet.cmake') }}
+
+      # ── Build OpenCvSharpExtern (Windows) ─────────────────────────
+      - name: Build OpenCvSharpExtern (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          cmake `
+            -S src `
+            -B src/build `
+            -G "Visual Studio 17 2022" -A ${{ matrix.cmake_arch }} `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D NO_CONTRIB=ON `
+            -D NO_STITCHING=ON `
+            -D NO_VIDEO=ON `
+            -D NO_VIDEOIO=ON `
+            -D NO_HIGHGUI=ON `
+            -D NO_PHOTO=ON `
+            -D NO_BARCODE=ON `
+            -D NO_INSTALL_TO_TEST=ON
+          cmake --build src/build --config Release -j 4
+
+      # ── Build OpenCvSharpExtern (Linux/macOS) ─────────────────────
+      - name: Build OpenCvSharpExtern (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          EXTRA_ARGS=""
+          if [ "${{ matrix.osx_arch }}" != "" ]; then
+            EXTRA_ARGS="-D CMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
+          fi
+          cmake -G Ninja \
+            -S src \
+            -B src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts" \
+            -D NO_CONTRIB=ON \
+            -D NO_STITCHING=ON \
+            -D NO_VIDEO=ON \
+            -D NO_VIDEOIO=ON \
+            -D NO_HIGHGUI=ON \
+            -D NO_PHOTO=ON \
+            -D NO_BARCODE=ON \
+            $EXTRA_ARGS
+          cmake --build src/build -j$(nproc 2>/dev/null || sysctl -n hw.ncpu)
+
+      # ── Verify native lib ─────────────────────────────────────────
+      - name: Verify native lib (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          echo "=== otool -L ==="
+          otool -L "${{ matrix.libsrc }}"
+          echo "=== arch ==="
+          file "${{ matrix.libsrc }}"
+
+      - name: Verify native lib (Linux)
+        if: runner.os == 'Linux'
+        run: ldd "${{ matrix.libsrc }}" || true
+
+      # ── Pack NuGet ────────────────────────────────────────────────
+      - name: Resolve version
+        id: ver
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+            VERSION="${VERSION#v}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          if [ -z "$VERSION" ]; then
+            VERSION="${OPENCV_VERSION}.$(date '+%Y%m%d')"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Package version: $VERSION"
+
+      - name: Copy native lib and pack
+        shell: bash
+        run: |
+          cp "${{ matrix.libsrc }}" "${{ matrix.libdest }}"
+          dotnet pack "nuget/${{ matrix.csproj }}" \
+            -o artifacts \
+            -p:Version="${{ steps.ver.outputs.version }}"
+          ls artifacts/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: pkg-${{ matrix.rid }}
+          path: artifacts/*.nupkg
+
+  # ── Publish ──────────────────────────────────────────────────────
+  publish:
+    needs: build
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.push == 'true')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Download all packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: pkg-*
+          path: artifacts
+          merge-multiple: true
+
+      - name: List packages
+        run: ls -lh artifacts/*.nupkg
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push artifacts/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
+
+      - name: Attach packages to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" artifacts/*.nupkg --clobber --repo "${{ github.repository }}"
