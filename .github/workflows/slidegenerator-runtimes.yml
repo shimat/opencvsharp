@@ -27,7 +27,7 @@ jobs:
       matrix:
         include:
           - rid: win-x64
-            os: windows-2025
+            os: windows-latest
             cmake_arch: x64
             csproj: OpenCvSharp4.runtime.win.csproj
             libsrc: src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
@@ -41,7 +41,7 @@ jobs:
             libdest: nuget/OpenCvSharpExtern.dll
 
           - rid: linux-x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             csproj: OpenCvSharp4.official.runtime.linux-x64.csproj
             libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so
             libdest: nuget/libOpenCvSharpExtern.so
