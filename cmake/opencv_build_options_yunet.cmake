@@ -15,6 +15,10 @@ set(BUILD_LIST "core,imgproc,imgcodecs,calib3d,features2d,flann,dnn,ml,objdetect
 set(BUILD_opencv_dnn ON  CACHE BOOL "" FORCE)
 set(WITH_PROTOBUF    ON  CACHE BOOL "" FORCE)
 set(BUILD_PROTOBUF   ON  CACHE BOOL "" FORCE)
+set(Protobuf_FOUND OFF CACHE BOOL "" FORCE)
+set(Protobuf_INCLUDE_DIR "" CACHE PATH "" FORCE)
+set(Protobuf_LIBRARY "" CACHE FILEPATH "" FORCE)
+set(Protobuf_PROTOC_EXECUTABLE "" CACHE FILEPATH "" FORCE)
 
 # Disable unused build outputs
 set(BUILD_EXAMPLES   OFF CACHE BOOL "" FORCE)

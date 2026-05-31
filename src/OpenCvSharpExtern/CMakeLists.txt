@@ -4,17 +4,17 @@ include_directories(${OpenCV_INCLUDE_DIR})
 IF(!EMSCRIPTEN)
 	link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
 ENDIF()
-IF(APPLE)
+#IF(APPLE)
     # Fix linking on 10.14+. See https://stackoverflow.com/questions/54068035
-    link_directories(/usr/local/lib)
-ENDIF()
+#    link_directories(/usr/local/lib)
+#ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
 # Resolve Protobuf target before OpenCV config is loaded.
-if(APPLE)
-	find_package(Protobuf REQUIRED)
-endif()
+# if(APPLE)
+#  	find_package(Protobuf REQUIRED)
+# endif()
 
 # On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
 # Also force /MT (static CRT) to match OpenCV's build configuration, and enable /MP for parallel compilation.

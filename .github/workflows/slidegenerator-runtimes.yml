@@ -53,14 +53,14 @@ jobs:
             libdest: nuget/libOpenCvSharpExtern.so
 
           - rid: osx-x64
-            os: macos-13
+            os: macos-26-intel
             osx_arch: x86_64
-            csproj: OpenCvSharp4.runtime.osx.10.15-x64.csproj
+            csproj: OpenCvSharp4.runtime.osx-x64.csproj
             libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib
             libdest: nuget/libOpenCvSharpExtern.dylib
 
           - rid: osx-arm64
-            os: macos-14
+            os: macos-26
             osx_arch: arm64
             csproj: OpenCvSharp4.runtime.osx-arm64.csproj
             libsrc: src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib
@@ -91,7 +91,7 @@ jobs:
       # ── macOS deps ────────────────────────────────────────────────
       - name: Install macOS build deps
         if: runner.os == 'macOS'
-        run: brew install ninja protobuf pkg-config
+        run: brew install ninja pkg-config
 
       # ── Cache OpenCV ──────────────────────────────────────────────
       - name: Restore OpenCV cache
@@ -122,8 +122,9 @@ jobs:
         run: |
           EXTRA_ARGS=""
           if [ "${{ matrix.osx_arch }}" != "" ]; then
-            EXTRA_ARGS="-D CMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
+            EXTRA_ARGS="-DCMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
           fi
+
           cmake -G Ninja \
             -C cmake/opencv_build_options_yunet.cmake \
             -S opencv \
@@ -178,7 +179,7 @@ jobs:
         run: |
           EXTRA_ARGS=""
           if [ "${{ matrix.osx_arch }}" != "" ]; then
-            EXTRA_ARGS="-D CMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
+            EXTRA_ARGS="-DCMAKE_OSX_ARCHITECTURES=${{ matrix.osx_arch }}"
           fi
           cmake -G Ninja \
             -S src \
