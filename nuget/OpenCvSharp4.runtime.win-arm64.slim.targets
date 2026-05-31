@@ -1,0 +1,10 @@
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="OpenCvSharp4RuntimeWinArm64Slim_RemoveRootNativeAssets"
+          AfterTargets="ResolvePackageAssets"
+          Condition="$(TargetFramework.StartsWith('net4')) Or $(TargetFrameworkVersion.StartsWith('v4'))">
+    <ItemGroup>
+      <RuntimeCopyLocalItems Remove="@(RuntimeCopyLocalItems)"
+          Condition="'%(NuGetPackageId)' == 'OpenCvSharp4.runtime.win-arm64.slim'" />
+    </ItemGroup>
+  </Target>
+</Project>

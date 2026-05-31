@@ -32,6 +32,7 @@ public sealed class WindowsLibraryLoader
         {
             {"x86", "x86"},
             {"AMD64", "x64"},
+            {"ARM64", "arm64"},
             {"IA64", "Itanium"},
             {"ARM", "WinCE"}
         };
@@ -44,6 +45,7 @@ public sealed class WindowsLibraryLoader
         {
             {"x86", 4},
             {"AMD64", 8},
+            {"ARM64", 8},
             {"IA64", 8},
             {"ARM", 4}
         };

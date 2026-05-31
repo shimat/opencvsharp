@@ -1,4 +1,4 @@
-name: Publish NuGet
+﻿name: Publish NuGet
 
 on:
   workflow_dispatch:
@@ -74,6 +74,8 @@ jobs:
           check_package "OpenCvSharp4.Extensions.*.nupkg"
           check_package "OpenCvSharp4.WpfExtensions.*.nupkg"
           check_package "OpenCvSharp4.runtime.win.[0-9]*.nupkg"
+          check_package "OpenCvSharp4.runtime.win-arm64.[0-9]*.nupkg"
+          check_package "OpenCvSharp4.runtime.win-arm64.slim.*.nupkg"
           check_package "OpenCvSharp4.runtime.win.slim.*.nupkg"
           check_package "OpenCvSharp4.Windows.[0-9]*.nupkg"
           check_package "OpenCvSharp4.Windows.Slim.*.nupkg"
