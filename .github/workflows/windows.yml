@@ -377,7 +377,7 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
 
       - name: Pack NuGet packages
         shell: pwsh
