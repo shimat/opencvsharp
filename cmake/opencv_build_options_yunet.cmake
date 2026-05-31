@@ -31,10 +31,15 @@ set(WITH_GTK       OFF CACHE BOOL "" FORCE)
 set(WITH_ADE       OFF CACHE BOOL "" FORCE)
 set(WITH_TESSERACT OFF CACHE BOOL "" FORCE)
 
-# Bundle image codecs so the native lib is self-contained (no system libpng/libjpeg/libz deps).
-# On Windows the full build uses vcpkg; this profile bundles them for all 6 platforms uniformly.
-set(BUILD_ZLIB OFF CACHE BOOL "" FORCE)
+# PNG-only image codec: app converts all input to PNG bytes before calling OpenCV.
+# WITH_* = OFF prevents CMake from finding system libs (avoids e.g. Mono tiff.h conflict on macOS).
+set(BUILD_ZLIB ON  CACHE BOOL "" FORCE)
 set(BUILD_PNG  ON  CACHE BOOL "" FORCE)
-set(BUILD_JPEG ON  CACHE BOOL "" FORCE)
+set(WITH_JPEG  OFF CACHE BOOL "" FORCE)
+set(BUILD_JPEG OFF CACHE BOOL "" FORCE)
+set(WITH_TIFF  OFF CACHE BOOL "" FORCE)
 set(BUILD_TIFF OFF CACHE BOOL "" FORCE)
+set(WITH_WEBP  OFF CACHE BOOL "" FORCE)
 set(BUILD_WEBP OFF CACHE BOOL "" FORCE)
+set(WITH_OPENJPEG  OFF CACHE BOOL "" FORCE)
+set(WITH_OPENEXR   OFF CACHE BOOL "" FORCE)
