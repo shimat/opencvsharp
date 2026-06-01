@@ -324,6 +324,25 @@ jobs:
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $log = Get-Content "$env:TEMP\opencv-configure.log" -Raw
+          $features = @('Tesseract', 'JPEG', 'PNG', 'TIFF', 'WEBP')
+          $fail = $false
+          foreach ($f in $features) {
+            $m = [regex]::Match($log, "(?m)^--\s+${f}:\s+(.+)$")
+            if ($m.Success -and $m.Groups[1].Value.Trim() -notmatch '^NO\b') {
+              Write-Host "OK: $f = $($m.Groups[1].Value.Trim())"
+            } else {
+              Write-Host "MISSING or DISABLED: $f"
+              $log -split "`n" | Select-String -Pattern $f | Select-Object -Last 3 | ForEach-Object { Write-Host $_ }
+              $fail = $true
+            }
+          }
+          if ($fail) { exit 1 }
+
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell

@@ -4,6 +4,16 @@
     copies runtimes/win-arm64/native/ assets to the output root directory. However, the companion
     .props file already places these DLLs under dll/arm64/, which is where WindowsLibraryLoader looks
     at runtime. The root copies are therefore redundant and bloat the output directory.
+
+    This target removes the package's native assets from RuntimeCopyLocalItems — the item group
+    populated by ResolvePackageAssets — so NuGet does not copy them to the output root.
+    The dll/arm64/ placement from the .props file is unaffected.
+
+    Note: RuntimeCopyLocalItems is only present in SDK-style projects using PackageReference.
+    Old-style (packages.config) projects do not process runtimes/ assets at all, so this target
+    has no effect there (which is fine — no duplicate exists in that case either).
+
+    See also: OpenCvSharp4.runtime.win.targets for the equivalent x64 implementation.
   -->
   <Target Name="OpenCvSharp4RuntimeWinArm64_RemoveRootNativeAssets"
           AfterTargets="ResolvePackageAssets"
