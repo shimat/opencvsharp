@@ -253,3 +253,166 @@ jobs:
         with:
           name: packages_windows
           path: ${{ github.workspace }}\artifacts
+
+  build-arm64:
+
+    runs-on: windows-11-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 1
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            10.0.x
+
+      - name: Restore vcpkg packages cache
+        id: vcpkg-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
+
+      - name: Update vcpkg to match builtin-baseline
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
+          git -C $env:VCPKG_INSTALLATION_ROOT fetch --depth=1 origin $baseline
+          git -C $env:VCPKG_INSTALLATION_ROOT checkout $baseline
+
+      - name: Install vcpkg dependencies
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: vcpkg install --triplet arm64-windows-static --overlay-triplets=${{ github.workspace }}/cmake/triplets --x-install-root=${{ github.workspace }}/vcpkg_installed
+
+      - name: Save vcpkg packages cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
+
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+
+      - name: Configure OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Continue'
+          cmake `
+            -C cmake/opencv_build_options.cmake `
+            -S opencv `
+            -B opencv/build `
+            -G "Visual Studio 17 2022" -A ARM64 `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D WITH_FFMPEG=OFF `
+            *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $log = Get-Content "$env:TEMP\opencv-configure.log" -Raw
+          $features = @('Tesseract', 'JPEG', 'PNG', 'TIFF', 'WEBP')
+          $fail = $false
+          foreach ($f in $features) {
+            $m = [regex]::Match($log, "(?m)^--\s+${f}:\s+(.+)$")
+            if ($m.Success -and $m.Groups[1].Value.Trim() -notmatch '^NO\b') {
+              Write-Host "OK: $f = $($m.Groups[1].Value.Trim())"
+            } else {
+              Write-Host "MISSING or DISABLED: $f"
+              $log -split "`n" | Select-String -Pattern $f | Select-Object -Last 3 | ForEach-Object { Write-Host $_ }
+              $fail = $true
+            }
+          }
+          if ($fail) { exit 1 }
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          cmake --build opencv/build --config Release -j 4
+          cmake --install opencv/build --config Release
+
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+
+      - name: Build OpenCvSharpExtern (full)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          cmake `
+            -S src `
+            -B src/build_arm64 `
+            -G "Visual Studio 17 2022" -A ARM64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+          cmake --build src/build_arm64 --config Release -j 4
+
+      - name: Build OpenCvSharpExtern (slim)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          cmake `
+            -S src `
+            -B src/build_arm64_slim `
+            -G "Visual Studio 17 2022" -A ARM64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D NO_CONTRIB=ON `
+            -D NO_VIDEOIO=ON `
+            -D NO_HIGHGUI=ON `
+            -D NO_DNN=ON `
+            -D NO_INSTALL_TO_TEST=ON
+          cmake --build src/build_arm64_slim --config Release -j 4
+
+      - name: Test
+        shell: cmd
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
+
+      - name: Pack NuGet packages
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+
+          $date = Get-Date -Format "yyyyMMdd"
+          $version = "${env:OPENCV_VERSION}.${date}-beta"
+          Write-Host "version = ${version}"
+
+          dotnet pack nuget/OpenCvSharp4.runtime.win-arm64.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp4.runtime.win-arm64.slim.csproj -o artifacts -p:Version=$version
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v6
+        with:
+          name: packages_windows_arm64
+          path: ${{ github.workspace }}\artifacts
