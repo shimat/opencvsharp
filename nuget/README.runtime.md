@@ -20,6 +20,8 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 |---|---|
 | `OpenCvSharp4.runtime.win` | Windows x64 |
 | `OpenCvSharp4.runtime.win.slim` | Windows x64 (slim) |
+| `OpenCvSharp4.runtime.win-arm64` | Windows ARM64 (Snapdragon X and other arm64 devices). FFmpeg not included. |
+| `OpenCvSharp4.runtime.win-arm64.slim` | Windows ARM64 (slim) |
 | `OpenCvSharp4.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
 | `OpenCvSharp4.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
 | `OpenCvSharp4.runtime.linux-arm64` | Linux ARM64 (AArch64) |
