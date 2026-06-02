@@ -18,6 +18,14 @@ jobs:
           name: packages_windows
           branch: ${{ github.ref_name }}
 
+      - name: Download windows arm64 artifact
+        uses: dawidd6/action-download-artifact@v19
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: windows.yml
+          name: packages_windows_arm64
+          branch: ${{ github.ref_name }}
+
       - name: Download ubuntu arm64 artifact
         uses: dawidd6/action-download-artifact@v19
         with:
