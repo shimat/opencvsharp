@@ -26,20 +26,18 @@
 /// generic type argument.
 /// </para>
 /// <para>
-/// <b>Parallel usage:</b> <see cref="MatRowAccessor{T}"/> itself is safe to use concurrently from multiple threads
-/// as long as each thread writes to a distinct set of rows. When using <c>Parallel.For</c>, call
-/// <see cref="Mat.AsRows{T}"/> once outside the loop and index into the accessor inside each iteration:
+/// <b>Parallel usage:</b> <see cref="MatRowAccessor{T}"/> is safe to use concurrently from multiple threads
+/// as long as each thread writes to a distinct set of rows. Because <see cref="MatRowAccessor{T}"/> is a
+/// <c>ref struct</c> it cannot be captured by a lambda closure; instead, call <see cref="Mat.AsRows{T}"/>
+/// inside each iteration to obtain a per-thread local accessor:
 /// <code>
-/// var rows = mat.AsRows&lt;float&gt;();
 /// Parallel.For(0, mat.Rows, y =&gt;
 /// {
-///     Span&lt;float&gt; row = rows[y];
+///     Span&lt;float&gt; row = mat.AsRows&lt;float&gt;()[y];
 ///     for (int x = 0; x &lt; row.Length; x++)
 ///         row[x] = ComputeValue(y, x);
 /// });
 /// </code>
-/// Calling <see cref="Mat.AsRows{T}"/> repeatedly inside the lambda body is also supported but
-/// incurs the cost of additional P/Invoke calls (for step and element size) on each iteration.
 /// </para>
 /// </remarks>
 public readonly ref struct MatRowAccessor<T> where T : unmanaged
