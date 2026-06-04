@@ -4283,6 +4283,20 @@ public partial class Mat : CvObject
     /// <typeparam name="T">Element type. Must match the matrix element type (e.g. <see cref="Vec3b"/> for CV_8UC3).</typeparam>
     /// <returns>A <see cref="MatRowAccessor{T}"/> over this matrix.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the matrix is not 2-dimensional.</exception>
+    /// <remarks>
+    /// For parallel loops, call this method once outside the loop and share the returned
+    /// <see cref="MatRowAccessor{T}"/> across threads. Each thread may safely index into
+    /// distinct rows concurrently:
+    /// <code>
+    /// var rows = mat.AsRows&lt;float&gt;();
+    /// Parallel.For(0, mat.Rows, y =&gt;
+    /// {
+    ///     Span&lt;float&gt; row = rows[y];
+    ///     for (int x = 0; x &lt; row.Length; x++)
+    ///         row[x] = ComputeValue(y, x);
+    /// });
+    /// </code>
+    /// </remarks>
     public unsafe MatRowAccessor<T> AsRows<T>() where T : unmanaged
     {
         ThrowIfDisposed();

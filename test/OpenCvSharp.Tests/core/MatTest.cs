@@ -1289,4 +1289,41 @@ public class MatTest : TestBase
             }
         }
     }
+
+    // Regression test for https://github.com/shimat/opencvsharp/issues/1889
+    [Fact]
+    public void AsRowsParallelFor()
+    {
+        const int rows = 500;
+        const int cols = 1_000;
+
+        using var matX = new Mat(rows, cols, MatType.CV_32FC1);
+        using var matY = new Mat(rows, cols, MatType.CV_32FC1);
+        matX.SetTo(Scalar.All(0f));
+        matY.SetTo(Scalar.All(0f));
+
+        Parallel.For(0, rows, y =>
+        {
+            var rowX = matX.AsRows<float>()[y];
+            var rowY = matY.AsRows<float>()[y];
+            for (var x = 0; x < cols; x++)
+            {
+                rowX[x] = 11f;
+                rowY[x] = 12f;
+            }
+        });
+
+        var resultX = matX.AsRows<float>();
+        var resultY = matY.AsRows<float>();
+        for (var y = 0; y < rows; y++)
+        {
+            var rowX = resultX[y];
+            var rowY = resultY[y];
+            for (var x = 0; x < cols; x++)
+            {
+                Assert.Equal(11f, rowX[x]);
+                Assert.Equal(12f, rowY[x]);
+            }
+        }
+    }
 }
