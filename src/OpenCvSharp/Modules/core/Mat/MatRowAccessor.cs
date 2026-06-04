@@ -25,6 +25,20 @@
 /// This is a <c>ref struct</c> and therefore cannot be stored in fields, boxed, or used as a
 /// generic type argument.
 /// </para>
+/// <para>
+/// <b>Parallel usage:</b> <see cref="MatRowAccessor{T}"/> is safe to use concurrently from multiple threads
+/// as long as each thread writes to a distinct set of rows. Because <see cref="MatRowAccessor{T}"/> is a
+/// <c>ref struct</c> it cannot be captured by a lambda closure; instead, call <see cref="Mat.AsRows{T}"/>
+/// inside each iteration to obtain a per-thread local accessor:
+/// <code>
+/// Parallel.For(0, mat.Rows, y =&gt;
+/// {
+///     Span&lt;float&gt; row = mat.AsRows&lt;float&gt;()[y];
+///     for (int x = 0; x &lt; row.Length; x++)
+///         row[x] = ComputeValue(y, x);
+/// });
+/// </code>
+/// </para>
 /// </remarks>
 public readonly ref struct MatRowAccessor<T> where T : unmanaged
 {

@@ -4283,6 +4283,19 @@ public partial class Mat : CvObject
     /// <typeparam name="T">Element type. Must match the matrix element type (e.g. <see cref="Vec3b"/> for CV_8UC3).</typeparam>
     /// <returns>A <see cref="MatRowAccessor{T}"/> over this matrix.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the matrix is not 2-dimensional.</exception>
+    /// <remarks>
+    /// <b>Parallel usage:</b> Because <see cref="MatRowAccessor{T}"/> is a <c>ref struct</c> it cannot be
+    /// captured by a lambda closure. Call this method inside each <c>Parallel.For</c> iteration to obtain
+    /// a per-thread local accessor:
+    /// <code>
+    /// Parallel.For(0, mat.Rows, y =&gt;
+    /// {
+    ///     Span&lt;float&gt; row = mat.AsRows&lt;float&gt;()[y];
+    ///     for (int x = 0; x &lt; row.Length; x++)
+    ///         row[x] = ComputeValue(y, x);
+    /// });
+    /// </code>
+    /// </remarks>
     public unsafe MatRowAccessor<T> AsRows<T>() where T : unmanaged
     {
         ThrowIfDisposed();
