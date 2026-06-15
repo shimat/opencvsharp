@@ -1,4 +1,4 @@
-FROM amazonlinux:2.0.20200722.0
+FROM amazonlinux:2.0.20260526.0
 
 ENV OPENCV_VERSION=4.5.0
 
