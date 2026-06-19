@@ -34,7 +34,6 @@ For more installation options, see [Installation on GitHub](https://github.com/s
 ## Requirements
 
 ### Windows
-- [Visual C++ 2022 Redistributable](https://support.microsoft.com/help/2977003/)
 - (Windows Server only) Media Foundation:
   ```powershell
   Install-WindowsFeature Server-Media-Foundation

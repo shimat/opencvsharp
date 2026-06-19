@@ -39,7 +39,6 @@ For more installation options, see the [Installation](#installation) section bel
 ## Requirements
 * [.NET 8](https://www.microsoft.com/net/download) or later / .NET Standard 2.0 / .NET Standard 2.1
 * .NET Framework 4.6.1 or later is supported via the .NET Standard 2.0 target (WpfExtensions also directly targets .NET Framework 4.8)
-* (Windows) [Visual C++ 2022 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * (Windows Server) Media Foundation
 ```
 PS1> Install-WindowsFeature Server-Media-Foundation
