@@ -12,7 +12,7 @@ public enum SolvePnPMethod
     /// that is the sum of squared distances between the observed projections imagePoints and the projected (using projectPoints() ) objectPoints.
     /// Initial solution for non-planar "objectPoints" needs at least 6 points and uses the DLT algorithm.
     /// Initial solution for planar "objectPoints" needs at least 4 points and uses pose from homography decomposition.
-    /// Method is based on the paper "Pose refinement using non-linear Levenberg-Marquardt minimization scheme"  
+    /// Method is based on the paper "Pose refinement using non-linear Levenberg-Marquardt minimization scheme".
     /// </summary>
     Iterative = 0,
         
@@ -22,7 +22,7 @@ public enum SolvePnPMethod
     EPNP = 1,
 
     /// <summary>
-    /// Method is based on the paper of Ding, Y., Yang, J., Larsson, V., Olsson, C., & Åstrom, K.
+    /// Method is based on the paper of Ding, Y., Yang, J., Larsson, V., Olsson, C., &amp; Åstrom, K.
     /// "Revisiting the P3P Problem". In this case the function requires exactly four object and image points.
     /// </summary>
     P3P = 2,
@@ -35,7 +35,7 @@ public enum SolvePnPMethod
 
     /// <summary>
     /// **Broken implementation. Using this flag will fallback to EPnP.**
-    /// Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto, F.Moreno-Noguer. 
+    /// Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto, F.Moreno-Noguer.
     /// "Exhaustive Linearization for Robust Camera Pose and Focal Length Estimation"
     /// </summary>
     UPNP = 4,
@@ -45,11 +45,11 @@ public enum SolvePnPMethod
     /// "An Efficient Algebraic Solution to the Perspective-Three-Point Problem"
     /// In this case the function requires exactly four object and image points.
     /// </summary>
-    AP3P = 5, 
+    AP3P = 5,
 
     /// <summary>
     /// Method is based on the paper of T. Collins and A. Bartoli.
-    /// "Infinitesimal Plane-Based Pose Estimation". 
+    /// "Infinitesimal Plane-Based Pose Estimation".
     /// This method requires coplanar object points.
     /// </summary>
     IPPE = 6,
@@ -66,11 +66,10 @@ public enum SolvePnPMethod
     IPPE_SQUARE = 7,
 
     /// <summary>
-    /// A Consistently Fast and Globally OptimalSolution to the Perspective-n-Point Problem.
     /// Method is based on the paper "A Consistently Fast and Globally Optimal Solution to the
-    /// Perspective-n-Point Problem" by G. Terzakis and M.Lourakis  It requires 3 or more points.
+    /// Perspective-n-Point Problem" by G. Terzakis and M. Lourakis. It requires 3 or more points.
     /// </summary>
-    SQPNP = 8, 
+    SQPNP = 8,
 }
 
 /// <summary>
