@@ -33,6 +33,27 @@ public enum SolvePnPMethod
     /// A.Penate-Sanchez, J.Andrade-Cetto, F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length Estimation"
     /// </summary>
     UPNP = 4,
+
+    /// <summary>
+    /// T. Ke, S. Roumeliotis. "An Efficient Algebraic Solution to the Perspective-Three-Point Problem"
+    /// </summary>
+    AP3P = 5,
+
+    /// <summary>
+    /// Infinitesimal Plane-Based Pose Estimation. Object points must be coplanar.
+    /// </summary>
+    IPPE = 6,
+
+    /// <summary>
+    /// Infinitesimal Plane-Based Pose Estimation.
+    /// This is a special case suitable for marker pose estimation. 4 coplanar object points must be defined.
+    /// </summary>
+    IPPE_SQUARE = 7,
+
+    /// <summary>
+    /// G. Terzakis, M. Lourakis. "A Consistently Fast and Globally Optimal Solution to the Perspective-n-Point Problem"
+    /// </summary>
+    SQPNP = 8,
 }
 
 /// <summary>
