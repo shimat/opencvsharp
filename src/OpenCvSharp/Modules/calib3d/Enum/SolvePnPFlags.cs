@@ -41,7 +41,7 @@ public enum SolvePnPMethod
     UPNP = 4,
 
     /// <summary>
-    ///  Method is based on the paper of T. Ke, S. Roumeliotis
+    /// Method is based on the paper of T. Ke, S. Roumeliotis
     /// "An Efficient Algebraic Solution to the Perspective-Three-Point Problem"
     /// In this case the function requires exactly four object and image points.
     /// </summary>
