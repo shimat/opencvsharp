@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <TargetFrameworks>net8.0;net8.0-windows</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
@@ -10,7 +10,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>OpenCV 4.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <Description>OpenCV 5.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows slim</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
@@ -25,9 +25,12 @@
     <PackageReference Include="OpenCvSharp5" Version="*" Condition="'$(PackageVersion)' == ''" />
     <PackageReference Include="OpenCvSharp5.runtime.win.slim" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
     <PackageReference Include="OpenCvSharp5.runtime.win.slim" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5.GdipExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.GdipExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1'">
+  <!-- WPF extensions only flow to the Windows-desktop TFM -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
     <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
