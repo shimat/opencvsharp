@@ -16,9 +16,7 @@ public static class BitmapConverter
     /// </summary>
     /// <param name="src">System.Drawing.Bitmap object to be converted</param>
     /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
-#if NET5_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-#endif
     public static Mat ToMat(this Bitmap src)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -45,9 +43,7 @@ public static class BitmapConverter
     /// </summary>
     /// <param name="src">System.Drawing.Bitmap object to be converted</param>
     /// <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
-#if NET5_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-#endif
     public static unsafe void ToMat(this Bitmap src, Mat dst)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -316,9 +312,7 @@ public static class BitmapConverter
     /// </summary>
     /// <param name="src">Mat</param>
     /// <returns></returns>
-#if NET5_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-#endif
     public static Bitmap ToBitmap(this Mat src)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -341,9 +335,7 @@ public static class BitmapConverter
     /// <param name="src">Mat</param>
     /// <param name="pf">Pixel Depth</param>
     /// <returns></returns>
-#if NET5_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-#endif
     public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -363,9 +355,7 @@ public static class BitmapConverter
     /// <param name="src">Mat</param>
     /// <param name="dst">Mat</param>
     /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
-#if NET5_0_OR_GREATER
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-#endif
     public static unsafe void ToBitmap(this Mat src, Bitmap dst)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

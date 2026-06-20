@@ -151,10 +151,8 @@ public struct Vec4w : IVec<Vec4w, ushort>, IEquatable<Vec4w>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-#if !NETSTANDARD2_0
     /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<ushort> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
-#endif
 
     /// <inheritdoc />
     public readonly bool Equals(Vec4w other) =>
@@ -187,18 +185,7 @@ public struct Vec4w : IVec<Vec4w, ushort>, IEquatable<Vec4w>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if NETSTANDARD2_0
-        unchecked
-        {
-            var hashCode = Item0.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item1.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item2.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item3.GetHashCode();
-            return hashCode;
-        }
-#else
         return HashCode.Combine(Item0, Item1, Item2, Item3);
-#endif
     }
 
     /// <inheritdoc />
