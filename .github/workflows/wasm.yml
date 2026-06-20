@@ -110,7 +110,7 @@ jobs:
             -DBUILD_opencv_objc_bindings_generator=OFF \
             -DBUILD_opencv_rapid=OFF \
             -DBUILD_opencv_reg=OFF \
-            -DBUILD_opencv_stereo=OFF \
+            -DBUILD_opencv_stereo=ON \
             -DBUILD_opencv_structured_light=OFF \
             -DBUILD_opencv_surface_matching=OFF \
             -DBUILD_opencv_wechat_qrcode=ON \
