@@ -35,7 +35,9 @@ set(BUILD_opencv_mcc                       OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_objc_bindings_generator   OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_rapid                     OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_reg                       OFF CACHE BOOL "" FORCE)
-set(BUILD_opencv_stereo                    OFF CACHE BOOL "" FORCE)
+# OpenCV 5: calib3d was split and StereoMatcher/StereoBM/StereoSGBM now live in
+# the main "stereo" module, so it must be built (ximgproc/disparity_filter needs it).
+set(BUILD_opencv_stereo                    ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_structured_light          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_surface_matching          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_videostab                 OFF CACHE BOOL "" FORCE)

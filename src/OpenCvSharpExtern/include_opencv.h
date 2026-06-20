@@ -34,6 +34,15 @@
 
 #include <opencv2/opencv.hpp>
 
+// OpenCV 5 split calib3d into the calib / 3d / stereo modules, and opencv.hpp
+// now pulls the new headers (opencv2/3d.hpp, objdetect.hpp). The legacy
+// opencv2/calib3d.hpp still re-declares the same enums (LMEDS, SolvePnPMethod,
+// CALIB_CB_*, ...) under its own include guard, so it clashes when something
+// drags it into the same translation unit (e.g. opencv2/ximgproc/disparity_filter.hpp).
+// OpenCvSharpExtern uses the new API via opencv.hpp, so neutralize the legacy
+// umbrella by pre-defining its include guard.
+#define OPENCV_CALIB3D_HPP
+
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>

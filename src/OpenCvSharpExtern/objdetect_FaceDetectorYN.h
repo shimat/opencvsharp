@@ -15,7 +15,7 @@
 CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_create(
     cv::String* model,
     cv::String* config,
-    CvSize* inputSize,
+    MyCvSize* inputSize,
     float scoreThreshold,
     float nmsThreshold,
     int topK,
@@ -25,7 +25,7 @@ CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_create(
 {
     BEGIN_WRAP
     const auto p = cv::FaceDetectorYN::create(
-        *model, *config, *inputSize,
+        *model, *config, cpp(*inputSize),
         scoreThreshold, nmsThreshold, topK,
         backendId, targetId);
     *returnValue = clone(p);

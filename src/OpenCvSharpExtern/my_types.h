@@ -13,6 +13,27 @@ namespace cv
 
 extern "C"
 {
+    // -------------------------------------------------------------------------
+    // P/Invoke boundary value types ("MyCv*")
+    //
+    // These are plain-old-data (POD) structs used ONLY as by-value parameters
+    // and return values of the extern "C" (CVAPI) functions. They intentionally
+    // mirror the memory layout of the matching cv:: types (cv::Point, cv::Size,
+    // cv::Rect, cv::Scalar, ...) but carry no constructors/methods, because:
+    //
+    //   1. The cv:: geometry types are C++ classes. Passing a C++ UDT by value
+    //      through C linkage (extern "C") is only conditionally supported, makes
+    //      the ABI fragile across compilers, and triggers MSVC warning C4190.
+    //      POD structs give a stable, portable C ABI that the C# side marshals
+    //      1:1 via [StructLayout] structs.
+    //   2. They decouple the P/Invoke wire format from OpenCV: if a cv:: type
+    //      changes, only the c()/cpp() converters below need updating, not the
+    //      ABI seen by managed code.
+    //
+    // Convert at the boundary with the overloaded helpers: cpp(MyCvX) -> cv::X
+    // for incoming arguments and c(cv::X) -> MyCvX for outgoing values. Do NOT
+    // use cv:: types directly by value in CVAPI signatures.
+    // -------------------------------------------------------------------------
 #pragma region OpenCV1.0-compatible Types
 
     struct MyCvPoint
