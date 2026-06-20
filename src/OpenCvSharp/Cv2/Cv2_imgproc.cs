@@ -1351,60 +1351,6 @@ static partial class Cv2
     }
 
     /// <summary>
-    /// Remaps an image to log-polar space.
-    /// </summary>
-    /// <param name="src">Source image</param>
-    /// <param name="dst">Destination image</param>
-    /// <param name="center">The transformation center; where the output precision is maximal</param>
-    /// <param name="m">Magnitude scale parameter.</param>
-    /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
-    public static void LogPolar(
-        InputArray src, OutputArray dst,
-        Point2f center, double m, InterpolationFlags flags)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_logPolar(src.CvPtr, dst.CvPtr, center, m, (int) flags));
-
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
-    }
-
-    /// <summary>
-    /// Remaps an image to polar space.
-    /// </summary>
-    /// <param name="src">Source image</param>
-    /// <param name="dst">Destination image</param>
-    /// <param name="center">The transformation center</param>
-    /// <param name="maxRadius">Inverse magnitude scale parameter</param>
-    /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
-    public static void LinearPolar(
-        InputArray src, OutputArray dst,
-        Point2f center, double maxRadius, InterpolationFlags flags)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_linearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, (int) flags));
-
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
-    }
-
-    /// <summary>
     /// Remaps an image to polar or semilog-polar coordinates space.
     /// </summary>
     /// <remarks>

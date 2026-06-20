@@ -75,134 +75,6 @@ public class Net : CvObject
     }
 
     /// <summary>
-    /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
-    /// </summary>
-    /// <param name="cfgFile">path to the .cfg file with text description of the network architecture.</param>
-    /// <param name="darknetModel">path to the .weights file with learned network.</param>
-    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
-    {
-        if (cfgFile is null)
-            throw new ArgumentNullException(nameof(cfgFile));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromDarknet(cfgFile, darknetModel, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
-    }
-        
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
-    {
-        if (bufferCfg is null)
-            throw new ArgumentNullException(nameof(bufferCfg));
-
-        var ret = ReadNetFromDarknet(
-            new ReadOnlySpan<byte>(bufferCfg),
-            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
-        GC.KeepAlive(bufferCfg);
-        GC.KeepAlive(bufferModel);
-        return ret;
-    }
-        
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(ReadOnlySpan<byte> bufferCfg, ReadOnlySpan<byte> bufferModel = default)
-    {
-        if (bufferCfg.IsEmpty)
-            throw new ArgumentException("Empty span", nameof(bufferCfg));
-
-        unsafe
-        {
-            fixed (byte* bufferCfgPtr = bufferCfg)
-            fixed (byte* bufferModelPtr = bufferModel)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.dnn_readNetFromDarknet(
-                        bufferCfgPtr, new IntPtr(bufferCfg.Length),
-                        bufferModelPtr, new IntPtr(bufferModel.Length),
-                        out var p));
-                return (p == IntPtr.Zero) ? null : new Net(p);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files.
-    /// </summary>
-    /// <param name="prototxt">path to the .prototxt file with text description of the network architecture.</param>
-    /// <param name="caffeModel">path to the .caffemodel file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
-    {
-        if (prototxt is null)
-            throw new ArgumentNullException(nameof(prototxt));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromCaffe(prototxt, caffeModel, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model in memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
-    {
-        if (bufferProto is null)
-            throw new ArgumentNullException(nameof(bufferProto));
-            
-        var ret = ReadNetFromCaffe(
-            new ReadOnlySpan<byte>(bufferProto),
-            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
-        GC.KeepAlive(bufferProto);
-        GC.KeepAlive(bufferModel);
-        return ret;
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(ReadOnlySpan<byte> bufferProto, ReadOnlySpan<byte> bufferModel = default)
-    {
-        if (bufferProto.IsEmpty)
-            throw new ArgumentException("Empty span", nameof(bufferProto));
-
-        unsafe
-        {
-            fixed (byte* bufferProtoPtr = bufferProto)
-            fixed (byte* bufferModelPtr = bufferModel)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.dnn_readNetFromCaffe(
-                        bufferProtoPtr, new IntPtr(bufferProto.Length),
-                        bufferModelPtr, new IntPtr(bufferModel.Length),
-                        out var p));
-                return (p == IntPtr.Zero) ? null : new Net(p);
-            }
-        }
-    }
-
-    /// <summary>
     /// Reads a network model stored in Tensorflow model file.
     /// </summary>
     /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
@@ -265,23 +137,6 @@ public class Net : CvObject
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
         }
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Torch model file.
-    /// </summary>
-    /// <param name="model"></param>
-    /// <param name="isBinary"></param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTorch(string model, bool isBinary = true)
-    {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTorch(model, isBinary ? 1 : 0, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
     /// <summary>
@@ -572,21 +427,6 @@ public class Net : CvObject
                 CvPtr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
 
         GC.KeepAlive(outputBlobs);
-        GC.KeepAlive(this);
-    }
-
-    /// <summary>
-    /// Compile Halide layers.
-    /// Schedule layers that support Halide backend. Then compile them for 
-    /// specific target.For layers that not represented in scheduling file 
-    /// or if no manual scheduling used at all, automatic scheduling will be applied.
-    /// </summary>
-    /// <param name="scheduler">Path to YAML file with scheduling directives.</param>
-    public void SetHalideScheduler(string scheduler)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setHalideScheduler(CvPtr, scheduler));
         GC.KeepAlive(this);
     }
 

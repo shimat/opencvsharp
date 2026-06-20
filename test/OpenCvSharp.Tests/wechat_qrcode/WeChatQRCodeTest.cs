@@ -6,10 +6,8 @@ namespace OpenCvSharp.Tests.WeChatQRCode;
 
 public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
 {
-    private const string DetectorPrototxtPath = "_data/wechat_qrcode/detect.prototxt";
-    private const string DetectorCaffeModelPath = "_data/wechat_qrcode/detect.caffemodel";
-    private const string SuperResolutionPrototxtPath = "_data/wechat_qrcode/sr.prototxt";
-    private const string SuperResolutionCaffeModelPath = "_data/wechat_qrcode/sr.caffemodel";
+    private const string DetectorModelPath = "_data/wechat_qrcode/detect.onnx";
+    private const string SuperResolutionModelPath = "_data/wechat_qrcode/sr.onnx";
 
     private static readonly string[] ExpectedMultiQRTexts =
     [
@@ -30,14 +28,12 @@ public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
     /// Passing null for any string argument must throw ArgumentNullException.
     /// </summary>
     [Theory]
-    [InlineData(null, "", "", "")]
-    [InlineData("", null, "", "")]
-    [InlineData("", "", null, "")]
-    [InlineData("", "", "", null)]
+    [InlineData(null, "")]
+    [InlineData("", null)]
     public void Constructor_NullArguments_ThrowsArgumentNullException(
-        string? a, string? b, string? c, string? d)
+        string? a, string? b)
     {
-        Assert.Throws<ArgumentNullException>(() => new OpenCvSharp.WeChatQRCode(a!, b!, c!, d!));
+        Assert.Throws<ArgumentNullException>(() => new OpenCvSharp.WeChatQRCode(a!, b!));
     }
 
     /// <summary>
@@ -196,14 +192,11 @@ public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
     // -------------------------------------------------------------------------
 
     private static OpenCvSharp.WeChatQRCode CreateWithModels() =>
-        new(DetectorPrototxtPath, DetectorCaffeModelPath,
-            SuperResolutionPrototxtPath, SuperResolutionCaffeModelPath);
+        new(DetectorModelPath, SuperResolutionModelPath);
 
     private static void SkipIfModelFilesNotFound()
     {
-        Assert.True(File.Exists(DetectorPrototxtPath),       $"Model file not found: '{DetectorPrototxtPath}'");
-        Assert.True(File.Exists(DetectorCaffeModelPath),     $"Model file not found: '{DetectorCaffeModelPath}'");
-        Assert.True(File.Exists(SuperResolutionPrototxtPath),    $"Model file not found: '{SuperResolutionPrototxtPath}'");
-        Assert.True(File.Exists(SuperResolutionCaffeModelPath),  $"Model file not found: '{SuperResolutionCaffeModelPath}'");
+        Assert.True(File.Exists(DetectorModelPath),       $"Model file not found: '{DetectorModelPath}'");
+        Assert.True(File.Exists(SuperResolutionModelPath),  $"Model file not found: '{SuperResolutionModelPath}'");
     }
 }

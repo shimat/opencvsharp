@@ -131,9 +131,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_convertFp16(IntPtr src, IntPtr dst);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_LUT(IntPtr src, IntPtr lut, IntPtr dst);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

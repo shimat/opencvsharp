@@ -3,17 +3,13 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn;
 
-public class NetTest : TestBase, IClassFixture<DnnDataFixture>
+public class NetTest : TestBase
 {
     private readonly ITestOutputHelper testOutputHelper;
-    private readonly CaffeData caffeData;
 
-    public NetTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
+    public NetTest(ITestOutputHelper testOutputHelper)
     {
-        if (fixture is null) 
-            throw new ArgumentNullException(nameof(fixture));
         this.testOutputHelper = testOutputHelper;
-        caffeData = fixture.Caffe.Value;
     }
 
     [Fact]
@@ -28,13 +24,5 @@ public class NetTest : TestBase, IClassFixture<DnnDataFixture>
     {
         using var net = new Net();
         Assert.Empty(net.GetLayerNames());
-    }
-
-    [ExplicitFact]
-    public void Dump()
-    {
-        var net = caffeData.Net;
-        var dump = net.Dump();
-        Assert.NotEmpty(dump);
     }
 }

@@ -182,14 +182,6 @@ static partial class NativeMethods
         int patchType);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_logPolar(
-        IntPtr src, IntPtr dst, Point2f center, double m, int flags);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_linearPolar(
-        IntPtr src, IntPtr dst, Point2f center, double maxRadius, int flags);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_warpPolar(
         IntPtr src, IntPtr dst, Size dsize, Point2f center, double maxRadius, int flags);
 

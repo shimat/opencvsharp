@@ -99,7 +99,4 @@ static partial class NativeMethods
     //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
     //public static extern ExceptionStatus highgui_createButton(
     //    [MarshalAs(UnmanagedType.LPStr)] string barName, IntPtr onChange, IntPtr userData, int type, int initialButtonState, out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus highgui_cvGetWindowHandle([MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr returnValue);
 }

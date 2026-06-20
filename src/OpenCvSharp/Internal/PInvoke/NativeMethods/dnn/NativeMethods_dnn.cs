@@ -10,65 +10,6 @@ namespace OpenCvSharp.Internal;
 // ReSharper disable InconsistentNaming
 static partial class NativeMethods
 {
-    // readNetFromDarknet
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromDarknet")]
-    public static extern ExceptionStatus dnn_readNetFromDarknet_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string cfgFile, 
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? darknetModel, 
-        out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromDarknet")]
-    public static extern ExceptionStatus dnn_readNetFromDarknet_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string cfgFile, 
-        [MarshalAs(StringUnmanagedTypeWindows)] string? darknetModel,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromDarknet(string cfgFile, string? darknetModel, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromDarknet_Windows(cfgFile, darknetModel, out returnValue);
-        return dnn_readNetFromDarknet_NotWindows(cfgFile, darknetModel, out returnValue);
-    }
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromDarknet_InputArray")]
-    public static extern unsafe ExceptionStatus dnn_readNetFromDarknet(
-        byte* bufferCfg, IntPtr lenCfg,
-        byte* bufferModel, IntPtr lenModel,
-        out IntPtr returnValue);
-
-    // readNetFromCaffe
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromCaffe")]
-    public static extern ExceptionStatus dnn_readNetFromCaffe_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string prototxt, 
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? caffeModel,
-        out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromCaffe")]
-    public static extern ExceptionStatus dnn_readNetFromCaffe_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string prototxt, 
-        [MarshalAs(StringUnmanagedTypeWindows)] string? caffeModel,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromCaffe(string prototxt, string? caffeModel, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromCaffe_Windows(prototxt, caffeModel, out returnValue);
-        return dnn_readNetFromCaffe_NotWindows(prototxt, caffeModel, out returnValue);
-    }
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true,
-        EntryPoint = "dnn_readNetFromCaffe_InputArray")]
-    public static extern unsafe ExceptionStatus dnn_readNetFromCaffe(
-        byte* bufferProto, IntPtr lenProto,
-        byte* bufferModel, IntPtr lenModel,
-        out IntPtr returnValue);
-
     // readNetFromTensorflow
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
@@ -98,29 +39,6 @@ static partial class NativeMethods
         byte* bufferConfig, IntPtr configDataLength,
         out IntPtr returnValue);
 
-    // readNetFromTorch
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromTorch")]
-    public static extern ExceptionStatus dnn_readNetFromTorch_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, 
-        int isBinary,
-        out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readNetFromTorch")]
-    public static extern ExceptionStatus dnn_readNetFromTorch_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        int isBinary,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromTorch(string model, int isBinary, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromTorch_Windows(model, isBinary, out returnValue);
-        return dnn_readNetFromTorch_NotWindows(model, isBinary, out returnValue);
-    }
-
     // readNet
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
@@ -144,29 +62,6 @@ static partial class NativeMethods
         if (IsWindows())
             return dnn_readNet_Windows(model, config, framework, out returnValue);
         return dnn_readNet_NotWindows(model, config, framework, out returnValue);
-    }
-
-    // readTorchBlob
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readTorchBlob")]
-    public static extern ExceptionStatus dnn_readTorchBlob_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName,
-        int isBinary, 
-        out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_readTorchBlob")]
-    public static extern ExceptionStatus dnn_readTorchBlob_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string fileName,
-        int isBinary,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readTorchBlob(string fileName, int isBinary, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readTorchBlob_Windows(fileName, isBinary, out returnValue);
-        return dnn_readTorchBlob_NotWindows(fileName, isBinary, out returnValue);
     }
 
     // readNetFromModelOptimizer
@@ -243,28 +138,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_blobFromImages(
         IntPtr[] images, int imagesLength, double scaleFactor, Size size, Scalar mean, int swapRB, int crop, out IntPtr returnValue);
-
-    // shrinkCaffeModel
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_shrinkCaffeModel")]
-    public static extern ExceptionStatus dnn_shrinkCaffeModel_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string src,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string dst, 
-        string[] layersTypes, int layersTypesSize);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "dnn_shrinkCaffeModel")]
-    public static extern ExceptionStatus dnn_shrinkCaffeModel_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string src, [MarshalAs(StringUnmanagedTypeWindows)] string dst,
-        string[] layersTypes, int layersTypesSize);
-
-    public static ExceptionStatus dnn_shrinkCaffeModel(string src, string dst, string[] layersTypes, int layersTypesSize)
-    {
-        if (IsWindows())
-            return dnn_shrinkCaffeModel_Windows(src, dst, layersTypes, layersTypesSize);
-        return dnn_shrinkCaffeModel_NotWindows(src, dst, layersTypes, layersTypesSize);
-    }
 
     // writeTextGraph
 
