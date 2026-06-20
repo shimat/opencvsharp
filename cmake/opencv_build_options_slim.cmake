@@ -15,8 +15,12 @@ set(ENABLE_CXX11      ON      CACHE BOOL   "" FORCE)
 #   - CascadeClassifier / HOGDescriptor / groupRectangles moved to the contrib
 #     xobjdetect module (lightweight: depends only on core/imgproc/imgcodecs/
 #     features), kept in the slim profile. Pulled from OPENCV_EXTRA_MODULES_PATH.
+#   - BRISK / KAZE / AKAZE / AGAST / FREAK / BRIEF / DAISY / ... moved to the
+#     contrib xfeatures2d module. Its required deps (core/imgproc/features/
+#     geometry) are all in this list and it pulls no heavy external dependency,
+#     so it is kept in the slim profile too.
 # Dependencies of whitelisted modules are added automatically.
-set(BUILD_LIST "core,imgproc,imgcodecs,geometry,calib,stereo,features,flann,objdetect,photo,ml,video,stitching,xobjdetect" CACHE STRING "" FORCE)
+set(BUILD_LIST "core,imgproc,imgcodecs,geometry,calib,stereo,features,flann,objdetect,photo,ml,video,stitching,xobjdetect,xfeatures2d" CACHE STRING "" FORCE)
 
 # Disable DNN and Protobuf (not needed in slim profile)
 set(BUILD_opencv_dnn  OFF CACHE BOOL "" FORCE)

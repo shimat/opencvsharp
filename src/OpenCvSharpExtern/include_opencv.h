@@ -61,6 +61,15 @@
 #include <opencv2/xobjdetect.hpp>
 #endif
 
+// OpenCV 5 relocated several feature detectors/descriptors (BRISK, KAZE, AKAZE,
+// AGAST, FREAK, BRIEF, DAISY, LATCH, VGG, ...) from the main features module into
+// the contrib xfeatures2d module (cv::xfeatures2d). Its required deps
+// (core/imgproc/features/geometry) are all present in the slim profile and it
+// pulls no heavy external dependency, so it is kept available in every profile
+// (including slim). Not aggregated by opencv.hpp, so include it explicitly.
+// (SURF/nonfree lives in the separate opencv2/xfeatures2d/nonfree.hpp.)
+#include <opencv2/xfeatures2d.hpp>
+
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>
@@ -98,7 +107,6 @@
 #include <opencv2/optflow.hpp>
 #include <opencv2/quality.hpp>
 #include <opencv2/tracking.hpp>
-#include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ximgproc.hpp>
 #include <opencv2/saliency.hpp>
 #include <opencv2/xphoto.hpp>
