@@ -200,7 +200,9 @@ OpenCvSharp has three layers:
 
 See `docs/release-process.md` for the full release workflow.
 
-**Key rule: do not edit version numbers in source files for routine releases.** The NuGet package version is passed via `-p:Version=...` at pack time in CI. `AssemblyVersion` and `FileVersion` are hardcoded to `4.0.0.0` in `src/Directory.Build.props` and must not be changed for patch or minor OpenCV upgrades — only bump the major component on a breaking API change or OpenCV major-version upgrade. `InformationalVersion` is set automatically by the SDK to the full NuGet version string.
+**Key rule: do not edit version numbers in source files for routine releases.** The NuGet package version is passed via `-p:Version=...` at pack time in CI. `AssemblyVersion` and `FileVersion` are hardcoded to `5.0.0.0` in `src/Directory.Build.props` and must not be changed for patch or minor OpenCV upgrades — only bump the major component on a breaking API change or OpenCV major-version upgrade. `InformationalVersion` is set automatically by the SDK to the full NuGet version string.
+
+> **Branch note:** `main`/`5.x` targets OpenCV 5.x and publishes the `OpenCvSharp5` package family. The `4.x` branch is frozen on OpenCV 4.13.0 (`OpenCvSharp4` family, `AssemblyVersion 4.0.0.0`); cut 4.x patches from there.
 
 ## Native DLL loading (Windows)
 

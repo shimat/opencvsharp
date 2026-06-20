@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.13.0
+  OPENCV_VERSION: 5.0.0
   CACHE_VERSION: "2"
 
 jobs:
@@ -141,8 +141,8 @@ jobs:
           echo "Package version: $version"
 
           cd ${GITHUB_WORKSPACE}
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
+          dotnet pack nuget/OpenCvSharp5.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
+          dotnet pack nuget/OpenCvSharp5.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
 
           ls ${GITHUB_WORKSPACE}/artifacts_arm64
 

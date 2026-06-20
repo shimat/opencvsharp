@@ -1361,13 +1361,12 @@ public partial class Mat : CvObject
         }
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
-    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
     /// To select all the rows, use Range.All().</param>
-    /// <param name="colRange">Start and end column of the extracted submatrix. 
+    /// <param name="colRange">Start and end column of the extracted submatrix.
     /// The upper boundary is not included. To select all the columns, use Range.All().</param>
     /// <returns></returns>
     public Mat this[System.Range rowRange, System.Range colRange]
@@ -1389,7 +1388,6 @@ public partial class Mat : CvObject
             value.CopyTo(sub);
         }
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.
@@ -1529,7 +1527,6 @@ public partial class Mat : CvObject
     public Mat ColRange(Range range) 
         => ColRange(range.Start, range.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Creates a matrix header for the specified column span.
     /// </summary>
@@ -1540,7 +1537,6 @@ public partial class Mat : CvObject
         var (colStart, colLength) = range.GetOffsetAndLength(Cols);
         return ColRange(colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Creates a matrix header for the specified matrix row.
@@ -1579,7 +1575,6 @@ public partial class Mat : CvObject
     public Mat RowRange(Range range) 
         => RowRange(range.Start, range.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     ///  Creates a matrix header for the specified row span.
     /// </summary>
@@ -1590,7 +1585,6 @@ public partial class Mat : CvObject
         var (rowStart, rowLength) = range.GetOffsetAndLength(Rows);
         return RowRange(rowStart, rowStart + rowLength);
     }
-#endif
 
     /// <summary>
     /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
@@ -2581,7 +2575,6 @@ public partial class Mat : CvObject
     public Mat SubMat(Range rowRange, Range colRange) 
         => SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
@@ -2596,7 +2589,6 @@ public partial class Mat : CvObject
         var (colStart, colLength) = colRange.GetOffsetAndLength(Cols);
         return SubMat(rowStart, rowStart + rowLength, colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.

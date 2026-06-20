@@ -176,10 +176,8 @@ public struct Vec6f : IVec<Vec6f, float>, IEquatable<Vec6f>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-#if !NETSTANDARD2_0
     /// <summary>Returns a <see cref="Span{T}"/> over the 6 elements of this vector.</summary>
     public Span<float> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
-#endif
 
     /// <inheritdoc />
     public readonly bool Equals(Vec6f other) =>
@@ -214,20 +212,7 @@ public struct Vec6f : IVec<Vec6f, float>, IEquatable<Vec6f>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if NETSTANDARD2_0
-        unchecked
-        {
-            var hashCode = Item0.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item1.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item2.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item3.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item4.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item5.GetHashCode();
-            return hashCode;
-        }
-#else
         return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
-#endif
     }
 
     /// <inheritdoc />

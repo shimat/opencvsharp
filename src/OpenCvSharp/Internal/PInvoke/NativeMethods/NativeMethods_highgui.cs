@@ -102,10 +102,4 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
     public static extern ExceptionStatus highgui_cvGetWindowHandle([MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr returnValue);
-
-#if WINRT
-    // MP! Added: To correctly support imShow under WinRT.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus highgui_initContainer([MarshalAs(UnmanagedType.IUnknown)] Object panel);
-#endif
 }

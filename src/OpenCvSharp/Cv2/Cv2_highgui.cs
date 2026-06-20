@@ -457,18 +457,4 @@ static partial class Cv2
             NativeMethods.highgui_cvGetWindowHandle(windowName, out var ret));
         return ret;
     }
-
-#if WINRT
-        // MP! Added: To correctly support imShow under WinRT.
-
-        /// <summary>
-        /// Initialize XAML container panel for use by ImShow
-        /// </summary>
-        /// <param name="panel">Panel container.</param>
-        public static void InitContainer(object panel)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.highgui_initContainer(panel));
-        }
-#endif
 }

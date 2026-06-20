@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>OpenCvSharp.Extensions</AssemblyName>
+    <AssemblyName>OpenCvSharp.GdipExtensions</AssemblyName>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>OpenCvSharp4.Extensions</PackageId>
+    <PackageId>OpenCvSharp5.GdipExtensions</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -33,7 +33,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  <PropertyGroup>
     <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
 
@@ -61,11 +61,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <NoWarn>CA1303;</NoWarn>
-  </PropertyGroup>
-  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+    <NoWarn>CA1303;CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
 
 </Project>
