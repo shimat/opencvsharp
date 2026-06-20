@@ -71,6 +71,15 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
+          # Drop MinGW from PATH so OpenCV 5's vendored MLAS does not detect
+          # C:\mingw64\bin\cc.exe as the ASM compiler. With MinGW present,
+          # check_language(ASM) enables the GNU-syntax .S SGEMM kernels, which
+          # (a) fail to produce SgemmKernelSse2.obj for the MSVC linker on x64 and
+          # (b) inject MinGW's implicit link libs (pthread) into the OpenCV link
+          # interface, breaking the arm64 extern link with LNK1181 pthread.lib.
+          # Without an ASM compiler MLAS cleanly disables (DNN uses its built-in
+          # SGEMM), matching a clean local VS build.
+          $env:PATH = ($env:PATH -split ';' | Where-Object { $_ -notmatch 'mingw' }) -join ';'
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -302,6 +311,15 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
+          # Drop MinGW from PATH so OpenCV 5's vendored MLAS does not detect
+          # C:\mingw64\bin\cc.exe as the ASM compiler. With MinGW present,
+          # check_language(ASM) enables the GNU-syntax .S SGEMM kernels, which
+          # (a) fail to produce SgemmKernelSse2.obj for the MSVC linker on x64 and
+          # (b) inject MinGW's implicit link libs (pthread) into the OpenCV link
+          # interface, breaking the arm64 extern link with LNK1181 pthread.lib.
+          # Without an ASM compiler MLAS cleanly disables (DNN uses its built-in
+          # SGEMM), matching a clean local VS build.
+          $env:PATH = ($env:PATH -split ';' | Where-Object { $_ -notmatch 'mingw' }) -join ';'
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
