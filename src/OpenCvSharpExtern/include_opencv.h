@@ -43,6 +43,24 @@
 // umbrella by pre-defining its include guard.
 #define OPENCV_CALIB3D_HPP
 
+// OpenCV 5 moved the geometry primitives into the new "geometry" module:
+//  - 2D (opencv2/geometry/2d.hpp): convexHull, minAreaRect, fitEllipse, boxPoints,
+//    minEnclosingCircle/Triangle, Subdiv2D, ...
+//  - 3D (opencv2/geometry/3d.hpp): solvePnP, findHomography, triangulatePoints, ...
+// opencv2/opencv.hpp does not pull opencv2/geometry.hpp (and the legacy calib3d
+// umbrella that used to is neutralized above), so include it explicitly.
+#include <opencv2/geometry.hpp>
+
+// OpenCV 5 moved CascadeClassifier / HOGDescriptor / groupRectangles out of the
+// main objdetect module into the contrib xobjdetect module (still in the cv::
+// namespace). It is lightweight (depends only on core/imgproc/imgcodecs/features),
+// so OpenCvSharpExtern keeps it available in every profile (including slim) and is
+// not aggregated by opencv2/opencv.hpp, so include it explicitly. These APIs are
+// not exposed under WinRT, mirroring the objdetect_*.h export guards.
+#ifndef _WINRT_DLL
+#include <opencv2/xobjdetect.hpp>
+#endif
+
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>
