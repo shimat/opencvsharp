@@ -7,6 +7,12 @@
 
 #include "include_opencv.h"
 
+// OpenCV 5 moved the bag-of-words classes (BOWTrainer / BOWKMeansTrainer /
+// BOWImgDescriptorExtractor) out of the core features module and into the
+// opencv_contrib xfeatures2d module (cv::xfeatures2d namespace). They are
+// therefore unavailable in NO_CONTRIB (slim) builds.
+#ifndef NO_CONTRIB
+
 // BOWTrainer
 
 CVAPI(ExceptionStatus) features2d_BOWTrainer_add(cv::xfeatures2d::BOWTrainer *obj, cv::Mat *descriptors)
@@ -172,5 +178,7 @@ CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_descriptorType(cv::x
     *returnValue = obj->descriptorType();
     END_WRAP
 }
+
+#endif // NO_CONTRIB
 
 #endif // NO_FEATURES2D

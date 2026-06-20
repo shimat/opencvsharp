@@ -70,8 +70,10 @@
 #include <opencv2/superres/optical_flow.hpp>
 #endif 
 // opencv_contrib
-#include <opencv2/aruco.hpp>
-#include <opencv2/aruco/charuco.hpp>
+// NOTE: OpenCV 5 merged the aruco module into the main objdetect module
+// (opencv2/objdetect/aruco_detector.hpp, charuco_detector.hpp, ...), which is
+// already pulled in by opencv2/opencv.hpp. The legacy contrib umbrella headers
+// opencv2/aruco.hpp / opencv2/aruco/charuco.hpp were removed.
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/img_hash.hpp>
 #include <opencv2/line_descriptor.hpp>
