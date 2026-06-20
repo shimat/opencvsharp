@@ -14,7 +14,7 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: "4.13.0"
+  OPENCV_VERSION: "5.0.0"
 
 jobs:
   build:

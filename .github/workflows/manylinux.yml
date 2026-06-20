@@ -1,4 +1,4 @@
-name: manylinux
+﻿name: manylinux
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.13.0
+  OPENCV_VERSION: 5.0.0
 
 jobs:
   # ---------------------------------------------------------------------------

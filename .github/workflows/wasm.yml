@@ -1,4 +1,4 @@
-name: Wasm
+﻿name: Wasm
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.13.0
+  OPENCV_VERSION: 5.0.0
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
 
