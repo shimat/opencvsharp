@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.Extensions;
+namespace OpenCvSharp.GdipExtensions;
 
 /// <summary>
 /// static class which provides conversion between System.Drawing.Bitmap and Mat

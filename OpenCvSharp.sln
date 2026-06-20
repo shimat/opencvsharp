@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp", "src\OpenCvSh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.Tests", "test\OpenCvSharp.Tests\OpenCvSharp.Tests.csproj", "{FFBBCF99-97F0-4F81-AAF6-8D851A8E1D2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.Extensions", "src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj", "{B4B78BB2-1B7C-4CF2-BC72-43789EEDCE00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.GdipExtensions", "src\OpenCvSharp.GdipExtensions\OpenCvSharp.GdipExtensions.csproj", "{B4B78BB2-1B7C-4CF2-BC72-43789EEDCE00}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCvSharpExtern", "src\OpenCvSharpExtern\OpenCvSharpExtern.vcxproj", "{8E7279F8-F801-4672-B42F-1ED2C68B16A4}"
 EndProject

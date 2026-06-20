@@ -159,7 +159,7 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 | Package | Description |
 |---------|-------------|
 |**[OpenCvSharp5](https://www.nuget.org/packages/OpenCvSharp5/)**| OpenCvSharp core libraries |
-|**[OpenCvSharp5.Extensions](https://www.nuget.org/packages/OpenCvSharp5.Extensions/)**| GDI+ Extensions |
+|**[OpenCvSharp5.GdipExtensions](https://www.nuget.org/packages/OpenCvSharp5.GdipExtensions/)**| GDI+ (System.Drawing) Extensions |
 |**[OpenCvSharp5.WpfExtensions](https://www.nuget.org/packages/OpenCvSharp5.WpfExtensions/)**| WPF Extensions |
 |**[OpenCvSharp5.Windows](https://www.nuget.org/packages/OpenCvSharp5.Windows/)**| All-in-one package for Windows (except UWP) |
 |**[OpenCvSharp5.Windows.Slim](https://www.nuget.org/packages/OpenCvSharp5.Windows.Slim/)**| All-in-one slim package for Windows (except UWP) |
