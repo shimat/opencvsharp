@@ -133,7 +133,7 @@ jobs:
           cmake --install opencv-${OPENCV_VERSION}/build
           em++ -r -o ${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o \
             -Wl,--whole-archive ${GITHUB_WORKSPACE}/opencv_wasm/lib/*.a \
-            ${GITHUB_WORKSPACE}/opencv_wasm/lib/opencv4/3rdparty/*.a
+            ${GITHUB_WORKSPACE}/opencv_wasm/lib/opencv5/3rdparty/*.a
           ls
 
       - name: Save OpenCV cache
@@ -150,7 +150,7 @@ jobs:
         run: |
           ls ${GITHUB_WORKSPACE}/opencv_wasm
           echo "-----"
-          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv4 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
+          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv5 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
           cmake --build src/build --parallel $(nproc)
           ls src/build/OpenCvSharpExtern
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
