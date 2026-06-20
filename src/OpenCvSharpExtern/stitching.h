@@ -121,11 +121,11 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray1(
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray2(
     cv::Stitcher *obj, cv::_InputArray *images,
-    const CvRect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
+    const MyCvRect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
 {
     BEGIN_WRAP
     std::vector<std::vector<cv::Rect> > roisVec;
-    toVec(rois, roisSize1, roisSize2, roisVec);
+    toRectVec(rois, roisSize1, roisSize2, roisVec);
 
     *returnValue = static_cast<int>(obj->estimateTransform(*images, roisVec));
     END_WRAP
@@ -143,14 +143,14 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray1(
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray2(
     cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
-    const CvRect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
+    const MyCvRect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
     std::vector<std::vector<cv::Rect> > roisVec;
-    toVec(rois, roisSize1, roisSize2, roisVec);
+    toRectVec(rois, roisSize1, roisSize2, roisVec);
 
     *returnValue = static_cast<int>(obj->estimateTransform(imagesVec, roisVec));
     END_WRAP
@@ -204,13 +204,13 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_MatArray(
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_InputArray(
-    cv::Stitcher *obj, cv::_InputArray *images, 
-    const CvRect **rois, const int roisSize1, int *roisSize2,
+    cv::Stitcher *obj, cv::_InputArray *images,
+    const MyCvRect **rois, const int roisSize1, int *roisSize2,
     cv::_OutputArray *pano, int *returnValue)
 {
     BEGIN_WRAP
     std::vector<std::vector<cv::Rect> > roisVec;
-    toVec(rois, roisSize1, roisSize2, roisVec);
+    toRectVec(rois, roisSize1, roisSize2, roisVec);
 
     *returnValue = static_cast<int>(obj->stitch(*images, roisVec, *pano));
     END_WRAP
@@ -218,7 +218,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_InputArray(
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
     cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
-    const CvRect **rois, const int roisSize1, int *roisSize2,
+    const MyCvRect **rois, const int roisSize1, int *roisSize2,
     cv::_OutputArray *pano, int *returnValue)
 {
     BEGIN_WRAP
@@ -226,7 +226,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
     toVec(images, imagesSize, imagesVec);
 
     std::vector<std::vector<cv::Rect> > roisVec;
-    toVec(rois, roisSize1, roisSize2, roisVec);
+    toRectVec(rois, roisSize1, roisSize2, roisVec);
 
     *returnValue = static_cast<int>(obj->stitch(imagesVec, roisVec, *pano));
     END_WRAP

@@ -303,39 +303,6 @@ CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL>* ptr, cv
 
 #pragma endregion
 
-#pragma region TrackerGOTURN
-
-CVAPI(ExceptionStatus) video_TrackerGOTURN_create1(cv::Ptr<cv::TrackerGOTURN>** returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerGOTURN::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_TrackerGOTURN_create2(cv::TrackerGOTURN::Params* parameters, cv::Ptr<cv::TrackerGOTURN>** returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerGOTURN::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTURN>* ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN>* ptr, cv::TrackerGOTURN** returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-#pragma endregion
-
 // TODO
 #pragma region DenseOpticalFlow
 

@@ -104,13 +104,6 @@ CVAPI(ExceptionStatus) core_convertScaleAbs(cv::_InputArray* src, cv::_OutputArr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_convertFp16(cv::_InputArray *src, cv::_OutputArray *dst)
-{
-    BEGIN_WRAP
-    cv::convertFp16(*src, *dst);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) core_LUT(cv::_InputArray* src, cv::_InputArray* lut, cv::_OutputArray* dst)
 {
     BEGIN_WRAP

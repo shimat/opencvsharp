@@ -10,9 +10,14 @@ CVAPI(ExceptionStatus) wechat_qrcode_create1(const char *detector_prototxt_path,
     const char *super_resolution_caffe_model_path, cv::wechat_qrcode::WeChatQRCode **returnValue)
 {
     BEGIN_WRAP
+    // OpenCV 5 dropped Caffe model support; WeChatQRCode now takes a single ONNX path for
+    // the detector and a single ONNX path for the super-resolution model. The legacy caffe
+    // model arguments are ignored.
+    (void)detector_caffe_model_path;
+    (void)super_resolution_caffe_model_path;
     *returnValue = new cv::wechat_qrcode::WeChatQRCode(
-        detector_prototxt_path, detector_caffe_model_path,
-        super_resolution_prototxt_path, super_resolution_caffe_model_path);
+        detector_prototxt_path == nullptr ? std::string() : std::string(detector_prototxt_path),
+        super_resolution_prototxt_path == nullptr ? std::string() : std::string(super_resolution_prototxt_path));
     END_WRAP
 }
 

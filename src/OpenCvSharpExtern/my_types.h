@@ -306,6 +306,25 @@ static cv::Rect cpp(const MyCvRect &r)
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
+// Converts a jagged array of MyCvRect into nested std::vector<cv::Rect>.
+// (Replaces the legacy CvRect-based toVec path; CvRect was dropped from the
+// OpenCV 5 public include chain.)
+static void toRectVec(
+    const MyCvRect **inPtr, const int size1, const int *size2, std::vector<std::vector<cv::Rect> > &outVec)
+{
+    outVec.resize(size1);
+    for (int i = 0; i < size1; i++)
+    {
+        const int size = size2[i];
+        const MyCvRect *p = inPtr[i];
+        std::vector<cv::Rect> v;
+        v.reserve(size);
+        for (int j = 0; j < size; j++)
+            v.push_back(cpp(p[j]));
+        outVec[i] = std::move(v);
+    }
+}
+
 static MyCvRect2D32f c(const cv::Rect2f& r)
 {
     return { r.x, r.y, r.width, r.height };

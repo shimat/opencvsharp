@@ -8,7 +8,13 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(const char *super_resoluti
     const char *super_resolution_caffe_model_path, cv::barcode::BarcodeDetector **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::barcode::BarcodeDetector(super_resolution_prototxt_path, super_resolution_caffe_model_path);
+    // OpenCV 5 dropped Caffe model support; the BarcodeDetector now takes a single ONNX
+    // super-resolution model path. The legacy caffe-model argument is ignored.
+    (void)super_resolution_caffe_model_path;
+    if (super_resolution_prototxt_path == nullptr || super_resolution_prototxt_path[0] == '\0')
+        *returnValue = new cv::barcode::BarcodeDetector();
+    else
+        *returnValue = new cv::barcode::BarcodeDetector(std::string(super_resolution_prototxt_path));
     END_WRAP
 }
 

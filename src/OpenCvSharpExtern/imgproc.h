@@ -364,22 +364,6 @@ CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, MyCvSize pa
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_logPolar(cv::_InputArray *src, cv::_OutputArray *dst,
-                             MyCvPoint2D32f center, double M, int flags)
-{
-    BEGIN_WRAP
-    cv::logPolar(*src, *dst, cpp(center), M, flags);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArray *dst,
-                                MyCvPoint2D32f center, double maxRadius, int flags)
-{
-    BEGIN_WRAP
-    cv::linearPolar(*src, *dst, cpp(center), maxRadius, flags);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) imgproc_warpPolar(
     cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dsize,
     MyCvPoint2D32f center, double maxRadius, int flags)
