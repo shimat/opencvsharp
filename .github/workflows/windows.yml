@@ -71,15 +71,14 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
-          # Drop MinGW from PATH so OpenCV 5's vendored MLAS does not detect
-          # C:\mingw64\bin\cc.exe as the ASM compiler. With MinGW present,
-          # check_language(ASM) enables the GNU-syntax .S SGEMM kernels, which
-          # (a) fail to produce SgemmKernelSse2.obj for the MSVC linker on x64 and
-          # (b) inject MinGW's implicit link libs (pthread) into the OpenCV link
-          # interface, breaking the arm64 extern link with LNK1181 pthread.lib.
-          # Without an ASM compiler MLAS cleanly disables (DNN uses its built-in
-          # SGEMM), matching a clean local VS build.
-          $env:PATH = ($env:PATH -split ';' | Where-Object { $_ -notmatch 'mingw' }) -join ';'
+          # Force OpenCV 5's vendored MLAS off by giving CMake no ASM compiler
+          # (see -D CMAKE_ASM_COMPILER below). MinGW or Strawberry-Perl gcc on the
+          # runner PATH would otherwise be picked by MLAS's check_language(ASM),
+          # building GNU-syntax .S SGEMM kernels that fail the MSVC link (x64:
+          # missing SgemmKernelSse2.obj) and inject pthread into the OpenCV link
+          # interface (arm64: LNK1181 pthread.lib). MLAS then disables and DNN uses
+          # its built-in SGEMM, matching a clean local VS build. Windows builds the
+          # image codecs via vcpkg, so no other ASM language is needed.
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -92,6 +91,7 @@ jobs:
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -311,15 +311,14 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
-          # Drop MinGW from PATH so OpenCV 5's vendored MLAS does not detect
-          # C:\mingw64\bin\cc.exe as the ASM compiler. With MinGW present,
-          # check_language(ASM) enables the GNU-syntax .S SGEMM kernels, which
-          # (a) fail to produce SgemmKernelSse2.obj for the MSVC linker on x64 and
-          # (b) inject MinGW's implicit link libs (pthread) into the OpenCV link
-          # interface, breaking the arm64 extern link with LNK1181 pthread.lib.
-          # Without an ASM compiler MLAS cleanly disables (DNN uses its built-in
-          # SGEMM), matching a clean local VS build.
-          $env:PATH = ($env:PATH -split ';' | Where-Object { $_ -notmatch 'mingw' }) -join ';'
+          # Force OpenCV 5's vendored MLAS off by giving CMake no ASM compiler
+          # (see -D CMAKE_ASM_COMPILER below). MinGW or Strawberry-Perl gcc on the
+          # runner PATH would otherwise be picked by MLAS's check_language(ASM),
+          # building GNU-syntax .S SGEMM kernels that fail the MSVC link (x64:
+          # missing SgemmKernelSse2.obj) and inject pthread into the OpenCV link
+          # interface (arm64: LNK1181 pthread.lib). MLAS then disables and DNN uses
+          # its built-in SGEMM, matching a clean local VS build. Windows builds the
+          # image codecs via vcpkg, so no other ASM language is needed.
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -333,6 +332,7 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D WITH_FFMPEG=OFF `
+            -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
