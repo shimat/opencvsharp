@@ -62,6 +62,13 @@ jobs:
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
+          # Disable the generic ASM language so OpenCV 5's vendored MLAS skips its
+          # ASM kernels and reports MLAS unavailable (DNN falls back to its
+          # built-in SGEMM). On aarch64 the MLAS FP16/GQA path references
+          # MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls but never
+          # defines, breaking the extern link with an undefined reference.
+          # GCC 12+ builds libjpeg-turbo/libpng SIMD via NEON intrinsics (not GAS),
+          # so dropping the ASM compiler does not affect the image codecs here.
           cmake \
             -G Ninja \
             -C cmake/opencv_build_options.cmake \
@@ -69,6 +76,7 @@ jobs:
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            -D CMAKE_ASM_COMPILER="" \
             2>&1 | tee /tmp/opencv-configure.log
 
       - name: Verify OpenCV cmake features
