@@ -118,6 +118,21 @@ if (Test-Path $cmakeCache) {
     Write-Host "Removing stale CMakeCache.txt ..."
     Remove-Item $cmakeCache -Force
 }
+
+# ---------------------------------------------------------------------------
+# Install vcpkg manifest dependencies (zlib, libpng, libjpeg-turbo, tiff,
+# libwebp, tesseract) into $vcpkgInstalledDir. The CI pipeline runs this as a
+# separate step; do the same here, otherwise OpenCV cannot find them and builds
+# imgcodecs / text incompletely (missing opencv_imgcodecs*.lib, etc.).
+# ---------------------------------------------------------------------------
+Write-Host "Installing vcpkg dependencies (manifest) ..."
+& "$vcpkgRoot/vcpkg.exe" install `
+    --triplet x64-windows-static `
+    --overlay-triplets="$RepoRoot/cmake/triplets" `
+    --x-install-root="$vcpkgInstalledDir" `
+    --x-manifest-root="$RepoRoot"
+if ($LASTEXITCODE -ne 0) { throw "vcpkg install failed" }
+
 cmake `
     -C "$RepoRoot/cmake/opencv_build_options.cmake" `
     -S "$RepoRoot/opencv" `
@@ -126,6 +141,7 @@ cmake `
     -D "CMAKE_GENERATOR_INSTANCE=$vsInstallPath" `
     -D "CMAKE_TOOLCHAIN_FILE=$vcpkgToolchain" `
     -D "VCPKG_TARGET_TRIPLET=x64-windows-static" `
+    -D "VCPKG_MANIFEST_INSTALL=OFF" `
     -D "VCPKG_INSTALLED_DIR=$vcpkgInstalledDir" `
     -D "VCPKG_OVERLAY_TRIPLETS=$RepoRoot/cmake/triplets" `
     -D "OPENCV_EXTRA_MODULES_PATH=$RepoRoot/opencv_contrib/modules" `
