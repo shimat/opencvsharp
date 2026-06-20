@@ -1,4 +1,4 @@
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!--
     For .NET Framework (net4x) targets using PackageReference, NuGet's build pipeline automatically
     copies runtimes/win-x64/native/ assets to the output root directory. However, the companion
@@ -13,12 +13,12 @@
     Old-style (packages.config) projects do not process runtimes/ assets at all, so this target
     has no effect there (which is fine — no duplicate exists in that case either).
   -->
-  <Target Name="OpenCvSharp4RuntimeWin_RemoveRootNativeAssets"
+  <Target Name="OpenCvSharp5RuntimeWin_RemoveRootNativeAssets"
           AfterTargets="ResolvePackageAssets"
           Condition="$(TargetFramework.StartsWith('net4')) Or $(TargetFrameworkVersion.StartsWith('v4'))">
     <ItemGroup>
       <RuntimeCopyLocalItems Remove="@(RuntimeCopyLocalItems)"
-          Condition="'%(NuGetPackageId)' == 'OpenCvSharp4.runtime.win'" />
+          Condition="'%(NuGetPackageId)' == 'OpenCvSharp5.runtime.win'" />
     </ItemGroup>
   </Target>
 </Project>

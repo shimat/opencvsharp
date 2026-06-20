@@ -8,7 +8,7 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>OpenCvSharp4</PackageId>
+    <PackageId>OpenCvSharp5</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -27,7 +27,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</Description>
+    <Description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp5.runtime.*).</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>

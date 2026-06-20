@@ -5,8 +5,8 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.win</PackageId>
-    <Title>OpenCvSharp4 native bindings for Windows x64 (except UWP)</Title>
+    <PackageId>OpenCvSharp5.runtime.win</PackageId>
+    <Title>OpenCvSharp5 native bindings for Windows x64 (except UWP)</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
@@ -24,12 +24,12 @@
   <ItemGroup>
     <None Include="../src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="../opencv_artifacts/x64/vc17/bin/opencv_videoio_ffmpeg4130_64.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win.targets" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharp5.runtime.win.targets" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win.targets" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win.targets" Pack="true" PackagePath="build/net8.0" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>

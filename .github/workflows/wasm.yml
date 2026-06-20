@@ -173,7 +173,7 @@ jobs:
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
           
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm -p:Version=$version
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp5.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm -p:Version=$version
           
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 

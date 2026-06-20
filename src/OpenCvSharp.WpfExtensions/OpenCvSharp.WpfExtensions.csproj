@@ -12,7 +12,7 @@
     <RepositoryType>git</RepositoryType>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.WpfExtensions</PackageId>
+    <PackageId>OpenCvSharp5.WpfExtensions</PackageId>
     <Title>OpenCvSharp WPF extension library.</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

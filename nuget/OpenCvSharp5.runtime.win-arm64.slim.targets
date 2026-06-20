@@ -13,14 +13,14 @@
     Old-style (packages.config) projects do not process runtimes/ assets at all, so this target
     has no effect there (which is fine — no duplicate exists in that case either).
 
-    See also: OpenCvSharp4.runtime.win.targets for the equivalent x64 implementation.
+    See also: OpenCvSharp5.runtime.win.targets for the equivalent x64 implementation.
   -->
-  <Target Name="OpenCvSharp4RuntimeWinArm64Slim_RemoveRootNativeAssets"
+  <Target Name="OpenCvSharp5RuntimeWinArm64Slim_RemoveRootNativeAssets"
           AfterTargets="ResolvePackageAssets"
           Condition="$(TargetFramework.StartsWith('net4')) Or $(TargetFrameworkVersion.StartsWith('v4'))">
     <ItemGroup>
       <RuntimeCopyLocalItems Remove="@(RuntimeCopyLocalItems)"
-          Condition="'%(NuGetPackageId)' == 'OpenCvSharp4.runtime.win-arm64.slim'" />
+          Condition="'%(NuGetPackageId)' == 'OpenCvSharp5.runtime.win-arm64.slim'" />
     </ItemGroup>
   </Target>
 </Project>

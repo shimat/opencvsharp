@@ -5,7 +5,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.Windows</PackageId>
+    <PackageId>OpenCvSharp5.Windows</PackageId>
     <Title>OpenCvSharp NuGet package for x64 Windows (same as OpenCvSharp3-AnyCPU)</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -23,16 +23,16 @@
   
   <!-- This is a meta-package that depends on other packages -->
   <ItemGroup>
-    <PackageReference Include="OpenCvSharp4" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
-    <PackageReference Include="OpenCvSharp4" Version="*" Condition="'$(PackageVersion)' == ''" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5.runtime.win" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.runtime.win" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
   
   <!-- For .NET Framework and .NET >= 8, also include WPF extensions -->
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1'">
-    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
-    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
   
   <ItemGroup>

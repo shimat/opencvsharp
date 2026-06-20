@@ -1,9 +1,9 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<OpenCvSharp4ExternalNativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</OpenCvSharp4ExternalNativeDlls>
+		<OpenCvSharp5ExternalNativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</OpenCvSharp5ExternalNativeDlls>
 	</PropertyGroup>
 	<ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
-		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-arm64\native\OpenCvSharpExtern.dll">
+		<Content Include="$(OpenCvSharp5ExternalNativeDlls)\win-arm64\native\OpenCvSharpExtern.dll">
 			<Link>dll\arm64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>

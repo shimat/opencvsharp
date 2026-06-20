@@ -372,12 +372,12 @@ jobs:
 
           # Full package
           cp /tmp/so-full/libOpenCvSharpExtern.so nuget/libOpenCvSharpExtern.so
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj \
+          dotnet pack nuget/OpenCvSharp5.official.runtime.linux-x64.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           # Slim package (overwrite .so in nuget/ with slim binary)
           cp /tmp/so-slim/libOpenCvSharpExtern-slim.so nuget/libOpenCvSharpExtern.so
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.slim.csproj \
+          dotnet pack nuget/OpenCvSharp5.official.runtime.linux-x64.slim.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts

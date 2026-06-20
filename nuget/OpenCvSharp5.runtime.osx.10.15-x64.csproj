@@ -1,17 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-
-    <PackageId>OpenCvSharp4.official.runtime.linux-x64.slim</PackageId>
-    <Title>OpenCvSharp native bindings for Linux x64 (Slim)</Title>
-    <Authors>shimat</Authors>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>OpenCvSharp5.runtime.osx.10.15-x64</PackageId>
+    <Title>OpenCvSharp native bindings for macOS.10.15-x64</Title>
+    <Authors>shimat,vladkol</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Slim native bindings package for OpenCvSharp on Linux x64 (portable RID). Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp linux slim</PackageTags>
+    <Description>Internal implementation package for OpenCvSharp to work on macOS 10</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp macos</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
@@ -19,9 +20,9 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <None Include="libOpenCvSharpExtern.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>

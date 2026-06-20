@@ -5,8 +5,8 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.win-arm64</PackageId>
-    <Title>OpenCvSharp4 native bindings for Windows ARM64</Title>
+    <PackageId>OpenCvSharp5.runtime.win-arm64</PackageId>
+    <Title>OpenCvSharp5 native bindings for Windows ARM64</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
@@ -23,12 +23,12 @@
   
   <ItemGroup>
     <None Include="../src/build_arm64/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-arm64/native" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.props" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.props" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.targets" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.targets" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp4.runtime.win-arm64.targets" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.props" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.props" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.props" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.targets" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.targets" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.targets" Pack="true" PackagePath="build/net8.0" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
