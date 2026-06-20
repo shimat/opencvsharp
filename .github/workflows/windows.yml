@@ -173,12 +173,6 @@ jobs:
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net10.0-windows --runtime win-x64
 
-      - name: Test Windows-only functions (net48)
-        shell: powershell
-        run: |
-          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net48 --runtime win-x64
-
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
         shell: powershell

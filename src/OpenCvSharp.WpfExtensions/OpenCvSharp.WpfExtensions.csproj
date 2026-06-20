@@ -3,7 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT'" />
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
@@ -29,9 +29,8 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+  <PropertyGroup>
     <AnalysisMode>recommended</AnalysisMode>
-    <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <UseWPF>true</UseWPF>
@@ -49,30 +48,12 @@
     <None Include="../../nuget/README.managed.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
-    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
   </PropertyGroup>
-  
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  
+
   <PropertyGroup>
-    <NoWarn>CA1303;</NoWarn>
-  </PropertyGroup>
-  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+    <NoWarn>CA1303;CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
   
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT'" />
