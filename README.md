@@ -2,7 +2,18 @@
 
 [![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Docker Test Status](https://github.com/shimat/opencvsharp/workflows/Docker%20Test/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions manylinux Status](https://github.com/shimat/opencvsharp/workflows/manylinux/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
-OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. It supports .NET 8+, .NET Standard 2.0/2.1, and .NET Framework 4.6.1+.
+OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality.
+
+## Which version should I use?
+
+OpenCvSharp is published in two parallel package families:
+
+| Family | OpenCV | .NET targets | Status |
+|---|---|---|---|
+| **OpenCvSharp5** | 5.0.x | .NET 8+ | Active development — recommended for new projects |
+| **OpenCvSharp4** | 4.13.0 | .NET Framework 4.6.1+, .NET Standard 2.0/2.1, .NET 8+ | Maintenance — for .NET Framework, Unity, or older runtimes |
+
+Both families share the same package layout: every `OpenCvSharp5.*` package has an `OpenCvSharp4.*` counterpart. The examples below use **OpenCvSharp5**; replace `5` with `4` for the OpenCvSharp4 family. Migrating from 4 to 5? See the [migration guide](docs/migration-4-to-5.md).
 
 ## Quick Start
 
@@ -34,11 +45,12 @@ For more installation options, see the [Installation](#installation) section bel
 * OpenCvSharp provides functions for converting from `Mat` to `Bitmap` (GDI+) or `WriteableBitmap` (WPF).
 
 ## Target OpenCV
-* [OpenCV 4.13.0](https://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* **OpenCvSharp5**: [OpenCV 5.0.x](https://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* **OpenCvSharp4**: [OpenCV 4.13.0](https://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 
 ## Requirements
-* [.NET 8](https://www.microsoft.com/net/download) or later / .NET Standard 2.0 / .NET Standard 2.1
-* .NET Framework 4.6.1 or later is supported via the .NET Standard 2.0 target (WpfExtensions also directly targets .NET Framework 4.8)
+* **OpenCvSharp5**: [.NET 8](https://www.microsoft.com/net/download) or later
+* **OpenCvSharp4**: .NET 8+, .NET Standard 2.0 / 2.1, or .NET Framework 4.6.1+ (WpfExtensions also directly targets .NET Framework 4.8)
 * (Windows Server) Media Foundation
 ```
 PS1> Install-WindowsFeature Server-Media-Foundation
@@ -153,6 +165,8 @@ https://github.com/shimat/opencvsharp_samples/
 http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 ## NuGet
+
+> Packages are published in two parallel families: **`OpenCvSharp5.*`** (OpenCV 5.x, .NET 8+) and **`OpenCvSharp4.*`** (OpenCV 4.13.0; also supports .NET Framework / .NET Standard). The tables below list the OpenCvSharp5 packages — each has an identically-named `OpenCvSharp4.*` counterpart.
 
 ### Managed libraries
 

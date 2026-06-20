@@ -2,17 +2,16 @@
 
 A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image processing and computer vision functionality.
 
+> This is the **OpenCvSharp5** family (OpenCV 5.x, .NET 8+). If you need .NET Framework, Unity, or another pre-.NET 8 runtime, use the **OpenCvSharp4** family (OpenCV 4.13.0) instead.
+
 ## Supported Platforms
 
 | Platform | Target Framework |
 |---|---|
 | .NET 8.0 or later | `net8.0` |
-| .NET Standard 2.1 | `netstandard2.1` |
-| .NET Standard 2.0 | `netstandard2.0` |
-| .NET Framework 4.6.1+ | via `netstandard2.0` |
-| .NET Framework 4.8 | direct target (WpfExtensions only) |
+| Windows desktop (.NET 8+) | `net8.0-windows` (WpfExtensions) |
 
-Target OpenCV version: **4.13.0** (with opencv_contrib)
+Target OpenCV version: **5.0.x** (with opencv_contrib)
 
 ## Quick Start
 
