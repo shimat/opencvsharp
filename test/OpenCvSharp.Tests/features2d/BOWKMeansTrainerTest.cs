@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using OpenCvSharp.XFeatures2D;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Features2D;
 
