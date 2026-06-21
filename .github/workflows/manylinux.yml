@@ -266,12 +266,13 @@ jobs:
             -S src \
             -B src/build-slim \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv4 \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv5 \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
             -D NO_CONTRIB=ON \
             -D NO_VIDEOIO=ON \
             -D NO_HIGHGUI=ON \
-            -D NO_DNN=ON
+            -D NO_DNN=ON \
+            -D NO_STITCHING=ON
           cmake --build src/build-slim -j
           cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
 

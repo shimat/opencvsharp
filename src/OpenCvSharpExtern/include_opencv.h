@@ -70,6 +70,19 @@
 // (SURF/nonfree lives in the separate opencv2/xfeatures2d/nonfree.hpp.)
 #include <opencv2/xfeatures2d.hpp>
 
+// A few lightweight contrib modules are kept available in every profile
+// (including slim): their dependencies are all already present in the slim build
+// and they pull no heavy external dependency. They are not aggregated by
+// opencv.hpp, so include them explicitly.
+//   ximgproc - extended image processing (guided filter, superpixel, edge, ...)
+//   xphoto   - white balance / inpainting / denoising extensions
+//   bgsegm   - background subtraction (MOG / GMG / GSOC)
+//   img_hash - perceptual image hashes (pHash / aHash / ...)
+#include <opencv2/ximgproc.hpp>
+#include <opencv2/xphoto.hpp>
+#include <opencv2/bgsegm.hpp>
+#include <opencv2/img_hash.hpp>
+
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>
@@ -101,15 +114,11 @@
 // (opencv2/objdetect/aruco_detector.hpp, charuco_detector.hpp, ...), which is
 // already pulled in by opencv2/opencv.hpp. The legacy contrib umbrella headers
 // opencv2/aruco.hpp / opencv2/aruco/charuco.hpp were removed.
-#include <opencv2/bgsegm.hpp>
-#include <opencv2/img_hash.hpp>
 #include <opencv2/line_descriptor.hpp>
 #include <opencv2/optflow.hpp>
 #include <opencv2/quality.hpp>
 #include <opencv2/tracking.hpp>
-#include <opencv2/ximgproc.hpp>
 #include <opencv2/saliency.hpp>
-#include <opencv2/xphoto.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/wechat_qrcode.hpp>
 #include <opencv2/dnn.hpp>

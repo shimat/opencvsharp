@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NO_CONTRIB
+// OpenCV 5: kept available in every profile (including slim); see include_opencv.h.
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -238,4 +238,4 @@ CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_getSigma(cv::img_hash::Radial
     END_WRAP
 }
 
-#endif // NO_CONTRIB
+// (no NO_CONTRIB guard: kept in every profile for OpenCV 5)

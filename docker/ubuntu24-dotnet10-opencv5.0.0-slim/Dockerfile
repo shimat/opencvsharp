@@ -79,7 +79,8 @@ RUN --mount=type=cache,target=/root/.ccache \
       -D NO_CONTRIB=ON \
       -D NO_VIDEOIO=ON \
       -D NO_HIGHGUI=ON \
-      -D NO_DNN=ON; \
+      -D NO_DNN=ON \
+      -D NO_STITCHING=ON; \
     cmake --build /opencvsharp/make --parallel "$(nproc)"; \
     cmake --install /opencvsharp/make; \
     rm -rf /opencv /opencv_contrib; \

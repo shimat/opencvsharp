@@ -19,8 +19,12 @@ set(ENABLE_CXX11      ON      CACHE BOOL   "" FORCE)
 #     contrib xfeatures2d module. Its required deps (core/imgproc/features/
 #     geometry) are all in this list and it pulls no heavy external dependency,
 #     so it is kept in the slim profile too.
+# Additional lightweight contrib kept in slim (deps all in this list, no heavy
+# external dependency): ximgproc, xphoto, bgsegm, img_hash.
+# stitching is dropped from slim (large, niche); the extern is built with
+# NO_STITCHING=ON to match.
 # Dependencies of whitelisted modules are added automatically.
-set(BUILD_LIST "core,imgproc,imgcodecs,geometry,calib,stereo,features,flann,objdetect,photo,ml,video,stitching,xobjdetect,xfeatures2d" CACHE STRING "" FORCE)
+set(BUILD_LIST "core,imgproc,imgcodecs,geometry,calib,stereo,features,flann,objdetect,photo,ml,video,xobjdetect,xfeatures2d,ximgproc,xphoto,bgsegm,img_hash" CACHE STRING "" FORCE)
 
 # Disable DNN and Protobuf (not needed in slim profile)
 set(BUILD_opencv_dnn  OFF CACHE BOOL "" FORCE)
