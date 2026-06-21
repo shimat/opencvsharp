@@ -233,7 +233,7 @@ public class XPhotoTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "OpenCV 5: bm3dDenoising corrupts the heap and crashes the test process. See https://github.com/shimat/opencvsharp/issues/1904")]
     public void Bm3dDenoising()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);

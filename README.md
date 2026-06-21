@@ -236,9 +236,9 @@ https://github.com/shimat?tab=packages
    C:\vcpkg\vcpkg.exe install --triplet x64-windows-static --overlay-triplets cmake\triplets --x-install-root vcpkg_installed
    ```
    ```powershell
-   .\build_opencv_windows.ps1
+   .\scripts\build_opencv_windows.ps1
    # Use -Jobs N to control parallel build (default: 4)
-   .\build_opencv_windows.ps1 -Jobs 8
+   .\scripts\build_opencv_windows.ps1 -Jobs 8
    ```
    Output is installed to `opencv_artifacts/`.
 

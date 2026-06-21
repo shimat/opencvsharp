@@ -196,7 +196,9 @@ public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
 
     private static void SkipIfModelFilesNotFound()
     {
-        Assert.True(File.Exists(DetectorModelPath),       $"Model file not found: '{DetectorModelPath}'");
-        Assert.True(File.Exists(SuperResolutionModelPath),  $"Model file not found: '{SuperResolutionModelPath}'");
+        // The WeChatQRCode ONNX models are not bundled with the repository and are not
+        // downloaded in every CI environment. Skip (rather than fail) when they are absent.
+        if (!File.Exists(DetectorModelPath) || !File.Exists(SuperResolutionModelPath))
+            Assert.Skip($"WeChatQRCode model files not found ('{DetectorModelPath}', '{SuperResolutionModelPath}')");
     }
 }

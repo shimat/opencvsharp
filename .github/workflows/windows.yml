@@ -232,7 +232,7 @@ jobs:
 
           # Pack main libraries (dotnet pack triggers build implicitly)
           dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.GdipExtensions/OpenCvSharp.GdipExtensions.csproj -c Release -o artifacts -p:Version=$version
           dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
 
           # Pack runtime packages
@@ -246,11 +246,13 @@ jobs:
           dotnet pack nuget/OpenCvSharp5.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
           dotnet pack nuget/OpenCvSharp5.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
-      - name: Run ReleaseMaker
-        shell: powershell
+      - name: Pack release zip
+        shell: pwsh
         run: |
-          cd "${env:GITHUB_WORKSPACE}\src\tools\OpenCvSharp.ReleaseMaker"
-          dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
+          ./scripts/pack-release-zip.ps1 `
+            -WorkspaceDir "${env:GITHUB_WORKSPACE}" `
+            -OutputDir "${env:GITHUB_WORKSPACE}\artifacts" `
+            -Version ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
         uses: actions/upload-artifact@v6
