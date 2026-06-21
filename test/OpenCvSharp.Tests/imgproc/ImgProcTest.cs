@@ -424,8 +424,10 @@ public class ImgProcTest : TestBase
         var rr2 = new RotatedRect(new Point2f(15, 10), new Size2f(10, 10), 0);
         using var intersectingRegion = new Mat();
         Cv2.RotatedRectangleIntersection(rr1, rr2, intersectingRegion);
-        Assert.Equal(5, intersectingRegion.Rows);
-        Assert.Equal(1, intersectingRegion.Cols);
+        // OpenCV 5 returns the intersecting region as a 1xN row vector instead of the
+        // Nx1 column vector OpenCV 4 produced.
+        Assert.Equal(1, intersectingRegion.Rows);
+        Assert.Equal(5, intersectingRegion.Cols);
         Assert.Equal(MatType.CV_32FC2, intersectingRegion.Type());
     }
 

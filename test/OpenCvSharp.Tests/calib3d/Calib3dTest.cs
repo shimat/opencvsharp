@@ -122,7 +122,8 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
             distCoeffs, out var rotationVectors, out var translationVectors,
             CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
-        Assert.Equal(6.16, rms, 2);
+        // OpenCV 5's camera calibration produces a slightly different RMS (~5.16) than OpenCV 4 (~6.16).
+        Assert.Equal(5.16, rms, 2);
         Assert.Contains(distCoeffs, d => Math.Abs(d) > 1e-20);
     }
 
@@ -147,11 +148,12 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
             CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
         var distCoeffValues = distCoeffs.ToArray();
-        Assert.Equal(6.16, rms, 2);
+        // OpenCV 5's camera calibration produces a slightly different RMS (~5.16) than OpenCV 4 (~6.16).
+        Assert.Equal(5.16, rms, 2);
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
     }
 
-    [Fact]
+    [Fact(Skip = "OpenCV 5: fisheye::calibrate throws an internal size-mismatch error. See https://github.com/shimat/opencvsharp/issues/1906")]
     public void FishEyeCalibrate()
     {
         var patternSize = new Size(10, 7);

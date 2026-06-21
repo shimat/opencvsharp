@@ -109,6 +109,21 @@ public readonly record struct MatType(int value) : IEquatable<int>
             case CV_16F:
                 s = "CV_16F";
                 break;
+            case CV_16BF:
+                s = "CV_16BF";
+                break;
+            case CV_Bool:
+                s = "CV_Bool";
+                break;
+            case CV_64U:
+                s = "CV_64U";
+                break;
+            case CV_64S:
+                s = "CV_64S";
+                break;
+            case CV_32U:
+                s = "CV_32U";
+                break;
             default:
                 return $"Unsupported type value ({Value})";
         }
@@ -120,8 +135,12 @@ public readonly record struct MatType(int value) : IEquatable<int>
             return s + "C(" + ch + ")";
     }
 
-    private const int CV_CN_MAX = 512,
-        CV_CN_SHIFT = 3,
+    // OpenCV 5 changed the type encoding: the depth field was widened from 3 to 5 bits
+    // (to accommodate the new CV_16BF/CV_Bool/CV_64U/CV_64S/CV_32U depths), so channels
+    // are now shifted by 5 and the maximum channel count dropped from 512 to 128.
+    // See opencv/modules/core/include/opencv2/core/hal/interface.h
+    private const int CV_CN_MAX = 128,
+        CV_CN_SHIFT = 5,
         CV_DEPTH_MAX = (1 << CV_CN_SHIFT);
 
     /// <summary>
@@ -136,6 +155,11 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_32F = 5,
         CV_64F = 6,
         CV_16F = 7,
+        CV_16BF = 8,
+        CV_Bool = 9,
+        CV_64U = 10,
+        CV_64S = 11,
+        CV_32U = 12,
         CV_USRTYPE1 = CV_16F;
 
     /// <summary>
@@ -173,7 +197,27 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_16FC1 = CV_16FC(1),
         CV_16FC2 = CV_16FC(2),
         CV_16FC3 = CV_16FC(3),
-        CV_16FC4 = CV_16FC(4);
+        CV_16FC4 = CV_16FC(4),
+        CV_16BFC1 = CV_16BFC(1),
+        CV_16BFC2 = CV_16BFC(2),
+        CV_16BFC3 = CV_16BFC(3),
+        CV_16BFC4 = CV_16BFC(4),
+        CV_BoolC1 = CV_BoolC(1),
+        CV_BoolC2 = CV_BoolC(2),
+        CV_BoolC3 = CV_BoolC(3),
+        CV_BoolC4 = CV_BoolC(4),
+        CV_64UC1 = CV_64UC(1),
+        CV_64UC2 = CV_64UC(2),
+        CV_64UC3 = CV_64UC(3),
+        CV_64UC4 = CV_64UC(4),
+        CV_64SC1 = CV_64SC(1),
+        CV_64SC2 = CV_64SC(2),
+        CV_64SC3 = CV_64SC(3),
+        CV_64SC4 = CV_64SC(4),
+        CV_32UC1 = CV_32UC(1),
+        CV_32UC2 = CV_32UC(2),
+        CV_32UC3 = CV_32UC(3),
+        CV_32UC4 = CV_32UC(4);
     /*
     public const int 
         CV_8UC1 = 0,
@@ -258,6 +302,31 @@ public readonly record struct MatType(int value) : IEquatable<int>
     public static MatType CV_16FC(int ch)
     {
         return MakeType(CV_16F, ch);
+    }
+
+    public static MatType CV_16BFC(int ch)
+    {
+        return MakeType(CV_16BF, ch);
+    }
+
+    public static MatType CV_BoolC(int ch)
+    {
+        return MakeType(CV_Bool, ch);
+    }
+
+    public static MatType CV_64UC(int ch)
+    {
+        return MakeType(CV_64U, ch);
+    }
+
+    public static MatType CV_64SC(int ch)
+    {
+        return MakeType(CV_64S, ch);
+    }
+
+    public static MatType CV_32UC(int ch)
+    {
+        return MakeType(CV_32U, ch);
     }
 
     public static MatType MakeType(int depth, int channels)

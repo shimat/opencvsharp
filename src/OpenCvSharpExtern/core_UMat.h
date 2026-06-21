@@ -465,7 +465,11 @@ CVAPI(ExceptionStatus) core_UMat_cols(cv::UMat* self, int* returnValue)
 CVAPI(ExceptionStatus) core_UMat_size(cv::UMat* self, MyCvSize* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(self->size());
+    // See core_Mat_size: avoid OpenCV 5's dims <= 2 assert for multi-dimensional matrices.
+    if (self->dims > 2)
+        *returnValue = c(cv::Size(self->size[1], self->size[0]));
+    else
+        *returnValue = c(self->size());
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_UMat_sizeAt(cv::UMat* self, int i, int* returnValue)

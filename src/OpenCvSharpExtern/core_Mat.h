@@ -559,7 +559,12 @@ CVAPI(ExceptionStatus) core_Mat_datalimit(cv::Mat *self, const uchar **returnVal
 CVAPI(ExceptionStatus) core_Mat_size(cv::Mat *self, MyCvSize *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(self->size());
+    // OpenCV 5's MatSize::operator()() asserts dims <= 2, but OpenCvSharp historically
+    // returns Size(size[1], size[0]) for multi-dimensional matrices (OpenCV 4 behavior).
+    if (self->dims > 2)
+        *returnValue = c(cv::Size(self->size[1], self->size[0]));
+    else
+        *returnValue = c(self->size());
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_Mat_sizeAt(cv::Mat *self, int i, int *returnValue)
@@ -611,18 +616,19 @@ static bool internal_Mat_set(cv::Mat *m, uchar *buff)
 {
     if (!m) return false;
     if (!buff) return false;
-    if (m->dims != 2) return false;
-
-    const size_t bytesToCopy = static_cast<size_t>(m->rows) * m->cols * m->elemSize();
+    // OpenCV 5 returns 1-dimensional matrices (dims==1, rows==1) where OpenCV 4 produced
+    // Nx1 (2D) ones. The managed side sizes its buffer from rows*cols, which only matches
+    // total() for dims 1 and 2, so we deliberately do not handle dims > 2 here.
+    if (m->dims != 1 && m->dims != 2) return false;
 
     if (m->isContinuous())
     {
-        memcpy(m->ptr(0, 0), buff, bytesToCopy);
+        memcpy(m->data, buff, m->total() * m->elemSize());
     }
-    else 
+    else
     {
-        // row by row
-        const size_t bytesInRow = m->cols * m->elemSize();     
+        // row by row (2-dimensional, non-continuous)
+        const size_t bytesInRow = m->cols * m->elemSize();
         for (int row = 0; row < m->rows; row++)
         {
             uchar *matData = m->ptr(row, 0);
@@ -638,17 +644,16 @@ static bool internal_Mat_get(cv::Mat *m, uchar *buff)
 {
     if (!m) return false;
     if (!buff) return false;
-    if (m->dims != 2) return false;
-
-    const size_t bytesToCopy = static_cast<size_t>(m->rows) * m->cols * m->elemSize();
+    // See internal_Mat_set: handle 1- and 2-dimensional matrices only.
+    if (m->dims != 1 && m->dims != 2) return false;
 
     if (m->isContinuous())
     {
-        memcpy(buff, m->ptr(0, 0), bytesToCopy);
+        memcpy(buff, m->data, m->total() * m->elemSize());
     }
-    else 
+    else
     {
-        // row by row
+        // row by row (2-dimensional, non-continuous)
         const size_t bytesInRow = m->cols * m->elemSize();
         for (int row = 0; row < m->rows; row++)
         {

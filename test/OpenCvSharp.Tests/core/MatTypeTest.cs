@@ -107,4 +107,99 @@ public class MatTypeTest : TestBase
         Assert.Equal(matType, src.Type());
         Assert.Equal("CV_16FC3", matType.ToString());
     }
+
+    // OpenCV 5 widened the depth field to 5 bits, so channels are shifted by 5 (CV_CN_SHIFT == 5).
+    // These tests pin down the exact integer encoding to guard against accidental reverts to the
+    // OpenCV 4 layout (shift 3).
+    [Theory]
+    [InlineData(MatType.CV_8U, 0)]
+    [InlineData(MatType.CV_8S, 1)]
+    [InlineData(MatType.CV_16U, 2)]
+    [InlineData(MatType.CV_16S, 3)]
+    [InlineData(MatType.CV_32S, 4)]
+    [InlineData(MatType.CV_32F, 5)]
+    [InlineData(MatType.CV_64F, 6)]
+    [InlineData(MatType.CV_16F, 7)]
+    [InlineData(MatType.CV_16BF, 8)]
+    [InlineData(MatType.CV_Bool, 9)]
+    [InlineData(MatType.CV_64U, 10)]
+    [InlineData(MatType.CV_64S, 11)]
+    [InlineData(MatType.CV_32U, 12)]
+    public void DepthConstants(int depth, int expected)
+    {
+        Assert.Equal(expected, depth);
+    }
+
+    [Theory]
+    // value == depth + ((channels - 1) << 5)
+    [InlineData(0, 1, 0)]    // CV_8UC1
+    [InlineData(0, 2, 32)]   // CV_8UC2
+    [InlineData(0, 3, 64)]   // CV_8UC3
+    [InlineData(0, 4, 96)]   // CV_8UC4
+    [InlineData(1, 1, 1)]    // CV_8SC1
+    [InlineData(5, 1, 5)]    // CV_32FC1
+    [InlineData(5, 4, 101)]  // CV_32FC4 == 5 + (3 << 5)
+    [InlineData(6, 1, 6)]    // CV_64FC1
+    [InlineData(7, 3, 71)]   // CV_16FC3 == 7 + (2 << 5)
+    public void MakeTypeEncoding(int depth, int channels, int expectedValue)
+    {
+        Assert.Equal(expectedValue, MatType.MakeType(depth, channels).Value);
+    }
+
+    [Theory]
+    [InlineData(0, 1, MatType.CV_8U, 1)]
+    [InlineData(0, 4, MatType.CV_8U, 4)]
+    [InlineData(5, 4, MatType.CV_32F, 4)]   // CV_32FC4
+    [InlineData(7, 3, MatType.CV_16F, 3)]   // CV_16FC3
+    [InlineData(4, 64, MatType.CV_32S, 64)] // high channel count still decodes correctly
+    public void DepthAndChannels(int depth, int channels, int expectedDepth, int expectedChannels)
+    {
+        var type = MatType.MakeType(depth, channels);
+        Assert.Equal(expectedDepth, type.Depth);
+        Assert.Equal(expectedChannels, type.Channels);
+    }
+
+    [Fact]
+    public void NewDepthTypesRoundTrip()
+    {
+        Assert.Equal(MatType.CV_16BFC1, MatType.CV_16BFC(1));
+        Assert.Equal(MatType.CV_16BFC4, MatType.CV_16BFC(4));
+        Assert.Equal(MatType.CV_BoolC1, MatType.CV_BoolC(1));
+        Assert.Equal(MatType.CV_BoolC4, MatType.CV_BoolC(4));
+        Assert.Equal(MatType.CV_64UC1, MatType.CV_64UC(1));
+        Assert.Equal(MatType.CV_64UC4, MatType.CV_64UC(4));
+        Assert.Equal(MatType.CV_64SC1, MatType.CV_64SC(1));
+        Assert.Equal(MatType.CV_64SC4, MatType.CV_64SC(4));
+        Assert.Equal(MatType.CV_32UC1, MatType.CV_32UC(1));
+        Assert.Equal(MatType.CV_32UC4, MatType.CV_32UC(4));
+    }
+
+    [Theory]
+    [InlineData(MatType.CV_8U, 1, "CV_8UC1")]
+    [InlineData(MatType.CV_8U, 3, "CV_8UC3")]
+    [InlineData(MatType.CV_32F, 4, "CV_32FC4")]
+    [InlineData(MatType.CV_16F, 3, "CV_16FC3")]
+    [InlineData(MatType.CV_16BF, 1, "CV_16BFC1")]
+    [InlineData(MatType.CV_Bool, 2, "CV_BoolC2")]
+    [InlineData(MatType.CV_64U, 3, "CV_64UC3")]
+    [InlineData(MatType.CV_64S, 4, "CV_64SC4")]
+    [InlineData(MatType.CV_32U, 1, "CV_32UC1")]
+    public void ToStringFormat(int depth, int channels, string expected)
+    {
+        Assert.Equal(expected, MatType.MakeType(depth, channels).ToString());
+    }
+
+    [Fact]
+    public void ToStringManyChannels()
+    {
+        Assert.Equal("CV_8UC(8)", MatType.CV_8UC(8).ToString());
+    }
+
+    [Fact]
+    public void MaxChannels()
+    {
+        // OpenCV 5 reduced CV_CN_MAX from 512 to 128.
+        Assert.Equal(127, MatType.CV_8UC(127).Channels);
+        Assert.Throws<OpenCvSharpException>(() => MatType.CV_8UC(128));
+    }
 }
