@@ -7,9 +7,9 @@
 #   - Git          (available in PATH, with submodules initialized)
 #   - vcpkg        (available in PATH or VCPKG_INSTALLATION_ROOT set)
 #
-# Usage:
-#   .\build_opencv_windows.ps1
-#   .\build_opencv_windows.ps1 -Jobs 8
+# Usage (run from the repository root):
+#   .\scripts\build_opencv_windows.ps1
+#   .\scripts\build_opencv_windows.ps1 -Jobs 8
 #
 # Before first run, initialize submodules if not already done:
 #   git submodule update --init --recursive
@@ -19,7 +19,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$RepoRoot = $PSScriptRoot
+# Script lives in <repo>/scripts, so the repository root is its parent directory.
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Require-Command($name) {
