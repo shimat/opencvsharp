@@ -23,7 +23,9 @@
   
   <ItemGroup>
     <None Include="../src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
-    <None Include="../opencv_artifacts/x64/vc17/bin/opencv_videoio_ffmpeg4130_64.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <!-- OpenCV 5.0.0 ships the FFmpeg backend as opencv_videoio_ffmpeg500_64.dll, under the
+         vc18 toolset dir produced by the pinned "Visual Studio 18 2026" generator (see windows.yml). -->
+    <None Include="../opencv_artifacts/x64/vc18/bin/opencv_videoio_ffmpeg500_64.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/netstandard" />
     <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/netcoreapp" />
     <None Include="OpenCvSharp5.runtime.win.props" Pack="true" PackagePath="build/net8.0" />
