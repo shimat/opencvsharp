@@ -443,18 +443,4 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.highgui_setTrackbarMin(trackbarName, winName, minVal));
     }
-
-    /// <summary>
-    /// get native window handle (HWND in case of Win32 and Widget in case of X Window) 
-    /// </summary>
-    /// <param name="windowName"></param>
-    public static IntPtr GetWindowHandle(string windowName)
-    {
-        if (windowName is null)
-            throw new ArgumentNullException(nameof(windowName));
-
-        NativeMethods.HandleException(
-            NativeMethods.highgui_cvGetWindowHandle(windowName, out var ret));
-        return ret;
-    }
 }

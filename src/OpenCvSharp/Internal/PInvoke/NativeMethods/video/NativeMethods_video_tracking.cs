@@ -131,21 +131,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus video_Ptr_TrackerMIL_get(IntPtr ptr, out IntPtr returnValue);
 
-
-    // TrackerGOTURN
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_TrackerGOTURN_create1(out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe ExceptionStatus video_TrackerGOTURN_create2(TrackerGOTURN.Params* parameters, out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_Ptr_TrackerGOTURN_delete(IntPtr ptr);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_Ptr_TrackerGOTURN_get(IntPtr ptr, out IntPtr returnValue);
-
     #endregion
 
     // TODO

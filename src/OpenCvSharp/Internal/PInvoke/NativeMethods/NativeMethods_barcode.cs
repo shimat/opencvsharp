@@ -13,8 +13,7 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus barcode_BarcodeDetector_create(
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_prototxt_path,
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_caffe_model_path,
+        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path,
         out IntPtr ptr
     );
 

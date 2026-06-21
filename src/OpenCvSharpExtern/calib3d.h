@@ -605,13 +605,13 @@ CVAPI(ExceptionStatus) calib3d_stereoRectify_InputArray(
     cv::_OutputArray *R1, cv::_OutputArray *R2,
     cv::_OutputArray *P1, cv::_OutputArray *P2,
     cv::_OutputArray *Q, int flags,
-    double alpha, CvSize newImageSize,
+    double alpha, MyCvSize newImageSize,
     MyCvRect *validPixROI1, MyCvRect *validPixROI2)
 {
     BEGIN_WRAP
     cv::Rect _validPixROI1, _validPixROI2;
     cv::stereoRectify(*cameraMatrix1, *distCoeffs1, *cameraMatrix2, *distCoeffs2,
-        cpp(imageSize), *R, *T, *R1, *R2, *P1, *P2, *Q, flags, alpha, newImageSize,
+        cpp(imageSize), *R, *T, *R1, *R2, *P1, *P2, *Q, flags, alpha, cpp(newImageSize),
         &_validPixROI1, &_validPixROI2);
     *validPixROI1 = c(_validPixROI1);
     *validPixROI2 = c(_validPixROI2);
@@ -686,7 +686,7 @@ CVAPI(ExceptionStatus) calib3d_rectify3Collinear_InputArray(
     cv::_InputArray *R13, cv::_InputArray *T13,
     cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *R3,
     cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *P3,
-    cv::_OutputArray *Q, double alpha, CvSize newImgSize,
+    cv::_OutputArray *Q, double alpha, MyCvSize newImgSize,
     MyCvRect *roi1, MyCvRect *roi2, int flags,
     float *returnValue)
 {
@@ -702,7 +702,7 @@ CVAPI(ExceptionStatus) calib3d_rectify3Collinear_InputArray(
     const auto ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2, *cameraMatrix3, *distCoeffs3,
         imgpt1Vec, imgpt3Vec, cpp(imageSize), *R12, *T12, *R13, *T13,
-        *R1, *R2, *R3, *P1, *P2, *P3, *Q, alpha, newImgSize,
+        *R1, *R2, *R3, *P1, *P2, *P3, *Q, alpha, cpp(newImgSize),
         &_roi1, &_roi2, flags);
     *roi1 = c(_roi1);
     *roi2 = c(_roi2);
@@ -1252,7 +1252,7 @@ CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray1(
 {
     BEGIN_WRAP
     const auto mat = cv::findEssentialMat(
-        *points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
+        *points1, *points2, *cameraMatrix, method, prob, threshold, 1000, entity(mask));
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
@@ -1264,7 +1264,7 @@ CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray2(
 {
     BEGIN_WRAP
     const auto mat = cv::findEssentialMat(
-        *points1, *points2, focal, cpp(pp), method, prob, threshold, entity(mask));
+        *points1, *points2, focal, cpp(pp), method, prob, threshold, 1000, entity(mask));
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }

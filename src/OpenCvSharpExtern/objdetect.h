@@ -10,6 +10,9 @@
 
 #ifndef _WINRT_DLL
 
+// NOTE: OpenCV 5 relocated CascadeClassifier / groupRectangles into the contrib
+// xobjdetect module (see include_opencv.h); they remain in the cv:: namespace and
+// are kept available in all profiles (xobjdetect is lightweight).
 #pragma region CascadeClassifier
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_new(cv::CascadeClassifier **returnValue)

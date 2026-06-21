@@ -118,6 +118,7 @@ if (Test-Path $cmakeCache) {
     Write-Host "Removing stale CMakeCache.txt ..."
     Remove-Item $cmakeCache -Force
 }
+
 cmake `
     -C "$RepoRoot/cmake/opencv_build_options.cmake" `
     -S "$RepoRoot/opencv" `
@@ -126,6 +127,7 @@ cmake `
     -D "CMAKE_GENERATOR_INSTANCE=$vsInstallPath" `
     -D "CMAKE_TOOLCHAIN_FILE=$vcpkgToolchain" `
     -D "VCPKG_TARGET_TRIPLET=x64-windows-static" `
+    -D "VCPKG_MANIFEST_DIR=$RepoRoot" `
     -D "VCPKG_INSTALLED_DIR=$vcpkgInstalledDir" `
     -D "VCPKG_OVERLAY_TRIPLETS=$RepoRoot/cmake/triplets" `
     -D "OPENCV_EXTRA_MODULES_PATH=$RepoRoot/opencv_contrib/modules" `

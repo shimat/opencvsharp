@@ -35,7 +35,7 @@ CVAPI(cv::Ptr<cv::LineSegmentDetector>*) imgproc_createLineSegmentDetector(
     double log_eps, double density_th, int n_bins)
 {
     return clone( cv::createLineSegmentDetector(
-        refine, scale, sigma_scale, quant, ang_th, log_eps, density_th, n_bins));
+        static_cast<cv::LineSegmentDetectorModes>(refine), scale, sigma_scale, quant, ang_th, log_eps, density_th, n_bins));
 }
 
 CVAPI(ExceptionStatus) imgproc_Ptr_LineSegmentDetector_delete(cv::Ptr<cv::LineSegmentDetector> *obj)

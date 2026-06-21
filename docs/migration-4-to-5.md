@@ -44,9 +44,27 @@ working — but you no longer need a separate extensions package for it.
 
 ## 3. Removed APIs
 
-| Removed | Replacement |
+These wrap OpenCV functions that were removed in OpenCV 5 (no replacement), so
+the managed methods are gone too:
+
+| Removed | Notes / replacement |
 |---|---|
-| `OpenCvSharp.Extensions.Binarizer` (Niblack/Sauvola/Bernsen/Nick/…) | OpenCV `ximgproc` niBlack threshold — `CvXImgProc.NiblackThreshold` (supports Niblack / Sauvola / Wolf / Nick) |
+| `OpenCvSharp.Extensions.Binarizer` (Niblack/Sauvola/Bernsen/Nick/…) | Use `CvXImgProc.NiblackThreshold` (Niblack / Sauvola / Wolf / Nick) |
+| `CvDnn.ReadNetFromDarknet`, `CvDnn.ReadNetFromCaffe`, `CvDnn.ReadNetFromTorch`, `CvDnn.ReadTorchBlob`, `CvDnn.ShrinkCaffeModel` (and the `Net.*` equivalents) | Darknet/Caffe/Torch parsers removed — export to ONNX and use `CvDnn.ReadNetFromONNX` |
+| `Net.SetHalideScheduler` | Halide backend removed |
+| `Cv2.ConvertFp16` | Use `Mat.ConvertTo` to/from `MatType.CV_16F` |
+| `Cv2.LogPolar`, `Cv2.LinearPolar` | Use `Cv2.WarpPolar` (`WarpPolarMode.Linear` / `Log`) |
+| `Window.GetHandle()`, `Cv2.GetWindowHandle` | Legacy C API removed; no replacement |
+| `TrackerGOTURN` | Removed from OpenCV 5 |
+
+## 3a. Changed signatures
+
+Caffe model support was dropped; these constructors now take ONNX model paths:
+
+| Before (OpenCvSharp4) | After (OpenCvSharp5) |
+|---|---|
+| `new BarcodeDetector(superResolutionPrototxtPath, superResolutionCaffeModelPath)` | `new BarcodeDetector(superResolutionModelPath = "")` |
+| `new WeChatQRCode(detectorPrototxt, detectorCaffe, srPrototxt, srCaffe)` | `new WeChatQRCode(detectorModelPath = "", superResolutionModelPath = "")` |
 
 ## 4. OpenCV 5 API changes surfaced through the wrapper
 

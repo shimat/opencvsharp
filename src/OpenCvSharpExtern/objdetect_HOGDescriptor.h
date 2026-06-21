@@ -9,6 +9,8 @@
 
 #ifndef _WINRT_DLL
 
+// NOTE: OpenCV 5 moved HOGDescriptor into the contrib xobjdetect module (see
+// include_opencv.h); it stays in the cv:: namespace and is kept in all profiles.
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new1(cv::HOGDescriptor **returnValue)
 {
     BEGIN_WRAP

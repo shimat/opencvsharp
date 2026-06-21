@@ -11,10 +11,8 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus wechat_qrcode_create1([MarshalAs(UnmanagedType.LPStr)] string detector_prototxt_path,
-        [MarshalAs(UnmanagedType.LPStr)] string detector_caffe_model_path,
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_prototxt_path ,
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_caffe_model_path,out IntPtr ptr);
+    public static extern ExceptionStatus wechat_qrcode_create1([MarshalAs(UnmanagedType.LPStr)] string detector_model_path,
+        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path, out IntPtr ptr);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);

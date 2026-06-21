@@ -338,32 +338,6 @@ public static partial class Cv2
     }
 
     /// <summary>
-    /// Converts an array to half precision floating number.
-    ///
-    /// This function converts FP32(single precision floating point) from/to FP16(half precision floating point). CV_16S format is used to represent FP16 data.
-    /// There are two use modes(src -&gt; dst) : CV_32F -&gt; CV_16S and CV_16S -&gt; CV_32F.The input array has to have type of CV_32F or
-    /// CV_16S to represent the bit depth.If the input array is neither of them, the function will raise an error.
-    /// The format of half precision floating point is defined in IEEE 754-2008.
-    /// </summary>
-    /// <param name="src">input array.</param>
-    /// <param name="dst">output array.</param>
-    public static void ConvertFp16(InputArray src, OutputArray dst)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.core_convertFp16(src.CvPtr, dst.CvPtr));
-
-        GC.KeepAlive(src);
-        dst.Fix();
-    }
-
-    /// <summary>
     /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
     /// </summary>
     /// <param name="src">Source array of 8-bit elements</param>

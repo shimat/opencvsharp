@@ -323,16 +323,6 @@ public class Window : DisposableObject
     }
 
     /// <summary>
-    /// get native window handle (HWND in case of Win32 and Widget in case of X Window) 
-    /// </summary>
-    public IntPtr GetHandle()
-    {
-        NativeMethods.HandleException(
-            NativeMethods.highgui_cvGetWindowHandle(name, out var ret));
-        return ret;
-    }
-
-    /// <summary>
     /// Waits for a pressed key
     /// </summary>
     /// <param name="delay">Delay in milliseconds. </param>

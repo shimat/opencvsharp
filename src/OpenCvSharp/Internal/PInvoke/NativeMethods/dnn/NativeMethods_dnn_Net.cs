@@ -57,9 +57,6 @@ static partial class NativeMethods
         IntPtr net, IntPtr[] outputBlobs, int outputBlobsLength, string[] outBlobNames, int outBlobNamesLength);
         
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-    public static extern ExceptionStatus dnn_Net_setHalideScheduler(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string scheduler);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_Net_setPreferableBackend(IntPtr net, int backendId);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]

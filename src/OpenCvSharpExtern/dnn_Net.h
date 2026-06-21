@@ -142,13 +142,6 @@ CVAPI(ExceptionStatus) dnn_Net_forward3(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_Net_setHalideScheduler(cv::dnn::Net* net, const char *scheduler)
-{
-    BEGIN_WRAP
-    net->setHalideScheduler(scheduler);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) dnn_Net_setPreferableBackend(cv::dnn::Net* net, int backendId)
 {
     BEGIN_WRAP

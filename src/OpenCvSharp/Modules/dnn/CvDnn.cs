@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -13,99 +12,6 @@ namespace OpenCvSharp.Dnn;
 /// </summary>
 public static class CvDnn
 {
-    /// <summary>
-    /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
-    /// </summary>
-    /// <param name="cfgFile">path to the .cfg file with text description of the network architecture.</param>
-    /// <param name="darknetModel">path to the .weights file with learned network.</param>
-    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
-    {
-        return Net.ReadNetFromDarknet(cfgFile, darknetModel);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from memory.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
-    {
-        return Net.ReadNetFromDarknet(bufferCfg, bufferModel);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from stream.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(Stream bufferCfg, Stream? bufferModel = null)
-    {
-        if (bufferCfg is null)
-            throw new ArgumentNullException(nameof(bufferCfg));
-        return Net.ReadNetFromDarknet(
-            bufferCfg.StreamToArray(),
-            bufferModel?.StreamToArray());
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files.
-    /// </summary>
-    /// <param name="prototxt">path to the .prototxt file with text description of the network architecture.</param>
-    /// <param name="caffeModel">path to the .caffemodel file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    // ReSharper disable once IdentifierTypo
-    public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
-    {
-        return Net.ReadNetFromCaffe(prototxt, caffeModel);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
-    {
-        return Net.ReadNetFromCaffe(bufferProto, bufferModel);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(ReadOnlySpan<byte> bufferProto, ReadOnlySpan<byte> bufferModel = default)
-    {
-        return Net.ReadNetFromCaffe(bufferProto, bufferModel);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from Stream.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(Stream bufferProto, Stream? bufferModel = null)
-    {
-        if (bufferProto is null) 
-            throw new ArgumentNullException(nameof(bufferProto));
-        return Net.ReadNetFromCaffe(
-            bufferProto.StreamToArray(),
-            bufferModel?.StreamToArray());
-    }
-        
     /// <summary>
     /// Reads a network model stored in Tensorflow model file.
     /// </summary>
@@ -148,18 +54,6 @@ public static class CvDnn
     }
 
     /// <summary>
-    /// Reads a network model stored in Torch model file.
-    /// </summary>
-    /// <param name="model"></param>
-    /// <param name="isBinary"></param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTorch(string model, bool isBinary = true)
-    {
-        return Net.ReadNetFromTorch(model, isBinary);
-    }
-
-    /// <summary>
     /// Read deep learning network represented in one of the supported formats.
     /// 
     /// This function automatically detects an origin framework of trained model 
@@ -183,25 +77,6 @@ public static class CvDnn
     public static Net ReadNet(string model, string config = "", string framework = "")
     {
         return Net.ReadNet(model, config, framework);
-    }
-        
-    /// <summary>
-    /// Loads blob which was serialized as torch.Tensor object of Torch7 framework. 
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="isBinary"></param>
-    /// <returns></returns>
-    /// <remarks>
-    /// This function has the same limitations as createTorchImporter().
-    /// </remarks>
-    public static Mat ReadTorchBlob(string fileName, bool isBinary = true)
-    {
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0, out var ret));
-        return new Mat(ret);
     }
         
     /// <summary>
@@ -318,33 +193,6 @@ public static class CvDnn
                 imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0,
                 out var ret));
         return new Mat(ret);
-    }
-
-    /// <summary>
-    /// Convert all weights of Caffe network to half precision floating point.
-    /// </summary>
-    /// <param name="src">Path to origin model from Caffe framework contains single 
-    /// precision floating point weights(usually has `.caffemodel` extension).</param>
-    /// <param name="dst">Path to destination model with updated weights.</param>
-    /// <param name="layersTypes">Set of layers types which parameters will be converted.
-    /// By default, converts only Convolutional and Fully-Connected layers' weights.</param>
-    /// <remarks>
-    /// Shrinked model has no origin float32 weights so it can't be used 
-    /// in origin Caffe framework anymore.However the structure of data 
-    /// is taken from NVidia's Caffe fork: https://github.com/NVIDIA/caffe.
-    /// So the resulting model may be used there.
-    /// </remarks>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void ShrinkCaffeModel(string src, string dst, IEnumerable<string>? layersTypes = null)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        var layersTypesArray = layersTypes as string[] ?? layersTypes?.ToArray() ?? [];
-        NativeMethods.HandleException(
-            NativeMethods.dnn_shrinkCaffeModel(src, dst, layersTypesArray, layersTypesArray.Length));
     }
 
     /// <summary>

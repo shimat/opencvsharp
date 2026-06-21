@@ -80,10 +80,10 @@ CVAPI(ExceptionStatus) imgproc_sqrBoxFilter(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ksize, CvPoint anchor, int borderType)
+CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize ksize, MyCvPoint anchor, int borderType)
 {
     BEGIN_WRAP
-    cv::blur(*src, *dst, ksize, anchor, borderType);
+    cv::blur(*src, *dst, cpp(ksize), cpp(anchor), borderType);
     END_WRAP
 }
 
@@ -185,10 +185,10 @@ CVAPI(ExceptionStatus) imgproc_preCornerDetect(cv::_InputArray *src, cv::_Output
 }
 
 CVAPI(ExceptionStatus) imgproc_cornerSubPix(cv::_InputArray *image, std::vector<cv::Point2f> *corners,
-                                 CvSize winSize, CvSize zeroZone, MyCvTermCriteria criteria)
+                                 MyCvSize winSize, MyCvSize zeroZone, MyCvTermCriteria criteria)
 {
     BEGIN_WRAP
-    cv::cornerSubPix(*image, *corners, winSize, zeroZone, cpp(criteria));
+    cv::cornerSubPix(*image, *corners, cpp(winSize), cpp(zeroZone), cpp(criteria));
     END_WRAP
 }
 
@@ -249,10 +249,10 @@ CVAPI(ExceptionStatus) imgproc_erode(cv::_InputArray *src, cv::_OutputArray *dst
 }
 
 CVAPI(ExceptionStatus) imgproc_dilate(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
-                           CvPoint anchor, int iterations, int borderType, CvScalar borderValue)
+                           MyCvPoint anchor, int iterations, int borderType, MyCvScalar borderValue)
 {
     BEGIN_WRAP
-    cv::dilate(*src, *dst, entity(kernel), anchor, iterations, borderType, borderValue);
+    cv::dilate(*src, *dst, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
     END_WRAP
 }
 
@@ -361,22 +361,6 @@ CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, MyCvSize pa
 {
     BEGIN_WRAP
     cv::getRectSubPix(*image, cpp(patchSize), cpp(center), *patch, patchType);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_logPolar(cv::_InputArray *src, cv::_OutputArray *dst,
-                             MyCvPoint2D32f center, double M, int flags)
-{
-    BEGIN_WRAP
-    cv::logPolar(*src, *dst, cpp(center), M, flags);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArray *dst,
-                                MyCvPoint2D32f center, double maxRadius, int flags)
-{
-    BEGIN_WRAP
-    cv::linearPolar(*src, *dst, cpp(center), maxRadius, flags);
     END_WRAP
 }
 
@@ -552,12 +536,12 @@ CVAPI(ExceptionStatus) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_
     cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, cpp(termCrit));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, CvRect rect,
+CVAPI(ExceptionStatus) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, MyCvRect rect,
                             cv::_InputOutputArray *bgdModel, cv::_InputOutputArray *fgdModel,
                             int iterCount, int mode)
 {
     BEGIN_WRAP
-    cv::grabCut(*img, *mask, rect, *bgdModel, *fgdModel, iterCount, mode);
+    cv::grabCut(*img, *mask, cpp(rect), *bgdModel, *fgdModel, iterCount, mode);
     END_WRAP
 }
 
