@@ -320,6 +320,17 @@ jobs:
           # interface (arm64: LNK1181 pthread.lib). MLAS then disables and DNN uses
           # its built-in SGEMM, matching a clean local VS build. Windows builds the
           # image codecs via vcpkg, so no other ASM language is needed.
+          # OpenCV 5's vendored MLAS uses GNU-syntax aarch64 .S SGEMM kernels that
+          # armasm64 (the only ASM compiler on the VS2022 ARM64 toolchain, which
+          # windows-11-arm ships instead of VS2026) cannot assemble, and
+          # CMAKE_ASM_COMPILER="" does not disable ASM under the VS ARM64 generator
+          # (it does under VS2026 x64). MLAS is an OpenCV 5 addition (absent in
+          # OpenCV 4), so skip building it on this toolchain; DNN keeps working via
+          # its built-in SGEMM (as OpenCV 4 ARM64 did). Drop the add_subdirectory
+          # that pulls MLAS into opencv_dnn.
+          (Get-Content opencv/modules/dnn/CMakeLists.txt) `
+            -replace 'add_subdirectory\("\$\{OpenCV_SOURCE_DIR\}/3rdparty/mlas".*', '# [win-arm64] MLAS disabled (armasm64 cannot assemble its aarch64 .S kernels)' `
+            | Set-Content opencv/modules/dnn/CMakeLists.txt
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
