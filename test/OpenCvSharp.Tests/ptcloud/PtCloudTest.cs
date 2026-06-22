@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Xunit;
+﻿using Xunit;
 
 namespace OpenCvSharp.Tests.PtCloud;
 
@@ -11,20 +10,6 @@ public class PtCloudTest : TestBase
     public PtCloudTest(ITestOutputHelper testOutputHelper)
     {
         this.testOutputHelper = testOutputHelper;
-    }
-
-    // OpenCV 5's new ptcloud module is intermittently unstable on Windows arm64: running
-    // its depth.hpp algorithms occasionally triggers a native access violation that crashes
-    // the whole test process (not a catchable exception). It is non-deterministic — a CI run
-    // may pass with every ptcloud call executing, then crash on another run — which points
-    // to upstream memory instability in the arm64 build, not the wrapper (the C++/P-Invoke
-    // bindings were audited and are clean, and the same calls are stable on x64/linux).
-    // So the algorithm-executing tests are skipped on arm64; construction/property smoke
-    // tests run on all platforms.
-    private static void SkipPtcloudAlgorithmsOnArm64()
-    {
-        if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-            Assert.Skip("OpenCV 5 ptcloud algorithms are intermittently unstable on Windows arm64; bindings verified on x64/linux.");
     }
 
     [Fact]
@@ -119,8 +104,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void RgbdNormalsCreateAndProperties()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         const int rows = 16;
         const int cols = 16;
         using var k = Mat.FromArray(new float[,] { { 525, 0, 8 }, { 0, 525, 8 }, { 0, 0, 1 } });
@@ -140,8 +123,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void DepthTo3dAndRescaleDepth()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         const int w = 32;
         const int h = 24;
         using var depth = new Mat(h, w, MatType.CV_32FC1, Scalar.All(2.0));
@@ -160,8 +141,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void RegisterDepthSmoke()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         const int w = 32;
         const int h = 24;
         using var unregK = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
@@ -185,8 +164,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void WarpFrameSmoke()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         const int w = 32;
         const int h = 24;
         using var depth = new Mat(h, w, MatType.CV_32FC1, Scalar.All(2.0));
@@ -208,8 +185,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void FindPlanesSmoke()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         const int w = 32;
         const int h = 24;
         using var points3d = new Mat(h, w, MatType.CV_32FC3, Scalar.All(1.0));
@@ -231,8 +206,6 @@ public class PtCloudTest : TestBase
     [Fact]
     public void OdometryGetNormalsComputer()
     {
-        SkipPtcloudAlgorithmsOnArm64();
-
         using var odometry = new Odometry(OdometryType.RGB_DEPTH);
         try
         {
