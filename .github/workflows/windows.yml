@@ -423,7 +423,28 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full --results-directory "%GITHUB_WORKSPACE%\TestResults"
+
+      - name: Blame crash sequence (diagnostic)
+        if: always()
+        shell: pwsh
+        run: |
+          $rd = "$env:GITHUB_WORKSPACE\TestResults"
+          Write-Host "===== Sequence files (test running at host crash) ====="
+          Get-ChildItem -Recurse $rd -Filter "Sequence_*.xml" -ErrorAction SilentlyContinue | ForEach-Object {
+            Write-Host "----- $($_.FullName) -----"
+            Get-Content $_.FullName
+          }
+          Write-Host "===== crash dumps ====="
+          Get-ChildItem -Recurse $rd -Filter "*.dmp" -ErrorAction SilentlyContinue | Select-Object FullName,@{n='MB';e={[math]::Round($_.Length/1MB,1)}} | Format-Table -AutoSize
+
+      - name: Upload arm64 crash dump (diagnostic)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-crash-dump
+          path: ${{ github.workspace }}/TestResults/**
+          if-no-files-found: ignore
 
       - name: Pack NuGet packages
         shell: pwsh
