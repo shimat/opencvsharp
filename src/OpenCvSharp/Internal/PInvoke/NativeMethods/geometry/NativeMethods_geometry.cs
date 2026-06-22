@@ -12,19 +12,21 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_Rodrigues(
         IntPtr src, IntPtr dst, IntPtr jacobian);
-        
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findHomography_InputArray(
         IntPtr srcPoints, IntPtr dstPoints,
         int method, double ransacReprojThreshold, IntPtr mask,
         int maxIters, double confidence,
         out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findHomography_vector(
         Point2d[] srcPoints, int srcPointsLength,
         Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask,
         int maxIters, double confidence,
         out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findHomography_UsacParams(
         IntPtr srcPoints, IntPtr dstPoints, IntPtr mask, ref WUsacParams @params,
@@ -34,6 +36,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_RQDecomp3x3_InputArray(
         IntPtr src, IntPtr mtxR,
         IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_RQDecomp3x3_Mat(
         IntPtr src, IntPtr mtxR, IntPtr mtxQ,
@@ -43,6 +46,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_decomposeProjectionMatrix_InputArray(
         IntPtr projMatrix, IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, 
         IntPtr rotMatrixX, IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_decomposeProjectionMatrix_Mat(
         IntPtr projMatrix, IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, 
@@ -57,6 +61,7 @@ static partial class NativeMethods
         IntPtr rvec1, IntPtr tvec1, IntPtr rvec2, IntPtr tvec2, IntPtr rvec3, IntPtr tvec3,
         IntPtr dr3dr1, IntPtr dr3dt1, IntPtr dr3dr2, IntPtr dr3dt2, 
         IntPtr dt3dr1, IntPtr dt3dt1, IntPtr dt3dr2, IntPtr dt3dt2);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_composeRT_Mat(
         IntPtr rvec1, IntPtr tvec1, IntPtr rvec2, IntPtr tvec2, IntPtr rvec3, IntPtr tvec3,
@@ -67,6 +72,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_projectPoints_InputArray(
         IntPtr objectPoints, IntPtr rvec, IntPtr tvec, IntPtr cameraMatrix, IntPtr distCoeffs,
         IntPtr imagePoints, IntPtr jacobian, double aspectRatio);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_projectPoints_Mat(
         IntPtr objectPoints, IntPtr rvec, IntPtr tvec, IntPtr cameraMatrix, IntPtr distCoeffs,
@@ -76,6 +82,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_solvePnP_InputArray(
         IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
         IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_solvePnP_vector(
         Point3f[] objectPoints, int objectPointsLength,
@@ -89,6 +96,7 @@ static partial class NativeMethods
         IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
         int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
         IntPtr inliers, int flags);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_solvePnPRansac_vector(
         Point3f[] objectPoints, int objectPointsLength,
@@ -98,89 +106,11 @@ static partial class NativeMethods
         double confidence, IntPtr inliers, int flags);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_initCameraMatrix2D_Mat(
-        IntPtr[] objectPoints, int objectPointsLength,
-        IntPtr[] imagePoints, int imagePointsLength,
-        Size imageSize, double aspectRatio, out IntPtr returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_initCameraMatrix2D_array(
-        IntPtr[] objectPoints, int opSize1, int[] opSize2,
-        IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
-        Size imageSize, double aspectRatio, out IntPtr returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_findChessboardCorners_InputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_findChessboardCorners_vector(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_checkChessboard(
-        IntPtr img, Size size, out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_findChessboardCornersSB_OutputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_findChessboardCornersSB_vector(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_find4QuadCornerSubpix_InputArray(
-        IntPtr img, IntPtr corners, Size regionSize, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_find4QuadCornerSubpix_vector(
-        IntPtr img, IntPtr corners, Size regionSize, out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_drawChessboardCorners_InputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int patternWasFound);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_drawChessboardCorners_array(
-        IntPtr image, Size patternSize, [In] Point2f[] corners, int cornersLength, int patternWasFound);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_drawFrameAxes(
-        IntPtr image, IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr rvec, IntPtr tvec, float length, int thickness);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_findCirclesGrid_InputArray(
-        IntPtr image, Size patternSize,
-        IntPtr centers, int flags, IntPtr blobDetector,
-        out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_findCirclesGrid_vector(
-        IntPtr image, Size patternSize,
-        IntPtr centers, int flags, IntPtr blobDetector,
-        out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_calibrateCamera_InputArray(
-        IntPtr[] objectPoints, int objectPointsSize,
-        IntPtr[] imagePoints, int imagePointsSize,
-        Size imageSize,
-        IntPtr cameraMatrix,IntPtr distCoeffs,
-        IntPtr rvecs, IntPtr tvecs,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe ExceptionStatus calib_calibrateCamera_vector(
-        IntPtr[] objectPoints, int opSize1, int[] opSize2,
-        IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
-        Size imageSize,
-        double* cameraMatrix,
-        [In, Out] double[] distCoeffs, int distCoeffsSize,
-        IntPtr rvecs, IntPtr tvecs,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_calibrationMatrixValues_InputArray(
         IntPtr cameraMatrix,
         Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
         out double focalLength, out Point2d principalPoint, out double aspectRatio);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_calibrationMatrixValues_array(
         double* cameraMatrix, Size imageSize,
@@ -188,111 +118,12 @@ static partial class NativeMethods
         out Point2d principalPoint, out double aspectRatio);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_stereoCalibrate_InputArray(
-        IntPtr[] objectPoints, int opSize,
-        IntPtr[] imagePoints1, int ip1Size,
-        IntPtr[] imagePoints2, int ip2Size,
-        IntPtr cameraMatrix1,
-        IntPtr distCoeffs1,
-        IntPtr cameraMatrix2,
-        IntPtr distCoeffs2,
-        Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_stereoCalibrate_Mat(
-        IntPtr[] objectPoints, int opSize,
-        IntPtr[] imagePoints1, int ip1Size,
-        IntPtr[] imagePoints2, int ip2Size,
-        IntPtr cameraMatrix1,
-        IntPtr distCoeffs1,
-        IntPtr cameraMatrix2,
-        IntPtr distCoeffs2,
-        Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe ExceptionStatus calib_stereoCalibrate_array(
-        IntPtr[] objectPoints, int opSize1, int[] opSizes2,
-        IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
-        IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
-        double* cameraMatrix1,
-        [In, Out] double[] distCoeffs1, int dc1Size,
-        double* cameraMatrix2,
-        [In, Out] double[] distCoeffs2, int dc2Size,
-        Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_stereoRectify_InputArray(
-        IntPtr cameraMatrix1, IntPtr distCoeffs1,
-        IntPtr cameraMatrix2, IntPtr distCoeffs2,
-        Size imageSize, IntPtr R, IntPtr T,
-        IntPtr R1, IntPtr R2,
-        IntPtr P1, IntPtr P2,
-        IntPtr Q, int flags,
-        double alpha, Size newImageSize,
-        out Rect validPixROI1, out Rect validPixROI2);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe ExceptionStatus stereo_stereoRectify_array(
-        double* cameraMatrix1,
-        double[] distCoeffs1, int dc1Size,
-        double* cameraMatrix2,
-        double[] distCoeffs2, int dc2Size,
-        Size imageSize,
-        double* R, double[] T,
-        double* R1, double* R2, double* P1, double* P2,
-        double* Q, int flags, double alpha, Size newImageSize,
-        out Rect validPixROI1, out Rect validPixROI2);
-
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_stereoRectifyUncalibrated_InputArray(
-        IntPtr points1, IntPtr points2,
-        IntPtr F, Size imgSize,
-        IntPtr H1, IntPtr H2,
-        double threshold,
-        out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe ExceptionStatus stereo_stereoRectifyUncalibrated_array(
-        Point2d[] points1, int points1Size,
-        Point2d[] points2, int points2Size,
-        double* F, Size imgSize,
-        double* H1, double* H2,
-        double threshold,
-        out int returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_rectify3Collinear_InputArray(
-        IntPtr cameraMatrix1, IntPtr distCoeffs1,
-        IntPtr cameraMatrix2, IntPtr distCoeffs2,
-        IntPtr cameraMatrix3, IntPtr distCoeffs3,
-        IntPtr[] imgpt1, int imgpt1Size,
-        IntPtr[] imgpt3, int imgpt3Size,
-        Size imageSize, IntPtr R12, IntPtr T12,
-        IntPtr R13, IntPtr T13,
-        IntPtr R1, IntPtr R2, IntPtr R3,
-        IntPtr P1, IntPtr P2, IntPtr P3,
-        IntPtr Q, double alpha, Size newImgSize,
-        out Rect roi1, out Rect roi2, int flags,
-        out float returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_getOptimalNewCameraMatrix_InputArray(
         IntPtr cameraMatrix, IntPtr distCoeffs,
         Size imageSize, double alpha, Size newImgSize,
         out Rect validPixROI, int centerPrincipalPoint,
         out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_getOptimalNewCameraMatrix_array(
         double* cameraMatrix,
@@ -302,69 +133,46 @@ static partial class NativeMethods
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_calibrateHandEye(
-        IntPtr[] R_gripper2baseMats, int R_gripper2baseMatsSize,
-        IntPtr[] t_gripper2baseMats, int t_gripper2baseMatsSize,
-        IntPtr[] R_target2camMats, int R_target2camMatsSize,
-        IntPtr[] t_target2camMats, int t_target2camMatsSize,
-        IntPtr R_cam2gripper,
-        IntPtr t_cam2gripper,
-        int method);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_calibrateRobotWorldHandEye_OutputArray(
-        IntPtr[] R_world2camMats, int R_world2camMatsSize,
-        IntPtr[] t_world2camMats, int t_world2camMatsSize,
-        IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
-        IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
-        IntPtr R_base2world, IntPtr t_base2world,
-        IntPtr R_gripper2cam, IntPtr t_gripper2cam,
-        int method);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_calibrateRobotWorldHandEye_Pointer(
-        IntPtr[] R_world2camMats, int R_world2camMatsSize,
-        IntPtr[] t_world2camMats, int t_world2camMatsSize,
-        IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
-        IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
-        [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_base2world, 
-        [MarshalAs(UnmanagedType.LPArray), Out] double[] t_base2world,
-        [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_gripper2cam, 
-        [MarshalAs(UnmanagedType.LPArray), Out] double[] t_gripper2cam,
-        int method);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsToHomogeneous_InputArray(
         IntPtr src, IntPtr dst);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsToHomogeneous_array1(
         [In] Vec2f[] src, [In, Out] Vec3f[] dst, int length);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsToHomogeneous_array2(
         [In] Vec3f[] src, [In, Out] Vec4f[] dst, int length);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsFromHomogeneous_InputArray(
         IntPtr src, IntPtr dst);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsFromHomogeneous_array1(
         [In] Vec3f[] src, [In, Out] Vec2f[] dst, int length);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsFromHomogeneous_array2(
         [In] Vec4f[] src, [In, Out] Vec3f[] dst, int length);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_convertPointsHomogeneous(
         IntPtr src, IntPtr dst);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findFundamentalMat_InputArray(
         IntPtr points1, IntPtr points2,
         int method, double param1, double param2, IntPtr mask,
         out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findFundamentalMat_arrayF64(
         Point2d[] points1, int points1Size,
         Point2d[] points2, int points2Size,
         int method, double param1, double param2, IntPtr mask,
         out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findFundamentalMat_arrayF32(
         Point2f[] points1, int points1Size,
@@ -375,10 +183,12 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_computeCorrespondEpilines_InputArray(
         IntPtr points, int whichImage, IntPtr F, IntPtr lines);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_computeCorrespondEpilines_array2d(
         [In] Point2d[] points, int pointsSize,
         int whichImage, double* F, [In, Out] Point3f[] lines);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_computeCorrespondEpilines_array3d(
         [In] Point3d[] points, int pointsSize,
@@ -389,6 +199,7 @@ static partial class NativeMethods
         IntPtr projMatr1, IntPtr projMatr2,
         IntPtr projPoints1, IntPtr projPoints2,
         IntPtr points4D);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_triangulatePoints_array(
         double* projMatr1, double* projMatr2,
@@ -400,29 +211,13 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_correctMatches_InputArray(
         IntPtr F, IntPtr points1, IntPtr points2,
         IntPtr newPoints1, IntPtr newPoints2);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_correctMatches_array(
         double* F, Point2d[] points1, int points1Size,
         Point2d[] points2, int points2Size,
         Point2d[] newPoints1, Point2d[] newPoints2);
-        
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_filterSpeckles(
-        IntPtr img, double newVal, int maxSpeckleSize,
-        double maxDiff, IntPtr buf);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_getValidDisparityROI(
-        Rect roi1, Rect roi2,
-        int minDisparity, int numberOfDisparities, int SADWindowSize,
-        out Rect returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_validateDisparity(
-        IntPtr disparity, IntPtr cost,
-        int minDisparity, int numberOfDisparities, int disp12MaxDisp);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_reprojectImageTo3D(
-        IntPtr disparity, IntPtr _3dImage,
-        IntPtr Q, int handleMissingValues, int ddepth);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_estimateAffine3D(
         IntPtr src, IntPtr dst,
@@ -432,6 +227,7 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_sampsonDistance_InputArray(
         IntPtr pt1, IntPtr pt2, IntPtr F, out double returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus geometry_sampsonDistance_Point3d(
         Point3d pt1, Point3d pt2, double* F, out double returnValue);
@@ -467,24 +263,6 @@ static partial class NativeMethods
         IntPtr pointsMask);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_undistort(
-        IntPtr src, IntPtr dst,
-        IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_initUndistortRectifyMap(
-        IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr R, IntPtr newCameraMatrix,
-        Size size, MatType m1type, IntPtr map1, IntPtr map2);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_initWideAngleProjMap(
-        IntPtr cameraMatrix, IntPtr distCoeffs,
-        Size imageSize, int destImageWidth,
-        MatType m1type, IntPtr map1, IntPtr map2,
-        int projType, double alpha, out float returnValue);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_getDefaultNewCameraMatrix(
         IntPtr cameraMatrix, Size imgsize, int centerPrincipalPoint, out IntPtr returnValue);
 
@@ -506,11 +284,13 @@ static partial class NativeMethods
         IntPtr cameraMatrix, 
         IntPtr R, IntPtr P, IntPtr mask,
         out int returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_recoverPose_InputArray2(
         IntPtr E, IntPtr points1, IntPtr points2,
         IntPtr R, IntPtr P, double focal, Point2d pp, IntPtr mask,
         out int returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_recoverPose_InputArray3(
         IntPtr E, IntPtr points1, IntPtr points2,
@@ -522,6 +302,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_findEssentialMat_InputArray1(
         IntPtr points1, IntPtr points2, IntPtr cameraMatrix,
         int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findEssentialMat_InputArray2(
         IntPtr points1, IntPtr points2, double focal, Point2d pp,

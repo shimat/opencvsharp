@@ -5031,4 +5031,183 @@ static partial class Cv2
     }
 
     #endregion
+
+    /// <summary>
+    /// Draw axes of the world/object coordinate system from pose estimation.
+    /// </summary>
+    /// <param name="image">Input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+    /// <param name="cameraMatrix">Input 3x3 floating-point matrix of camera intrinsic parameters.</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients
+    /// \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$ of
+    /// 4, 5, 8, 12 or 14 elements.If the vector is empty, the zero distortion coefficients are assumed.</param>
+    /// <param name="rvec">Rotation vector (see @ref Rodrigues ) that, together with tvec , brings points from
+    /// the model coordinate system to the camera coordinate system.</param>
+    /// <param name="tvec">Translation vector.</param>
+    /// <param name="length">Length of the painted axes in the same unit than tvec (usually in meters).</param>
+    /// <param name="thickness">Line thickness of the painted axes.</param>
+    /// <remarks>This function draws the axes of the world/object coordinate system w.r.t. to the camera frame.
+    /// OX is drawn in red, OY in green and OZ in blue.</remarks>
+    public static void DrawFrameAxes(
+        InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray rvec, InputArray tvec, float length, int thickness = 3)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        if (distCoeffs is null)
+            throw new ArgumentNullException(nameof(distCoeffs));
+        if (rvec is null)
+            throw new ArgumentNullException(nameof(rvec));
+        if (tvec is null)
+            throw new ArgumentNullException(nameof(tvec));
+        image.ThrowIfDisposed();
+        cameraMatrix.ThrowIfDisposed();
+        distCoeffs.ThrowIfDisposed();
+        rvec.ThrowIfDisposed();
+        tvec.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_drawFrameAxes(
+                image.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, rvec.CvPtr, tvec.CvPtr, length, thickness));
+
+        GC.KeepAlive(image);
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(rvec);
+        GC.KeepAlive(tvec);
+    }
+
+    /// <summary>
+    /// corrects lens distortion for the given camera matrix and distortion coefficients
+    /// </summary>
+    /// <param name="src">Input (distorted) image.</param>
+    /// <param name="dst">Output (corrected) image that has the same size and type as src .</param>
+    /// <param name="cameraMatrix"> Input camera matrix</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+    /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+    /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+    /// By default, it is the same as cameraMatrix but you may additionally scale 
+    /// and shift the result by using a different matrix.</param>
+    public static void Undistort(InputArray src, OutputArray dst,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        InputArray? newCameraMatrix = null)
+    {
+        if (src is null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst is null)
+            throw new ArgumentNullException(nameof(dst));
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        src.ThrowIfDisposed();
+        dst.ThrowIfNotReady();
+        cameraMatrix.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(newCameraMatrix)));
+
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(newCameraMatrix);
+        dst.Fix();
+    }
+
+    /// <summary>
+    /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
+    /// </summary>
+    /// <param name="cameraMatrix"></param>
+    /// <param name="distCoeffs"></param>
+    /// <param name="r"></param>
+    /// <param name="newCameraMatrix"></param>
+    /// <param name="size"></param>
+    /// <param name="m1Type"></param>
+    /// <param name="map1"></param>
+    /// <param name="map2"></param>
+    public static void InitUndistortRectifyMap(
+        InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray r, InputArray newCameraMatrix,
+        Size size, MatType m1Type, OutputArray map1, OutputArray map2)
+    {
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        if (distCoeffs is null)
+            throw new ArgumentNullException(nameof(distCoeffs));
+        if (r is null)
+            throw new ArgumentNullException(nameof(r));
+        if (newCameraMatrix is null)
+            throw new ArgumentNullException(nameof(newCameraMatrix));
+        if (map1 is null)
+            throw new ArgumentNullException(nameof(map1));
+        if (map2 is null)
+            throw new ArgumentNullException(nameof(map2));
+        cameraMatrix.ThrowIfDisposed();
+        distCoeffs.ThrowIfDisposed();
+        r.ThrowIfDisposed();
+        newCameraMatrix.ThrowIfDisposed();
+        map1.ThrowIfNotReady();
+        map2.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_initUndistortRectifyMap(
+                cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr));
+
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(r);
+        GC.KeepAlive(newCameraMatrix);
+        GC.KeepAlive(map1);
+        GC.KeepAlive(map2);
+        map1.Fix();
+        map2.Fix();
+    }
+
+    /// <summary>
+    /// initializes maps for cv::remap() for wide-angle
+    /// </summary>
+    /// <param name="cameraMatrix"></param>
+    /// <param name="distCoeffs"></param>
+    /// <param name="imageSize"></param>
+    /// <param name="destImageWidth"></param>
+    /// <param name="m1Type"></param>
+    /// <param name="map1"></param>
+    /// <param name="map2"></param>
+    /// <param name="projType"></param>
+    /// <param name="alpha"></param>
+    /// <returns></returns>
+    public static float InitWideAngleProjMap(
+        InputArray cameraMatrix, InputArray distCoeffs,
+        Size imageSize, int destImageWidth, MatType m1Type,
+        OutputArray map1, OutputArray map2,
+        ProjectionType projType, double alpha = 0)
+    {
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        if (distCoeffs is null)
+            throw new ArgumentNullException(nameof(distCoeffs));
+        if (map1 is null)
+            throw new ArgumentNullException(nameof(map1));
+        if (map2 is null)
+            throw new ArgumentNullException(nameof(map2));
+        cameraMatrix.ThrowIfDisposed();
+        distCoeffs.ThrowIfDisposed();
+        map1.ThrowIfNotReady();
+        map2.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_initWideAngleProjMap(
+                cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
+                destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int) projType, alpha, out var ret));
+
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(map1);
+        GC.KeepAlive(map2);
+        map1.Fix();
+        map2.Fix();
+        return ret;
+    }
 }

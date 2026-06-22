@@ -16,8 +16,11 @@ The following table shows the available OpenCV modules and their corresponding O
 | videoio | BUILD_opencv_videoio | NO_VIDEOIO | Video capture and writing |
 | highgui | BUILD_opencv_highgui | NO_HIGHGUI | GUI windows and trackbars |
 | video | BUILD_opencv_video | NO_VIDEO | Video analysis (optical flow, background subtraction) |
-| calib3d | BUILD_opencv_calib3d | NO_CALIB3D | Camera calibration, 3D reconstruction |
-| features2d | BUILD_opencv_features2d | NO_FEATURES2D | 2D feature detection (ORB, SIFT, etc.) |
+| geometry | BUILD_opencv_geometry | NO_GEOMETRY | 2D/3D geometry (solvePnP, findHomography, triangulation; ex-calib3d) |
+| calib | BUILD_opencv_calib | NO_CALIB | Camera calibration (ex-calib3d) |
+| stereo | BUILD_opencv_stereo | NO_STEREO | Stereo correspondence / disparity (ex-calib3d) |
+| ptcloud | BUILD_opencv_ptcloud | NO_PTCLOUD | Point cloud: TSDF volume integration, odometry |
+| features | BUILD_opencv_features | NO_FEATURES | 2D feature detection (ORB, SIFT, etc.; renamed from features2d) |
 | flann | BUILD_opencv_flann | NO_FLANN | Fast approximate nearest neighbor searches |
 | dnn | BUILD_opencv_dnn | NO_DNN | Deep neural network inference |
 | ml | BUILD_opencv_ml | NO_ML | Machine learning (SVM, decision trees, etc.) |
@@ -194,9 +197,12 @@ cmake .. \
   -DOpenCV_DIR=/opt/opencv-nocontrib/lib/cmake/opencv4 \
   -DNO_CONTRIB=ON \
   -DNO_STITCHING=ON \
-  -DNO_CALIB3D=ON \
+  -DNO_GEOMETRY=ON \
+  -DNO_CALIB=ON \
+  -DNO_STEREO=ON \
+  -DNO_PTCLOUD=ON \
   -DNO_VIDEO=ON \
-  -DNO_FEATURES2D=ON \
+  -DNO_FEATURES=ON \
   -DNO_FLANN=ON \
   -DNO_DNN=ON \
   -DNO_ML=ON \
