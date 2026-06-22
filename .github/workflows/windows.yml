@@ -423,7 +423,12 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full --results-directory "%GITHUB_WORKSPACE%\TestResults"
+        run: |
+          dotnet build test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 || exit /b 1
+          for /L %%i in (1,1,6) do (
+            echo ===== arm64 test attempt %%i (--blame-crash; loops to reproduce the flaky crash) =====
+            dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --no-build --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full --results-directory "%GITHUB_WORKSPACE%\TestResults" || exit /b 1
+          )
 
       - name: Blame crash sequence (diagnostic)
         if: always()
