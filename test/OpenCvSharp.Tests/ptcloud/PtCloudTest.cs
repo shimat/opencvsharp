@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 using Xunit;
 
 namespace OpenCvSharp.Tests.PtCloud;
@@ -14,17 +13,17 @@ public class PtCloudTest : TestBase
         this.testOutputHelper = testOutputHelper;
     }
 
-    // TEMPORARY DIAGNOSTIC: write an unbuffered marker straight to the process's raw
-    // stderr (bypassing xunit's per-test console capture, which is lost when the process
-    // hard-crashes). The last "PTCLOUD_MARK <x>-before" with no matching "-after" in the
-    // arm64 CI log pinpoints the exact native call that segfaults. xunit runs the methods
-    // of one test class sequentially, so the markers appear in a deterministic order.
-    private static readonly Stream RawStdErr = Console.OpenStandardError();
+    // TEMPORARY DIAGNOSTIC: append a marker to a file (path from PTCLOUD_MARKER_FILE env)
+    // before/after each native ptcloud call. AppendAllText opens-writes-CLOSES, so the
+    // marker is flushed to the OS and survives the process hard-crash that the next native
+    // call may trigger. The CI step prints the file afterwards; the last "<x>-before" with
+    // no matching "-after" pinpoints the offending call. xunit runs a class's methods
+    // sequentially, so markers appear in a deterministic order.
+    private static readonly string? MarkerFile = Environment.GetEnvironmentVariable("PTCLOUD_MARKER_FILE");
     private static void Mark(string s)
     {
-        var b = Encoding.ASCII.GetBytes($"PTCLOUD_MARK {s}\n");
-        RawStdErr.Write(b, 0, b.Length);
-        RawStdErr.Flush();
+        if (MarkerFile is not null)
+            File.AppendAllText(MarkerFile, $"PTCLOUD_MARK {s}\n");
     }
 
     [Fact]
