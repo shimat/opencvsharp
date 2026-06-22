@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
           fetch-depth: 1
@@ -249,7 +249,7 @@ jobs:
           dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: packages_windows
           path: ${{ github.workspace }}\artifacts
@@ -260,7 +260,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
           fetch-depth: 1
@@ -412,7 +412,7 @@ jobs:
           dotnet pack nuget/OpenCvSharp4.runtime.win-arm64.slim.csproj -o artifacts -p:Version=$version
 
       - name: Upload NuGet packages
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: packages_windows_arm64
           path: ${{ github.workspace }}\artifacts
