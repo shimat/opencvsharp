@@ -10,36 +10,36 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_projectPoints2(
+    public static extern ExceptionStatus calib_fisheye_projectPoints2(
         IntPtr objectPoints, IntPtr imagePoints, IntPtr rvec, IntPtr tvec,
         IntPtr K, IntPtr D, double alpha, IntPtr jacobian);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_distortPoints(
+    public static extern ExceptionStatus calib_fisheye_distortPoints(
         IntPtr undistorted, IntPtr distorted, IntPtr K, IntPtr D, double alpha);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_undistortPoints(
+    public static extern ExceptionStatus calib_fisheye_undistortPoints(
         IntPtr distorted, IntPtr undistorted,
         IntPtr K, IntPtr D, IntPtr R, IntPtr P);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_initUndistortRectifyMap(
+    public static extern ExceptionStatus calib_fisheye_initUndistortRectifyMap(
         IntPtr K, IntPtr D, IntPtr R, IntPtr P,
         Size size, int m1type, IntPtr map1, IntPtr map2);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_undistortImage(
+    public static extern ExceptionStatus calib_fisheye_undistortImage(
         IntPtr distorted, IntPtr undistorted,
         IntPtr K, IntPtr D, IntPtr Knew, Size newSize);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_estimateNewCameraMatrixForUndistortRectify(
+    public static extern ExceptionStatus calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
         IntPtr K, IntPtr D, Size image_size, IntPtr R,
         IntPtr P, double balance, Size newSize, double fov_scale);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_calibrate(
+    public static extern ExceptionStatus calib_fisheye_calibrate(
         IntPtr objectPoints, IntPtr imagePoints, 
         Size imageSize,
         IntPtr K,
@@ -51,13 +51,13 @@ static partial class NativeMethods
         out double returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_stereoRectify(
+    public static extern ExceptionStatus calib_fisheye_stereoRectify(
         IntPtr K1, IntPtr D1, IntPtr K2, IntPtr D2, Size imageSize, IntPtr R, IntPtr tvec,
         IntPtr R1, IntPtr R2, IntPtr P1, IntPtr P2, IntPtr Q, int flags, Size newImageSize,
         double balance, double fov_scale);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_fisheye_stereoCalibrate(
+    public static extern ExceptionStatus calib_fisheye_stereoCalibrate(
         IntPtr objectPoints,
         IntPtr imagePoints1, 
         IntPtr imagePoints2, 

@@ -57,7 +57,7 @@ static partial class Cv2
             jacobian?.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_projectPoints2(
+                NativeMethods.calib_fisheye_projectPoints2(
                     objectPoints.CvPtr,
                     imagePoints.CvPtr,
                     rvec.CvPtr, tvec.CvPtr,
@@ -99,7 +99,7 @@ static partial class Cv2
             d.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_distortPoints(
+                NativeMethods.calib_fisheye_distortPoints(
                     undistorted.CvPtr, distorted.CvPtr, k.CvPtr, d.CvPtr, alpha));
 
             GC.KeepAlive(undistorted);
@@ -139,7 +139,7 @@ static partial class Cv2
             p?.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_undistortPoints(
+                NativeMethods.calib_fisheye_undistortPoints(
                     distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(r), ToPtr(p)));
 
             GC.KeepAlive(distorted);
@@ -186,7 +186,7 @@ static partial class Cv2
             map2.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_initUndistortRectifyMap(
+                NativeMethods.calib_fisheye_initUndistortRectifyMap(
                     k.CvPtr, d.CvPtr, r.CvPtr, p.CvPtr, size, m1type, map1.CvPtr, map2.CvPtr));
                 
             GC.KeepAlive(k);
@@ -226,7 +226,7 @@ static partial class Cv2
             knew?.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_undistortImage(
+                NativeMethods.calib_fisheye_undistortImage(
                     distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(knew), newSize));
 
             GC.KeepAlive(distorted);
@@ -267,7 +267,7 @@ static partial class Cv2
             p.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_estimateNewCameraMatrixForUndistortRectify(
+                NativeMethods.calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
                     k.CvPtr, d.CvPtr, imageSize, r.CvPtr, p.CvPtr, balance, newSize, fovScale));
 
             GC.KeepAlive(k);
@@ -320,7 +320,7 @@ static partial class Cv2
             using var rvecsVec = new VectorOfMat();
             using var tvecsVec = new VectorOfMat();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_calibrate(
+                NativeMethods.calib_fisheye_calibrate(
                     objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
                     k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal, out var result));
 
@@ -403,7 +403,7 @@ static partial class Cv2
             q.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_stereoRectify(
+                NativeMethods.calib_fisheye_stereoRectify(
                     k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr,
                     imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr,
                     p1.CvPtr, p2.CvPtr, q.CvPtr, (int) flags, newImageSize, balance, fovScale));
@@ -478,7 +478,7 @@ static partial class Cv2
             using var imagePoints1Vec = new VectorOfMat(imagePoints1); 
             using var imagePoints2Vec = new VectorOfMat(imagePoints2);
             NativeMethods.HandleException(
-                NativeMethods.calib3d_fisheye_stereoCalibrate(
+                NativeMethods.calib_fisheye_stereoCalibrate(
                     objectPointsVec.CvPtr, imagePoints1Vec.CvPtr, imagePoints2Vec.CvPtr,
                     k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr, imageSize,
                     r.CvPtr, t.CvPtr, (int) flags, criteriaVal, out var result));

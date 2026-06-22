@@ -36,7 +36,7 @@ public class StereoMatcher : Algorithm
         disparity.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_StereoMatcher_compute(RawPtr, left.CvPtr, right.CvPtr, disparity.CvPtr));
+            NativeMethods.stereo_StereoMatcher_compute(RawPtr, left.CvPtr, right.CvPtr, disparity.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(left);
@@ -52,14 +52,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getMinDisparity(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getMinDisparity(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setMinDisparity(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setMinDisparity(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -72,14 +72,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getNumDisparities(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getNumDisparities(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setNumDisparities(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setNumDisparities(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -92,14 +92,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getBlockSize(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getBlockSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setBlockSize(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setBlockSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -112,14 +112,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getSpeckleWindowSize(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getSpeckleWindowSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setSpeckleWindowSize(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setSpeckleWindowSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -132,14 +132,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getSpeckleRange(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getSpeckleRange(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setSpeckleRange(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setSpeckleRange(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -152,14 +152,14 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_getDisp12MaxDiff(RawPtr, out var ret));
+                NativeMethods.stereo_StereoMatcher_getDisp12MaxDiff(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoMatcher_setDisp12MaxDiff(RawPtr, value));
+                NativeMethods.stereo_StereoMatcher_setDisp12MaxDiff(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

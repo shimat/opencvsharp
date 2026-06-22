@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#ifndef NO_CALIB3D
+#ifndef NO_CALIB
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -8,7 +8,7 @@
 
 #include "include_opencv.h"
 
-/*CVAPI(ExceptionStatus) calib3d_fisheye_projectPoints1(
+/*CVAPI(ExceptionStatus) calib_fisheye_projectPoints1(
     cv::_InputArray *objectPoints, cv::_OutputArray *imagePoints, const cv::Affine3d& affine,
     cv::_InputArray *K, cv::_InputArray *D, double alpha, cv::_OutputArray *jacobian)
 {
@@ -17,7 +17,7 @@
     END_WRAP
 }*/
 
-CVAPI(ExceptionStatus) calib3d_fisheye_projectPoints2(
+CVAPI(ExceptionStatus) calib_fisheye_projectPoints2(
     cv::_InputArray *objectPoints, cv::_OutputArray *imagePoints, cv::_InputArray *rvec, cv::_InputArray *tvec,
     cv::_InputArray *K, cv::_InputArray *D, double alpha, cv::_OutputArray *jacobian)
 {
@@ -26,7 +26,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_projectPoints2(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_distortPoints(
+CVAPI(ExceptionStatus) calib_fisheye_distortPoints(
     cv::_InputArray *undistorted, cv::_OutputArray *distorted, cv::_InputArray *K, cv::_InputArray *D, double alpha)
 {
     BEGIN_WRAP
@@ -34,7 +34,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_distortPoints(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_undistortPoints(
+CVAPI(ExceptionStatus) calib_fisheye_undistortPoints(
     cv::_InputArray *distorted, cv::_OutputArray *undistorted,
     cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P)
 {
@@ -43,7 +43,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_undistortPoints(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_initUndistortRectifyMap(
+CVAPI(ExceptionStatus) calib_fisheye_initUndistortRectifyMap(
     cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P,
     MyCvSize size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
 {
@@ -52,7 +52,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_initUndistortRectifyMap(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_undistortImage(
+CVAPI(ExceptionStatus) calib_fisheye_undistortImage(
     cv::_InputArray *distorted, cv::_OutputArray *undistorted,
     cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *Knew, MyCvSize newSize)
 {
@@ -61,7 +61,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_undistortImage(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_estimateNewCameraMatrixForUndistortRectify(
+CVAPI(ExceptionStatus) calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
     cv::_InputArray *K, cv::_InputArray *D, MyCvSize image_size, cv::_InputArray *R,
     cv::_OutputArray *P, double balance, MyCvSize newSize, double fov_scale)
 {
@@ -70,7 +70,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_estimateNewCameraMatrixForUndistortRectif
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_calibrate(
+CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     std::vector<cv::Mat> *objectPoints,
     std::vector<cv::Mat> *imagePoints,
     MyCvSize imageSize,
@@ -89,7 +89,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_calibrate(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_stereoRectify(
+CVAPI(ExceptionStatus) calib_fisheye_stereoRectify(
     cv::_InputArray *K1, cv::_InputArray *D1, cv::_InputArray *K2, cv::_InputArray *D2, MyCvSize imageSize, cv::_InputArray *R, cv::_InputArray *tvec,
     cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *Q, int flags, MyCvSize newImageSize,
     double balance, double fov_scale)
@@ -99,7 +99,7 @@ CVAPI(ExceptionStatus) calib3d_fisheye_stereoRectify(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) calib3d_fisheye_stereoCalibrate(
+CVAPI(ExceptionStatus) calib_fisheye_stereoCalibrate(
     std::vector<cv::Mat> *objectPoints,
     std::vector<cv::Mat> *imagePoints1, 
     std::vector<cv::Mat> *imagePoints2, 
@@ -123,4 +123,4 @@ CVAPI(ExceptionStatus) calib3d_fisheye_stereoCalibrate(
     END_WRAP
 }
 
-#endif // NO_CALIB3D
+#endif // NO_CALIB

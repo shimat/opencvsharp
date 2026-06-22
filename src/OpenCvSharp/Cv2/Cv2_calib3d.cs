@@ -29,7 +29,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian)));
+            NativeMethods.geometry_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian)));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -114,7 +114,7 @@ static partial class Cv2
         dstPoints.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findHomography_InputArray(
+            NativeMethods.geometry_findHomography_InputArray(
                 srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
                 ransacReprojThreshold, ToPtr(mask), maxIters, confidence,
                 out var ret));
@@ -156,7 +156,7 @@ static partial class Cv2
         var dstPointsArray = dstPoints as Point2d[] ?? dstPoints.ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findHomography_vector(
+            NativeMethods.geometry_findHomography_vector(
                 srcPointsArray, srcPointsArray.Length,
                 dstPointsArray, dstPointsArray.Length, 
                 (int)method, ransacReprojThreshold, ToPtr(mask), maxIters, confidence,
@@ -194,7 +194,7 @@ static partial class Cv2
 
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findHomography_UsacParams(
+            NativeMethods.geometry_findHomography_UsacParams(
                 srcPoints.CvPtr, dstPoints.CvPtr, ToPtr(mask), ref p,
                 out var ret));
 
@@ -229,7 +229,7 @@ static partial class Cv2
         mtxQ.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_RQDecomp3x3_InputArray(
+            NativeMethods.geometry_RQDecomp3x3_InputArray(
                 src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr,
                 ToPtr(qx), ToPtr(qy), ToPtr(qz), out var ret));
 
@@ -279,7 +279,7 @@ static partial class Cv2
         using var qyM = new Mat<double>();
         using var qzM = new Mat<double>();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_RQDecomp3x3_Mat(
+            NativeMethods.geometry_RQDecomp3x3_Mat(
                 srcM.CvPtr, mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
                 out var ret));
         mtxR = mtxRM.ToRectangularArray();
@@ -325,7 +325,7 @@ static partial class Cv2
         transVect.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_decomposeProjectionMatrix_InputArray(
+            NativeMethods.geometry_decomposeProjectionMatrix_InputArray(
                 projMatrix.CvPtr, cameraMatrix.CvPtr, rotMatrix.CvPtr, transVect.CvPtr,
                 ToPtr(rotMatrixX), ToPtr(rotMatrixY), ToPtr(rotMatrixZ), ToPtr(eulerAngles)));
 
@@ -384,7 +384,7 @@ static partial class Cv2
         using var rotMatrixZM = new Mat<double>();
         using var eulerAnglesM = new Mat<double>();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_decomposeProjectionMatrix_Mat(
+            NativeMethods.geometry_decomposeProjectionMatrix_Mat(
                 projMatrixM.CvPtr,
                 cameraMatrixM.CvPtr, rotMatrixM.CvPtr, transVectM.CvPtr,
                 rotMatrixXM.CvPtr, rotMatrixYM.CvPtr, rotMatrixZM.CvPtr,
@@ -439,7 +439,7 @@ static partial class Cv2
         dABdA.ThrowIfNotReady();
         dABdB.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr));
+            NativeMethods.geometry_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr));
         GC.KeepAlive(a);
         GC.KeepAlive(b);
         dABdA.Fix();
@@ -492,7 +492,7 @@ static partial class Cv2
         tvec3.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_composeRT_InputArray(
+            NativeMethods.geometry_composeRT_InputArray(
                 rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr, rvec3.CvPtr, tvec3.CvPtr,
                 ToPtr(dr3dr1), ToPtr(dr3dt1), ToPtr(dr3dr2), ToPtr(dr3dt2),
                 ToPtr(dt3dr1), ToPtr(dt3dt1), ToPtr(dt3dr2), ToPtr(dt3dt2)));
@@ -564,7 +564,7 @@ static partial class Cv2
         using var dt3dt2M = new Mat<double>();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_composeRT_Mat(
+            NativeMethods.geometry_composeRT_Mat(
                 rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
                 rvec3M.CvPtr, tvec3M.CvPtr,
                 dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
@@ -650,7 +650,7 @@ static partial class Cv2
         imagePoints.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_projectPoints_InputArray(
+            NativeMethods.geometry_projectPoints_InputArray(
                 objectPoints.CvPtr,
                 rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
                 imagePoints.CvPtr, ToPtr(jacobian), aspectRatio));
@@ -722,7 +722,7 @@ static partial class Cv2
         using var imagePointsM = new Mat<Point2f>();
         using var jacobianM = new Mat<double>();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_projectPoints_Mat(
+            NativeMethods.geometry_projectPoints_Mat(
                 objectPointsM.CvPtr, rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
                 imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio));
 
@@ -775,7 +775,7 @@ static partial class Cv2
         tvec.ThrowIfDisposed();
         var distCoeffsPtr = ToPtr(distCoeffs);
 
-        NativeMethods.HandleException(NativeMethods.calib3d_solvePnP_InputArray(
+        NativeMethods.HandleException(NativeMethods.geometry_solvePnP_InputArray(
             objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
             rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int) flags));
 
@@ -838,7 +838,7 @@ static partial class Cv2
             fixed (double* cameraMatrixPtr = cameraMatrix)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_solvePnP_vector(
+                    NativeMethods.geometry_solvePnP_vector(
                         objectPointsArray, objectPointsArray.Length,
                         imagePointsArray, imagePointsArray.Length,
                         cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
@@ -903,7 +903,7 @@ static partial class Cv2
         var distCoeffsPtr = ToPtr(distCoeffs);
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_solvePnPRansac_InputArray(
+            NativeMethods.geometry_solvePnPRansac_InputArray(
                 objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
                 rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, iterationsCount,
                 reprojectionError, confidence, ToPtr(inliers), (int) flags));
@@ -998,7 +998,7 @@ static partial class Cv2
             fixed (double* cameraMatrixPtr = cameraMatrix)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_solvePnPRansac_vector(
+                    NativeMethods.geometry_solvePnPRansac_vector(
                         objectPointsArray, objectPointsArray.Length,
                         imagePointsArray, imagePointsArray.Length,
                         cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
@@ -1032,7 +1032,7 @@ static partial class Cv2
         var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_initCameraMatrix2D_Mat(
+            NativeMethods.calib_initCameraMatrix2D_Mat(
                 objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, imagePointsPtrs.Length, imageSize, aspectRatio,
                 out var matPtr));
@@ -1061,7 +1061,7 @@ static partial class Cv2
         using var opArray = new ArrayAddress2<Point3f>(objectPoints);
         using var ipArray = new ArrayAddress2<Point2f>(imagePoints);
         NativeMethods.HandleException(
-            NativeMethods.calib3d_initCameraMatrix2D_array(
+            NativeMethods.calib_initCameraMatrix2D_array(
                 opArray.GetPointer(), opArray.GetDim1Length(), opArray.GetDim2Lengths(),
                 ipArray.GetPointer(), ipArray.GetDim1Length(), ipArray.GetDim2Lengths(),
                 imageSize, aspectRatio, out var matPtr));
@@ -1092,7 +1092,7 @@ static partial class Cv2
         corners.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findChessboardCorners_InputArray(
+            NativeMethods.calib_findChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, (int) flags, out var ret));
         GC.KeepAlive(image);
         corners.Fix();
@@ -1120,7 +1120,7 @@ static partial class Cv2
 
         using var cornersVec = new VectorOfPoint2f();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findChessboardCorners_vector(
+            NativeMethods.calib_findChessboardCorners_vector(
                 image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
         GC.KeepAlive(image);
         corners = cornersVec.ToArray();
@@ -1140,7 +1140,7 @@ static partial class Cv2
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_checkChessboard(img.CvPtr, size, out var ret));
+            NativeMethods.objdetect_checkChessboard(img.CvPtr, size, out var ret));
         GC.KeepAlive(img);
         return ret != 0;
     }
@@ -1165,7 +1165,7 @@ static partial class Cv2
         corners.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findChessboardCornersSB_OutputArray(
+            NativeMethods.objdetect_findChessboardCornersSB_OutputArray(
                 image.CvPtr, patternSize, corners.CvPtr, (int) flags, out var ret));
 
         GC.KeepAlive(image);
@@ -1191,7 +1191,7 @@ static partial class Cv2
 
         using var cornersVec = new VectorOfPoint2f();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findChessboardCornersSB_vector(
+            NativeMethods.objdetect_findChessboardCornersSB_vector(
                 image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
 
         corners = cornersVec.ToArray();
@@ -1216,7 +1216,7 @@ static partial class Cv2
         corners.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_find4QuadCornerSubpix_InputArray(
+            NativeMethods.objdetect_find4QuadCornerSubpix_InputArray(
                 img.CvPtr, corners.CvPtr, regionSize, out var ret));
         GC.KeepAlive(img);
         corners.Fix();
@@ -1239,7 +1239,7 @@ static partial class Cv2
 
         using var cornersVec = new VectorOfPoint2f(corners);
         NativeMethods.HandleException(
-            NativeMethods.calib3d_find4QuadCornerSubpix_vector(
+            NativeMethods.objdetect_find4QuadCornerSubpix_vector(
                 img.CvPtr, cornersVec.CvPtr, regionSize, out var ret));
         GC.KeepAlive(img);
 
@@ -1270,7 +1270,7 @@ static partial class Cv2
         corners.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_drawChessboardCorners_InputArray(
+            NativeMethods.objdetect_drawChessboardCorners_InputArray(
                 image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0));
         GC.KeepAlive(corners);
         image.Fix();
@@ -1295,7 +1295,7 @@ static partial class Cv2
 
         var cornersArray = corners as Point2f[] ?? corners.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_drawChessboardCorners_array(
+            NativeMethods.objdetect_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0));
         image.Fix();
@@ -1337,7 +1337,7 @@ static partial class Cv2
         tvec.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_drawFrameAxes(
+            NativeMethods.imgproc_drawFrameAxes(
                 image.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, rvec.CvPtr, tvec.CvPtr, length, thickness));
 
         GC.KeepAlive(image);
@@ -1371,7 +1371,7 @@ static partial class Cv2
         centers.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findCirclesGrid_InputArray(
+            NativeMethods.calib_findCirclesGrid_InputArray(
                 image.CvPtr, patternSize, centers.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
         GC.KeepAlive(image);
         GC.KeepAlive(centers);
@@ -1402,7 +1402,7 @@ static partial class Cv2
 
         using var centersVec = new VectorOfPoint2f();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findCirclesGrid_vector(
+            NativeMethods.calib_findCirclesGrid_vector(
                 image.CvPtr, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
         GC.KeepAlive(image);
         GC.KeepAlive(blobDetector);
@@ -1465,7 +1465,7 @@ static partial class Cv2
         using var rvecsVec = new VectorOfMat();
         using var tvecsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_calibrateCamera_InputArray(
+            NativeMethods.calib_calibrateCamera_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, objectPointsPtrs.Length,
                 imageSize, cameraMatrix.CvPtr, distCoeffs.CvPtr,
@@ -1538,7 +1538,7 @@ static partial class Cv2
             fixed (double* cameraMatrixPtr = cameraMatrix)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_calibrateCamera_vector(
+                    NativeMethods.calib_calibrateCamera_vector(
                         op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
                         ip.GetPointer(), ip.GetDim1Length(), ip.GetDim2Lengths(),
                         imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
@@ -1575,7 +1575,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_calibrationMatrixValues_InputArray(
+            NativeMethods.geometry_calibrationMatrixValues_InputArray(
                 cameraMatrix.CvPtr, imageSize, apertureWidth, apertureHeight, 
                 out fovx, out fovy, out focalLength, out principalPoint, out aspectRatio));
         GC.KeepAlive(cameraMatrix);
@@ -1609,7 +1609,7 @@ static partial class Cv2
             fixed (double* cameraMatrixPtr = cameraMatrix)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_calibrationMatrixValues_array(
+                    NativeMethods.geometry_calibrationMatrixValues_array(
                         cameraMatrixPtr,
                         imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
                         out principalPoint, out aspectRatio));
@@ -1678,7 +1678,7 @@ static partial class Cv2
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_stereoCalibrate_InputArray(
+            NativeMethods.calib_stereoCalibrate_InputArray(
                 opPtrs, opPtrs.Length,
                 ip1Ptrs, ip1Ptrs.Length, ip2Ptrs, ip2Ptrs.Length,
                 cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
@@ -1769,7 +1769,7 @@ static partial class Cv2
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_stereoCalibrate_Mat(
+            NativeMethods.calib_stereoCalibrate_Mat(
                 opPtrs, opPtrs.Length,
                 ip1Ptrs, ip1Ptrs.Length,
                 ip2Ptrs, ip2Ptrs.Length,
@@ -1850,7 +1850,7 @@ static partial class Cv2
             fixed (double* cameraMatrix2Ptr = cameraMatrix2)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_stereoCalibrate_array(
+                    NativeMethods.calib_stereoCalibrate_array(
                         op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
                         ip1.GetPointer(), ip1.GetDim1Length(), ip1.GetDim2Lengths(),
                         ip2.GetPointer(), ip2.GetDim1Length(), ip2.GetDim2Lengths(),
@@ -1980,7 +1980,7 @@ static partial class Cv2
         Q.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_stereoRectify_InputArray(
+            NativeMethods.stereo_stereoRectify_InputArray(
                 cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                 cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
                 imageSize, R.CvPtr, T.CvPtr,
@@ -2118,7 +2118,7 @@ static partial class Cv2
             fixed (double* QPtr = Q)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_stereoRectify_array(
+                    NativeMethods.stereo_stereoRectify_array(
                         cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
                         cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
                         imageSize, RPtr, T,
@@ -2166,7 +2166,7 @@ static partial class Cv2
         H2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_stereoRectifyUncalibrated_InputArray(
+            NativeMethods.stereo_stereoRectifyUncalibrated_InputArray(
                 points1.CvPtr, points2.CvPtr, F.CvPtr, imgSize, H1.CvPtr, H2.CvPtr, threshold, out var ret));
 
         GC.KeepAlive(points1);
@@ -2225,7 +2225,7 @@ static partial class Cv2
             fixed (double* H2Ptr = H1)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_stereoRectifyUncalibrated_array(
+                    NativeMethods.stereo_stereoRectifyUncalibrated_array(
                         points1Array, points1Array.Length,
                         points2Array, points2Array.Length,
                         FPtr, imgSize, H1Ptr, H2Ptr, threshold, out var ret));
@@ -2334,7 +2334,7 @@ static partial class Cv2
         var imgpt1Ptrs = imgpt1.Select(x => x.CvPtr).ToArray();
         var imgpt3Ptrs = imgpt3.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_rectify3Collinear_InputArray(
+            NativeMethods.stereo_rectify3Collinear_InputArray(
                 cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                 cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
                 cameraMatrix3.CvPtr, distCoeffs3.CvPtr,
@@ -2401,7 +2401,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_getOptimalNewCameraMatrix_InputArray(
+            NativeMethods.geometry_getOptimalNewCameraMatrix_InputArray(
                 cameraMatrix.CvPtr, ToPtr(distCoeffs), imageSize, alpha, newImgSize,
                 out validPixROI, centerPrincipalPoint ? 1 : 0, out var ret));
         GC.KeepAlive(cameraMatrix);
@@ -2440,7 +2440,7 @@ static partial class Cv2
             fixed (double* cameraMatrixPtr = cameraMatrix)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
+                    NativeMethods.geometry_getOptimalNewCameraMatrix_array(
                         cameraMatrixPtr, distCoeffs, distCoeffs.Length,
                         imageSize, alpha, newImgSize,
                         out validPixROI, centerPrincipalPoint ? 1 : 0, out matPtr));
@@ -2530,7 +2530,7 @@ static partial class Cv2
         var R_target2camPtrArray = R_target2camArray.Select(m => m.CvPtr).ToArray();
         var t_target2camPtrArray = t_target2camArray.Select(m => m.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_calibrateHandEye(
+            NativeMethods.calib_calibrateHandEye(
                 R_gripper2basePtrArray, R_gripper2basePtrArray.Length,
                 t_gripper2basePtrArray, t_gripper2basePtrArray.Length,
                 R_target2camPtrArray, R_target2camPtrArray.Length,
@@ -2627,7 +2627,7 @@ static partial class Cv2
         var R_base2gripperPtrArray = R_base2gripperArray.Select(m => m.CvPtr).ToArray();
         var t_base2gripperPtrArray = t_base2gripperArray.Select(m => m.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_calibrateRobotWorldHandEye_OutputArray(
+            NativeMethods.calib_calibrateRobotWorldHandEye_OutputArray(
                 R_base2worldPtrArray, R_base2worldPtrArray.Length,
                 t_world2camPtrArray, t_world2camPtrArray.Length,
                 R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
@@ -2714,7 +2714,7 @@ static partial class Cv2
         R_gripper2cam = new double[3, 3];
         t_gripper2cam = new double[3];
         NativeMethods.HandleException(
-            NativeMethods.calib3d_calibrateRobotWorldHandEye_Pointer(
+            NativeMethods.calib_calibrateRobotWorldHandEye_Pointer(
                 R_base2worldPtrArray, R_base2worldPtrArray.Length,
                 t_world2camPtrArray, t_world2camPtrArray.Length,
                 R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
@@ -2743,7 +2743,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsToHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2764,7 +2764,7 @@ static partial class Cv2
         var srcA = src as Vec2f[] ?? src.ToArray();
         var dstA = new Vec3f[srcA.Length];
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsToHomogeneous_array1(srcA, dstA, srcA.Length));
+            NativeMethods.geometry_convertPointsToHomogeneous_array1(srcA, dstA, srcA.Length));
         return dstA;
     }
 
@@ -2782,7 +2782,7 @@ static partial class Cv2
         var srcA = src as Vec3f[] ?? src.ToArray();
         var dstA = new Vec4f[srcA.Length];
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsToHomogeneous_array2(srcA, dstA, srcA.Length));
+            NativeMethods.geometry_convertPointsToHomogeneous_array2(srcA, dstA, srcA.Length));
         return dstA;
     }
 
@@ -2800,7 +2800,7 @@ static partial class Cv2
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsFromHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
         GC.KeepAlive(src);
         dst.Fix();
     }
@@ -2819,7 +2819,7 @@ static partial class Cv2
         var srcA = src as Vec3f[] ?? src.ToArray();
         var dstA = new Vec2f[srcA.Length];
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsFromHomogeneous_array1(srcA, dstA, srcA.Length));
+            NativeMethods.geometry_convertPointsFromHomogeneous_array1(srcA, dstA, srcA.Length));
         return dstA;
     }
 
@@ -2837,7 +2837,7 @@ static partial class Cv2
         var srcA = src as Vec4f[] ?? src.ToArray();
         var dstA = new Vec3f[srcA.Length];
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsFromHomogeneous_array2(srcA, dstA, srcA.Length));
+            NativeMethods.geometry_convertPointsFromHomogeneous_array2(srcA, dstA, srcA.Length));
         return dstA;
     }
 
@@ -2855,7 +2855,7 @@ static partial class Cv2
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.calib3d_convertPointsHomogeneous(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsHomogeneous(src.CvPtr, dst.CvPtr));
         GC.KeepAlive(src);
         dst.Fix();
     }
@@ -2890,7 +2890,7 @@ static partial class Cv2
         points2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findFundamentalMat_InputArray(
+            NativeMethods.geometry_findFundamentalMat_InputArray(
                 points1.CvPtr, points2.CvPtr, (int) method,
                 param1, param2, ToPtr(mask), out var ret));
         mask?.Fix();
@@ -2933,7 +2933,7 @@ static partial class Cv2
         var points2Array = points2 as Point2f[] ?? points2.ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findFundamentalMat_arrayF32(
+            NativeMethods.geometry_findFundamentalMat_arrayF32(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
                 param1, param2, ToPtr(mask), out var ret));
@@ -2975,7 +2975,7 @@ static partial class Cv2
         var points2Array = points2 as Point2d[] ?? points2.ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findFundamentalMat_arrayF64(
+            NativeMethods.geometry_findFundamentalMat_arrayF64(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
                 param1, param2, ToPtr(mask), out var ret));
@@ -3007,7 +3007,7 @@ static partial class Cv2
         lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_computeCorrespondEpilines_InputArray(
+            NativeMethods.geometry_computeCorrespondEpilines_InputArray(
                 points.CvPtr, whichImage, F.CvPtr, lines.CvPtr));
 
         GC.KeepAlive(F);
@@ -3042,7 +3042,7 @@ static partial class Cv2
             fixed (double* FPtr = F)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_computeCorrespondEpilines_array2d(
+                    NativeMethods.geometry_computeCorrespondEpilines_array2d(
                         pointsArray, pointsArray.Length,
                         whichImage, FPtr, lines));
             }
@@ -3077,7 +3077,7 @@ static partial class Cv2
             fixed (double* FPtr = F)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_computeCorrespondEpilines_array3d(
+                    NativeMethods.geometry_computeCorrespondEpilines_array3d(
                         pointsArray, pointsArray.Length,
                         whichImage, FPtr, lines));
             }
@@ -3118,7 +3118,7 @@ static partial class Cv2
         points4D.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_triangulatePoints_InputArray(
+            NativeMethods.geometry_triangulatePoints_InputArray(
                 projMatr1.CvPtr, projMatr2.CvPtr,
                 projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr));
 
@@ -3170,7 +3170,7 @@ static partial class Cv2
             fixed (double* projMatr2Ptr = projMatr2)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_triangulatePoints_array(
+                    NativeMethods.geometry_triangulatePoints_array(
                         projMatr1Ptr, projMatr2Ptr,
                         projPoints1Array, projPoints1Array.Length,
                         projPoints2Array, projPoints2Array.Length,
@@ -3210,7 +3210,7 @@ static partial class Cv2
         newPoints2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_correctMatches_InputArray(
+            NativeMethods.geometry_correctMatches_InputArray(
                 F.CvPtr, points1.CvPtr, points2.CvPtr,
                 newPoints1.CvPtr, newPoints2.CvPtr));
 
@@ -3254,7 +3254,7 @@ static partial class Cv2
             fixed (double* FPtr = F)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_correctMatches_array(
+                    NativeMethods.geometry_correctMatches_array(
                         FPtr, points1Array, points1Array.Length,
                         points2Array, points2Array.Length,
                         newPoints1, newPoints2));
@@ -3302,7 +3302,7 @@ static partial class Cv2
         t.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_recoverPose_InputArray1(
+            NativeMethods.geometry_recoverPose_InputArray1(
                 E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
                 R.CvPtr, t.CvPtr, ToPtr(mask), out var ret));
 
@@ -3355,7 +3355,7 @@ static partial class Cv2
         t.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_recoverPose_InputArray2(
+            NativeMethods.geometry_recoverPose_InputArray2(
                 E.CvPtr, points1.CvPtr, points2.CvPtr,
                 R.CvPtr, t.CvPtr, focal, pp, ToPtr(mask), out var ret));
 
@@ -3412,7 +3412,7 @@ static partial class Cv2
         t.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_recoverPose_InputArray3(
+            NativeMethods.geometry_recoverPose_InputArray3(
                 E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
                 R.CvPtr, t.CvPtr, distanceTresh, ToPtr(mask), ToPtr(triangulatedPoints), out var ret));
 
@@ -3462,7 +3462,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findEssentialMat_InputArray1(
+            NativeMethods.geometry_findEssentialMat_InputArray1(
                 points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
                 (int) method, prob, threshold, ToPtr(mask), out var ret));
 
@@ -3505,7 +3505,7 @@ static partial class Cv2
         points2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_findEssentialMat_InputArray2(
+            NativeMethods.geometry_findEssentialMat_InputArray2(
                 points1.CvPtr, points2.CvPtr, focal, pp,
                 (int) method, prob, threshold, ToPtr(mask), out var ret));
 
@@ -3533,7 +3533,7 @@ static partial class Cv2
         img.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_filterSpeckles(img.CvPtr, newVal, maxSpeckleSize, maxDiff, ToPtr(buf)));
+            NativeMethods.stereo_filterSpeckles(img.CvPtr, newVal, maxSpeckleSize, maxDiff, ToPtr(buf)));
         GC.KeepAlive(img);
         GC.KeepAlive(buf);
         img.Fix();
@@ -3552,7 +3552,7 @@ static partial class Cv2
         int minDisparity, int numberOfDisparities, int SADWindowSize)
     {
         NativeMethods.HandleException(
-            NativeMethods.calib3d_getValidDisparityROI(
+            NativeMethods.stereo_getValidDisparityROI(
                 roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize, out var ret));
         return ret;
     }
@@ -3576,7 +3576,7 @@ static partial class Cv2
         cost.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_validateDisparity(
+            NativeMethods.stereo_validateDisparity(
                 disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDisp));
 
         disparity.Fix();
@@ -3611,7 +3611,7 @@ static partial class Cv2
         Q.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_reprojectImageTo3D(
+            NativeMethods.stereo_reprojectImageTo3D(
                 disparity.CvPtr, _3dImage.CvPtr, Q.CvPtr, handleMissingValues ? 1 : 0, ddepth));
 
         _3dImage.Fix();
@@ -3650,7 +3650,7 @@ static partial class Cv2
         inliers.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_estimateAffine3D(
+            NativeMethods.geometry_estimateAffine3D(
                 src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence, out var ret));
 
         outVal.Fix();
@@ -3681,7 +3681,7 @@ static partial class Cv2
         f.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_sampsonDistance_InputArray(pt1.CvPtr, pt2.CvPtr, f.CvPtr, out var ret));
+            NativeMethods.geometry_sampsonDistance_InputArray(pt1.CvPtr, pt2.CvPtr, f.CvPtr, out var ret));
 
         GC.KeepAlive(pt1);
         GC.KeepAlive(pt2);
@@ -3709,7 +3709,7 @@ static partial class Cv2
             fixed (double* fPtr = f)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.calib3d_sampsonDistance_Point3d(pt1, pt2, fPtr, out var ret));
+                    NativeMethods.geometry_sampsonDistance_Point3d(pt1, pt2, fPtr, out var ret));
                 GC.KeepAlive(f);
                 return ret;
             }
@@ -3746,7 +3746,7 @@ static partial class Cv2
         inliers?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_estimateAffine2D(
+            NativeMethods.geometry_estimateAffine2D(
                 from.CvPtr, to.CvPtr, ToPtr(inliers),
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
@@ -3786,7 +3786,7 @@ static partial class Cv2
         inliers?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_estimateAffinePartial2D(
+            NativeMethods.geometry_estimateAffinePartial2D(
                 from.CvPtr, to.CvPtr, ToPtr(inliers),
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
@@ -3826,7 +3826,7 @@ static partial class Cv2
         using var normalsVec = new VectorOfMat();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_decomposeHomographyMat(
+            NativeMethods.geometry_decomposeHomographyMat(
                 h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr, out var ret));
 
         rotations = rotationsVec.ToArray();
@@ -3877,7 +3877,7 @@ static partial class Cv2
         using var rotationsVec = new VectorOfMat(rotations);
         using var normalsVec = new VectorOfMat(normals);
         NativeMethods.HandleException(
-            NativeMethods.calib3d_filterHomographyDecompByVisibleRefpoints(
+            NativeMethods.geometry_filterHomographyDecompByVisibleRefpoints(
                 rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.CvPtr, afterPoints.CvPtr,
                 possibleSolutions.CvPtr, ToPtr(pointsMask)));
 
@@ -3916,7 +3916,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
                 ToPtr(distCoeffs), ToPtr(newCameraMatrix)));
 
         GC.KeepAlive(src);
@@ -3963,7 +3963,7 @@ static partial class Cv2
         map2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_initUndistortRectifyMap(
+            NativeMethods.imgproc_initUndistortRectifyMap(
                 cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr));
 
         GC.KeepAlive(cameraMatrix);
@@ -4009,7 +4009,7 @@ static partial class Cv2
         map2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_initWideAngleProjMap(
+            NativeMethods.imgproc_initWideAngleProjMap(
                 cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
                 destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int) projType, alpha, out var ret));
 
@@ -4040,7 +4040,7 @@ static partial class Cv2
         var imgSize0 = imgSize.GetValueOrDefault(new Size());
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_getDefaultNewCameraMatrix(
+            NativeMethods.geometry_getDefaultNewCameraMatrix(
                 cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0, out var matPtr));
         GC.KeepAlive(cameraMatrix);
         return new Mat(matPtr);
@@ -4080,7 +4080,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_undistortPoints(
+            NativeMethods.geometry_undistortPoints(
                 src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
                 ToPtr(distCoeffs), ToPtr(r), ToPtr(p)));
             
@@ -4129,7 +4129,7 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.calib3d_undistortPointsIter(
+            NativeMethods.geometry_undistortPointsIter(
                 src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
                 ToPtr(distCoeffs), ToPtr(r), ToPtr(p), termCriteria.GetValueOrDefault()));
             
