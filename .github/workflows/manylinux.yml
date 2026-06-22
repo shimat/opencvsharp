@@ -25,7 +25,7 @@ jobs:
       options: --user root
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: true
 
@@ -188,7 +188,7 @@ jobs:
           cmake --build src/build -j
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: libOpenCvSharpExtern-full
           path: libOpenCvSharpExtern.so
@@ -205,7 +205,7 @@ jobs:
       options: --user root
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: true
 
@@ -275,7 +275,7 @@ jobs:
           cmake --build src/build-slim -j
           cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: libOpenCvSharpExtern-slim
           path: libOpenCvSharpExtern-slim.so
@@ -289,18 +289,18 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: false
 
       - name: Download full artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: libOpenCvSharpExtern-full
           path: nuget/
 
       - name: Download slim artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: libOpenCvSharpExtern-slim
           path: nuget-slim/
@@ -328,7 +328,7 @@ jobs:
           gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
           LD_LIBRARY_PATH=. ./test
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: test-results-manylinux
           path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
@@ -343,16 +343,16 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download full artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: libOpenCvSharpExtern-full
           path: /tmp/so-full/
 
       - name: Download slim artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: libOpenCvSharpExtern-slim
           path: /tmp/so-slim/
@@ -382,7 +382,7 @@ jobs:
 
           ls ${GITHUB_WORKSPACE}/artifacts
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nuget-packages-manylinux
           path: artifacts

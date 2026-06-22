@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -19,7 +19,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download windows arm64 artifact
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -27,7 +27,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm64 artifact
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm64.yml
@@ -43,7 +43,7 @@ jobs:
       #    branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
@@ -51,7 +51,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download manylinux artifact
-        uses: dawidd6/action-download-artifact@v19
+        uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
@@ -137,7 +137,7 @@ jobs:
           echo "**Total:** $(find . -maxdepth 1 -name '*.nupkg' | wc -l) nupkg, $(find . -maxdepth 1 -name '*.snupkg' | wc -l) snupkg" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload release packages
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: release-packages
           path: |
@@ -152,7 +152,7 @@ jobs:
 
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: release-packages
 
