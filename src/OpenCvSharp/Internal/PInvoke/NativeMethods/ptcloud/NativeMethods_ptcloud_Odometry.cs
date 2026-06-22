@@ -29,4 +29,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus ptcloud_Odometry_compute_Depth(IntPtr obj, IntPtr srcDepth, IntPtr dstDepth, IntPtr rt, out int returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ptcloud_Odometry_compute_DepthRGB(IntPtr obj, IntPtr srcDepth, IntPtr srcRGB, IntPtr dstDepth, IntPtr dstRGB, IntPtr rt, out int returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus ptcloud_Odometry_getNormalsComputer(IntPtr obj, out IntPtr returnValue);
 }

@@ -7,6 +7,7 @@
 
 #include "include_opencv.h"
 #include <opencv2/ptcloud.hpp>
+#include <opencv2/ptcloud/depth.hpp>
 
 CVAPI(ExceptionStatus) ptcloud_Odometry_new1(cv::Odometry **returnValue)
 {
@@ -72,6 +73,13 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_compute_DepthRGB(
 {
     BEGIN_WRAP
     *returnValue = obj->compute(entity(srcDepth), entity(srcRGB), entity(dstDepth), entity(dstRGB), entity(Rt)) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ptcloud_Odometry_getNormalsComputer(cv::Odometry *obj, cv::Ptr<cv::RgbdNormals> **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::RgbdNormals>(obj->getNormalsComputer());
     END_WRAP
 }
 

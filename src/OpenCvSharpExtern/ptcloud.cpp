@@ -4,3 +4,5 @@
 #include "ptcloud_OdometrySettings.h"
 #include "ptcloud_OdometryFrame.h"
 #include "ptcloud_Odometry.h"
+#include "ptcloud_RgbdNormals.h"
+#include "ptcloud_depth.h"
