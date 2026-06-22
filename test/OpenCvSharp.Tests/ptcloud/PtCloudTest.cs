@@ -1,13 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.IO;
+using System.Text;
 using Xunit;
 
 namespace OpenCvSharp.Tests.PtCloud;
-
-// NOTE: the depth.hpp algorithm tests below are skipped on Windows arm64.
-// OpenCV 5's new ptcloud module hard-crashes (native access violation, not a
-// catchable exception) when these algorithms run on arm64; the bindings are
-// fully exercised on x64 and linux. Construction/property smoke tests stay on
-// all platforms.
 
 // ReSharper disable once UnusedMember.Global
 public class PtCloudTest : TestBase
@@ -17,6 +12,19 @@ public class PtCloudTest : TestBase
     public PtCloudTest(ITestOutputHelper testOutputHelper)
     {
         this.testOutputHelper = testOutputHelper;
+    }
+
+    // TEMPORARY DIAGNOSTIC: write an unbuffered marker straight to the process's raw
+    // stderr (bypassing xunit's per-test console capture, which is lost when the process
+    // hard-crashes). The last "PTCLOUD_MARK <x>-before" with no matching "-after" in the
+    // arm64 CI log pinpoints the exact native call that segfaults. xunit runs the methods
+    // of one test class sequentially, so the markers appear in a deterministic order.
+    private static readonly Stream RawStdErr = Console.OpenStandardError();
+    private static void Mark(string s)
+    {
+        var b = Encoding.ASCII.GetBytes($"PTCLOUD_MARK {s}\n");
+        RawStdErr.Write(b, 0, b.Length);
+        RawStdErr.Flush();
     }
 
     [Fact]
@@ -32,7 +40,6 @@ public class PtCloudTest : TestBase
         settings.VoxelSize = 0.01f;
         Assert.Equal(0.01f, settings.VoxelSize, 5);
 
-        // round-trip the camera intrinsics (proves InputArray/OutputArray entrypoints resolve)
         using var k = Mat.FromArray(new float[,] { { 525, 0, 320 }, { 0, 525, 240 }, { 0, 0, 1 } });
         settings.SetCameraIntegrateIntrinsics(k);
         using var kOut = new Mat();
@@ -45,13 +52,6 @@ public class PtCloudTest : TestBase
     {
         using var settings = new VolumeSettings(VolumeType.TSDF);
         using var volume = new Volume(VolumeType.TSDF, settings);
-
-        // Query-only entrypoints on a freshly created (empty) volume.
-        // NOTE: running TSDF integrate/raycast/fetch on synthetic data is intentionally
-        // omitted — it requires a fully configured camera plus valid depth frames, and
-        // feeding placeholder data makes OpenCV's native pipeline crash (hard segfault,
-        // not a catchable exception) on some platforms (e.g. Windows arm64). Algorithmic
-        // integration should be covered separately with real depth fixtures.
         Assert.True(volume.GetVisibleBlocks() >= 0);
         Assert.True(volume.GetTotalVolumeUnits() >= 0);
     }
@@ -63,8 +63,6 @@ public class PtCloudTest : TestBase
         using var volume = new Volume(VolumeType.TSDF, settings);
         volume.Reset();
         volume.SetEnableGrowth(true);
-        // getEnableGrowth round-trips for HashTSDF; for TSDF the value may be fixed,
-        // so we only assert the entrypoint resolves.
         _ = volume.GetEnableGrowth();
     }
 
@@ -94,11 +92,15 @@ public class PtCloudTest : TestBase
     [Fact]
     public void OdometryFrameCreate()
     {
+        Mark("OdometryFrame.ctor-before");
         using var depth = new Mat(480, 640, MatType.CV_8UC1, Scalar.All(100));
         using var frame = new OdometryFrame(depth);
+        Mark("OdometryFrame.ctor-after");
 
+        Mark("OdometryFrame.GetDepth-before");
         using var depthOut = new Mat();
         frame.GetDepth(depthOut);
+        Mark("OdometryFrame.GetDepth-after");
 
         Assert.Equal(0, frame.GetPyramidLevels());
     }
@@ -108,9 +110,6 @@ public class PtCloudTest : TestBase
     {
         using var odometry = new Odometry(OdometryType.DEPTH);
         Assert.NotEqual(IntPtr.Zero, odometry.CvPtr);
-        // NOTE: Odometry.Compute on synthetic flat depth is intentionally omitted — it
-        // needs a configured camera matrix and textured/varying depth frames; placeholder
-        // input crashes the native pipeline (hard segfault) on some platforms.
     }
 
     [Fact]
@@ -121,30 +120,32 @@ public class PtCloudTest : TestBase
         Assert.NotEqual(IntPtr.Zero, odometry.CvPtr);
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void RgbdNormalsCreateAndProperties()
     {
         const int rows = 16;
         const int cols = 16;
         using var k = Mat.FromArray(new float[,] { { 525, 0, 8 }, { 0, 525, 8 }, { 0, 0, 1 } });
+        Mark("RgbdNormals.Create-before");
         using var normalsComputer = RgbdNormals.Create(
             rows, cols, MatType.CV_32F, k, 5, 50f, RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS);
+        Mark("RgbdNormals.Create-after");
 
         Assert.NotEqual(IntPtr.Zero, normalsComputer.RawPtr);
+        Mark("RgbdNormals.getters-before");
         Assert.Equal(rows, normalsComputer.Rows);
         Assert.Equal(cols, normalsComputer.Cols);
         Assert.Equal(RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS, normalsComputer.GetMethod());
+        Mark("RgbdNormals.getters-after");
 
+        Mark("RgbdNormals.GetK-before");
         using var kOut = new Mat();
         normalsComputer.GetK(kOut);
+        Mark("RgbdNormals.GetK-after");
         Assert.False(kOut.Empty());
-
-        // NOTE: apply() (FALS normal computation) is intentionally omitted here — it is
-        // finicky about input shape/channels and can hard-crash the native pipeline on
-        // some platforms; covered separately with real fixtures.
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void DepthTo3dAndRescaleDepth()
     {
         const int w = 32;
@@ -153,16 +154,20 @@ public class PtCloudTest : TestBase
         using var k = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
 
         using var points3d = new Mat();
+        Mark("Cv2.DepthTo3d-before");
         Cv2.DepthTo3d(depth, k, points3d);
+        Mark("Cv2.DepthTo3d-after");
         Assert.False(points3d.Empty());
 
         using var src = new Mat(h, w, MatType.CV_16UC1, Scalar.All(1000));
         using var dst = new Mat();
+        Mark("Cv2.RescaleDepth-before");
         Cv2.RescaleDepth(src, MatType.CV_32F, dst);
+        Mark("Cv2.RescaleDepth-after");
         Assert.False(dst.Empty());
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void RegisterDepthSmoke()
     {
         const int w = 32;
@@ -176,7 +181,9 @@ public class PtCloudTest : TestBase
 
         try
         {
+            Mark("Cv2.RegisterDepth-before");
             Cv2.RegisterDepth(unregK, regK, distCoeffs, rt, depth, new Size(w, h), registered);
+            Mark("Cv2.RegisterDepth-after");
             testOutputHelper.WriteLine($"RegisterDepth produced empty={registered.Empty()}");
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
@@ -185,7 +192,7 @@ public class PtCloudTest : TestBase
         }
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void WarpFrameSmoke()
     {
         const int w = 32;
@@ -197,7 +204,9 @@ public class PtCloudTest : TestBase
 
         try
         {
+            Mark("Cv2.WarpFrame-before");
             Cv2.WarpFrame(depth, null, null, rt, cameraMatrix, warpedDepth);
+            Mark("Cv2.WarpFrame-after");
             testOutputHelper.WriteLine($"WarpFrame produced empty={warpedDepth.Empty()}");
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
@@ -206,7 +215,7 @@ public class PtCloudTest : TestBase
         }
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void FindPlanesSmoke()
     {
         const int w = 32;
@@ -218,7 +227,9 @@ public class PtCloudTest : TestBase
 
         try
         {
+            Mark("Cv2.FindPlanes-before");
             Cv2.FindPlanes(points3d, normals, mask, planeCoefficients, blockSize: 8, minSize: 16);
+            Mark("Cv2.FindPlanes-after");
             testOutputHelper.WriteLine($"FindPlanes produced mask empty={mask.Empty()}");
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
@@ -227,13 +238,15 @@ public class PtCloudTest : TestBase
         }
     }
 
-    [ArchitectureSpecificFact(new[] { Architecture.Arm64 })]
+    [Fact]
     public void OdometryGetNormalsComputer()
     {
         using var odometry = new Odometry(OdometryType.RGB_DEPTH);
         try
         {
+            Mark("Odometry.GetNormalsComputer-before");
             using var normalsComputer = odometry.GetNormalsComputer();
+            Mark("Odometry.GetNormalsComputer-after");
             testOutputHelper.WriteLine($"GetNormalsComputer returned RawPtr={normalsComputer.RawPtr}");
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
