@@ -423,16 +423,7 @@ jobs:
 
       - name: Test
         shell: cmd
-        env:
-          PTCLOUD_MARKER_FILE: ${{ github.workspace }}\ptcloud_markers.log
         run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
-
-      - name: Dump ptcloud markers (diagnostic)
-        if: always()
-        shell: cmd
-        run: |
-          echo ===== PTCLOUD MARKERS =====
-          if exist "%GITHUB_WORKSPACE%\ptcloud_markers.log" (type "%GITHUB_WORKSPACE%\ptcloud_markers.log") else (echo "no marker file produced")
 
       - name: Pack NuGet packages
         shell: pwsh
