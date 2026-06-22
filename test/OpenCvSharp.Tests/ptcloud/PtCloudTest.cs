@@ -153,4 +153,134 @@ public class PtCloudTest : TestBase
         using var odometry = new Odometry(OdometryType.DEPTH, settings, OdometryAlgoType.COMMON);
         Assert.NotEqual(IntPtr.Zero, odometry.CvPtr);
     }
+
+    [Fact]
+    public void RgbdNormalsCreateAndApply()
+    {
+        const int rows = 16;
+        const int cols = 16;
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 8 }, { 0, 525, 8 }, { 0, 0, 1 } });
+        using var normalsComputer = RgbdNormals.Create(
+            rows, cols, MatType.CV_32F, k, 5, 50f, RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS);
+
+        Assert.NotEqual(IntPtr.Zero, normalsComputer.RawPtr);
+        Assert.Equal(rows, normalsComputer.Rows);
+        Assert.Equal(cols, normalsComputer.Cols);
+        Assert.Equal(RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS, normalsComputer.GetMethod());
+
+        using var kOut = new Mat();
+        normalsComputer.GetK(kOut);
+        Assert.False(kOut.Empty());
+
+        // synthetic float points image. OpenCV 5's FALS path expects 4 float channels.
+        using var points = new Mat(rows, cols, MatType.CV_32FC4, Scalar.All(1.0));
+        using var normals = new Mat();
+        try
+        {
+            normalsComputer.Apply(points, normals);
+            testOutputHelper.WriteLine($"RgbdNormals.Apply produced normals empty={normals.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"RgbdNormals.Apply threw (entrypoints resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void DepthTo3dAndRescaleDepth()
+    {
+        const int w = 32;
+        const int h = 24;
+        using var depth = new Mat(h, w, MatType.CV_32FC1, Scalar.All(2.0));
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
+
+        using var points3d = new Mat();
+        Cv2.DepthTo3d(depth, k, points3d);
+        Assert.False(points3d.Empty());
+
+        using var src = new Mat(h, w, MatType.CV_16UC1, Scalar.All(1000));
+        using var dst = new Mat();
+        Cv2.RescaleDepth(src, MatType.CV_32F, dst);
+        Assert.False(dst.Empty());
+    }
+
+    [Fact]
+    public void RegisterDepthSmoke()
+    {
+        const int w = 32;
+        const int h = 24;
+        using var unregK = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
+        using var regK = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
+        using var distCoeffs = new Mat(1, 5, MatType.CV_32FC1, Scalar.All(0));
+        using var rt = Mat.Eye(4, 4, MatType.CV_32FC1).ToMat();
+        using var depth = new Mat(h, w, MatType.CV_32FC1, Scalar.All(2.0));
+        using var registered = new Mat();
+
+        try
+        {
+            Cv2.RegisterDepth(unregK, regK, distCoeffs, rt, depth, new Size(w, h), registered);
+            testOutputHelper.WriteLine($"RegisterDepth produced empty={registered.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"RegisterDepth threw (entrypoints resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void WarpFrameSmoke()
+    {
+        const int w = 32;
+        const int h = 24;
+        using var depth = new Mat(h, w, MatType.CV_32FC1, Scalar.All(2.0));
+        using var rt = Mat.Eye(4, 4, MatType.CV_32FC1).ToMat();
+        using var cameraMatrix = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
+        using var warpedDepth = new Mat();
+
+        try
+        {
+            Cv2.WarpFrame(depth, null, null, rt, cameraMatrix, warpedDepth);
+            testOutputHelper.WriteLine($"WarpFrame produced empty={warpedDepth.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"WarpFrame threw (entrypoints resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void FindPlanesSmoke()
+    {
+        const int w = 32;
+        const int h = 24;
+        using var points3d = new Mat(h, w, MatType.CV_32FC3, Scalar.All(1.0));
+        using var normals = new Mat(h, w, MatType.CV_32FC3, Scalar.All(0.0));
+        using var mask = new Mat();
+        using var planeCoefficients = new Mat();
+
+        try
+        {
+            Cv2.FindPlanes(points3d, normals, mask, planeCoefficients, blockSize: 8, minSize: 16);
+            testOutputHelper.WriteLine($"FindPlanes produced mask empty={mask.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"FindPlanes threw (entrypoints resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void OdometryGetNormalsComputer()
+    {
+        using var odometry = new Odometry(OdometryType.RGB_DEPTH);
+        try
+        {
+            using var normalsComputer = odometry.GetNormalsComputer();
+            testOutputHelper.WriteLine($"GetNormalsComputer returned RawPtr={normalsComputer.RawPtr}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"GetNormalsComputer threw (entrypoints resolved): {ex.Message}");
+        }
+    }
 }

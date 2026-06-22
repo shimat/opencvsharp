@@ -205,5 +205,17 @@ public class Odometry : CvObject
         return ret != 0;
     }
 
+    /// <summary>
+    /// Returns the normals computer used by this odometry.
+    /// </summary>
+    public RgbdNormals GetNormalsComputer()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.ptcloud_Odometry_getNormalsComputer(CvPtr, out var p));
+        GC.KeepAlive(this);
+        return new RgbdNormals(p);
+    }
+
     #endregion
 }
