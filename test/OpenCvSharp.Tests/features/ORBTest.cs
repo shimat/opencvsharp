@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace OpenCvSharp.Tests.Features2D;
+namespace OpenCvSharp.Tests.Features;
 
 // ReSharper disable once InconsistentNaming
 public class ORBTest : TestBase

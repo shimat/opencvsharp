@@ -5,7 +5,7 @@ using Xunit;
 
 // ReSharper disable RedundantArgumentDefaultValue
 
-namespace OpenCvSharp.Tests.Features2D;
+namespace OpenCvSharp.Tests.XFeatures2D;
 
 public class BOWImgDescriptorExtractorTest : TestBase
 {

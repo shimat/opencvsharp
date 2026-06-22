@@ -1,7 +1,7 @@
 ﻿using OpenCvSharp.XFeatures2D;
 using Xunit;
 
-namespace OpenCvSharp.Tests.Features2D;
+namespace OpenCvSharp.Tests.XFeatures2D;
 
 public class BOWKMeansTrainerTest : TestBase
 {
