@@ -318,6 +318,50 @@ public static class CvDnn
             NativeMethods.dnn_resetMyriadDevice());
     }
 
+    /// <summary>
+    /// Returns the list of available computation targets for the given backend.
+    /// </summary>
+    /// <param name="backend">backend identifier.</param>
+    /// <returns>available targets.</returns>
+    public static Target[] GetAvailableTargets(Backend backend)
+    {
+        using var targetsVec = new VectorOfInt32();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_getAvailableTargets((int)backend, targetsVec.CvPtr));
+        return targetsVec.ToArray().Select(x => (Target)x).ToArray();
+    }
+
+    /// <summary>
+    /// Returns the list of available (backend, target) pairs supported by this build.
+    /// </summary>
+    /// <returns>available backend/target pairs.</returns>
+    public static (Backend Backend, Target Target)[] GetAvailableBackends()
+    {
+        using var backendsVec = new VectorOfInt32();
+        using var targetsVec = new VectorOfInt32();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_getAvailableBackends(backendsVec.CvPtr, targetsVec.CvPtr));
+
+        var backends = backendsVec.ToArray();
+        var targets = targetsVec.ToArray();
+        var result = new (Backend, Target)[backends.Length];
+        for (var i = 0; i < backends.Length; i++)
+            result[i] = ((Backend)backends[i], (Target)targets[i]);
+        return result;
+    }
+
+    /// <summary>
+    /// Enables detailed logging of the DNN model loading with CV DNN API.
+    /// Diagnostic mode provides detailed logging of the model loading stage to explore
+    /// potential problems (ex.: not implemented layer type).
+    /// </summary>
+    /// <param name="isDiagnosticsMode">indicates whether diagnostic mode should be set.</param>
+    public static void EnableModelDiagnostics(bool isDiagnosticsMode)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.dnn_enableModelDiagnostics(isDiagnosticsMode ? 1 : 0));
+    }
+
     private static byte[] StreamToArray(this Stream stream)
     {
         if (!stream.CanRead) 

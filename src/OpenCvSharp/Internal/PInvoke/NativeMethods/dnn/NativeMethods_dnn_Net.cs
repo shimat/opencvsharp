@@ -76,4 +76,42 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_Net_getPerfProfile(IntPtr net, IntPtr timings, out long returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_Net_setInputShape(
+        IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string inputName, int[] shape, int shapeLength);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_getParam(IntPtr net, int layer, int numParam, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_setParam(IntPtr net, int layer, int numParam, IntPtr blob);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_getLayerTypes(IntPtr net, IntPtr outVec);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_Net_getLayersCount(
+        IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string layerType, out int returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_enableWinograd(IntPtr net, int useWinograd);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_Net_dumpToPbtxt(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string path);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_getModelFormat(IntPtr net, out int returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_enableKVCache(IntPtr net);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_disableKVCache(IntPtr net);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_resetKVCache(IntPtr net);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_printPerfProfile(IntPtr net);
 }

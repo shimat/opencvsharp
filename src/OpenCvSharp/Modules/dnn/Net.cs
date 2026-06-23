@@ -536,5 +536,198 @@ public class Net : CvObject
         return ret;
     }
 
+    /// <summary>
+    /// Specify shape of network input.
+    /// </summary>
+    /// <param name="inputName">name of the input layer.</param>
+    /// <param name="shape">the shape of the input blob.</param>
+    public void SetInputShape(string inputName, IEnumerable<int> shape)
+    {
+        if (inputName is null)
+            throw new ArgumentNullException(nameof(inputName));
+        if (shape is null)
+            throw new ArgumentNullException(nameof(shape));
+        ThrowIfDisposed();
+
+        var shapeArray = shape as int[] ?? shape.ToArray();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_setInputShape(CvPtr, inputName, shapeArray, shapeArray.Length));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Returns parameter blob of the layer.
+    /// </summary>
+    /// <param name="layer">id of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <returns></returns>
+    public Mat GetParam(int layer, int numParam = 0)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getParam(CvPtr, layer, numParam, out var ret));
+        GC.KeepAlive(this);
+        return new Mat(ret);
+    }
+
+    /// <summary>
+    /// Returns parameter blob of the layer.
+    /// </summary>
+    /// <param name="layerName">name of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <returns></returns>
+    public Mat GetParam(string layerName, int numParam = 0)
+    {
+        if (layerName is null)
+            throw new ArgumentNullException(nameof(layerName));
+        return GetParam(GetLayerId(layerName), numParam);
+    }
+
+    /// <summary>
+    /// Sets the new value for the learned param of the layer.
+    /// </summary>
+    /// <param name="layer">id of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <param name="blob">the new value.</param>
+    public void SetParam(int layer, int numParam, Mat blob)
+    {
+        if (blob is null)
+            throw new ArgumentNullException(nameof(blob));
+        ThrowIfDisposed();
+        blob.ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_setParam(CvPtr, layer, numParam, blob.CvPtr));
+        GC.KeepAlive(this);
+        GC.KeepAlive(blob);
+    }
+
+    /// <summary>
+    /// Sets the new value for the learned param of the layer.
+    /// </summary>
+    /// <param name="layerName">name of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <param name="blob">the new value.</param>
+    public void SetParam(string layerName, int numParam, Mat blob)
+    {
+        if (layerName is null)
+            throw new ArgumentNullException(nameof(layerName));
+        SetParam(GetLayerId(layerName), numParam, blob);
+    }
+
+    /// <summary>
+    /// Returns list of types for layer used in model.
+    /// </summary>
+    /// <returns></returns>
+    public string?[] GetLayerTypes()
+    {
+        ThrowIfDisposed();
+        using var resultVec = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayerTypes(CvPtr, resultVec.CvPtr));
+        GC.KeepAlive(this);
+        return resultVec.ToArray();
+    }
+
+    /// <summary>
+    /// Returns count of layers of specified type.
+    /// </summary>
+    /// <param name="layerType">type.</param>
+    /// <returns>count of layers</returns>
+    public int GetLayersCount(string layerType)
+    {
+        if (layerType is null)
+            throw new ArgumentNullException(nameof(layerType));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayersCount(CvPtr, layerType, out var ret));
+        GC.KeepAlive(this);
+        return ret;
+    }
+
+    /// <summary>
+    /// Enables or disables the Winograd convolution optimization.
+    /// </summary>
+    /// <param name="useWinograd">true to enable, false to disable.</param>
+    public void EnableWinograd(bool useWinograd)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_enableWinograd(CvPtr, useWinograd ? 1 : 0));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Dump net structure, hyperparameters, backend, target and fusion to a pbtxt file.
+    /// </summary>
+    /// <remarks>Requires the network's output blobs to be allocated (e.g. after the input
+    /// shape is known and the net has been set up); otherwise OpenCV raises an exception.</remarks>
+    /// <param name="path">path to output file with .pbtxt extension.</param>
+    public void DumpToPbtxt(string path)
+    {
+        if (path is null)
+            throw new ArgumentNullException(nameof(path));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_dumpToPbtxt(CvPtr, path));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Returns the original framework format the network was loaded from.
+    /// </summary>
+    /// <returns></returns>
+    public ModelFormat GetModelFormat()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getModelFormat(CvPtr, out var ret));
+        GC.KeepAlive(this);
+        return (ModelFormat)ret;
+    }
+
+    /// <summary>
+    /// Enables the Key-Value (KV) cache, used to accelerate inference of transformer / LLM models.
+    /// </summary>
+    public void EnableKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_enableKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Disables the Key-Value (KV) cache.
+    /// </summary>
+    public void DisableKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_disableKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Resets the Key-Value (KV) cache contents.
+    /// </summary>
+    public void ResetKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_resetKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Prints per-layer performance profile to the standard output.
+    /// </summary>
+    public void PrintPerfProfile()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_printPerfProfile(CvPtr));
+        GC.KeepAlive(this);
+    }
+
     #endregion
 }

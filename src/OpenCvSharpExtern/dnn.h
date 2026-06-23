@@ -134,6 +134,37 @@ CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_getAvailableTargets(const int be, std::vector<int> *targets)
+{
+    BEGIN_WRAP
+    const auto v = cv::dnn::getAvailableTargets(static_cast<cv::dnn::Backend>(be));
+    targets->clear();
+    for (const auto t : v)
+        targets->push_back(static_cast<int>(t));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_getAvailableBackends(std::vector<int> *backends, std::vector<int> *targets)
+{
+    BEGIN_WRAP
+    const auto v = cv::dnn::getAvailableBackends();
+    backends->clear();
+    targets->clear();
+    for (const auto &p : v)
+    {
+        backends->push_back(static_cast<int>(p.first));
+        targets->push_back(static_cast<int>(p.second));
+    }
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
+{
+    BEGIN_WRAP
+    cv::dnn::enableModelDiagnostics(isDiagnosticsMode != 0);
+    END_WRAP
+}
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif // NO_DNN
