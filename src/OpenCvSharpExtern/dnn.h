@@ -134,6 +134,91 @@ CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, cv::dnn::Net **returnValue)
+{
+    BEGIN_WRAP
+    const auto net = cv::dnn::readNetFromTFLite(model);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel, size_t lenModel, cv::dnn::Net **returnValue)
+{
+    BEGIN_WRAP
+    const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
+    cv::_InputArray *image, const MyCvScalar scalefactor, const MyCvSize size, const MyCvScalar mean,
+    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const MyCvScalar borderValue,
+    cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const cv::dnn::Image2BlobParams param(
+        cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
+        static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+    const auto blob = cv::dnn::blobFromImageWithParams(*image, param);
+    *returnValue = new cv::Mat(blob);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
+    cv::Mat **images, const int imagesLength, const MyCvScalar scalefactor, const MyCvSize size, const MyCvScalar mean,
+    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const MyCvScalar borderValue,
+    cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> imagesVec;
+    toVec(images, imagesLength, imagesVec);
+    const cv::dnn::Image2BlobParams param(
+        cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
+        static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+    const auto blob = cv::dnn::blobFromImagesWithParams(imagesVec, param);
+    *returnValue = new cv::Mat(blob);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_imagesFromBlob(cv::Mat *blob, std::vector<cv::Mat> *images)
+{
+    BEGIN_WRAP
+    cv::dnn::imagesFromBlob(*blob, *images);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
+    std::vector<cv::Rect> *bboxes, std::vector<float> *scores, std::vector<int> *classIds,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    BEGIN_WRAP
+    cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
+    std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores, std::vector<int> *classIds,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    BEGIN_WRAP
+    cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_softNMSBoxes_Rect(
+    std::vector<cv::Rect> *bboxes, std::vector<float> *scores, std::vector<float> *updated_scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const size_t top_k, const float sigma, const int method)
+{
+    BEGIN_WRAP
+    cv::dnn::softNMSBoxes(
+        *bboxes, *scores, *updated_scores, score_threshold, nms_threshold, *indices,
+        top_k, sigma, static_cast<cv::dnn::SoftNMSMethod>(method));
+    END_WRAP
+}
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif // NO_DNN

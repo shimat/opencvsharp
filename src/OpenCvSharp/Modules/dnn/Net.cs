@@ -246,6 +246,60 @@ public class Net : CvObject
         }
     }
 
+    /// <summary>
+    /// Reads a network model stored in TFLite (https://www.tensorflow.org/lite) framework's format.
+    /// </summary>
+    /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(string model)
+    {
+        if (model is null)
+            throw new ArgumentNullException(nameof(model));
+
+        NativeMethods.HandleException(
+            NativeMethods.dnn_readNetFromTFLite(model, out var p));
+        return (p == IntPtr.Zero) ? null : new Net(p);
+    }
+
+    /// <summary>
+    /// Reads a network model stored in TFLite framework's format from memory.
+    /// </summary>
+    /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(byte[] bufferModel)
+    {
+        if (bufferModel is null)
+            throw new ArgumentNullException(nameof(bufferModel));
+
+        var ret = ReadNetFromTFLite(new ReadOnlySpan<byte>(bufferModel));
+        GC.KeepAlive(bufferModel);
+        return ret;
+    }
+
+    /// <summary>
+    /// Reads a network model stored in TFLite framework's format from memory.
+    /// </summary>
+    /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel)
+    {
+        if (bufferModel.IsEmpty)
+            throw new ArgumentException("Empty span", nameof(bufferModel));
+        unsafe
+        {
+            fixed (byte* bufferModelPtr = bufferModel)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.dnn_readNetFromTFLite(
+                        bufferModelPtr, new IntPtr(bufferModel.Length), out var p));
+                return (p == IntPtr.Zero) ? null : new Net(p);
+            }
+        }
+    }
+
     #endregion
 
     #region Methods
