@@ -33,7 +33,8 @@ public class SuperpixelTest : TestBase
             image.Width,
             image.Height, 
             image.Channels(), 
-            image.Width * image.Height,
+            400, // num_superpixels: a sane count. W*H (1 per pixel) collapses SEEDS to a
+                 // single level and intermittently crashes cv::ximgproc internals on arm64.
             3);
         GC.KeepAlive(seeds);
     }
@@ -103,7 +104,8 @@ public class SuperpixelTest : TestBase
             image.Width,
             image.Height,
             image.Channels(),
-            image.Width * image.Height,
+            400, // num_superpixels: a sane count. W*H (1 per pixel) collapses SEEDS to a
+                 // single level and intermittently crashes cv::ximgproc internals on arm64.
             3);
 
         seeds.Iterate(image, 10);
