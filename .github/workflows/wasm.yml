@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 1
           
@@ -69,7 +69,7 @@ jobs:
         with:
           path: ${{env.EM_CACHE_FOLDER}}
           key: ${{env.EM_VERSION}}-${{ runner.os }}
-      - uses: mymindstorm/setup-emsdk@v14
+      - uses: mymindstorm/setup-emsdk@v16
         with:
           version: ${{env.EM_VERSION}}
           actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
@@ -177,7 +177,7 @@ jobs:
           
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: artifacts_wasm
           path: artifacts_wasm

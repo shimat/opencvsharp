@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: true
           
@@ -154,7 +154,7 @@ jobs:
 
           ls ${GITHUB_WORKSPACE}/artifacts_arm64
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: artifacts_linux_arm64
           path: artifacts_arm64

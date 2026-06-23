@@ -13,7 +13,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
@@ -36,7 +36,7 @@ jobs:
         run: docfx docs/docfx/docfx.json
 
       - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs/docfx/_site
           
@@ -52,4 +52,4 @@ jobs:
    steps:
      - name: Deploy to GitHub Pages
        id: deployment
-       uses: actions/deploy-pages@v4
+       uses: actions/deploy-pages@v5
