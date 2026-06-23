@@ -422,7 +422,7 @@ jobs:
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_arm64_slim --config Release -j 4
 
-      - name: Test (TEMP verify: loop 8x to confirm SuperpixelSEEDS fix on arm64)
+      - name: "Test (TEMP verify - loop 8x to confirm SuperpixelSEEDS fix on arm64)"
         shell: pwsh
         run: |
           dotnet build test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64
