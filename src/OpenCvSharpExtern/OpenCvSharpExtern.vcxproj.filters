@@ -294,6 +294,9 @@
     <ClInclude Include="dnn_Net.h">
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
+    <ClInclude Include="dnn_Model.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
     <ClInclude Include="dnn.h">
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
