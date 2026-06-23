@@ -12,7 +12,6 @@ on:
   push:
     branches:
       - main
-      - fix/superpixelseeds-test-params
 
 env:
   OPENCV_VERSION: "5.0.0"
@@ -422,16 +421,9 @@ jobs:
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_arm64_slim --config Release -j 4
 
-      - name: "Test (TEMP verify - loop 8x to confirm SuperpixelSEEDS fix on arm64)"
-        shell: pwsh
-        run: |
-          dotnet build test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64
-          for ($i = 1; $i -le 8; $i++) {
-            Write-Host "===== arm64 verify run $i ====="
-            dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --no-build --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
-            if ($LASTEXITCODE -ne 0) { Write-Host "FAILURE on run $i (exit $LASTEXITCODE)"; exit 1 }
-          }
-          Write-Host "All 8 arm64 runs passed."
+      - name: Test
+        shell: cmd
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
 
       - name: Pack NuGet packages
         shell: pwsh
