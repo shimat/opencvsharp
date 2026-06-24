@@ -10,29 +10,29 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-    const auto net = cv::dnn::readNetFromTensorflow(model, configStr);
+    const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
-    const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig);
+    const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const char *framework, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const char *framework, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
     const auto configStr = (config == nullptr) ? "" : cv::String(config);
     const auto frameworkStr = (framework == nullptr) ? "" : cv::String(framework);
-    const auto net = cv::dnn::readNet(model, configStr, frameworkStr);
+    const auto net = cv::dnn::readNet(model, configStr, frameworkStr, engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -45,18 +45,19 @@ CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
-    const auto net = cv::dnn::readNetFromONNX(onnxFile);
+    // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
+    const auto net = cv::dnn::readNetFromONNX(cv::String(onnxFile), engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* buffer, size_t sizeBuffer, cv::dnn::Net** returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* buffer, size_t sizeBuffer, int engine, cv::dnn::Net** returnValue)
 {
     BEGIN_WRAP
-    const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer);
+    const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer, engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -165,18 +166,19 @@ CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
-    const auto net = cv::dnn::readNetFromTFLite(model);
+    // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
+    const auto net = cv::dnn::readNetFromTFLite(cv::String(model), engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel, size_t lenModel, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel, size_t lenModel, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
-    const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel);
+    const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel, engine);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }

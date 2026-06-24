@@ -15,28 +15,31 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromTensorflow")]
     public static extern ExceptionStatus dnn_readNetFromTensorflow_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, 
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config, 
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+        int engine,
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromTensorflow")]
     public static extern ExceptionStatus dnn_readNetFromTensorflow_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model, 
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config, 
+        [MarshalAs(StringUnmanagedTypeWindows)] string model,
+        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
+        int engine,
         out IntPtr returnValue);
 
-    public static ExceptionStatus dnn_readNetFromTensorflow(string model, string? config, out IntPtr returnValue)
+    public static ExceptionStatus dnn_readNetFromTensorflow(string model, string? config, int engine, out IntPtr returnValue)
     {
         if (IsWindows())
-            return dnn_readNetFromTensorflow_Windows(model, config, out returnValue);
-        return dnn_readNetFromTensorflow_NotWindows(model, config, out returnValue);
+            return dnn_readNetFromTensorflow_Windows(model, config, engine, out returnValue);
+        return dnn_readNetFromTensorflow_NotWindows(model, config, engine, out returnValue);
     }
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromTensorflow_InputArray")]
     public static extern unsafe ExceptionStatus dnn_readNetFromTensorflow(
         byte* bufferModel, IntPtr modelDataLength,
         byte* bufferConfig, IntPtr configDataLength,
+        int engine,
         out IntPtr returnValue);
 
     // readNet
@@ -45,23 +48,25 @@ static partial class NativeMethods
         EntryPoint = "dnn_readNet")]
     public static extern ExceptionStatus dnn_readNet_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string config, 
-        [MarshalAs(UnmanagedType.LPStr)] string framework, 
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string config,
+        [MarshalAs(UnmanagedType.LPStr)] string framework,
+        int engine,
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNet")]
     public static extern ExceptionStatus dnn_readNet_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model, 
-        [MarshalAs(StringUnmanagedTypeWindows)] string config, 
+        [MarshalAs(StringUnmanagedTypeWindows)] string model,
+        [MarshalAs(StringUnmanagedTypeWindows)] string config,
         [MarshalAs(UnmanagedType.LPStr)] string framework,
+        int engine,
         out IntPtr returnValue);
 
-    public static ExceptionStatus dnn_readNet(string model, string config, string framework, out IntPtr returnValue)
+    public static ExceptionStatus dnn_readNet(string model, string config, string framework, int engine, out IntPtr returnValue)
     {
         if (IsWindows())
-            return dnn_readNet_Windows(model, config, framework, out returnValue);
-        return dnn_readNet_NotWindows(model, config, framework, out returnValue);
+            return dnn_readNet_Windows(model, config, framework, engine, out returnValue);
+        return dnn_readNet_NotWindows(model, config, framework, engine, out returnValue);
     }
 
     // readNetFromModelOptimizer
@@ -92,25 +97,27 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromONNX")]
     public static extern ExceptionStatus dnn_readNetFromONNX_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string onnxFile, 
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string onnxFile,
+        int engine,
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromONNX")]
     public static extern ExceptionStatus dnn_readNetFromONNX_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string onnxFile,
+        int engine,
         out IntPtr returnValue);
 
-    public static ExceptionStatus dnn_readNetFromONNX(string onnxFile, out IntPtr returnValue)
+    public static ExceptionStatus dnn_readNetFromONNX(string onnxFile, int engine, out IntPtr returnValue)
     {
         if (IsWindows())
-            return dnn_readNetFromONNX_Windows(onnxFile, out returnValue);
-        return dnn_readNetFromONNX_NotWindows(onnxFile, out returnValue);
+            return dnn_readNetFromONNX_Windows(onnxFile, engine, out returnValue);
+        return dnn_readNetFromONNX_NotWindows(onnxFile, engine, out returnValue);
     }
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromONNX_InputArray")]
     public static extern unsafe ExceptionStatus dnn_readNetFromONNX(
-        byte* buffer, IntPtr sizeBuffer, out IntPtr returnValue);
+        byte* buffer, IntPtr sizeBuffer, int engine, out IntPtr returnValue);
 
     // readTensorFromONNX
 
@@ -193,21 +200,21 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromTFLite")]
     public static extern ExceptionStatus dnn_readNetFromTFLite_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, out IntPtr returnValue);
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, int engine, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
         EntryPoint = "dnn_readNetFromTFLite")]
     public static extern ExceptionStatus dnn_readNetFromTFLite_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model, out IntPtr returnValue);
+        [MarshalAs(StringUnmanagedTypeWindows)] string model, int engine, out IntPtr returnValue);
 
-    public static ExceptionStatus dnn_readNetFromTFLite(string model, out IntPtr returnValue)
+    public static ExceptionStatus dnn_readNetFromTFLite(string model, int engine, out IntPtr returnValue)
         => IsWindows()
-            ? dnn_readNetFromTFLite_Windows(model, out returnValue)
-            : dnn_readNetFromTFLite_NotWindows(model, out returnValue);
+            ? dnn_readNetFromTFLite_Windows(model, engine, out returnValue)
+            : dnn_readNetFromTFLite_NotWindows(model, engine, out returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromTFLite_InputArray")]
     public static extern unsafe ExceptionStatus dnn_readNetFromTFLite(
-        byte* bufferModel, IntPtr lenModel, out IntPtr returnValue);
+        byte* bufferModel, IntPtr lenModel, int engine, out IntPtr returnValue);
 
     // blobFromImageWithParams
 

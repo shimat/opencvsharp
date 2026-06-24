@@ -20,9 +20,10 @@ public static class CvDnn
     /// <returns>Resulting Net object is built by text graph using weights from a binary one that
     /// let us make it more flexible.</returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(string model, string? config = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromTensorflow(model, config);
+        return Net.ReadNetFromTensorflow(model, config, engine);
     }
 
     /// <summary>
@@ -32,9 +33,10 @@ public static class CvDnn
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromTensorflow(bufferModel, bufferConfig);
+        return Net.ReadNetFromTensorflow(bufferModel, bufferConfig, engine);
     }
 
     /// <summary>
@@ -44,13 +46,15 @@ public static class CvDnn
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null, EngineType engine = EngineType.Auto)
     {
         if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
         return Net.ReadNetFromTensorflow(
             bufferModel.StreamToArray(),
-            bufferConfig?.StreamToArray());
+            bufferConfig?.StreamToArray(),
+            engine);
     }
 
     /// <summary>
@@ -74,9 +78,10 @@ public static class CvDnn
     /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
     /// <param name="framework">Explicit framework name tag to determine a format.</param>
     /// <returns></returns>
-    public static Net ReadNet(string model, string config = "", string framework = "")
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net ReadNet(string model, string config = "", string framework = "", EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNet(model, config, framework);
+        return Net.ReadNet(model, config, framework, engine);
     }
         
     /// <summary>
@@ -84,9 +89,10 @@ public static class CvDnn
     /// </summary>
     /// <param name="onnxFile"></param>
     /// <returns></returns>
-    public static Net? ReadNetFromOnnx(string onnxFile)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromOnnx(string onnxFile, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromONNX(onnxFile);
+        return Net.ReadNetFromONNX(onnxFile, engine);
     }
 
     /// <summary>
@@ -94,9 +100,10 @@ public static class CvDnn
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns></returns>
-    public static Net? ReadNetFromOnnx(byte[] onnxFileData)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromOnnx(byte[] onnxFileData, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromONNX(onnxFileData);
+        return Net.ReadNetFromONNX(onnxFileData, engine);
     }
 
     /// <summary>
@@ -104,9 +111,10 @@ public static class CvDnn
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns></returns>
-    public static Net? ReadNetFromOnnx(ReadOnlySpan<byte> onnxFileData)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromOnnx(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromONNX(onnxFileData);
+        return Net.ReadNetFromONNX(onnxFileData, engine);
     }
 
     /// <summary>
@@ -114,11 +122,12 @@ public static class CvDnn
     /// </summary>
     /// <param name="onnxFileStream">memory of the first byte of the buffer.</param>
     /// <returns></returns>
-    public static Net? ReadNetFromOnnx(Stream onnxFileStream)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromOnnx(Stream onnxFileStream, EngineType engine = EngineType.Auto)
     {
         if (onnxFileStream is null)
             throw new ArgumentNullException(nameof(onnxFileStream));
-        return ReadNetFromOnnx(StreamToArray(onnxFileStream));
+        return ReadNetFromOnnx(StreamToArray(onnxFileStream), engine);
     }
 
     /// <summary>
@@ -126,10 +135,11 @@ public static class CvDnn
     /// </summary>
     /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
     /// <returns></returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(string model)
+    public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromTFLite(model);
+        return Net.ReadNetFromTFLite(model, engine);
     }
 
     /// <summary>
@@ -137,10 +147,11 @@ public static class CvDnn
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns></returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(byte[] bufferModel)
+    public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromTFLite(bufferModel);
+        return Net.ReadNetFromTFLite(bufferModel, engine);
     }
 
     /// <summary>
@@ -148,10 +159,11 @@ public static class CvDnn
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns></returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel)
+    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel, EngineType engine = EngineType.Auto)
     {
-        return Net.ReadNetFromTFLite(bufferModel);
+        return Net.ReadNetFromTFLite(bufferModel, engine);
     }
 
     /// <summary>
@@ -159,12 +171,13 @@ public static class CvDnn
     /// </summary>
     /// <param name="bufferModelStream">stream containing the content of the tflite file.</param>
     /// <returns></returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(Stream bufferModelStream)
+    public static Net? ReadNetFromTFLite(Stream bufferModelStream, EngineType engine = EngineType.Auto)
     {
         if (bufferModelStream is null)
             throw new ArgumentNullException(nameof(bufferModelStream));
-        return Net.ReadNetFromTFLite(StreamToArray(bufferModelStream));
+        return Net.ReadNetFromTFLite(StreamToArray(bufferModelStream), engine);
     }
 
     /// <summary>

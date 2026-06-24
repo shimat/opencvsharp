@@ -22,5 +22,11 @@ public enum Target
     FPGA,
     CUDA,
     CUDA_FP16,
-    HDDL
+    HDDL,
+    NPU,
+
+    /// <summary>
+    /// Only the ARM platform is supported. Low precision computing, accelerates model inference.
+    /// </summary>
+    CPU_FP16
 }
