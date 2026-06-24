@@ -1,4 +1,5 @@
 ﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -229,5 +230,126 @@ static partial class Cv2
         planeCoefficients.Fix();
         GC.KeepAlive(points3d);
         GC.KeepAlive(normals);
+    }
+
+    /// <summary>
+    /// Loads a point cloud from a file (.ply / .obj). The file format is chosen by the extension.
+    /// </summary>
+    /// <param name="filename">Name of the file.</param>
+    /// <param name="vertices">Output vertex coordinates, each value contains 3 floats.</param>
+    /// <param name="normals">Output per-vertex normals, each value contains 3 floats (optional).</param>
+    /// <param name="rgb">Output per-vertex colors, each value contains 3 floats (optional).</param>
+    public static void LoadPointCloud(string filename, OutputArray vertices, OutputArray? normals = null, OutputArray? rgb = null)
+    {
+        if (filename is null)
+            throw new ArgumentNullException(nameof(filename));
+        if (vertices is null)
+            throw new ArgumentNullException(nameof(vertices));
+        vertices.ThrowIfNotReady();
+        normals?.ThrowIfNotReady();
+        rgb?.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.ptcloud_loadPointCloud(filename, vertices.CvPtr, ToPtr(normals), ToPtr(rgb)));
+
+        vertices.Fix();
+        normals?.Fix();
+        rgb?.Fix();
+    }
+
+    /// <summary>
+    /// Saves a point cloud to a file (.ply / .obj). The file format is chosen by the extension.
+    /// </summary>
+    /// <param name="filename">Name of the file.</param>
+    /// <param name="vertices">Vertex coordinates, each value contains 3 floats.</param>
+    /// <param name="normals">Per-vertex normals, each value contains 3 floats (optional).</param>
+    /// <param name="rgb">Per-vertex colors, each value contains 3 floats (optional).</param>
+    public static void SavePointCloud(string filename, InputArray vertices, InputArray? normals = null, InputArray? rgb = null)
+    {
+        if (filename is null)
+            throw new ArgumentNullException(nameof(filename));
+        if (vertices is null)
+            throw new ArgumentNullException(nameof(vertices));
+        vertices.ThrowIfDisposed();
+        normals?.ThrowIfDisposed();
+        rgb?.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.ptcloud_savePointCloud(filename, vertices.CvPtr, ToPtr(normals), ToPtr(rgb)));
+
+        GC.KeepAlive(vertices);
+        GC.KeepAlive(normals);
+        GC.KeepAlive(rgb);
+    }
+
+    /// <summary>
+    /// Loads a mesh from a file (.ply / .obj). The file format is chosen by the extension.
+    /// </summary>
+    /// <param name="filename">Name of the file.</param>
+    /// <param name="vertices">Output vertex coordinates, each value contains 3 floats.</param>
+    /// <param name="indices">Output per-face list of vertex indices; each element is a vector of ints.</param>
+    /// <param name="normals">Output per-vertex normals, each value contains 3 floats (optional).</param>
+    /// <param name="colors">Output per-vertex colors, each value contains 3 floats (optional).</param>
+    /// <param name="texCoords">Output per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
+    public static void LoadMesh(
+        string filename, OutputArray vertices, out Mat[] indices,
+        OutputArray? normals = null, OutputArray? colors = null, OutputArray? texCoords = null)
+    {
+        if (filename is null)
+            throw new ArgumentNullException(nameof(filename));
+        if (vertices is null)
+            throw new ArgumentNullException(nameof(vertices));
+        vertices.ThrowIfNotReady();
+        normals?.ThrowIfNotReady();
+        colors?.ThrowIfNotReady();
+        texCoords?.ThrowIfNotReady();
+
+        using var indicesVec = new VectorOfMat();
+        NativeMethods.HandleException(
+            NativeMethods.ptcloud_loadMesh(
+                filename, vertices.CvPtr, indicesVec.CvPtr, ToPtr(normals), ToPtr(colors), ToPtr(texCoords)));
+
+        vertices.Fix();
+        normals?.Fix();
+        colors?.Fix();
+        texCoords?.Fix();
+        indices = indicesVec.ToArray();
+    }
+
+    /// <summary>
+    /// Saves a mesh to a file (.ply / .obj). The file format is chosen by the extension.
+    /// </summary>
+    /// <param name="filename">Name of the file.</param>
+    /// <param name="vertices">Vertex coordinates, each value contains 3 floats.</param>
+    /// <param name="indices">Per-face list of vertex indices; each element is a vector of ints.</param>
+    /// <param name="normals">Per-vertex normals, each value contains 3 floats (optional).</param>
+    /// <param name="colors">Per-vertex colors, each value contains 3 floats (optional).</param>
+    /// <param name="texCoords">Per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
+    public static void SaveMesh(
+        string filename, InputArray vertices, IEnumerable<Mat> indices,
+        InputArray? normals = null, InputArray? colors = null, InputArray? texCoords = null)
+    {
+        if (filename is null)
+            throw new ArgumentNullException(nameof(filename));
+        if (vertices is null)
+            throw new ArgumentNullException(nameof(vertices));
+        if (indices is null)
+            throw new ArgumentNullException(nameof(indices));
+        vertices.ThrowIfDisposed();
+        normals?.ThrowIfDisposed();
+        colors?.ThrowIfDisposed();
+        texCoords?.ThrowIfDisposed();
+
+        var indicesArray = indices as Mat[] ?? indices.ToArray();
+        using var indicesVec = new VectorOfMat(indicesArray);
+        NativeMethods.HandleException(
+            NativeMethods.ptcloud_saveMesh(
+                filename, vertices.CvPtr, indicesVec.CvPtr, ToPtr(normals), ToPtr(colors), ToPtr(texCoords)));
+
+        GC.KeepAlive(vertices);
+        GC.KeepAlive(normals);
+        GC.KeepAlive(colors);
+        GC.KeepAlive(texCoords);
+        GC.KeepAlive(indicesArray);
     }
 }
