@@ -6,3 +6,4 @@
 #include "ptcloud_Odometry.h"
 #include "ptcloud_RgbdNormals.h"
 #include "ptcloud_depth.h"
+#include "ptcloud_io.h"
