@@ -723,4 +723,52 @@ CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray2(
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) geometry_solvePnPRefineLM(
+    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, MyCvTermCriteria criteria)
+{
+    BEGIN_WRAP
+    cv::solvePnPRefineLM(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) geometry_solvePnPRefineVVS(
+    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, MyCvTermCriteria criteria, double vvsLambda)
+{
+    BEGIN_WRAP
+    cv::solvePnPRefineVVS(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria), vvsLambda);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) geometry_decomposeEssentialMat(
+    cv::_InputArray *e, cv::_OutputArray *r1, cv::_OutputArray *r2, cv::_OutputArray *t)
+{
+    BEGIN_WRAP
+    cv::decomposeEssentialMat(*e, *r1, *r2, *t);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) geometry_estimateTranslation3D(
+    cv::_InputArray *src, cv::_InputArray *dst, cv::_OutputArray *out, cv::_OutputArray *inliers,
+    double ransacThreshold, double confidence, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::estimateTranslation3D(*src, *dst, *out, *inliers, ransacThreshold, confidence) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) geometry_estimateTranslation2D(
+    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
+    int method, double ransacReprojThreshold, uint64_t maxIters, double confidence, uint64_t refineIters,
+    cv::Vec2d *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::estimateTranslation2D(
+        *from, *to, entity(inliers), method, ransacReprojThreshold,
+        static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+    END_WRAP
+}
+
 #endif // NO_GEOMETRY

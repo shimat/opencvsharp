@@ -19,6 +19,10 @@ static partial class NativeMethods
         IntPtr undistorted, IntPtr distorted, IntPtr K, IntPtr D, double alpha);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus calib_fisheye_distortPoints2(
+        IntPtr undistorted, IntPtr distorted, IntPtr Kundistorted, IntPtr K, IntPtr D, double alpha);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus calib_fisheye_undistortPoints(
         IntPtr distorted, IntPtr undistorted,
         IntPtr K, IntPtr D, IntPtr R, IntPtr P);

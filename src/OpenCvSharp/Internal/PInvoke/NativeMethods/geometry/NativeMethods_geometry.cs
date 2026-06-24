@@ -307,4 +307,29 @@ static partial class NativeMethods
     public static extern ExceptionStatus geometry_findEssentialMat_InputArray2(
         IntPtr points1, IntPtr points2, double focal, Point2d pp,
         int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_solvePnPRefineLM(
+        IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs,
+        IntPtr rvec, IntPtr tvec, TermCriteria criteria);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_solvePnPRefineVVS(
+        IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs,
+        IntPtr rvec, IntPtr tvec, TermCriteria criteria, double vvsLambda);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_decomposeEssentialMat(
+        IntPtr e, IntPtr r1, IntPtr r2, IntPtr t);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_estimateTranslation3D(
+        IntPtr src, IntPtr dst, IntPtr outVal, IntPtr inliers,
+        double ransacThreshold, double confidence, out int returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_estimateTranslation2D(
+        IntPtr from, IntPtr to, IntPtr inliers,
+        int method, double ransacReprojThreshold, ulong maxIters, double confidence, ulong refineIters,
+        out Vec2d returnValue);
 }
