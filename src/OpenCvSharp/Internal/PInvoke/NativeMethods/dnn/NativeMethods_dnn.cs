@@ -179,6 +179,15 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_resetMyriadDevice();
 
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_getAvailableTargets(int be, IntPtr targets);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_getAvailableBackends(IntPtr backends, IntPtr targets);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_enableModelDiagnostics(int isDiagnosticsMode);
+
     // readNetFromTFLite
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
