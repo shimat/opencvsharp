@@ -53,6 +53,10 @@ static partial class NativeMethods
         double delta, int borderType);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_filter2Dp(IntPtr src, IntPtr dst, IntPtr kernel,
+        int anchorX, int anchorY, int borderType, Scalar borderValue, int ddepth, double scale, double shift);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_sepFilter2D(IntPtr src, IntPtr dst, MatType ddepth, IntPtr kernelX,
         IntPtr kernelY, Point anchor, double delta, int borderType);
 
@@ -332,6 +336,12 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_findContours2_OutputArray(IntPtr image, IntPtr contours,
         int mode, int method, Point offset);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_findContoursLinkRuns1(IntPtr image, IntPtr contours, IntPtr hierarchy);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_findContoursLinkRuns2(IntPtr image, IntPtr contours);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_approxPolyDP_InputArray(IntPtr curve, IntPtr approxCurve,

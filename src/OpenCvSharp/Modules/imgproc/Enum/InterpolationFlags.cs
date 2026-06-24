@@ -39,6 +39,12 @@ public enum InterpolationFlags
     LinearExact = 5,
 
     /// <summary>
+    /// Bit exact nearest neighbor interpolation. This will produce same results as
+    /// the nearest neighbor method in PIL, scikit-image or Matlab.
+    /// </summary>
+    NearestExact = 6,
+
+    /// <summary>
     /// mask for interpolation codes
     /// </summary>
     Max = 7,
