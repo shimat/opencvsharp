@@ -95,6 +95,22 @@ CVAPI(ExceptionStatus) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) imgproc_filter2Dp(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
+                             int anchorX, int anchorY, int borderType, MyCvScalar borderValue, int ddepth, double scale, double shift)
+{
+    BEGIN_WRAP
+    cv::Filter2DParams params;
+    params.anchorX = anchorX;
+    params.anchorY = anchorY;
+    params.borderType = borderType;
+    params.borderValue = cpp(borderValue);
+    params.ddepth = ddepth;
+    params.scale = scale;
+    params.shift = shift;
+    cv::filter2D(*src, *dst, *kernel, params);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) imgproc_sepFilter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                                 cv::_InputArray *kernelX, cv::_InputArray *kernelY,
                                 MyCvPoint anchor, double delta, int borderType)
@@ -697,6 +713,21 @@ CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputArray *image,
 {
     BEGIN_WRAP
     cv::findContours(*image, *contours, mode, method, cpp(offset));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_findContoursLinkRuns1(cv::_InputArray *image,
+                                          std::vector<std::vector<cv::Point> > *contours, std::vector<cv::Vec4i> *hierarchy)
+{
+    BEGIN_WRAP
+    cv::findContoursLinkRuns(*image, *contours, *hierarchy);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_findContoursLinkRuns2(cv::_InputArray *image,
+                                          std::vector<std::vector<cv::Point> > *contours)
+{
+    BEGIN_WRAP
+    cv::findContoursLinkRuns(*image, *contours);
     END_WRAP
 }
 

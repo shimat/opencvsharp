@@ -340,7 +340,38 @@ static partial class Cv2
         GC.KeepAlive(kernel);
         dst.Fix();
     }
-        
+
+    /// <summary>
+    /// Convolves an image with the kernel (OpenCV 5 parameter-struct overload).
+    /// </summary>
+    /// <param name="src">input image.</param>
+    /// <param name="dst">output image of the same size and the same number of channels as src.</param>
+    /// <param name="kernel">convolution kernel (or rather a correlation kernel), a single-channel floating point matrix.</param>
+    /// <param name="params">filtering parameters (anchor, border, depth, scale, shift). Null uses the defaults.</param>
+    public static void Filter2D(InputArray src, OutputArray dst, InputArray kernel, Filter2DParams? @params = null)
+    {
+        if (src is null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst is null)
+            throw new ArgumentNullException(nameof(dst));
+        if (kernel is null)
+            throw new ArgumentNullException(nameof(kernel));
+        src.ThrowIfDisposed();
+        dst.ThrowIfNotReady();
+        kernel.ThrowIfDisposed();
+
+        var p = @params ?? new Filter2DParams();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_filter2Dp(
+                src.CvPtr, dst.CvPtr, kernel.CvPtr,
+                p.AnchorX, p.AnchorY, (int)p.BorderType, p.BorderValue, p.Ddepth, p.Scale, p.Shift));
+
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+        GC.KeepAlive(kernel);
+        dst.Fix();
+    }
+
     /// <summary>
     /// Applies separable linear filter to an image
     /// </summary>
@@ -2970,6 +3001,50 @@ static partial class Cv2
         GC.KeepAlive(image);
 
         return contoursVec.ToArray();
+    }
+
+    /// <summary>
+    /// Finds contours in a binary image using the link-runs algorithm (OpenCV 5). This is an
+    /// alternative to <see cref="FindContours(InputArray, out Point[][], out HierarchyIndex[], RetrievalModes, ContourApproximationModes, Point?)"/>
+    /// with reduced memory consumption; it always uses the equivalent of RETR_CCOMP retrieval.
+    /// </summary>
+    /// <param name="image">Source, an 8-bit single-channel binary image.</param>
+    /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+    /// <param name="hierarchy">Output vector containing information about the image topology
+    /// (next/previous/first-child/parent indices for each contour).</param>
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours, out HierarchyIndex[] hierarchy)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        image.ThrowIfDisposed();
+
+        using var contoursVec = new VectorOfVectorPoint();
+        using var hierarchyVec = new VectorOfVec4i();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_findContoursLinkRuns1(image.CvPtr, contoursVec.CvPtr, hierarchyVec.CvPtr));
+
+        contours = contoursVec.ToArray();
+        hierarchy = hierarchyVec.ToArray().Select(HierarchyIndex.FromVec4i).ToArray();
+        GC.KeepAlive(image);
+    }
+
+    /// <summary>
+    /// Finds contours in a binary image using the link-runs algorithm (OpenCV 5), without hierarchy output.
+    /// </summary>
+    /// <param name="image">Source, an 8-bit single-channel binary image.</param>
+    /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        image.ThrowIfDisposed();
+
+        using var contoursVec = new VectorOfVectorPoint();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_findContoursLinkRuns2(image.CvPtr, contoursVec.CvPtr));
+
+        contours = contoursVec.ToArray();
+        GC.KeepAlive(image);
     }
 
     /// <summary>
