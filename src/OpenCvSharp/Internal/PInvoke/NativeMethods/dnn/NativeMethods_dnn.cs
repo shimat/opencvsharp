@@ -187,4 +187,61 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_enableModelDiagnostics(int isDiagnosticsMode);
+
+    // readNetFromTFLite
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "dnn_readNetFromTFLite")]
+    public static extern ExceptionStatus dnn_readNetFromTFLite_NotWindows(
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "dnn_readNetFromTFLite")]
+    public static extern ExceptionStatus dnn_readNetFromTFLite_Windows(
+        [MarshalAs(StringUnmanagedTypeWindows)] string model, out IntPtr returnValue);
+
+    public static ExceptionStatus dnn_readNetFromTFLite(string model, out IntPtr returnValue)
+        => IsWindows()
+            ? dnn_readNetFromTFLite_Windows(model, out returnValue)
+            : dnn_readNetFromTFLite_NotWindows(model, out returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromTFLite_InputArray")]
+    public static extern unsafe ExceptionStatus dnn_readNetFromTFLite(
+        byte* bufferModel, IntPtr lenModel, out IntPtr returnValue);
+
+    // blobFromImageWithParams
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_blobFromImageWithParams(
+        IntPtr image, Scalar scalefactor, Size size, Scalar mean,
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_blobFromImagesWithParams(
+        IntPtr[] images, int imagesLength, Scalar scalefactor, Size size, Scalar mean,
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
+
+    // imagesFromBlob
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_imagesFromBlob(IntPtr blob, IntPtr images);
+
+    // NMSBoxesBatched
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_NMSBoxesBatched_Rect(
+        IntPtr bboxes, IntPtr scores, IntPtr classIds,
+        float score_threshold, float nms_threshold, IntPtr indices, float eta, int top_k);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_NMSBoxesBatched_Rect2d(
+        IntPtr bboxes, IntPtr scores, IntPtr classIds,
+        float score_threshold, float nms_threshold, IntPtr indices, float eta, int top_k);
+
+    // softNMSBoxes
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    public static extern ExceptionStatus dnn_softNMSBoxes_Rect(
+        IntPtr bboxes, IntPtr scores, IntPtr updated_scores,
+        float score_threshold, float nms_threshold, IntPtr indices, UIntPtr top_k, float sigma, int method);
 }

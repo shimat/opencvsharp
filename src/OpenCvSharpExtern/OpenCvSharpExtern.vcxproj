@@ -110,6 +110,7 @@
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_Model.h" />
+    <ClInclude Include="dnn_TextModel.h" />
     <ClInclude Include="dnn_Net.h" />
     <ClInclude Include="dnn_superres.h" />
     <ClInclude Include="face_Facemark.h" />
