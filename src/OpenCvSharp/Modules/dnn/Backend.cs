@@ -19,10 +19,22 @@ public enum Backend
     //! OpenCV is built with Intel's Inference Engine library or
     //! DNN_BACKEND_OPENCV otherwise.
     // ReSharper disable once InconsistentNaming
-    DEFAULT,
-    HALIDE,
-    INFERENCE_ENGINE,
-    OPENCV,
-    VKCOM,
-    CUDA
+    DEFAULT = 0,
+
+    /// <summary>
+    /// Removed in OpenCV 5. The numeric value is kept so the remaining members keep their original values.
+    /// </summary>
+    [Obsolete("The Halide backend was removed in OpenCV 5.")]
+    HALIDE = 1,
+
+    /// <summary>
+    /// Intel OpenVINO computational backend.
+    /// </summary>
+    INFERENCE_ENGINE = 2,
+    OPENCV = 3,
+    VKCOM = 4,
+    CUDA = 5,
+    WEBNN = 6,
+    TIMVX = 7,
+    CANN = 8
 }

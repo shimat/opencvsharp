@@ -82,13 +82,14 @@ public class Net : CvObject
     /// <returns>Resulting Net object is built by text graph using weights from a binary one that
     /// let us make it more flexible.</returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(string model, string? config = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
     {
         if (model is null)
             throw new ArgumentNullException(nameof(model));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTensorflow(model, config, out var p));
+            NativeMethods.dnn_readNetFromTensorflow(model, config, (int)engine, out var p));
         return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
@@ -99,14 +100,16 @@ public class Net : CvObject
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
     {
         if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
-            
+
         var ret = ReadNetFromTensorflow(
             new ReadOnlySpan<byte>(bufferModel),
-            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig));
+            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig),
+            engine);
         GC.KeepAlive(bufferModel);
         GC.KeepAlive(bufferConfig);
         return ret;
@@ -119,11 +122,12 @@ public class Net : CvObject
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default, EngineType engine = EngineType.Auto)
     {
         if (bufferModel.IsEmpty)
             throw new ArgumentException("Empty span", nameof(bufferModel));
-            
+
         unsafe
         {
             fixed (byte* bufferModelPtr = bufferModel)
@@ -133,6 +137,7 @@ public class Net : CvObject
                     NativeMethods.dnn_readNetFromTensorflow(
                         bufferModelPtr, new IntPtr(bufferModel.Length),
                         bufferConfigPtr, new IntPtr(bufferConfig.Length),
+                        (int)engine,
                         out var p));
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
@@ -160,7 +165,8 @@ public class Net : CvObject
     /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
     /// <param name="framework">Explicit framework name tag to determine a format.</param>
     /// <returns></returns>
-    public static Net ReadNet(string model, string config = "", string framework = "")
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net ReadNet(string model, string config = "", string framework = "", EngineType engine = EngineType.Auto)
     {
         if (string.IsNullOrEmpty(model))
             throw new ArgumentException("message is null or empty", nameof(model));
@@ -168,7 +174,7 @@ public class Net : CvObject
         framework ??= "";
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNet(model, config, framework, out var p));
+            NativeMethods.dnn_readNet(model, config, framework, (int)engine, out var p));
         return new Net(p);
     }
 
@@ -196,14 +202,15 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(string onnxFile)
+    public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
     {
         if (onnxFile is null)
             throw new ArgumentNullException(nameof(onnxFile));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromONNX(onnxFile, out var p));
+            NativeMethods.dnn_readNetFromONNX(onnxFile, (int)engine, out var p));
         return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
@@ -212,14 +219,15 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(byte[] onnxFileData)
+    public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
     {
         if (onnxFileData is null)
             throw new ArgumentNullException(nameof(onnxFileData));
-            
+
         var ret = ReadNetFromONNX(
-            new ReadOnlySpan<byte>(onnxFileData));
+            new ReadOnlySpan<byte>(onnxFileData), engine);
         GC.KeepAlive(onnxFileData);
         return ret;
     }
@@ -229,8 +237,9 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData)
+    public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
     {
         if (onnxFileData.IsEmpty)
             throw new ArgumentException("Empty span", nameof(onnxFileData));
@@ -240,7 +249,7 @@ public class Net : CvObject
             {
                 NativeMethods.HandleException(
                     NativeMethods.dnn_readNetFromONNX(
-                        onnxFileDataPtr, new IntPtr(onnxFileData.Length), out var p));
+                        onnxFileDataPtr, new IntPtr(onnxFileData.Length), (int)engine, out var p));
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
         }
@@ -251,14 +260,15 @@ public class Net : CvObject
     /// </summary>
     /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(string model)
+    public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
     {
         if (model is null)
             throw new ArgumentNullException(nameof(model));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTFLite(model, out var p));
+            NativeMethods.dnn_readNetFromTFLite(model, (int)engine, out var p));
         return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
@@ -267,13 +277,14 @@ public class Net : CvObject
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(byte[] bufferModel)
+    public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
     {
         if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
 
-        var ret = ReadNetFromTFLite(new ReadOnlySpan<byte>(bufferModel));
+        var ret = ReadNetFromTFLite(new ReadOnlySpan<byte>(bufferModel), engine);
         GC.KeepAlive(bufferModel);
         return ret;
     }
@@ -283,8 +294,9 @@ public class Net : CvObject
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel)
+    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel, EngineType engine = EngineType.Auto)
     {
         if (bufferModel.IsEmpty)
             throw new ArgumentException("Empty span", nameof(bufferModel));
@@ -294,7 +306,7 @@ public class Net : CvObject
             {
                 NativeMethods.HandleException(
                     NativeMethods.dnn_readNetFromTFLite(
-                        bufferModelPtr, new IntPtr(bufferModel.Length), out var p));
+                        bufferModelPtr, new IntPtr(bufferModel.Length), (int)engine, out var p));
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
         }
