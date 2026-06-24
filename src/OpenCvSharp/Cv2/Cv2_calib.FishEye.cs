@@ -109,6 +109,49 @@ static partial class Cv2
         }
 
         /// <summary>
+        /// Distorts 2D points using the fisheye model. Overload that handles cases when undistorted
+        /// points were obtained with a non-identity camera matrix
+        /// (e.g. the output of EstimateNewCameraMatrixForUndistortRectify).
+        /// </summary>
+        /// <param name="undistorted">Array of object points, 1xN/Nx1 2-channel (or vector&lt;Point2f&gt;),
+        /// where N is the number of points in the view.</param>
+        /// <param name="distorted">Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt;.</param>
+        /// <param name="kundistorted">Camera intrinsic matrix used as the new camera matrix for undistortion.</param>
+        /// <param name="k">Camera intrinsic matrix.</param>
+        /// <param name="d">Input vector of distortion coefficients.</param>
+        /// <param name="alpha">The skew coefficient.</param>
+        public static void DistortPoints(
+            InputArray undistorted, OutputArray distorted, InputArray kundistorted, InputArray k, InputArray d, double alpha = 0)
+        {
+            if (undistorted is null)
+                throw new ArgumentNullException(nameof(undistorted));
+            if (distorted is null)
+                throw new ArgumentNullException(nameof(distorted));
+            if (kundistorted is null)
+                throw new ArgumentNullException(nameof(kundistorted));
+            if (k is null)
+                throw new ArgumentNullException(nameof(k));
+            if (d is null)
+                throw new ArgumentNullException(nameof(d));
+            undistorted.ThrowIfDisposed();
+            distorted.ThrowIfNotReady();
+            kundistorted.ThrowIfDisposed();
+            k.ThrowIfDisposed();
+            d.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.calib_fisheye_distortPoints2(
+                    undistorted.CvPtr, distorted.CvPtr, kundistorted.CvPtr, k.CvPtr, d.CvPtr, alpha));
+
+            distorted.Fix();
+            GC.KeepAlive(undistorted);
+            GC.KeepAlive(distorted);
+            GC.KeepAlive(kundistorted);
+            GC.KeepAlive(k);
+            GC.KeepAlive(d);
+        }
+
+        /// <summary>
         /// Undistorts 2D points using fisheye model
         /// </summary>
         /// <param name="distorted">Array of object points, 1xN/Nx1 2-channel (or vector&lt;Point2f&gt; ), 

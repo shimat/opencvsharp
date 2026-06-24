@@ -34,6 +34,14 @@ CVAPI(ExceptionStatus) calib_fisheye_distortPoints(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) calib_fisheye_distortPoints2(
+    cv::_InputArray *undistorted, cv::_OutputArray *distorted, cv::_InputArray *Kundistorted, cv::_InputArray *K, cv::_InputArray *D, double alpha)
+{
+    BEGIN_WRAP
+    cv::fisheye::distortPoints(*undistorted, *distorted, *Kundistorted, *K, *D, alpha);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) calib_fisheye_undistortPoints(
     cv::_InputArray *distorted, cv::_OutputArray *undistorted,
     cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P)

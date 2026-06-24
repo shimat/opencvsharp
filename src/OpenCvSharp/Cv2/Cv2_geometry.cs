@@ -2330,4 +2330,214 @@ static partial class Cv2
         GC.KeepAlive(p);
         dst.Fix();
     }
+
+    /// <summary>
+    /// Refines a pose (rotation and translation) from 3D-2D point correspondences, starting from an
+    /// initial solution, using a Levenberg-Marquardt iterative scheme.
+    /// </summary>
+    /// <param name="objectPoints">Array of object points in the object coordinate space.</param>
+    /// <param name="imagePoints">Array of corresponding image points.</param>
+    /// <param name="cameraMatrix">Input camera intrinsic matrix.</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients. If empty, zero distortion is assumed.</param>
+    /// <param name="rvec">Input/Output rotation vector. Input values are used as the initial solution.</param>
+    /// <param name="tvec">Input/Output translation vector. Input values are used as the initial solution.</param>
+    /// <param name="criteria">Criteria when to stop the Levenberg-Marquardt iterative algorithm.</param>
+    public static void SolvePnPRefineLM(
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null)
+    {
+        if (objectPoints is null)
+            throw new ArgumentNullException(nameof(objectPoints));
+        if (imagePoints is null)
+            throw new ArgumentNullException(nameof(imagePoints));
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        if (distCoeffs is null)
+            throw new ArgumentNullException(nameof(distCoeffs));
+        if (rvec is null)
+            throw new ArgumentNullException(nameof(rvec));
+        if (tvec is null)
+            throw new ArgumentNullException(nameof(tvec));
+        objectPoints.ThrowIfDisposed();
+        imagePoints.ThrowIfDisposed();
+        cameraMatrix.ThrowIfDisposed();
+        distCoeffs.ThrowIfDisposed();
+        rvec.ThrowIfNotReady();
+        tvec.ThrowIfNotReady();
+
+        var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
+        NativeMethods.HandleException(
+            NativeMethods.geometry_solvePnPRefineLM(
+                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr,
+                rvec.CvPtr, tvec.CvPtr, c));
+
+        rvec.Fix();
+        tvec.Fix();
+        GC.KeepAlive(objectPoints);
+        GC.KeepAlive(imagePoints);
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(rvec);
+        GC.KeepAlive(tvec);
+    }
+
+    /// <summary>
+    /// Refines a pose (rotation and translation) from 3D-2D point correspondences, starting from an
+    /// initial solution, using a virtual visual servoing (VVS) scheme.
+    /// </summary>
+    /// <param name="objectPoints">Array of object points in the object coordinate space.</param>
+    /// <param name="imagePoints">Array of corresponding image points.</param>
+    /// <param name="cameraMatrix">Input camera intrinsic matrix.</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients. If empty, zero distortion is assumed.</param>
+    /// <param name="rvec">Input/Output rotation vector. Input values are used as the initial solution.</param>
+    /// <param name="tvec">Input/Output translation vector. Input values are used as the initial solution.</param>
+    /// <param name="criteria">Criteria when to stop the iterative algorithm.</param>
+    /// <param name="vvsLambda">Gain for the virtual visual servoing control law.</param>
+    public static void SolvePnPRefineVVS(
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null, double vvsLambda = 1)
+    {
+        if (objectPoints is null)
+            throw new ArgumentNullException(nameof(objectPoints));
+        if (imagePoints is null)
+            throw new ArgumentNullException(nameof(imagePoints));
+        if (cameraMatrix is null)
+            throw new ArgumentNullException(nameof(cameraMatrix));
+        if (distCoeffs is null)
+            throw new ArgumentNullException(nameof(distCoeffs));
+        if (rvec is null)
+            throw new ArgumentNullException(nameof(rvec));
+        if (tvec is null)
+            throw new ArgumentNullException(nameof(tvec));
+        objectPoints.ThrowIfDisposed();
+        imagePoints.ThrowIfDisposed();
+        cameraMatrix.ThrowIfDisposed();
+        distCoeffs.ThrowIfDisposed();
+        rvec.ThrowIfNotReady();
+        tvec.ThrowIfNotReady();
+
+        var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
+        NativeMethods.HandleException(
+            NativeMethods.geometry_solvePnPRefineVVS(
+                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr,
+                rvec.CvPtr, tvec.CvPtr, c, vvsLambda));
+
+        rvec.Fix();
+        tvec.Fix();
+        GC.KeepAlive(objectPoints);
+        GC.KeepAlive(imagePoints);
+        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(rvec);
+        GC.KeepAlive(tvec);
+    }
+
+    /// <summary>
+    /// Decomposes an essential matrix to possible rotations and translation.
+    /// </summary>
+    /// <param name="e">The input essential matrix.</param>
+    /// <param name="r1">One possible rotation matrix.</param>
+    /// <param name="r2">Another possible rotation matrix.</param>
+    /// <param name="t">One possible translation (up to scale).</param>
+    public static void DecomposeEssentialMat(InputArray e, OutputArray r1, OutputArray r2, OutputArray t)
+    {
+        if (e is null)
+            throw new ArgumentNullException(nameof(e));
+        if (r1 is null)
+            throw new ArgumentNullException(nameof(r1));
+        if (r2 is null)
+            throw new ArgumentNullException(nameof(r2));
+        if (t is null)
+            throw new ArgumentNullException(nameof(t));
+        e.ThrowIfDisposed();
+        r1.ThrowIfNotReady();
+        r2.ThrowIfNotReady();
+        t.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.geometry_decomposeEssentialMat(e.CvPtr, r1.CvPtr, r2.CvPtr, t.CvPtr));
+
+        r1.Fix();
+        r2.Fix();
+        t.Fix();
+        GC.KeepAlive(e);
+        GC.KeepAlive(r1);
+        GC.KeepAlive(r2);
+        GC.KeepAlive(t);
+    }
+
+    /// <summary>
+    /// Computes an optimal translation between two 3D point sets using RANSAC.
+    /// </summary>
+    /// <param name="src">First input 3D point set.</param>
+    /// <param name="dst">Second input 3D point set.</param>
+    /// <param name="outVal">Output 3D translation vector (3x1).</param>
+    /// <param name="inliers">Output vector indicating which points are inliers.</param>
+    /// <param name="ransacThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.</param>
+    /// <param name="confidence">Confidence level, between 0 and 1.</param>
+    /// <returns>True if a translation was found.</returns>
+    public static bool EstimateTranslation3D(
+        InputArray src, InputArray dst, OutputArray outVal, OutputArray inliers,
+        double ransacThreshold = 3, double confidence = 0.99)
+    {
+        if (src is null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst is null)
+            throw new ArgumentNullException(nameof(dst));
+        if (outVal is null)
+            throw new ArgumentNullException(nameof(outVal));
+        if (inliers is null)
+            throw new ArgumentNullException(nameof(inliers));
+        src.ThrowIfDisposed();
+        dst.ThrowIfDisposed();
+        outVal.ThrowIfNotReady();
+        inliers.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.geometry_estimateTranslation3D(
+                src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence, out var ret));
+
+        outVal.Fix();
+        inliers.Fix();
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Computes an optimal translation between two 2D point sets.
+    /// </summary>
+    /// <param name="from">First input 2D point set.</param>
+    /// <param name="to">Second input 2D point set.</param>
+    /// <param name="inliers">Output vector indicating which points are inliers (optional).</param>
+    /// <param name="method">Robust method used to compute the transformation.</param>
+    /// <param name="ransacReprojThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.</param>
+    /// <param name="maxIters">The maximum number of robust method iterations.</param>
+    /// <param name="confidence">Confidence level, between 0 and 1.</param>
+    /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).</param>
+    /// <returns>The estimated 2D translation vector.</returns>
+    public static Vec2d EstimateTranslation2D(
+        InputArray from, InputArray to, OutputArray? inliers = null,
+        RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
+        ulong maxIters = 2000, double confidence = 0.99, ulong refineIters = 0)
+    {
+        if (from is null)
+            throw new ArgumentNullException(nameof(from));
+        if (to is null)
+            throw new ArgumentNullException(nameof(to));
+        from.ThrowIfDisposed();
+        to.ThrowIfDisposed();
+        inliers?.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.geometry_estimateTranslation2D(
+                from.CvPtr, to.CvPtr, ToPtr(inliers),
+                (int)method, ransacReprojThreshold, maxIters, confidence, refineIters, out var ret));
+
+        inliers?.Fix();
+        GC.KeepAlive(from);
+        GC.KeepAlive(to);
+        GC.KeepAlive(inliers);
+        return ret;
+    }
 }
