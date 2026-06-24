@@ -116,4 +116,40 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features_Ptr_FlannBasedMatcher_delete(IntPtr ptr);
+
+    #region LightGlueMatcher
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_LightGlueMatcher_create")]
+    public static extern ExceptionStatus features_LightGlueMatcher_create_NotWindows(
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_LightGlueMatcher_create")]
+    public static extern ExceptionStatus features_LightGlueMatcher_create_Windows(
+        [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+
+    public static ExceptionStatus features_LightGlueMatcher_create(string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue)
+        => IsWindows()
+            ? features_LightGlueMatcher_create_Windows(modelPath, scoreThreshold, backend, target, out returnValue)
+            : features_LightGlueMatcher_create_NotWindows(modelPath, scoreThreshold, backend, target, out returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_LightGlueMatcher_create_buffer(
+        byte[] modelData, IntPtr modelDataLength, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_LightGlueMatcher_setPairInfo(
+        IntPtr obj, IntPtr queryKpts, IntPtr trainKpts, Size queryImageSize, Size trainImageSize);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_LightGlueMatcher_clearPairInfo(IntPtr obj);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_Ptr_LightGlueMatcher_get(IntPtr ptr, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_Ptr_LightGlueMatcher_delete(IntPtr ptr);
+
+    #endregion
 }

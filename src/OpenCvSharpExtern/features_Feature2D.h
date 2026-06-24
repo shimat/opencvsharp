@@ -635,4 +635,164 @@ CVAPI(ExceptionStatus) features_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D> *obj, c
     *returnValue = obj->get();
     END_WRAP
 }
+
+
+#pragma region AffineFeature
+
+CVAPI(ExceptionStatus) features_AffineFeature_create(
+    cv::Ptr<cv::Feature2D> *backend, int maxTilt, int minTilt, float tiltStep, float rotateStepBase,
+    cv::Ptr<cv::AffineFeature> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::AffineFeature::create(*backend, maxTilt, minTilt, tiltStep, rotateStepBase);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_AffineFeature_setViewParams(
+    cv::AffineFeature *obj, float *tilts, int tiltsLength, float *rolls, int rollsLength)
+{
+    BEGIN_WRAP
+    const std::vector<float> tiltsVec(tilts, tilts + tiltsLength);
+    const std::vector<float> rollsVec(rolls, rolls + rollsLength);
+    obj->setViewParams(tiltsVec, rollsVec);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_AffineFeature_getViewParams(
+    cv::AffineFeature *obj, std::vector<float> *tilts, std::vector<float> *rolls)
+{
+    BEGIN_WRAP
+    obj->getViewParams(*tilts, *rolls);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_Ptr_AffineFeature_delete(cv::Ptr<cv::AffineFeature> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+#pragma endregion
+
+
+#ifdef HAVE_OPENCV_DNN
+
+#pragma region DISK
+
+CVAPI(ExceptionStatus) features_DISK_create(
+    const char *modelPath, int maxKeypoints, float scoreThreshold, MyCvSize imageSize, int backendId, int targetId,
+    cv::Ptr<cv::DISK> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::DISK::create(cv::String(modelPath), maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_DISK_create_buffer(
+    const uchar *bufferModel, size_t bufferModelLength, int maxKeypoints, float scoreThreshold, MyCvSize imageSize, int backendId, int targetId,
+    cv::Ptr<cv::DISK> **returnValue)
+{
+    BEGIN_WRAP
+    const std::vector<uchar> buf(bufferModel, bufferModel + bufferModelLength);
+    const auto ptr = cv::DISK::create(buf, maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_DISK_setMaxKeypoints(cv::DISK *obj, int maxKeypoints)
+{
+    BEGIN_WRAP
+    obj->setMaxKeypoints(maxKeypoints);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features_DISK_getMaxKeypoints(cv::DISK *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMaxKeypoints();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features_DISK_setScoreThreshold(cv::DISK *obj, float threshold)
+{
+    BEGIN_WRAP
+    obj->setScoreThreshold(threshold);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features_DISK_getScoreThreshold(cv::DISK *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getScoreThreshold();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features_DISK_setImageSize(cv::DISK *obj, MyCvSize size)
+{
+    BEGIN_WRAP
+    obj->setImageSize(cpp(size));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features_DISK_getImageSize(cv::DISK *obj, MyCvSize *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = c(obj->getImageSize());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_Ptr_DISK_delete(cv::Ptr<cv::DISK> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+#pragma endregion
+
+
+#pragma region ALIKED
+
+CVAPI(ExceptionStatus) features_ALIKED_create(
+    const char *modelPath, MyCvSize inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    cv::Ptr<cv::ALIKED> **returnValue)
+{
+    BEGIN_WRAP
+    cv::ALIKED::Params params;
+    params.inputSize = cpp(inputSize);
+    params.normalizeDescriptors = normalizeDescriptors != 0;
+    params.engine = engine;
+    params.backend = backend;
+    params.target = target;
+    const auto ptr = cv::ALIKED::create(cv::String(modelPath), params);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_ALIKED_create_buffer(
+    const uchar *modelData, size_t modelDataLength, MyCvSize inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    cv::Ptr<cv::ALIKED> **returnValue)
+{
+    BEGIN_WRAP
+    const std::vector<uchar> buf(modelData, modelData + modelDataLength);
+    cv::ALIKED::Params params;
+    params.inputSize = cpp(inputSize);
+    params.normalizeDescriptors = normalizeDescriptors != 0;
+    params.engine = engine;
+    params.backend = backend;
+    params.target = target;
+    const auto ptr = cv::ALIKED::create(buf, params);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_Ptr_ALIKED_delete(cv::Ptr<cv::ALIKED> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+#pragma endregion
+
+#endif // HAVE_OPENCV_DNN
+
 #endif // NO_FEATURES

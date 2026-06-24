@@ -244,4 +244,87 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features_Ptr_Feature2D_get(IntPtr obj, out IntPtr returnValue);
+
+    #region AffineFeature
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_AffineFeature_create(
+        IntPtr backend, int maxTilt, int minTilt, float tiltStep, float rotateStepBase, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_AffineFeature_setViewParams(
+        IntPtr obj, float[] tilts, int tiltsLength, float[] rolls, int rollsLength);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_AffineFeature_getViewParams(IntPtr obj, IntPtr tilts, IntPtr rolls);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_Ptr_AffineFeature_delete(IntPtr ptr);
+
+    #endregion
+
+    #region DISK
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_DISK_create")]
+    public static extern ExceptionStatus features_DISK_create_NotWindows(
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, int maxKeypoints, float scoreThreshold, Size imageSize, int backendId, int targetId, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_DISK_create")]
+    public static extern ExceptionStatus features_DISK_create_Windows(
+        [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, int maxKeypoints, float scoreThreshold, Size imageSize, int backendId, int targetId, out IntPtr returnValue);
+
+    public static ExceptionStatus features_DISK_create(string modelPath, int maxKeypoints, float scoreThreshold, Size imageSize, int backendId, int targetId, out IntPtr returnValue)
+        => IsWindows()
+            ? features_DISK_create_Windows(modelPath, maxKeypoints, scoreThreshold, imageSize, backendId, targetId, out returnValue)
+            : features_DISK_create_NotWindows(modelPath, maxKeypoints, scoreThreshold, imageSize, backendId, targetId, out returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_create_buffer(
+        byte[] bufferModel, IntPtr bufferModelLength, int maxKeypoints, float scoreThreshold, Size imageSize, int backendId, int targetId, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_setMaxKeypoints(IntPtr obj, int maxKeypoints);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_getMaxKeypoints(IntPtr obj, out int returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_setScoreThreshold(IntPtr obj, float threshold);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_getScoreThreshold(IntPtr obj, out float returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_setImageSize(IntPtr obj, Size size);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_DISK_getImageSize(IntPtr obj, out Size returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_Ptr_DISK_delete(IntPtr ptr);
+
+    #endregion
+
+    #region ALIKED
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_ALIKED_create")]
+    public static extern ExceptionStatus features_ALIKED_create_NotWindows(
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, Size inputSize, int normalizeDescriptors, int engine, int backend, int target, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+        EntryPoint = "features_ALIKED_create")]
+    public static extern ExceptionStatus features_ALIKED_create_Windows(
+        [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, Size inputSize, int normalizeDescriptors, int engine, int backend, int target, out IntPtr returnValue);
+
+    public static ExceptionStatus features_ALIKED_create(string modelPath, Size inputSize, int normalizeDescriptors, int engine, int backend, int target, out IntPtr returnValue)
+        => IsWindows()
+            ? features_ALIKED_create_Windows(modelPath, inputSize, normalizeDescriptors, engine, backend, target, out returnValue)
+            : features_ALIKED_create_NotWindows(modelPath, inputSize, normalizeDescriptors, engine, backend, target, out returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_ALIKED_create_buffer(
+        byte[] modelData, IntPtr modelDataLength, Size inputSize, int normalizeDescriptors, int engine, int backend, int target, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus features_Ptr_ALIKED_delete(IntPtr ptr);
+
+    #endregion
 }
