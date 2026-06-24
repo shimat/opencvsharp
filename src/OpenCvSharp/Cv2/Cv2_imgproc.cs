@@ -5030,6 +5030,75 @@ static partial class Cv2
         return ret;
     }
 
+    /// <summary>
+    /// Draws a text string using the specified TrueType font (OpenCV 5). Symbols that cannot be
+    /// rendered using the specified font are replaced by question marks.
+    /// </summary>
+    /// <param name="img">Image.</param>
+    /// <param name="text">Text string to be drawn (UTF-8 / Unicode is supported).</param>
+    /// <param name="org">Bottom-left corner of the first character of the printed text (see <see cref="PutTextFlags"/>).</param>
+    /// <param name="color">Text color.</param>
+    /// <param name="fontFace">The font to use for the text.</param>
+    /// <param name="size">Font size in pixels (by default) or pts.</param>
+    /// <param name="weight">Font weight, 100..1000 (400 is "regular", 700 is "bold"). 0 uses the weight set via <see cref="FontFace.SetInstance"/>.</param>
+    /// <param name="flags">Various flags, see <see cref="PutTextFlags"/>.</param>
+    /// <param name="wrap">Optional text wrapping range. Null uses the default behavior.</param>
+    /// <returns>The coordinates in pixels from where the text can be continued.</returns>
+    public static Point PutText(
+        InputOutputArray img, string text, Point org, Scalar color, FontFace fontFace, int size,
+        int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
+    {
+        if (img is null)
+            throw new ArgumentNullException(nameof(img));
+        if (text is null)
+            throw new ArgumentNullException(nameof(text));
+        if (fontFace is null)
+            throw new ArgumentNullException(nameof(fontFace));
+        img.ThrowIfDisposed();
+        fontFace.ThrowIfDisposed();
+
+        var w = wrap ?? new Range(0, 0);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_putText_FontFace(
+                img.CvPtr, text, org, color, fontFace.CvPtr, size, weight, (int)flags, w.Start, w.End, out var ret));
+
+        img.Fix();
+        GC.KeepAlive(img);
+        GC.KeepAlive(fontFace);
+        return ret;
+    }
+
+    /// <summary>
+    /// Calculates the bounding rect for the text rendered with the specified TrueType font (OpenCV 5).
+    /// </summary>
+    /// <param name="imgsize">Size of the target image; can be empty.</param>
+    /// <param name="text">Text string to be measured (UTF-8 / Unicode is supported).</param>
+    /// <param name="org">Bottom-left corner of the first character (see <see cref="PutTextFlags"/>).</param>
+    /// <param name="fontFace">The font to use for the text.</param>
+    /// <param name="size">Font size in pixels (by default) or pts.</param>
+    /// <param name="weight">Font weight, 100..1000. 0 uses the default/instance weight.</param>
+    /// <param name="flags">Various flags, see <see cref="PutTextFlags"/>.</param>
+    /// <param name="wrap">Optional text wrapping range. Null uses the default behavior.</param>
+    /// <returns>The bounding rectangle of the text.</returns>
+    public static Rect GetTextSize(
+        Size imgsize, string text, Point org, FontFace fontFace, int size,
+        int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
+    {
+        if (text is null)
+            throw new ArgumentNullException(nameof(text));
+        if (fontFace is null)
+            throw new ArgumentNullException(nameof(fontFace));
+        fontFace.ThrowIfDisposed();
+
+        var w = wrap ?? new Range(0, 0);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_getTextSize_FontFace(
+                imgsize, text, org, fontFace.CvPtr, size, weight, (int)flags, w.Start, w.End, out var ret));
+
+        GC.KeepAlive(fontFace);
+        return ret;
+    }
+
     #endregion
 
     /// <summary>
