@@ -279,4 +279,65 @@ CVAPI(ExceptionStatus) features_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::FlannBa
 
 #pragma endregion
 
+
+#ifdef HAVE_OPENCV_DNN
+
+#pragma region LightGlueMatcher
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_create(
+    const char *modelPath, float scoreThreshold, int backend, int target,
+    cv::Ptr<cv::LightGlueMatcher> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::LightGlueMatcher::create(cv::String(modelPath), scoreThreshold, backend, target);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_create_buffer(
+    const uchar *modelData, size_t modelDataLength, float scoreThreshold, int backend, int target,
+    cv::Ptr<cv::LightGlueMatcher> **returnValue)
+{
+    BEGIN_WRAP
+    const std::vector<uchar> buf(modelData, modelData + modelDataLength);
+    const auto ptr = cv::LightGlueMatcher::create(buf, scoreThreshold, backend, target);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_setPairInfo(
+    cv::LightGlueMatcher *obj, cv::_InputArray *queryKpts, cv::_InputArray *trainKpts,
+    MyCvSize queryImageSize, MyCvSize trainImageSize)
+{
+    BEGIN_WRAP
+    obj->setPairInfo(*queryKpts, *trainKpts, cpp(queryImageSize), cpp(trainImageSize));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_clearPairInfo(cv::LightGlueMatcher *obj)
+{
+    BEGIN_WRAP
+    obj->clearPairInfo();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_Ptr_LightGlueMatcher_get(
+    cv::Ptr<cv::LightGlueMatcher> *ptr, cv::LightGlueMatcher **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features_Ptr_LightGlueMatcher_delete(cv::Ptr<cv::LightGlueMatcher> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+#pragma endregion
+
+#endif // HAVE_OPENCV_DNN
+
 #endif // NO_FEATURES
