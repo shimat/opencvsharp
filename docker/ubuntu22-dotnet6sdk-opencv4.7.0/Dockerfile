@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy AS builder
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.7.0
@@ -101,7 +101,7 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
 
 ########## Test native .so file ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
 RUN apt-get update && apt-get -y install --no-install-recommends gcc
 # /usr/lib/libOpenCvSharpExtern.so
 # /usr/local/lib/libopencv_*.a
@@ -122,7 +122,7 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
 COPY --from=builder /usr/lib /usr/lib
 # Install Build the C# part of OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
@@ -155,5 +155,5 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy AS final
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS final
 COPY --from=builder /usr/lib /usr/lib
