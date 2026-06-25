@@ -3,10 +3,11 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
 
-namespace OpenCvSharp.Dnn;
+namespace OpenCvSharp;
 
 /// <summary>
-/// Enum of data layout for model inference.
+/// Data layout of a matrix / tensor (OpenCV 5, cv::DataLayout). Defined in the core module and
+/// shared by core (<see cref="MatShape"/>) and dnn (e.g. blob-from-image parameters).
 /// </summary>
 public enum DataLayout
 {

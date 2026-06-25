@@ -1,5 +1,4 @@
-﻿using OpenCvSharp.Dnn;
-using Xunit;
+﻿using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
 

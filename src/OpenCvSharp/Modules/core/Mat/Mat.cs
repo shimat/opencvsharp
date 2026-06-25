@@ -2973,10 +2973,10 @@ public partial class Mat : CvObject
         if (empty != 0)
             return MatShape.Empty;
         if (ndims <= 0)
-            return MatShape.Scalar((OpenCvSharp.Dnn.DataLayout)layout);
+            return MatShape.Scalar((DataLayout)layout);
         var dims = new int[ndims];
         Array.Copy(sizes, dims, ndims);
-        return new MatShape(dims, (OpenCvSharp.Dnn.DataLayout)layout, channels);
+        return new MatShape(dims, (DataLayout)layout, channels);
     }
 
     /// <summary>

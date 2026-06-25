@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using OpenCvSharp.Dnn;
 
 namespace OpenCvSharp;
 
