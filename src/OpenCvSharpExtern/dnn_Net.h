@@ -292,6 +292,48 @@ CVAPI(ExceptionStatus) dnn_Net_printPerfProfile(cv::dnn::Net* net)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_Net_finalizeNet(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->finalizeNet();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setTracingMode(cv::dnn::Net* net, int tracingMode)
+{
+    BEGIN_WRAP
+    net->setTracingMode(static_cast<cv::dnn::TracingMode>(tracingMode));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getTracingMode(cv::dnn::Net* net, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(net->getTracingMode());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setProfilingMode(cv::dnn::Net* net, int profilingMode)
+{
+    BEGIN_WRAP
+    net->setProfilingMode(static_cast<cv::dnn::ProfilingMode>(profilingMode));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getProfilingMode(cv::dnn::Net* net, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(net->getProfilingMode());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_registerOutput(cv::dnn::Net* net, const char *outputName, int layerId, int outputPort, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = net->registerOutput(cv::String(outputName), layerId, outputPort);
+    END_WRAP
+}
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif // NO_DNN

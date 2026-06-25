@@ -795,5 +795,80 @@ public class Net : CvObject
         GC.KeepAlive(this);
     }
 
+    /// <summary>
+    /// Finalizes the network (new DNN engine, OpenCV 5). The first forward() does this
+    /// automatically; calling it early pays the one-time setup cost at a predictable point
+    /// and surfaces configuration errors before inference.
+    /// </summary>
+    public void FinalizeNet()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_finalizeNet(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Gets or sets the tracing mode of the new DNN engine (OpenCV 5).
+    /// </summary>
+    public TracingMode TracingMode
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_getTracingMode(CvPtr, out var ret));
+            GC.KeepAlive(this);
+            return (TracingMode)ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_setTracingMode(CvPtr, (int)value));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the profiling mode of the new DNN engine (OpenCV 5).
+    /// </summary>
+    public ProfilingMode ProfilingMode
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_getProfilingMode(CvPtr, out var ret));
+            GC.KeepAlive(this);
+            return (ProfilingMode)ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_setProfilingMode(CvPtr, (int)value));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// Registers a network output by name (new DNN engine, OpenCV 5).
+    /// </summary>
+    /// <param name="outputName">Name to register the output under.</param>
+    /// <param name="layerId">Id of the producing layer.</param>
+    /// <param name="outputPort">Output port of the producing layer.</param>
+    /// <returns>The index of the registered output.</returns>
+    public int RegisterOutput(string outputName, int layerId, int outputPort)
+    {
+        if (outputName is null)
+            throw new ArgumentNullException(nameof(outputName));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_registerOutput(CvPtr, outputName, layerId, outputPort, out var ret));
+        GC.KeepAlive(this);
+        return ret;
+    }
+
     #endregion
 }
