@@ -55,9 +55,12 @@ public readonly record struct MatType(int value) : IEquatable<int>
     public int Depth => value & (CV_DEPTH_MAX - 1);
 
     /// <summary>
-    /// 
+    /// Returns true if the depth is an integer type.
+    /// Mirrors OpenCV's CV_IS_INT_TYPE: integer depths are CV_8U, CV_8S, CV_16U, CV_16S,
+    /// CV_32S, CV_Bool, CV_64U, CV_64S and CV_32U (the bitmask 0x1e1f), while CV_32F, CV_64F,
+    /// CV_16F and CV_16BF are floating-point.
     /// </summary>
-    public bool IsInteger => Depth < CV_32F;
+    public bool IsInteger => ((1 << Depth) & 0x1e1f) != 0;
 
     /// <summary>
     /// 

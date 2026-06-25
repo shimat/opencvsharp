@@ -2870,7 +2870,9 @@ public partial class Mat : CvObject
     }
 
     /// <summary>
-    /// the array dimensionality, >= 2
+    /// The array dimensionality. In OpenCV 5 this can also be 0 (a scalar; rows == cols == total() == 1)
+    /// or 1 (a 1D array; dims == rows == 1, cols == total() == N); use <see cref="Empty"/> to tell an
+    /// empty matrix apart from a 0D scalar.
     /// </summary>
     public int Dims
     {

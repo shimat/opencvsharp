@@ -202,4 +202,25 @@ public class MatTypeTest : TestBase
         Assert.Equal(127, MatType.CV_8UC(127).Channels);
         Assert.Throws<OpenCvSharpException>(() => MatType.CV_8UC(128));
     }
+
+    [Fact]
+    public void IsIntegerCoversNewDepths()
+    {
+        // Integer depths (mirrors OpenCV's CV_IS_INT_TYPE bitmask 0x1e1f).
+        Assert.True(MatType.CV_8UC1.IsInteger);
+        Assert.True(MatType.CV_8SC1.IsInteger);
+        Assert.True(MatType.CV_16UC1.IsInteger);
+        Assert.True(MatType.CV_16SC1.IsInteger);
+        Assert.True(MatType.CV_32SC1.IsInteger);
+        Assert.True(MatType.CV_BoolC1.IsInteger);
+        Assert.True(MatType.CV_64UC1.IsInteger);
+        Assert.True(MatType.CV_64SC1.IsInteger);
+        Assert.True(MatType.CV_32UC1.IsInteger);
+
+        // Floating-point depths.
+        Assert.False(MatType.CV_32FC1.IsInteger);
+        Assert.False(MatType.CV_64FC1.IsInteger);
+        Assert.False(MatType.CV_16FC1.IsInteger);
+        Assert.False(MatType.CV_16BFC1.IsInteger);
+    }
 }
