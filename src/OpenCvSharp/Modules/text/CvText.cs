@@ -32,7 +32,7 @@ public static class CvText
         draw?.ThrowIfNotReady();
         chainBBs?.ThrowIfNotReady();
             
-        using var result = new VectorOfRect();
+        using var result = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.text_detectTextSWT(
                 input.CvPtr, 

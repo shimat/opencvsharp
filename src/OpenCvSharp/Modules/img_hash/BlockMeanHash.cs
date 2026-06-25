@@ -50,7 +50,7 @@ public class BlockMeanHash : ImgHashBase
     public double[] GetMean()
     {
         ThrowIfDisposed();
-        using var meanVec = new VectorOfDouble();
+        using var meanVec = new StdVector<double>();
         NativeMethods.HandleException(
             NativeMethods.img_hash_BlockMeanHash_getMean(RawPtr, meanVec.CvPtr));
         GC.KeepAlive(this);

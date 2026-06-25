@@ -102,7 +102,7 @@ public class BOWImgDescriptorExtractor : CvObject
         if (imgDescriptor is null)
             throw new ArgumentNullException(nameof(imgDescriptor));
 
-        using (var keypointsVec = new VectorOfKeyPoint(keypoints))
+        using (var keypointsVec = new StdVector<KeyPoint>(keypoints))
         using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
         {
             NativeMethods.HandleException(
@@ -158,7 +158,7 @@ public class BOWImgDescriptorExtractor : CvObject
         if (imgDescriptor is null)
             throw new ArgumentNullException(nameof(imgDescriptor));
 
-        using (var keypointsVec = new VectorOfKeyPoint(keypoints))
+        using (var keypointsVec = new StdVector<KeyPoint>(keypoints))
         {
             NativeMethods.HandleException(
                 NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute2(

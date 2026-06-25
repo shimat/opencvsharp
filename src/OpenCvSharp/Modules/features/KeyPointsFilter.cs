@@ -21,7 +21,7 @@ public static class KeyPointsFilter
         if (keypoints is null) 
             throw new ArgumentNullException(nameof(keypoints));
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_runByImageBorder(
                 keypointsVec.CvPtr, imageSize, borderSize));
@@ -41,7 +41,7 @@ public static class KeyPointsFilter
         if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_runByKeypointSize(
                 keypointsVec.CvPtr, minSize, maxSize));
@@ -62,7 +62,7 @@ public static class KeyPointsFilter
             throw new ArgumentNullException(nameof(mask));
         mask.ThrowIfDisposed();
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_runByPixelsMask(keypointsVec.CvPtr, mask.CvPtr));
         GC.KeepAlive(mask);
@@ -79,7 +79,7 @@ public static class KeyPointsFilter
         if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_removeDuplicated(keypointsVec.CvPtr));
         return keypointsVec.ToArray();
@@ -95,7 +95,7 @@ public static class KeyPointsFilter
         if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_removeDuplicatedSorted(keypointsVec.CvPtr));
         return keypointsVec.ToArray();
@@ -113,7 +113,7 @@ public static class KeyPointsFilter
         if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_retainBest(
                 keypointsVec.CvPtr, nPoints));

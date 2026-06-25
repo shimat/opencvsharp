@@ -548,7 +548,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
 
-        using var resultVec = new VectorOfInt32();
+        using var resultVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_getUnconnectedOutLayers(CvPtr, resultVec.CvPtr));
         GC.KeepAlive(this);
@@ -593,7 +593,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
 
-        using var timingsVec = new VectorOfDouble();
+        using var timingsVec = new StdVector<double>();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_getPerfProfile(CvPtr, timingsVec.CvPtr, out var ret));
         GC.KeepAlive(this);

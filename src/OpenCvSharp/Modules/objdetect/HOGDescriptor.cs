@@ -1697,7 +1697,7 @@ public class HOGDescriptor : CvObject
     {
         ThrowIfDisposed();
 
-        using var svmDetectorVec = new VectorOfFloat(svmDetector);
+        using var svmDetectorVec = new StdVector<float>(svmDetector);
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_setSVMDetector(CvPtr, svmDetectorVec.CvPtr));
         GC.KeepAlive(this);
@@ -1786,7 +1786,7 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfFloat();
+        using var flVec = new StdVector<float>();
         var length = locations?.Length ?? 0;
 
         NativeMethods.HandleException(
@@ -1818,7 +1818,7 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfPoint();
+        using var flVec = new StdVector<Point>();
         var slLength = searchLocations?.Length ?? 0;
 
         NativeMethods.HandleException(
@@ -1853,8 +1853,8 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfPoint();
-        using var weightsVec = new VectorOfDouble();
+        using var flVec = new StdVector<Point>();
+        using var weightsVec = new StdVector<double>();
         var slLength = searchLocations?.Length ?? 0;
 
         NativeMethods.HandleException(
@@ -1890,7 +1890,7 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfRect();
+        using var flVec = new StdVector<Rect>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(
@@ -1924,8 +1924,8 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfRect();
-        using var foundWeightsVec = new VectorOfDouble();
+        using var flVec = new StdVector<Rect>();
+        using var foundWeightsVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectMultiScale2(
@@ -1996,8 +1996,8 @@ public class HOGDescriptor : CvObject
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
-        using var flVec = new VectorOfPoint();
-        using var cVec = new VectorOfDouble();
+        using var flVec = new StdVector<Point>();
+        using var cVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectROI(
@@ -2031,8 +2031,8 @@ public class HOGDescriptor : CvObject
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
-        using var flVec = new VectorOfRect();
-        using var scalesVec = new VectorOfDouble();
+        using var flVec = new StdVector<Rect>();
+        using var scalesVec = new StdVector<double>();
         using var locationsVec = new VectorOfVectorPoint();
         using var confidencesVec = new VectorOfVectorDouble();
 
@@ -2073,8 +2073,8 @@ public class HOGDescriptor : CvObject
     {
         ThrowIfDisposed();
 
-        using var rectListVec = new VectorOfRect();
-        using var weightsVec = new VectorOfDouble();
+        using var rectListVec = new StdVector<Rect>();
+        using var weightsVec = new StdVector<double>();
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_groupRectangles(
                 CvPtr, rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));

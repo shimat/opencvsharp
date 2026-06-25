@@ -41,7 +41,7 @@ public abstract class ShapeTransformer : Algorithm
         transformingShape.ThrowIfDisposed();
         targetShape.ThrowIfDisposed();
 
-        using var matchesVec = new VectorOfDMatch(matches);
+        using var matchesVec = new StdVector<DMatch>(matches);
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_estimateTransformation(
                 RawPtr, transformingShape.CvPtr, targetShape.CvPtr, matchesVec.CvPtr));

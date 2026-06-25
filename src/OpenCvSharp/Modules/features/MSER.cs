@@ -158,7 +158,7 @@ public class MSER : Feature2D
         image.ThrowIfDisposed();
 
         using (var msersVec = new VectorOfVectorPoint())
-        using (var bboxesVec = new VectorOfRect())
+        using (var bboxesVec = new StdVector<Rect>())
         {
             NativeMethods.HandleException(
                 NativeMethods.features_MSER_detectRegions(

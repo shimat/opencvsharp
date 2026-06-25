@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Aruco;
@@ -46,7 +46,7 @@ public class ArucoDetector : CvObject
         ThrowIfDisposed();
 
         using var cornersVec = new VectorOfVectorPoint2f();
-        using var idsVec = new VectorOfInt32();
+        using var idsVec = new StdVector<int>();
         using var rejectedVec = new VectorOfVectorPoint2f();
 
         NativeMethods.HandleException(

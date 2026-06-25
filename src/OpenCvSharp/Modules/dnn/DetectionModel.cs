@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -93,9 +93,9 @@ public class DetectionModel : Model
             throw new ArgumentNullException(nameof(frame));
         frame.ThrowIfDisposed();
 
-        using var classIdsVec = new VectorOfInt32();
-        using var confidencesVec = new VectorOfFloat();
-        using var boxesVec = new VectorOfRect();
+        using var classIdsVec = new StdVector<int>();
+        using var confidencesVec = new StdVector<float>();
+        using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_detect(
                 CvPtr, frame.CvPtr, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,

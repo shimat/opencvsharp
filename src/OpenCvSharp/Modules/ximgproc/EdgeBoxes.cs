@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -334,7 +334,7 @@ public class EdgeBoxes : Algorithm
         edgeMap.ThrowIfDisposed();
         orientationMap.ThrowIfDisposed();
 
-        using var boxesVec = new VectorOfRect();
+        using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(
                 RawPtr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));

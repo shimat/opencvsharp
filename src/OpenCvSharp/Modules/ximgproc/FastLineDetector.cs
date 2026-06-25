@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.XImgProc;
@@ -84,7 +84,7 @@ public class FastLineDetector : Algorithm
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var lines = new VectorOfVec4f();
+        using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_detect_vector(RawPtr, image.CvPtr, lines.CvPtr));
         GC.KeepAlive(this);
@@ -129,7 +129,7 @@ public class FastLineDetector : Algorithm
         if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
-        using var linesVec = new VectorOfVec4f(lines);
+        using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
                 RawPtr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));

@@ -17,7 +17,7 @@ static partial class Cv2
         if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
-        using var rectListVec = new VectorOfRect(rectList);
+        using var rectListVec = new StdVector<Rect>(rectList);
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_groupRectangles1(rectListVec.CvPtr, groupThreshold, eps));
@@ -37,8 +37,8 @@ static partial class Cv2
         if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
-        using var rectListVec = new VectorOfRect(rectList);
-        using var weightsVec = new VectorOfInt32();
+        using var rectListVec = new StdVector<Rect>(rectList);
+        using var weightsVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_groupRectangles2(rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));
@@ -60,9 +60,9 @@ static partial class Cv2
         if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
-        using var rectListVec = new VectorOfRect(rectList);
-        using var weightsVec = new VectorOfInt32();
-        using var levelWeightsVec = new VectorOfDouble();
+        using var rectListVec = new StdVector<Rect>(rectList);
+        using var weightsVec = new StdVector<int>();
+        using var levelWeightsVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_groupRectangles3(
@@ -86,9 +86,9 @@ static partial class Cv2
         if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
-        using var rectListVec = new VectorOfRect(rectList);
-        using var rejectLevelsVec = new VectorOfInt32();
-        using var levelWeightsVec = new VectorOfDouble();
+        using var rectListVec = new StdVector<Rect>(rectList);
+        using var rejectLevelsVec = new StdVector<int>();
+        using var levelWeightsVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_groupRectangles4(
@@ -115,9 +115,9 @@ static partial class Cv2
 
         var winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));
 
-        using var rectListVec = new VectorOfRect(rectList);
-        using var foundWeightsVec = new VectorOfDouble();
-        using var foundScalesVec = new VectorOfDouble();
+        using var rectListVec = new StdVector<Rect>(rectList);
+        using var foundWeightsVec = new StdVector<double>();
+        using var foundScalesVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_groupRectangles_meanshift(
@@ -199,7 +199,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var cornersVec = new VectorOfPoint2f();
+        using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_vector(
                 image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
@@ -247,7 +247,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(corners));
         img.ThrowIfDisposed();
 
-        using var cornersVec = new VectorOfPoint2f(corners);
+        using var cornersVec = new StdVector<Point2f>(corners);
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_vector(
                 img.CvPtr, cornersVec.CvPtr, regionSize, out var ret));

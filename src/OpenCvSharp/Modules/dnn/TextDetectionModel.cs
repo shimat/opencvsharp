@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -38,7 +38,7 @@ public abstract class TextDetectionModel : Model
         frame.ThrowIfDisposed();
 
         using var detectionsVec = new VectorOfVectorPoint();
-        using var confidencesVec = new VectorOfFloat();
+        using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.dnn_TextDetectionModel_detect(CvPtr, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
         GC.KeepAlive(this);
@@ -62,8 +62,8 @@ public abstract class TextDetectionModel : Model
             throw new ArgumentNullException(nameof(frame));
         frame.ThrowIfDisposed();
 
-        using var detectionsVec = new VectorOfRotatedRect();
-        using var confidencesVec = new VectorOfFloat();
+        using var detectionsVec = new StdVector<RotatedRect>();
+        using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.dnn_TextDetectionModel_detectTextRectangles(CvPtr, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
         GC.KeepAlive(this);

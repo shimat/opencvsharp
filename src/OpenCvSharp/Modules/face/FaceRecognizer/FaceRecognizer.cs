@@ -201,7 +201,7 @@ public abstract class FaceRecognizer : Algorithm
         ThrowIfDisposed();
         if (str is null)
             throw new ArgumentNullException(nameof(str));
-        using var resultVector = new VectorOfInt32();
+        using var resultVector = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.face_FaceRecognizer_getLabelsByString(RawPtr, str, resultVector.CvPtr));
         GC.KeepAlive(this);

@@ -69,8 +69,8 @@ public class AffineFeature : Feature2D
     {
         ThrowIfDisposed();
 
-        using var tiltsVec = new VectorOfFloat();
-        using var rollsVec = new VectorOfFloat();
+        using var tiltsVec = new StdVector<float>();
+        using var rollsVec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.features_AffineFeature_getViewParams(RawPtr, tiltsVec.CvPtr, rollsVec.CvPtr));
         GC.KeepAlive(this);

@@ -103,7 +103,7 @@ public class FontFace : CvObject
     {
         ThrowIfDisposed();
 
-        using var vec = new VectorOfInt32();
+        using var vec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_FontFace_getInstance(CvPtr, vec.CvPtr, out var ret));
         GC.KeepAlive(this);

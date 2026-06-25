@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -128,7 +128,7 @@ public static class CvAruco
         }
         else
         {
-            using var ids = new VectorOfVec4i(diamondIds);
+            using var ids = new StdVector<Vec4i>(diamondIds);
 
             NativeMethods.HandleException(
                 NativeMethods.aruco_drawDetectedDiamonds(image.CvPtr,
@@ -165,7 +165,7 @@ public static class CvAruco
         if (charucoCorners is null)
             throw new ArgumentNullException(nameof(charucoCorners));
 
-        using var charucoCornersVec = new VectorOfPoint2f(charucoCorners);
+        using var charucoCornersVec = new StdVector<Point2f>(charucoCorners);
 
         if (charucoIds is null)
         {
@@ -175,7 +175,7 @@ public static class CvAruco
         }
         else
         {
-            using var ids = new VectorOfInt32(charucoIds);
+            using var ids = new StdVector<int>(charucoIds);
 
             NativeMethods.HandleException(
                 NativeMethods.aruco_drawDetectedCornersCharuco(image.CvPtr,

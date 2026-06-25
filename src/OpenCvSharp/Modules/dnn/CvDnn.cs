@@ -356,9 +356,9 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRect(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<Rect>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_NMSBoxes_Rect(
                 bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -388,9 +388,9 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRect2d(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<Rect2d>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_NMSBoxes_Rect2d(
                 bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -420,9 +420,9 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRotatedRect(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<RotatedRect>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_NMSBoxes_RotatedRect(
                 bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -455,10 +455,10 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(classIds));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRect(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var classIdsVec = new VectorOfInt32(classIds);
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<Rect>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var classIdsVec = new StdVector<int>(classIds);
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_NMSBoxesBatched_Rect(
                 bboxesVec.CvPtr, scoresVec.CvPtr, classIdsVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -491,10 +491,10 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(classIds));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRect2d(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var classIdsVec = new VectorOfInt32(classIds);
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<Rect2d>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var classIdsVec = new StdVector<int>(classIds);
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_NMSBoxesBatched_Rect2d(
                 bboxesVec.CvPtr, scoresVec.CvPtr, classIdsVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -528,10 +528,10 @@ public static class CvDnn
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
-        using var bboxesVec = new VectorOfRect(bboxes);
-        using var scoresVec = new VectorOfFloat(scores);
-        using var updatedScoresVec = new VectorOfFloat();
-        using var indicesVec = new VectorOfInt32();
+        using var bboxesVec = new StdVector<Rect>(bboxes);
+        using var scoresVec = new StdVector<float>(scores);
+        using var updatedScoresVec = new StdVector<float>();
+        using var indicesVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_softNMSBoxes_Rect(
                 bboxesVec.CvPtr, scoresVec.CvPtr, updatedScoresVec.CvPtr, scoreThreshold, nmsThreshold,
@@ -558,7 +558,7 @@ public static class CvDnn
     /// <returns>available targets.</returns>
     public static Target[] GetAvailableTargets(Backend backend)
     {
-        using var targetsVec = new VectorOfInt32();
+        using var targetsVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_getAvailableTargets((int)backend, targetsVec.CvPtr));
         return targetsVec.ToArray().Select(x => (Target)x).ToArray();
@@ -570,8 +570,8 @@ public static class CvDnn
     /// <returns>available backend/target pairs.</returns>
     public static (Backend Backend, Target Target)[] GetAvailableBackends()
     {
-        using var backendsVec = new VectorOfInt32();
-        using var targetsVec = new VectorOfInt32();
+        using var backendsVec = new StdVector<int>();
+        using var targetsVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_getAvailableBackends(backendsVec.CvPtr, targetsVec.CvPtr));
 

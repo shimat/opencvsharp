@@ -276,7 +276,7 @@ public class DTrees : StatModel
     {
         ThrowIfDisposed();
 
-        using var vector = new VectorOfInt32();
+        using var vector = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_getRoots(RawPtr, vector.CvPtr));
         GC.KeepAlive(this);
@@ -323,7 +323,7 @@ public class DTrees : StatModel
     {
         ThrowIfDisposed();
 
-        using var vector = new VectorOfInt32();
+        using var vector = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_getSubsets(RawPtr, vector.CvPtr));
         GC.KeepAlive(this);

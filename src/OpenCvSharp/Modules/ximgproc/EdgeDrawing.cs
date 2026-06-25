@@ -198,7 +198,7 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var indices = new VectorOfInt32();
+        using var indices = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeDrawing_getSegmentIndicesOfLines(RawPtr, indices.CvPtr));
         GC.KeepAlive(this);
@@ -232,7 +232,7 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var lines = new VectorOfVec4f();
+        using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeDrawing_detectLines_vector(RawPtr, lines.CvPtr));
         GC.KeepAlive(this);
@@ -272,7 +272,7 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var ellipses = new VectorOfVec6d();
+        using var ellipses = new StdVector<Vec6d>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeDrawing_detectEllipses_vector(RawPtr, ellipses.CvPtr));
         GC.KeepAlive(this);

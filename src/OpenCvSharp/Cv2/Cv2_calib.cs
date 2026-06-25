@@ -122,7 +122,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var cornersVec = new VectorOfPoint2f();
+        using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_vector(
                 image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
@@ -184,7 +184,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var centersVec = new VectorOfPoint2f();
+        using var centersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_vector(
                 image.CvPtr, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));

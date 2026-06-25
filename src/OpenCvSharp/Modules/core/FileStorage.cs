@@ -420,7 +420,7 @@ public class FileStorage : CvObject
         if (value is null)
             throw new ArgumentNullException(nameof(value));
 
-        using var valueVector = new VectorOfKeyPoint(value);
+        using var valueVector = new StdVector<KeyPoint>(value);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_vectorOfKeyPoint(CvPtr, name, valueVector.CvPtr));
         GC.KeepAlive(this);
@@ -439,7 +439,7 @@ public class FileStorage : CvObject
         if (value is null)
             throw new ArgumentNullException(nameof(value));
 
-        using var valueVector = new VectorOfDMatch(value);
+        using var valueVector = new StdVector<DMatch>(value);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_vectorOfDMatch(CvPtr, name, valueVector.CvPtr));
         GC.KeepAlive(this);
@@ -633,7 +633,7 @@ public class FileStorage : CvObject
         if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
-        using (var valVec = new VectorOfKeyPoint(val))
+        using (var valVec = new StdVector<KeyPoint>(val))
         {
             NativeMethods.HandleException( 
                 NativeMethods.core_FileStorage_shift_vectorOfKeyPoint(CvPtr, valVec.CvPtr));
@@ -651,7 +651,7 @@ public class FileStorage : CvObject
         if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
-        using (var valVec = new VectorOfDMatch(val))
+        using (var valVec = new StdVector<DMatch>(val))
         {
             NativeMethods.HandleException( 
                 NativeMethods.core_FileStorage_shift_vectorOfDMatch(CvPtr, valVec.CvPtr));

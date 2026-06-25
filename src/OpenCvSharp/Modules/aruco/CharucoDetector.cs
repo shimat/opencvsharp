@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Aruco;
@@ -69,10 +69,10 @@ public class CharucoDetector : CvObject
             throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
-        using var charucoCornersVec = new VectorOfPoint2f();
-        using var charucoIdsVec = new VectorOfInt32();
+        using var charucoCornersVec = new StdVector<Point2f>();
+        using var charucoIdsVec = new StdVector<int>();
         using var markerCornersVec = new VectorOfVectorPoint2f();
-        using var markerIdsVec = new VectorOfInt32();
+        using var markerIdsVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectBoard(
@@ -104,9 +104,9 @@ public class CharucoDetector : CvObject
         ThrowIfDisposed();
 
         using var diamondCornersVec = new VectorOfVectorPoint2f();
-        using var diamondIdsVec = new VectorOfVec4i();
+        using var diamondIdsVec = new StdVector<Vec4i>();
         using var markerCornersVec = new VectorOfVectorPoint2f();
-        using var markerIdsVec = new VectorOfInt32();
+        using var markerIdsVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectDiamonds(
