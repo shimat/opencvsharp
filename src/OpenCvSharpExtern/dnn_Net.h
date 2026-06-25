@@ -334,6 +334,14 @@ CVAPI(ExceptionStatus) dnn_Net_registerOutput(cv::dnn::Net* net, const char *out
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_Net_getPerfProfileDetailed(
+    cv::dnn::Net* net, std::vector<std::string> *names, std::vector<std::string> *timems, std::vector<std::string> *counts)
+{
+    BEGIN_WRAP
+    net->getPerfProfile(*names, *timems, *counts);
+    END_WRAP
+}
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif // NO_DNN
