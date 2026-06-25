@@ -21,6 +21,8 @@ struct CV_EXPORTS_W_SIMPLE MyUsacParams
     cv::SamplingMethod sampler;
     cv::ScoreMethod score;
     double threshold;
+    cv::PolishingMethod finalPolisher;
+    int finalPolisherIterations;
 };
 
 CVAPI(ExceptionStatus) geometry_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_OutputArray *jacobian)
@@ -76,7 +78,33 @@ CVAPI(ExceptionStatus) geometry_findHomography_UsacParams(
     p.sampler = params->sampler;
     p.score = params->score;
     p.threshold = params->threshold;
+    p.final_polisher = params->finalPolisher;
+    p.final_polisher_iterations = params->finalPolisherIterations;
     const auto ret = cv::findHomography(*srcPoints, *dstPoints, entity(mask), p);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) geometry_findFundamentalMat_UsacParams(
+    cv::_InputArray* points1, cv::_InputArray* points2, cv::_OutputArray* mask, MyUsacParams *params,
+    cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    cv::UsacParams p;
+    p.confidence = params->confidence;
+    p.isParallel = params->isParallel != 0;
+    p.loIterations = params->loIterations;
+    p.loMethod = params->loMethod;
+    p.loSampleSize = params->loSampleSize;
+    p.maxIterations = params->maxIterations;
+    p.neighborsSearch = params->neighborsSearch;
+    p.randomGeneratorState = params->randomGeneratorState;
+    p.sampler = params->sampler;
+    p.score = params->score;
+    p.threshold = params->threshold;
+    p.final_polisher = params->finalPolisher;
+    p.final_polisher_iterations = params->finalPolisherIterations;
+    const auto ret = cv::findFundamentalMat(*points1, *points2, entity(mask), p);
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }

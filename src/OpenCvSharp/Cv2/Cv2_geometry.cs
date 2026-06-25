@@ -1411,6 +1411,39 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Calculates a fundamental matrix from the corresponding points in two images, using the
+    /// USAC robust estimation framework (OpenCV 5).
+    /// </summary>
+    /// <param name="points1">Array of N points from the first image.</param>
+    /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+    /// <param name="mask">Output array of N elements; every element marks an inlier (1) or outlier (0).</param>
+    /// <param name="params">USAC parameters. Null uses the defaults.</param>
+    /// <returns>The estimated fundamental matrix.</returns>
+    public static Mat FindFundamentalMat(InputArray points1, InputArray points2, OutputArray mask, UsacParams? @params)
+    {
+        if (points1 is null)
+            throw new ArgumentNullException(nameof(points1));
+        if (points2 is null)
+            throw new ArgumentNullException(nameof(points2));
+        if (mask is null)
+            throw new ArgumentNullException(nameof(mask));
+        points1.ThrowIfDisposed();
+        points2.ThrowIfDisposed();
+        mask.ThrowIfNotReady();
+
+        var p = (@params ?? new UsacParams()).ToNativeStruct();
+        NativeMethods.HandleException(
+            NativeMethods.geometry_findFundamentalMat_UsacParams(
+                points1.CvPtr, points2.CvPtr, ToPtr(mask), ref p, out var ret));
+
+        GC.KeepAlive(points1);
+        GC.KeepAlive(points2);
+        GC.KeepAlive(mask);
+        mask.Fix();
+        return new Mat(ret);
+    }
+
+    /// <summary>
     /// For points in an image of a stereo pair, computes the corresponding epilines in the other image.
     /// </summary>
     /// <param name="points">Input points. N \times 1 or 1 x N matrix of type CV_32FC2 or CV_64FC2.</param>

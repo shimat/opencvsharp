@@ -17,6 +17,8 @@ public record UsacParams
     public SamplingMethod Sampler { get; set; } = SamplingMethod.UNIFORM;
     public ScoreMethod Score { get; set; } = ScoreMethod.MSAC;
     public double Threshold { get; set; } = 1.5;
+    public PolishingMethod FinalPolisher { get; set; } = PolishingMethod.COV_POLISHER;
+    public int FinalPolisherIterations { get; set; } = 3;
 
     public WUsacParams ToNativeStruct() => new()
     {
@@ -31,6 +33,8 @@ public record UsacParams
         Sampler = Sampler,
         Score = Score,
         Threshold = Threshold,
+        FinalPolisher = FinalPolisher,
+        FinalPolisherIterations = FinalPolisherIterations,
     };
 }
 
@@ -49,6 +53,8 @@ public struct WUsacParams
     public SamplingMethod Sampler;
     public ScoreMethod Score;
     public double Threshold;
+    public PolishingMethod FinalPolisher;
+    public int FinalPolisherIterations;
 }
 
 // ReSharper disable InconsistentNaming
@@ -81,8 +87,16 @@ public enum ScoreMethod
 }
 
 public enum NeighborSearchMethod
-{ 
-    FLANN_KNN, 
-    GRID, 
-    FLANN_RADIUS 
+{
+    FLANN_KNN,
+    GRID,
+    FLANN_RADIUS
+}
+
+public enum PolishingMethod
+{
+    NONE_POLISHER,
+    LSQ_POLISHER,
+    MAGSAC,
+    COV_POLISHER
 }

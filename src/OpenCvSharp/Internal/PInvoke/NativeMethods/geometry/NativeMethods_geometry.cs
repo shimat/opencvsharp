@@ -167,6 +167,11 @@ static partial class NativeMethods
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_findFundamentalMat_UsacParams(
+        IntPtr points1, IntPtr points2, IntPtr mask, ref WUsacParams @params,
+        out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus geometry_findFundamentalMat_arrayF64(
         Point2d[] points1, int points1Size,
         Point2d[] points2, int points2Size,
