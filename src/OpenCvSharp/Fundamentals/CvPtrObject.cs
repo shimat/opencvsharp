@@ -6,7 +6,7 @@
 /// and the raw T* for P/Invoke calls, so that <see cref="RawPtr"/> always
 /// returns the raw pointer without ambiguity.
 /// </summary>
-public abstract class CvPtrObject : DisposableObject
+public abstract class CvPtrObject : CvObject
 {
     private volatile OpenCvSafeHandle? lifecycleHandle;
     private readonly IntPtr rawPtr;
