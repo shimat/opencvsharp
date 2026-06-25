@@ -19,10 +19,10 @@ static partial class NativeMethods
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus tracking_TrackerKCF_create1(out IntPtr returnValue);
 
-    // TrackerKCF.Params is a [StructLayout] class (reference type marshalled as a pointer), which
-    // source-generated marshalling does not support; keep classic DllImport.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus tracking_TrackerKCF_create2(TrackerKCF.Params parameters, out IntPtr returnValue);
+    // TrackerKCF.Params is a blittable struct whose layout matches cv::TrackerKCF::Params; pass by ref (pointer ABI).
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus tracking_TrackerKCF_create2(ref TrackerKCF.Params parameters, out IntPtr returnValue);
 
     [LibraryImport(DllExtern)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -39,10 +39,11 @@ static partial class NativeMethods
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus tracking_TrackerCSRT_create1(out IntPtr returnValue);
 
-    // TrackerCSRT.Params contains a string field ([MarshalAs(LPStr)]), making it non-blittable;
-    // source-generated marshalling does not support it, so keep classic DllImport.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus tracking_TrackerCSRT_create2(ref TrackerCSRT.Params parameters, out IntPtr returnValue);
+    // WTrackerCSRTParams is the blittable mirror of native tracker_TrackerCSRT_Params (window_function as a char*).
+    // The managed-friendly TrackerCSRT.Params is converted into it (with the string marshalled) in TrackerCSRT.Create.
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus tracking_TrackerCSRT_create2(ref WTrackerCSRTParams parameters, out IntPtr returnValue);
 
     [LibraryImport(DllExtern)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
