@@ -489,6 +489,34 @@ public partial class Mat : CvObject
     }
 
     /// <summary>
+    /// Constructs a matrix of the given shape (OpenCV 5). The shape may be N-D, a 0-D scalar or empty,
+    /// and can carry a data layout and channel count.
+    /// </summary>
+    /// <param name="shape">Matrix shape.</param>
+    /// <param name="type">Array type.</param>
+    public Mat(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_newFromMatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+    }
+
+    /// <summary>
+    /// Constructs a matrix of the given shape (OpenCV 5), initialized with the given value.
+    /// </summary>
+    /// <param name="shape">Matrix shape.</param>
+    /// <param name="type">Array type.</param>
+    /// <param name="s">Value to initialize each element with.</param>
+    public Mat(MatShape shape, MatType type, Scalar s)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_newFromMatShapeScalar(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, s, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+    }
+
+    /// <summary>
     /// Releases the resources
     /// </summary>
     public void Release() => Dispose();
@@ -629,7 +657,20 @@ public partial class Mat : CvObject
         var retVal = new MatExpr(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Returns a zero array of the specified shape and type (OpenCV 5, <see cref="MatShape"/>).
+    /// </summary>
+    /// <param name="shape">Created matrix shape.</param>
+    /// <param name="type">Created matrix type.</param>
+    public static MatExpr Zeros(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_zeros_MatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+        return new MatExpr(ret);
+    }
+
     /// <summary>
     /// Returns an array of all 1’s of the specified size and type.
     /// </summary>
@@ -670,7 +711,20 @@ public partial class Mat : CvObject
         var retVal = new MatExpr(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Returns an array of all 1's of the specified shape and type (OpenCV 5, <see cref="MatShape"/>).
+    /// </summary>
+    /// <param name="shape">Created matrix shape.</param>
+    /// <param name="type">Created matrix type.</param>
+    public static MatExpr Ones(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_ones_MatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+        return new MatExpr(ret);
+    }
+
     /// <summary>
     /// Returns an identity matrix of the specified size and type.
     /// </summary>
@@ -1809,7 +1863,25 @@ public partial class Mat : CvObject
         var retVal = new Mat(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Changes the shape (and optionally the number of channels) of the matrix without copying the data,
+    /// using a <see cref="MatShape"/> (OpenCV 5).
+    /// </summary>
+    /// <param name="cn">New number of channels. If 0, the number of channels remains the same.</param>
+    /// <param name="newShape">New shape.</param>
+    public Mat Reshape(int cn, MatShape newShape)
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_reshapeMatShape(
+                CvPtr, cn, newShape.NativeDims, newShape.NativeSizes, (int)newShape.Layout, newShape.Channels, out var ret));
+
+        GC.KeepAlive(this);
+        return new Mat(ret);
+    }
+
     /// <summary>
     /// Transposes a matrix.
     /// </summary>
@@ -2885,7 +2957,28 @@ public partial class Mat : CvObject
             return ret;
         }
     }
-        
+
+    /// <summary>
+    /// Returns the shape of the matrix as a <see cref="MatShape"/> (OpenCV 5), including its data
+    /// layout and channel count, and distinguishing an empty matrix from a 0-D scalar.
+    /// </summary>
+    public MatShape Shape()
+    {
+        ThrowIfDisposed();
+        var sizes = new int[10]; // cv::MatShape::MAX_DIMS
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_shape(CvPtr, sizes, out var ndims, out var layout, out var channels, out var empty));
+        GC.KeepAlive(this);
+
+        if (empty != 0)
+            return MatShape.Empty;
+        if (ndims <= 0)
+            return MatShape.Scalar((OpenCvSharp.Dnn.DataLayout)layout);
+        var dims = new int[ndims];
+        Array.Copy(sizes, dims, ndims);
+        return new MatShape(dims, (OpenCvSharp.Dnn.DataLayout)layout, channels);
+    }
+
     /// <summary>
     /// the number of rows or -1 when the array has more than 2 dimensions
     /// </summary>
