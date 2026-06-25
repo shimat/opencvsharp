@@ -45,7 +45,7 @@ public class Tokenizer : CvObject
             throw new ArgumentNullException(nameof(text));
         ThrowIfDisposed();
 
-        using var vec = new VectorOfInt32();
+        using var vec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_Tokenizer_encode(CvPtr, text, vec.CvPtr));
         GC.KeepAlive(this);

@@ -737,7 +737,7 @@ static partial class Cv2
         var inputCornersCopy = new Point2f[inputCornersSrc.Length];
         Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
 
-        using var vector = new VectorOfPoint2f(inputCornersCopy);
+        using var vector = new StdVector<Point2f>(inputCornersCopy);
         NativeMethods.HandleException(
             NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria));
         GC.KeepAlive(image);
@@ -771,7 +771,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
-        using var vector = new VectorOfPoint2f();
+        using var vector = new StdVector<Point2f>();
         var maskPtr = ToPtr(mask);
         NativeMethods.HandleException(
             NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
@@ -799,7 +799,7 @@ static partial class Cv2
         if (image is null)
             throw new ArgumentNullException(nameof(image));
 
-        using var vec = new VectorOfVec2f();
+        using var vec = new StdVector<Vec2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn));
         GC.KeepAlive(image);
@@ -823,7 +823,7 @@ static partial class Cv2
         if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
-        using var vec = new VectorOfVec4i();
+        using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
         GC.KeepAlive(image);
@@ -883,7 +883,7 @@ static partial class Cv2
         if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
-        using var vec = new VectorOfVec3f();
+        using var vec = new StdVector<Vec3f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int) method, dp, minDist, param1,
                 param2, minRadius, maxRadius));
@@ -2932,7 +2932,7 @@ static partial class Cv2
 
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfVectorPoint();
-        using var hierarchyVec = new VectorOfVec4i();
+        using var hierarchyVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_findContours1_vector(
                 image.CvPtr, contoursVec.CvPtr, hierarchyVec.CvPtr, (int) mode, (int) method, offset0));
@@ -3025,7 +3025,7 @@ static partial class Cv2
         image.ThrowIfDisposed();
 
         using var contoursVec = new VectorOfVectorPoint();
-        using var hierarchyVec = new VectorOfVec4i();
+        using var hierarchyVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_findContoursLinkRuns1(image.CvPtr, contoursVec.CvPtr, hierarchyVec.CvPtr));
 
@@ -3124,7 +3124,7 @@ static partial class Cv2
         if(curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve as Point[] ?? curve.ToArray();
-        using var approxCurveVec = new VectorOfPoint();
+        using var approxCurveVec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_approxPolyDP_Point(
                 curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
@@ -3147,7 +3147,7 @@ static partial class Cv2
         if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve as Point2f[] ?? curve.ToArray();
-        using var approxCurveVec = new VectorOfPoint2f();
+        using var approxCurveVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_approxPolyDP_Point2f(
                 curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
@@ -3475,7 +3475,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
 
         var pointsArray = points.ToArray();
-        using var triangleVec = new VectorOfPoint2f();
+        using var triangleVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingTriangle_Point(
                 pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3497,7 +3497,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
 
         var pointsArray = points.ToArray();
-        using var triangleVec = new VectorOfPoint2f();
+        using var triangleVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingTriangle_Point2f(
                 pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3602,7 +3602,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfPoint();
+        using var hullVec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point_ReturnsPoints(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3626,7 +3626,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfPoint2f();
+        using var hullVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3649,7 +3649,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfInt32();
+        using var hullVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point_ReturnsIndices(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3672,7 +3672,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfInt32();
+        using var hullVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3737,7 +3737,7 @@ static partial class Cv2
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
-        using var convexityDefectsVec = new VectorOfVec4i();
+        using var convexityDefectsVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexityDefects_Point(
                 contourArray, contourArray.Length,
@@ -3768,7 +3768,7 @@ static partial class Cv2
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
-        using var convexityDefectsVec = new VectorOfVec4i();
+        using var convexityDefectsVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexityDefects_Point2f(
                 contourArray, contourArray.Length,
@@ -3878,7 +3878,7 @@ static partial class Cv2
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
-        using var p12Vec = new VectorOfPoint();
+        using var p12Vec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_Point(
                 p1Array, p1Array.Length, p2Array, p2Array.Length, p12Vec.CvPtr, handleNested ? 1 : 0, out var ret));
@@ -3906,7 +3906,7 @@ static partial class Cv2
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
-        using var p12Vec = new VectorOfPoint2f();
+        using var p12Vec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_Point2f(
                 p1Array, p1Array.Length, p2Array, p2Array.Length,
@@ -4333,7 +4333,7 @@ static partial class Cv2
     public static RectanglesIntersectTypes RotatedRectangleIntersection(
         RotatedRect rect1, RotatedRect rect2, out Point2f[] intersectingRegion)
     {
-        using var intersectingRegionVec = new VectorOfPoint2f();
+        using var intersectingRegionVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_rotatedRectangleIntersection_vector(
                 rect1, rect2, intersectingRegionVec.CvPtr, out var ret));
@@ -5019,7 +5019,7 @@ static partial class Cv2
     public static Point[] Ellipse2Poly(Point center, Size axes, int angle,
         int arcStart, int arcEnd, int delta)
     {
-        using var vec = new VectorOfPoint();
+        using var vec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_ellipse2Poly_int(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr));
         return vec.ToArray();
@@ -5040,7 +5040,7 @@ static partial class Cv2
     public static Point2d[] Ellipse2Poly(Point2d center, Size2d axes, int angle,
         int arcStart, int arcEnd, int delta)
     {
-        using var vec = new VectorOfPoint2d();
+        using var vec = new StdVector<Point2d>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_ellipse2Poly_double(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr));
         return vec.ToArray();

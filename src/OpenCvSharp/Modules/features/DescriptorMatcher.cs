@@ -194,7 +194,7 @@ public class DescriptorMatcher : Algorithm
             throw new ArgumentNullException(nameof(queryDescriptors));
         if (trainDescriptors is null)
             throw new ArgumentNullException(nameof(trainDescriptors));
-        using var matchesVec = new VectorOfDMatch();
+        using var matchesVec = new StdVector<DMatch>();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_match1(
                 RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
@@ -287,7 +287,7 @@ public class DescriptorMatcher : Algorithm
             masksPtrs = masks.Select(x => x.CvPtr).ToArray();
         }
 
-        using var matchesVec = new VectorOfDMatch();
+        using var matchesVec = new StdVector<DMatch>();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_match2(
                 RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length));

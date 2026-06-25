@@ -44,7 +44,7 @@ public class ObjectnessBING : Algorithm
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var vec = new VectorOfVec4i();
+        using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_computeSaliency(
                 RawPtr, image.CvPtr, vec.CvPtr, out var ret));
@@ -61,7 +61,7 @@ public class ObjectnessBING : Algorithm
     public float[] GetObjectnessValues()
     {
         ThrowIfDisposed();
-        using var vec = new VectorOfFloat();
+        using var vec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_getobjectnessValues(RawPtr, vec.CvPtr));
         GC.KeepAlive(this);

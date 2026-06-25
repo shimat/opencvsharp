@@ -20,8 +20,8 @@ public abstract class TextDetector : CvObject
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 
-        using (var bboxVec = new VectorOfRect())
-        using (var confidenceVec = new VectorOfFloat())
+        using (var bboxVec = new StdVector<Rect>())
+        using (var confidenceVec = new StdVector<float>())
         {
             NativeMethods.HandleException(
                 NativeMethods.text_TextDetector_detect(CvPtr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));

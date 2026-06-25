@@ -229,9 +229,9 @@ static partial class Cv2
         var criteria0 = criteria.GetValueOrDefault(
             TermCriteria.Both(30, 0.01));
 
-        using var nextPtsVec = new VectorOfPoint2f(nextPts);
-        using var statusVec = new VectorOfByte();
-        using var errVec = new VectorOfFloat();
+        using var nextPtsVec = new StdVector<Point2f>(nextPts);
+        using var statusVec = new StdVector<byte>();
+        using var errVec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.video_calcOpticalFlowPyrLK_vector(
                 prevImg.CvPtr, nextImg.CvPtr, prevPts, prevPts.Length,

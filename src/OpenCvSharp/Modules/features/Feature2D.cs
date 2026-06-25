@@ -101,7 +101,7 @@ public class Feature2D : Algorithm
         image.ThrowIfDisposed();
         try
         {
-            using var keyPoints = new VectorOfKeyPoint();
+            using var keyPoints = new StdVector<KeyPoint>();
             NativeMethods.HandleException(
                 NativeMethods.features_Feature2D_detect_Mat1(RawPtr, image.CvPtr, keyPoints.CvPtr, Cv2.ToPtr(mask)));
             return keyPoints.ToArray();
@@ -130,7 +130,7 @@ public class Feature2D : Algorithm
         image.ThrowIfDisposed();
         try
         {
-            using var keypoints = new VectorOfKeyPoint();
+            using var keypoints = new StdVector<KeyPoint>();
             NativeMethods.HandleException(
                 NativeMethods.features_Feature2D_detect_InputArray(RawPtr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask)));
             return keypoints.ToArray();
@@ -193,7 +193,7 @@ public class Feature2D : Algorithm
             throw new ArgumentNullException(nameof(descriptors));
         ThrowIfDisposed();
 
-        using var keypointsVec = new VectorOfKeyPoint(keypoints);
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
         NativeMethods.features_Feature2D_compute1(RawPtr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr));
         keypoints = keypointsVec.ToArray();
@@ -257,7 +257,7 @@ public class Feature2D : Algorithm
         image.ThrowIfDisposed();
         mask?.ThrowIfDisposed();
 
-        using var keypointsVec = new VectorOfKeyPoint();
+        using var keypointsVec = new StdVector<KeyPoint>();
 
         NativeMethods.HandleException(
             NativeMethods.features_Feature2D_detectAndCompute(

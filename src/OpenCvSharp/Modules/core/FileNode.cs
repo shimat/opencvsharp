@@ -578,7 +578,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public KeyPoint[] ReadKeyPoints()
     {
-        using var valueVector = new VectorOfKeyPoint();
+        using var valueVector = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
             NativeMethods.core_FileNode_read_vectorOfKeyPoint(CvPtr, valueVector.CvPtr));
         GC.KeepAlive(this);
@@ -591,7 +591,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public DMatch[] ReadDMatches()
     {
-        using var valueVector = new VectorOfDMatch();
+        using var valueVector = new StdVector<DMatch>();
         NativeMethods.HandleException(
             NativeMethods.core_FileNode_read_vectorOfDMatch(CvPtr, valueVector.CvPtr));
         GC.KeepAlive(this);

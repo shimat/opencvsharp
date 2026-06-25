@@ -992,7 +992,7 @@ static partial class Cv2
         rvec = new double[3];
         tvec = new double[3];
 
-        using var inliersVec = new VectorOfInt32();
+        using var inliersVec = new StdVector<int>();
         unsafe
         {
             fixed (double* cameraMatrixPtr = cameraMatrix)

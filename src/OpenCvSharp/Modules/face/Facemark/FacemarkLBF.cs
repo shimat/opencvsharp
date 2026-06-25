@@ -310,7 +310,7 @@ public sealed class FacemarkLBF : Facemark
         {
             get
             {
-                using var vec = new VectorOfInt32();
+                using var vec = new StdVector<int>();
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_feats_m_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -318,7 +318,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                using var vec = new VectorOfInt32(value);
+                using var vec = new StdVector<int>(value);
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_feats_m_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -332,7 +332,7 @@ public sealed class FacemarkLBF : Facemark
         {
             get
             {
-                using var vec = new VectorOfDouble();
+                using var vec = new StdVector<double>();
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_radius_m_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -340,7 +340,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                using var vec = new VectorOfDouble(value);
+                using var vec = new StdVector<double>(value);
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_radius_m_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -354,7 +354,7 @@ public sealed class FacemarkLBF : Facemark
         {
             get
             {
-                using var vec = new VectorOfInt32();
+                using var vec = new StdVector<int>();
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_pupils0_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -362,7 +362,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                using var vec = new VectorOfInt32(value);
+                using var vec = new StdVector<int>(value);
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_pupils0_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -376,7 +376,7 @@ public sealed class FacemarkLBF : Facemark
         {
             get
             {
-                using var vec = new VectorOfInt32();
+                using var vec = new StdVector<int>();
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_pupils1_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -384,7 +384,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                using var vec = new VectorOfInt32(value);
+                using var vec = new StdVector<int>(value);
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_pupils1_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);

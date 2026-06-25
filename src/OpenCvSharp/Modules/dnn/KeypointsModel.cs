@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -60,7 +60,7 @@ public class KeypointsModel : Model
             throw new ArgumentNullException(nameof(frame));
         frame.ThrowIfDisposed();
 
-        using var keypointsVec = new VectorOfPoint2f();
+        using var keypointsVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.dnn_KeypointsModel_estimate(CvPtr, frame.CvPtr, keypointsVec.CvPtr, thresh));
         GC.KeepAlive(this);

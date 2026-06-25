@@ -258,7 +258,7 @@ namespace OpenCvSharp
         {
             get
             {
-                using var componentVec = new VectorOfInt32();
+                using var componentVec = new StdVector<int>();
                 NativeMethods.HandleException(
                     NativeMethods.stitching_Stitcher_component(CvPtr, componentVec.CvPtr));
                 GC.KeepAlive(this); 

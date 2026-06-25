@@ -188,7 +188,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
 
-        using var rectsVec = new VectorOfRect();
+        using var rectsVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_process(RawPtr, rectsVec.CvPtr));
         rects = rectsVec.ToArray();

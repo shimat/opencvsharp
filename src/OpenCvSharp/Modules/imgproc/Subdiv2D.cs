@@ -195,7 +195,7 @@ public class Subdiv2D : CvObject
     public Vec4f[] GetEdgeList()
     {
         ThrowIfDisposed();
-        using var vec = new VectorOfVec4f();
+        using var vec = new StdVector<Vec4f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_Subdiv2D_getEdgeList(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
@@ -211,7 +211,7 @@ public class Subdiv2D : CvObject
     {
         ThrowIfDisposed();
 
-        using var leadingEdgeList = new VectorOfInt32();
+        using var leadingEdgeList = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_Subdiv2D_getLeadingEdgeList(CvPtr, leadingEdgeList.CvPtr));
             
@@ -226,7 +226,7 @@ public class Subdiv2D : CvObject
     public Vec6f[] GetTriangleList()
     {
         ThrowIfDisposed();
-        using var vec = new VectorOfVec6f();
+        using var vec = new StdVector<Vec6f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_Subdiv2D_getTriangleList(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
@@ -245,7 +245,7 @@ public class Subdiv2D : CvObject
 
         int[]? idxArray = idx?.CastOrToArray();
         using var facetListVec = new VectorOfVectorPoint2f();
-        using var facetCentersVec = new VectorOfPoint2f();
+        using var facetCentersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(
                 CvPtr, idxArray, idxArray?.Length ?? 0, facetListVec.CvPtr, facetCentersVec.CvPtr));

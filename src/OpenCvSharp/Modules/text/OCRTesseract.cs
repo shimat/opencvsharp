@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Text;
@@ -72,9 +72,9 @@ public sealed class OCRTesseract : BaseOCR
         image.ThrowIfDisposed();
 
         using var outputTextString = new StdString();
-        using var componentRectsVector = new VectorOfRect();
+        using var componentRectsVector = new StdVector<Rect>();
         using var componentTextsVector = new VectorOfString();
-        using var componentConfidencesVector = new VectorOfFloat();
+        using var componentConfidencesVector = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run1(
                 RawPtr,
@@ -126,9 +126,9 @@ public sealed class OCRTesseract : BaseOCR
         mask.ThrowIfDisposed();
 
         using var outputTextString = new StdString();
-        using var componentRectsVector = new VectorOfRect();
+        using var componentRectsVector = new StdVector<Rect>();
         using var componentTextsVector = new VectorOfString();
-        using var componentConfidencesVector = new VectorOfFloat();
+        using var componentConfidencesVector = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run2(
                 RawPtr,

@@ -313,7 +313,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
-        using var boundingBoxesVec = new VectorOfRect();
+        using var boundingBoxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.highgui_selectROIs(windowName, img.CvPtr, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
 

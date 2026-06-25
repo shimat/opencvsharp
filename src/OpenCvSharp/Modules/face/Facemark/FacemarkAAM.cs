@@ -186,7 +186,7 @@ public sealed class FacemarkAAM : Facemark
         {
             get
             {
-                using var vec = new VectorOfFloat();
+                using var vec = new StdVector<float>();
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkAAM_Params_scales_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
@@ -194,7 +194,7 @@ public sealed class FacemarkAAM : Facemark
             }
             set
             {
-                using var vec = new VectorOfFloat(value);
+                using var vec = new StdVector<float>(value);
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkAAM_Params_scales_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);

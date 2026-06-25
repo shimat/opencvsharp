@@ -68,7 +68,7 @@ public class BarcodeDetector : CvObject
     {
         if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
-        using var sizesVec = new VectorOfFloat(sizes);
+        using var sizesVec = new StdVector<float>(sizes);
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_setDetectorScales(CvPtr, sizesVec.CvPtr));
         GC.KeepAlive(this);
@@ -88,7 +88,7 @@ public class BarcodeDetector : CvObject
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 
-        using var pointsVec = new VectorOfPoint2f();
+        using var pointsVec = new StdVector<Point2f>();
         using var infos = new VectorOfString();
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(

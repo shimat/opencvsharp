@@ -66,7 +66,7 @@ public class QRCodeDetector : CvObject
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
-        using var pointsVec = new VectorOfPoint2f();
+        using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_detect(CvPtr, img.CvPtr, pointsVec.CvPtr, out var ret));
@@ -95,7 +95,7 @@ public class QRCodeDetector : CvObject
         img.ThrowIfDisposed();
         straightQrCode?.ThrowIfNotReady();
 
-        using var pointsVec = new VectorOfPoint2f(points);
+        using var pointsVec = new StdVector<Point2f>(points);
         using var resultString = new StdString();
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_decode(
@@ -123,7 +123,7 @@ public class QRCodeDetector : CvObject
         img.ThrowIfDisposed();
         straightQrCode?.ThrowIfNotReady();
 
-        using var pointsVec = new VectorOfPoint2f();
+        using var pointsVec = new StdVector<Point2f>();
         using var resultString = new StdString();
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_detectAndDecode(
@@ -149,7 +149,7 @@ public class QRCodeDetector : CvObject
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
-        using var pointsVec = new VectorOfPoint2f();
+        using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_detectMulti(CvPtr, img.CvPtr, pointsVec.CvPtr, out var ret));
@@ -209,7 +209,7 @@ public class QRCodeDetector : CvObject
         img.ThrowIfDisposed();
 
         using var decodedInfoVec = new VectorOfString();
-        using var pointsVec = new VectorOfPoint2f(points);
+        using var pointsVec = new StdVector<Point2f>(points);
 
         int ret;
         if (isOutputStraightQrCode)

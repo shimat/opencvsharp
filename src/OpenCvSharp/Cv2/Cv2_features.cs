@@ -25,7 +25,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var kp = new VectorOfKeyPoint();
+        using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
             NativeMethods.features_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
         GC.KeepAlive(image);
@@ -48,7 +48,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var kp = new VectorOfKeyPoint();
+        using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
             NativeMethods.features_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
         GC.KeepAlive(image);
@@ -71,7 +71,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var vector = new VectorOfKeyPoint();
+        using var vector = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_AGAST(image.CvPtr, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
         GC.KeepAlive(image);
@@ -286,8 +286,8 @@ static partial class Cv2
         if (keypoints2 is null) 
             throw new ArgumentNullException(nameof(keypoints2));
 
-        using var keypoints1Vec = new VectorOfKeyPoint(keypoints1);
-        using var keypoints2Vec = new VectorOfKeyPoint(keypoints2);
+        using var keypoints1Vec = new StdVector<KeyPoint>(keypoints1);
+        using var keypoints2Vec = new StdVector<KeyPoint>(keypoints2);
         NativeMethods.HandleException(
             NativeMethods.features_evaluateFeatureDetector(
                 img1.CvPtr, img2.CvPtr, H1to2.CvPtr,
@@ -316,7 +316,7 @@ static partial class Cv2
 
         using var dm = new ArrayAddress2<DMatch>(matches1to2);
         using var cm = new ArrayAddress2<byte>(correctMatches1to2Mask);
-        using var recall = new VectorOfPoint2f();
+        using var recall = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.features_computeRecallPrecisionCurve(
                 dm.GetPointer(), dm.GetDim1Length(), dm.GetDim2Lengths(),

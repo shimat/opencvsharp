@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -94,10 +94,10 @@ public class LineSegmentDetector : Algorithm
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using (var linesVec = new VectorOfVec4f())
-        using (var widthVec = new VectorOfDouble())
-        using (var precVec = new VectorOfDouble())
-        using (var nfaVec = new VectorOfDouble())
+        using (var linesVec = new StdVector<Vec4f>())
+        using (var widthVec = new StdVector<double>())
+        using (var precVec = new StdVector<double>())
+        using (var nfaVec = new StdVector<double>())
         {
             NativeMethods.imgproc_LineSegmentDetector_detect_vector(RawPtr, image.CvPtr,
                 linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
