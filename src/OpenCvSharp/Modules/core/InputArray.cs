@@ -306,18 +306,6 @@ public class InputArray : CvObject
     /// <returns></returns>
     public static InputArray Create(double val) => new(val);
 
-#if ENABLED_CUDA
-        /// <summary>
-        /// Creates a proxy class of the specified GpuMat
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static InputArray Create(GpuMat mat)
-        {
-            return new InputArray(mat);
-        }
-#endif
-
     /// <summary>
     /// Creates a proxy class of the specified array of Mat 
     /// </summary>
@@ -600,13 +588,6 @@ public class InputArray : CvObject
     public static implicit operator InputArray(Scalar val) => Create(val);
 
     public static implicit operator InputArray(double val) => Create(val);
-
-#if ENABLED_CUDA
-        public static implicit operator InputArray(GpuMat mat)
-        {
-            return Create(mat);
-        }
-#endif
         
     public static explicit operator InputArray(List<Mat> mats) => Create(mats);
 
