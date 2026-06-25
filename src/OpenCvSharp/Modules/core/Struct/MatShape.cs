@@ -154,8 +154,14 @@ public readonly struct MatShape : IEquatable<MatShape>
         return hash.ToHashCode();
     }
 
+    /// <summary>
+    /// Determines whether two shapes are equal (same sizes, layout and channels).
+    /// </summary>
     public static bool operator ==(MatShape left, MatShape right) => left.Equals(right);
 
+    /// <summary>
+    /// Determines whether two shapes differ.
+    /// </summary>
     public static bool operator !=(MatShape left, MatShape right) => !left.Equals(right);
 
     /// <inheritdoc />
