@@ -1,106 +1,37 @@
-﻿using System.Runtime.InteropServices;
-using OpenCvSharp.Internal.Util;
+﻿namespace OpenCvSharp.Internal.Vectors;
 
-namespace OpenCvSharp.Internal.Vectors;
-
-/// <summary> 
+/// <summary>
+/// std::vector&lt;cv::Vec4i&gt;
 /// </summary>
-// ReSharper disable once InconsistentNaming
-public class VectorOfVec4i : CvObject, IStdVector<Vec4i>
+public class VectorOfVec4i : StdVector<Vec4i>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfVec4i()
-    {
-        var p = NativeMethods.vector_Vec4i_new1();
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
-    }
-        
+        : base(NativeMethods.vector_Vec4i_new1()) { }
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="data"></param>
     public VectorOfVec4i(IEnumerable<Vec4i> data)
+        : base(New3(data)) { }
+
+    private static IntPtr New3(IEnumerable<Vec4i> data)
     {
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        var p = NativeMethods.vector_Vec4i_new3(array, (nuint)array.Length);
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        return NativeMethods.vector_Vec4i_new3(array, (nuint)array.Length);
     }
 
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        NativeMethods.vector_Vec4i_delete(CvPtr);
-        base.DisposeUnmanaged();
-    }
+    /// <inheritdoc />
+    protected override nuint GetSizeNative(IntPtr ptr) => NativeMethods.vector_Vec4i_getSize(ptr);
 
-    /// <summary>
-    /// vector.size()
-    /// </summary>
-    public int Size
-    {
-        get
-        {
-            var res = NativeMethods.vector_Vec4i_getSize(CvPtr);
-            GC.KeepAlive(this);
-            return (int)res;
-        }
-    }
+    /// <inheritdoc />
+    protected override IntPtr GetPointerNative(IntPtr ptr) => NativeMethods.vector_Vec4i_getPointer(ptr);
 
-    /// <summary>
-    /// &amp;vector[0]
-    /// </summary>
-    public IntPtr ElemPtr
-    {
-        get
-        {
-            var res = NativeMethods.vector_Vec4i_getPointer(CvPtr);
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
-
-    /// <summary>
-    /// Converts std::vector to managed array
-    /// </summary>
-    /// <returns></returns>
-    public Vec4i[] ToArray()
-    {
-        return ToArray<Vec4i>();
-    }
-
-    /// <summary>
-    /// Converts std::vector to managed array
-    /// </summary>
-    /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
-    /// <returns></returns>
-    public T[] ToArray<T>() where T : unmanaged
-    {
-        var typeSize = Marshal.SizeOf<T>();
-        if (typeSize != sizeof (int)*4)
-            throw new OpenCvSharpException($"Unsupported type '{typeof(T)}'");
-
-        var arySize = Size;
-        if (arySize == 0)
-        {
-            return [];
-        }
-        var dst = new T[arySize];
-        using (var dstPtr = new ArrayAddress1<T>(dst))
-        {
-            long bytesToCopy = typeSize * dst.Length;
-            unsafe
-            {
-                Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
-            }
-        }
-        GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
-        // make sure we are not disposed until finished with copy.
-        return dst;
-    }
+    /// <inheritdoc />
+    protected override void DeleteNative(IntPtr ptr) => NativeMethods.vector_Vec4i_delete(ptr);
 }

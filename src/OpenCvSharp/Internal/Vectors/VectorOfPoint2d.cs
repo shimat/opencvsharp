@@ -1,79 +1,22 @@
-﻿using System.Runtime.InteropServices;
-using OpenCvSharp.Internal.Util;
+﻿namespace OpenCvSharp.Internal.Vectors;
 
-namespace OpenCvSharp.Internal.Vectors;
-
-/// <summary> 
+/// <summary>
+/// std::vector&lt;cv::Point2d&gt;
 /// </summary>
-// ReSharper disable once InconsistentNaming
-public class VectorOfPoint2d : CvObject, IStdVector<Point2d>
+public class VectorOfPoint2d : StdVector<Point2d>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfPoint2d()
-    {
-        var p = NativeMethods.vector_Point2d_new1();
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
-    }
-        
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        NativeMethods.vector_Point2d_delete(CvPtr);
-        base.DisposeUnmanaged();
-    }
+        : base(NativeMethods.vector_Point2d_new1()) { }
 
-    /// <summary>
-    /// vector.size()
-    /// </summary>
-    public int Size
-    {
-        get
-        {
-            var res = NativeMethods.vector_Point2d_getSize(CvPtr);
-            GC.KeepAlive(this);
-            return (int)res;
-        }
-    }
+    /// <inheritdoc />
+    protected override nuint GetSizeNative(IntPtr ptr) => NativeMethods.vector_Point2d_getSize(ptr);
 
-    /// <summary>
-    /// &amp;vector[0]
-    /// </summary>
-    public IntPtr ElemPtr
-    {
-        get
-        {
-            var res = NativeMethods.vector_Point2d_getPointer(CvPtr);
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
+    /// <inheritdoc />
+    protected override IntPtr GetPointerNative(IntPtr ptr) => NativeMethods.vector_Point2d_getPointer(ptr);
 
-    /// <summary>
-    /// Converts std::vector to managed array
-    /// </summary>
-    /// <returns></returns>
-    public Point2d[] ToArray()
-    {
-        var size = Size;
-        if (size == 0)
-        {
-            return [];
-        }
-        var dst = new Point2d[size];
-        using (var dstPtr = new ArrayAddress1<Point2d>(dst))
-        {
-            long bytesToCopy = Marshal.SizeOf<Point2d>() * dst.Length;
-            unsafe
-            {
-                Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
-            }
-        }
-        GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
-        // make sure we are not disposed until finished with copy.
-        return dst;
-    }
+    /// <inheritdoc />
+    protected override void DeleteNative(IntPtr ptr) => NativeMethods.vector_Point2d_delete(ptr);
 }

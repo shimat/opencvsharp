@@ -1,95 +1,44 @@
-﻿using System.Runtime.InteropServices;
+﻿namespace OpenCvSharp.Internal.Vectors;
 
-namespace OpenCvSharp.Internal.Vectors;
-
-/// <summary> 
+/// <summary>
+/// std::vector&lt;int&gt;
 /// </summary>
-public class VectorOfInt32 : CvObject, IStdVector<int>
+public class VectorOfInt32 : StdVector<int>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfInt32()
-    {
-        var p = NativeMethods.vector_int32_new1();
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
-    }
+        : base(NativeMethods.vector_int32_new1()) { }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="size"></param>
     public VectorOfInt32(nuint size)
-    {
-        if (size < 0)
-            throw new ArgumentOutOfRangeException(nameof(size));
-        var p = NativeMethods.vector_int32_new2(size);
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
-    }
+        : base(NativeMethods.vector_int32_new2(size)) { }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="data"></param>
     public VectorOfInt32(IEnumerable<int> data)
+        : base(New3(data)) { }
+
+    private static IntPtr New3(IEnumerable<int> data)
     {
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        var p = NativeMethods.vector_int32_new3(array, (nuint)array.Length);
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        return NativeMethods.vector_int32_new3(array, (nuint)array.Length);
     }
 
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        NativeMethods.vector_int32_delete(CvPtr);
-        base.DisposeUnmanaged();
-    }
+    /// <inheritdoc />
+    protected override nuint GetSizeNative(IntPtr ptr) => NativeMethods.vector_int32_getSize(ptr);
 
-    /// <summary>
-    /// vector.size()
-    /// </summary>
-    public int Size
-    {
-        get
-        {
-            var res = NativeMethods.vector_int32_getSize(CvPtr);
-            GC.KeepAlive(this);
-            return (int)res;
-        }
-    }
+    /// <inheritdoc />
+    protected override IntPtr GetPointerNative(IntPtr ptr) => NativeMethods.vector_int32_getPointer(ptr);
 
-    /// <summary>
-    /// &amp;vector[0]
-    /// </summary>
-    public IntPtr ElemPtr
-    {
-        get
-        {
-            var res = NativeMethods.vector_int32_getPointer(CvPtr);
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
-
-    /// <summary>
-    /// Converts std::vector to managed array
-    /// </summary>
-    /// <returns></returns>
-    public int[] ToArray()
-    {
-        var size = Size;
-        if (size == 0)
-        {
-            return [];
-        }
-        var dst = new int[size];
-        Marshal.Copy(ElemPtr, dst, 0, dst.Length);
-        GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
-        // make sure we are not disposed until finished with copy.
-        return dst;
-    }
+    /// <inheritdoc />
+    protected override void DeleteNative(IntPtr ptr) => NativeMethods.vector_int32_delete(ptr);
 }
