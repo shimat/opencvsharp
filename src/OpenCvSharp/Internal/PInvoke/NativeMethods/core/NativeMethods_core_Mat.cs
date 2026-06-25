@@ -39,6 +39,27 @@ static partial class NativeMethods
     public static extern ExceptionStatus core_Mat_new10(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type, out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new11(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type, Scalar s, out IntPtr returnValue);
+
+    // MatShape (OpenCV 5)
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_shape(
+        IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
+        out int outNdims, out int outLayout, out int outC, out int outEmpty);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_newFromMatShape(
+        int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int layout, int channels, MatType type, out IntPtr returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_newFromMatShapeScalar(
+        int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int layout, int channels, MatType type, Scalar s, out IntPtr returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_reshapeMatShape(
+        IntPtr self, int cn, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int layout, int channels, out IntPtr returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_zeros_MatShape(
+        int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int layout, int channels, MatType type, out IntPtr returnValue);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_ones_MatShape(
+        int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int layout, int channels, MatType type, out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new12(IntPtr mat, out IntPtr returnValue);
 

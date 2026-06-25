@@ -231,6 +231,75 @@ CVAPI(ExceptionStatus) core_Mat_reshape2(cv::Mat *self, int cn, int newndims, co
     END_WRAP
 }
 
+// MatShape (OpenCV 5). The shape is marshaled as (ndims, sizes, layout, C):
+//   ndims == -1 : empty shape, ndims == 0 : 0-D scalar, ndims > 0 : N-D shape.
+static cv::MatShape buildMatShape(int ndims, const int* sizes, int layout, int C)
+{
+    if (ndims < 0)
+        return {};
+    if (ndims == 0)
+        return cv::MatShape::scalar();
+    return cv::MatShape(static_cast<size_t>(ndims), sizes, static_cast<cv::DataLayout>(layout), C);
+}
+
+CVAPI(ExceptionStatus) core_Mat_shape(cv::Mat *self, int *sizes, int *outNdims, int *outLayout, int *outC, int *outEmpty)
+{
+    BEGIN_WRAP
+    const cv::MatShape shape = self->shape();
+    *outEmpty = shape.empty() ? 1 : 0;
+    *outLayout = static_cast<int>(shape.layout);
+    *outC = shape.C;
+    if (shape.empty())
+    {
+        *outNdims = -1;
+    }
+    else
+    {
+        *outNdims = shape.dims;
+        for (int i = 0; i < shape.dims && i < cv::MatShape::MAX_DIMS; i++)
+            sizes[i] = shape[i];
+    }
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_newFromMatShape(int ndims, const int *sizes, int layout, int C, int type, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(buildMatShape(ndims, sizes, layout, C), type);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_newFromMatShapeScalar(int ndims, const int *sizes, int layout, int C, int type, MyCvScalar s, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(buildMatShape(ndims, sizes, layout, C), type, cpp(s));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_reshapeMatShape(cv::Mat *self, int cn, int ndims, const int *sizes, int layout, int C, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->reshape(cn, buildMatShape(ndims, sizes, layout, C));
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_zeros_MatShape(int ndims, const int *sizes, int layout, int C, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto expr = cv::Mat::zeros(buildMatShape(ndims, sizes, layout, C), type);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_ones_MatShape(int ndims, const int *sizes, int layout, int C, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto expr = cv::Mat::ones(buildMatShape(ndims, sizes, layout, C), type);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_Mat_t(cv::Mat *self, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
