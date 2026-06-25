@@ -16,8 +16,8 @@ static partial class NativeMethods
     public static extern void string_delete(IntPtr s);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe sbyte* string_c_str(IntPtr s);
+    public static extern unsafe sbyte* string_c_str(OpenCvSafeHandle s);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern nuint string_size(IntPtr s);
+    public static extern nuint string_size(OpenCvSafeHandle s);
 }
