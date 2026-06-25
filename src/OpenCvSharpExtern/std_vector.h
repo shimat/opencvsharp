@@ -33,397 +33,77 @@ CVAPI(void) vector_string_delete(std::vector<std::string>* vector)
 }
 #pragma endregion
 
-#pragma region cv::Vec2f
+#pragma region Generated blittable std::vector<T> wrappers
+// POD element types reached from managed code via StdVector<T>.
+// The macros expand to the same extern "C" symbols/signatures as the former
+// hand-written blocks. Special element types (std::string, cv::Mat, ml::DTrees::*,
+// cv::detail::ImageFeatures, line_descriptor::KeyLine) keep their bespoke
+// definitions and are not generated here.
 
-CVAPI(std::vector<cv::Vec2f>*) vector_Vec2f_new1()
-{
-    return new std::vector<cv::Vec2f>;
-}
+#define CV_VECTOR_CORE(SUFFIX, ELEM) \
+    CVAPI(std::vector<ELEM>*) vector_##SUFFIX##_new1() { return new std::vector<ELEM>; } \
+    CVAPI(size_t) vector_##SUFFIX##_getSize(std::vector<ELEM>* vector) { return vector->size(); } \
+    CVAPI(ELEM*) vector_##SUFFIX##_getPointer(std::vector<ELEM>* vector) { return &(vector->at(0)); } \
+    CVAPI(void) vector_##SUFFIX##_delete(std::vector<ELEM>* vector) { delete vector; }
 
-CVAPI(size_t) vector_Vec2f_getSize(std::vector<cv::Vec2f>* vector)
-{
-    return vector->size();
-}
+#define CV_VECTOR_NEW2(SUFFIX, ELEM) \
+    CVAPI(std::vector<ELEM>*) vector_##SUFFIX##_new2(size_t size) { return new std::vector<ELEM>(size); }
 
-CVAPI(cv::Vec2f*) vector_Vec2f_getPointer(std::vector<cv::Vec2f>* vector)
-{
-    return &(vector->at(0));
-}
+#define CV_VECTOR_NEW3(SUFFIX, ELEM) \
+    CVAPI(std::vector<ELEM>*) vector_##SUFFIX##_new3(ELEM* data, size_t dataLength) { return new std::vector<ELEM>(data, data + dataLength); }
 
-CVAPI(void) vector_Vec2f_delete(std::vector<cv::Vec2f>* vector)
-{
-    delete vector;
-}
+CV_VECTOR_CORE(Vec2f, cv::Vec2f)
 
-#pragma endregion
+CV_VECTOR_CORE(Vec3f, cv::Vec3f)
 
-#pragma region cv::Vec3f
-CVAPI(std::vector<cv::Vec3f>*) vector_Vec3f_new1()
-{
-    return new std::vector<cv::Vec3f>;
-}
+CV_VECTOR_CORE(Vec4f, cv::Vec4f)
+CV_VECTOR_NEW3(Vec4f, cv::Vec4f)
 
-CVAPI(size_t) vector_Vec3f_getSize(std::vector<cv::Vec3f>* vector)
-{
-    return vector->size();
-}
+CV_VECTOR_CORE(Vec4i, cv::Vec4i)
+CV_VECTOR_NEW3(Vec4i, cv::Vec4i)
 
-CVAPI(cv::Vec3f*) vector_Vec3f_getPointer(std::vector<cv::Vec3f>* vector)
-{
-    return &(vector->at(0));
-}
+CV_VECTOR_CORE(Vec6f, cv::Vec6f)
 
-CVAPI(void) vector_Vec3f_delete(std::vector<cv::Vec3f>* vector)
-{
-    delete vector;
-}
-#pragma endregion
+CV_VECTOR_CORE(Vec6d, cv::Vec6d)
 
-#pragma region cv::Vec4f
+CV_VECTOR_CORE(Point2i, cv::Point)
+CV_VECTOR_NEW2(Point2i, cv::Point)
+CV_VECTOR_NEW3(Point2i, cv::Point)
 
-CVAPI(std::vector<cv::Vec4f>*) vector_Vec4f_new1()
-{
-    return new std::vector<cv::Vec4f>;
-}
+CV_VECTOR_CORE(Point2f, cv::Point2f)
+CV_VECTOR_NEW2(Point2f, cv::Point2f)
+CV_VECTOR_NEW3(Point2f, cv::Point2f)
 
-CVAPI(std::vector<cv::Vec4f>*) vector_Vec4f_new3(cv::Vec4f* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec4f>(data, data + dataLength);
-}
+CV_VECTOR_CORE(Point2d, cv::Point2d)
 
-CVAPI(size_t) vector_Vec4f_getSize(std::vector<cv::Vec4f>* vector)
-{
-    return vector->size();
-}
+CV_VECTOR_CORE(Point3f, cv::Point3f)
+CV_VECTOR_NEW2(Point3f, cv::Point3f)
+CV_VECTOR_NEW3(Point3f, cv::Point3f)
 
-CVAPI(cv::Vec4f*) vector_Vec4f_getPointer(std::vector<cv::Vec4f>* vector)
-{
-    return &(vector->at(0));
-}
+CV_VECTOR_CORE(Rect, cv::Rect)
+CV_VECTOR_NEW2(Rect, cv::Rect)
+CV_VECTOR_NEW3(Rect, cv::Rect)
 
-CVAPI(void) vector_Vec4f_delete(std::vector<cv::Vec4f>* vector)
-{
-    delete vector;
-}
+CV_VECTOR_CORE(Rect2d, cv::Rect2d)
+CV_VECTOR_NEW2(Rect2d, cv::Rect2d)
+CV_VECTOR_NEW3(Rect2d, cv::Rect2d)
 
-#pragma endregion
+CV_VECTOR_CORE(RotatedRect, cv::RotatedRect)
+CV_VECTOR_NEW2(RotatedRect, cv::RotatedRect)
+CV_VECTOR_NEW3(RotatedRect, cv::RotatedRect)
 
-#pragma region cv::Vec4i
+CV_VECTOR_CORE(KeyPoint, cv::KeyPoint)
+CV_VECTOR_NEW2(KeyPoint, cv::KeyPoint)
+CV_VECTOR_NEW3(KeyPoint, cv::KeyPoint)
 
-CVAPI(std::vector<cv::Vec4i>*) vector_Vec4i_new1()
-{
-    return new std::vector<cv::Vec4i>;
-}
+CV_VECTOR_CORE(DMatch, cv::DMatch)
+CV_VECTOR_NEW2(DMatch, cv::DMatch)
+CV_VECTOR_NEW3(DMatch, cv::DMatch)
 
-CVAPI(std::vector<cv::Vec4i>*) vector_Vec4i_new3(cv::Vec4i* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec4i>(data, data + dataLength);
-}
+#undef CV_VECTOR_NEW3
+#undef CV_VECTOR_NEW2
+#undef CV_VECTOR_CORE
 
-CVAPI(size_t) vector_Vec4i_getSize(std::vector<cv::Vec4i>* vector)
-{
-    return vector->size();
-}
-
-CVAPI(cv::Vec4i*) vector_Vec4i_getPointer(std::vector<cv::Vec4i>* vector)
-{
-    return &(vector->at(0));
-}
-
-CVAPI(void) vector_Vec4i_delete(std::vector<cv::Vec4i>* vector)
-{
-    delete vector;
-}
-
-#pragma endregion
-
-#pragma region cv::Vec6f
-CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new1()
-{
-    return new std::vector<cv::Vec6f>;
-}
-
-CVAPI(size_t) vector_Vec6f_getSize(std::vector<cv::Vec6f>* vector)
-{
-    return vector->size();
-}
-
-CVAPI(cv::Vec6f*) vector_Vec6f_getPointer(std::vector<cv::Vec6f>* vector)
-{
-    return &(vector->at(0));
-}
-
-CVAPI(void) vector_Vec6f_delete(std::vector<cv::Vec6f>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Vec6d
-CVAPI(std::vector<cv::Vec6d>*) vector_Vec6d_new1()
-{
-    return new std::vector<cv::Vec6d>;
-}
-
-CVAPI(size_t) vector_Vec6d_getSize(std::vector<cv::Vec6d>* vector)
-{
-    return vector->size();
-}
-
-CVAPI(cv::Vec6d*) vector_Vec6d_getPointer(std::vector<cv::Vec6d>* vector)
-{
-    return &(vector->at(0));
-}
-
-CVAPI(void) vector_Vec6d_delete(std::vector<cv::Vec6d>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Point2i
-CVAPI(std::vector<cv::Point>*) vector_Point2i_new1()
-{
-    return new std::vector<cv::Point>;
-}
-CVAPI(std::vector<cv::Point>*) vector_Point2i_new2(size_t size)
-{
-    return new std::vector<cv::Point>(size);
-}
-CVAPI(std::vector<cv::Point>*) vector_Point2i_new3(cv::Point* data, size_t dataLength)
-{
-    return new std::vector<cv::Point>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Point2i_getSize(std::vector<cv::Point>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Point*) vector_Point2i_getPointer(std::vector<cv::Point>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Point2i_delete(std::vector<cv::Point>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Point2f
-CVAPI(std::vector<cv::Point2f>*) vector_Point2f_new1()
-{
-    return new std::vector<cv::Point2f>;
-}
-CVAPI(std::vector<cv::Point2f>*) vector_Point2f_new2(size_t size)
-{
-    return new std::vector<cv::Point2f>(size);
-}
-CVAPI(std::vector<cv::Point2f>*) vector_Point2f_new3(cv::Point2f* data, size_t dataLength)
-{
-    return new std::vector<cv::Point2f>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Point2f_getSize(std::vector<cv::Point2f>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Point2f*) vector_Point2f_getPointer(std::vector<cv::Point2f>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Point2f_delete(std::vector<cv::Point2f>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Point2d
-
-CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new1()
-{
-    return new std::vector<cv::Point2d>;
-}
-
-CVAPI(size_t) vector_Point2d_getSize(std::vector<cv::Point2d>* vector)
-{
-    return vector->size();
-}
-
-CVAPI(cv::Point2d*) vector_Point2d_getPointer(std::vector<cv::Point2d>* vector)
-{
-    return &(vector->at(0));
-}
-
-CVAPI(void) vector_Point2d_delete(std::vector<cv::Point2d>* vector)
-{
-    delete vector;
-}
-
-#pragma endregion
-
-#pragma region cv::Point3f
-CVAPI(std::vector<cv::Point3f>*) vector_Point3f_new1()
-{
-    return new std::vector<cv::Point3f>;
-}
-CVAPI(std::vector<cv::Point3f>*) vector_Point3f_new2(size_t size)
-{
-    return new std::vector<cv::Point3f>(size);
-}
-CVAPI(std::vector<cv::Point3f>*) vector_Point3f_new3(cv::Point3f* data, size_t dataLength)
-{
-    return new std::vector<cv::Point3f>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Point3f_getSize(std::vector<cv::Point3f>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Point3f*) vector_Point3f_getPointer(std::vector<cv::Point3f>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Point3f_delete(std::vector<cv::Point3f>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Rect
-CVAPI(std::vector<cv::Rect>*) vector_Rect_new1()
-{
-    return new std::vector<cv::Rect>;
-}
-CVAPI(std::vector<cv::Rect>*) vector_Rect_new2(size_t size)
-{
-    return new std::vector<cv::Rect>(size);
-}
-CVAPI(std::vector<cv::Rect>*) vector_Rect_new3(cv::Rect* data, size_t dataLength)
-{
-    return new std::vector<cv::Rect>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Rect_getSize(std::vector<cv::Rect>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Rect*) vector_Rect_getPointer(std::vector<cv::Rect> *vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Rect_delete(std::vector<cv::Rect> *vector)
-{    
-    //vector->~vector();
-    delete vector;
-}
-
-#pragma endregion
-
-#pragma region cv::Rect2d
-CVAPI(std::vector<cv::Rect2d>*) vector_Rect2d_new1()
-{
-    return new std::vector<cv::Rect2d>;
-}
-CVAPI(std::vector<cv::Rect2d>*) vector_Rect2d_new2(size_t size)
-{
-    return new std::vector<cv::Rect2d>(size);
-}
-CVAPI(std::vector<cv::Rect2d>*) vector_Rect2d_new3(cv::Rect2d* data, size_t dataLength)
-{
-    return new std::vector<cv::Rect2d>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Rect2d_getSize(std::vector<cv::Rect2d>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Rect2d*) vector_Rect2d_getPointer(std::vector<cv::Rect2d> *vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Rect2d_delete(std::vector<cv::Rect2d> *vector)
-{
-    delete vector;
-}
-
-#pragma endregion
-
-#pragma region cv::RotatedRect
-CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new1()
-{
-    return new std::vector<cv::RotatedRect>;
-}
-CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new2(size_t size)
-{
-    return new std::vector<cv::RotatedRect>(size);
-}
-CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new3(cv::RotatedRect* data, size_t dataLength)
-{
-    return new std::vector<cv::RotatedRect>(data, data + dataLength);
-}
-CVAPI(size_t) vector_RotatedRect_getSize(std::vector<cv::RotatedRect>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::RotatedRect*) vector_RotatedRect_getPointer(std::vector<cv::RotatedRect> *vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_RotatedRect_delete(std::vector<cv::RotatedRect> *vector)
-{
-    delete vector;
-}
-
-#pragma endregion
-
-#pragma region cv::KeyPoint
-CVAPI(std::vector<cv::KeyPoint>*) vector_KeyPoint_new1()
-{
-    return new std::vector<cv::KeyPoint>;
-}
-CVAPI(std::vector<cv::KeyPoint>*) vector_KeyPoint_new2(size_t size)
-{
-    return new std::vector<cv::KeyPoint>(size);
-}
-CVAPI(std::vector<cv::KeyPoint>*) vector_KeyPoint_new3(cv::KeyPoint *data, size_t dataLength)
-{
-    return new std::vector<cv::KeyPoint>(data, data + dataLength);
-}
-CVAPI(size_t) vector_KeyPoint_getSize(std::vector<cv::KeyPoint>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::KeyPoint*) vector_KeyPoint_getPointer(std::vector<cv::KeyPoint>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_KeyPoint_delete(std::vector<cv::KeyPoint>* vector)
-{    
-    //vector->~vector();
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::DMatch
-CVAPI(std::vector<cv::DMatch>*) vector_DMatch_new1()
-{
-    return new std::vector<cv::DMatch>;
-}
-CVAPI(std::vector<cv::DMatch>*) vector_DMatch_new2(size_t size)
-{
-    return new std::vector<cv::DMatch>(size);
-}
-CVAPI(std::vector<cv::DMatch>*) vector_DMatch_new3(cv::DMatch *data, size_t dataLength)
-{
-    return new std::vector<cv::DMatch>(data, data + dataLength);
-}
-CVAPI(size_t) vector_DMatch_getSize(std::vector<cv::DMatch>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::DMatch*) vector_DMatch_getPointer(std::vector<cv::DMatch>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_DMatch_delete(std::vector<cv::DMatch>* vector)
-{
-    delete vector;
-}
 #pragma endregion
 
 #pragma region cv::Mat
