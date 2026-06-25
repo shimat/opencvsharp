@@ -155,8 +155,8 @@ static partial class Cv2
     /// respectively (see getGaussianKernel() for details); to fully control the result 
     /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
     /// <param name="borderType">pixel extrapolation method</param>
-    public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
-        double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
+    public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX,
+        double sigmaY = 0, BorderTypes borderType = BorderTypes.Default, AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -166,7 +166,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType));
+            NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1021,8 +1021,9 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
     public static void WarpAffine(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
+        InterpolationFlags flags = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1036,7 +1037,7 @@ static partial class Cv2
 
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+            NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1057,9 +1058,10 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, 
-        Scalar? borderValue = null)
+        InterpolationFlags flags = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant,
+        Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1074,7 +1076,7 @@ static partial class Cv2
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
             NativeMethods.imgproc_warpPerspective_MisInputArray(
-                src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+                src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1095,9 +1097,10 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, float[,] m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
+        InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant,
-        Scalar? borderValue = null)
+        Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1113,7 +1116,7 @@ static partial class Cv2
         var mCol = m.GetLength(1);
         NativeMethods.HandleException(
             NativeMethods.imgproc_warpPerspective_MisArray(
-                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0));
+                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1134,8 +1137,9 @@ static partial class Cv2
     /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
     public static void Remap(
         InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-        InterpolationFlags interpolation = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
+        InterpolationFlags interpolation = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1153,7 +1157,7 @@ static partial class Cv2
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
             NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int) interpolation,
-                (int) borderMode, borderValue0));
+                (int) borderMode, borderValue0, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2393,7 +2397,8 @@ static partial class Cv2
     /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
     /// <param name="code">The color space conversion code</param>
     /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
-    public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
+    public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -2401,9 +2406,9 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
-            
+
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int) code, dstCn));
+            NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int) code, dstCn, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2426,10 +2431,11 @@ static partial class Cv2
     /// - #COLOR_YUV2RGB_NV21
     /// - #COLOR_YUV2BGRA_NV21
     /// - #COLOR_YUV2RGBA_NV21</param>
-    public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code)
+    public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
         if (src1 is null)
-            throw new ArgumentNullException(nameof(src1)); 
+            throw new ArgumentNullException(nameof(src1));
         if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
         if (dst is null)
@@ -2439,7 +2445,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cvtColorTwoPlane(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)code));
+            NativeMethods.imgproc_cvtColorTwoPlane(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)code, (int)hint));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);

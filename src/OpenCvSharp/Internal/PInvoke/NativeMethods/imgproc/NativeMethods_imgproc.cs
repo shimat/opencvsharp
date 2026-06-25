@@ -31,7 +31,7 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
-        double sigmaY, BorderTypes borderType);
+        double sigmaY, BorderTypes borderType, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
@@ -140,20 +140,20 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags,
-        int borderMode, Scalar borderValue);
+        int borderMode, Scalar borderValue, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_warpPerspective_MisInputArray(
-        IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue);
+        IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_warpPerspective_MisArray(
         IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.LPArray)] float[,] m, int mRow, int mCol,
-        Size dsize, int flags, int borderMode, Scalar borderValue);
+        Size dsize, int flags, int borderMode, Scalar borderValue, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation,
-        int borderMode, Scalar borderValue);
+        int borderMode, Scalar borderValue, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2,
@@ -283,10 +283,10 @@ static partial class NativeMethods
         IntPtr src1, IntPtr src2, IntPtr weights1, IntPtr weights2, IntPtr dst);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
+    public static extern ExceptionStatus imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_cvtColorTwoPlane(IntPtr src1, IntPtr src2, IntPtr dst, int code);
+    public static extern ExceptionStatus imgproc_cvtColorTwoPlane(IntPtr src1, IntPtr src2, IntPtr dst, int code, int hint);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_demosaicing(IntPtr src, IntPtr dst, int code, int dstCn);
