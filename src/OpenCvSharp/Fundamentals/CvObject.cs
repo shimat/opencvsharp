@@ -20,8 +20,10 @@ public abstract class CvObject : IDisposable
 
     /// <summary>
     /// Gets a value indicating whether this instance has been disposed.
+    /// Backed by the same once-only flag that guards disposal, so there is no
+    /// separate state to keep in sync.
     /// </summary>
-    public bool IsDisposed { get; protected set; }
+    public bool IsDisposed => disposeSignaled != 0;
 
     /// <summary>
     /// Native data pointer, derived from <see cref="safeHandle"/>.
@@ -102,8 +104,6 @@ public abstract class CvObject : IDisposable
             return;
         }
 #pragma warning restore 420
-
-        IsDisposed = true;
 
         if (disposing)
         {
