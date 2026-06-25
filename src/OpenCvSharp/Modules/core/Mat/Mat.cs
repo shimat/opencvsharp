@@ -84,15 +84,19 @@ public partial class Mat : CvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
     /// Creates a non-owning wrapper around an existing native cv::Mat* pointer.
     /// The native Mat will not be deleted when this instance is disposed.
     /// </summary>
-    internal Mat(IntPtr ptr, bool isEnabledDispose) : base(ptr, isEnabledDispose)
-    { }
+    internal Mat(IntPtr ptr, bool ownsHandle)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Native object address is NULL");
+        InitSafeHandle(ptr, ownsHandle);
+    }
 
     /// <summary>
     /// Creates from native cv::Mat* pointer
@@ -108,7 +112,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new1(out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -126,7 +130,7 @@ public partial class Mat : CvObject
         pinLifetime = m.pinLifetime?.Ref();
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -141,7 +145,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imread(fileName, (int) flags, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -155,7 +159,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new2(rows, cols, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -169,7 +173,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new2(size.Height, size.Width, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -185,7 +189,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new3(rows, cols, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -201,7 +205,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -226,7 +230,7 @@ public partial class Mat : CvObject
             NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out p));
         else
             NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -251,7 +255,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new6(m.ptr, ranges, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -272,7 +276,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new7(m.ptr, roi, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -294,7 +298,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -338,7 +342,7 @@ public partial class Mat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type,
                 pinLifetime.DataPtr, new IntPtr(step), out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -431,7 +435,7 @@ public partial class Mat : CvObject
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, pinLifetime.DataPtr, stepsArray, out p));
         }
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -465,7 +469,7 @@ public partial class Mat : CvObject
 #pragma warning restore CA1508
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -485,7 +489,7 @@ public partial class Mat : CvObject
 #pragma warning restore CA1508
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -499,7 +503,7 @@ public partial class Mat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_Mat_newFromMatShape(
                 shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -513,7 +517,7 @@ public partial class Mat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_Mat_newFromMatShapeScalar(
                 shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -521,17 +525,18 @@ public partial class Mat : CvObject
     /// </summary>
     public void Release() => Dispose();
 
-    /// <inheritdoc />
     /// <summary>
-    /// Releases unmanaged resources
+    /// Wraps a native cv::Mat* pointer in a SafeHandle.
     /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_delete(CvPtr));
-        base.DisposeUnmanaged();
-    }
+    /// <param name="handle">Native cv::Mat* pointer.</param>
+    /// <param name="ownsHandle">
+    /// <c>true</c> (default) to delete the native Mat when this instance is disposed/finalized;
+    /// <c>false</c> for a borrowed view that must not be deleted (e.g. a sub-object owned by
+    /// another OpenCV object).
+    /// </param>
+    private void InitSafeHandle(IntPtr handle, bool ownsHandle = true)
+        => SetSafeHandle(new OpenCvPtrSafeHandle(
+            handle, ownsHandle, static h => { NativeMethods.core_Mat_delete(h); }));
 
     #region Static Initializers
 

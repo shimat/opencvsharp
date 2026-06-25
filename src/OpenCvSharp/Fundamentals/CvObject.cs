@@ -24,11 +24,6 @@ public abstract class CvObject : IDisposable
     public bool IsDisposed { get; protected set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether you permit disposing this instance.
-    /// </summary>
-    public bool IsEnabledDispose { get; set; }
-
-    /// <summary>
     /// Native data pointer, derived from <see cref="safeHandle"/>.
     /// Returns <see cref="IntPtr.Zero"/> when no SafeHandle has been set.
     /// </summary>
@@ -38,18 +33,7 @@ public abstract class CvObject : IDisposable
     /// Default constructor
     /// </summary>
     protected CvObject()
-        : this(true)
     {
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="isEnabledDispose">true if you permit disposing this class by GC</param>
-    protected CvObject(bool isEnabledDispose)
-    {
-        IsDisposed = false;
-        IsEnabledDispose = isEnabledDispose;
     }
 
     /// <summary>
@@ -60,19 +44,6 @@ public abstract class CvObject : IDisposable
     /// </summary>
     /// <param name="ptr"></param>
     protected CvObject(IntPtr ptr)
-        : this(ptr, true)
-    {
-    }
-
-    /// <summary>
-    /// Constructor (backward compatibility).
-    /// Wraps the pointer in a non-owning SafeHandle so that the
-    /// <see cref="ptr"/> property returns the correct value.
-    /// </summary>
-    /// <param name="ptr"></param>
-    /// <param name="isEnabledDispose"></param>
-    protected CvObject(IntPtr ptr, bool isEnabledDispose)
-        : this(isEnabledDispose)
     {
         if (ptr != IntPtr.Zero)
             safeHandle = new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null);
@@ -84,7 +55,6 @@ public abstract class CvObject : IDisposable
     /// </summary>
     /// <param name="safeHandle">The safe handle wrapping the native pointer.</param>
     protected CvObject(OpenCvSafeHandle safeHandle)
-        : this(true)
     {
         this.safeHandle = safeHandle ?? throw new ArgumentNullException(nameof(safeHandle));
     }
@@ -135,14 +105,11 @@ public abstract class CvObject : IDisposable
 
         IsDisposed = true;
 
-        if (IsEnabledDispose)
+        if (disposing)
         {
-            if (disposing)
-            {
-                DisposeManaged();
-            }
-            DisposeUnmanaged();
+            DisposeManaged();
         }
+        DisposeUnmanaged();
     }
 
     /// <summary>
