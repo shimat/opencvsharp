@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -12,121 +13,149 @@ static partial class NativeMethods
 {
     // DescriptorMatcher
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_add(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_add(
         IntPtr obj, IntPtr[] descriptors, int descriptorLength);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_getTrainDescriptors(IntPtr obj, IntPtr dst);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_getTrainDescriptors(IntPtr obj, IntPtr dst);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_clear(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_clear(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_empty(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_empty(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_isMaskSupported(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_isMaskSupported(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_train(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_train(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_match1(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_match1(
         IntPtr obj, IntPtr queryDescriptors, IntPtr trainDescriptors, IntPtr matches, IntPtr mask);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_knnMatch1(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_knnMatch1(
         IntPtr obj, IntPtr queryDescriptors, IntPtr trainDescriptors, IntPtr matches, int k,
         IntPtr mask, int compactResult);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_radiusMatch1(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_radiusMatch1(
         IntPtr obj, IntPtr queryDescriptors,IntPtr trainDescriptors, IntPtr matches, float maxDistance,
         IntPtr mask, int compactResult);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_match2(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_match2(
         IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
         IntPtr[] masks, int masksSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_knnMatch2(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_knnMatch2(
         IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
         int k, IntPtr[] masks, int masksSize, int compactResult);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_radiusMatch2(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_radiusMatch2(
         IntPtr obj, IntPtr queryDescriptors, IntPtr matches,
         float maxDistance, IntPtr[] masks, int masksSize, int compactResult);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus features_DescriptorMatcher_create(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_create(
         [MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_DescriptorMatcher_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_DescriptorMatcher_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_DescriptorMatcher_delete(IntPtr ptr);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_DescriptorMatcher_delete(IntPtr ptr);
 
 
     // BFMatcher
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_BFMatcher_new(int normType, int crossCheck, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_BFMatcher_new(int normType, int crossCheck, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_BFMatcher_delete(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_BFMatcher_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_BFMatcher_isMaskSupported(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_BFMatcher_isMaskSupported(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_BFMatcher_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_BFMatcher_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_BFMatcher_delete(IntPtr ptr);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_BFMatcher_delete(IntPtr ptr);
 
 
     // FlannBasedMatcher
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_new(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_new(
         IntPtr indexParams, IntPtr searchParams, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_delete(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_add(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_add(
         IntPtr obj, IntPtr[] descriptors, int descriptorsSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_clear(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_clear(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_train(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_train(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_FlannBasedMatcher_isMaskSupported(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_FlannBasedMatcher_isMaskSupported(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_FlannBasedMatcher_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_FlannBasedMatcher_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_FlannBasedMatcher_delete(IntPtr ptr);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_FlannBasedMatcher_delete(IntPtr ptr);
 
     #region LightGlueMatcher
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "features_LightGlueMatcher_create")]
-    public static extern ExceptionStatus features_LightGlueMatcher_create_NotWindows(
+    [LibraryImport(DllExtern, EntryPoint = "features_LightGlueMatcher_create")]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_LightGlueMatcher_create_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "features_LightGlueMatcher_create")]
-    public static extern ExceptionStatus features_LightGlueMatcher_create_Windows(
+    [LibraryImport(DllExtern, EntryPoint = "features_LightGlueMatcher_create")]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_LightGlueMatcher_create_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
 
     public static ExceptionStatus features_LightGlueMatcher_create(string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue)
@@ -134,22 +163,27 @@ static partial class NativeMethods
             ? features_LightGlueMatcher_create_Windows(modelPath, scoreThreshold, backend, target, out returnValue)
             : features_LightGlueMatcher_create_NotWindows(modelPath, scoreThreshold, backend, target, out returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_LightGlueMatcher_create_buffer(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_LightGlueMatcher_create_buffer(
         byte[] modelData, IntPtr modelDataLength, float scoreThreshold, int backend, int target, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_LightGlueMatcher_setPairInfo(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_LightGlueMatcher_setPairInfo(
         IntPtr obj, IntPtr queryKpts, IntPtr trainKpts, Size queryImageSize, Size trainImageSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_LightGlueMatcher_clearPairInfo(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_LightGlueMatcher_clearPairInfo(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_LightGlueMatcher_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_LightGlueMatcher_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_Ptr_LightGlueMatcher_delete(IntPtr ptr);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_Ptr_LightGlueMatcher_delete(IntPtr ptr);
 
     #endregion
 }

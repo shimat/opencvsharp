@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -9,8 +10,9 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_FaceDetectorYN_create(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_FaceDetectorYN_create(
         IntPtr model,
         IntPtr config,
         ref Size inputSize,
@@ -21,13 +23,16 @@ static partial class NativeMethods
         int targetId,
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_Ptr_FaceDetectorYN_delete(IntPtr ptr);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_Ptr_FaceDetectorYN_delete(IntPtr ptr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_Ptr_FaceDetectorYN_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_Ptr_FaceDetectorYN_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_FaceDetectorYN_detect(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_FaceDetectorYN_detect(
         IntPtr obj, IntPtr image, IntPtr faces, out int returnValue);
 }

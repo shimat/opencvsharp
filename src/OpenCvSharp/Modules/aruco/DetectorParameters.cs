@@ -74,7 +74,6 @@ public struct DetectorParameters
     /// corner refinement method.
     /// (CORNER_REFINE_NONE, no refinement. CORNER_REFINE_SUBPIX, do subpixel refinement. CORNER_REFINE_CONTOUR use contour-Points)
     /// </summary>
-    [MarshalAs(UnmanagedType.I4)]
     public CornerRefineMethod CornerRefinementMethod = CornerRefineMethod.None;
 
     /// <summary>
@@ -176,20 +175,32 @@ public struct DetectorParameters
     /// </summary>
     public int AprilTagDeglitch = 0;
 
+    // Stored as a byte (native bool is a single byte) so the struct stays blittable for
+    // source-generated marshalling; exposed as a bool for ergonomics.
+    private byte detectInvertedMarker;
+
     /// <summary>
     /// to check if there is a white marker. In order to generate a "white" marker just invert a normal marker by using a tilde, ~markerImage. (default false)
     /// </summary>
-    [MarshalAs(UnmanagedType.U1)]
-    public bool DetectInvertedMarker = false;
-    
+    public bool DetectInvertedMarker
+    {
+        readonly get => detectInvertedMarker != 0;
+        set => detectInvertedMarker = value ? (byte)1 : (byte)0;
+    }
+
+    private byte useAruco3Detection;
+
     /// <summary>
     /// enable the new and faster Aruco detection strategy.
     /// Proposed in the paper:
     /// * Romero-Ramirez et al: Speeded up detection of squared fiducial markers (2018)
     /// * https://www.researchgate.net/publication/325787310_Speeded_Up_Detection_of_Squared_Fiducial_Markers
     /// </summary>
-    [MarshalAs(UnmanagedType.U1)]
-    public bool UseAruco3Detection = false;
+    public bool UseAruco3Detection
+    {
+        readonly get => useAruco3Detection != 0;
+        set => useAruco3Detection = value ? (byte)1 : (byte)0;
+    }
 
     /// <summary>
     /// minimum side length of a marker in the canonical image. Latter is the binarized image in which contours are searched. 

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
 
@@ -12,67 +13,82 @@ static partial class NativeMethods
 {
     // SuperpixelLSC
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelLSC_delete(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelLSC_delete(
         IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelLSC_get(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelLSC_get(
         IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelLSC_iterate(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelLSC_iterate(
         IntPtr obj, int num_iterations);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelLSC_getLabels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabels(
         IntPtr obj, IntPtr labels_out);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelLSC_getLabelContourMask(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabelContourMask(
         IntPtr obj, IntPtr image, int thick_line);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelLSC_enforceLabelConnectivity(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelLSC_enforceLabelConnectivity(
         IntPtr obj, int min_element_size);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_createSuperpixelLSC(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_createSuperpixelLSC(
         IntPtr image, int region_size, float ratio, out IntPtr returnValue);
 
 
     // SuperpixelSEEDS
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelSEEDS_delete(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelSEEDS_delete(
         IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelSEEDS_get(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelSEEDS_get(
         IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSEEDS_iterate(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_iterate(
         IntPtr obj, IntPtr img, int num_iterations);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSEEDS_getLabels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabels(
         IntPtr obj, IntPtr labels_out);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSEEDS_getLabelContourMask(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabelContourMask(
         IntPtr obj, IntPtr image, int thick_line);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_createSuperpixelSEEDS(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_createSuperpixelSEEDS(
         int image_width, int image_height, int image_channels,
         int num_superpixels, int num_levels, int prior,
         int histogram_bins, int double_step,
@@ -81,36 +97,44 @@ static partial class NativeMethods
 
     // SuperpixelSLIC
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelSLIC_delete(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelSLIC_delete(
         IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_SuperpixelSLIC_get(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_SuperpixelSLIC_get(
         IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSLIC_iterate(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_iterate(
         IntPtr obj, int num_iterations);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSLIC_getLabels(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabels(
         IntPtr obj, IntPtr labels_out);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSLIC_getLabelContourMask(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabelContourMask(
         IntPtr obj, IntPtr image, int thick_line);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
         IntPtr obj, int min_element_size);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_createSuperpixelSLIC(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_createSuperpixelSLIC(
         IntPtr image, int algorithm, int region_size, float ruler, out IntPtr returnValue);
 
 

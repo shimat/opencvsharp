@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
 
@@ -13,43 +14,53 @@ static partial class NativeMethods
 {
     // RFFeatureGetter
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_createRFFeatureGetter(out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_createRFFeatureGetter(out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_RFFeatureGetter_delete(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_RFFeatureGetter_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_RFFeatureGetter_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_RFFeatureGetter_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_RFFeatureGetter_getFeatures(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_RFFeatureGetter_getFeatures(
         IntPtr obj, IntPtr src, IntPtr features,
         int gnrmRad, int gsmthRad, int shrink, int outNum, int gradNum);
 
 
     // StructuredEdgeDetection
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_createStructuredEdgeDetection(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_createStructuredEdgeDetection(
         [MarshalAs(UnmanagedType.LPStr)] string model, IntPtr howToGetFeatures, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_StructuredEdgeDetection_delete(IntPtr obj);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_StructuredEdgeDetection_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_StructuredEdgeDetection_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_StructuredEdgeDetection_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_StructuredEdgeDetection_detectEdges(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_detectEdges(
         IntPtr obj, IntPtr src, IntPtr dst);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_StructuredEdgeDetection_computeOrientation(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_computeOrientation(
         IntPtr obj, IntPtr src, IntPtr dst);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
         IntPtr obj, IntPtr edge_image, IntPtr orientation_image, IntPtr dst,
         int r, int s, float m, int isParallel);
 
