@@ -337,6 +337,195 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Registers a pair of cameras (OpenCV 5), estimating the relative pose (R, T) between them.
+    /// The two cameras may use different camera models (pinhole / fisheye).
+    /// </summary>
+    /// <param name="objectPoints1">Object points observed by the first camera.</param>
+    /// <param name="objectPoints2">Object points observed by the second camera.</param>
+    /// <param name="imagePoints1">Image points for the first camera.</param>
+    /// <param name="imagePoints2">Image points for the second camera.</param>
+    /// <param name="cameraMatrix1">Intrinsic matrix of the first camera.</param>
+    /// <param name="distCoeffs1">Distortion coefficients of the first camera.</param>
+    /// <param name="cameraModel1">Camera model of the first camera.</param>
+    /// <param name="cameraMatrix2">Intrinsic matrix of the second camera.</param>
+    /// <param name="distCoeffs2">Distortion coefficients of the second camera.</param>
+    /// <param name="cameraModel2">Camera model of the second camera.</param>
+    /// <param name="r">Input/Output rotation between the first and second camera coordinate systems.</param>
+    /// <param name="t">Input/Output translation between the camera coordinate systems.</param>
+    /// <param name="e">Output essential matrix.</param>
+    /// <param name="f">Output fundamental matrix.</param>
+    /// <param name="perViewErrors">Output per-view RMS reprojection errors.</param>
+    /// <param name="flags">Operation flags.</param>
+    /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+    /// <returns>Overall RMS reprojection error.</returns>
+    public static double RegisterCameras(
+        IEnumerable<Mat> objectPoints1, IEnumerable<Mat> objectPoints2,
+        IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
+        InputArray cameraMatrix1, InputArray distCoeffs1, CameraModel cameraModel1,
+        InputArray cameraMatrix2, InputArray distCoeffs2, CameraModel cameraModel2,
+        InputOutputArray r, InputOutputArray t, OutputArray e, OutputArray f,
+        OutputArray perViewErrors, int flags = 0, TermCriteria? criteria = null)
+    {
+        if (objectPoints1 is null)
+            throw new ArgumentNullException(nameof(objectPoints1));
+        if (objectPoints2 is null)
+            throw new ArgumentNullException(nameof(objectPoints2));
+        if (imagePoints1 is null)
+            throw new ArgumentNullException(nameof(imagePoints1));
+        if (imagePoints2 is null)
+            throw new ArgumentNullException(nameof(imagePoints2));
+        if (cameraMatrix1 is null)
+            throw new ArgumentNullException(nameof(cameraMatrix1));
+        if (distCoeffs1 is null)
+            throw new ArgumentNullException(nameof(distCoeffs1));
+        if (cameraMatrix2 is null)
+            throw new ArgumentNullException(nameof(cameraMatrix2));
+        if (distCoeffs2 is null)
+            throw new ArgumentNullException(nameof(distCoeffs2));
+        if (r is null)
+            throw new ArgumentNullException(nameof(r));
+        if (t is null)
+            throw new ArgumentNullException(nameof(t));
+        if (e is null)
+            throw new ArgumentNullException(nameof(e));
+        if (f is null)
+            throw new ArgumentNullException(nameof(f));
+        if (perViewErrors is null)
+            throw new ArgumentNullException(nameof(perViewErrors));
+        cameraMatrix1.ThrowIfDisposed();
+        distCoeffs1.ThrowIfDisposed();
+        cameraMatrix2.ThrowIfDisposed();
+        distCoeffs2.ThrowIfDisposed();
+        r.ThrowIfNotReady();
+        t.ThrowIfNotReady();
+        e.ThrowIfNotReady();
+        f.ThrowIfNotReady();
+        perViewErrors.ThrowIfNotReady();
+
+        var criteria0 = criteria.GetValueOrDefault(
+            new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, 1e-6));
+        var op1 = objectPoints1.Select(x => x.CvPtr).ToArray();
+        var op2 = objectPoints2.Select(x => x.CvPtr).ToArray();
+        var ip1 = imagePoints1.Select(x => x.CvPtr).ToArray();
+        var ip2 = imagePoints2.Select(x => x.CvPtr).ToArray();
+
+        NativeMethods.HandleException(
+            NativeMethods.calib_registerCameras(
+                op1, op1.Length, op2, op2.Length, ip1, ip1.Length, ip2, ip2.Length,
+                cameraMatrix1.CvPtr, distCoeffs1.CvPtr, (int)cameraModel1,
+                cameraMatrix2.CvPtr, distCoeffs2.CvPtr, (int)cameraModel2,
+                r.CvPtr, t.CvPtr, e.CvPtr, f.CvPtr, perViewErrors.CvPtr, flags, criteria0, out var ret));
+
+        r.Fix();
+        t.Fix();
+        e.Fix();
+        f.Fix();
+        perViewErrors.Fix();
+        GC.KeepAlive(cameraMatrix1);
+        GC.KeepAlive(distCoeffs1);
+        GC.KeepAlive(cameraMatrix2);
+        GC.KeepAlive(distCoeffs2);
+        GC.KeepAlive(objectPoints1);
+        GC.KeepAlive(objectPoints2);
+        GC.KeepAlive(imagePoints1);
+        GC.KeepAlive(imagePoints2);
+        return ret;
+    }
+
+    /// <summary>
+    /// Estimates intrinsics and extrinsics (camera poses) for a multi-camera system, a.k.a. multi-view
+    /// calibration (OpenCV 5).
+    /// </summary>
+    /// <remarks>
+    /// The point matrices must use single-channel CV_32F layout: each object-point matrix is
+    /// NUM_POINTS x 3 (CV_32FC1) and each image-point matrix is NUM_POINTS x 2 (CV_32FC1). Partially
+    /// observed patterns are supported by setting the unobserved image points to invalid values
+    /// (e.g. (-1, -1)) and clearing the corresponding entry in <paramref name="detectionMask"/>.
+    /// </remarks>
+    /// <param name="objPoints">Calibration pattern object points per frame (each NUM_POINTS x 3, CV_32FC1).</param>
+    /// <param name="imagePoints">Detected pattern points per camera then per frame
+    /// (NUM_CAMERAS x NUM_FRAMES, each NUM_POINTS x 2, CV_32FC1).</param>
+    /// <param name="imageSize">Image resolution for each camera.</param>
+    /// <param name="detectionMask">Per-camera per-frame detection mask (NUM_CAMERAS x NUM_FRAMES, CV_8U).</param>
+    /// <param name="models">Per-camera camera models (NUM_CAMERAS x 1, CV_8U; see <see cref="CameraModel"/>).</param>
+    /// <param name="ks">Output per-camera intrinsic matrices.</param>
+    /// <param name="distortions">Output per-camera distortion coefficients.</param>
+    /// <param name="rs">Output per-camera rotation matrices relative to camera 0.</param>
+    /// <param name="ts">Output per-camera translation vectors relative to camera 0.</param>
+    /// <param name="flagsForIntrinsics">Optional per-camera intrinsics-calibration flags (NUM_CAMERAS x 1, CV_32S).</param>
+    /// <param name="flags">Common multi-view calibration flags.</param>
+    /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+    /// <returns>Overall RMS reprojection error.</returns>
+    public static double CalibrateMultiview(
+        IEnumerable<Mat> objPoints,
+        IReadOnlyList<IReadOnlyList<Mat>> imagePoints,
+        IEnumerable<Size> imageSize,
+        InputArray detectionMask,
+        InputArray models,
+        out Mat[] ks, out Mat[] distortions, out Mat[] rs, out Mat[] ts,
+        InputArray? flagsForIntrinsics = null,
+        int flags = 0,
+        TermCriteria? criteria = null)
+    {
+        if (objPoints is null)
+            throw new ArgumentNullException(nameof(objPoints));
+        if (imagePoints is null)
+            throw new ArgumentNullException(nameof(imagePoints));
+        if (imageSize is null)
+            throw new ArgumentNullException(nameof(imageSize));
+        if (detectionMask is null)
+            throw new ArgumentNullException(nameof(detectionMask));
+        if (models is null)
+            throw new ArgumentNullException(nameof(models));
+        detectionMask.ThrowIfDisposed();
+        models.ThrowIfDisposed();
+        flagsForIntrinsics?.ThrowIfDisposed();
+
+        var criteria0 = criteria.GetValueOrDefault(
+            new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
+
+        var objPointsPtrs = objPoints.Select(x => x.CvPtr).ToArray();
+
+        var framesPerCamera = new int[imagePoints.Count];
+        var flatImagePoints = new List<IntPtr>();
+        for (var c = 0; c < imagePoints.Count; c++)
+        {
+            var frames = imagePoints[c];
+            framesPerCamera[c] = frames.Count;
+            for (var fr = 0; fr < frames.Count; fr++)
+                flatImagePoints.Add(frames[fr].CvPtr);
+        }
+
+        var imageSizeArray = imageSize as Size[] ?? imageSize.ToArray();
+
+        using var ksVec = new VectorOfMat();
+        using var distVec = new VectorOfMat();
+        using var rsVec = new VectorOfMat();
+        using var tsVec = new VectorOfMat();
+
+        NativeMethods.HandleException(
+            NativeMethods.calib_calibrateMultiview(
+                objPointsPtrs, objPointsPtrs.Length,
+                flatImagePoints.ToArray(), framesPerCamera.Length, framesPerCamera,
+                imageSizeArray, imageSizeArray.Length,
+                detectionMask.CvPtr, models.CvPtr,
+                ksVec.CvPtr, distVec.CvPtr, rsVec.CvPtr, tsVec.CvPtr,
+                ToPtr(flagsForIntrinsics), flags, criteria0, out var ret));
+
+        ks = ksVec.ToArray();
+        distortions = distVec.ToArray();
+        rs = rsVec.ToArray();
+        ts = tsVec.ToArray();
+
+        GC.KeepAlive(objPoints);
+        GC.KeepAlive(imagePoints);
+        GC.KeepAlive(detectionMask);
+        GC.KeepAlive(models);
+        GC.KeepAlive(flagsForIntrinsics);
+        return ret;
+    }
+
+    /// <summary>
     /// finds intrinsic and extrinsic parameters of a stereo camera
     /// </summary>
     /// <param name="objectPoints">Vector of vectors of the calibration pattern points.</param>

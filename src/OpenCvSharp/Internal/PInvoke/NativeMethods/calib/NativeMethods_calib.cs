@@ -51,6 +51,28 @@ static partial class NativeMethods
         int flags, TermCriteria criteria,
         out double returnValue);
 
+    // OpenCV 5 multi-view calibration
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus calib_registerCameras(
+        IntPtr[] objectPoints1, int objectPoints1Size,
+        IntPtr[] objectPoints2, int objectPoints2Size,
+        IntPtr[] imagePoints1, int imagePoints1Size,
+        IntPtr[] imagePoints2, int imagePoints2Size,
+        IntPtr cameraMatrix1, IntPtr distCoeffs1, int cameraModel1,
+        IntPtr cameraMatrix2, IntPtr distCoeffs2, int cameraModel2,
+        IntPtr R, IntPtr T, IntPtr E, IntPtr F,
+        IntPtr perViewErrors,
+        int flags, TermCriteria criteria, out double returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus calib_calibrateMultiview(
+        IntPtr[] objPoints, int objPointsSize,
+        IntPtr[] imagePoints, int numCameras, int[] framesPerCamera,
+        Size[] imageSize, int imageSizeSize,
+        IntPtr detectionMask, IntPtr models,
+        IntPtr ks, IntPtr distortions, IntPtr rs, IntPtr ts,
+        IntPtr flagsForIntrinsics, int flags, TermCriteria criteria, out double returnValue);
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus calib_calibrateCamera_vector(
         IntPtr[] objectPoints, int opSize1, int[] opSize2,
