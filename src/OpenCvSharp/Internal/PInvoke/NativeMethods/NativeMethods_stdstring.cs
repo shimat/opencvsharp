@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
@@ -6,18 +7,23 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr string_new1();
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr string_new1();
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, CharSet = CharSet.Ansi)]
-    public static extern IntPtr string_new2([MarshalAs(UnmanagedType.LPArray)] byte[] str);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr string_new2([In] byte[] str);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void string_delete(IntPtr s);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void string_delete(IntPtr s);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern unsafe sbyte* string_c_str(OpenCvSafeHandle s);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static unsafe partial sbyte* string_c_str(OpenCvSafeHandle s);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern nuint string_size(OpenCvSafeHandle s);
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial nuint string_size(OpenCvSafeHandle s);
 }
