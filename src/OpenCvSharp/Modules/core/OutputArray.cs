@@ -45,22 +45,6 @@ public class OutputArray : CvObject
         InitSafeHandle(p);
     }
 
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        internal OutputArray(GpuMat mat)
-        {
-            if (mat is null)
-                throw new ArgumentNullException(nameof(mat));
-            var p = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
-            GC.KeepAlive(mat);
-            obj = mat;
-            InitSafeHandle(p);
-        }
-#endif
-
     /// <summary>
     /// Constructor
     /// </summary>
@@ -115,18 +99,6 @@ public class OutputArray : CvObject
         return new(umat);
     }
 
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static implicit operator OutputArray(GpuMat mat)
-        {
-            return new OutputArray(mat);
-        }
-#endif
-
     #endregion
 
     #region Methods
@@ -157,28 +129,6 @@ public class OutputArray : CvObject
     {
         return obj as Mat;
     }
-
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsGpuMat()
-        {
-            return obj is GpuMat;
-        }
-#endif
-
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual Mat GetGpuMat()
-        {
-            return obj as GpuMat;
-        }
-#endif
 
     /// <summary>
     /// 
@@ -225,11 +175,7 @@ public class OutputArray : CvObject
         return
             ptr != IntPtr.Zero &&
             !IsDisposed &&
-#if ENABLED_CUDA
-                (IsMat() || IsGpuMat());
-#else
             IsMat() || IsUMat();
-#endif
     }
     /// <summary>
     /// 
@@ -260,18 +206,6 @@ public class OutputArray : CvObject
     {
         return new (mat);
     }
-
-#if ENABLED_CUDA
-        /// <summary>
-        /// Creates a proxy class of the specified matrix
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static OutputArray Create(GpuMat mat)
-        {
-            return new OutputArray(mat);
-        }
-#endif
 
     /// <summary>
     /// Creates a proxy class of the specified list
