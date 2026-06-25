@@ -88,13 +88,31 @@ public partial class Mat : CvObject
     }
 
     /// <summary>
-    /// Creates a non-owning wrapper around an existing native cv::Mat* pointer.
-    /// The native Mat will not be deleted when this instance is disposed.
+    /// Optional object whose native lifetime backs this Mat's pointer (e.g. the object that
+    /// owns the cv::Mat field this is a view into). Held only to keep that owner — and thus
+    /// the native memory — reachable for as long as this view is, so it cannot be
+    /// garbage-collected out from under the view.
     /// </summary>
-    internal Mat(IntPtr ptr, bool ownsHandle)
+    private readonly object? viewOwner;
+
+    /// <summary>
+    /// Creates a wrapper around an existing native cv::Mat* pointer.
+    /// </summary>
+    /// <param name="ptr">Native cv::Mat* pointer.</param>
+    /// <param name="ownsHandle">
+    /// <c>true</c> to delete the native Mat on disposal; <c>false</c> for a borrowed view that
+    /// must not be deleted (e.g. a cv::Mat field owned by another OpenCV object).
+    /// </param>
+    /// <param name="owner">
+    /// Optional owner of the native memory this view points into. Holding it keeps the owner
+    /// alive while this view is reachable (guards against GC, not against the owner being
+    /// explicitly disposed — that remains a use-after-dispose error).
+    /// </param>
+    internal Mat(IntPtr ptr, bool ownsHandle, object? owner = null)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
+        viewOwner = owner;
         InitSafeHandle(ptr, ownsHandle);
     }
 
