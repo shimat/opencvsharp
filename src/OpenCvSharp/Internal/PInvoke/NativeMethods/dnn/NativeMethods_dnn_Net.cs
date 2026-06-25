@@ -133,4 +133,7 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern ExceptionStatus dnn_Net_registerOutput(
         IntPtr net, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputName, int layerId, int outputPort, out int returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus dnn_Net_getPerfProfileDetailed(IntPtr net, IntPtr names, IntPtr timems, IntPtr counts);
 }

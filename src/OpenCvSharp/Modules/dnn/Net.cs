@@ -870,5 +870,26 @@ public class Net : CvObject
         return ret;
     }
 
+    /// <summary>
+    /// Returns the detailed per-layer performance profile (new DNN engine, OpenCV 5): for each
+    /// reported layer, its name, execution time and call count (all as strings).
+    /// </summary>
+    /// <param name="names">Output layer names.</param>
+    /// <param name="timems">Output per-layer execution times (ms), as strings.</param>
+    /// <param name="counts">Output per-layer call counts, as strings.</param>
+    public void GetPerfProfileDetailed(out string[] names, out string[] timems, out string[] counts)
+    {
+        ThrowIfDisposed();
+        using var namesVec = new VectorOfString();
+        using var timemsVec = new VectorOfString();
+        using var countsVec = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getPerfProfileDetailed(CvPtr, namesVec.CvPtr, timemsVec.CvPtr, countsVec.CvPtr));
+        GC.KeepAlive(this);
+        names = Array.ConvertAll(namesVec.ToArray(), s => s ?? string.Empty);
+        timems = Array.ConvertAll(timemsVec.ToArray(), s => s ?? string.Empty);
+        counts = Array.ConvertAll(countsVec.ToArray(), s => s ?? string.Empty);
+    }
+
     #endregion
 }
