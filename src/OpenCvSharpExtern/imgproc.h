@@ -48,10 +48,10 @@ CVAPI(ExceptionStatus) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray
 }
 
 CVAPI(ExceptionStatus) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
-                                            MyCvSize ksize, double sigmaX, double sigmaY, int borderType)
+                                            MyCvSize ksize, double sigmaX, double sigmaY, int borderType, int hint)
 {
     BEGIN_WRAP
-    cv::GaussianBlur(*src, *dst, cpp(ksize), sigmaX, sigmaY, borderType);
+    cv::GaussianBlur(*src, *dst, cpp(ksize), sigmaX, sigmaY, borderType, static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
@@ -288,35 +288,35 @@ CVAPI(ExceptionStatus) imgproc_resize(cv::_InputArray* src, cv::_OutputArray* ds
 }
 
 CVAPI(ExceptionStatus) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, MyCvSize dsize,
-                                          int flags, int borderMode, MyCvScalar borderValue)
+                                          int flags, int borderMode, MyCvScalar borderValue, int hint)
 {
     BEGIN_WRAP
-    cv::warpAffine(*src, *dst, *M, cpp(dsize), flags, borderMode, cpp(borderValue));
+    cv::warpAffine(*src, *dst, *M, cpp(dsize), flags, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, MyCvSize dsize,
-                                                             int flags, int borderMode, MyCvScalar borderValue)
+                                                             int flags, int borderMode, MyCvScalar borderValue, int hint)
 {
     BEGIN_WRAP
-    cv::warpPerspective(*src, *dst, *m, cpp(dsize), flags, borderMode, cpp(borderValue));
+    cv::warpPerspective(*src, *dst, *m, cpp(dsize), flags, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, MyCvSize dsize,
-                                                        int flags, int borderMode, MyCvScalar borderValue)
+                                                        int flags, int borderMode, MyCvScalar borderValue, int hint)
 {
     BEGIN_WRAP
     const cv::Mat mmat(mRow, mCol, CV_32FC1, m);
-    cv::warpPerspective(*src, *dst, mmat, cpp(dsize), flags, borderMode, cpp(borderValue));
+    cv::warpPerspective(*src, *dst, mmat, cpp(dsize), flags, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* map1, cv::_InputArray* map2,
-                                     int interpolation, int borderMode, MyCvScalar borderValue)
+                                     int interpolation, int borderMode, MyCvScalar borderValue, int hint)
 {
     BEGIN_WRAP
-    cv::remap(*src, *dst, *map1, *map2, interpolation, borderMode, cpp(borderValue));
+    cv::remap(*src, *dst, *map1, *map2, interpolation, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
@@ -607,17 +607,17 @@ CVAPI(ExceptionStatus) imgproc_blendLinear(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
+CVAPI(ExceptionStatus) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn, int hint)
 {
     BEGIN_WRAP
-    cv::cvtColor(*src, *dst, code, dstCn);
+    cv::cvtColor(*src, *dst, code, dstCn, static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_cvtColorTwoPlane(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int code)
+CVAPI(ExceptionStatus) imgproc_cvtColorTwoPlane(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int code, int hint)
 {
     BEGIN_WRAP
-    cv::cvtColorTwoPlane(*src1, *src2, *dst, code);
+    cv::cvtColorTwoPlane(*src1, *src2, *dst, code, static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
