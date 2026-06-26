@@ -31,9 +31,8 @@ public abstract class ImgHashBase : Algorithm
         outputArr.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compute(RawPtr, inputArr.CvPtr, outputArr.CvPtr));
+            NativeMethods.img_hash_ImgHashBase_compute(Handle, inputArr.CvPtr, outputArr.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(inputArr);
         outputArr.Fix();
     }
@@ -57,8 +56,7 @@ public abstract class ImgHashBase : Algorithm
         hashTwo.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compare(RawPtr, hashOne.CvPtr, hashTwo.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.img_hash_ImgHashBase_compare(Handle, hashOne.CvPtr, hashTwo.CvPtr, out var ret));
         GC.KeepAlive(hashOne);
         GC.KeepAlive(hashOne);
         return ret;
