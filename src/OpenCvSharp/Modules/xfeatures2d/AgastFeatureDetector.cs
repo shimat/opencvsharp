@@ -47,16 +47,14 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_getThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_getThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_setThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_setThreshold(Handle, value));
         }
     }
 
@@ -69,16 +67,14 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_getNonmaxSuppression(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_getNonmaxSuppression(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_setNonmaxSuppression(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_setNonmaxSuppression(Handle, value));
         }
     }
 
@@ -91,16 +87,14 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_getType(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_getType(Handle, out var ret));
             return (DetectorType)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_AgastFeatureDetector_setType(RawPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_AgastFeatureDetector_setType(Handle, (int)value));
         }
     }
 

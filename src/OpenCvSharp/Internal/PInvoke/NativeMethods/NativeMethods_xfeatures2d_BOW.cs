@@ -14,16 +14,16 @@ static partial class NativeMethods
     // BOWTrainer
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWTrainer_add(IntPtr obj, IntPtr descriptors);
+    public static partial ExceptionStatus xfeatures2d_BOWTrainer_add(OpenCvSafeHandle obj, IntPtr descriptors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWTrainer_getDescriptors(IntPtr obj, IntPtr descriptors);
+    public static partial ExceptionStatus xfeatures2d_BOWTrainer_getDescriptors(OpenCvSafeHandle obj, IntPtr descriptors);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
 
-    public static partial ExceptionStatus xfeatures2d_BOWTrainer_descriptorsCount(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_BOWTrainer_descriptorsCount(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWTrainer_clear(IntPtr obj);
+    public static partial ExceptionStatus xfeatures2d_BOWTrainer_clear(OpenCvSafeHandle obj);
 
 
     // BOWKMeansTrainer
@@ -37,10 +37,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWKMeansTrainer_cluster1(
-        IntPtr obj, out IntPtr returnValue);
+        OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWKMeansTrainer_cluster2(
-        IntPtr obj, IntPtr descriptors, out IntPtr returnValue);
+        OpenCvSafeHandle obj, IntPtr descriptors, out IntPtr returnValue);
 
 
     // BOWImgDescriptorExtractor
@@ -63,26 +63,26 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(IntPtr obj, IntPtr vocabulary);
+    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(OpenCvSafeHandle obj, IntPtr vocabulary);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute11(
-        IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor,
+        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor,
         IntPtr pointIdxsOfClusters, IntPtr descriptors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute12(
-        IntPtr obj, IntPtr keypointDescriptors,
+        OpenCvSafeHandle obj, IntPtr keypointDescriptors,
         IntPtr imgDescriptor, IntPtr pointIdxsOfClusters);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute2(
-        IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_descriptorType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_descriptorType(OpenCvSafeHandle obj, out int returnValue);
 }

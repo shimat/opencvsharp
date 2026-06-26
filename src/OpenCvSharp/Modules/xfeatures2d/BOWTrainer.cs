@@ -20,8 +20,7 @@ public abstract class BOWTrainer : CvObject
         if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWTrainer_add(CvPtr, descriptors.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWTrainer_add(Handle, descriptors.CvPtr));
         GC.KeepAlive(descriptors);
     }
 
@@ -33,8 +32,7 @@ public abstract class BOWTrainer : CvObject
     {
         using var descriptors = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWTrainer_getDescriptors(CvPtr, descriptors.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWTrainer_getDescriptors(Handle, descriptors.CvPtr));
         return descriptors.ToArray();
     }
 
@@ -45,8 +43,7 @@ public abstract class BOWTrainer : CvObject
     public int DescriptorsCount()
     {
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWTrainer_descriptorsCount(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWTrainer_descriptorsCount(Handle, out var ret));
         return ret;
     }
 
@@ -56,8 +53,7 @@ public abstract class BOWTrainer : CvObject
     public virtual void Clear()
     {
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWTrainer_clear(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWTrainer_clear(Handle));
     }
 
     /// <summary>
