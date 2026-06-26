@@ -11,19 +11,19 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_getBoostType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_Boost_getBoostType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_setBoostType(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_Boost_setBoostType(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_getWeakCount(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_Boost_getWeakCount(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_setWeakCount(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_Boost_setWeakCount(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_getWeightTrimRate(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_Boost_getWeightTrimRate(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_Boost_setWeightTrimRate(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_Boost_setWeightTrimRate(OpenCvSafeHandle obj, double val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_Boost_create(out IntPtr returnValue);

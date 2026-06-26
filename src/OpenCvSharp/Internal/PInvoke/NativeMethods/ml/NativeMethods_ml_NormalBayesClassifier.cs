@@ -12,7 +12,7 @@ static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_NormalBayesClassifier_predictProb(
-        IntPtr obj, IntPtr inputs,
+        OpenCvSafeHandle obj, IntPtr inputs,
         IntPtr samples, IntPtr outputProbs, int flags, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

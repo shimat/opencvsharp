@@ -11,61 +11,61 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setTrainMethod(IntPtr obj, int method, double param1, double param2);
+    public static partial ExceptionStatus ml_ANN_MLP_setTrainMethod(OpenCvSafeHandle obj, int method, double param1, double param2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getTrainMethod(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getTrainMethod(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setActivationFunction(IntPtr obj, int type, double param1, double param2);
+    public static partial ExceptionStatus ml_ANN_MLP_setActivationFunction(OpenCvSafeHandle obj, int type, double param1, double param2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setLayerSizes(IntPtr obj, IntPtr layerSizes);
+    public static partial ExceptionStatus ml_ANN_MLP_setLayerSizes(OpenCvSafeHandle obj, IntPtr layerSizes);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getLayerSizes(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getLayerSizes(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getTermCriteria(OpenCvSafeHandle obj, out TermCriteria returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setTermCriteria(IntPtr obj, TermCriteria val);
+    public static partial ExceptionStatus ml_ANN_MLP_setTermCriteria(OpenCvSafeHandle obj, TermCriteria val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getBackpropWeightScale(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getBackpropWeightScale(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setBackpropWeightScale(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setBackpropWeightScale(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getBackpropMomentumScale(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getBackpropMomentumScale(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setBackpropMomentumScale(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setBackpropMomentumScale(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getRpropDW0(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getRpropDW0(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setRpropDW0(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setRpropDW0(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWPlus(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWPlus(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWPlus(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWPlus(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMinus(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMinus(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMinus(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMinus(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMin(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMin(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMin(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMin(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMax(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getRpropDWMax(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMax(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_ANN_MLP_setRpropDWMax(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_getWeights(IntPtr obj, int layerIdx, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_ANN_MLP_getWeights(OpenCvSafeHandle obj, int layerIdx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_ANN_MLP_create(out IntPtr returnValue);

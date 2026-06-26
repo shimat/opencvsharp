@@ -11,27 +11,27 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_getDefaultK(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_KNearest_getDefaultK(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_setDefaultK(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_KNearest_setDefaultK(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_getIsClassifier(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_KNearest_getIsClassifier(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_setIsClassifier(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_KNearest_setIsClassifier(OpenCvSafeHandle obj, int val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_getEmax(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_KNearest_getEmax(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_setEmax(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_KNearest_setEmax(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_getAlgorithmType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_KNearest_getAlgorithmType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_setAlgorithmType(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_KNearest_setAlgorithmType(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_findNearest(IntPtr obj, IntPtr samples, int k,
+    public static partial ExceptionStatus ml_KNearest_findNearest(OpenCvSafeHandle obj, IntPtr samples, int k,
         IntPtr results, IntPtr neighborResponses, IntPtr dist, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

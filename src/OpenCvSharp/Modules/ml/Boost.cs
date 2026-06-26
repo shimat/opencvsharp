@@ -71,16 +71,14 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getBoostType(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_getBoostType(Handle, out var ret));
             return (Types)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setBoostType(RawPtr, (int) value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_setBoostType(Handle, (int) value));
         }
     }
 
@@ -94,16 +92,14 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeakCount(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_getWeakCount(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeakCount(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_setWeakCount(Handle, value));
         }
     }
 
@@ -119,16 +115,14 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeightTrimRate(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_getWeightTrimRate(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeightTrimRate(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_Boost_setWeightTrimRate(Handle, value));
         }
     }
 

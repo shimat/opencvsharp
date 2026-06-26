@@ -12,43 +12,43 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getClustersNumber(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_EM_getClustersNumber(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_setClustersNumber(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_EM_setClustersNumber(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getCovarianceMatrixType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_EM_getCovarianceMatrixType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_setCovarianceMatrixType(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_EM_setCovarianceMatrixType(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
+    public static partial ExceptionStatus ml_EM_getTermCriteria(OpenCvSafeHandle obj, out TermCriteria returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_setTermCriteria(IntPtr obj, TermCriteria val);
+    public static partial ExceptionStatus ml_EM_setTermCriteria(OpenCvSafeHandle obj, TermCriteria val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getWeights(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_EM_getWeights(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getMeans(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_EM_getMeans(OpenCvSafeHandle obj, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_getCovs(IntPtr obj, IntPtr covs);
+    public static partial ExceptionStatus ml_EM_getCovs(OpenCvSafeHandle obj, IntPtr covs);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_predict2(IntPtr model, IntPtr sample, IntPtr probs, out Vec2d returnValue);
+    public static partial ExceptionStatus ml_EM_predict2(OpenCvSafeHandle model, IntPtr sample, IntPtr probs, out Vec2d returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_EM_trainEM(
-        IntPtr obj, IntPtr samples, IntPtr logLikelihoods, IntPtr labels, IntPtr probs, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr samples, IntPtr logLikelihoods, IntPtr labels, IntPtr probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_EM_trainE(
-        IntPtr model, IntPtr samples, IntPtr means0, IntPtr covs0, IntPtr weights0,
+        OpenCvSafeHandle model, IntPtr samples, IntPtr means0, IntPtr covs0, IntPtr weights0,
         IntPtr logLikelihoods, IntPtr labels, IntPtr probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_EM_trainM(
-        IntPtr model, IntPtr samples, IntPtr probs0, IntPtr logLikelihoods, 
+        OpenCvSafeHandle model, IntPtr samples, IntPtr probs0, IntPtr logLikelihoods, 
         IntPtr labels, IntPtr probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

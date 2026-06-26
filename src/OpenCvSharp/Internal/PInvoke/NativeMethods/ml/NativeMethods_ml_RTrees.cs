@@ -11,22 +11,22 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_getCalculateVarImportance(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_RTrees_getCalculateVarImportance(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_setCalculateVarImportance(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_RTrees_setCalculateVarImportance(OpenCvSafeHandle obj, int val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_getActiveVarCount(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_RTrees_getActiveVarCount(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_setActiveVarCount(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_RTrees_setActiveVarCount(OpenCvSafeHandle obj, int val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
+    public static partial ExceptionStatus ml_RTrees_getTermCriteria(OpenCvSafeHandle obj, out TermCriteria returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_setTermCriteria(IntPtr obj, TermCriteria val);
+    public static partial ExceptionStatus ml_RTrees_setTermCriteria(OpenCvSafeHandle obj, TermCriteria val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_RTrees_getVarImportance(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_RTrees_getVarImportance(OpenCvSafeHandle obj, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_RTrees_create(out IntPtr returnValue);
