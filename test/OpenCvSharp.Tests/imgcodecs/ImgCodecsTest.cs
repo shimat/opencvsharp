@@ -109,15 +109,13 @@ public class ImgCodecsTest : TestBase
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // TODO
-            // Cannot marshal: Encountered unmappable character.
-            // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-            Assert.Throws<ArgumentException>(() =>
-            {
-                using var image = Cv2.ImRead(fileName);
-                //Assert.NotNull(image);
-                //Assert.False(image.Empty());
-            });
+            // Source-generated ANSI marshalling substitutes the unmappable characters, so OpenCV
+            // receives a different path and cannot find the file (Unicode paths remain unsupported
+            // on the Windows ANSI path; see opencv #4242). imread then returns an empty Mat.
+            // TODO(Phase 4, #1938): once UTF-8 string marshalling replaces the Windows ANSI path,
+            // this branch should match the non-Windows one (read succeeds, image is not empty).
+            using var image = Cv2.ImRead(fileName);
+            Assert.True(image.Empty());
         }
         else
         {
@@ -189,10 +187,12 @@ public class ImgCodecsTest : TestBase
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // TODO
-                // Cannot marshal: Encountered unmappable character.
-                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-                Assert.Throws<ArgumentException>(() => { Cv2.ImWrite(fileName, mat); });
+                // ANSI marshalling mangles the unmappable characters, so the requested Unicode file
+                // is not produced (Unicode paths remain unsupported on the Windows ANSI path; opencv #4242).
+                // TODO(Phase 4, #1938): once UTF-8 string marshalling replaces the Windows ANSI path,
+                // this branch should match the non-Windows one (the Unicode file is written successfully).
+                Cv2.ImWrite(fileName, mat);
+                Assert.False(File.Exists(fileName), $"Unexpectedly wrote '{fileName}' via the ANSI path");
                 return;
             }
             else
@@ -292,10 +292,11 @@ public class ImgCodecsTest : TestBase
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // TODO
-                // Cannot marshal: Encountered unmappable character.
-                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-                Assert.Throws<ArgumentException>(() => { Cv2.HaveImageReader(path); });
+                // ANSI marshalling mangles the unmappable characters, so OpenCV looks for a different
+                // path and reports the reader as unavailable (opencv #4242).
+                // TODO(Phase 4, #1938): once UTF-8 string marshalling replaces the Windows ANSI path,
+                // this branch should match the non-Windows one (HaveImageReader returns true).
+                Assert.False(Cv2.HaveImageReader(path));
             }
             else
             {
@@ -348,20 +349,9 @@ public class ImgCodecsTest : TestBase
         // This file does not have to exist
         const string fileName = "♥♡😀😄.png";
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            // TODO
-            // Cannot marshal: Encountered unmappable character.
-            // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-            Assert.Throws<ArgumentException>(() =>
-            {
-                Cv2.HaveImageWriter(fileName);
-            });
-        }
-        else
-        {
-            Assert.True(Cv2.HaveImageWriter(fileName));
-        }
+        // HaveImageWriter only inspects the file extension, which survives ANSI marshalling intact,
+        // so it reports the writer as available even though the Unicode base name is mangled.
+        Assert.True(Cv2.HaveImageWriter(fileName));
     }
 
     [Theory]

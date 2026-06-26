@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,44 +11,44 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_read(IntPtr obj, IntPtr fn, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_read(IntPtr obj, IntPtr fn, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_new(out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_new(out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_newFromFile(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_newFromFile(
         [MarshalAs(UnmanagedType.LPStr)] string fileName, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_empty(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_empty(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_load(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_load(
         IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_detectMultiScale1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_detectMultiScale1(
         IntPtr obj, IntPtr image, IntPtr objects,
         double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_detectMultiScale2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_detectMultiScale2(
         IntPtr obj, IntPtr image, IntPtr objects,
         IntPtr rejectLevels, IntPtr levelWeights,
         double scaleFactor, int minNeighbors, int flags,
         Size minSize, Size maxSize, int outputRejectLevels);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj, out Size returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj, out Size returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_CascadeClassifier_getFeatureType(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_CascadeClassifier_getFeatureType(IntPtr obj, out int returnValue);
 }

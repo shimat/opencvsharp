@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -8,18 +9,18 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Algorithm_write(IntPtr obj, IntPtr fs);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_Algorithm_write(IntPtr obj, IntPtr fs);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Algorithm_read(IntPtr obj, IntPtr fn);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_Algorithm_read(IntPtr obj, IntPtr fn);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Algorithm_empty(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_Algorithm_empty(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = true, ThrowOnUnmappableChar = true)]
-    public static extern ExceptionStatus core_Algorithm_save(IntPtr obj, string filename);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_Algorithm_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Algorithm_getDefaultName(IntPtr obj, IntPtr buf);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_Algorithm_getDefaultName(IntPtr obj, IntPtr buf);
 }

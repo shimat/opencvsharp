@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
@@ -1041,7 +1042,10 @@ static partial class Cv2
                 t_world2camPtrArray, t_world2camPtrArray.Length,
                 R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
                 t_base2gripperPtrArray, t_base2gripperPtrArray.Length,
-                R_base2world, t_base2world, R_gripper2cam, t_gripper2cam,
+                MemoryMarshal.CreateSpan(ref R_base2world[0, 0], R_base2world.Length),
+                t_base2world,
+                MemoryMarshal.CreateSpan(ref R_gripper2cam[0, 0], R_gripper2cam.Length),
+                t_gripper2cam,
                 (int) method));
             
         foreach (var mat in R_world2camArray) GC.KeepAlive(mat);

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -12,197 +13,197 @@ static partial class NativeMethods
 {
     #region StereoMatcher
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_compute(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_compute(
         IntPtr obj, IntPtr left, IntPtr right, IntPtr disparity);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getMinDisparity(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getMinDisparity(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setMinDisparity(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setMinDisparity(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getNumDisparities(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getNumDisparities(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setNumDisparities(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setNumDisparities(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getBlockSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getBlockSize(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setBlockSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setBlockSize(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getSpeckleWindowSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getSpeckleWindowSize(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setSpeckleWindowSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setSpeckleWindowSize(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getSpeckleRange(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getSpeckleRange(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setSpeckleRange(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setSpeckleRange(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_getDisp12MaxDiff(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_getDisp12MaxDiff(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoMatcher_setDisp12MaxDiff(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoMatcher_setDisp12MaxDiff(
         IntPtr obj, int value);
 
     #endregion
 
     #region StereoBM
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_Ptr_StereoBM_delete(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoBM_delete(
         IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_Ptr_StereoBM_get(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoBM_get(
         IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_create(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_create(
         int numDisparities, int blockSize, out IntPtr returnValue);
 
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getPreFilterType(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getPreFilterType(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setPreFilterType(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setPreFilterType(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getPreFilterSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getPreFilterSize(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setPreFilterSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setPreFilterSize(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getPreFilterCap(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getPreFilterCap(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setPreFilterCap(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setPreFilterCap(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getTextureThreshold(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getTextureThreshold(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setTextureThreshold(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setTextureThreshold(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getUniquenessRatio(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getUniquenessRatio(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setUniquenessRatio(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setUniquenessRatio(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getSmallerBlockSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getSmallerBlockSize(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setSmallerBlockSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setSmallerBlockSize(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getROI1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getROI1(
         IntPtr obj, out Rect returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setROI1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setROI1(
         IntPtr obj, Rect value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_getROI2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_getROI2(
         IntPtr obj, out Rect returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoBM_setROI2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoBM_setROI2(
         IntPtr obj, Rect value);
 
     #endregion
 
     #region StereoSGBM
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_Ptr_StereoSGBM_get(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoSGBM_get(
         IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_Ptr_StereoSGBM_delete(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoSGBM_delete(
         IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_create(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_create(
         int minDisparity, int numDisparities, int blockSize,
         int P1, int P2, int disp12MaxDiff,
         int preFilterCap, int uniquenessRatio,
         int speckleWindowSize, int speckleRange, int mode, 
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_getPreFilterCap(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_getPreFilterCap(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_setPreFilterCap(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_setPreFilterCap(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_getUniquenessRatio(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_getUniquenessRatio(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_setUniquenessRatio(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_setUniquenessRatio(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_getP1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_getP1(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_setP1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_setP1(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_getP2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_getP2(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_setP2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_setP2(
         IntPtr obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_getMode(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_getMode(
         IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus stereo_StereoSGBM_setMode(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_StereoSGBM_setMode(
         IntPtr obj, int value);
 
     #endregion

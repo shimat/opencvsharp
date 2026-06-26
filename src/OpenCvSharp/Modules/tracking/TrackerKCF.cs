@@ -40,17 +40,20 @@ public class TrackerKCF : Tracker
     public static TrackerKCF Create(Params parameters)
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_create2(parameters, out var smartPtr));
+            NativeMethods.tracking_TrackerKCF_create2(ref parameters, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_get(smartPtr, out var rawPtr));
         return new TrackerKCF(smartPtr, rawPtr);
     }
-        
+
     #pragma warning disable CA1034
 #pragma warning disable CA1051
-    /// <summary> 
+    /// <summary>
+    /// TrackerKCF parameters. Layout matches <c>cv::TrackerKCF::Params</c> so it can be passed
+    /// directly to the native entry point; the <c>bool</c> options are backed by a single byte
+    /// (native <c>bool</c> is one byte) to keep the struct blittable for source-generated marshalling.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public class Params
+    public struct Params
     {
         /// <summary>
         /// detection confidence threshold
@@ -82,29 +85,46 @@ public class TrackerKCF : Tracker
         /// </summary>
         public float PcaLearningRate;
 
+        private byte resize;
+        private byte splitCoeff;
+        private byte wrapKernel;
+        private byte compressFeature;
+
         /// <summary>
         /// activate the resize feature to improve the processing speed
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool Resize;
+        public bool Resize
+        {
+            readonly get => resize != 0;
+            set => resize = value ? (byte)1 : (byte)0;
+        }
 
         /// <summary>
         /// split the training coefficients into two matrices
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool SplitCoeff;
+        public bool SplitCoeff
+        {
+            readonly get => splitCoeff != 0;
+            set => splitCoeff = value ? (byte)1 : (byte)0;
+        }
 
         /// <summary>
         /// wrap around the kernel values
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool WrapKernel;
+        public bool WrapKernel
+        {
+            readonly get => wrapKernel != 0;
+            set => wrapKernel = value ? (byte)1 : (byte)0;
+        }
 
         /// <summary>
         /// activate the pca method to compress the features
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool CompressFeature;
+        public bool CompressFeature
+        {
+            readonly get => compressFeature != 0;
+            set => compressFeature = value ? (byte)1 : (byte)0;
+        }
 
         /// <summary>
         /// threshold for the ROI size
@@ -124,7 +144,7 @@ public class TrackerKCF : Tracker
         /// <summary>
         /// non-compressed descriptors of TrackerKCF::MODE
         /// </summary>
-        public int DescNpca;   
+        public int DescNpca;
     }
 #pragma warning restore CA1051
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
@@ -10,8 +11,8 @@ static partial class NativeMethods
 {
     // BaseOCR
     /*
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_BaseOCR_run1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_BaseOCR_run1(
         IntPtr obj,
         IntPtr image,
         IntPtr outputText,
@@ -20,8 +21,8 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_BaseOCR_run2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_BaseOCR_run2(
         IntPtr obj,
         IntPtr image,
         IntPtr mask,
@@ -34,8 +35,8 @@ static partial class NativeMethods
 
     // OCRTesseract
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_run1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_run1(
         IntPtr obj,
         IntPtr image,
         IntPtr outputText,
@@ -44,8 +45,8 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_run2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_run2(
         IntPtr obj,
         IntPtr image,
         IntPtr mask,
@@ -56,16 +57,16 @@ static partial class NativeMethods
         int componentLevel);
 
     /*
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_run3(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_run3(
         IntPtr obj,
         IntPtr image,
         int minConfidence,
         int componentLevel,
         IntPtr dst);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_run4(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_run4(
         IntPtr obj,
         IntPtr image,
         IntPtr mask,
@@ -73,13 +74,13 @@ static partial class NativeMethods
         int componentLevel,
         IntPtr dst);*/
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_setWhiteList(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_setWhiteList(
         IntPtr obj, 
         [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_create(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_OCRTesseract_create(
         [MarshalAs(UnmanagedType.LPStr)] string? datapath,
         [MarshalAs(UnmanagedType.LPStr)] string? language,
         [MarshalAs(UnmanagedType.LPStr)] string? charWhitelist,
@@ -87,15 +88,15 @@ static partial class NativeMethods
         int psmode, 
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_Ptr_OCRTesseract_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_Ptr_OCRTesseract_get(IntPtr ptr, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
 
     // swt_text_detection.hpp
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_detectTextSWT(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus text_detectTextSWT(
         IntPtr input, IntPtr result, int darkOnLight, IntPtr draw, IntPtr chainBBs);
 }

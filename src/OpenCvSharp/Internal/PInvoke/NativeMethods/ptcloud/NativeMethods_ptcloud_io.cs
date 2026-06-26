@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -13,14 +14,12 @@ static partial class NativeMethods
 
     // loadPointCloud
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_loadPointCloud")]
-    public static extern ExceptionStatus ptcloud_loadPointCloud_NotWindows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_loadPointCloud"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_loadPointCloud_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string filename, IntPtr vertices, IntPtr normals, IntPtr rgb);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_loadPointCloud")]
-    public static extern ExceptionStatus ptcloud_loadPointCloud_Windows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_loadPointCloud"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_loadPointCloud_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string filename, IntPtr vertices, IntPtr normals, IntPtr rgb);
 
     public static ExceptionStatus ptcloud_loadPointCloud(string filename, IntPtr vertices, IntPtr normals, IntPtr rgb)
@@ -30,14 +29,12 @@ static partial class NativeMethods
 
     // savePointCloud
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_savePointCloud")]
-    public static extern ExceptionStatus ptcloud_savePointCloud_NotWindows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_savePointCloud"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_savePointCloud_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string filename, IntPtr vertices, IntPtr normals, IntPtr rgb);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_savePointCloud")]
-    public static extern ExceptionStatus ptcloud_savePointCloud_Windows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_savePointCloud"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_savePointCloud_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string filename, IntPtr vertices, IntPtr normals, IntPtr rgb);
 
     public static ExceptionStatus ptcloud_savePointCloud(string filename, IntPtr vertices, IntPtr normals, IntPtr rgb)
@@ -47,14 +44,12 @@ static partial class NativeMethods
 
     // loadMesh
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_loadMesh")]
-    public static extern ExceptionStatus ptcloud_loadMesh_NotWindows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_loadMesh"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_loadMesh_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_loadMesh")]
-    public static extern ExceptionStatus ptcloud_loadMesh_Windows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_loadMesh"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_loadMesh_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords);
 
     public static ExceptionStatus ptcloud_loadMesh(string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords)
@@ -64,14 +59,12 @@ static partial class NativeMethods
 
     // saveMesh
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_saveMesh")]
-    public static extern ExceptionStatus ptcloud_saveMesh_NotWindows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_saveMesh"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_saveMesh_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
-        EntryPoint = "ptcloud_saveMesh")]
-    public static extern ExceptionStatus ptcloud_saveMesh_Windows(
+    [LibraryImport(DllExtern, EntryPoint = "ptcloud_saveMesh"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ptcloud_saveMesh_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords);
 
     public static ExceptionStatus ptcloud_saveMesh(string filename, IntPtr vertices, IntPtr indices, IntPtr normals, IntPtr colors, IntPtr texCoords)

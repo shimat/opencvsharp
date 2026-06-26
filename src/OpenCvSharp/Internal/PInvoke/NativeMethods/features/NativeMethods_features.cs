@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,70 +11,70 @@ static partial class NativeMethods
 {
     // ReSharper disable InconsistentNaming
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_drawKeypoints(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_drawKeypoints(
         IntPtr image, KeyPoint[] keypoints, int keypointsLength,
         IntPtr outImage, Scalar color, int flags);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_drawMatches(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_drawMatches(
         IntPtr img1, KeyPoint[] keypoints1, int keypoints1Length,
         IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
         DMatch[] matches1to2, int matches1to2Length, IntPtr outImg,
         Scalar matchColor, Scalar singlePointColor,
         byte[]? matchesMask, int matchesMaskLength, int flags);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_drawMatchesKnn(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_drawMatchesKnn(
         IntPtr img1, KeyPoint[] keypoints1, int keypoints1Length,
         IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
         IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
         IntPtr outImg, Scalar matchColor, Scalar singlePointColor,
         IntPtr[]? matchesMask, int matchesMaskSize1, int[]? matchesMaskSize2, int flags);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_evaluateFeatureDetector(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_evaluateFeatureDetector(
         IntPtr img1, IntPtr img2, IntPtr H1to2,
         IntPtr keypoints1, IntPtr keypoints2,
         out float repeatability, out int correspCount);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_computeRecallPrecisionCurve(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_computeRecallPrecisionCurve(
         IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
         IntPtr[] correctMatches1to2Mask, int correctMatches1to2MaskSize1, int[] correctMatches1to2MaskSize2,
         IntPtr recallPrecisionCurve);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_getRecall(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_getRecall(
         Point2f[] recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, out float returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_getNearestPoint(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_getNearestPoint(
         Point2f[] recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, out int returnValue);
 
     #region KeyPointsFilter
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_runByImageBorder(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_runByImageBorder(
         IntPtr keypoints, Size imageSize, int borderSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_runByKeypointSize(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_runByKeypointSize(
         IntPtr keypoints, float minSize, float maxSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_runByPixelsMask(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_runByPixelsMask(
         IntPtr keypoints, IntPtr mask);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_removeDuplicated(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_removeDuplicated(
         IntPtr keypoints);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_removeDuplicatedSorted(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_removeDuplicatedSorted(
         IntPtr keypoints);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus features_KeyPointsFilter_retainBest(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_retainBest(
         IntPtr keypoints, int nPoints);
 
     #endregion

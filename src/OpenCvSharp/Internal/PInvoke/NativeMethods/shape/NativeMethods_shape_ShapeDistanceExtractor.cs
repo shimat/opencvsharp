@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,75 +11,75 @@ static partial class NativeMethods
 {
     // ShapeDistanceExtractor
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeDistanceExtractor_computeDistance(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeDistanceExtractor_computeDistance(
         IntPtr obj, IntPtr contour1, IntPtr contour2, out float returnValue);
 
     // ShapeContextDistanceExtractor
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ShapeContextDistanceExtractor_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ShapeContextDistanceExtractor_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ShapeContextDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ShapeContextDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setAngularBins(IntPtr obj, int val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getAngularBins(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setAngularBins(IntPtr obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getAngularBins(IntPtr obj, out int returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setRadialBins(IntPtr obj, int val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getRadialBins(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRadialBins(IntPtr obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRadialBins(IntPtr obj, out int returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setInnerRadius(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getInnerRadius(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setInnerRadius(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getInnerRadius(IntPtr obj, out float returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setOuterRadius(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getOuterRadius(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setOuterRadius(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getOuterRadius(IntPtr obj, out float returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setRotationInvariant(IntPtr obj, int val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getRotationInvariant(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRotationInvariant(IntPtr obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRotationInvariant(IntPtr obj, out int returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setShapeContextWeight(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getShapeContextWeight(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setShapeContextWeight(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getShapeContextWeight(IntPtr obj, out float returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(IntPtr obj, out float returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(IntPtr obj, out float returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(IntPtr obj, IntPtr image1, IntPtr image2);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(IntPtr obj, IntPtr image1, IntPtr image2);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(IntPtr obj, IntPtr image1, IntPtr image2);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(IntPtr obj, IntPtr image1, IntPtr image2);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setIterations(IntPtr obj, int val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getIterations(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setIterations(IntPtr obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getIterations(IntPtr obj, out int returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setStdDev(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_getStdDev(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setStdDev(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getStdDev(IntPtr obj, out float returnValue);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_createShapeContextDistanceExtractor(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_createShapeContextDistanceExtractor(
         int nAngularBins, int nRadialBins,
         float innerRadius, float outerRadius, int iterations /*,
             const Ptr<HistogramCostExtractor> &comparer = createChiHistogramCostExtractor(),
@@ -87,28 +88,28 @@ static partial class NativeMethods
 
     // HausdorffDistanceExtractor
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_HausdorffDistanceExtractor_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_HausdorffDistanceExtractor_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_HausdorffDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_HausdorffDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_HausdorffDistanceExtractor_setDistanceFlag(IntPtr obj, int val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_HausdorffDistanceExtractor_getDistanceFlag(IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setDistanceFlag(IntPtr obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getDistanceFlag(IntPtr obj, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_HausdorffDistanceExtractor_setRankProportion(IntPtr obj, float val);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_HausdorffDistanceExtractor_getRankProportion(IntPtr obj, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setRankProportion(IntPtr obj, float val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getRankProportion(IntPtr obj, out float returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_createHausdorffDistanceExtractor(int distanceFlag, float rankProp, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_createHausdorffDistanceExtractor(int distanceFlag, float rankProp, out IntPtr returnValue);
 
     // ShapeContextDistanceExtractor — sub-algorithm setters
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setCostExtractor(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setCostExtractor(
         IntPtr obj, IntPtr comparer);
 }

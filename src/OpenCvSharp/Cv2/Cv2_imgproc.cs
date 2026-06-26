@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
@@ -1145,9 +1146,10 @@ static partial class Cv2
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         var mRow = m.GetLength(0);
         var mCol = m.GetLength(1);
+        var mSpan = MemoryMarshal.CreateReadOnlySpan(ref m[0, 0], m.Length);
         NativeMethods.HandleException(
             NativeMethods.imgproc_warpPerspective_MisArray(
-                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
+                src.CvPtr, dst.CvPtr, mSpan, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
