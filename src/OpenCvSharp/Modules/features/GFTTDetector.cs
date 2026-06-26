@@ -51,16 +51,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getMaxFeatures(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getMaxFeatures(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setMaxFeatures(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setMaxFeatures(Handle, value));
         }
     }
 
@@ -73,16 +71,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getQualityLevel(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getQualityLevel(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setQualityLevel(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setQualityLevel(Handle, value));
         }
     }
 
@@ -95,16 +91,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getMinDistance(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getMinDistance(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setMinDistance(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setMinDistance(Handle, value));
         }
     }
 
@@ -118,16 +112,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getBlockSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getBlockSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setBlockSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setBlockSize(Handle, value));
         }
     }
 
@@ -141,16 +133,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getHarrisDetector(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getHarrisDetector(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setHarrisDetector(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setHarrisDetector(Handle, value ? 1 : 0));
         }
     }
 
@@ -164,16 +154,14 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_getK(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_getK(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_GFTTDetector_setK(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_GFTTDetector_setK(Handle, value));
         }
     }
 }

@@ -56,8 +56,7 @@ public class AffineFeature : Feature2D
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.features_AffineFeature_setViewParams(RawPtr, tilts, tilts.Length, rolls, rolls.Length));
-        GC.KeepAlive(this);
+            NativeMethods.features_AffineFeature_setViewParams(Handle, tilts, tilts.Length, rolls, rolls.Length));
     }
 
     /// <summary>
@@ -72,8 +71,7 @@ public class AffineFeature : Feature2D
         using var tiltsVec = new StdVector<float>();
         using var rollsVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.features_AffineFeature_getViewParams(RawPtr, tiltsVec.CvPtr, rollsVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.features_AffineFeature_getViewParams(Handle, tiltsVec.CvPtr, rollsVec.CvPtr));
         tilts = tiltsVec.ToArray();
         rolls = rollsVec.ToArray();
     }

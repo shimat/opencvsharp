@@ -79,49 +79,49 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Ptr_ORB_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setMaxFeatures(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setMaxFeatures(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getMaxFeatures(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getMaxFeatures(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setScaleFactor(IntPtr obj, double val);
+    public static partial ExceptionStatus features_ORB_setScaleFactor(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getScaleFactor(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus features_ORB_getScaleFactor(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setNLevels(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setNLevels(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getNLevels(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getNLevels(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setEdgeThreshold(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setEdgeThreshold(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getEdgeThreshold(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getEdgeThreshold(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setFirstLevel(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setFirstLevel(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getFirstLevel(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getFirstLevel(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setWTA_K(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setWTA_K(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getWTA_K(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getWTA_K(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setScoreType(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setScoreType(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getScoreType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getScoreType(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setPatchSize(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setPatchSize(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getPatchSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getPatchSize(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_setFastThreshold(IntPtr obj, int val);
+    public static partial ExceptionStatus features_ORB_setFastThreshold(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ORB_getFastThreshold(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_ORB_getFastThreshold(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 
@@ -138,27 +138,27 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_MSER_detectRegions(
-        IntPtr obj, IntPtr image, IntPtr msers, IntPtr bboxes);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr msers, IntPtr bboxes);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_setDelta(IntPtr obj, int delta);
+    public static partial ExceptionStatus features_MSER_setDelta(OpenCvSafeHandle obj, int delta);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_getDelta(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_MSER_getDelta(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_setMinArea(IntPtr obj, int minArea);
+    public static partial ExceptionStatus features_MSER_setMinArea(OpenCvSafeHandle obj, int minArea);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_getMinArea(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_MSER_getMinArea(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_setMaxArea(IntPtr obj, int maxArea);
+    public static partial ExceptionStatus features_MSER_setMaxArea(OpenCvSafeHandle obj, int maxArea);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_getMaxArea(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_MSER_getMaxArea(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_setPass2Only(IntPtr obj, int f);
+    public static partial ExceptionStatus features_MSER_setPass2Only(OpenCvSafeHandle obj, int f);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_getPass2Only(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_MSER_getPass2Only(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 
@@ -175,19 +175,19 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Ptr_FastFeatureDetector_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_setThreshold(IntPtr obj, int threshold);
+    public static partial ExceptionStatus features_FastFeatureDetector_setThreshold(OpenCvSafeHandle obj, int threshold);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_FastFeatureDetector_getThreshold(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_setNonmaxSuppression(IntPtr obj, int f);
+    public static partial ExceptionStatus features_FastFeatureDetector_setNonmaxSuppression(OpenCvSafeHandle obj, int f);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_getNonmaxSuppression(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_FastFeatureDetector_getNonmaxSuppression(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_setType(IntPtr obj, int type);
+    public static partial ExceptionStatus features_FastFeatureDetector_setType(OpenCvSafeHandle obj, int type);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FastFeatureDetector_getType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_FastFeatureDetector_getType(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 
@@ -202,34 +202,34 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Ptr_GFTTDetector_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setMaxFeatures(IntPtr obj, int maxFeatures);
+    public static partial ExceptionStatus features_GFTTDetector_setMaxFeatures(OpenCvSafeHandle obj, int maxFeatures);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getMaxFeatures(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getMaxFeatures(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setQualityLevel(IntPtr obj, double qLevel);
+    public static partial ExceptionStatus features_GFTTDetector_setQualityLevel(OpenCvSafeHandle obj, double qLevel);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getQualityLevel(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getQualityLevel(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setMinDistance(IntPtr obj, double minDistance);
+    public static partial ExceptionStatus features_GFTTDetector_setMinDistance(OpenCvSafeHandle obj, double minDistance);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getMinDistance(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getMinDistance(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setBlockSize(IntPtr obj, int blockSize);
+    public static partial ExceptionStatus features_GFTTDetector_setBlockSize(OpenCvSafeHandle obj, int blockSize);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getBlockSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getBlockSize(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setHarrisDetector(IntPtr obj, int val);
+    public static partial ExceptionStatus features_GFTTDetector_setHarrisDetector(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getHarrisDetector(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getHarrisDetector(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_setK(IntPtr obj, double k);
+    public static partial ExceptionStatus features_GFTTDetector_setK(OpenCvSafeHandle obj, double k);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_GFTTDetector_getK(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus features_GFTTDetector_getK(OpenCvSafeHandle obj, out double returnValue);
 
     #endregion
 
@@ -256,10 +256,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_AffineFeature_setViewParams(
-        IntPtr obj, float[] tilts, int tiltsLength, float[] rolls, int rollsLength);
+        OpenCvSafeHandle obj, float[] tilts, int tiltsLength, float[] rolls, int rollsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_AffineFeature_getViewParams(IntPtr obj, IntPtr tilts, IntPtr rolls);
+    public static partial ExceptionStatus features_AffineFeature_getViewParams(OpenCvSafeHandle obj, IntPtr tilts, IntPtr rolls);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Ptr_AffineFeature_delete(IntPtr ptr);
@@ -286,17 +286,17 @@ static partial class NativeMethods
         byte[] bufferModel, IntPtr bufferModelLength, int maxKeypoints, float scoreThreshold, Size imageSize, int backendId, int targetId, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_setMaxKeypoints(IntPtr obj, int maxKeypoints);
+    public static partial ExceptionStatus features_DISK_setMaxKeypoints(OpenCvSafeHandle obj, int maxKeypoints);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_getMaxKeypoints(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_DISK_getMaxKeypoints(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_setScoreThreshold(IntPtr obj, float threshold);
+    public static partial ExceptionStatus features_DISK_setScoreThreshold(OpenCvSafeHandle obj, float threshold);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_getScoreThreshold(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus features_DISK_getScoreThreshold(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_setImageSize(IntPtr obj, Size size);
+    public static partial ExceptionStatus features_DISK_setImageSize(OpenCvSafeHandle obj, Size size);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_DISK_getImageSize(IntPtr obj, out Size returnValue);
+    public static partial ExceptionStatus features_DISK_getImageSize(OpenCvSafeHandle obj, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Ptr_DISK_delete(IntPtr ptr);
