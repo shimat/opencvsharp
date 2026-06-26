@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
 

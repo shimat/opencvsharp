@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA5394 // Do not use insecure randomness
+#pragma warning disable CA5394 // Do not use insecure randomness
 
 namespace OpenCvSharp.Extensions;
 

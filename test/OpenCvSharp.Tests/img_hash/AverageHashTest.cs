@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.ImgHash;
+using OpenCvSharp.ImgHash;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgHash;

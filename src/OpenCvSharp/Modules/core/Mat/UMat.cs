@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp;

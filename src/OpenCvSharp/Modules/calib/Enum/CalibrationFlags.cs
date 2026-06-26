@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Different flags for cvCalibrateCamera2 and cvStereoCalibrate

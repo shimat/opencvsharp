@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 // ReSharper disable InconsistentNaming

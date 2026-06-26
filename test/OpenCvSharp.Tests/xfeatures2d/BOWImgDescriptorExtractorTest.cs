@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
 using Xunit;

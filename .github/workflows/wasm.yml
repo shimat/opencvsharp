@@ -1,4 +1,4 @@
-﻿name: Wasm
+name: Wasm
 
 on:
   pull_request:

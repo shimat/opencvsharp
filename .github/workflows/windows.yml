@@ -1,4 +1,4 @@
-﻿name: Windows Server 2025
+name: Windows Server 2025
 
 on:
   workflow_dispatch:

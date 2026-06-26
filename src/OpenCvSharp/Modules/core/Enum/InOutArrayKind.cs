@@ -1,4 +1,4 @@
-﻿#pragma warning disable 1591
+#pragma warning disable 1591
 #pragma warning disable CA2217 // Do not mark enums with FlagsAttribute
 
 namespace OpenCvSharp;

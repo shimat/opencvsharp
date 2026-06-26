@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Flann;
+using OpenCvSharp.Flann;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Features;

@@ -1,4 +1,4 @@
-﻿# CMake initial cache for OpenCV full build.
+# CMake initial cache for OpenCV full build.
 # Used via: cmake -C cmake/opencv_build_options.cmake -S opencv ...
 # Platform-specific settings (CMAKE_INSTALL_PREFIX, OPENCV_EXTRA_MODULES_PATH,
 # CMAKE_PREFIX_PATH, generator) are passed directly by each build script/workflow.

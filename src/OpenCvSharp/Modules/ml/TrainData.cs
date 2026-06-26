@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.ML;
+namespace OpenCvSharp.ML;
 
 /// <summary>
 /// 

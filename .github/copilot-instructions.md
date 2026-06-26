@@ -1,43 +1,12 @@
-﻿﻿# Copilot Instructions
+# Copilot Instructions
 
 ## File encoding
 
-All source files in this repository use **UTF-8 with BOM** (`EF BB BF`).
+All text files in this repository use **UTF-8 without a BOM**. This applies to `.cs`, `.csproj`, `.yml`, `.md`, `.json`, `.cpp`, `.h`, and every other text file — there are no exceptions.
 
-When creating or editing files, always save them as UTF-8 with BOM. This applies to `.cs`, `.csproj`, `.yml`, `.md`, `.json`, and all other text files.
-
-**Exception — Linux tooling files: use UTF-8 without BOM.**
-The following file types are processed by Linux tools (Docker, bash) that do not tolerate a BOM and must be saved **without** BOM:
-- `Dockerfile` and any file named `*.Dockerfile`
-- Shell scripts (`.sh`)
-
-Do **not** save files as UTF-8 without BOM, ANSI, or Shift-JIS — doing so will corrupt Japanese content and break Visual Studio / MSBuild tooling (for the files above that require BOM).
-
-### Editing workflow requirement
-
-Maintain correct encoding **during each edit/create step** — do not correct it in a follow-up step.
-
-Do not rely on a final "bulk conversion/check" step at the end of the task.
-
-**⚠️ AI assistants frequently forget the BOM on newly created files.** Every time you create a new file (`.cs`, `.md`, `.csproj`, `.yml`, `.json`, etc.), apply the BOM conversion right away — including `CLAUDE.md`, files under `docs/`, `src/`, `nuget/`, and anywhere else in the repo. There are no exceptions for "small" or "documentation-only" files.
-
-**Important:** The `Write` / `create_file` tool always creates files without BOM. Never assume a newly created file has BOM. Always apply the PowerShell command below immediately after creating any file that requires BOM:
-
-```powershell
-$enc = New-Object System.Text.UTF8Encoding $true
-[System.IO.File]::WriteAllText("path\to\file", [System.IO.File]::ReadAllText("path\to\file"), $enc)
-```
-
-### Verification
-
-Do not run the verification/conversion commands on every edit by default.
-Prevent encoding issues through edit/create operations that preserve UTF-8 BOM.
-Run the commands below only when preservation cannot be guaranteed or when troubleshooting is required.
-```powershell
-# Check whether a file has UTF-8 BOM
-$b = [System.IO.File]::ReadAllBytes("path\to\file")
-$b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF   # should be True
-```
+- `.editorconfig` declares `charset = utf-8` (no BOM) for all files, so editors and `dotnet format` enforce this automatically.
+- The `Write` / `create_file` tool already produces UTF-8 without a BOM, so just create and edit files normally — no encoding fix-up step is needed.
+- Do **not** add a BOM, and do not save as ANSI, Shift-JIS, or UTF-16. The repository is English-only (ASCII), and the C++ build sets the UTF-8 source charset, so MSVC reads the sources correctly without a BOM.
 
 ## NuGet README sync
 
