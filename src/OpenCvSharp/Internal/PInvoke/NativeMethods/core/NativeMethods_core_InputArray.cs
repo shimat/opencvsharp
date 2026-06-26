@@ -41,74 +41,74 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_InputArray_delete_withScalar(IntPtr ia, IntPtr handle);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getMat(IntPtr ia, int idx, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_getMat(OpenCvSafeHandle ia, int idx, out IntPtr returnValue);
     //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     //public static extern ExceptionStatus core_InputArray_getMat_(IntPtr ia, int idx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getUMat(IntPtr ia, int idx, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_getUMat(OpenCvSafeHandle ia, int idx, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getMatVector(IntPtr ia, IntPtr mv);
+    public static partial ExceptionStatus core_InputArray_getMatVector(OpenCvSafeHandle ia, IntPtr mv);
     //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     //public static extern void core_InputArray_getUMatVector(IntPtr ia, IntPtr umv);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getFlags(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_getFlags(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getObj(IntPtr ia, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_getObj(OpenCvSafeHandle ia, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_getSz(IntPtr ia, out Size returnValue);
+    public static partial ExceptionStatus core_InputArray_getSz(OpenCvSafeHandle ia, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_kind(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_kind(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_dims(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_dims(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_cols(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_cols(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_rows(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_rows(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_size(IntPtr ia, int i, out Size returnValue);
+    public static partial ExceptionStatus core_InputArray_size(OpenCvSafeHandle ia, int i, out Size returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_sizend(IntPtr ia, int[] sz, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_sizend(OpenCvSafeHandle ia, int[] sz, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_sameSize(IntPtr self, IntPtr target, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_sameSize(OpenCvSafeHandle self, IntPtr target, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_total(IntPtr ia, int i, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_total(OpenCvSafeHandle ia, int i, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_type(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_type(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_depth(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_depth(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_channels(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_channels(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isContinuous(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isContinuous(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isSubmatrix(IntPtr ia, int i, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isSubmatrix(OpenCvSafeHandle ia, int i, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_empty(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_empty(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_copyTo1(IntPtr ia, IntPtr arr);
+    public static partial ExceptionStatus core_InputArray_copyTo1(OpenCvSafeHandle ia, IntPtr arr);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_copyTo2(IntPtr ia, IntPtr arr, IntPtr mask);
+    public static partial ExceptionStatus core_InputArray_copyTo2(OpenCvSafeHandle ia, IntPtr arr, IntPtr mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_offset(IntPtr ia, int i, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_offset(OpenCvSafeHandle ia, int i, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_step(IntPtr ia, int i, out IntPtr returnValue);
+    public static partial ExceptionStatus core_InputArray_step(OpenCvSafeHandle ia, int i, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isMat(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isMat(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isUMat(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isUMat(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isMatVector(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isMatVector(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isUMatVector(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isUMatVector(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isMatx(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isMatx(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isVector(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isVector(OpenCvSafeHandle ia, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_isGpuMatVector(IntPtr ia, out int returnValue);
+    public static partial ExceptionStatus core_InputArray_isGpuMatVector(OpenCvSafeHandle ia, out int returnValue);
 }
