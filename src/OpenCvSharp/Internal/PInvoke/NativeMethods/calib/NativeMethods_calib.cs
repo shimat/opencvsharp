@@ -165,16 +165,18 @@ static partial class NativeMethods
         IntPtr R_gripper2cam, IntPtr t_gripper2cam,
         int method);
 
-    // Multidimensional arrays (double[,]) are not supported by source-generated marshalling; keep classic DllImport.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib_calibrateRobotWorldHandEye_Pointer(
+    // The 3x3 output matrices are contiguous, blittable double[,]; pass them as (pinned) Span<double>
+    // so source-generated marshalling can handle them (native writes into the buffer via double*).
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus calib_calibrateRobotWorldHandEye_Pointer(
         IntPtr[] R_world2camMats, int R_world2camMatsSize,
         IntPtr[] t_world2camMats, int t_world2camMatsSize,
         IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
         IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
-        [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_base2world, 
+        Span<double> R_base2world,
         [MarshalAs(UnmanagedType.LPArray), Out] double[] t_base2world,
-        [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_gripper2cam, 
+        Span<double> R_gripper2cam,
         [MarshalAs(UnmanagedType.LPArray), Out] double[] t_gripper2cam,
         int method);
 }

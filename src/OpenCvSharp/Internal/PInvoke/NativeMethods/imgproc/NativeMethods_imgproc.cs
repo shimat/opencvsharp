@@ -186,10 +186,12 @@ static partial class NativeMethods
     public static partial ExceptionStatus imgproc_warpPerspective_MisInputArray(
         IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue, int hint);
 
-    // Multidimensional arrays (float[,]) are not supported by source-generated marshalling; keep classic DllImport.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_warpPerspective_MisArray(
-        IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.LPArray)] float[,] m, int mRow, int mCol,
+    // The 3x3 matrix is a contiguous, blittable float[,]; pass it as a (pinned) ReadOnlySpan with the
+    // dimensions kept as separate ints, so source-generated marshalling can handle it (native takes float*).
+    [LibraryImport(DllExtern)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgproc_warpPerspective_MisArray(
+        IntPtr src, IntPtr dst, ReadOnlySpan<float> m, int mRow, int mCol,
         Size dsize, int flags, int borderMode, Scalar borderValue, int hint);
 
     [LibraryImport(DllExtern)]
