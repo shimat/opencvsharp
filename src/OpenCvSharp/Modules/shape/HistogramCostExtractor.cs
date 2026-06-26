@@ -33,9 +33,8 @@ public abstract class HistogramCostExtractor : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.shape_HistogramCostExtractor_buildCostMatrix(
-                RawPtr, descriptors1.CvPtr, descriptors2.CvPtr, costMatrix.CvPtr));
+                Handle, descriptors1.CvPtr, descriptors2.CvPtr, costMatrix.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(descriptors1);
         GC.KeepAlive(descriptors2);
         costMatrix.Fix();
@@ -50,16 +49,14 @@ public abstract class HistogramCostExtractor : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HistogramCostExtractor_getNDummies(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.shape_HistogramCostExtractor_getNDummies(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HistogramCostExtractor_setNDummies(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.shape_HistogramCostExtractor_setNDummies(Handle, value));
         }
     }
 
@@ -72,16 +69,14 @@ public abstract class HistogramCostExtractor : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HistogramCostExtractor_getDefaultCost(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.shape_HistogramCostExtractor_getDefaultCost(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HistogramCostExtractor_setDefaultCost(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.shape_HistogramCostExtractor_setDefaultCost(Handle, value));
         }
     }
 }

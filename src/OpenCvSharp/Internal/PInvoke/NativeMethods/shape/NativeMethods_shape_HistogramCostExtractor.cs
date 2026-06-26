@@ -13,19 +13,19 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_HistogramCostExtractor_buildCostMatrix(
-        IntPtr obj, IntPtr descriptors1, IntPtr descriptors2, IntPtr costMatrix);
+        OpenCvSafeHandle obj, IntPtr descriptors1, IntPtr descriptors2, IntPtr costMatrix);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HistogramCostExtractor_setNDummies(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_HistogramCostExtractor_setNDummies(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HistogramCostExtractor_getNDummies(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_HistogramCostExtractor_getNDummies(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HistogramCostExtractor_setDefaultCost(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_HistogramCostExtractor_setDefaultCost(OpenCvSafeHandle obj, float val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HistogramCostExtractor_getDefaultCost(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_HistogramCostExtractor_getDefaultCost(OpenCvSafeHandle obj, out float returnValue);
 
     // Ptr<HistogramCostExtractor> lifetime management (shared across all subclasses)
 
@@ -42,10 +42,10 @@ static partial class NativeMethods
         int flag, int nDummies, float defaultCost, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_NormHistogramCostExtractor_setNormFlag(IntPtr obj, int flag);
+    public static partial ExceptionStatus shape_NormHistogramCostExtractor_setNormFlag(OpenCvSafeHandle obj, int flag);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_NormHistogramCostExtractor_getNormFlag(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_NormHistogramCostExtractor_getNormFlag(OpenCvSafeHandle obj, out int returnValue);
 
     // EMDHistogramCostExtractor
 
@@ -54,10 +54,10 @@ static partial class NativeMethods
         int flag, int nDummies, float defaultCost, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_EMDHistogramCostExtractor_setNormFlag(IntPtr obj, int flag);
+    public static partial ExceptionStatus shape_EMDHistogramCostExtractor_setNormFlag(OpenCvSafeHandle obj, int flag);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_EMDHistogramCostExtractor_getNormFlag(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_EMDHistogramCostExtractor_getNormFlag(OpenCvSafeHandle obj, out int returnValue);
 
     // ChiHistogramCostExtractor
 

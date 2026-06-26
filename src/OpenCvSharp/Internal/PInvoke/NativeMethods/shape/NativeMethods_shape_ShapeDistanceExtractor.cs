@@ -13,7 +13,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeDistanceExtractor_computeDistance(
-        IntPtr obj, IntPtr contour1, IntPtr contour2, out float returnValue);
+        OpenCvSafeHandle obj, IntPtr contour1, IntPtr contour2, out float returnValue);
 
     // ShapeContextDistanceExtractor
 
@@ -24,59 +24,59 @@ static partial class NativeMethods
     public static partial ExceptionStatus shape_Ptr_ShapeContextDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setAngularBins(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setAngularBins(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getAngularBins(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getAngularBins(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRadialBins(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRadialBins(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRadialBins(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRadialBins(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setInnerRadius(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setInnerRadius(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getInnerRadius(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getInnerRadius(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setOuterRadius(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setOuterRadius(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getOuterRadius(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getOuterRadius(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRotationInvariant(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setRotationInvariant(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRotationInvariant(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getRotationInvariant(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setShapeContextWeight(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setShapeContextWeight(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getShapeContextWeight(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getShapeContextWeight(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(IntPtr obj, IntPtr image1, IntPtr image2);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(OpenCvSafeHandle obj, IntPtr image1, IntPtr image2);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(IntPtr obj, IntPtr image1, IntPtr image2);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(OpenCvSafeHandle obj, IntPtr image1, IntPtr image2);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setIterations(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getIterations(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setStdDev(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setStdDev(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getStdDev(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getStdDev(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_createShapeContextDistanceExtractor(
@@ -95,14 +95,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus shape_Ptr_HausdorffDistanceExtractor_get(IntPtr obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setDistanceFlag(IntPtr obj, int val);
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setDistanceFlag(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getDistanceFlag(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getDistanceFlag(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setRankProportion(IntPtr obj, float val);
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_setRankProportion(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getRankProportion(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus shape_HausdorffDistanceExtractor_getRankProportion(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_createHausdorffDistanceExtractor(int distanceFlag, float rankProp, out IntPtr returnValue);
@@ -111,5 +111,5 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setCostExtractor(
-        IntPtr obj, IntPtr comparer);
+        OpenCvSafeHandle obj, IntPtr comparer);
 }

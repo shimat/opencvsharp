@@ -13,15 +13,15 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeTransformer_estimateTransformation(
-        IntPtr obj, IntPtr transformingShape, IntPtr targetShape, IntPtr matches);
+        OpenCvSafeHandle obj, IntPtr transformingShape, IntPtr targetShape, IntPtr matches);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeTransformer_applyTransformation(
-        IntPtr obj, IntPtr input, IntPtr output, out float returnValue);
+        OpenCvSafeHandle obj, IntPtr input, IntPtr output, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeTransformer_warpImage(
-        IntPtr obj, IntPtr transformingImage, IntPtr output,
+        OpenCvSafeHandle obj, IntPtr transformingImage, IntPtr output,
         int flags, int borderMode, Scalar borderValue);
 
     // ThinPlateSplineShapeTransformer
@@ -39,11 +39,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(
-        IntPtr obj, double beta);
+        OpenCvSafeHandle obj, double beta);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(
-        IntPtr obj, out double returnValue);
+        OpenCvSafeHandle obj, out double returnValue);
 
     // AffineTransformer
 
@@ -59,11 +59,11 @@ static partial class NativeMethods
         int fullAffine, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_AffineTransformer_setFullAffine(IntPtr obj, int value);
+    public static partial ExceptionStatus shape_AffineTransformer_setFullAffine(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_AffineTransformer_getFullAffine(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     // Upcast helpers: Ptr<Derived> → Ptr<ShapeTransformer>
 
@@ -80,5 +80,5 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
-        IntPtr obj, IntPtr transformer);
+        OpenCvSafeHandle obj, IntPtr transformer);
 }
