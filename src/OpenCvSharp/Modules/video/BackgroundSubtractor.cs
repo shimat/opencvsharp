@@ -29,10 +29,9 @@ public abstract class BackgroundSubtractor : Algorithm
         fgmask.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_apply(RawPtr, image.CvPtr, fgmask.CvPtr, learningRate));
+            NativeMethods.video_BackgroundSubtractor_apply(Handle, image.CvPtr, fgmask.CvPtr, learningRate));
             
         fgmask.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         GC.KeepAlive(fgmask);
     }
@@ -48,8 +47,7 @@ public abstract class BackgroundSubtractor : Algorithm
         backgroundImage.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(RawPtr, backgroundImage.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(Handle, backgroundImage.CvPtr));
         GC.KeepAlive(backgroundImage);
         backgroundImage.Fix();
     }

@@ -112,10 +112,10 @@ static partial class NativeMethods
     // Tracker
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_Tracker_init(IntPtr obj, IntPtr image, Rect boundingBox);
+    public static partial ExceptionStatus video_Tracker_init(OpenCvSafeHandle obj, IntPtr image, Rect boundingBox);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_Tracker_update(IntPtr obj, IntPtr image, ref Rect boundingBox, out int returnValue);
+    public static partial ExceptionStatus video_Tracker_update(OpenCvSafeHandle obj, IntPtr image, ref Rect boundingBox, out int returnValue);
         
 
     // TrackerMIL
