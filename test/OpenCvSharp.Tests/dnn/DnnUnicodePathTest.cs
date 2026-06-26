@@ -35,4 +35,27 @@ public class DnnUnicodePathTest : TestBase
                 File.Delete(unicodePath);
         }
     }
+
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
+    public void ReadNetUnicodePath()
+    {
+        // Generic ReadNet infers the framework (tensorflow) from the .pb extension; on Windows the
+        // non-representable path is read via wide + the framework-explicit buffer overload.
+        Assert.True(File.Exists(MnistModelPath), $"'{MnistModelPath}' not found");
+
+        var unicodePath = Path.Combine("_data", "model", "mnist_readnet_😀🍀.pb");
+        try
+        {
+            File.Copy(MnistModelPath, unicodePath, true);
+
+            using var net = CvDnn.ReadNet(unicodePath);
+            Assert.NotNull(net);
+            Assert.False(net!.Empty());
+        }
+        finally
+        {
+            if (File.Exists(unicodePath))
+                File.Delete(unicodePath);
+        }
+    }
 }

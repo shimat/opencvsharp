@@ -28,30 +28,16 @@ static partial class NativeMethods
         int engine,
         out IntPtr returnValue);
 
-    // readNet
+    // readNet (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows, with the
+    // framework inferred from the model extension when not given)
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNet"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNet_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string config,
+    public static partial ExceptionStatus dnn_readNet(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string config,
         [MarshalAs(UnmanagedType.LPStr)] string framework,
         int engine,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNet"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNet_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string config,
-        [MarshalAs(UnmanagedType.LPStr)] string framework,
-        int engine,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNet(string model, string config, string framework, int engine, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNet_Windows(model, config, framework, engine, out returnValue);
-        return dnn_readNet_NotWindows(model, config, framework, engine, out returnValue);
-    }
 
     // readNetFromModelOptimizer (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows)
 
