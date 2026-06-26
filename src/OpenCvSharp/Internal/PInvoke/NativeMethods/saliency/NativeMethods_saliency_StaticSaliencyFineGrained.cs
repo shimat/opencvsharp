@@ -9,27 +9,22 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_Ptr_StaticSaliencyFineGrained_delete(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_Ptr_StaticSaliencyFineGrained_get(
         IntPtr ptr, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencyFineGrained_create(
         out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencyFineGrained_computeSaliency(
         IntPtr obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencyFineGrained_computeBinaryMap(
         IntPtr obj, IntPtr saliencyMap, IntPtr binaryMap, out int returnValue);
 }

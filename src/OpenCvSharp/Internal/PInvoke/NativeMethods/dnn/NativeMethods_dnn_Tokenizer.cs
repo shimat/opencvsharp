@@ -12,13 +12,11 @@ static partial class NativeMethods
 {
     // ReSharper disable InconsistentNaming
 
-    [LibraryImport(DllExtern, EntryPoint = "dnn_Tokenizer_load")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "dnn_Tokenizer_load"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_load_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string modelConfig, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "dnn_Tokenizer_load")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "dnn_Tokenizer_load"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_load_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string modelConfig, out IntPtr returnValue);
 
@@ -27,16 +25,13 @@ static partial class NativeMethods
             ? dnn_Tokenizer_load_Windows(modelConfig, out returnValue)
             : dnn_Tokenizer_load_NotWindows(modelConfig, out returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_delete(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_encode(
         IntPtr obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_decode(IntPtr obj, int[] tokens, int tokensLength, IntPtr returnValue);
 }

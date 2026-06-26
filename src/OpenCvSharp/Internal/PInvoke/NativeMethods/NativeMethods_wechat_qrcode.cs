@@ -11,21 +11,17 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus wechat_qrcode_create1([MarshalAs(UnmanagedType.LPStr)] string detector_model_path,
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path, out IntPtr ptr);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode_points(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
 
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus wechat_qrcode_delete(IntPtr ptr);
 }

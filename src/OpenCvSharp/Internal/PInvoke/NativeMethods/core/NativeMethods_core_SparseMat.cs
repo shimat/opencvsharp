@@ -10,131 +10,98 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_new1(out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_new2(int dims, int[] sizes, MatType type, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_new3(IntPtr m, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_delete(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_operatorAssign_SparseMat(IntPtr obj, IntPtr m);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_operatorAssign_Mat(IntPtr obj, IntPtr m);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_clone(IntPtr obj, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_copyTo_SparseMat(IntPtr obj, IntPtr m);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_copyTo_Mat(IntPtr obj, IntPtr m);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_convertTo_SparseMat(
         IntPtr obj, IntPtr m, MatType rtype, double alpha);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_convertTo_Mat(
         IntPtr obj, IntPtr m, MatType rtype, double alpha, double beta);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_assignTo(IntPtr obj, IntPtr m, MatType type);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_create(IntPtr obj, int dims, int[] sizes, MatType type);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_clear(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_addref(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_release(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_elemSize(IntPtr obj, out int returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_elemSize1(IntPtr obj, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_type(IntPtr obj, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_depth(IntPtr obj, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_channels(IntPtr obj, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_size1(IntPtr obj, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_size2(IntPtr obj, int i, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_dims(IntPtr obj, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_nzcount(IntPtr obj, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_hash_1d(IntPtr obj, int i0, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_hash_2d(IntPtr obj, int i0, int i1, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_hash_3d(IntPtr obj, int i0, int i1, int i2, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SparseMat_hash_nd(IntPtr obj, int[] idx, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus core_SparseMat_ptr_1d(
         IntPtr obj, int i0, int createMissing, ulong* hashVal, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus core_SparseMat_ptr_2d(
         IntPtr obj, int i0, int i1, int createMissing, ulong* hashVal, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus core_SparseMat_ptr_3d(
         IntPtr obj, int i0, int i1, int i2, int createMissing, ulong* hashVal, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus core_SparseMat_ptr_nd(
         IntPtr obj, int[] idx, int createMissing, ulong* hashVal, out IntPtr returnValue);
 

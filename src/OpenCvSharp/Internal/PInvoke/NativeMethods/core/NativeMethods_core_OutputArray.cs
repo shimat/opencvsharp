@@ -9,37 +9,29 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_new_byMat(IntPtr mat, out IntPtr returnValue);
 
     //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     //public static extern ExceptionStatus core_OutputArray_new_byGpuMat(IntPtr mat, out IntPtr returnValue);
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_new_byUMat(IntPtr mat, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_new_byScalar(Scalar val, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_new_byVectorOfMat(IntPtr vector, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_delete(IntPtr oa);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_getMat(IntPtr oa, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_getScalar(IntPtr oa, out Scalar returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_getVectorOfMat(IntPtr oa, IntPtr vector);
 }

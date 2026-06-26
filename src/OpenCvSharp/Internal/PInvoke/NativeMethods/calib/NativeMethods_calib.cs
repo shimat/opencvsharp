@@ -10,46 +10,39 @@ namespace OpenCvSharp.Internal;
 // ReSharper disable InconsistentNaming
 static partial class NativeMethods
 {
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_initCameraMatrix2D_Mat(
         IntPtr[] objectPoints, int objectPointsLength,
         IntPtr[] imagePoints, int imagePointsLength,
         Size imageSize, double aspectRatio, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_initCameraMatrix2D_array(
         IntPtr[] objectPoints, int opSize1, int[] opSize2,
         IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
         Size imageSize, double aspectRatio, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_findChessboardCorners_InputArray(
         IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_findChessboardCorners_vector(
         IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_findCirclesGrid_InputArray(
         IntPtr image, Size patternSize,
         IntPtr centers, int flags, IntPtr blobDetector,
         out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_findCirclesGrid_vector(
         IntPtr image, Size patternSize,
         IntPtr centers, int flags, IntPtr blobDetector,
         out int returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_calibrateCamera_InputArray(
         IntPtr[] objectPoints, int objectPointsSize,
         IntPtr[] imagePoints, int imagePointsSize,
@@ -60,8 +53,7 @@ static partial class NativeMethods
         out double returnValue);
 
     // OpenCV 5 multi-view calibration
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_registerCameras(
         IntPtr[] objectPoints1, int objectPoints1Size,
         IntPtr[] objectPoints2, int objectPoints2Size,
@@ -73,8 +65,7 @@ static partial class NativeMethods
         IntPtr perViewErrors,
         int flags, TermCriteria criteria, out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_calibrateMultiview(
         IntPtr[] objPoints, int objPointsSize,
         IntPtr[] imagePoints, int numCameras, int[] framesPerCamera,
@@ -83,8 +74,7 @@ static partial class NativeMethods
         IntPtr ks, IntPtr distortions, IntPtr rs, IntPtr ts,
         IntPtr flagsForIntrinsics, int flags, TermCriteria criteria, out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus calib_calibrateCamera_vector(
         IntPtr[] objectPoints, int opSize1, int[] opSize2,
         IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
@@ -95,8 +85,7 @@ static partial class NativeMethods
         int flags, TermCriteria criteria,
         out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_stereoCalibrate_InputArray(
         IntPtr[] objectPoints, int opSize,
         IntPtr[] imagePoints1, int ip1Size,
@@ -111,8 +100,7 @@ static partial class NativeMethods
         int flags, TermCriteria criteria,
         out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_stereoCalibrate_Mat(
         IntPtr[] objectPoints, int opSize,
         IntPtr[] imagePoints1, int ip1Size,
@@ -127,8 +115,7 @@ static partial class NativeMethods
         int flags, TermCriteria criteria,
         out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus calib_stereoCalibrate_array(
         IntPtr[] objectPoints, int opSize1, int[] opSizes2,
         IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
@@ -143,8 +130,7 @@ static partial class NativeMethods
         int flags, TermCriteria criteria,
         out double returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_calibrateHandEye(
         IntPtr[] R_gripper2baseMats, int R_gripper2baseMatsSize,
         IntPtr[] t_gripper2baseMats, int t_gripper2baseMatsSize,
@@ -154,8 +140,7 @@ static partial class NativeMethods
         IntPtr t_cam2gripper,
         int method);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_calibrateRobotWorldHandEye_OutputArray(
         IntPtr[] R_world2camMats, int R_world2camMatsSize,
         IntPtr[] t_world2camMats, int t_world2camMatsSize,
@@ -167,8 +152,7 @@ static partial class NativeMethods
 
     // The 3x3 output matrices are contiguous, blittable double[,]; pass them as (pinned) Span<double>
     // so source-generated marshalling can handle them (native writes into the buffer via double*).
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus calib_calibrateRobotWorldHandEye_Pointer(
         IntPtr[] R_world2camMats, int R_world2camMatsSize,
         IntPtr[] t_world2camMats, int t_world2camMatsSize,

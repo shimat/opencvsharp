@@ -10,13 +10,11 @@ static partial class NativeMethods
 {
     // imread
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imread")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imread"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imread_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, int flags, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imread")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imread"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imread_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, int flags, out IntPtr returnValue);
 
@@ -29,13 +27,11 @@ static partial class NativeMethods
 
     // imreadmulti
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imreadmulti")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imreadmulti"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imreadmulti_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, IntPtr mats, int flags, out int returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imreadmulti")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imreadmulti"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imreadmulti_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, IntPtr mats, int flags, out int returnValue);
 
@@ -48,13 +44,11 @@ static partial class NativeMethods
 
     // imwrite
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwrite_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwrite_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
@@ -72,13 +66,11 @@ static partial class NativeMethods
 
     // imwrite_multi
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite_multi")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite_multi"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwrite_multi_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite_multi")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite_multi"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwrite_multi_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
@@ -91,36 +83,30 @@ static partial class NativeMethods
 
     // 
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imdecode_Mat(
         IntPtr buf, int flags, out IntPtr returnValue);
         
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus imgcodecs_imdecode_vector(
         byte* buf, int bufLength, int flags, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imdecode_InputArray(
         IntPtr buf, int flags, out IntPtr returnValue);
 
     // Do not consider that "ext" may not be ASCII characters
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imencode_vector(
         [MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
 
     // haveImageReader
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_haveImageReader")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_haveImageReader"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_haveImageReader_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, out int returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_haveImageReader")]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern, EntryPoint = "imgcodecs_haveImageReader"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_haveImageReader_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, out int returnValue);
 
@@ -138,8 +124,7 @@ static partial class NativeMethods
         
     // haveImageWriter
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_haveImageWriter(
         [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
 }

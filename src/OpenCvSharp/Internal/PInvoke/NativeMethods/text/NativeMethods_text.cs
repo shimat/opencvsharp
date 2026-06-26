@@ -11,8 +11,7 @@ static partial class NativeMethods
 {
     // BaseOCR
     /*
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_BaseOCR_run1(
         IntPtr obj,
         IntPtr image,
@@ -22,8 +21,7 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_BaseOCR_run2(
         IntPtr obj,
         IntPtr image,
@@ -37,8 +35,7 @@ static partial class NativeMethods
 
     // OCRTesseract
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run1(
         IntPtr obj,
         IntPtr image,
@@ -48,8 +45,7 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run2(
         IntPtr obj,
         IntPtr image,
@@ -61,8 +57,7 @@ static partial class NativeMethods
         int componentLevel);
 
     /*
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run3(
         IntPtr obj,
         IntPtr image,
@@ -70,8 +65,7 @@ static partial class NativeMethods
         int componentLevel,
         IntPtr dst);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run4(
         IntPtr obj,
         IntPtr image,
@@ -80,14 +74,12 @@ static partial class NativeMethods
         int componentLevel,
         IntPtr dst);*/
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_setWhiteList(
         IntPtr obj, 
         [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_create(
         [MarshalAs(UnmanagedType.LPStr)] string? datapath,
         [MarshalAs(UnmanagedType.LPStr)] string? language,
@@ -96,18 +88,15 @@ static partial class NativeMethods
         int psmode, 
         out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_Ptr_OCRTesseract_get(IntPtr ptr, out IntPtr returnValue);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
 
     // swt_text_detection.hpp
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_detectTextSWT(
         IntPtr input, IntPtr result, int darkOnLight, IntPtr draw, IntPtr chainBBs);
 }

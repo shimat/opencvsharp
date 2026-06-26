@@ -12,40 +12,34 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_create(
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path,
         out IntPtr ptr
     );
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setDownsamplingThreshold(
         IntPtr obj,
         double thresh
     );
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setDetectorScales(
         IntPtr obj,
         IntPtr sizes
     );
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setGradientThreshold(
         IntPtr obj,
         double thresh
     );
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_decodeWithType(
         IntPtr obj,
         IntPtr inputImage,
@@ -54,8 +48,7 @@ static partial class NativeMethods
         IntPtr types
     );
 
-    [LibraryImport(DllExtern)]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
         IntPtr obj,
         IntPtr inputImage,
