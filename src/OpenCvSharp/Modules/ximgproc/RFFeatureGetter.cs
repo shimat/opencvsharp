@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -64,9 +64,8 @@ public class RFFeatureGetter : Algorithm
             
         NativeMethods.HandleException(
             NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
-                RawPtr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
+                Handle, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(features);
     }

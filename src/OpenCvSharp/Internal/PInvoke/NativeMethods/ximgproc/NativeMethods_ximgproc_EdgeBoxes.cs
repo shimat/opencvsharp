@@ -13,56 +13,56 @@ static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_EdgeBoxes_getBoundingBoxes(
-        IntPtr obj, IntPtr edgeMap, IntPtr orientationMap, IntPtr boxes);
+        OpenCvSafeHandle obj, IntPtr edgeMap, IntPtr orientationMap, IntPtr boxes);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getAlpha(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getAlpha(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setAlpha(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setAlpha(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getBeta(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getBeta(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setBeta(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setBeta(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEta(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEta(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEta(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEta(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMinScore(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMinScore(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMinScore(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMinScore(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMaxBoxes(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMaxBoxes(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMaxBoxes(IntPtr obj, int value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMaxBoxes(OpenCvSafeHandle obj, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEdgeMinMag(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEdgeMinMag(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEdgeMinMag(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEdgeMinMag(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEdgeMergeThr(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getEdgeMergeThr(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEdgeMergeThr(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setEdgeMergeThr(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getClusterMinMag(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getClusterMinMag(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setClusterMinMag(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setClusterMinMag(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMaxAspectRatio(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMaxAspectRatio(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMaxAspectRatio(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMaxAspectRatio(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMinBoxArea(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getMinBoxArea(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMinBoxArea(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setMinBoxArea(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getGamma(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getGamma(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setGamma(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setGamma(OpenCvSafeHandle obj, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getKappa(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_getKappa(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_setKappa(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_EdgeBoxes_setKappa(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createEdgeBoxes(

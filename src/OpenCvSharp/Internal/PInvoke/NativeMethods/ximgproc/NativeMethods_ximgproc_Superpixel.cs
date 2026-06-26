@@ -23,23 +23,23 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_iterate(
-        IntPtr obj, int num_iterations);
+        OpenCvSafeHandle obj, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabels(
-        IntPtr obj, IntPtr labels_out);
+        OpenCvSafeHandle obj, IntPtr labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabelContourMask(
-        IntPtr obj, IntPtr image, int thick_line);
+        OpenCvSafeHandle obj, IntPtr image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_enforceLabelConnectivity(
-        IntPtr obj, int min_element_size);
+        OpenCvSafeHandle obj, int min_element_size);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createSuperpixelLSC(
@@ -58,19 +58,19 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_iterate(
-        IntPtr obj, IntPtr img, int num_iterations);
+        OpenCvSafeHandle obj, IntPtr img, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabels(
-        IntPtr obj, IntPtr labels_out);
+        OpenCvSafeHandle obj, IntPtr labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabelContourMask(
-        IntPtr obj, IntPtr image, int thick_line);
+        OpenCvSafeHandle obj, IntPtr image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createSuperpixelSEEDS(
@@ -92,23 +92,23 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_iterate(
-        IntPtr obj, int num_iterations);
+        OpenCvSafeHandle obj, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabels(
-        IntPtr obj, IntPtr labels_out);
+        OpenCvSafeHandle obj, IntPtr labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabelContourMask(
-        IntPtr obj, IntPtr image, int thick_line);
+        OpenCvSafeHandle obj, IntPtr image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-        IntPtr obj, int min_element_size);
+        OpenCvSafeHandle obj, int min_element_size);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createSuperpixelSLIC(

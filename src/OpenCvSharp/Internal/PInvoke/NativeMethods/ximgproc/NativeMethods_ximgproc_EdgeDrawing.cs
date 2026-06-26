@@ -44,38 +44,38 @@ static partial class NativeMethods
     public static partial ExceptionStatus ximgproc_createEdgeDrawing(out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEdges(IntPtr obj, IntPtr src);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEdges(OpenCvSafeHandle obj, IntPtr src);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_getEdgeImage(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_getEdgeImage(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_getGradientImage(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_getGradientImage(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_getSegments(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_getSegments(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_getSegmentIndicesOfLines(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_getSegmentIndicesOfLines(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectLines(IntPtr obj, IntPtr lines);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectLines(OpenCvSafeHandle obj, IntPtr lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectLines_vector(IntPtr obj, IntPtr lines);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectLines_vector(OpenCvSafeHandle obj, IntPtr lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEllipses(IntPtr obj, IntPtr ellipses);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEllipses(OpenCvSafeHandle obj, IntPtr ellipses);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEllipses_vector(IntPtr obj, IntPtr ellipses);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_detectEllipses_vector(OpenCvSafeHandle obj, IntPtr ellipses);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_EdgeDrawing_Params_default(out CvEdgeDrawingParams returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_getParams(IntPtr obj, out CvEdgeDrawingParams returnValue);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_getParams(OpenCvSafeHandle obj, out CvEdgeDrawingParams returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeDrawing_setParams(IntPtr obj, ref CvEdgeDrawingParams parameters);
+    public static partial ExceptionStatus ximgproc_EdgeDrawing_setParams(OpenCvSafeHandle obj, ref CvEdgeDrawingParams parameters);
 }

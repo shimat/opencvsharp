@@ -18,7 +18,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
-        IntPtr obj, IntPtr _img, IntPtr @out);
+        OpenCvSafeHandle obj, IntPtr _img, IntPtr @out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_delete(IntPtr obj);
