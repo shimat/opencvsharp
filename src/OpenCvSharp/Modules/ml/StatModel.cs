@@ -20,8 +20,7 @@ public abstract class StatModel : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_getVarCount(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ml_StatModel_getVarCount(Handle, out var ret));
         return ret;
     }
 
@@ -33,8 +32,7 @@ public abstract class StatModel : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_empty(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ml_StatModel_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -46,8 +44,7 @@ public abstract class StatModel : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_isTrained(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ml_StatModel_isTrained(Handle, out var ret));
         return ret != 0;
     }
 
@@ -59,8 +56,7 @@ public abstract class StatModel : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_isClassifier(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ml_StatModel_isClassifier(Handle, out var ret));
         return ret != 0;
     }
 
@@ -95,8 +91,7 @@ public abstract class StatModel : Algorithm
         responses.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_train2(RawPtr, samples.CvPtr, (int)layout, responses.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ml_StatModel_train2(Handle, samples.CvPtr, (int)layout, responses.CvPtr, out var ret));
         GC.KeepAlive(samples);
         GC.KeepAlive(responses);
         return ret != 0;
@@ -136,8 +131,7 @@ public abstract class StatModel : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_StatModel_predict(
-                RawPtr, samples.CvPtr, Cv2.ToPtr(results), (int) flags, out var ret));
-        GC.KeepAlive(this);
+                Handle, samples.CvPtr, Cv2.ToPtr(results), (int) flags, out var ret));
         GC.KeepAlive(samples);
         GC.KeepAlive(results);
         results?.Fix();

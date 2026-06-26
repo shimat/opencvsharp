@@ -12,9 +12,9 @@ static partial class NativeMethods
     #region BackgroundSubtractor
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractor_getBackgroundImage(IntPtr self, IntPtr backgroundImage);
+    public static partial ExceptionStatus video_BackgroundSubtractor_getBackgroundImage(OpenCvSafeHandle self, IntPtr backgroundImage);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractor_apply(IntPtr self, IntPtr image, IntPtr fgmask, double learningRate);
+    public static partial ExceptionStatus video_BackgroundSubtractor_apply(OpenCvSafeHandle self, IntPtr image, IntPtr fgmask, double learningRate);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus video_Ptr_BackgroundSubtractor_delete(IntPtr ptr);
