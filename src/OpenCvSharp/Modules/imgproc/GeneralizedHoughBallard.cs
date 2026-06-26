@@ -41,16 +41,14 @@ public class GeneralizedHoughBallard : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughBallard_setLevels(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHoughBallard_setLevels(Handle, value));
         }
     }
 
@@ -65,16 +63,14 @@ public class GeneralizedHoughBallard : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(Handle, value));
         }
     }
 }

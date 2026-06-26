@@ -30,5 +30,5 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_FaceDetectorYN_detect(
-        IntPtr obj, IntPtr image, IntPtr faces, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr faces, out int returnValue);
 }
