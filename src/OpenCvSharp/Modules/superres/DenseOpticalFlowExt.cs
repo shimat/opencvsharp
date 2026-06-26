@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -90,8 +90,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     public virtual void CollectGarbage()
     {
         NativeMethods.HandleException(
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(Handle));
     }
 
     /// <summary>
@@ -116,9 +115,8 @@ public abstract class DenseOpticalFlowExt : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(
-                RawPtr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+                Handle, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(frame0);
         GC.KeepAlive(frame1);
         GC.KeepAlive(flow1);

@@ -11,9 +11,9 @@ static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_DenseOpticalFlowExt_calc(
-        IntPtr obj, IntPtr frame0, IntPtr frame1, IntPtr flow1, IntPtr flow2);
+        OpenCvSafeHandle obj, IntPtr frame0, IntPtr frame1, IntPtr flow1, IntPtr flow2);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DenseOpticalFlowExt_collectGarbage(IntPtr obj);
+    public static partial ExceptionStatus superres_DenseOpticalFlowExt_collectGarbage(OpenCvSafeHandle obj);
         
     #region FarnebackOpticalFlow
 
@@ -28,33 +28,33 @@ static partial class NativeMethods
     public static partial ExceptionStatus superres_Ptr_FarnebackOpticalFlow_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPyrScale(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPyrScale(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPyrScale(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPyrScale(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getLevelsNumber(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getLevelsNumber(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setLevelsNumber(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setLevelsNumber(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getWindowSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getWindowSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setWindowSize(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setWindowSize(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setIterations(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPolyN(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPolyN(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPolyN(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPolyN(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPolySigma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getPolySigma(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPolySigma(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setPolySigma(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getFlags(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_getFlags(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setFlags(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_FarnebackOpticalFlow_setFlags(OpenCvSafeHandle obj, int val);
 
     #endregion
 
@@ -71,37 +71,37 @@ static partial class NativeMethods
     public static partial ExceptionStatus superres_Ptr_DualTVL1OpticalFlow_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getTau(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getTau(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setTau(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setTau(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getLambda(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getLambda(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setLambda(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setLambda(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getTheta(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getTheta(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setTheta(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setTheta(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getScalesNumber(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getScalesNumber(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setScalesNumber(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setScalesNumber(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getWarpingsNumber(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getWarpingsNumber(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setWarpingsNumber(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setWarpingsNumber(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getEpsilon(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getEpsilon(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setEpsilon(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setEpsilon(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setIterations(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getUseInitialFlow(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_getUseInitialFlow(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setUseInitialFlow(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_DualTVL1OpticalFlow_setUseInitialFlow(OpenCvSafeHandle obj, int val);
 
     #endregion
 
@@ -117,29 +117,29 @@ static partial class NativeMethods
     public static partial ExceptionStatus superres_Ptr_BroxOpticalFlow_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getAlpha(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getAlpha(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setAlpha(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setAlpha(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getGamma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getGamma(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setGamma(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setGamma(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getScaleFactor(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getScaleFactor(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setScaleFactor(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setScaleFactor(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getInnerIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getInnerIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setInnerIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setInnerIterations(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getOuterIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getOuterIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setOuterIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setOuterIterations(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_getSolverIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_getSolverIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_BroxOpticalFlow_setSolverIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_BroxOpticalFlow_setSolverIterations(OpenCvSafeHandle obj, int val);
 
     #endregion
 
@@ -154,17 +154,17 @@ static partial class NativeMethods
     public static partial ExceptionStatus superres_Ptr_PyrLKOpticalFlow_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getWindowSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getWindowSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setWindowSize(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setWindowSize(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getMaxLevel(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getMaxLevel(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setMaxLevel(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setMaxLevel(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_getIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_PyrLKOpticalFlow_setIterations(OpenCvSafeHandle obj, int val);
 
     #endregion
 }

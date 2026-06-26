@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -44,16 +44,14 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(Handle, value));
         }
     }
 
@@ -66,16 +64,14 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(Handle, value));
         }
     }
 
@@ -88,16 +84,14 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getIterations(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_getIterations(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setIterations(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.superres_PyrLKOpticalFlow_setIterations(Handle, value));
         }
     }
 
