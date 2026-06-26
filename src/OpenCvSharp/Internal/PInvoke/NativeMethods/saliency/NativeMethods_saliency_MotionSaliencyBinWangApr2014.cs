@@ -22,29 +22,29 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_computeSaliency(
-        IntPtr obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_setImagesize(
-        IntPtr obj, int W, int H);
+        OpenCvSafeHandle obj, int W, int H);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_init(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_getImageWidth(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_setImageWidth(
-        IntPtr obj, int val);
+        OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_getImageHeight(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_setImageHeight(
-        IntPtr obj, int val);
+        OpenCvSafeHandle obj, int val);
 }

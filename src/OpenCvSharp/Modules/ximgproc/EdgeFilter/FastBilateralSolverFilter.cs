@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -66,9 +66,8 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastBilateralSolverFilter_filter(
-                RawPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr));
+                Handle, src.CvPtr, confidence.CvPtr, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(confidence);
         dst.Fix();

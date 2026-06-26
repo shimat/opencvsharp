@@ -73,28 +73,28 @@ static partial class NativeMethods
     #region tonemap.hpp
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_getSaturation(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus xphoto_TonemapDurand_getSaturation(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_setSaturation(IntPtr obj, float saturation);
+    public static partial ExceptionStatus xphoto_TonemapDurand_setSaturation(OpenCvSafeHandle obj, float saturation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_getContrast(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus xphoto_TonemapDurand_getContrast(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_setContrast(IntPtr obj, float contrast);
+    public static partial ExceptionStatus xphoto_TonemapDurand_setContrast(OpenCvSafeHandle obj, float contrast);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_getSigmaSpace(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus xphoto_TonemapDurand_getSigmaSpace(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_setSigmaSpace(IntPtr obj, float saturation);
+    public static partial ExceptionStatus xphoto_TonemapDurand_setSigmaSpace(OpenCvSafeHandle obj, float saturation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_getSigmaColor(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus xphoto_TonemapDurand_getSigmaColor(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_TonemapDurand_setSigmaColor(IntPtr obj, float saturation);
+    public static partial ExceptionStatus xphoto_TonemapDurand_setSigmaColor(OpenCvSafeHandle obj, float saturation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xphoto_createTonemapDurand(
@@ -124,13 +124,13 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_GrayworldWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_GrayworldWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus xphoto_GrayworldWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_get(IntPtr ptr, out float returnValue);
+    public static partial ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_get(OpenCvSafeHandle ptr, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_set(IntPtr ptr, float val);
+    public static partial ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_set(OpenCvSafeHandle ptr, float val);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -143,28 +143,28 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_LearningBasedWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_extractSimpleFeatures(IntPtr prt, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_extractSimpleFeatures(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_HistBinNum_set(IntPtr prt, int value);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_HistBinNum_set(OpenCvSafeHandle prt, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_set(IntPtr prt, int value);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_set(OpenCvSafeHandle prt, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_set(OpenCvSafeHandle prt, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_HistBinNum_get(IntPtr prt, out int returnValue);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_HistBinNum_get(OpenCvSafeHandle prt, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_get(IntPtr prt, out int returnValue);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_get(OpenCvSafeHandle prt, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_get(OpenCvSafeHandle prt, out float returnValue);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -177,37 +177,37 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_SimpleWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus xphoto_SimpleWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_InputMax_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_SimpleWB_InputMax_get(OpenCvSafeHandle prt, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_InputMax_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_SimpleWB_InputMax_set(OpenCvSafeHandle prt, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_InputMin_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_SimpleWB_InputMin_get(OpenCvSafeHandle prt, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_InputMin_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_SimpleWB_InputMin_set(OpenCvSafeHandle prt, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_OutputMax_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_SimpleWB_OutputMax_get(OpenCvSafeHandle prt, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_OutputMax_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_SimpleWB_OutputMax_set(OpenCvSafeHandle prt, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_OutputMin_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_SimpleWB_OutputMin_get(OpenCvSafeHandle prt, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_OutputMin_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_SimpleWB_OutputMin_set(OpenCvSafeHandle prt, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_P_get(IntPtr prt, out float returnValue);
+    public static partial ExceptionStatus xphoto_SimpleWB_P_get(OpenCvSafeHandle prt, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_P_set(IntPtr prt, float value);
+    public static partial ExceptionStatus xphoto_SimpleWB_P_set(OpenCvSafeHandle prt, float value);
 
     #endregion
 

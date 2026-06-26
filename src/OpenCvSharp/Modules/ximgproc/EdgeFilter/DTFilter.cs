@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -66,9 +66,8 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                RawPtr, src.CvPtr, dst.CvPtr, dDepth));
+                Handle, src.CvPtr, dst.CvPtr, dDepth));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         dst.Fix();
     }

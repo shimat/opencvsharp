@@ -13,13 +13,13 @@ static partial class NativeMethods
     #region Tonemap
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_Tonemap_process(IntPtr obj, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus photo_Tonemap_process(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_Tonemap_getGamma(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_Tonemap_getGamma(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_Tonemap_setGamma(IntPtr obj, float gamma);
+    public static partial ExceptionStatus photo_Tonemap_setGamma(OpenCvSafeHandle obj, float gamma);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createTonemap(float gamma, out IntPtr returnValue);
@@ -35,16 +35,16 @@ static partial class NativeMethods
     #region TonemapDrago
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapDrago_getSaturation(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_TonemapDrago_getSaturation(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapDrago_setSaturation(IntPtr obj, float saturation);
+    public static partial ExceptionStatus photo_TonemapDrago_setSaturation(OpenCvSafeHandle obj, float saturation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapDrago_getBias(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_TonemapDrago_getBias(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapDrago_setBias(IntPtr obj, float bias);
+    public static partial ExceptionStatus photo_TonemapDrago_setBias(OpenCvSafeHandle obj, float bias);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createTonemapDrago(
@@ -62,27 +62,27 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_getIntensity(
-        IntPtr obj, out float returnValue);
+        OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_setIntensity(
-        IntPtr obj, float intensity);
+        OpenCvSafeHandle obj, float intensity);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_getLightAdaptation(
-        IntPtr obj, out float returnValue);
+        OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_setLightAdaptation(
-        IntPtr obj, float light_adapt);
+        OpenCvSafeHandle obj, float light_adapt);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_getColorAdaptation(
-        IntPtr obj, out float returnValue);
+        OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_TonemapReinhard_setColorAdaptation(
-        IntPtr obj, float color_adapt);
+        OpenCvSafeHandle obj, float color_adapt);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createTonemapReinhard(
@@ -101,16 +101,16 @@ static partial class NativeMethods
     #region TonemapMantiuk
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapMantiuk_getScale(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_TonemapMantiuk_getScale(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapMantiuk_setScale(IntPtr obj, float scale);
+    public static partial ExceptionStatus photo_TonemapMantiuk_setScale(OpenCvSafeHandle obj, float scale);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapMantiuk_getSaturation(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_TonemapMantiuk_getSaturation(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_TonemapMantiuk_setSaturation(IntPtr obj, float saturation);
+    public static partial ExceptionStatus photo_TonemapMantiuk_setSaturation(OpenCvSafeHandle obj, float saturation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createTonemapMantiuk(

@@ -75,15 +75,13 @@ public class DISK : Feature2D
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_getMaxKeypoints(RawPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_getMaxKeypoints(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_setMaxKeypoints(RawPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_setMaxKeypoints(Handle, value));
         }
     }
 
@@ -95,15 +93,13 @@ public class DISK : Feature2D
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_getScoreThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_getScoreThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_setScoreThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_setScoreThreshold(Handle, value));
         }
     }
 
@@ -115,15 +111,13 @@ public class DISK : Feature2D
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_getImageSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_getImageSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.features_DISK_setImageSize(RawPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.features_DISK_setImageSize(Handle, value));
         }
     }
 }

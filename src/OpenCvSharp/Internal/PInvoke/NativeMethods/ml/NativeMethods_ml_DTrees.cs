@@ -11,58 +11,58 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getMaxCategories(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getMaxCategories(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setMaxCategories(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setMaxCategories(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getMaxDepth(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getMaxDepth(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setMaxDepth(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setMaxDepth(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getMinSampleCount(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getMinSampleCount(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setMinSampleCount(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setMinSampleCount(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getCVFolds(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getCVFolds(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setCVFolds(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setCVFolds(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getUseSurrogates(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getUseSurrogates(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setUseSurrogates(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setUseSurrogates(OpenCvSafeHandle obj, int val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getUse1SERule(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getUse1SERule(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setUse1SERule(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setUse1SERule(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getTruncatePrunedTree(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_DTrees_getTruncatePrunedTree(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setTruncatePrunedTree(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_DTrees_setTruncatePrunedTree(OpenCvSafeHandle obj, int val);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getRegressionAccuracy(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ml_DTrees_getRegressionAccuracy(OpenCvSafeHandle obj, out float returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setRegressionAccuracy(IntPtr obj, float val);
+    public static partial ExceptionStatus ml_DTrees_setRegressionAccuracy(OpenCvSafeHandle obj, float val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getPriors(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_DTrees_getPriors(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_setPriors(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ml_DTrees_setPriors(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getRoots(IntPtr obj, IntPtr result);
+    public static partial ExceptionStatus ml_DTrees_getRoots(OpenCvSafeHandle obj, IntPtr result);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getNodes(IntPtr obj, IntPtr result);
+    public static partial ExceptionStatus ml_DTrees_getNodes(OpenCvSafeHandle obj, IntPtr result);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getSplits(IntPtr obj, IntPtr result);
+    public static partial ExceptionStatus ml_DTrees_getSplits(OpenCvSafeHandle obj, IntPtr result);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_DTrees_getSubsets(IntPtr obj, IntPtr result);
+    public static partial ExceptionStatus ml_DTrees_getSubsets(OpenCvSafeHandle obj, IntPtr result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_DTrees_create(out IntPtr returnValue);

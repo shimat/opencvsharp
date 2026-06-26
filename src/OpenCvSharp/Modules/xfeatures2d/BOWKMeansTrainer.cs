@@ -43,8 +43,7 @@ public class BOWKMeansTrainer : BOWTrainer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWKMeansTrainer_cluster1(CvPtr, out var p));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWKMeansTrainer_cluster1(Handle, out var p));
         return new Mat(p);
     }
 
@@ -63,8 +62,7 @@ public class BOWKMeansTrainer : BOWTrainer
         descriptors.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWKMeansTrainer_cluster2(CvPtr, descriptors.CvPtr, out var p));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWKMeansTrainer_cluster2(Handle, descriptors.CvPtr, out var p));
         GC.KeepAlive(descriptors);
         return new Mat(p);
     }

@@ -25,7 +25,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_RFFeatureGetter_getFeatures(
-        IntPtr obj, IntPtr src, IntPtr features,
+        OpenCvSafeHandle obj, IntPtr src, IntPtr features,
         int gnrmRad, int gsmthRad, int shrink, int outNum, int gradNum);
 
 
@@ -43,15 +43,15 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_detectEdges(
-        IntPtr obj, IntPtr src, IntPtr dst);
+        OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_computeOrientation(
-        IntPtr obj, IntPtr src, IntPtr dst);
+        OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
-        IntPtr obj, IntPtr edge_image, IntPtr orientation_image, IntPtr dst,
+        OpenCvSafeHandle obj, IntPtr edge_image, IntPtr orientation_image, IntPtr dst,
         int r, int s, float m, int isParallel);
 
 

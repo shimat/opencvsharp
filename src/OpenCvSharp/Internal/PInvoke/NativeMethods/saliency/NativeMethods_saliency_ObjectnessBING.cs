@@ -21,38 +21,38 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_computeSaliency(
-        IntPtr obj, IntPtr image, IntPtr objectnessBoundingBox, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr objectnessBoundingBox, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_getobjectnessValues(
-        IntPtr obj, IntPtr returnValue);
+        OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_setTrainingPath(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string trainingPath);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string trainingPath);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_setBBResDir(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string resultsDir);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string resultsDir);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_getBase(
-        IntPtr obj, out double returnValue);
+        OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus saliency_ObjectnessBING_setBase(IntPtr obj, double val);
+    public static partial ExceptionStatus saliency_ObjectnessBING_setBase(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_getNSS(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus saliency_ObjectnessBING_setNSS(IntPtr obj, int val);
+    public static partial ExceptionStatus saliency_ObjectnessBING_setNSS(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_getW(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus saliency_ObjectnessBING_setW(IntPtr obj, int val);
+    public static partial ExceptionStatus saliency_ObjectnessBING_setW(OpenCvSafeHandle obj, int val);
 }

@@ -51,9 +51,8 @@ public class Tonemap : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_Tonemap_process(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.photo_Tonemap_process(Handle, src.CvPtr, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         dst.Fix();
     }
@@ -69,16 +68,14 @@ public class Tonemap : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_Tonemap_getGamma(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_Tonemap_getGamma(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_Tonemap_setGamma(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_Tonemap_setGamma(Handle, value));
         }
     }
 

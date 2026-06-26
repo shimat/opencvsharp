@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -45,16 +45,14 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getIntensity(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_getIntensity(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setIntensity(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_setIntensity(Handle, value));
         }
     }
 
@@ -68,16 +66,14 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getLightAdaptation(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_getLightAdaptation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setLightAdaptation(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_setLightAdaptation(Handle, value));
         }
     }
 
@@ -91,16 +87,14 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getColorAdaptation(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_getColorAdaptation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setColorAdaptation(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapReinhard_setColorAdaptation(Handle, value));
         }
     }
 }

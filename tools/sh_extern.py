@@ -37,7 +37,8 @@ while i < len(lines):
     while ";" not in lines[j]:
         j += 1
     block = "\n".join(lines[i:j + 1])
-    new_block, n = re.subn(r"\bIntPtr (?=[A-Za-z_])", "OpenCvSafeHandle ", block, count=1)
+    # Only the (in) object handle param; never an out/ref param such as `out IntPtr returnValue`.
+    new_block, n = re.subn(r"(?<!out )(?<!ref )\bIntPtr (?=[A-Za-z_])", "OpenCvSafeHandle ", block, count=1)
     if n:
         changed += 1
     out.extend(new_block.split("\n"))

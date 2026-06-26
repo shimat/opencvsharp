@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -49,9 +49,8 @@ public sealed class MergeMertens : MergeExposures
         var srcArray = src.Select(s => s.CvPtr).ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_MergeMertens_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr));
+            NativeMethods.photo_MergeMertens_process(Handle, srcArray, srcArray.Length, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(srcArray);
         dst.Fix();

@@ -11,18 +11,18 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_detect_OutputArray(IntPtr obj, IntPtr image, IntPtr lines,
+    public static partial void imgproc_LineSegmentDetector_detect_OutputArray(OpenCvSafeHandle obj, IntPtr image, IntPtr lines,
         IntPtr width, IntPtr prec, IntPtr nfa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_detect_vector(IntPtr obj, IntPtr image, IntPtr lines,
+    public static partial void imgproc_LineSegmentDetector_detect_vector(OpenCvSafeHandle obj, IntPtr image, IntPtr lines,
         IntPtr width, IntPtr prec, IntPtr nfa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_drawSegments(IntPtr obj, IntPtr image, IntPtr lines);
+    public static partial void imgproc_LineSegmentDetector_drawSegments(OpenCvSafeHandle obj, IntPtr image, IntPtr lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int imgproc_LineSegmentDetector_compareSegments(IntPtr obj, Size size,
+    public static partial int imgproc_LineSegmentDetector_compareSegments(OpenCvSafeHandle obj, Size size,
         IntPtr lines1, IntPtr lines2, IntPtr image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

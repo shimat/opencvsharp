@@ -10,10 +10,10 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_ImgHashBase_compute(IntPtr obj, IntPtr inputArr, IntPtr outputArr);
+    public static partial ExceptionStatus img_hash_ImgHashBase_compute(OpenCvSafeHandle obj, IntPtr inputArr, IntPtr outputArr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_ImgHashBase_compare(IntPtr obj, IntPtr hashOne, IntPtr hashTwo, out double returnValue);
+    public static partial ExceptionStatus img_hash_ImgHashBase_compare(OpenCvSafeHandle obj, IntPtr hashOne, IntPtr hashTwo, out double returnValue);
 
 
     // AverageHash
@@ -39,10 +39,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus img_hash_Ptr_BlockMeanHash_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_BlockMeanHash_setMode(IntPtr obj, int mode);
+    public static partial ExceptionStatus img_hash_BlockMeanHash_setMode(OpenCvSafeHandle obj, int mode);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_BlockMeanHash_getMean(IntPtr obj, IntPtr outVec);
+    public static partial ExceptionStatus img_hash_BlockMeanHash_getMean(OpenCvSafeHandle obj, IntPtr outVec);
 
     // ColorMomentHash
 
@@ -67,13 +67,13 @@ static partial class NativeMethods
     public static partial ExceptionStatus img_hash_Ptr_MarrHildrethHash_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_MarrHildrethHash_setKernelParam(IntPtr obj, float alpha, float scale);
+    public static partial ExceptionStatus img_hash_MarrHildrethHash_setKernelParam(OpenCvSafeHandle obj, float alpha, float scale);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_MarrHildrethHash_getAlpha(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus img_hash_MarrHildrethHash_getAlpha(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_MarrHildrethHash_getScale(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus img_hash_MarrHildrethHash_getScale(OpenCvSafeHandle obj, out float returnValue);
 
     // PHash
 
@@ -98,14 +98,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus img_hash_Ptr_RadialVarianceHash_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_RadialVarianceHash_setNumOfAngleLine(IntPtr obj, int value);
+    public static partial ExceptionStatus img_hash_RadialVarianceHash_setNumOfAngleLine(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_RadialVarianceHash_setSigma(IntPtr obj, double value);
+    public static partial ExceptionStatus img_hash_RadialVarianceHash_setSigma(OpenCvSafeHandle obj, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_RadialVarianceHash_getNumOfAngleLine(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus img_hash_RadialVarianceHash_getNumOfAngleLine(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_RadialVarianceHash_getSigma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus img_hash_RadialVarianceHash_getSigma(OpenCvSafeHandle obj, out double returnValue);
 }

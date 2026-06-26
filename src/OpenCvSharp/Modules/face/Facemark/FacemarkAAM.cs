@@ -1,11 +1,11 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Face;
 
 /// <inheritdoc />
 /// <summary>
-/// 
+///
 /// </summary>
 // ReSharper disable once InconsistentNaming
 public sealed class FacemarkAAM : Facemark
@@ -15,14 +15,32 @@ public sealed class FacemarkAAM : Facemark
     { }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>
     public static FacemarkAAM Create(Params? parameters = null)
     {
-        NativeMethods.HandleException(
-            NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero, out var smartPtr));
+        IntPtr smartPtr;
+        if (parameters is null)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.face_FacemarkAAM_create(IntPtr.Zero, out smartPtr));
+        }
+        else
+        {
+            var p = parameters.ToNative();
+            try
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_create(p, out smartPtr));
+            }
+            finally
+            {
+                NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(p));
+            }
+        }
+
         if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
         NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_get(smartPtr, out var rawPtr));
@@ -30,202 +48,181 @@ public sealed class FacemarkAAM : Facemark
     }
 
 #pragma warning disable CA1034
-    /// <inheritdoc />
     /// <summary>
+    /// Parameters for the FacemarkAAM model.
+    /// This is a plain managed value holder; it is materialised into a native
+    /// cv::face::FacemarkAAM::Params only at the moment of Create / Read / Write.
     /// </summary>
-    public sealed class Params : CvObject
+    public sealed class Params
     {
         /// <summary>
-        /// Constructor
+        /// Constructs a parameter set initialised with the OpenCV default values.
         /// </summary>
         public Params()
         {
             NativeMethods.HandleException(
                 NativeMethods.face_FacemarkAAM_Params_new(out var p));
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid {GetType().Name} pointer");
-            InitSafeHandle(p);
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-
-        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
-        {
-            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
-                static h => NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(h))));
+                throw new OpenCvSharpException($"Invalid {nameof(Params)} pointer");
+            try
+            {
+                LoadFrom(p);
+            }
+            finally
+            {
+                NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(p));
+            }
         }
 
         /// <summary>
         /// filename of the model
         /// </summary>
-        public string ModelFilename
-        {
-            get
-            {
-                using var s = new StdString();
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_model_filename_get(CvPtr, s.CvPtr));
-                GC.KeepAlive(this);
-                return s.ToString();
-            }
-            set
-            {
-                if (value is null)
-                    throw new ArgumentNullException(nameof(value));
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_model_filename_set(CvPtr, value));
-                GC.KeepAlive(this);
-            }
-        }
+        public string ModelFilename { get; set; } = "";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public int M
-        {
-            get
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_m_get(CvPtr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_m_set(CvPtr, value));
-                GC.KeepAlive(this);
-            }
-        }
+        public int M { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public int N
-        {
-            get
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_get(CvPtr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_set(CvPtr, value));
-                GC.KeepAlive(this);
-            }
-        }
+        public int N { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public int NIter
-        {
-            get
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_iter_get(CvPtr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_n_iter_set(CvPtr, value));
-                GC.KeepAlive(this);
-            }
-        }
+        public int NIter { get; set; }
 
         /// <summary>
         /// show the training print-out
         /// </summary>
-        public bool Verbose
-        {
-            get
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_verbose_get(CvPtr, out var ret));
-                GC.KeepAlive(this);
-                return ret != 0;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_verbose_set(CvPtr, value ? 1 : 0));
-                GC.KeepAlive(this);
-            }
-        }
+        public bool Verbose { get; set; }
+
         /// <summary>
         /// flag to save the trained model or not
         /// </summary>
-        public bool SaveModel
-        {
-            get
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_save_model_get(CvPtr, out var ret));
-                GC.KeepAlive(this);
-                return ret != 0;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_save_model_set(CvPtr, value ? 1 : 0));
-                GC.KeepAlive(this);
-            }
-        }
+        public bool SaveModel { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public IReadOnlyList<float> Scales
-        {
-            get
-            {
-                using var vec = new StdVector<float>();
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_scales_get(CvPtr, vec.CvPtr));
-                GC.KeepAlive(this);
-                return vec.ToArray();
-            }
-            set
-            {
-                using var vec = new StdVector<float>(value);
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkAAM_Params_scales_set(CvPtr, vec.CvPtr));
-                GC.KeepAlive(this);
-            }
-        }
-            
+        public int MaxM { get; set; }
+
         /// <summary>
-        /// 
+        ///
+        /// </summary>
+        public int MaxN { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int TextureMaxM { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public IReadOnlyList<float> Scales { get; set; } = [];
+
+        /// <summary>
+        /// Reads the parameters from a file node.
         /// </summary>
         /// <param name="fn"></param>
         public void Read(FileNode fn)
         {
             if (fn is null)
                 throw new ArgumentNullException(nameof(fn));
-            NativeMethods.HandleException(
-                NativeMethods.face_FacemarkAAM_Params_write(CvPtr, fn.CvPtr));
-            GC.KeepAlive(this);
+            var p = ToNative();
+            try
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_read(p, fn.CvPtr));
+                GC.KeepAlive(fn);
+                LoadFrom(p);
+            }
+            finally
+            {
+                NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(p));
+            }
         }
 
         /// <summary>
-        /// 
+        /// Writes the parameters to a file storage.
         /// </summary>
         /// <param name="fs"></param>
         public void Write(FileStorage fs)
         {
             if (fs is null)
                 throw new ArgumentNullException(nameof(fs));
+            var p = ToNative();
+            try
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_write(p, fs.CvPtr));
+                GC.KeepAlive(fs);
+            }
+            finally
+            {
+                NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(p));
+            }
+        }
+
+        /// <summary>
+        /// Copies every field of a native Params into this managed instance.
+        /// </summary>
+        private void LoadFrom(IntPtr nativeParams)
+        {
+            using var modelFilename = new StdString();
+            using var scales = new StdVector<float>();
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkAAM_Params_write(CvPtr, fs.CvPtr));
-            GC.KeepAlive(this);
+                NativeMethods.face_FacemarkAAM_Params_getAll(
+                    nativeParams, out var data, modelFilename.CvPtr, scales.CvPtr));
+            M = data.M;
+            N = data.N;
+            NIter = data.NIter;
+            Verbose = data.Verbose != 0;
+            SaveModel = data.SaveModel != 0;
+            MaxM = data.MaxM;
+            MaxN = data.MaxN;
+            TextureMaxM = data.TextureMaxM;
+            ModelFilename = modelFilename.ToString();
+            Scales = scales.ToArray();
+        }
+
+        /// <summary>
+        /// Builds a native cv::face::FacemarkAAM::Params from this managed instance.
+        /// The caller is responsible for deleting the returned pointer.
+        /// </summary>
+        internal IntPtr ToNative()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.face_FacemarkAAM_Params_new(out var p));
+            if (p == IntPtr.Zero)
+                throw new OpenCvSharpException($"Invalid {nameof(Params)} pointer");
+            try
+            {
+                var data = new FacemarkAAMParamsData
+                {
+                    M = M,
+                    N = N,
+                    NIter = NIter,
+                    Verbose = Verbose ? 1 : 0,
+                    SaveModel = SaveModel ? 1 : 0,
+                    MaxM = MaxM,
+                    MaxN = MaxN,
+                    TextureMaxM = TextureMaxM,
+                };
+                using var scales = new StdVector<float>(Scales);
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_setAll(
+                        p, data, ModelFilename, scales.CvPtr));
+                return p;
+            }
+            catch
+            {
+                NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_Params_delete(p));
+                throw;
+            }
         }
     }
-
-    }
+}

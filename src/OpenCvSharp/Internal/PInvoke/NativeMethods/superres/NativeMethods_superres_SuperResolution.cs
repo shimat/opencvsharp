@@ -10,13 +10,13 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setInput(IntPtr obj, IntPtr frameSource);
+    public static partial ExceptionStatus superres_SuperResolution_setInput(OpenCvSafeHandle obj, IntPtr frameSource);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_nextFrame(IntPtr obj, IntPtr frame);
+    public static partial ExceptionStatus superres_SuperResolution_nextFrame(OpenCvSafeHandle obj, IntPtr frame);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_reset(IntPtr obj);
+    public static partial ExceptionStatus superres_SuperResolution_reset(OpenCvSafeHandle obj);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_collectGarbage(IntPtr obj);
+    public static partial ExceptionStatus superres_SuperResolution_collectGarbage(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_createSuperResolution_BTVL1(out IntPtr returnValue);
@@ -29,54 +29,54 @@ static partial class NativeMethods
     public static partial ExceptionStatus superres_Ptr_SuperResolution_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getScale(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getScale(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setScale(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_SuperResolution_setScale(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getIterations(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getIterations(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setIterations(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_SuperResolution_setIterations(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getTau(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getTau(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setTau(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_SuperResolution_setTau(OpenCvSafeHandle obj, double val);
         
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getLambda(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getLambda(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setLambda(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_SuperResolution_setLambda(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getAlpha(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getAlpha(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setAlpha(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_SuperResolution_setAlpha(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getKernelSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getKernelSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setKernelSize(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_SuperResolution_setKernelSize(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getBlurKernelSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getBlurKernelSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setBlurKernelSize(IntPtr obj, int val);
+    public static partial ExceptionStatus superres_SuperResolution_setBlurKernelSize(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getBlurSigma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getBlurSigma(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setBlurSigma(IntPtr obj, double val);
+    public static partial ExceptionStatus superres_SuperResolution_setBlurSigma(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getTemporalAreaRadius(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getTemporalAreaRadius(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setTemporalAreaRadius(IntPtr obj,int val);
+    public static partial ExceptionStatus superres_SuperResolution_setTemporalAreaRadius(OpenCvSafeHandle obj,int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_getOpticalFlow(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus superres_SuperResolution_getOpticalFlow(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_setOpticalFlow(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus superres_SuperResolution_setOpticalFlow(OpenCvSafeHandle obj, IntPtr val);
 
 }

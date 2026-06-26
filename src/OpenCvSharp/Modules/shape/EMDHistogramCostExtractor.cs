@@ -37,16 +37,14 @@ public class EMDHistogramCostExtractor : HistogramCostExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_EMDHistogramCostExtractor_getNormFlag(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.shape_EMDHistogramCostExtractor_getNormFlag(Handle, out var ret));
             return (DistanceTypes)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_EMDHistogramCostExtractor_setNormFlag(RawPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.shape_EMDHistogramCostExtractor_setNormFlag(Handle, (int)value));
         }
     }
 }

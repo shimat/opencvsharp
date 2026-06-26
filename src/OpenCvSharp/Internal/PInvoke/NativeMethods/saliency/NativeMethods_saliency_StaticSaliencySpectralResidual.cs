@@ -22,25 +22,25 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_computeSaliency(
-        IntPtr obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_computeBinaryMap(
-        IntPtr obj, IntPtr saliencyMap, IntPtr binaryMap, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr saliencyMap, IntPtr binaryMap, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_getImageWidth(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_setImageWidth(
-        IntPtr obj, int val);
+        OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_getImageHeight(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_setImageHeight(
-        IntPtr obj, int val);
+        OpenCvSafeHandle obj, int val);
 }

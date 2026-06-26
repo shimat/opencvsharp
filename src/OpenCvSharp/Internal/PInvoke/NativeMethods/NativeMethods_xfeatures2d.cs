@@ -99,24 +99,24 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_Ptr_SURF_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_getHessianThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus xfeatures2d_SURF_getHessianThreshold(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_getNOctaves(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_SURF_getNOctaves(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_getNOctaveLayers(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_SURF_getNOctaveLayers(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_getExtended(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_SURF_getExtended(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_getUpright(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_SURF_getUpright(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_setHessianThreshold(IntPtr obj, double value);
+    public static partial ExceptionStatus xfeatures2d_SURF_setHessianThreshold(OpenCvSafeHandle obj, double value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_setNOctaves(IntPtr obj, int value);
+    public static partial ExceptionStatus xfeatures2d_SURF_setNOctaves(OpenCvSafeHandle obj, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_setNOctaveLayers(IntPtr obj, int value);
+    public static partial ExceptionStatus xfeatures2d_SURF_setNOctaveLayers(OpenCvSafeHandle obj, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_setExtended(IntPtr obj, int value);
+    public static partial ExceptionStatus xfeatures2d_SURF_setExtended(OpenCvSafeHandle obj, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_SURF_setUpright(IntPtr obj, int value);
+    public static partial ExceptionStatus xfeatures2d_SURF_setUpright(OpenCvSafeHandle obj, int value);
 }

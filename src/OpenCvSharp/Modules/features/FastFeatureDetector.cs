@@ -38,16 +38,14 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_getThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_getThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_setThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_setThreshold(Handle, value));
         }
     }
 
@@ -60,16 +58,14 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_getNonmaxSuppression(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_getNonmaxSuppression(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_setNonmaxSuppression(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_setNonmaxSuppression(Handle, value ? 1 : 0));
         }
     }
 
@@ -82,16 +78,14 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_getType(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_getType(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features_FastFeatureDetector_setType(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.features_FastFeatureDetector_setType(Handle, value));
         }
     }
 }

@@ -41,8 +41,7 @@ public class ANNIndex : CvPtrObject
             throw new ArgumentNullException(nameof(features));
         features.ThrowIfDisposed();
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(RawPtr, features.CvPtr));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(Handle, features.CvPtr));
         GC.KeepAlive(features);
     }
 
@@ -53,8 +52,7 @@ public class ANNIndex : CvPtrObject
     public void Build(int trees = -1)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_build(RawPtr, trees));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_build(Handle, trees));
     }
 
     /// <summary>
@@ -79,8 +77,7 @@ public class ANNIndex : CvPtrObject
         dists.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.features_ANNIndex_knnSearch(RawPtr, query.CvPtr, indices.CvPtr, dists.CvPtr, knn, searchK));
-        GC.KeepAlive(this);
+            NativeMethods.features_ANNIndex_knnSearch(Handle, query.CvPtr, indices.CvPtr, dists.CvPtr, knn, searchK));
         GC.KeepAlive(query);
         indices.Fix();
         dists.Fix();
@@ -97,8 +94,7 @@ public class ANNIndex : CvPtrObject
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_save(RawPtr, filename, prefault ? 1 : 0));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_save(Handle, filename, prefault ? 1 : 0));
     }
 
     /// <summary>
@@ -112,8 +108,7 @@ public class ANNIndex : CvPtrObject
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_load(RawPtr, filename, prefault ? 1 : 0));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_load(Handle, filename, prefault ? 1 : 0));
     }
 
     /// <summary>
@@ -122,8 +117,7 @@ public class ANNIndex : CvPtrObject
     public int GetTreeNumber()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_getTreeNumber(RawPtr, out var ret));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_getTreeNumber(Handle, out var ret));
         return ret;
     }
 
@@ -133,8 +127,7 @@ public class ANNIndex : CvPtrObject
     public int GetItemNumber()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_getItemNumber(RawPtr, out var ret));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_getItemNumber(Handle, out var ret));
         return ret;
     }
 
@@ -150,8 +143,7 @@ public class ANNIndex : CvPtrObject
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_setOnDiskBuild(RawPtr, filename, out var ret));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_setOnDiskBuild(Handle, filename, out var ret));
         return ret != 0;
     }
 
@@ -163,7 +155,6 @@ public class ANNIndex : CvPtrObject
     public void SetSeed(int seed)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_setSeed(RawPtr, seed));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_setSeed(Handle, seed));
     }
 }

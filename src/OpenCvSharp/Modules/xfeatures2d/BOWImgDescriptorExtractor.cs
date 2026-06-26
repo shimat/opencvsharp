@@ -66,8 +66,7 @@ public class BOWImgDescriptorExtractor : CvObject
         if (vocabulary is null)
             throw new ArgumentNullException(nameof(vocabulary));
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(CvPtr, vocabulary.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(Handle, vocabulary.CvPtr));
         GC.KeepAlive(vocabulary);
     }
 
@@ -79,8 +78,7 @@ public class BOWImgDescriptorExtractor : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(CvPtr, out var p));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(Handle, out var p));
         return new Mat(p);
     }
 
@@ -106,12 +104,11 @@ public class BOWImgDescriptorExtractor : CvObject
         using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
         {
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute11(CvPtr, image.CvPtr, keypointsVec.CvPtr, 
+                NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute11(Handle, image.CvPtr, keypointsVec.CvPtr, 
                     imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors)));
             keypoints = keypointsVec.ToArray();
             pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
         }
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         GC.KeepAlive(imgDescriptor);
         GC.KeepAlive(descriptors);
@@ -136,10 +133,9 @@ public class BOWImgDescriptorExtractor : CvObject
         {
             NativeMethods.HandleException(
                 NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute12(
-                    CvPtr, keypointDescriptors.CvPtr, imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr));
+                    Handle, keypointDescriptors.CvPtr, imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr));
             pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
         }
-        GC.KeepAlive(this);
         GC.KeepAlive(keypointDescriptors);
         GC.KeepAlive(imgDescriptor);
     }
@@ -162,10 +158,9 @@ public class BOWImgDescriptorExtractor : CvObject
         {
             NativeMethods.HandleException(
                 NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute2(
-                    CvPtr, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr));
+                    Handle, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr));
             keypoints = keypointsVec.ToArray();
         }
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         GC.KeepAlive(imgDescriptor);
     }
@@ -178,8 +173,7 @@ public class BOWImgDescriptorExtractor : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(Handle, out var ret));
         return ret;
     }
 
@@ -191,8 +185,7 @@ public class BOWImgDescriptorExtractor : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_descriptorType(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_descriptorType(Handle, out var ret));
         return ret;
     }
 }

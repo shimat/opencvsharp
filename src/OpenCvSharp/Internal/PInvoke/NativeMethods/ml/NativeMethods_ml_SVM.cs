@@ -12,61 +12,61 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_SVM_getType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setType(IntPtr obj, int val);
+    public static partial ExceptionStatus ml_SVM_setType(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getGamma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getGamma(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setGamma(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setGamma(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getCoef0(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getCoef0(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setCoef0(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setCoef0(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getDegree(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getDegree(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setDegree(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setDegree(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getC(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getC(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setC(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setC(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getP(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getP(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setP(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setP(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getNu(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ml_SVM_getNu(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setNu(IntPtr obj, double val);
+    public static partial ExceptionStatus ml_SVM_setNu(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getClassWeights(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_SVM_getClassWeights(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setClassWeights(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ml_SVM_setClassWeights(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
+    public static partial ExceptionStatus ml_SVM_getTermCriteria(OpenCvSafeHandle obj, out TermCriteria returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setTermCriteria(IntPtr obj, TermCriteria val);
+    public static partial ExceptionStatus ml_SVM_setTermCriteria(OpenCvSafeHandle obj, TermCriteria val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getKernelType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ml_SVM_getKernelType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_setKernel(IntPtr obj, int kernelType);
+    public static partial ExceptionStatus ml_SVM_setKernel(OpenCvSafeHandle obj, int kernelType);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getSupportVectors(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus ml_SVM_getSupportVectors(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_SVM_getDecisionFunction(
-        IntPtr obj, int i, IntPtr alpha, IntPtr svidx, out double returnValue);
+        OpenCvSafeHandle obj, int i, IntPtr alpha, IntPtr svidx, out double returnValue);
 
     // static
 

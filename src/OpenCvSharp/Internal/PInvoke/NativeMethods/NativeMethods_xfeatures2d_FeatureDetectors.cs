@@ -53,19 +53,19 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_Ptr_AgastFeatureDetector_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setThreshold(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setThreshold(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getThreshold(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setNonmaxSuppression(IntPtr obj,int val);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setNonmaxSuppression(OpenCvSafeHandle obj,int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getNonmaxSuppression(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getNonmaxSuppression(OpenCvSafeHandle obj, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setType(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_setType(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AgastFeatureDetector_getType(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
     #region KAZE
@@ -79,34 +79,34 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_Ptr_KAZE_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setDiffusivity(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setDiffusivity(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getDiffusivity(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getDiffusivity(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setExtended(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setExtended(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getExtended(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getExtended(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setNOctaveLayers(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setNOctaveLayers(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getNOctaveLayers(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getNOctaveLayers(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setNOctaves(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setNOctaves(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getNOctaves(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getNOctaves(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setThreshold(IntPtr obj, double val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setThreshold(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getThreshold(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_setUpright(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_KAZE_setUpright(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_KAZE_getUpright(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_KAZE_getUpright(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 
@@ -121,39 +121,39 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_Ptr_AKAZE_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorType(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorType(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorType(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorSize(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorSize(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorSize(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorChannels(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setDescriptorChannels(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorChannels(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getDescriptorChannels(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setThreshold(IntPtr obj, double val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setThreshold(OpenCvSafeHandle obj, double val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getThreshold(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setNOctaves(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setNOctaves(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getNOctaves(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getNOctaves(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setNOctaveLayers(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setNOctaveLayers(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getNOctaveLayers(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getNOctaveLayers(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_setDiffusivity(IntPtr obj, int val);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_setDiffusivity(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AKAZE_getDiffusivity(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus xfeatures2d_AKAZE_getDiffusivity(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 }

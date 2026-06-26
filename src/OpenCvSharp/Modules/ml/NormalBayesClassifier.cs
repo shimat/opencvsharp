@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML;
 
@@ -87,10 +87,9 @@ public class NormalBayesClassifier : StatModel
 
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_predictProb(
-                RawPtr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
+                Handle, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
         outputs.Fix();
         outputProbs.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(inputs);
         GC.KeepAlive(outputs);
         GC.KeepAlive(outputProbs);

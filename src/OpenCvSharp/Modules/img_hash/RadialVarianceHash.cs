@@ -42,16 +42,14 @@ public class RadialVarianceHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_RadialVarianceHash_getSigma(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.img_hash_RadialVarianceHash_getSigma(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_RadialVarianceHash_setSigma(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.img_hash_RadialVarianceHash_setSigma(Handle, value));
         }
     }
 
@@ -64,16 +62,14 @@ public class RadialVarianceHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_RadialVarianceHash_setNumOfAngleLine(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.img_hash_RadialVarianceHash_setNumOfAngleLine(Handle, value));
         }
     }
         

@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -61,8 +61,7 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
-                RawPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, out var ret));
         return ret;
     }
 
@@ -84,8 +83,7 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_iterate(
-                RawPtr, numIterations));
-        GC.KeepAlive(this);
+                Handle, numIterations));
     }
 
     /// <summary>
@@ -106,8 +104,7 @@ public class SuperpixelLSC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabels(
-                RawPtr, labelsOut.CvPtr));
-        GC.KeepAlive(this);
+                Handle, labelsOut.CvPtr));
         labelsOut.Fix();
     }
 
@@ -126,8 +123,7 @@ public class SuperpixelLSC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabelContourMask(
-                RawPtr, image.CvPtr, thickLine ? 1 : 0));
-        GC.KeepAlive(this);
+                Handle, image.CvPtr, thickLine ? 1 : 0));
         image.Fix();
     }
 
@@ -144,7 +140,6 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_enforceLabelConnectivity(
-                RawPtr, minElementSize));
-        GC.KeepAlive(this);
+                Handle, minElementSize));
     }
 }

@@ -33,64 +33,64 @@ static partial class NativeMethods
     public static partial ExceptionStatus video_Ptr_BackgroundSubtractorMOG2_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getHistory(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getHistory(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setHistory(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setHistory(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getNMixtures(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getNMixtures(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setNMixtures(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setNMixtures(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getBackgroundRatio(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getBackgroundRatio(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setBackgroundRatio(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setBackgroundRatio(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarThreshold(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarThreshold(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarThreshold(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarThreshold(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarThresholdGen(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarThresholdGen(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarThresholdGen(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarThresholdGen(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarInit(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarInit(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarInit(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarInit(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarMin(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarMin(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarMin(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarMin(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarMax(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getVarMax(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarMax(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setVarMax(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getDetectShadows(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getDetectShadows(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setDetectShadows(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setDetectShadows(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getShadowValue(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getShadowValue(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setShadowValue(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setShadowValue(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getShadowThreshold(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_getShadowThreshold(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setShadowThreshold(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorMOG2_setShadowThreshold(OpenCvSafeHandle ptr, double value);
 
     #endregion
 
@@ -107,39 +107,39 @@ static partial class NativeMethods
     public static partial ExceptionStatus video_Ptr_BackgroundSubtractorKNN_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getHistory(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getHistory(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setHistory(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setHistory(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getNSamples(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getNSamples(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setNSamples(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setNSamples(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getDist2Threshold(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getDist2Threshold(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setDist2Threshold(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setDist2Threshold(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getkNNSamples(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getkNNSamples(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setkNNSamples(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setkNNSamples(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getDetectShadows(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getDetectShadows(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setDetectShadows(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setDetectShadows(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getShadowValue(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getShadowValue(OpenCvSafeHandle ptr, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setShadowValue(IntPtr ptr, int value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setShadowValue(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getShadowThreshold(IntPtr ptr, out double returnValue);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_getShadowThreshold(OpenCvSafeHandle ptr, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setShadowThreshold(IntPtr ptr, double value);
+    public static partial ExceptionStatus video_BackgroundSubtractorKNN_setShadowThreshold(OpenCvSafeHandle ptr, double value);
 
     #endregion
 

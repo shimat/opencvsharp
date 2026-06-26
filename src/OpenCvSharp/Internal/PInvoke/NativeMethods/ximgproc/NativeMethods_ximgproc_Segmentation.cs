@@ -23,38 +23,38 @@ static partial class NativeMethods
     public static partial ExceptionStatus ximgproc_segmentation_Ptr_GraphSegmentation_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_processImage(IntPtr obj, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_processImage(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setSigma(IntPtr obj, double value);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setSigma(OpenCvSafeHandle obj, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getSigma(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getSigma(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setK(IntPtr obj, float value);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setK(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getK(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getK(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setMinSize(IntPtr obj, int value);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setMinSize(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getMinSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_getMinSize(OpenCvSafeHandle obj, out int returnValue);
 
 
     // SelectiveSearchSegmentationStrategy
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(IntPtr obj,
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(OpenCvSafeHandle obj,
         IntPtr img, IntPtr regions, IntPtr sizes, int image_id);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(IntPtr obj, int r1, int r2, out float returnValue);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(OpenCvSafeHandle obj, int r1, int r2, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(IntPtr obj, int r1, int r2);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(OpenCvSafeHandle obj, int r1, int r2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor(out IntPtr returnValue);
@@ -131,40 +131,40 @@ static partial class NativeMethods
     // SelectiveSearchSegmentation
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(IntPtr obj, IntPtr img);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(OpenCvSafeHandle obj, IntPtr img);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_switchToSingleStrategy(IntPtr obj,
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_switchToSingleStrategy(OpenCvSafeHandle obj,
         int k, float sigma);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchFast(
-        IntPtr obj, int base_k, int inc_k, float sigma);
+        OpenCvSafeHandle obj, int base_k, int inc_k, float sigma);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchQuality(
-        IntPtr obj, int base_k, int inc_k, float sigma);
+        OpenCvSafeHandle obj, int base_k, int inc_k, float sigma);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addImage(IntPtr obj, IntPtr img);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addImage(OpenCvSafeHandle obj, IntPtr img);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearImages(IntPtr obj);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearImages(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(IntPtr obj, IntPtr g);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(OpenCvSafeHandle obj, IntPtr g);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearGraphSegmentations(IntPtr obj);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearGraphSegmentations(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(IntPtr obj, IntPtr s);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(OpenCvSafeHandle obj, IntPtr s);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearStrategies(IntPtr obj);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearStrategies(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_process(IntPtr obj, IntPtr rects);
+    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_process(OpenCvSafeHandle obj, IntPtr rects);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_createSelectiveSearchSegmentation(out IntPtr returnValue);

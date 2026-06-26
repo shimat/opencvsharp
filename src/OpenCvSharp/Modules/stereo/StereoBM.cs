@@ -44,16 +44,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getPreFilterType(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getPreFilterType(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setPreFilterType(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setPreFilterType(Handle, value));
         }
     }
 
@@ -66,16 +64,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getPreFilterSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getPreFilterSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setPreFilterSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setPreFilterSize(Handle, value));
         }
     }
 
@@ -88,16 +84,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getPreFilterCap(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getPreFilterCap(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setPreFilterCap(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setPreFilterCap(Handle, value));
         }
     }
 
@@ -110,16 +104,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getTextureThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getTextureThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setTextureThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setTextureThreshold(Handle, value));
         }
     }
 
@@ -132,16 +124,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getUniquenessRatio(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getUniquenessRatio(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setUniquenessRatio(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setUniquenessRatio(Handle, value));
         }
     }
 
@@ -154,16 +144,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getSmallerBlockSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getSmallerBlockSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setSmallerBlockSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setSmallerBlockSize(Handle, value));
         }
     }
 
@@ -176,16 +164,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getROI1(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getROI1(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setROI1(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setROI1(Handle, value));
         }
     }
 
@@ -198,16 +184,14 @@ public class StereoBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_getROI2(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_getROI2(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoBM_setROI2(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoBM_setROI2(Handle, value));
         }
     }
 

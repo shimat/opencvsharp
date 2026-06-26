@@ -36,10 +36,9 @@ public abstract class MergeExposures : Algorithm
             throw new OpenCvSharpException("src.Count() != times.Count");
             
         NativeMethods.HandleException(
-            NativeMethods.photo_MergeExposures_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr, timesArray, response.CvPtr));
+            NativeMethods.photo_MergeExposures_process(Handle, srcArray, srcArray.Length, dst.CvPtr, timesArray, response.CvPtr));
 
         dst.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
         GC.KeepAlive(response);

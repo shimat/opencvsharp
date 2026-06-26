@@ -25,235 +25,235 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_open(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, 
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename, 
         int flags, [MarshalAs(UnmanagedType.LPStr)] string? encoding, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_isOpened(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus core_FileStorage_isOpened(OpenCvSafeHandle obj, out int returnValue);
 
     //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     //public static extern ExceptionStatus core_FileStorage_release(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_releaseAndGetString(
-        IntPtr obj, IntPtr outString);
+        OpenCvSafeHandle obj, IntPtr outString);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_getFirstTopLevelNode(
-        IntPtr obj, out IntPtr returnValue);
+        OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_root(
-        IntPtr obj, int streamIdx, out IntPtr returnValue);
+        OpenCvSafeHandle obj, int streamIdx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_indexer(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string nodeName, out IntPtr returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string nodeName, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_writeRaw(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, IntPtr vec, IntPtr len);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, IntPtr vec, IntPtr len);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_writeComment(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string comment, int append);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string comment, int append);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_getDefaultObjectName(
         [MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr buf);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_elname(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus core_FileStorage_elname(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_startWriteStruct(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         [MarshalAs(UnmanagedType.LPStr)] string name,
         int flags,
         [MarshalAs(UnmanagedType.LPStr)] string typeName);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_endWriteStruct(IntPtr obj);
+    public static partial ExceptionStatus core_FileStorage_endWriteStruct(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_state(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus core_FileStorage_state(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_int(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_float(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, float value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_double(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, double value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, double value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_String(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_Mat(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_SparseMat(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_vectorOfKeyPoint(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_vectorOfDMatch(
-        IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_writeScalar_int(IntPtr fs, int value);
+    public static partial ExceptionStatus core_FileStorage_writeScalar_int(OpenCvSafeHandle fs, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_writeScalar_float(IntPtr fs, float value);
+    public static partial ExceptionStatus core_FileStorage_writeScalar_float(OpenCvSafeHandle fs, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_writeScalar_double(IntPtr fs, double value);
+    public static partial ExceptionStatus core_FileStorage_writeScalar_double(OpenCvSafeHandle fs, double value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_writeScalar_String(IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string value);
+    public static partial ExceptionStatus core_FileStorage_writeScalar_String(OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string value);
         
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_String(IntPtr fs, [MarshalAs(UnmanagedType.LPStr)] string val);
+    public static partial ExceptionStatus core_FileStorage_shift_String(OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_int(IntPtr fs, int val);
+    public static partial ExceptionStatus core_FileStorage_shift_int(OpenCvSafeHandle fs, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_float(IntPtr fs, float val);
+    public static partial ExceptionStatus core_FileStorage_shift_float(OpenCvSafeHandle fs, float val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_double(IntPtr fs, double val);
+    public static partial ExceptionStatus core_FileStorage_shift_double(OpenCvSafeHandle fs, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Mat(IntPtr fs, IntPtr val);
+    public static partial ExceptionStatus core_FileStorage_shift_Mat(OpenCvSafeHandle fs, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_SparseMat(IntPtr fs, IntPtr val);
+    public static partial ExceptionStatus core_FileStorage_shift_SparseMat(OpenCvSafeHandle fs, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Range(IntPtr fs, Range val);
+    public static partial ExceptionStatus core_FileStorage_shift_Range(OpenCvSafeHandle fs, Range val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_KeyPoint(IntPtr fs, KeyPoint val);
+    public static partial ExceptionStatus core_FileStorage_shift_KeyPoint(OpenCvSafeHandle fs, KeyPoint val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_DMatch(IntPtr fs, DMatch val);
+    public static partial ExceptionStatus core_FileStorage_shift_DMatch(OpenCvSafeHandle fs, DMatch val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_vectorOfKeyPoint(IntPtr fs, IntPtr val);
+    public static partial ExceptionStatus core_FileStorage_shift_vectorOfKeyPoint(OpenCvSafeHandle fs, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_vectorOfDMatch(IntPtr fs, IntPtr val);
+    public static partial ExceptionStatus core_FileStorage_shift_vectorOfDMatch(OpenCvSafeHandle fs, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point2i(IntPtr fs, Point val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point2i(OpenCvSafeHandle fs, Point val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point2f(IntPtr fs, Point2f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point2f(OpenCvSafeHandle fs, Point2f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point2d(IntPtr fs, Point2d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point2d(OpenCvSafeHandle fs, Point2d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point3i(IntPtr fs, Point3i val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point3i(OpenCvSafeHandle fs, Point3i val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point3f(IntPtr fs, Point3f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point3f(OpenCvSafeHandle fs, Point3f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Point3d(IntPtr fs, Point3d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Point3d(OpenCvSafeHandle fs, Point3d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Size2i(IntPtr fs, Size val);
+    public static partial ExceptionStatus core_FileStorage_shift_Size2i(OpenCvSafeHandle fs, Size val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Size2f(IntPtr fs, Size2f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Size2f(OpenCvSafeHandle fs, Size2f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Size2d(IntPtr fs, Size2d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Size2d(OpenCvSafeHandle fs, Size2d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Rect2i(IntPtr fs, Rect val);
+    public static partial ExceptionStatus core_FileStorage_shift_Rect2i(OpenCvSafeHandle fs, Rect val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Rect2f(IntPtr fs, Rect2f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Rect2f(OpenCvSafeHandle fs, Rect2f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Rect2d(IntPtr fs, Rect2d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Rect2d(OpenCvSafeHandle fs, Rect2d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Scalar(IntPtr fs, Scalar val);
+    public static partial ExceptionStatus core_FileStorage_shift_Scalar(OpenCvSafeHandle fs, Scalar val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2i(IntPtr fs, Vec2i val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2i(OpenCvSafeHandle fs, Vec2i val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3i(IntPtr fs, Vec3i val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3i(OpenCvSafeHandle fs, Vec3i val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4i(IntPtr fs, Vec4i val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4i(OpenCvSafeHandle fs, Vec4i val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6i(IntPtr fs, Vec6i val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6i(OpenCvSafeHandle fs, Vec6i val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2d(IntPtr fs, Vec2d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2d(OpenCvSafeHandle fs, Vec2d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3d(IntPtr fs, Vec3d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3d(OpenCvSafeHandle fs, Vec3d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4d(IntPtr fs, Vec4d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4d(OpenCvSafeHandle fs, Vec4d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6d(IntPtr fs, Vec6d val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6d(OpenCvSafeHandle fs, Vec6d val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2f(IntPtr fs, Vec2f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2f(OpenCvSafeHandle fs, Vec2f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3f(IntPtr fs, Vec3f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3f(OpenCvSafeHandle fs, Vec3f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4f(IntPtr fs, Vec4f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4f(OpenCvSafeHandle fs, Vec4f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6f(IntPtr fs, Vec6f val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6f(OpenCvSafeHandle fs, Vec6f val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2b(IntPtr fs, Vec2b val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2b(OpenCvSafeHandle fs, Vec2b val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3b(IntPtr fs, Vec3b val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3b(OpenCvSafeHandle fs, Vec3b val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4b(IntPtr fs, Vec4b val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4b(OpenCvSafeHandle fs, Vec4b val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6b(IntPtr fs, Vec6b val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6b(OpenCvSafeHandle fs, Vec6b val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2s(IntPtr fs, Vec2s val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2s(OpenCvSafeHandle fs, Vec2s val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3s(IntPtr fs, Vec3s val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3s(OpenCvSafeHandle fs, Vec3s val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4s(IntPtr fs, Vec4s val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4s(OpenCvSafeHandle fs, Vec4s val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6s(IntPtr fs, Vec6s val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6s(OpenCvSafeHandle fs, Vec6s val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec2w(IntPtr fs, Vec2w val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec2w(OpenCvSafeHandle fs, Vec2w val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec3w(IntPtr fs, Vec3w val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec3w(OpenCvSafeHandle fs, Vec3w val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec4w(IntPtr fs, Vec4w val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec4w(OpenCvSafeHandle fs, Vec4w val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileStorage_shift_Vec6w(IntPtr fs, Vec6w val);
+    public static partial ExceptionStatus core_FileStorage_shift_Vec6w(OpenCvSafeHandle fs, Vec6w val);
 }

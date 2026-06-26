@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -45,16 +45,14 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getSaturation(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapDrago_getSaturation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setSaturation(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapDrago_setSaturation(Handle, value));
         }
     }
 
@@ -68,16 +66,14 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getBias(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapDrago_getBias(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setBias(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.photo_TonemapDrago_setBias(Handle, value));
         }
     }
 }

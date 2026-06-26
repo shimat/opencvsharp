@@ -48,16 +48,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getDiffusivity(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getDiffusivity(Handle, out var ret));
             return (KAZEDiffusivityType)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setDiffusivity(RawPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setDiffusivity(Handle, (int)value));
         }
     }
 
@@ -70,16 +68,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getExtended(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getExtended(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setExtended(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setExtended(Handle, value ? 1 : 0));
         }
     }
 
@@ -93,16 +89,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getNOctaveLayers(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getNOctaveLayers(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setNOctaveLayers(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setNOctaveLayers(Handle, value));
         }
     }
 
@@ -116,16 +110,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getNOctaves(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getNOctaves(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setNOctaves(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setNOctaves(Handle, value));
         }
     }
 
@@ -139,16 +131,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setThreshold(Handle, value));
         }
     }
 
@@ -162,16 +152,14 @@ public class KAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_getUpright(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_getUpright(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_KAZE_setUpright(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_KAZE_setUpright(Handle, value ? 1 : 0));
         }
     }
 }

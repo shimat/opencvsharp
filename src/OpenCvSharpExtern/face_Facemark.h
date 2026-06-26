@@ -9,6 +9,37 @@
 
 #ifndef _WINRT_DLL
 
+// Blittable POD view of the scalar fields of cv::face::FacemarkLBF::Params.
+// The std::string / std::vector members are marshalled separately.
+struct FacemarkLBFParamsData
+{
+    double shape_offset;
+    int verbose;
+    int n_landmarks;
+    int initShape_n;
+    int stages_n;
+    int tree_n;
+    int tree_depth;
+    double bagging_overlap;
+    int save_model;
+    uint32_t seed;
+    MyCvRect detectROI;
+};
+
+// Blittable POD view of the scalar fields of cv::face::FacemarkAAM::Params.
+// The model_filename / scales members are marshalled separately.
+struct FacemarkAAMParamsData
+{
+    int m;
+    int n;
+    int n_iter;
+    int verbose;
+    int save_model;
+    int max_m;
+    int max_n;
+    int texture_max_m;
+};
+
 #pragma region Facemark
 
 CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
@@ -75,228 +106,65 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_delete(cv::face::FacemarkLBF::Par
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_shape_offset_get(cv::face::FacemarkLBF::Params *obj, double *returnValue)
+CVAPI(ExceptionStatus) face_FacemarkLBF_Params_getAll(
+    cv::face::FacemarkLBF::Params *obj,
+    FacemarkLBFParamsData *data,
+    std::string *cascadeFace,
+    std::string *modelFilename,
+    std::vector<int> *featsM,
+    std::vector<double> *radiusM,
+    std::vector<int> *pupils0,
+    std::vector<int> *pupils1)
 {
     BEGIN_WRAP
-    *returnValue = obj->shape_offset;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_shape_offset_set(cv::face::FacemarkLBF::Params *obj, double val)
-{
-    BEGIN_WRAP
-    obj->shape_offset = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_cascade_face_get(cv::face::FacemarkLBF::Params *obj, std::string *s)
-{
-    BEGIN_WRAP
-    s->assign(obj->cascade_face);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_cascade_face_set(cv::face::FacemarkLBF::Params *obj, const char *s)
-{
-    BEGIN_WRAP
-     obj->cascade_face = s;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_verbose_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->verbose ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_verbose_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->verbose = (val != 0);
+    data->shape_offset = obj->shape_offset;
+    data->verbose = obj->verbose ? 1 : 0;
+    data->n_landmarks = obj->n_landmarks;
+    data->initShape_n = obj->initShape_n;
+    data->stages_n = obj->stages_n;
+    data->tree_n = obj->tree_n;
+    data->tree_depth = obj->tree_depth;
+    data->bagging_overlap = obj->bagging_overlap;
+    data->save_model = obj->save_model ? 1 : 0;
+    data->seed = obj->seed;
+    data->detectROI = c(obj->detectROI);
+    cascadeFace->assign(obj->cascade_face);
+    modelFilename->assign(obj->model_filename);
+    std::copy(obj->feats_m.begin(), obj->feats_m.end(), std::back_inserter(*featsM));
+    std::copy(obj->radius_m.begin(), obj->radius_m.end(), std::back_inserter(*radiusM));
+    std::copy(obj->pupils[0].begin(), obj->pupils[0].end(), std::back_inserter(*pupils0));
+    std::copy(obj->pupils[1].begin(), obj->pupils[1].end(), std::back_inserter(*pupils1));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_n_landmarks_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
+CVAPI(ExceptionStatus) face_FacemarkLBF_Params_setAll(
+    cv::face::FacemarkLBF::Params *obj,
+    FacemarkLBFParamsData data,
+    const char *cascadeFace,
+    const char *modelFilename,
+    std::vector<int> *featsM,
+    std::vector<double> *radiusM,
+    std::vector<int> *pupils0,
+    std::vector<int> *pupils1)
 {
     BEGIN_WRAP
-    *returnValue = obj->n_landmarks;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_n_landmarks_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->n_landmarks = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_initShape_n_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->initShape_n;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_initShape_n_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->initShape_n = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_stages_n_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->stages_n;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_stages_n_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->stages_n = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_tree_n_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->tree_n;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_tree_n_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->tree_n = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_tree_depth_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->tree_depth;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_tree_depth_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->tree_depth = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_bagging_overlap_get(cv::face::FacemarkLBF::Params *obj, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->bagging_overlap;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_bagging_overlap_set(cv::face::FacemarkLBF::Params *obj, double val)
-{
-    BEGIN_WRAP
-    obj->bagging_overlap = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_model_filename_get(cv::face::FacemarkLBF::Params *obj, std::string *s)
-{
-    BEGIN_WRAP
-    s->assign(obj->model_filename);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_model_filename_set(cv::face::FacemarkLBF::Params *obj, const char *s)
-{
-    BEGIN_WRAP
-    obj->model_filename = s;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_save_model_get(cv::face::FacemarkLBF::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->save_model ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_save_model_set(cv::face::FacemarkLBF::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->save_model = (val != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_seed_get(cv::face::FacemarkLBF::Params *obj, unsigned int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->seed;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_seed_set(cv::face::FacemarkLBF::Params *obj, unsigned int val)
-{
-    BEGIN_WRAP
-    obj->seed = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_feats_m_get(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    std::copy(obj->feats_m.begin(), obj->feats_m.end(), std::back_inserter(*v));
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_feats_m_set(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    obj->feats_m.clear();
-    std::copy(v->begin(), v->end(), std::back_inserter(obj->feats_m));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_radius_m_get(cv::face::FacemarkLBF::Params *obj, std::vector<double> *v)
-{
-    BEGIN_WRAP
-    std::copy(obj->radius_m.begin(), obj->radius_m.end(), std::back_inserter(*v));
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_radius_m_set(cv::face::FacemarkLBF::Params *obj, std::vector<double> *v)
-{
-    BEGIN_WRAP
-    obj->radius_m.clear();
-    std::copy(v->begin(), v->end(), std::back_inserter(obj->radius_m));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_pupils0_get(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    std::copy(obj->pupils[0].begin(), obj->pupils[0].end(), std::back_inserter(*v));
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_pupils0_set(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    obj->pupils[0].clear();
-    std::copy(v->begin(), v->end(), std::back_inserter(obj->pupils[0]));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_pupils1_get(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    std::copy(obj->pupils[1].begin(), obj->pupils[1].end(), std::back_inserter(*v));
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_pupils1_set(cv::face::FacemarkLBF::Params *obj, std::vector<int> *v)
-{
-    BEGIN_WRAP
-    obj->pupils[1].clear();
-    std::copy(v->begin(), v->end(), std::back_inserter(obj->pupils[1]));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_detectROI_get(cv::face::FacemarkLBF::Params *obj, MyCvRect *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = c(obj->detectROI);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkLBF_Params_detectROI_set(cv::face::FacemarkLBF::Params *obj, MyCvRect val)
-{
-    BEGIN_WRAP
-    obj->detectROI = cpp(val);
+    obj->shape_offset = data.shape_offset;
+    obj->verbose = (data.verbose != 0);
+    obj->n_landmarks = data.n_landmarks;
+    obj->initShape_n = data.initShape_n;
+    obj->stages_n = data.stages_n;
+    obj->tree_n = data.tree_n;
+    obj->tree_depth = data.tree_depth;
+    obj->bagging_overlap = data.bagging_overlap;
+    obj->save_model = (data.save_model != 0);
+    obj->seed = data.seed;
+    obj->detectROI = cpp(data.detectROI);
+    obj->cascade_face = cascadeFace;
+    obj->model_filename = modelFilename;
+    obj->feats_m.assign(featsM->begin(), featsM->end());
+    obj->radius_m.assign(radiusM->begin(), radiusM->end());
+    obj->pupils[0].assign(pupils0->begin(), pupils0->end());
+    obj->pupils[1].assign(pupils1->begin(), pupils1->end());
     END_WRAP
 }
 
@@ -360,134 +228,43 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_delete(cv::face::FacemarkAAM::Par
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_model_filename_get(cv::face::FacemarkAAM::Params *obj, std::string *s)
+CVAPI(ExceptionStatus) face_FacemarkAAM_Params_getAll(
+    cv::face::FacemarkAAM::Params *obj,
+    FacemarkAAMParamsData *data,
+    std::string *modelFilename,
+    std::vector<float> *scales)
 {
     BEGIN_WRAP
-    s->assign(obj->model_filename);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_model_filename_set(cv::face::FacemarkAAM::Params *obj, const char *s)
-{
-    BEGIN_WRAP
-    obj->model_filename = s;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_m_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->m;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_m_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->m = val;
+    data->m = obj->m;
+    data->n = obj->n;
+    data->n_iter = obj->n_iter;
+    data->verbose = obj->verbose ? 1 : 0;
+    data->save_model = obj->save_model ? 1 : 0;
+    data->max_m = obj->max_m;
+    data->max_n = obj->max_n;
+    data->texture_max_m = obj->texture_max_m;
+    modelFilename->assign(obj->model_filename);
+    std::copy(obj->scales.begin(), obj->scales.end(), std::back_inserter(*scales));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_n_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
+CVAPI(ExceptionStatus) face_FacemarkAAM_Params_setAll(
+    cv::face::FacemarkAAM::Params *obj,
+    FacemarkAAMParamsData data,
+    const char *modelFilename,
+    std::vector<float> *scales)
 {
     BEGIN_WRAP
-    *returnValue = obj->n;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_n_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->n = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_n_iter_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->n_iter;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_n_iter_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->n_iter = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_verbose_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->verbose ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_verbose_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->verbose = (val != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_save_model_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->save_model ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_save_model_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->save_model = (val != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_max_m_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->max_m;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_max_m_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->max_m = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_max_n_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->max_n;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_max_n_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->max_n = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_texture_max_m_get(cv::face::FacemarkAAM::Params *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->texture_max_m;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_texture_max_m_set(cv::face::FacemarkAAM::Params *obj, int val)
-{
-    BEGIN_WRAP
-    obj->texture_max_m = val;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_scales_get(cv::face::FacemarkAAM::Params *obj, std::vector<float> *v)
-{
-    BEGIN_WRAP
-    std::copy(obj->scales.begin(), obj->scales.end(), std::back_inserter(*v));
-    END_WRAP
-}
-CVAPI(ExceptionStatus) face_FacemarkAAM_Params_scales_set(cv::face::FacemarkAAM::Params *obj, std::vector<float> *v)
-{
-    BEGIN_WRAP
-    obj->scales.clear();
-    std::copy(v->begin(), v->end(), std::back_inserter(obj->scales));
+    obj->m = data.m;
+    obj->n = data.n;
+    obj->n_iter = data.n_iter;
+    obj->verbose = (data.verbose != 0);
+    obj->save_model = (data.save_model != 0);
+    obj->max_m = data.max_m;
+    obj->max_n = data.max_n;
+    obj->texture_max_m = data.texture_max_m;
+    obj->model_filename = modelFilename;
+    obj->scales.assign(scales->begin(), scales->end());
     END_WRAP
 }
 
