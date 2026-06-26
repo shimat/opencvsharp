@@ -22,22 +22,22 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_Ptr_CalibrateDebevec_get(IntPtr obj, out IntPtr returnValue);
                 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_getLambda(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_CalibrateDebevec_getLambda(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_setLambda(IntPtr obj, float value);
+    public static partial ExceptionStatus photo_CalibrateDebevec_setLambda(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_getSamples(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_CalibrateDebevec_getSamples(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_setSamples(IntPtr obj, float value);
+    public static partial ExceptionStatus photo_CalibrateDebevec_setSamples(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_getRandom(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus photo_CalibrateDebevec_getRandom(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_setRandom(IntPtr obj, int value);
+    public static partial ExceptionStatus photo_CalibrateDebevec_setRandom(OpenCvSafeHandle obj, int value);
 
     // CalibrateRobertson
 
@@ -51,23 +51,23 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_Ptr_CalibrateRobertson_get(IntPtr obj, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateRobertson_getMaxIter(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus photo_CalibrateRobertson_getMaxIter(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateRobertson_setMaxIter(IntPtr obj, int value);
+    public static partial ExceptionStatus photo_CalibrateRobertson_setMaxIter(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateRobertson_getThreshold(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus photo_CalibrateRobertson_getThreshold(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateRobertson_setThreshold(IntPtr obj, float value);
+    public static partial ExceptionStatus photo_CalibrateRobertson_setThreshold(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateRobertson_getRadiance(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus photo_CalibrateRobertson_getRadiance(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_CalibrateCRF_process(
-        IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times);
+        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createMergeDebevec(out IntPtr returnValue);
@@ -85,8 +85,8 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_MergeExposures_process(
-        IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times, IntPtr response);
+        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times, IntPtr response);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_MergeMertens_process(IntPtr obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst);
+    public static partial ExceptionStatus photo_MergeMertens_process(OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst);
 }
