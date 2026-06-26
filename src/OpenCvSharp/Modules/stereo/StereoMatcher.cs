@@ -36,9 +36,8 @@ public class StereoMatcher : Algorithm
         disparity.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.stereo_StereoMatcher_compute(RawPtr, left.CvPtr, right.CvPtr, disparity.CvPtr));
+            NativeMethods.stereo_StereoMatcher_compute(Handle, left.CvPtr, right.CvPtr, disparity.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(left);
         GC.KeepAlive(right);
         disparity.Fix();
@@ -52,15 +51,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getMinDisparity(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getMinDisparity(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setMinDisparity(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setMinDisparity(Handle, value));
         }
     }
 
@@ -72,15 +69,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getNumDisparities(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getNumDisparities(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setNumDisparities(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setNumDisparities(Handle, value));
         }
     }
 
@@ -92,15 +87,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getBlockSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getBlockSize(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setBlockSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setBlockSize(Handle, value));
         }
     }
 
@@ -112,15 +105,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getSpeckleWindowSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getSpeckleWindowSize(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setSpeckleWindowSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setSpeckleWindowSize(Handle, value));
         }
     }
 
@@ -132,15 +123,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getSpeckleRange(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getSpeckleRange(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setSpeckleRange(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setSpeckleRange(Handle, value));
         }
     }
 
@@ -152,15 +141,13 @@ public class StereoMatcher : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_getDisp12MaxDiff(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_getDisp12MaxDiff(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.stereo_StereoMatcher_setDisp12MaxDiff(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.stereo_StereoMatcher_setDisp12MaxDiff(Handle, value));
         }
     }
 }
