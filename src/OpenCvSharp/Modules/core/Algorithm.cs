@@ -34,8 +34,7 @@ public abstract class Algorithm : CvPtrObject
             throw new ArgumentNullException(nameof(fs));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_write(RawPtr, fs.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_Algorithm_write(Handle, fs.CvPtr));
         GC.KeepAlive(fs);
     }
 
@@ -50,8 +49,7 @@ public abstract class Algorithm : CvPtrObject
             throw new ArgumentNullException(nameof(fn));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_read(RawPtr, fn.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_Algorithm_read(Handle, fn.CvPtr));
         GC.KeepAlive(fn);
     }
 
@@ -65,8 +63,7 @@ public abstract class Algorithm : CvPtrObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Algorithm_empty(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_Algorithm_empty(Handle, out var ret));
             return ret != 0;
         }
     }
@@ -84,8 +81,7 @@ public abstract class Algorithm : CvPtrObject
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_save(RawPtr, fileName));
-        GC.KeepAlive(this);
+            NativeMethods.core_Algorithm_save(Handle, fileName));
     }
 
     /// <summary>
@@ -100,8 +96,7 @@ public abstract class Algorithm : CvPtrObject
 
         using var buf = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_getDefaultName(RawPtr, buf.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_Algorithm_getDefaultName(Handle, buf.CvPtr));
         return buf.ToString();
     }
 }

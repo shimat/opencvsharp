@@ -9,18 +9,20 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
+    // The Algorithm object handle is an OpenCvSafeHandle, so the marshaller keeps the managed object
+    // alive for the call and callers drop GC.KeepAlive(this). Shared by all Algorithm-derived types.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Algorithm_write(IntPtr obj, IntPtr fs);
+    public static partial ExceptionStatus core_Algorithm_write(OpenCvSafeHandle obj, IntPtr fs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Algorithm_read(IntPtr obj, IntPtr fn);
+    public static partial ExceptionStatus core_Algorithm_read(OpenCvSafeHandle obj, IntPtr fn);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Algorithm_empty(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus core_Algorithm_empty(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Algorithm_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+    public static partial ExceptionStatus core_Algorithm_save(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Algorithm_getDefaultName(IntPtr obj, IntPtr buf);
+    public static partial ExceptionStatus core_Algorithm_getDefaultName(OpenCvSafeHandle obj, IntPtr buf);
 }
