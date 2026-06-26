@@ -13,16 +13,16 @@ static partial class NativeMethods
     #region QualityBase
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityBase_compute(IntPtr obj, IntPtr img, out Scalar returnValue);
+    public static partial ExceptionStatus quality_QualityBase_compute(OpenCvSafeHandle obj, IntPtr img, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityBase_getQualityMap(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus quality_QualityBase_getQualityMap(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityBase_clear(IntPtr obj);
+    public static partial ExceptionStatus quality_QualityBase_clear(OpenCvSafeHandle obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityBase_empty(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus quality_QualityBase_empty(OpenCvSafeHandle obj, out int returnValue);
 
     #endregion
 
@@ -39,10 +39,10 @@ static partial class NativeMethods
         IntPtr @ref, IntPtr cmp, IntPtr qualityMap, double maxPixelValue, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityPSNR_getMaxPixelValue(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus quality_QualityPSNR_getMaxPixelValue(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus quality_QualityPSNR_setMaxPixelValue(IntPtr obj, double val);
+    public static partial ExceptionStatus quality_QualityPSNR_setMaxPixelValue(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus quality_Ptr_QualityPSNR_get(IntPtr ptr, out IntPtr returnValue);

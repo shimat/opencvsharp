@@ -27,16 +27,14 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_getMaxPixelValue(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.quality_QualityPSNR_getMaxPixelValue(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.quality_QualityPSNR_setMaxPixelValue(Handle, value));
         }
     }
 
