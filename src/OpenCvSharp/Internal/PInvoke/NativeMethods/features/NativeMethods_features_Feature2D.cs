@@ -13,45 +13,47 @@ static partial class NativeMethods
 {
     // ReSharper disable InconsistentNaming
 
+    // Feature2D base entry points take the object as an OpenCvSafeHandle (callers pass Handle and drop
+    // GC.KeepAlive(this)). Image / keypoint / mask arguments stay IntPtr until those classes are swept.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_detect_Mat1(
-        IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
+        OpenCvSafeHandle detector, IntPtr image, IntPtr keypoints, IntPtr mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_detect_Mat2(
-        IntPtr detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[]? mask);
+        OpenCvSafeHandle detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[]? mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_detect_InputArray(
-        IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
-        
+        OpenCvSafeHandle detector, IntPtr image, IntPtr keypoints, IntPtr mask);
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_compute1(IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
+    public static partial ExceptionStatus features_Feature2D_compute1(OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_compute2(
-        IntPtr detector, IntPtr[] images, int imageLength,
+        OpenCvSafeHandle detector, IntPtr[] images, int imageLength,
         IntPtr keypoints, IntPtr[] descriptors, int descriptorsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_detectAndCompute(
-        IntPtr detector, IntPtr image, IntPtr mask,
+        OpenCvSafeHandle detector, IntPtr image, IntPtr mask,
         IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_descriptorSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_Feature2D_descriptorSize(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_descriptorType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_Feature2D_descriptorType(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_defaultNorm(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_Feature2D_defaultNorm(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_empty(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus features_Feature2D_empty(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_write(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
+    public static partial ExceptionStatus features_Feature2D_write(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_read(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
+    public static partial ExceptionStatus features_Feature2D_read(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_getDefaultName(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus features_Feature2D_getDefaultName(OpenCvSafeHandle obj, IntPtr returnValue);
         
     #region SIFT
 
