@@ -26,34 +26,34 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_PCA_operatorThis(
-        IntPtr obj, IntPtr data, IntPtr mean, int flags, int maxComponents);
+        OpenCvSafeHandle obj, IntPtr data, IntPtr mean, int flags, int maxComponents);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_PCA_computeVar(
-        IntPtr obj, IntPtr data, IntPtr mean, int flags, double retainedVariance);
+        OpenCvSafeHandle obj, IntPtr data, IntPtr mean, int flags, double retainedVariance);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_project1(IntPtr obj, IntPtr vec, out IntPtr returnValue);
+    public static partial ExceptionStatus core_PCA_project1(OpenCvSafeHandle obj, IntPtr vec, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_project2(IntPtr obj, IntPtr vec, IntPtr result);
+    public static partial ExceptionStatus core_PCA_project2(OpenCvSafeHandle obj, IntPtr vec, IntPtr result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_backProject1(IntPtr obj, IntPtr vec, out IntPtr returnValue);
+    public static partial ExceptionStatus core_PCA_backProject1(OpenCvSafeHandle obj, IntPtr vec, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_backProject2(IntPtr obj, IntPtr vec, IntPtr result);
+    public static partial ExceptionStatus core_PCA_backProject2(OpenCvSafeHandle obj, IntPtr vec, IntPtr result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_eigenvectors(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus core_PCA_eigenvectors(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_eigenvalues(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus core_PCA_eigenvalues(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_mean(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus core_PCA_mean(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_write(IntPtr obj, IntPtr fs);
+    public static partial ExceptionStatus core_PCA_write(OpenCvSafeHandle obj, IntPtr fs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_read(IntPtr obj, IntPtr fn);
+    public static partial ExceptionStatus core_PCA_read(OpenCvSafeHandle obj, IntPtr fn);
 
     #endregion
 

@@ -24,7 +24,8 @@ for line in lines:
     if line.strip() == "GC.KeepAlive(this);":
         removed += 1
         continue
-    out.append(re.sub(rf"\b{re.escape(accessor)}\b", "Handle", line))
+    # Only the bare this-handle accessor (e.g. `CvPtr`), never `other.CvPtr`.
+    out.append(re.sub(rf"(?<!\.)\b{re.escape(accessor)}\b", "Handle", line))
 
 new = nl.join(out)
 path.write_text(new, encoding="utf-8-sig", newline="")
