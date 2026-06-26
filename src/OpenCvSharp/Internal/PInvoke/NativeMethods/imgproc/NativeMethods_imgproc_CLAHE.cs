@@ -22,22 +22,24 @@ static partial class NativeMethods
 
 
 
+    // The object handle is passed as an OpenCvSafeHandle so the marshaller keeps the managed CLAHE
+    // alive for the duration of the call; callers no longer need GC.KeepAlive(this).
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_apply(IntPtr obj, IntPtr src, IntPtr dst);
+    public static partial ExceptionStatus imgproc_CLAHE_apply(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_setClipLimit(IntPtr obj, double clipLimit);
+    public static partial ExceptionStatus imgproc_CLAHE_setClipLimit(OpenCvSafeHandle obj, double clipLimit);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_getClipLimit(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus imgproc_CLAHE_getClipLimit(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_setTilesGridSize(IntPtr obj, Size tileGridSize);
+    public static partial ExceptionStatus imgproc_CLAHE_setTilesGridSize(OpenCvSafeHandle obj, Size tileGridSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_getTilesGridSize(IntPtr obj, out Size returnValue);
+    public static partial ExceptionStatus imgproc_CLAHE_getTilesGridSize(OpenCvSafeHandle obj, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_collectGarbage(IntPtr obj);
+    public static partial ExceptionStatus imgproc_CLAHE_collectGarbage(OpenCvSafeHandle obj);
 
 }
