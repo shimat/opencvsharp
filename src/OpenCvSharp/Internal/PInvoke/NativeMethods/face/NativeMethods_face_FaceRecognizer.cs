@@ -16,75 +16,75 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_train(
-        IntPtr obj, IntPtr[] src, int srcLength, int[] labels, int labelsLength);
+        OpenCvSafeHandle obj, IntPtr[] src, int srcLength, int[] labels, int labelsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_update(
-        IntPtr obj, IntPtr[] src, int srcLength, int[] labels, int labelsLength);
+        OpenCvSafeHandle obj, IntPtr[] src, int srcLength, int[] labels, int labelsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_predict1(IntPtr obj, IntPtr src, out int returnValue);
+    public static partial ExceptionStatus face_FaceRecognizer_predict1(OpenCvSafeHandle obj, IntPtr src, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_predict2(
-        IntPtr obj, IntPtr src, out int label, out double confidence);
+        OpenCvSafeHandle obj, IntPtr src, out int label, out double confidence);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_write1(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_read1(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_write2(IntPtr obj, IntPtr fs);
+    public static partial ExceptionStatus face_FaceRecognizer_write2(OpenCvSafeHandle obj, IntPtr fs);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_read2(IntPtr obj, IntPtr fs);
+    public static partial ExceptionStatus face_FaceRecognizer_read2(OpenCvSafeHandle obj, IntPtr fs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_setLabelInfo(
-        IntPtr obj, int label, [MarshalAs(UnmanagedType.LPStr)] string strInfo);
+        OpenCvSafeHandle obj, int label, [MarshalAs(UnmanagedType.LPStr)] string strInfo);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_getLabelInfo(IntPtr obj, int label, IntPtr dst);
+    public static partial ExceptionStatus face_FaceRecognizer_getLabelInfo(OpenCvSafeHandle obj, int label, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_getLabelsByString(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string str, IntPtr dst);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string str, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_getThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus face_FaceRecognizer_getThreshold(OpenCvSafeHandle obj, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_setThreshold(IntPtr obj, double val);
+    public static partial ExceptionStatus face_FaceRecognizer_setThreshold(OpenCvSafeHandle obj, double val);
 
     #endregion
 
     #region BasicFaceRecognizer
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getNumComponents(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getNumComponents(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_setNumComponents(IntPtr obj, int val);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_setNumComponents(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getThreshold(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_setThreshold(IntPtr obj, double val);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_setThreshold(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getProjections(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getProjections(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getLabels(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getLabels(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getEigenValues(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getEigenValues(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getEigenVectors(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getEigenVectors(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_BasicFaceRecognizer_getMean(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_BasicFaceRecognizer_getMean(OpenCvSafeHandle obj, IntPtr dst);
 
     #endregion
 
@@ -121,40 +121,40 @@ static partial class NativeMethods
         int radius, int neighbors, int gridX, int gridY, double threshold, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getGridX(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getGridX(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_setGridX(IntPtr obj, int val);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_setGridX(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getGridY(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getGridY(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_setGridY(IntPtr obj, int val);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_setGridY(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getRadius(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getRadius(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_setRadius(IntPtr obj, int val);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_setRadius(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getNeighbors(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getNeighbors(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_setNeighbors(IntPtr obj, int val);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_setNeighbors(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getThreshold(IntPtr obj, out double returnValue);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getThreshold(OpenCvSafeHandle obj, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_setThreshold(IntPtr obj, double val);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_setThreshold(OpenCvSafeHandle obj, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getHistograms(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getHistograms(OpenCvSafeHandle obj, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_LBPHFaceRecognizer_getLabels(IntPtr obj, IntPtr dst);
+    public static partial ExceptionStatus face_LBPHFaceRecognizer_getLabels(OpenCvSafeHandle obj, IntPtr dst);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

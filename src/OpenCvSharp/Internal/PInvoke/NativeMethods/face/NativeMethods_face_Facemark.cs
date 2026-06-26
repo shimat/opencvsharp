@@ -16,11 +16,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_Facemark_loadModel(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string model);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string model);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_Facemark_fit(
-        IntPtr obj, IntPtr image, IntPtr faces, IntPtr landmarks, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr faces, IntPtr landmarks, out int returnValue);
 
     #endregion
 
