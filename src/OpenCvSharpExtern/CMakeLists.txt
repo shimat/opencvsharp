@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+﻿cmake_minimum_required(VERSION 3.15)
 
 include_directories(${OpenCV_INCLUDE_DIR})
 IF(!EMSCRIPTEN)
@@ -6,14 +6,20 @@ IF(!EMSCRIPTEN)
 ENDIF()
 IF(APPLE)
     # Fix linking on 10.14+. See https://stackoverflow.com/questions/54068035
-    link_directories(/usr/local/lib)
+    # Intel Homebrew: /usr/local/lib; Apple Silicon Homebrew: /opt/homebrew/lib
+    link_directories(/usr/local/lib /opt/homebrew/lib)
 ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
-# Resolve Protobuf target before OpenCV config is loaded.
+# Resolve Eigen3 and HDF5 targets before OpenCV config is loaded.
+# OpenCV's static cmake config references these targets but does not
+# call find_package for them, so they must be pre-defined.
+# Note: OpenCV's bundled protobuf (libprotobuf) is defined by OpenCV's own
+# OpenCVModules.cmake — do NOT pre-create it or it will conflict.
 if(APPLE)
-	find_package(Protobuf REQUIRED)
+	find_package(Eigen3 CONFIG REQUIRED)
+	find_package(HDF5 CONFIG REQUIRED)
 endif()
 
 # On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
@@ -58,11 +64,12 @@ if(OpenCV_FOUND)
 		target_link_libraries(OpenCvSharpExtern Iconv::Iconv)
 	endif()
 
-	# Link Tesseract on Windows and Linux.
+	# Link Tesseract on Windows, Linux, and macOS.
 	# Windows: installed as a static library via vcpkg (CMAKE_PREFIX_PATH points to vcpkg_installed/).
 	# Linux:   installed as a static library by docker/manylinux/build_static_deps.sh
 	#          into CMAKE_PREFIX_PATH (typically /opt/deps).
-	if(NOT EMSCRIPTEN AND NOT APPLE)
+	# macOS:   installed as a static library via vcpkg (CMAKE_PREFIX_PATH includes vcpkg_installed/).
+	if(NOT EMSCRIPTEN)
 		find_package(Tesseract QUIET)
 		if(Tesseract_FOUND)
 			if(WIN32)
