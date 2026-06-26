@@ -58,4 +58,25 @@ public class DnnUnicodePathTest : TestBase
                 File.Delete(unicodePath);
         }
     }
+
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
+    public void DetectionModelUnicodePath()
+    {
+        // Model constructors build the net through the same gated reader; verify a non-ANSI path works.
+        Assert.True(File.Exists(MnistModelPath), $"'{MnistModelPath}' not found");
+
+        var unicodePath = Path.Combine("_data", "model", "mnist_model_😀🍀.pb");
+        try
+        {
+            File.Copy(MnistModelPath, unicodePath, true);
+
+            using var model = new DetectionModel(unicodePath);
+            Assert.NotNull(model);
+        }
+        finally
+        {
+            if (File.Exists(unicodePath))
+                File.Delete(unicodePath);
+        }
+    }
 }

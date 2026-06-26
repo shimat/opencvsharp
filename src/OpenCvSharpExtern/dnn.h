@@ -43,6 +43,29 @@ static std::string dnn_inferFramework(const char *model)
 }
 #endif
 
+// Reads a net from (model, config) file paths, transparently handling non-ANSI paths on Windows
+// (representable -> file-based readNet; otherwise wide-read + framework-explicit buffer overload).
+// Shared by dnn_readNet and the Model constructors.
+static cv::dnn::Net dnn_readNetGated(const char *model, const char *config, const char *framework, int engine)
+{
+#ifdef _WIN32
+    const std::string frameworkStr = (framework == nullptr) ? "" : std::string(framework);
+    const bool hasConfig = (config != nullptr && config[0] != '\0');
+    std::string modelAcp, configAcp;
+    if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
+        return cv::dnn::readNet(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), frameworkStr, engine);
+
+    const std::string fw = frameworkStr.empty() ? dnn_inferFramework(model) : frameworkStr;
+    const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
+    const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
+    return cv::dnn::readNet(fw, modelBuf, configBuf, engine);
+#else
+    const std::string configStr = (config == nullptr) ? "" : std::string(config);
+    const std::string frameworkStr = (framework == nullptr) ? "" : std::string(framework);
+    return cv::dnn::readNet(model, configStr, frameworkStr, engine);
+#endif
+}
+
 CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
@@ -83,30 +106,7 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,si
 CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const char *framework, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
-#ifdef _WIN32
-    const std::string frameworkStr = (framework == nullptr) ? "" : std::string(framework);
-    const bool hasConfig = (config != nullptr && config[0] != '\0');
-    std::string modelAcp, configAcp;
-    cv::dnn::Net net;
-    if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
-    {
-        net = cv::dnn::readNet(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), frameworkStr, engine);
-    }
-    else
-    {
-        // The buffer overload needs an explicit framework; infer it from the extension when not given.
-        const std::string fw = frameworkStr.empty() ? dnn_inferFramework(model) : frameworkStr;
-        const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
-        const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
-        net = cv::dnn::readNet(fw, modelBuf, configBuf, engine);
-    }
-    *returnValue = new cv::dnn::Net(net);
-#else
-    const auto configStr = (config == nullptr) ? "" : cv::String(config);
-    const auto frameworkStr = (framework == nullptr) ? "" : cv::String(framework);
-    const auto net = cv::dnn::readNet(model, configStr, frameworkStr, engine);
-    *returnValue = new cv::dnn::Net(net);
-#endif
+    *returnValue = new cv::dnn::Net(dnn_readNetGated(model, config, framework, engine));
     END_WRAP
 }
 

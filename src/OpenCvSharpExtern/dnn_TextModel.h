@@ -9,6 +9,7 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
+#include "dnn.h" // dnn_readNetGated (UTF-8 / non-ANSI model path handling)
 
 // ----------------------------------------------------------------------------
 // TextRecognitionModel
@@ -18,8 +19,12 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_new_String(
     const char *model, const char *config, cv::dnn::TextRecognitionModel **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::TextRecognitionModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::TextRecognitionModel(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -122,8 +127,12 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_new_String(
     const char *model, const char *config, cv::dnn::TextDetectionModel_EAST **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::TextDetectionModel_EAST(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::TextDetectionModel_EAST(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -182,8 +191,12 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_new_String(
     const char *model, const char *config, cv::dnn::TextDetectionModel_DB **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::TextDetectionModel_DB(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::TextDetectionModel_DB(model, configStr);
+#endif
     END_WRAP
 }
 

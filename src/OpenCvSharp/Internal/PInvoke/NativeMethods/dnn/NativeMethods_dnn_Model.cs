@@ -16,21 +16,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_Model_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Model_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_Model_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_Model_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Model_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_Model_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_Model_new_String_Windows(model, config, out returnValue)
-            : dnn_Model_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Model_new_Net(IntPtr network, out IntPtr returnValue);
@@ -77,21 +66,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_ClassificationModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_ClassificationModel_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_ClassificationModel_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_ClassificationModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_ClassificationModel_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_ClassificationModel_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_ClassificationModel_new_String_Windows(model, config, out returnValue)
-            : dnn_ClassificationModel_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_ClassificationModel_new_Net(IntPtr network, out IntPtr returnValue);
@@ -113,21 +91,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_DetectionModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_DetectionModel_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_DetectionModel_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_DetectionModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_DetectionModel_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_DetectionModel_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_DetectionModel_new_String_Windows(model, config, out returnValue)
-            : dnn_DetectionModel_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_DetectionModel_new_Net(IntPtr network, out IntPtr returnValue);
@@ -151,21 +118,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_SegmentationModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_SegmentationModel_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_SegmentationModel_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_SegmentationModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_SegmentationModel_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_SegmentationModel_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_SegmentationModel_new_String_Windows(model, config, out returnValue)
-            : dnn_SegmentationModel_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_SegmentationModel_new_Net(IntPtr network, out IntPtr returnValue);
@@ -181,21 +137,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_KeypointsModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_KeypointsModel_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_KeypointsModel_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_KeypointsModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_KeypointsModel_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_KeypointsModel_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_KeypointsModel_new_String_Windows(model, config, out returnValue)
-            : dnn_KeypointsModel_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_KeypointsModel_new_Net(IntPtr network, out IntPtr returnValue);
