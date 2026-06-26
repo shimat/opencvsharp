@@ -44,8 +44,7 @@ public class StaticSaliencyFineGrained : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencyFineGrained_computeSaliency(
-                RawPtr, image.CvPtr, saliencyMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, image.CvPtr, saliencyMap.CvPtr, out var ret));
         GC.KeepAlive(image);
         saliencyMap.Fix();
         return ret != 0;
@@ -69,8 +68,7 @@ public class StaticSaliencyFineGrained : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencyFineGrained_computeBinaryMap(
-                RawPtr, saliencyMap.CvPtr, binaryMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, saliencyMap.CvPtr, binaryMap.CvPtr, out var ret));
         GC.KeepAlive(saliencyMap);
         binaryMap.Fix();
         return ret != 0;
