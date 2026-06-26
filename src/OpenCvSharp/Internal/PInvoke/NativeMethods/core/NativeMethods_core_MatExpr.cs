@@ -18,42 +18,42 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_MatExpr_delete(IntPtr expr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_toMat(IntPtr expr, IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_toMat(OpenCvSafeHandle expr, IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_row(IntPtr self, int y, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_row(OpenCvSafeHandle self, int y, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_col(IntPtr self, int x, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_col(OpenCvSafeHandle self, int x, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_diag(IntPtr self, int d, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_diag(OpenCvSafeHandle self, int d, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_MatExpr_submat(
-        IntPtr self, int rowStart, int rowEnd, int colStart, int colEnd, out IntPtr returnValue);
+        OpenCvSafeHandle self, int rowStart, int rowEnd, int colStart, int colEnd, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_t(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_t(OpenCvSafeHandle self, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_inv(IntPtr self, int method, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_inv(OpenCvSafeHandle self, int method, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_mul_toMatExpr(IntPtr self, IntPtr e, double scale, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_mul_toMatExpr(OpenCvSafeHandle self, IntPtr e, double scale, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_mul_toMat(IntPtr self, IntPtr m, double scale, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_mul_toMat(OpenCvSafeHandle self, IntPtr m, double scale, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_cross(IntPtr self, IntPtr m, out IntPtr returnValue);
+    public static partial ExceptionStatus core_MatExpr_cross(OpenCvSafeHandle self, IntPtr m, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_dot(IntPtr self, IntPtr m, out double returnValue);
+    public static partial ExceptionStatus core_MatExpr_dot(OpenCvSafeHandle self, IntPtr m, out double returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_size(IntPtr self, out Size returnValue);
+    public static partial ExceptionStatus core_MatExpr_size(OpenCvSafeHandle self, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_MatExpr_type(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_MatExpr_type(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_operatorUnaryMinus_MatExpr(IntPtr e, out IntPtr returnValue);
