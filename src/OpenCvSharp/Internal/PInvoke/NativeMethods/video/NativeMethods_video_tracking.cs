@@ -73,37 +73,37 @@ static partial class NativeMethods
     public static partial ExceptionStatus video_KalmanFilter_new2(
         int dynamParams, int measureParams, int controlParams, int type, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_init(IntPtr obj, int dynamParams, int measureParams,
+    public static partial ExceptionStatus video_KalmanFilter_init(OpenCvSafeHandle obj, int dynamParams, int measureParams,
         int controlParams, int type);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus video_KalmanFilter_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_predict(IntPtr obj, IntPtr control, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_predict(OpenCvSafeHandle obj, IntPtr control, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_correct(IntPtr obj, IntPtr measurement, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_correct(OpenCvSafeHandle obj, IntPtr measurement, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_statePre(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_statePre(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_statePost(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_statePost(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_transitionMatrix(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_transitionMatrix(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_controlMatrix(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_controlMatrix(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_measurementMatrix(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_measurementMatrix(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_processNoiseCov(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_processNoiseCov(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_measurementNoiseCov(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_measurementNoiseCov(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_errorCovPre(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_errorCovPre(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_gain(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_gain(OpenCvSafeHandle obj, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_errorCovPost(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_errorCovPost(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     #endregion
 
