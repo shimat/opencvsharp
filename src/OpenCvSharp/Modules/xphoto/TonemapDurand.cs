@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -51,16 +51,14 @@ public sealed class TonemapDurand : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_getSaturation(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_getSaturation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_setSaturation(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_setSaturation(Handle, value));
         }
     }
 
@@ -73,16 +71,14 @@ public sealed class TonemapDurand : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_getContrast(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_getContrast(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_setContrast(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_setContrast(Handle, value));
         }
     }
 
@@ -95,16 +91,14 @@ public sealed class TonemapDurand : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_getSigmaSpace(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_getSigmaSpace(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_setSigmaSpace(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_setSigmaSpace(Handle, value));
         }
     }
 
@@ -117,16 +111,14 @@ public sealed class TonemapDurand : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_getSigmaColor(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_getSigmaColor(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_TonemapDurand_setSigmaColor(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_TonemapDurand_setSigmaColor(Handle, value));
         }
     }
 }
