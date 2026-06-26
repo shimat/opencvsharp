@@ -10,12 +10,46 @@
 
 #include "include_opencv.h"
 
+// Path handling (opencv #4242): OpenCV reads model files by narrow fopen, so non-ANSI paths fail on
+// Windows. For paths the active code page can represent we call the file-based readNet* directly
+// (streaming, unchanged); only non-representable paths are read via a wide stream and handed to the
+// in-memory buffer overload. Non-Windows keeps the file-based calls (UTF-8 paths already work there).
+#ifdef _WIN32
+static std::vector<uchar> dnn_readFileWideOrThrow(const char *utf8)
+{
+    std::vector<uchar> buf;
+    if (!readAllBytesWide(utf8, buf))
+        CV_Error(cv::Error::StsError, cv::format("Failed to open file: %s", utf8 ? utf8 : "(null)"));
+    return buf;
+}
+#endif
+
 CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    const bool hasConfig = (config != nullptr && config[0] != '\0');
+    std::string modelAcp, configAcp;
+    cv::dnn::Net net;
+    if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
+    {
+        net = cv::dnn::readNetFromTensorflow(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), engine);
+    }
+    else
+    {
+        const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
+        const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
+        net = cv::dnn::readNetFromTensorflow(
+            reinterpret_cast<const char*>(modelBuf.data()), modelBuf.size(),
+            hasConfig ? reinterpret_cast<const char*>(configBuf.data()) : nullptr, hasConfig ? configBuf.size() : 0,
+            engine);
+    }
+    *returnValue = new cv::dnn::Net(net);
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
     *returnValue = new cv::dnn::Net(net);
+#endif
     END_WRAP
 }
 
@@ -40,17 +74,48 @@ CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const 
 CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char *bin, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    std::string xmlAcp, binAcp;
+    cv::dnn::Net net;
+    if (pathRoundTripsAcp(xml, xmlAcp) && pathRoundTripsAcp(bin, binAcp))
+    {
+        net = cv::dnn::readNetFromModelOptimizer(cv::String(xmlAcp), cv::String(binAcp));
+    }
+    else
+    {
+        const std::vector<uchar> xmlBuf = dnn_readFileWideOrThrow(xml);
+        const std::vector<uchar> binBuf = dnn_readFileWideOrThrow(bin);
+        net = cv::dnn::readNetFromModelOptimizer(xmlBuf.data(), xmlBuf.size(), binBuf.data(), binBuf.size());
+    }
+    *returnValue = new cv::dnn::Net(net);
+#else
     const auto net = cv::dnn::readNetFromModelOptimizer(xml, bin);
     *returnValue = new cv::dnn::Net(net);
+#endif
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    std::string acp;
+    cv::dnn::Net net;
+    if (pathRoundTripsAcp(onnxFile, acp))
+    {
+        net = cv::dnn::readNetFromONNX(cv::String(acp), engine);
+    }
+    else
+    {
+        const std::vector<uchar> buf = dnn_readFileWideOrThrow(onnxFile);
+        net = cv::dnn::readNetFromONNX(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
+    }
+    *returnValue = new cv::dnn::Net(net);
+#else
     // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
     const auto net = cv::dnn::readNetFromONNX(cv::String(onnxFile), engine);
     *returnValue = new cv::dnn::Net(net);
+#endif
     END_WRAP
 }
 
@@ -169,9 +234,24 @@ CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
 CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    std::string acp;
+    cv::dnn::Net net;
+    if (pathRoundTripsAcp(model, acp))
+    {
+        net = cv::dnn::readNetFromTFLite(cv::String(acp), engine);
+    }
+    else
+    {
+        const std::vector<uchar> buf = dnn_readFileWideOrThrow(model);
+        net = cv::dnn::readNetFromTFLite(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
+    }
+    *returnValue = new cv::dnn::Net(net);
+#else
     // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
     const auto net = cv::dnn::readNetFromTFLite(cv::String(model), engine);
     *returnValue = new cv::dnn::Net(net);
+#endif
     END_WRAP
 }
 

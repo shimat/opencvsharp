@@ -11,28 +11,15 @@ namespace OpenCvSharp.Internal;
 // ReSharper disable InconsistentNaming
 static partial class NativeMethods
 {
-    // readNetFromTensorflow
+    // readNetFromTensorflow (UTF-8 everywhere; on Windows the native side reads non-ANSI paths via a
+    // wide stream and the in-memory buffer overload)
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTensorflow"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromTensorflow_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_readNetFromTensorflow(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         int engine,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTensorflow"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromTensorflow_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        int engine,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromTensorflow(string model, string? config, int engine, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromTensorflow_Windows(model, config, engine, out returnValue);
-        return dnn_readNetFromTensorflow_NotWindows(model, config, engine, out returnValue);
-    }
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTensorflow_InputArray"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus dnn_readNetFromTensorflow(
@@ -66,47 +53,21 @@ static partial class NativeMethods
         return dnn_readNet_NotWindows(model, config, framework, engine, out returnValue);
     }
 
-    // readNetFromModelOptimizer
+    // readNetFromModelOptimizer (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows)
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromModelOptimizer"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromModelOptimizer_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string xml,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string bin,
+    public static partial ExceptionStatus dnn_readNetFromModelOptimizer(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string xml,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string bin,
         out IntPtr returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromModelOptimizer"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromModelOptimizer_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string xml,
-        [MarshalAs(StringUnmanagedTypeWindows)] string bin, 
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromModelOptimizer(string xml, string bin, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromModelOptimizer_Windows(xml, bin, out returnValue);
-        return dnn_readNetFromModelOptimizer_NotWindows(xml, bin, out returnValue);
-    }
-
-    // readNetFromONNX
+    // readNetFromONNX (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows)
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromONNX"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromONNX_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string onnxFile,
+    public static partial ExceptionStatus dnn_readNetFromONNX(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string onnxFile,
         int engine,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromONNX"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromONNX_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string onnxFile,
-        int engine,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromONNX(string onnxFile, int engine, out IntPtr returnValue)
-    {
-        if (IsWindows())
-            return dnn_readNetFromONNX_Windows(onnxFile, engine, out returnValue);
-        return dnn_readNetFromONNX_NotWindows(onnxFile, engine, out returnValue);
-    }
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromONNX_InputArray"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus dnn_readNetFromONNX(
@@ -184,20 +145,11 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_enableModelDiagnostics(int isDiagnosticsMode);
 
-    // readNetFromTFLite
+    // readNetFromTFLite (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows)
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTFLite"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromTFLite_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, int engine, out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTFLite"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromTFLite_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model, int engine, out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_readNetFromTFLite(string model, int engine, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_readNetFromTFLite_Windows(model, engine, out returnValue)
-            : dnn_readNetFromTFLite_NotWindows(model, engine, out returnValue);
+    public static partial ExceptionStatus dnn_readNetFromTFLite(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model, int engine, out IntPtr returnValue);
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTFLite_InputArray"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus dnn_readNetFromTFLite(
