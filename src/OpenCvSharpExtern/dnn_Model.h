@@ -9,6 +9,7 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
+#include "dnn.h" // dnn_readNetGated (UTF-8 / non-ANSI model path handling)
 
 // ----------------------------------------------------------------------------
 // Model (base class)
@@ -17,8 +18,12 @@
 CVAPI(ExceptionStatus) dnn_Model_new_String(const char *model, const char *config, cv::dnn::Model **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::Model(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::Model(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -127,8 +132,12 @@ CVAPI(ExceptionStatus) dnn_ClassificationModel_new_String(
     const char *model, const char *config, cv::dnn::ClassificationModel **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::ClassificationModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::ClassificationModel(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -178,8 +187,12 @@ CVAPI(ExceptionStatus) dnn_DetectionModel_new_String(
     const char *model, const char *config, cv::dnn::DetectionModel **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::DetectionModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::DetectionModel(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -229,8 +242,12 @@ CVAPI(ExceptionStatus) dnn_SegmentationModel_new_String(
     const char *model, const char *config, cv::dnn::SegmentationModel **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::SegmentationModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::SegmentationModel(model, configStr);
+#endif
     END_WRAP
 }
 
@@ -264,8 +281,12 @@ CVAPI(ExceptionStatus) dnn_KeypointsModel_new_String(
     const char *model, const char *config, cv::dnn::KeypointsModel **returnValue)
 {
     BEGIN_WRAP
+#ifdef _WIN32
+    *returnValue = new cv::dnn::KeypointsModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+#else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::KeypointsModel(model, configStr);
+#endif
     END_WRAP
 }
 

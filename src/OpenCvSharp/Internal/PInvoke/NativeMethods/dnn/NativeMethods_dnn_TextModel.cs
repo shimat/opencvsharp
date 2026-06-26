@@ -16,21 +16,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_TextRecognitionModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_TextRecognitionModel_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_TextRecognitionModel_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_TextRecognitionModel_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_TextRecognitionModel_new_String_Windows(model, config, out returnValue)
-            : dnn_TextRecognitionModel_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextRecognitionModel_new_Net(IntPtr network, out IntPtr returnValue);
@@ -76,21 +65,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_TextDetectionModel_EAST_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_TextDetectionModel_EAST_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_TextDetectionModel_EAST_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_TextDetectionModel_EAST_new_String_Windows(model, config, out returnValue)
-            : dnn_TextDetectionModel_EAST_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextDetectionModel_EAST_new_Net(IntPtr network, out IntPtr returnValue);
@@ -115,21 +93,10 @@ static partial class NativeMethods
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern, EntryPoint = "dnn_TextDetectionModel_DB_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_new_String_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string? config,
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_new_String(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
         out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_TextDetectionModel_DB_new_String"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_new_String_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model,
-        [MarshalAs(StringUnmanagedTypeWindows)] string? config,
-        out IntPtr returnValue);
-
-    public static ExceptionStatus dnn_TextDetectionModel_DB_new_String(string model, string? config, out IntPtr returnValue)
-        => IsWindows()
-            ? dnn_TextDetectionModel_DB_new_String_Windows(model, config, out returnValue)
-            : dnn_TextDetectionModel_DB_new_String_NotWindows(model, config, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextDetectionModel_DB_new_Net(IntPtr network, out IntPtr returnValue);
