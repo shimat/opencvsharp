@@ -74,8 +74,7 @@ public class LightGlueMatcher : DescriptorMatcher
         trainKpts.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.features_LightGlueMatcher_setPairInfo(RawPtr, queryKpts.CvPtr, trainKpts.CvPtr, queryImageSize, trainImageSize));
-        GC.KeepAlive(this);
+            NativeMethods.features_LightGlueMatcher_setPairInfo(Handle, queryKpts.CvPtr, trainKpts.CvPtr, queryImageSize, trainImageSize));
         GC.KeepAlive(queryKpts);
         GC.KeepAlive(trainKpts);
     }
@@ -86,7 +85,6 @@ public class LightGlueMatcher : DescriptorMatcher
     public void ClearPairInfo()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.features_LightGlueMatcher_clearPairInfo(RawPtr));
-        GC.KeepAlive(this);
+        NativeMethods.HandleException(NativeMethods.features_LightGlueMatcher_clearPairInfo(Handle));
     }
 }

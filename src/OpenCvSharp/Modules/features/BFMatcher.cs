@@ -51,8 +51,7 @@ public class BFMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features_BFMatcher_isMaskSupported(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.features_BFMatcher_isMaskSupported(Handle, out var ret));
         return ret != 0;
     }
 }

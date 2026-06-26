@@ -104,8 +104,7 @@ public class DescriptorMatcher : Algorithm
 
         var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_add(RawPtr, descriptorsPtrs, descriptorsPtrs.Length));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_add(Handle, descriptorsPtrs, descriptorsPtrs.Length));
         GC.KeepAlive(descriptorsArray);
     }
 
@@ -118,8 +117,7 @@ public class DescriptorMatcher : Algorithm
         ThrowIfDisposed();
         using var matVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_getTrainDescriptors(RawPtr, matVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_getTrainDescriptors(Handle, matVec.CvPtr));
         return matVec.ToArray();
     }
 
@@ -130,8 +128,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_clear(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_clear(Handle));
     }
 
     /// <summary>
@@ -142,8 +139,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_empty(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -155,8 +151,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_isMaskSupported(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_isMaskSupported(Handle, out var ret));
         return ret != 0;
     }
 
@@ -174,8 +169,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features_DescriptorMatcher_train(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.features_DescriptorMatcher_train(Handle));
     }
 
     #region *Match
@@ -197,9 +191,8 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new StdVector<DMatch>();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_match1(
-                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                Handle, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, Cv2.ToPtr(mask)));
-        GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(trainDescriptors);
         GC.KeepAlive(mask);
@@ -229,9 +222,8 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_knnMatch1(
-                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                Handle, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, k, Cv2.ToPtr(mask), compactResult ? 1 : 0));
-        GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(trainDescriptors);
         GC.KeepAlive(mask);
@@ -260,9 +252,8 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_radiusMatch1(
-                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                Handle, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0));
-        GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(trainDescriptors);
         GC.KeepAlive(mask);
@@ -290,8 +281,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new StdVector<DMatch>();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_match2(
-                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length));
-        GC.KeepAlive(this);
+                Handle, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length));
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(masks);
         return matchesVec.ToArray();
@@ -323,9 +313,8 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_knnMatch2(
-                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
+                Handle, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
                 masksPtrs, masksPtrs.Length, compactResult ? 1 : 0));
-        GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(masks);
         return matchesVec.ToArray();
@@ -355,9 +344,8 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features_DescriptorMatcher_radiusMatch2(
-                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance,
+                Handle, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance,
                 masksPtrs, masksPtrs.Length, compactResult ? 1 : 0));
-        GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(masks);
         return matchesVec.ToArray();
