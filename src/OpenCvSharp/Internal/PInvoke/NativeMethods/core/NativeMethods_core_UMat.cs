@@ -47,65 +47,65 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_UMat_delete(IntPtr umat);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_getMat(IntPtr self, int accessFlag, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_getMat(OpenCvSafeHandle self, int accessFlag, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_row(IntPtr self, int y, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_row(OpenCvSafeHandle self, int y, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_col(IntPtr self, int x, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_col(OpenCvSafeHandle self, int x, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_rowRange(IntPtr self, int startRow, int endRow, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_rowRange(OpenCvSafeHandle self, int startRow, int endRow, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_colRange(IntPtr self, int startCol, int endCol, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_colRange(OpenCvSafeHandle self, int startCol, int endCol, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_diag(IntPtr self, int d, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_diag(OpenCvSafeHandle self, int d, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_diag_static(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_diag_static(IntPtr d, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_clone(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_clone(OpenCvSafeHandle self, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo1(IntPtr self, IntPtr m);
+    public static partial ExceptionStatus core_UMat_copyTo1(OpenCvSafeHandle self, IntPtr m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo2(IntPtr self, IntPtr m, IntPtr mask);
+    public static partial ExceptionStatus core_UMat_copyTo2(OpenCvSafeHandle self, IntPtr m, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo_toUMat1(IntPtr self, IntPtr m);
+    public static partial ExceptionStatus core_UMat_copyTo_toUMat1(OpenCvSafeHandle self, IntPtr m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo_toUMat2(IntPtr self, IntPtr m, IntPtr mask);
+    public static partial ExceptionStatus core_UMat_copyTo_toUMat2(OpenCvSafeHandle self, IntPtr m, IntPtr mask);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_convertTo(IntPtr self, IntPtr m, MatType rtype, double alpha, double beta);
+    public static partial ExceptionStatus core_UMat_convertTo(OpenCvSafeHandle self, IntPtr m, MatType rtype, double alpha, double beta);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_assignTo(IntPtr self, IntPtr m, int type);
+    public static partial ExceptionStatus core_UMat_assignTo(OpenCvSafeHandle self, IntPtr m, int type);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_setTo_Scalar(IntPtr self, Scalar value, IntPtr mask);
+    public static partial ExceptionStatus core_UMat_setTo_Scalar(OpenCvSafeHandle self, Scalar value, IntPtr mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_setTo_InputArray(IntPtr self, IntPtr value, IntPtr mask);
+    public static partial ExceptionStatus core_UMat_setTo_InputArray(OpenCvSafeHandle self, IntPtr value, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_reshape1(
-        IntPtr self, int cn, int rows, out IntPtr returnValue);
+        OpenCvSafeHandle self, int cn, int rows, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_reshape2(
-        IntPtr self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray), In] int[] newsz, out IntPtr returnValue);
+        OpenCvSafeHandle self, int cn, int newndims, [MarshalAs(UnmanagedType.LPArray), In] int[] newsz, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_t(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_t(OpenCvSafeHandle self, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_inv(IntPtr self, int method, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_inv(OpenCvSafeHandle self, int method, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_mul(IntPtr self, IntPtr m, double scale, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_mul(OpenCvSafeHandle self, IntPtr m, double scale, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_dot(IntPtr self, IntPtr m, out double returnValue);
+    public static partial ExceptionStatus core_UMat_dot(OpenCvSafeHandle self, IntPtr m, out double returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_zeros1(
@@ -126,77 +126,77 @@ static partial class NativeMethods
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_create1(
-        IntPtr self, int rows, int cols, MatType type);
+        OpenCvSafeHandle self, int rows, int cols, MatType type);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_create2(
-        IntPtr self, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type);
+        OpenCvSafeHandle self, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_locateROI(IntPtr self, out Size wholeSize, out Point ofs);
+    public static partial ExceptionStatus core_UMat_locateROI(OpenCvSafeHandle self, out Size wholeSize, out Point ofs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_adjustROI(
-        IntPtr nativeObj, int dtop, int dbottom, int dleft, int dright, out IntPtr returnValue);
+        OpenCvSafeHandle nativeObj, int dtop, int dbottom, int dleft, int dright, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_subMat1(
-        IntPtr self, int rowStart, int rowEnd, int colStart, int colEnd, out IntPtr returnValue);
+        OpenCvSafeHandle self, int rowStart, int rowEnd, int colStart, int colEnd, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_subMat2(
-        IntPtr self, int nRanges, Range[] ranges, out IntPtr returnValue);
+        OpenCvSafeHandle self, int nRanges, Range[] ranges, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_isContinuous(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_isContinuous(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_isSubmatrix(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_isSubmatrix(OpenCvSafeHandle self, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_elemSize(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_elemSize(OpenCvSafeHandle self, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_elemSize1(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_elemSize1(OpenCvSafeHandle self, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_type(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_type(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_depth(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_depth(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_channels(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_channels(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_step1(IntPtr self, int i, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_step1(OpenCvSafeHandle self, int i, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_empty(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_empty(OpenCvSafeHandle self, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_total(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_total(OpenCvSafeHandle self, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_checkVector(
-        IntPtr self, int elemChannels, int depth, int requireContinuous, out int returnValue);
+        OpenCvSafeHandle self, int elemChannels, int depth, int requireContinuous, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_flags(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_flags(OpenCvSafeHandle self, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_dims(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_dims(OpenCvSafeHandle self, out int returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_rows(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_rows(OpenCvSafeHandle self, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_cols(IntPtr self, out int returnValue);
+    public static partial ExceptionStatus core_UMat_cols(OpenCvSafeHandle self, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_size(IntPtr self, out Size returnValue);
+    public static partial ExceptionStatus core_UMat_size(OpenCvSafeHandle self, out Size returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_sizeAt(IntPtr self, int i, out int returnValue);
+    public static partial ExceptionStatus core_UMat_sizeAt(OpenCvSafeHandle self, int i, out int returnValue);
         
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_step(IntPtr self, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_step(OpenCvSafeHandle self, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_stepAt(IntPtr self, int i, out IntPtr returnValue);
+    public static partial ExceptionStatus core_UMat_stepAt(OpenCvSafeHandle self, int i, out IntPtr returnValue);
 }

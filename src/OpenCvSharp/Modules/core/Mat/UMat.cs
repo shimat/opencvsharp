@@ -609,7 +609,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_getMat(CvPtr, (int)accessFlags, out var matPtr));
+            NativeMethods.core_UMat_getMat(Handle, (int)accessFlags, out var matPtr));
         return new Mat(matPtr);
     }
 
@@ -622,7 +622,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_col(CvPtr, x, out var matPtr));
+            NativeMethods.core_UMat_col(Handle, x, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -636,8 +636,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_colRange(CvPtr, startCol, endCol, out var matPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_colRange(Handle, startCol, endCol, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -671,7 +670,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_row(CvPtr, y, out var matPtr));
+            NativeMethods.core_UMat_row(Handle, y, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -685,8 +684,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_rowRange(CvPtr, startRow, endRow, out var matPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_rowRange(Handle, startRow, endRow, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -720,8 +718,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_diag(CvPtr, (int)d, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_diag(Handle, (int)d, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -734,8 +731,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_clone(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_clone(Handle, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -767,16 +763,15 @@ public class UMat : CvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo1(CvPtr, m.CvPtr));
+                NativeMethods.core_UMat_copyTo1(Handle, m.CvPtr));
         }
         else
         {
             var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo2(CvPtr, m.CvPtr, maskPtr));
+                NativeMethods.core_UMat_copyTo2(Handle, m.CvPtr, maskPtr));
         }
 
-        GC.KeepAlive(this);
         m.Fix();
         GC.KeepAlive(mask);
     }
@@ -797,16 +792,15 @@ public class UMat : CvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat1(CvPtr, m.CvPtr));
+                NativeMethods.core_UMat_copyTo_toUMat1(Handle, m.CvPtr));
         }
         else
         {
             var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat2(CvPtr, m.CvPtr, maskPtr));
+                NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, maskPtr));
         }
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
         GC.KeepAlive(mask);
     }
@@ -827,9 +821,8 @@ public class UMat : CvObject
         m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_convertTo(CvPtr, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_UMat_convertTo(Handle, m.CvPtr, rtype, alpha, beta));
 
-        GC.KeepAlive(this);
         m.Fix();
     }
 
@@ -845,9 +838,8 @@ public class UMat : CvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_assignTo(CvPtr, m.CvPtr, type?.Value ?? -1));
+            NativeMethods.core_UMat_assignTo(Handle, m.CvPtr, type?.Value ?? -1));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
     }
 
@@ -863,9 +855,8 @@ public class UMat : CvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_Scalar(CvPtr, value, maskPtr));
+            NativeMethods.core_UMat_setTo_Scalar(Handle, value, maskPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(mask);
         return this;
     }
@@ -885,9 +876,8 @@ public class UMat : CvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_InputArray(CvPtr, value.CvPtr, maskPtr));
+            NativeMethods.core_UMat_setTo_InputArray(Handle, value.CvPtr, maskPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(value);
         GC.KeepAlive(mask);
         return this;
@@ -904,9 +894,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_reshape1(CvPtr, cn, rows, out var ret));
+            NativeMethods.core_UMat_reshape1(Handle, cn, rows, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -925,9 +914,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_reshape2(CvPtr, cn, newDims.Length, newDims, out var ret));
+            NativeMethods.core_UMat_reshape2(Handle, cn, newDims.Length, newDims, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -941,9 +929,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_t(CvPtr, out var ret));
+            NativeMethods.core_UMat_t(Handle, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -958,9 +945,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_inv(CvPtr, (int)method, out var ret));
+            NativeMethods.core_UMat_inv(Handle, (int)method, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -979,9 +965,8 @@ public class UMat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_mul(CvPtr, m.CvPtr, scale, out var ret));
+            NativeMethods.core_UMat_mul(Handle, m.CvPtr, scale, out var ret));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
         var retVal = new UMat(ret);
         return retVal;
@@ -1000,9 +985,8 @@ public class UMat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_dot(CvPtr, m.CvPtr, out var ret));
+            NativeMethods.core_UMat_dot(Handle, m.CvPtr, out var ret));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
         return ret;
     }
@@ -1017,8 +1001,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_create1(CvPtr, rows, cols, type));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_create1(Handle, rows, cols, type));
     }
 
     /// <summary>
@@ -1043,8 +1026,7 @@ public class UMat : CvObject
         if (sizes.Length < 2)
             throw new ArgumentException("sizes.Length < 2");
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_create2(CvPtr, sizes.Length, sizes, type));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_create2(Handle, sizes.Length, sizes, type));
     }
 
     /// <summary>
@@ -1057,8 +1039,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_locateROI(CvPtr, out wholeSize, out ofs));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_locateROI(Handle, out wholeSize, out ofs));
     }
 
     /// <summary>
@@ -1075,8 +1056,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_adjustROI(CvPtr, dtop, dbottom, dleft, dright, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_adjustROI(Handle, dtop, dbottom, dleft, dright, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -1099,8 +1079,7 @@ public class UMat : CvObject
 
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_subMat1(CvPtr, rowStart, rowEnd, colStart, colEnd, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_subMat1(Handle, rowStart, rowEnd, colStart, colEnd, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -1156,9 +1135,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_subMat2(CvPtr, ranges.Length, ranges, out var ret));
+            NativeMethods.core_UMat_subMat2(Handle, ranges.Length, ranges, out var ret));
         var retVal = new UMat(ret);
-        GC.KeepAlive(this);
         return retVal;
     }
 
@@ -1170,8 +1148,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_isContinuous(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_isContinuous(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1183,8 +1160,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_isSubmatrix(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_isSubmatrix(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1196,8 +1172,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_elemSize(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_elemSize(Handle, out var ret));
         return ret.ToInt32();
     }
 
@@ -1209,8 +1184,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_elemSize1(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_elemSize1(Handle, out var ret));
         return ret.ToInt32();
     }
 
@@ -1222,8 +1196,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_type(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_type(Handle, out var ret));
         return ret;
     }
 
@@ -1235,8 +1208,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_depth(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_depth(Handle, out var ret));
         return ret;
     }
 
@@ -1248,8 +1220,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_channels(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_channels(Handle, out var ret));
         return ret;
     }
 
@@ -1262,8 +1233,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_step1(CvPtr, i, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_step1(Handle, i, out var ret));
         return ret.ToInt64();
     }
 
@@ -1275,8 +1245,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_empty(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1288,8 +1257,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_total(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_total(Handle, out var ret));
         return ret.ToInt64();
     }
 
@@ -1312,8 +1280,7 @@ public class UMat : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_UMat_checkVector(
-                CvPtr, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
-        GC.KeepAlive(this);
+                Handle, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
         return ret;
     }
 
@@ -1332,8 +1299,7 @@ public class UMat : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_flags(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_flags(Handle, out var ret));
             return ret;
         }
     }
@@ -1347,8 +1313,7 @@ public class UMat : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_dims(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_dims(Handle, out var ret));
             return ret;
         }
     }
@@ -1361,8 +1326,7 @@ public class UMat : CvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_rows(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_rows(Handle, out var ret));
             return ret;
         }
     }
@@ -1382,8 +1346,7 @@ public class UMat : CvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_cols(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_cols(Handle, out var ret));
             return ret;
         }
     }
@@ -1402,8 +1365,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_size(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_size(Handle, out var ret));
         return ret;
     }
 
@@ -1416,8 +1378,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_sizeAt(CvPtr, dim, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_sizeAt(Handle, dim, out var ret));
         return ret;
     }
 
@@ -1429,8 +1390,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_step(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_step(Handle, out var ret));
         return ret.ToInt64();
     }
 
@@ -1443,8 +1403,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_stepAt(CvPtr, i, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_stepAt(Handle, i, out var ret));
         return ret.ToInt64();
     }
 
