@@ -854,5 +854,213 @@ public class Net : CvObject
         counts = Array.ConvertAll(countsVec.ToArray(), s => s ?? string.Empty);
     }
 
+    /// <summary>
+    /// Computes FLOP for whole loaded model with specified input shapes (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <returns>computed FLOP.</returns>
+    public long GetFLOPS(IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getFLOPS_netInputs(Handle, shapesData, shapesData.Length, types, types.Length, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Computes FLOP for whole loaded model with the specified single input shape and type (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShape">shape for the net input.</param>
+    /// <param name="netInputType">element type for the net input.</param>
+    /// <returns>computed FLOP.</returns>
+    public long GetFLOPS(MatShape netInputShape, MatType netInputType)
+        => GetFLOPS([netInputShape], [netInputType]);
+
+    /// <summary>
+    /// Computes FLOP for a specific layer with specified input shapes (OpenCV 5).
+    /// </summary>
+    /// <param name="layerId">id of the layer.</param>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <returns>computed FLOP.</returns>
+    public long GetFLOPS(int layerId, IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getFLOPS_layer(Handle, layerId, shapesData, shapesData.Length, types, types.Length, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Returns input and output shapes for the layer with the specified id; preliminary inferencing isn't necessary (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <param name="layerId">id of the layer.</param>
+    /// <param name="inLayerShapes">output: input shapes of the layer.</param>
+    /// <param name="outLayerShapes">output: output shapes of the layer.</param>
+    /// <remarks>When the model is backed by OpenCV 5's new dnn engine, only <paramref name="layerId"/> 0
+    /// is supported (it infers the whole graph); other ids throw. Use <see cref="GetLayersShapes"/> to
+    /// enumerate every layer, or pass one of the ids it reports.</remarks>
+    public void GetLayerShapes(
+        IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes, int layerId,
+        out MatShape[] inLayerShapes, out MatShape[] outLayerShapes)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        using var inVec = new StdVector<int>();
+        using var outVec = new StdVector<int>();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayerShapes(
+                Handle, shapesData, shapesData.Length, types, types.Length, layerId, inVec.CvPtr, outVec.CvPtr));
+        inLayerShapes = DecodeShapes(inVec.ToArray());
+        outLayerShapes = DecodeShapes(outVec.ToArray());
+    }
+
+    /// <summary>
+    /// Returns input and output shapes for all layers in the loaded model; preliminary inferencing isn't necessary (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <param name="layerIds">output: layer IDs.</param>
+    /// <param name="inLayersShapes">output: input shapes per layer (order matches <paramref name="layerIds"/>).</param>
+    /// <param name="outLayersShapes">output: output shapes per layer (order matches <paramref name="layerIds"/>).</param>
+    public void GetLayersShapes(
+        IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes,
+        out int[] layerIds, out MatShape[][] inLayersShapes, out MatShape[][] outLayersShapes)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        using var idsVec = new StdVector<int>();
+        using var inVec = new StdVector<int>();
+        using var outVec = new StdVector<int>();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayersShapes(
+                Handle, shapesData, shapesData.Length, types, types.Length, idsVec.CvPtr, inVec.CvPtr, outVec.CvPtr));
+        layerIds = idsVec.ToArray();
+        inLayersShapes = DecodeNestedShapes(inVec.ToArray());
+        outLayersShapes = DecodeNestedShapes(outVec.ToArray());
+    }
+
+    /// <summary>
+    /// Computes the number of bytes required to store all weights and intermediate blobs for the model (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <param name="weights">output: bytes for weights.</param>
+    /// <param name="blobs">output: bytes for intermediate blobs.</param>
+    public void GetMemoryConsumption(
+        IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes, out long weights, out long blobs)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getMemoryConsumption(
+                Handle, shapesData, shapesData.Length, types, types.Length, out weights, out blobs));
+    }
+
+    /// <summary>
+    /// Computes the number of bytes required to store all weights and intermediate blobs for each layer (OpenCV 5).
+    /// </summary>
+    /// <param name="netInputShapes">shapes for all net inputs.</param>
+    /// <param name="netInputTypes">element types for all net inputs (parallel to <paramref name="netInputShapes"/>).</param>
+    /// <param name="layerIds">output: layer IDs.</param>
+    /// <param name="weights">output: bytes for weights per layer (order matches <paramref name="layerIds"/>).</param>
+    /// <param name="blobs">output: bytes for intermediate blobs per layer (order matches <paramref name="layerIds"/>).</param>
+    public void GetMemoryConsumption(
+        IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes,
+        out int[] layerIds, out long[] weights, out long[] blobs)
+    {
+        ThrowIfDisposed();
+        var shapesData = EncodeShapes(netInputShapes, netInputTypes, out var types);
+        using var idsVec = new StdVector<int>();
+        using var weightsVec = new StdVector<long>();
+        using var blobsVec = new StdVector<long>();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getMemoryConsumption_perLayer(
+                Handle, shapesData, shapesData.Length, types, types.Length, idsVec.CvPtr, weightsVec.CvPtr, blobsVec.CvPtr));
+        layerIds = idsVec.ToArray();
+        weights = weightsVec.ToArray();
+        blobs = blobsVec.ToArray();
+    }
+
+    // Flattens the input shapes into the native marshaling form [count, (ndims, layout, C, sizes...) x count]
+    // and validates that the parallel type list has the same length.
+    private static int[] EncodeShapes(
+        IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes, out int[] types)
+    {
+        if (netInputShapes is null)
+            throw new ArgumentNullException(nameof(netInputShapes));
+        if (netInputTypes is null)
+            throw new ArgumentNullException(nameof(netInputTypes));
+
+        var shapes = netInputShapes as IReadOnlyList<MatShape> ?? netInputShapes.ToArray();
+        types = netInputTypes.Select(static t => t.Value).ToArray();
+        if (shapes.Count != types.Length)
+            throw new ArgumentException(
+                $"netInputShapes ({shapes.Count}) and netInputTypes ({types.Length}) must have the same length.",
+                nameof(netInputTypes));
+
+        var data = new List<int>(1 + shapes.Count * 4) { shapes.Count };
+        foreach (var shape in shapes)
+        {
+            data.Add(shape.NativeDims);
+            data.Add((int)shape.Layout);
+            data.Add(shape.Channels);
+            if (shape.NativeDims > 0)
+                data.AddRange(shape.NativeSizes);
+        }
+        return [.. data];
+    }
+
+    // Parses the native flat form [count, shapes...] into MatShape[].
+    private static MatShape[] DecodeShapes(int[] data)
+    {
+        var cursor = 0;
+        return DecodeShapes(data, ref cursor);
+    }
+
+    private static MatShape[] DecodeShapes(int[] data, ref int cursor)
+    {
+        if (data.Length == 0)
+            return [];
+        var count = data[cursor++];
+        var result = new MatShape[count];
+        for (var i = 0; i < count; i++)
+        {
+            var ndims = data[cursor++];
+            var layout = (DataLayout)data[cursor++];
+            var channels = data[cursor++];
+            if (ndims < 0)
+                result[i] = MatShape.Empty;
+            else if (ndims == 0)
+                result[i] = MatShape.Scalar(layout);
+            else
+            {
+                var sizes = new int[ndims];
+                Array.Copy(data, cursor, sizes, 0, ndims);
+                cursor += ndims;
+                result[i] = new MatShape(sizes, layout, channels);
+            }
+        }
+        return result;
+    }
+
+    // Parses the native flat form [outerCount, [count, shapes...] x outerCount] into MatShape[][].
+    private static MatShape[][] DecodeNestedShapes(int[] data)
+    {
+        if (data.Length == 0)
+            return [];
+        var cursor = 0;
+        var outerCount = data[cursor++];
+        var result = new MatShape[outerCount][];
+        for (var i = 0; i < outerCount; i++)
+            result[i] = DecodeShapes(data, ref cursor);
+        return result;
+    }
+
     #endregion
 }

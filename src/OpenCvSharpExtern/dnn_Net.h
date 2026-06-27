@@ -342,6 +342,153 @@ CVAPI(ExceptionStatus) dnn_Net_getPerfProfileDetailed(
     END_WRAP
 }
 
+// Shape / FLOPS / memory introspection (OpenCV 5).
+//
+// MatShape values are marshaled across P/Invoke as a flat int buffer.
+// A single shape is encoded as [ndims, layout, C, sizes...] where
+//   ndims == -1 : empty shape, ndims == 0 : 0-D scalar, ndims > 0 : N-D shape.
+// A std::vector<MatShape> is encoded as [count, shape0, shape1, ...].
+// A std::vector<std::vector<MatShape>> is encoded as [outerCount, vec0, vec1, ...].
+
+static std::vector<cv::MatShape> dnn_decodeMatShapes(const int *data, int dataLength)
+{
+    std::vector<cv::MatShape> shapes;
+    int i = 0;
+    if (dataLength <= 0)
+        return shapes;
+    const int count = data[i++];
+    shapes.reserve(count);
+    for (int s = 0; s < count; s++)
+    {
+        const int ndims = data[i++];
+        const int layout = data[i++];
+        const int C = data[i++];
+        if (ndims < 0)
+            shapes.emplace_back();
+        else if (ndims == 0)
+            shapes.push_back(cv::MatShape::scalar());
+        else
+        {
+            shapes.emplace_back(static_cast<size_t>(ndims), data + i, static_cast<cv::DataLayout>(layout), C);
+            i += ndims;
+        }
+    }
+    return shapes;
+}
+
+static void dnn_encodeMatShape(const cv::MatShape &shape, std::vector<int> &out)
+{
+    const int layout = static_cast<int>(shape.layout);
+    const int C = shape.C;
+    if (shape.empty())
+    {
+        out.push_back(-1);
+        out.push_back(layout);
+        out.push_back(C);
+        return;
+    }
+    const int ndims = shape.dims;
+    out.push_back(ndims);
+    out.push_back(layout);
+    out.push_back(C);
+    for (int i = 0; i < ndims; i++)
+        out.push_back(shape[i]);
+}
+
+static void dnn_encodeMatShapes(const std::vector<cv::MatShape> &shapes, std::vector<int> &out)
+{
+    out.push_back(static_cast<int>(shapes.size()));
+    for (const auto &shape : shapes)
+        dnn_encodeMatShape(shape, out);
+}
+
+static void dnn_encodeMatShapesNested(const std::vector<std::vector<cv::MatShape>> &nested, std::vector<int> &out)
+{
+    out.push_back(static_cast<int>(nested.size()));
+    for (const auto &shapes : nested)
+        dnn_encodeMatShapes(shapes, out);
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getFLOPS_netInputs(
+    cv::dnn::Net* net, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength, int64 *returnValue)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    *returnValue = net->getFLOPS(shapes, types);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getFLOPS_layer(
+    cv::dnn::Net* net, int layerId, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength, int64 *returnValue)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    *returnValue = net->getFLOPS(layerId, shapes, types);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getLayerShapes(
+    cv::dnn::Net* net, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength,
+    int layerId, std::vector<int> *outInLayerShapes, std::vector<int> *outOutLayerShapes)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    std::vector<cv::MatShape> inShapes, outShapes;
+    net->getLayerShapes(shapes, types, layerId, inShapes, outShapes);
+    dnn_encodeMatShapes(inShapes, *outInLayerShapes);
+    dnn_encodeMatShapes(outShapes, *outOutLayerShapes);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getLayersShapes(
+    cv::dnn::Net* net, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength,
+    std::vector<int> *outLayerIds, std::vector<int> *outInLayersShapes, std::vector<int> *outOutLayersShapes)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    std::vector<int> layerIds;
+    std::vector<std::vector<cv::MatShape>> inShapes, outShapes;
+    net->getLayersShapes(shapes, types, layerIds, inShapes, outShapes);
+    outLayerIds->assign(layerIds.begin(), layerIds.end());
+    dnn_encodeMatShapesNested(inShapes, *outInLayersShapes);
+    dnn_encodeMatShapesNested(outShapes, *outOutLayersShapes);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getMemoryConsumption(
+    cv::dnn::Net* net, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength,
+    int64 *outWeights, int64 *outBlobs)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    size_t weights = 0, blobs = 0;
+    net->getMemoryConsumption(shapes, types, weights, blobs);
+    *outWeights = static_cast<int64>(weights);
+    *outBlobs = static_cast<int64>(blobs);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getMemoryConsumption_perLayer(
+    cv::dnn::Net* net, const int *shapesData, int shapesLength, const int *netInputTypes, int netInputTypesLength,
+    std::vector<int> *outLayerIds, std::vector<int64> *outWeights, std::vector<int64> *outBlobs)
+{
+    BEGIN_WRAP
+    const auto shapes = dnn_decodeMatShapes(shapesData, shapesLength);
+    const std::vector<int> types(netInputTypes, netInputTypes + netInputTypesLength);
+    std::vector<int> layerIds;
+    std::vector<size_t> weights, blobs;
+    net->getMemoryConsumption(shapes, types, layerIds, weights, blobs);
+    outLayerIds->assign(layerIds.begin(), layerIds.end());
+    outWeights->assign(weights.begin(), weights.end());
+    outBlobs->assign(blobs.begin(), blobs.end());
+    END_WRAP
+}
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif // NO_DNN
