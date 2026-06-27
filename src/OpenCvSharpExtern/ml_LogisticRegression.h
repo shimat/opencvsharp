@@ -72,13 +72,13 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_setMiniBatchSize(cv::ml::LogisticRe
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_LogisticRegression_getTermCriteria(cv::ml::LogisticRegression *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getTermCriteria(cv::ml::LogisticRegression *obj, interop::TermCriteria *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTermCriteria());
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticRegression *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticRegression *obj, interop::TermCriteria val)
 {
     BEGIN_WRAP
     obj->setTermCriteria(cpp(val));

@@ -297,7 +297,7 @@ CVAPI(ExceptionStatus) geometry_solvePnPRansac_vector(
 }
 
 
-CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, MyCvSize imageSize,
+CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, interop::Size imageSize,
     double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
     cv::Point2d *principalPoint, double *aspectRatio)
 {
@@ -314,7 +314,7 @@ CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(cv::_InputArr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(double *cameraMatrix, MyCvSize imageSize,
+CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(double *cameraMatrix, interop::Size imageSize,
     double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
     cv::Point2d *principalPoint, double *aspectRatio)
 {
@@ -329,8 +329,8 @@ CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(double *cameraMatr
 
 CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_InputArray(
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    MyCvSize imageSize, double alpha, MyCvSize newImgSize,
-    MyCvRect* validPixROI, int centerPrincipalPoint,
+    interop::Size imageSize, double alpha, interop::Size newImgSize,
+    interop::Rect* validPixROI, int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -345,8 +345,8 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_InputArray(
 CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_array(
     double *cameraMatrix,
     double *distCoeffs, int distCoeffsSize,
-    MyCvSize imageSize, double alpha, MyCvSize newImgSize,
-    MyCvRect* validPixROI, int centerPrincipalPoint,
+    interop::Size imageSize, double alpha, interop::Size newImgSize,
+    interop::Rect* validPixROI, int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -585,7 +585,7 @@ CVAPI(ExceptionStatus) geometry_sampsonDistance_InputArray(
 }
 
 CVAPI(ExceptionStatus) geometry_sampsonDistance_Point3d(
-    MyCvPoint3D64f pt1, MyCvPoint3D64f pt2, MyCvPoint3D64f *F,
+    interop::Point3d pt1, interop::Point3d pt2, interop::Point3d *F,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -656,7 +656,7 @@ CVAPI(ExceptionStatus) geometry_filterHomographyDecompByVisibleRefpoints(
 
 
 CVAPI(ExceptionStatus) geometry_getDefaultNewCameraMatrix(
-    cv::_InputArray *cameraMatrix, MyCvSize imgsize, int centerPrincipalPoint,
+    cv::_InputArray *cameraMatrix, interop::Size imgsize, int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -680,7 +680,7 @@ CVAPI(ExceptionStatus) geometry_undistortPoints(
 CVAPI(ExceptionStatus) geometry_undistortPointsIter(
     cv::_InputArray *src, cv::_OutputArray *dst,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *R, cv::_InputArray *P, MyCvTermCriteria criteria)
+    cv::_InputArray *R, cv::_InputArray *P, interop::TermCriteria criteria)
 {
     BEGIN_WRAP
     cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P), cpp(criteria));
@@ -702,7 +702,7 @@ CVAPI(ExceptionStatus) geometry_recoverPose_InputArray1(
 
 CVAPI(ExceptionStatus) geometry_recoverPose_InputArray2(
     cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_OutputArray *R, cv::_OutputArray *t, double focal, MyCvPoint2D64f pp,
+    cv::_OutputArray *R, cv::_OutputArray *t, double focal, interop::Point2d pp,
     cv::_InputOutputArray *mask,
     int *returnValue)
 {
@@ -739,7 +739,7 @@ CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray1(
 }
 
 CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray2(
-    cv::_InputArray *points1, cv::_InputArray *points2, double focal, MyCvPoint2D64f pp,
+    cv::_InputArray *points1, cv::_InputArray *points2, double focal, interop::Point2d pp,
     int method, double prob, double threshold,
     cv::_OutputArray *mask,
     cv::Mat **returnValue)
@@ -754,7 +754,7 @@ CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray2(
 
 CVAPI(ExceptionStatus) geometry_solvePnPRefineLM(
     cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, MyCvTermCriteria criteria)
+    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, interop::TermCriteria criteria)
 {
     BEGIN_WRAP
     cv::solvePnPRefineLM(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria));
@@ -763,7 +763,7 @@ CVAPI(ExceptionStatus) geometry_solvePnPRefineLM(
 
 CVAPI(ExceptionStatus) geometry_solvePnPRefineVVS(
     cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, MyCvTermCriteria criteria, double vvsLambda)
+    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, interop::TermCriteria criteria, double vvsLambda)
 {
     BEGIN_WRAP
     cv::solvePnPRefineVVS(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria), vvsLambda);

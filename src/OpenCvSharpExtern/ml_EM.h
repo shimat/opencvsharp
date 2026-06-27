@@ -35,13 +35,13 @@ CVAPI(ExceptionStatus) ml_EM_setCovarianceMatrixType(cv::ml::EM *obj, int val)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_EM_getTermCriteria(cv::ml::EM *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_EM_getTermCriteria(cv::ml::EM *obj, interop::TermCriteria *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTermCriteria());
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_EM_setTermCriteria(cv::ml::EM *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_EM_setTermCriteria(cv::ml::EM *obj, interop::TermCriteria val)
 {
     BEGIN_WRAP
     obj->setTermCriteria(cpp(val));
@@ -79,11 +79,11 @@ CVAPI(ExceptionStatus) ml_EM_getCovs(cv::ml::EM *obj, std::vector<cv::Mat*> *cov
 
 
 CVAPI(ExceptionStatus) ml_EM_predict2(
-    cv::ml::EM *obj, cv::_InputArray *sample, cv::_OutputArray *probs, CvVec2d *returnValue)
+    cv::ml::EM *obj, cv::_InputArray *sample, cv::_OutputArray *probs, interop::Vec2d *returnValue)
 {
     BEGIN_WRAP
     auto vec = obj->predict2(*sample, *probs);
-    CvVec2d ret;
+    interop::Vec2d ret;
     ret.val[0] = vec[0];
     ret.val[1] = vec[1];
     *returnValue = ret;

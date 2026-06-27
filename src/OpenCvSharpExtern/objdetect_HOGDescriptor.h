@@ -18,7 +18,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new1(cv::HOGDescriptor **returnVa
     END_WRAP
 }
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new2(
-    MyCvSize winSize, MyCvSize blockSize, MyCvSize blockStride, MyCvSize cellSize,
+    interop::Size winSize, interop::Size blockSize, interop::Size blockStride, interop::Size cellSize,
     int nbins, int derivAperture, double winSigma, int histogramNormType, double L2HysThreshold, int gammaCorrection, int nlevels,
     cv::HOGDescriptor **returnValue)
 {
@@ -98,7 +98,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_copyTo(cv::HOGDescriptor *obj, cv
 
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_compute(
     cv::HOGDescriptor *obj, cv::Mat *img, std::vector<float> *descriptors,
-    MyCvSize winStride, MyCvSize padding, cv::Point* locations, int locationsLength)
+    interop::Size winStride, interop::Size padding, cv::Point* locations, int locationsLength)
 {
     BEGIN_WRAP
     std::vector<cv::Point> locationsVec;
@@ -110,7 +110,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_compute(
 
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect1(
     cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Point> *foundLocations,
-    double hitThreshold, MyCvSize winStride, MyCvSize padding, cv::Point* searchLocations, int searchLocationsLength)
+    double hitThreshold, interop::Size winStride, interop::Size padding, cv::Point* searchLocations, int searchLocationsLength)
 {
     BEGIN_WRAP
     std::vector<cv::Point> slVec;
@@ -122,7 +122,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect1(
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect2(
     cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Point> *foundLocations, std::vector<double> *weights,
-    double hitThreshold, MyCvSize winStride, MyCvSize padding, cv::Point* searchLocations, int searchLocationsLength)
+    double hitThreshold, interop::Size winStride, interop::Size padding, cv::Point* searchLocations, int searchLocationsLength)
 {
     BEGIN_WRAP
     std::vector<cv::Point> slVec;
@@ -135,7 +135,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect2(
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale1(
     cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Rect> *foundLocations,
-    double hitThreshold, MyCvSize winStride, MyCvSize padding, double scale, int groupThreshold)
+    double hitThreshold, interop::Size winStride, interop::Size padding, double scale, int groupThreshold)
 {
     BEGIN_WRAP
     obj->detectMultiScale(*img, *foundLocations, 
@@ -145,7 +145,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale1(
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale2(
     cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Rect> *foundLocations, std::vector<double> *foundWeights,
-    double hitThreshold, MyCvSize winStride, MyCvSize padding, double scale, int groupThreshold)
+    double hitThreshold, interop::Size winStride, interop::Size padding, double scale, int groupThreshold)
 {
     BEGIN_WRAP
     obj->detectMultiScale(*img, *foundLocations, *foundWeights, 
@@ -155,7 +155,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale2(
 
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_computeGradient(
     cv::HOGDescriptor *obj, cv::Mat* img, 
-    cv::Mat* grad, cv::Mat* angleOfs, MyCvSize paddingTL, MyCvSize paddingBR)
+    cv::Mat* grad, cv::Mat* angleOfs, interop::Size paddingTL, interop::Size paddingBR)
 {
     BEGIN_WRAP
     obj->computeGradient(*img, *grad, *angleOfs, cpp(paddingTL), cpp(paddingBR));    
@@ -165,7 +165,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_computeGradient(
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectROI(
     cv::HOGDescriptor *obj, cv::Mat *img, cv::Point *locations, int locationsLength,
     std::vector<cv::Point> *foundLocations, std::vector<double> *confidences,
-    double hitThreshold, MyCvSize winStride, MyCvSize padding)
+    double hitThreshold, interop::Size winStride, interop::Size padding)
 {
     BEGIN_WRAP
     const std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
@@ -203,25 +203,25 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_groupRectangles(cv::HOGDescriptor
 }
 
 
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->winSize);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->blockSize);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->blockStride);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->cellSize);
@@ -277,25 +277,25 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_get(cv::HOGDescrip
 }
 
 
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_set(cv::HOGDescriptor *obj, MyCvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_set(cv::HOGDescriptor *obj, interop::Size value)
 {
     BEGIN_WRAP
     obj->winSize = cpp(value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_set(cv::HOGDescriptor *obj, MyCvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_set(cv::HOGDescriptor *obj, interop::Size value)
 {
     BEGIN_WRAP
     obj->blockSize = cpp(value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_set(cv::HOGDescriptor *obj, MyCvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_set(cv::HOGDescriptor *obj, interop::Size value)
 {
     BEGIN_WRAP
     obj->blockStride = cpp(value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_set(cv::HOGDescriptor *obj, MyCvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_set(cv::HOGDescriptor *obj, interop::Size value)
 {
     BEGIN_WRAP
     obj->cellSize = cpp(value);

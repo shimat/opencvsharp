@@ -46,7 +46,7 @@ CVAPI(ExceptionStatus) shape_ShapeTransformer_warpImage(
     cv::_OutputArray *output,
     int flags,
     int borderMode,
-    MyCvScalar borderValue)
+    interop::Scalar borderValue)
 {
     BEGIN_WRAP
     obj->warpImage(*transformingImage, *output, flags, borderMode, cpp(borderValue));

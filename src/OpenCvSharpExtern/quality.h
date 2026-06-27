@@ -11,7 +11,7 @@
 
 #pragma region QualityBase
 
-CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv::_InputArray *img, MyCvScalar *returnValue)
+CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv::_InputArray *img, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     const auto ret = obj->compute(*img);
@@ -69,7 +69,7 @@ CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_get(
 }
 
 CVAPI(ExceptionStatus) quality_QualityPSNR_staticCompute(
-    cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue, MyCvScalar *returnValue)
+    cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Scalar ret;
@@ -123,7 +123,7 @@ CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_get(
 }
 
 CVAPI(ExceptionStatus) quality_QualitySSIM_staticCompute(
-    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Scalar ret;
@@ -163,7 +163,7 @@ CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_get(
 }
 
 CVAPI(ExceptionStatus) quality_QualityGMSD_staticCompute(
-    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Scalar ret;
@@ -203,7 +203,7 @@ CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_get(
 }
 
 CVAPI(ExceptionStatus) quality_QualityMSE_staticCompute(
-    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Scalar ret;
@@ -253,7 +253,7 @@ CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_get(
 }
 
 CVAPI(ExceptionStatus) quality_QualityBRISQUE_staticCompute(
-    cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath, MyCvScalar *returnValue)
+    cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::quality::QualityBRISQUE::compute(*ref, modelFilePath, rangeFilePath);

@@ -19,7 +19,7 @@ CVAPI(ExceptionStatus) calib_registerCameras(
     cv::_InputOutputArray *R, cv::_InputOutputArray *T,
     cv::_OutputArray *E, cv::_OutputArray *F,
     cv::_OutputArray *perViewErrors,
-    int flags, MyCvTermCriteria criteria, double *returnValue)
+    int flags, interop::TermCriteria criteria, double *returnValue)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> op1(objectPoints1Size), op2(objectPoints2Size), ip1(imagePoints1Size), ip2(imagePoints2Size);
@@ -42,12 +42,12 @@ CVAPI(ExceptionStatus) calib_registerCameras(
 CVAPI(ExceptionStatus) calib_calibrateMultiview(
     cv::Mat **objPoints, int objPointsSize,
     cv::Mat **imagePoints, int numCameras, int *framesPerCamera,
-    MyCvSize *imageSize, int imageSizeSize,
+    interop::Size *imageSize, int imageSizeSize,
     cv::_InputArray *detectionMask, cv::_InputArray *models,
     std::vector<cv::Mat> *Ks, std::vector<cv::Mat> *distortions,
     std::vector<cv::Mat> *Rs, std::vector<cv::Mat> *Ts,
     cv::_InputArray *flagsForIntrinsics, int flags,
-    MyCvTermCriteria criteria, double *returnValue)
+    interop::TermCriteria criteria, double *returnValue)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> objPointsVec(objPointsSize);

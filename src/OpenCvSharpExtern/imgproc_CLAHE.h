@@ -7,7 +7,7 @@
 #include "include_opencv.h"
 
 
-CVAPI(ExceptionStatus) imgproc_createCLAHE(double clipLimit, MyCvSize tileGridSize, cv::Ptr<cv::CLAHE> **returnValue)
+CVAPI(ExceptionStatus) imgproc_createCLAHE(double clipLimit, interop::Size tileGridSize, cv::Ptr<cv::CLAHE> **returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::createCLAHE(clipLimit, cpp(tileGridSize));
@@ -51,14 +51,14 @@ CVAPI(ExceptionStatus) imgproc_CLAHE_getClipLimit(cv::CLAHE *obj, double *return
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, MyCvSize tileGridSize)
+CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, interop::Size tileGridSize)
 {
     BEGIN_WRAP
     obj->setTilesGridSize(cpp(tileGridSize));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTilesGridSize());

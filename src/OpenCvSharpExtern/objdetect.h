@@ -59,7 +59,7 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_read(
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale1(
     cv::CascadeClassifier *obj,
     cv::Mat *image, std::vector<cv::Rect> *objects,
-    double scaleFactor, int minNeighbors, int flags, MyCvSize minSize, MyCvSize maxSize)
+    double scaleFactor, int minNeighbors, int flags, interop::Size minSize, interop::Size maxSize)
 {
     BEGIN_WRAP
     obj->detectMultiScale(*image, *objects,
@@ -74,7 +74,7 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale2(
     std::vector<int> *rejectLevels,
     std::vector<double> *levelWeights,
     double scaleFactor, int minNeighbors, int flags,
-    MyCvSize minSize, MyCvSize maxSize, int outputRejectLevels)
+    interop::Size minSize, interop::Size maxSize, int outputRejectLevels)
 {
     BEGIN_WRAP
     obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
@@ -89,7 +89,7 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_isOldFormatCascade(cv::Cascad
     *returnValue = obj->isOldFormatCascade() ? 1 : 0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getOriginalWindowSize());
@@ -133,7 +133,7 @@ CVAPI(ExceptionStatus) objdetect_groupRectangles4(
     END_WRAP
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles_meanshift(
-    std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, MyCvSize winDetSize)
+    std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, interop::Size winDetSize)
 {
     BEGIN_WRAP
     cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));

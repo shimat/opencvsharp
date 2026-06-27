@@ -35,13 +35,13 @@ CVAPI(ExceptionStatus) ml_RTrees_setActiveVarCount(cv::ml::RTrees *obj, int val)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_RTrees_getTermCriteria(cv::ml::RTrees *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_RTrees_getTermCriteria(cv::ml::RTrees *obj, interop::TermCriteria *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTermCriteria());
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_RTrees_setTermCriteria(cv::ml::RTrees *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_RTrees_setTermCriteria(cv::ml::RTrees *obj, interop::TermCriteria val)
 {
     BEGIN_WRAP
     obj->setTermCriteria(cpp(val));

@@ -28,7 +28,7 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byUMat(cv::UMat* mat, cv::_OutputArr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_OutputArray_new_byScalar(MyCvScalar scalar, cv::_OutputArray **returnValue)
+CVAPI(ExceptionStatus) core_OutputArray_new_byScalar(interop::Scalar scalar, cv::_OutputArray **returnValue)
 {
     BEGIN_WRAP
     cv::Scalar scalarVal(cpp(scalar));
@@ -60,7 +60,7 @@ CVAPI(ExceptionStatus) core_OutputArray_getMat(cv::_OutputArray *oa, cv::Mat **r
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_OutputArray_getScalar(cv::_OutputArray *oa, MyCvScalar *returnValue)
+CVAPI(ExceptionStatus) core_OutputArray_getScalar(cv::_OutputArray *oa, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Mat &mat = oa->getMatRef();

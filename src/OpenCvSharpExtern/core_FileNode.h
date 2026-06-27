@@ -214,7 +214,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std
 }
 
 
-CVAPI(ExceptionStatus) core_FileNode_read_Range(cv::FileNode *node, MyCvSlice *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Range(cv::FileNode *node, interop::Range *returnValue)
 {
     BEGIN_WRAP
     cv::Range ret;
@@ -222,7 +222,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_Range(cv::FileNode *node, MyCvSlice *r
     *returnValue = c(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_KeyPoint(cv::FileNode *node, MyKeyPoint *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_KeyPoint(cv::FileNode *node, interop::KeyPoint *returnValue)
 {   
     BEGIN_WRAP 
     cv::KeyPoint ret;
@@ -230,7 +230,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_KeyPoint(cv::FileNode *node, MyKeyPoin
     *returnValue = c(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_DMatch(cv::FileNode *node, MyDMatch *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_DMatch(cv::FileNode *node, interop::DMatch *returnValue)
 {
     BEGIN_WRAP
     cv::DMatch ret;
@@ -239,112 +239,112 @@ CVAPI(ExceptionStatus) core_FileNode_read_DMatch(cv::FileNode *node, MyDMatch *r
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Point2i(cv::FileNode *node, MyCvPoint *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point2i(cv::FileNode *node, interop::Point *returnValue)
 {
     BEGIN_WRAP
     cv::Point2i ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint{ ret.x, ret.y };
+    *returnValue = interop::Point{ ret.x, ret.y };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Point2f(cv::FileNode *node, MyCvPoint2D32f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point2f(cv::FileNode *node, interop::Point2f *returnValue)
 {
     BEGIN_WRAP
     cv::Point2f ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint2D32f{ ret.x, ret.y };
+    *returnValue = interop::Point2f{ ret.x, ret.y };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Point2d(cv::FileNode *node, MyCvPoint2D64f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point2d(cv::FileNode *node, interop::Point2d *returnValue)
 {
     BEGIN_WRAP
     cv::Point2d ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint2D64f{ ret.x, ret.y };
+    *returnValue = interop::Point2d{ ret.x, ret.y };
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Point3i(cv::FileNode *node, MyCvPoint3D32i *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point3i(cv::FileNode *node, interop::Point3i *returnValue)
 {
     BEGIN_WRAP
     cv::Point3i ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint3D32i{ ret.x, ret.y, ret.z };
+    *returnValue = interop::Point3i{ ret.x, ret.y, ret.z };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Point3f(cv::FileNode *node, MyCvPoint3D32f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point3f(cv::FileNode *node, interop::Point3f *returnValue)
 {
     BEGIN_WRAP
     cv::Point3f ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint3D32f{ ret.x, ret.y, ret.z };
+    *returnValue = interop::Point3f{ ret.x, ret.y, ret.z };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Point3d(cv::FileNode *node, MyCvPoint3D64f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Point3d(cv::FileNode *node, interop::Point3d *returnValue)
 {
     BEGIN_WRAP
     cv::Point3d ret;
     (*node) >> ret;
-    *returnValue = MyCvPoint3D64f{ ret.x, ret.y, ret.z };
+    *returnValue = interop::Point3d{ ret.x, ret.y, ret.z };
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Size2i(cv::FileNode *node, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Size2i(cv::FileNode *node, interop::Size *returnValue)
 {
     BEGIN_WRAP
     cv::Size2i ret;
     (*node) >> ret;
-    *returnValue = MyCvSize{ ret.width, ret.height };
+    *returnValue = interop::Size{ ret.width, ret.height };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Size2f(cv::FileNode *node, MyCvSize2D32f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Size2f(cv::FileNode *node, interop::Size2f *returnValue)
 {
     BEGIN_WRAP
     cv::Size2f ret;
     (*node) >> ret;
-    *returnValue = MyCvSize2D32f{ ret.width, ret.height };
+    *returnValue = interop::Size2f{ ret.width, ret.height };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Size2d(cv::FileNode *node, MyCvSize2D64f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Size2d(cv::FileNode *node, interop::Size2d *returnValue)
 {
     BEGIN_WRAP
     cv::Size2d ret;
     (*node) >> ret;
-    *returnValue = MyCvSize2D64f{ ret.width, ret.height };
+    *returnValue = interop::Size2d{ ret.width, ret.height };
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Rect2i(cv::FileNode *node, MyCvRect *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Rect2i(cv::FileNode *node, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     cv::Rect2i ret;
     (*node) >> ret;
-    *returnValue = MyCvRect{ ret.x, ret.y, ret.width, ret.height };
+    *returnValue = interop::Rect{ ret.x, ret.y, ret.width, ret.height };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Rect2f(cv::FileNode *node, MyCvRect2D32f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Rect2f(cv::FileNode *node, interop::Rect2f *returnValue)
 {
     BEGIN_WRAP
     cv::Rect2f ret;
     (*node) >> ret;
-    *returnValue = MyCvRect2D32f{ ret.x, ret.y, ret.width, ret.height };
+    *returnValue = interop::Rect2f{ ret.x, ret.y, ret.width, ret.height };
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_FileNode_read_Rect2d(cv::FileNode *node, MyCvRect2D64f *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Rect2d(cv::FileNode *node, interop::Rect2d *returnValue)
 {
     BEGIN_WRAP
     cv::Rect2d ret;
     (*node) >> ret;
-    *returnValue = MyCvRect2D64f{ ret.x, ret.y, ret.width, ret.height };
+    *returnValue = interop::Rect2d{ ret.x, ret.y, ret.width, ret.height };
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Scalar(cv::FileNode *node, MyCvScalar *returnValue)
+CVAPI(ExceptionStatus) core_FileNode_read_Scalar(cv::FileNode *node, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     cv::Scalar s;
     (*node) >> s;
-    *returnValue = MyCvScalar{};
+    *returnValue = interop::Scalar{};
     returnValue->val[0] = s.val[0];
     returnValue->val[1] = s.val[1];
     returnValue->val[2] = s.val[2];
@@ -352,30 +352,30 @@ CVAPI(ExceptionStatus) core_FileNode_read_Scalar(cv::FileNode *node, MyCvScalar 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2i(cv::FileNode *node, CvVec2i *returnValue) { BEGIN_WRAP cv::Vec2i v; (*node) >> v; CvVec2i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3i(cv::FileNode *node, CvVec3i *returnValue) { BEGIN_WRAP cv::Vec3i v; (*node) >> v; CvVec3i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4i(cv::FileNode *node, CvVec4i *returnValue) { BEGIN_WRAP cv::Vec4i v; (*node) >> v; CvVec4i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6i(cv::FileNode *node, CvVec6i *returnValue) { BEGIN_WRAP cv::Vec6i v; (*node) >> v; CvVec6i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2d(cv::FileNode *node, CvVec2d *returnValue) { BEGIN_WRAP cv::Vec2d v; (*node) >> v; CvVec2d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3d(cv::FileNode *node, CvVec3d *returnValue) { BEGIN_WRAP cv::Vec3d v; (*node) >> v; CvVec3d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4d(cv::FileNode *node, CvVec4d *returnValue) { BEGIN_WRAP cv::Vec4d v; (*node) >> v; CvVec4d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6d(cv::FileNode *node, CvVec6d *returnValue) { BEGIN_WRAP cv::Vec6d v; (*node) >> v; CvVec6d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2f(cv::FileNode *node, CvVec2f *returnValue) { BEGIN_WRAP cv::Vec2f v; (*node) >> v; CvVec2f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3f(cv::FileNode *node, CvVec3f *returnValue) { BEGIN_WRAP cv::Vec3f v; (*node) >> v; CvVec3f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4f(cv::FileNode *node, CvVec4f *returnValue) { BEGIN_WRAP cv::Vec4f v; (*node) >> v; CvVec4f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6f(cv::FileNode *node, CvVec6f *returnValue) { BEGIN_WRAP cv::Vec6f v; (*node) >> v; CvVec6f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2b(cv::FileNode *node, CvVec2b *returnValue) { BEGIN_WRAP cv::Vec2b v; (*node) >> v; CvVec2b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3b(cv::FileNode *node, CvVec3b *returnValue) { BEGIN_WRAP cv::Vec3b v; (*node) >> v; CvVec3b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4b(cv::FileNode *node, CvVec4b *returnValue) { BEGIN_WRAP cv::Vec4b v; (*node) >> v; CvVec4b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6b(cv::FileNode *node, CvVec6b *returnValue) { BEGIN_WRAP cv::Vec6b v; (*node) >> v; CvVec6b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2s(cv::FileNode *node, CvVec2s *returnValue) { BEGIN_WRAP cv::Vec2s v; (*node) >> v; CvVec2s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3s(cv::FileNode *node, CvVec3s *returnValue) { BEGIN_WRAP cv::Vec3s v; (*node) >> v; CvVec3s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4s(cv::FileNode *node, CvVec4s *returnValue) { BEGIN_WRAP cv::Vec4s v; (*node) >> v; CvVec4s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6s(cv::FileNode *node, CvVec6s *returnValue) { BEGIN_WRAP cv::Vec6s v; (*node) >> v; CvVec6s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec2w(cv::FileNode *node, CvVec2w *returnValue) { BEGIN_WRAP cv::Vec2w v; (*node) >> v; CvVec2w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec3w(cv::FileNode *node, CvVec3w *returnValue) { BEGIN_WRAP cv::Vec3w v; (*node) >> v; CvVec3w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec4w(cv::FileNode *node, CvVec4w *returnValue) { BEGIN_WRAP cv::Vec4w v; (*node) >> v; CvVec4w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
-CVAPI(ExceptionStatus) core_FileNode_read_Vec6w(cv::FileNode *node, CvVec6w *returnValue) { BEGIN_WRAP cv::Vec6w v; (*node) >> v; CvVec6w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2i(cv::FileNode *node, interop::Vec2i *returnValue) { BEGIN_WRAP cv::Vec2i v; (*node) >> v; interop::Vec2i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3i(cv::FileNode *node, interop::Vec3i *returnValue) { BEGIN_WRAP cv::Vec3i v; (*node) >> v; interop::Vec3i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4i(cv::FileNode *node, interop::Vec4i *returnValue) { BEGIN_WRAP cv::Vec4i v; (*node) >> v; interop::Vec4i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6i(cv::FileNode *node, interop::Vec6i *returnValue) { BEGIN_WRAP cv::Vec6i v; (*node) >> v; interop::Vec6i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2d(cv::FileNode *node, interop::Vec2d *returnValue) { BEGIN_WRAP cv::Vec2d v; (*node) >> v; interop::Vec2d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3d(cv::FileNode *node, interop::Vec3d *returnValue) { BEGIN_WRAP cv::Vec3d v; (*node) >> v; interop::Vec3d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4d(cv::FileNode *node, interop::Vec4d *returnValue) { BEGIN_WRAP cv::Vec4d v; (*node) >> v; interop::Vec4d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6d(cv::FileNode *node, interop::Vec6d *returnValue) { BEGIN_WRAP cv::Vec6d v; (*node) >> v; interop::Vec6d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2f(cv::FileNode *node, interop::Vec2f *returnValue) { BEGIN_WRAP cv::Vec2f v; (*node) >> v; interop::Vec2f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3f(cv::FileNode *node, interop::Vec3f *returnValue) { BEGIN_WRAP cv::Vec3f v; (*node) >> v; interop::Vec3f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4f(cv::FileNode *node, interop::Vec4f *returnValue) { BEGIN_WRAP cv::Vec4f v; (*node) >> v; interop::Vec4f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6f(cv::FileNode *node, interop::Vec6f *returnValue) { BEGIN_WRAP cv::Vec6f v; (*node) >> v; interop::Vec6f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2b(cv::FileNode *node, interop::Vec2b *returnValue) { BEGIN_WRAP cv::Vec2b v; (*node) >> v; interop::Vec2b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3b(cv::FileNode *node, interop::Vec3b *returnValue) { BEGIN_WRAP cv::Vec3b v; (*node) >> v; interop::Vec3b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4b(cv::FileNode *node, interop::Vec4b *returnValue) { BEGIN_WRAP cv::Vec4b v; (*node) >> v; interop::Vec4b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6b(cv::FileNode *node, interop::Vec6b *returnValue) { BEGIN_WRAP cv::Vec6b v; (*node) >> v; interop::Vec6b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2s(cv::FileNode *node, interop::Vec2s *returnValue) { BEGIN_WRAP cv::Vec2s v; (*node) >> v; interop::Vec2s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3s(cv::FileNode *node, interop::Vec3s *returnValue) { BEGIN_WRAP cv::Vec3s v; (*node) >> v; interop::Vec3s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4s(cv::FileNode *node, interop::Vec4s *returnValue) { BEGIN_WRAP cv::Vec4s v; (*node) >> v; interop::Vec4s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6s(cv::FileNode *node, interop::Vec6s *returnValue) { BEGIN_WRAP cv::Vec6s v; (*node) >> v; interop::Vec6s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec2w(cv::FileNode *node, interop::Vec2w *returnValue) { BEGIN_WRAP cv::Vec2w v; (*node) >> v; interop::Vec2w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec3w(cv::FileNode *node, interop::Vec3w *returnValue) { BEGIN_WRAP cv::Vec3w v; (*node) >> v; interop::Vec3w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec4w(cv::FileNode *node, interop::Vec4w *returnValue) { BEGIN_WRAP cv::Vec4w v; (*node) >> v; interop::Vec4w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
+CVAPI(ExceptionStatus) core_FileNode_read_Vec6w(cv::FileNode *node, interop::Vec6w *returnValue) { BEGIN_WRAP cv::Vec6w v; (*node) >> v; interop::Vec6w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
 
 
 #pragma region FileNodeIterator

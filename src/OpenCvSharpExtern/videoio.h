@@ -193,7 +193,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new1(cv::VideoWriter **returnValue)
 CVAPI(ExceptionStatus) videoio_VideoWriter_new2(
     const char *filename, 
     int fourcc, double fps,
-    MyCvSize frameSize, int isColor, 
+    interop::Size frameSize, int isColor, 
     cv::VideoWriter **returnValue)
 {
     BEGIN_WRAP
@@ -203,7 +203,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new2(
 CVAPI(ExceptionStatus) videoio_VideoWriter_new3(
     const char *filename, int apiPreference, 
     int fourcc, double fps,
-    MyCvSize frameSize, int isColor, 
+    interop::Size frameSize, int isColor, 
     cv::VideoWriter **returnValue)
 {
     BEGIN_WRAP
@@ -213,7 +213,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new3(
 CVAPI(ExceptionStatus) videoio_VideoWriter_new4(
     const char* filename,
     int fourcc, double fps,
-    MyCvSize frameSize, int* params, int paramsLength,
+    interop::Size frameSize, int* params, int paramsLength,
     cv::VideoWriter** returnValue)
 {
     BEGIN_WRAP
@@ -225,7 +225,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new4(
 CVAPI(ExceptionStatus) videoio_VideoWriter_new5(
     const char* filename, int apiPreference,
     int fourcc, double fps,
-    MyCvSize frameSize, int* params, int paramsLength,
+    interop::Size frameSize, int* params, int paramsLength,
     cv::VideoWriter** returnValue)
 {
     BEGIN_WRAP
@@ -245,7 +245,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_delete(cv::VideoWriter *obj)
 CVAPI(ExceptionStatus) videoio_VideoWriter_open1(
     cv::VideoWriter *obj, const char *filename, 
     int fourcc, double fps,
-    MyCvSize frameSize, int isColor, 
+    interop::Size frameSize, int isColor, 
     int *returnValue)
 {
     BEGIN_WRAP
@@ -255,7 +255,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_open1(
 CVAPI(ExceptionStatus) videoio_VideoWriter_open2(
     cv::VideoWriter *obj, const char *filename, int apiPreference, 
     int fourcc, double fps,
-    MyCvSize frameSize, int isColor, 
+    interop::Size frameSize, int isColor, 
     int *returnValue)
 {
     BEGIN_WRAP

@@ -23,7 +23,7 @@ CVAPI(void) imgproc_LineSegmentDetector_drawSegments(cv::LineSegmentDetector *ob
     obj->drawSegments(*image, *lines);
 }
 
-CVAPI(int) imgproc_LineSegmentDetector_compareSegments(cv::LineSegmentDetector *obj, MyCvSize size,
+CVAPI(int) imgproc_LineSegmentDetector_compareSegments(cv::LineSegmentDetector *obj, interop::Size size,
     cv::_InputArray *lines1, cv::_InputArray *lines2, cv::_InputOutputArray *image)
 {
     return obj->compareSegments(cpp(size), *lines1, *lines2, entity(image));

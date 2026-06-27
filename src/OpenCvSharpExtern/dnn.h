@@ -176,7 +176,7 @@ CVAPI(ExceptionStatus) dnn_readTensorFromONNX(const char *path, cv::Mat **return
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImage(
-    cv::Mat *image, const double scalefactor, const MyCvSize size, const MyCvScalar mean, const int swapRB, const int crop, 
+    cv::Mat *image, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -186,7 +186,7 @@ CVAPI(ExceptionStatus) dnn_blobFromImage(
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImages(
-    const cv::Mat **images, const int imagesLength, const double scalefactor, const MyCvSize size, const MyCvScalar mean, const int swapRB, const int crop, 
+    const cv::Mat **images, const int imagesLength, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -303,8 +303,8 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel,
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
-    cv::_InputArray *image, const MyCvScalar scalefactor, const MyCvSize size, const MyCvScalar mean,
-    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const MyCvScalar borderValue,
+    cv::_InputArray *image, const interop::Scalar scalefactor, const interop::Size size, const interop::Scalar mean,
+    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -317,8 +317,8 @@ CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
-    cv::Mat **images, const int imagesLength, const MyCvScalar scalefactor, const MyCvSize size, const MyCvScalar mean,
-    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const MyCvScalar borderValue,
+    cv::Mat **images, const int imagesLength, const interop::Scalar scalefactor, const interop::Size size, const interop::Scalar mean,
+    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP

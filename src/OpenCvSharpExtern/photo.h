@@ -89,7 +89,7 @@ CVAPI(ExceptionStatus) photo_decolor(
 }
 
 CVAPI(ExceptionStatus) photo_seamlessClone(
-    cv::_InputArray *src, cv::_InputArray *dst, cv::_InputArray *mask, MyCvPoint p,
+    cv::_InputArray *src, cv::_InputArray *dst, cv::_InputArray *mask, interop::Point p,
     cv::_OutputArray *blend, int flags)
 {
     BEGIN_WRAP

@@ -102,7 +102,7 @@ CVAPI(ExceptionStatus) aruco_drawDetectedMarkers(
 	int cornerSize1,
 	int* cornerSize2,
 	int* idx, int idxCount,
-	MyCvScalar borderColor)
+	interop::Scalar borderColor)
 {
 	BEGIN_WRAP
 	std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
@@ -245,7 +245,7 @@ CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
 	int cornerSize1,
 	int* cornerSize2,
 	std::vector<cv::Vec4i>* ids,
-	MyCvScalar borderColor)
+	interop::Scalar borderColor)
 {
 	BEGIN_WRAP
 		std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
@@ -263,7 +263,7 @@ CVAPI(ExceptionStatus) aruco_drawDetectedCornersCharuco(
 	cv::_InputOutputArray* image,
 	std::vector<cv::Point2f>* corners,
 	std::vector<int>* ids,
-	MyCvScalar cornerColor)
+	interop::Scalar cornerColor)
 {
 	BEGIN_WRAP
 	cv::_InputArray idArray = cv::noArray();
@@ -345,7 +345,7 @@ CVAPI(ExceptionStatus) aruco_CharucoBoard_delete(cv::aruco::CharucoBoard* ptr)
 	END_WRAP
 }
 
-CVAPI(ExceptionStatus) aruco_CharucoBoard_getChessboardSize(cv::aruco::CharucoBoard* ptr, MyCvSize* returnValue)
+CVAPI(ExceptionStatus) aruco_CharucoBoard_getChessboardSize(cv::aruco::CharucoBoard* ptr, interop::Size* returnValue)
 {
 	BEGIN_WRAP
 	const auto s = ptr->getChessboardSize();
@@ -384,7 +384,7 @@ CVAPI(ExceptionStatus) aruco_CharucoBoard_getLegacyPattern(cv::aruco::CharucoBoa
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_generateImage(
 	cv::aruco::CharucoBoard* ptr,
-	MyCvSize outSize,
+	interop::Size outSize,
 	cv::_OutputArray* img,
 	int marginSize,
 	int borderBits)

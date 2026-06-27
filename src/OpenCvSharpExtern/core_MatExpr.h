@@ -114,7 +114,7 @@ CVAPI(ExceptionStatus) core_MatExpr_dot(cv::MatExpr *self, cv::Mat *m, double *r
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_MatExpr_size(cv::MatExpr *self, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) core_MatExpr_size(cv::MatExpr *self, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(self->size());
@@ -161,14 +161,14 @@ CVAPI(ExceptionStatus) core_operatorAdd_MatMatExpr(cv::Mat *m, cv::MatExpr *e, c
     *returnValue = new cv::MatExpr(expr);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_operatorAdd_MatExprScalar(cv::MatExpr *e, MyCvScalar s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_operatorAdd_MatExprScalar(cv::MatExpr *e, interop::Scalar s, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
     const auto expr = (*e) + cpp(s);
     *returnValue = new cv::MatExpr(expr);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_operatorAdd_ScalarMatExpr(MyCvScalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_operatorAdd_ScalarMatExpr(interop::Scalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
     const auto expr = cpp(s) + (*e);
@@ -197,14 +197,14 @@ CVAPI(ExceptionStatus) core_operatorSubtract_MatMatExpr(cv::Mat *m, cv::MatExpr 
     *returnValue = new cv::MatExpr(expr);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_operatorSubtract_MatExprScalar(cv::MatExpr *e, MyCvScalar s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_operatorSubtract_MatExprScalar(cv::MatExpr *e, interop::Scalar s, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
     const auto expr = (*e) - cpp(s);
     *returnValue = new cv::MatExpr(expr);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_operatorSubtract_ScalarMatExpr(MyCvScalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_operatorSubtract_ScalarMatExpr(interop::Scalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
     const auto expr = cpp(s) - (*e);

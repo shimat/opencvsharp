@@ -11,7 +11,7 @@
 
 CVAPI(ExceptionStatus) ptcloud_registerDepth(
     cv::_InputArray *unregisteredCameraMatrix, cv::_InputArray *registeredCameraMatrix, cv::_InputArray *registeredDistCoeffs,
-    cv::_InputArray *Rt, cv::_InputArray *unregisteredDepth, MyCvSize outputImagePlaneSize,
+    cv::_InputArray *Rt, cv::_InputArray *unregisteredDepth, interop::Size outputImagePlaneSize,
     cv::_OutputArray *registeredDepth, int depthDilation)
 {
     BEGIN_WRAP

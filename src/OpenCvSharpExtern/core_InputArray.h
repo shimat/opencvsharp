@@ -27,7 +27,7 @@ CVAPI(ExceptionStatus) core_InputArray_new_byMatExpr(cv::MatExpr *expr, cv::_Inp
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_InputArray_new_byScalar(MyCvScalar s, cv::Scalar **handle, cv::_InputArray **returnValue)
+CVAPI(ExceptionStatus) core_InputArray_new_byScalar(interop::Scalar s, cv::Scalar **handle, cv::_InputArray **returnValue)
 {
     BEGIN_WRAP
     *handle = new cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
@@ -148,7 +148,7 @@ CVAPI(ExceptionStatus) core_InputArray_getObj(cv::_InputArray *ia, void **return
     *returnValue = ia->getObj();
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_InputArray_getSz(cv::_InputArray *ia, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) core_InputArray_getSz(cv::_InputArray *ia, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(ia->getSz());
@@ -180,7 +180,7 @@ CVAPI(ExceptionStatus) core_InputArray_rows(cv::_InputArray *ia, int i, int *ret
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_InputArray_size(cv::_InputArray *ia, int i, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) core_InputArray_size(cv::_InputArray *ia, int i, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(ia->size(i));

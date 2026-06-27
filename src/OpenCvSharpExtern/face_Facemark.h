@@ -23,7 +23,7 @@ struct FacemarkLBFParamsData
     double bagging_overlap;
     int save_model;
     uint32_t seed;
-    MyCvRect detectROI;
+    interop::Rect detectROI;
 };
 
 // Blittable POD view of the scalar fields of cv::face::FacemarkAAM::Params.

@@ -12,7 +12,7 @@
 CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
     cv::Mat **objectPoints, int objectPointsLength,
     cv::Mat **imagePoints, int imagePointsLength, 
-    MyCvSize imageSize, double aspectRatio,
+    interop::Size imageSize, double aspectRatio,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -30,7 +30,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
 
 CVAPI(ExceptionStatus) calib_initCameraMatrix2D_array(
     cv::Point3f **objectPoints, int opSize1, int *opSize2,
-    cv::Point2f **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio,
+    cv::Point2f **imagePoints, int ipSize1, int *ipSize2, interop::Size imageSize, double aspectRatio,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_array(
 
 
 CVAPI(ExceptionStatus) calib_findChessboardCorners_InputArray(
-    cv::_InputArray *image, MyCvSize patternSize,
+    cv::_InputArray *image, interop::Size patternSize,
     cv::_OutputArray *corners, int flags, 
     int *returnValue)
 {
@@ -58,7 +58,7 @@ CVAPI(ExceptionStatus) calib_findChessboardCorners_InputArray(
 }
 
 CVAPI(ExceptionStatus) calib_findChessboardCorners_vector(
-    cv::_InputArray *image, MyCvSize patternSize,
+    cv::_InputArray *image, interop::Size patternSize,
     std::vector<cv::Point2f> *corners, int flags, 
     int *returnValue)
 {
@@ -72,7 +72,7 @@ CVAPI(ExceptionStatus) calib_findChessboardCorners_vector(
 static void BlobDetectorDeleter(cv::FeatureDetector *) {}
 
 CVAPI(ExceptionStatus) calib_findCirclesGrid_InputArray(
-    cv::_InputArray *image, MyCvSize patternSize,
+    cv::_InputArray *image, interop::Size patternSize,
     cv::_OutputArray *centers, int flags, cv::FeatureDetector* blobDetector,
     int *returnValue)
 {
@@ -90,7 +90,7 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_InputArray(
 }
 
 CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
-    cv::_InputArray *image, MyCvSize patternSize,
+    cv::_InputArray *image, interop::Size patternSize,
     std::vector<cv::Point2f> *centers, int flags, cv::FeatureDetector* blobDetector,
     int *returnValue)
 {
@@ -111,12 +111,12 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
 CVAPI(ExceptionStatus) calib_calibrateCamera_InputArray(
     cv::Mat **objectPoints, int objectPointsSize,
     cv::Mat **imagePoints, int imagePointsSize,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::_InputOutputArray *cameraMatrix,
     cv::_InputOutputArray *distCoeffs,
     std::vector<cv::Mat> *rvecs, std::vector<cv::Mat> *tvecs,
     int flags,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -135,12 +135,12 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_InputArray(
 CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
     cv::Point3f **objectPoints, int opSize1, int *opSize2,
     cv::Point2f **imagePoints, int ipSize1, int *ipSize2,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     double *cameraMatrix,
     double *distCoeffs, int distCoeffsSize,
     std::vector<cv::Mat> *rvecs, std::vector<cv::Mat> *tvecs,
     int flags,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -169,11 +169,11 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_InputArray(
     cv::_InputOutputArray *distCoeffs1,
     cv::_InputOutputArray *cameraMatrix2,
     cv::_InputOutputArray *distCoeffs2,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::_OutputArray *R, cv::_OutputArray *T,
     cv::_OutputArray *E, cv::_OutputArray *F,
     int flags, 
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -202,11 +202,11 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
     cv::Mat *distCoeffs1,
     cv::Mat *cameraMatrix2,
     cv::Mat *distCoeffs2,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::Mat *R, cv::Mat *T,
     cv::Mat *E, cv::Mat *F,
     int flags,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -235,11 +235,11 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_array(
     double *distCoeffs1, int dc1Size,
     double *cameraMatrix2,
     double *distCoeffs2, int dc2Size,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::_OutputArray *R, cv::_OutputArray *T,
     cv::_OutputArray *E, cv::_OutputArray *F,
     int flags, 
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
