@@ -16,65 +16,7 @@ public partial class Mat : CvObject
     /// <summary>
     /// typeof(T) -> MatType
     /// </summary>
-    protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = new Dictionary<Type, MatType>
-    {
-        [typeof(byte)] = MatType.CV_8UC1,
-        [typeof(sbyte)] = MatType.CV_8SC1,
-        [typeof(short)] = MatType.CV_16SC1,
-        [typeof(char)] = MatType.CV_16UC1,
-        [typeof(ushort)] = MatType.CV_16UC1,
-        [typeof(int)] = MatType.CV_32SC1,
-        [typeof(float)] = MatType.CV_32FC1,
-        [typeof(double)] = MatType.CV_64FC1,
-
-        [typeof(Vec2b)] = MatType.CV_8UC2,
-        [typeof(Vec3b)] = MatType.CV_8UC3,
-        [typeof(Vec4b)] = MatType.CV_8UC4,
-        [typeof(Vec6b)] = MatType.CV_8UC(6),
-
-        [typeof(Vec2s)] = MatType.CV_16SC2,
-        [typeof(Vec3s)] = MatType.CV_16SC3,
-        [typeof(Vec4s)] = MatType.CV_16SC4,
-        [typeof(Vec6s)] = MatType.CV_16SC(6),
-
-        [typeof(Vec2w)] = MatType.CV_16UC2,
-        [typeof(Vec3w)] = MatType.CV_16UC3,
-        [typeof(Vec4w)] = MatType.CV_16UC4,
-        [typeof(Vec6w)] = MatType.CV_16UC(6),
-
-        [typeof(Vec2i)] = MatType.CV_32SC2,
-        [typeof(Vec3i)] = MatType.CV_32SC3,
-        [typeof(Vec4i)] = MatType.CV_32SC4,
-        [typeof(Vec6i)] = MatType.CV_32SC(6),
-
-        [typeof(Vec2f)] = MatType.CV_32FC2,
-        [typeof(Vec3f)] = MatType.CV_32FC3,
-        [typeof(Vec4f)] = MatType.CV_32FC4,
-        [typeof(Vec6f)] = MatType.CV_32FC(6),
-
-        [typeof(Vec2d)] = MatType.CV_64FC2,
-        [typeof(Vec3d)] = MatType.CV_64FC3,
-        [typeof(Vec4d)] = MatType.CV_64FC4,
-        [typeof(Vec6d)] = MatType.CV_64FC(6),
-
-        [typeof(Point)] = MatType.CV_32SC2,
-        [typeof(Point2f)] = MatType.CV_32FC2,
-        [typeof(Point2d)] = MatType.CV_64FC2,
-
-        [typeof(Point3i)] = MatType.CV_32SC3,
-        [typeof(Point3f)] = MatType.CV_32FC3,
-        [typeof(Point3d)] = MatType.CV_64FC3,
-
-        [typeof(Size)] = MatType.CV_32SC2,
-        [typeof(Size2f)] = MatType.CV_32FC2,
-        [typeof(Size2d)] = MatType.CV_64FC2,
-
-        [typeof(Rect)] = MatType.CV_32SC4,
-        [typeof(Rect2f)] = MatType.CV_32FC4,
-        [typeof(Rect2d)] = MatType.CV_64FC4,
-
-        [typeof(DMatch)] = MatType.CV_32FC4,
-    };
+    protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = Internal.Util.MatTypeMap.Map;
 
     /// <summary>
     /// Creates from native cv::Mat* pointer

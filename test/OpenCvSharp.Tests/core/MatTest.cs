@@ -14,6 +14,29 @@ public class MatTest : TestBase
     }
 
     [Fact]
+    public void MatOfTElementIndexerAndEnumerable()
+    {
+        using var mat = new Mat<int>(2, 2);
+        mat[0, 0] = 1;
+        mat[0, 1] = 2;
+        mat[1, 0] = 3;
+        mat[1, 1] = 4;
+        Assert.Equal(4, mat[1, 1]);
+
+        var collected = new System.Collections.Generic.List<int>();
+        foreach (var v in mat)
+            collected.Add(v);
+        Assert.Equal(new[] { 1, 2, 3, 4 }, collected);
+    }
+
+    [Fact]
+    public void MatOfTTypeMismatchThrows()
+    {
+        using var byteMat = new Mat(3, 3, MatType.CV_8UC1, Scalar.All(0));
+        Assert.Throws<OpenCvSharpException>(() => new Mat<float>(byteMat));
+    }
+
+    [Fact]
     public void MatOfTDispose()
     {
 #pragma warning disable CA2000 

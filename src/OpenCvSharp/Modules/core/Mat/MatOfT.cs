@@ -1,13 +1,16 @@
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
 /// <summary>
-/// Type-specific abstract matrix 
+/// Type-specific matrix. <typeparamref name="TElem"/> fixes the element type, so elements can be
+/// read and written as <typeparamref name="TElem"/> (e.g. via <c>mat[row, col]</c>) and the matrix
+/// can be enumerated.
 /// </summary>
 /// <typeparam name="TElem">Element Type</typeparam>
-public class Mat<TElem> : Mat
+public class Mat<TElem> : Mat, IEnumerable<TElem>
     where TElem : unmanaged
 {
     #region Init & Disposal
@@ -18,6 +21,21 @@ public class Mat<TElem> : Mat
         if (TypeMap.TryGetValue(type, out var value))
             return value;
         throw new NotSupportedException($"Type parameter {type} is not supported by Mat<T>");
+    }
+
+    /// <summary>
+    /// Throws if this matrix's element type does not match <typeparamref name="TElem"/>.
+    /// Empty matrices (which have no element type) are not checked.
+    /// </summary>
+    private void ThrowIfTypeMismatch()
+    {
+        if (Empty())
+            return;
+        var expected = GetMatType();
+        var actual = Type();
+        if (actual != expected)
+            throw new OpenCvSharpException(
+                $"Mat element type {actual} does not match {typeof(TElem)} ({expected}).");
     }
 
     /// <summary>
@@ -44,15 +62,20 @@ public class Mat<TElem> : Mat
 #pragma warning disable CA1000 // Do not declare static members on generic types
     public new static Mat<TElem> FromNativePointer(IntPtr ptr)
 #pragma warning restore CA1000
-        => new(ptr);
+    {
+        var mat = new Mat<TElem>(ptr);
+        mat.ThrowIfTypeMismatch();
+        return mat;
+    }
 
     /// <summary>
-    /// Initializes by Mat object
+    /// Initializes by Mat object. The Mat's element type must match <typeparamref name="TElem"/>.
     /// </summary>
     /// <param name="mat">Managed Mat object</param>
     public Mat(Mat mat)
         : base(mat)
     {
+        ThrowIfTypeMismatch();
     }
 
     /// <summary>
@@ -356,8 +379,15 @@ public class Mat<TElem> : Mat
     #region Methods
 
     /// <summary>
-    /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+    /// Gets a type-specific indexer for fast repeated element access. The indexer captures the data
+    /// pointer once, so it is faster than <c>this[row, col]</c> for tight loops.
     /// </summary>
+    /// <remarks>
+    /// The indexer keeps this matrix alive, but it caches the data pointer at creation time. Do not
+    /// keep using an indexer after an operation that may reallocate the matrix data (e.g.
+    /// <see cref="Mat.Create(int, int, MatType)"/>); obtain a fresh one instead. For occasional
+    /// access prefer the <c>this[row, col]</c> indexer, which resolves the pointer each time.
+    /// </remarks>
     /// <returns></returns>
 #pragma warning disable CA1024 // Use properties where appropriate
     public MatIndexer<TElem> GetIndexer()
@@ -367,15 +397,28 @@ public class Mat<TElem> : Mat
     }
 
     /// <summary>
-    /// Gets read-only enumerator
+    /// Gets or sets the element at the specified 2-D position.
+    /// </summary>
+    /// <param name="row">Row index (dimension 0).</param>
+    /// <param name="col">Column index (dimension 1).</param>
+    public TElem this[int row, int col]
+    {
+        get => At<TElem>(row, col);
+        set => At<TElem>(row, col) = value;
+    }
+
+    /// <summary>
+    /// Enumerates all elements in row-major order (works for any dimensionality).
     /// </summary>
     /// <returns></returns>
     public IEnumerator<TElem> GetEnumerator()
     {
         ThrowIfDisposed();
-        var indexer = new Indexer(this);
-
         var dims = Dims;
+        if (dims <= 0)
+            yield break;
+
+        var indexer = new Indexer(this);
         if (dims == 2)
         {
             var rows = Rows;
@@ -387,12 +430,28 @@ public class Mat<TElem> : Mat
                     yield return indexer[r, c];
                 }
             }
+            yield break;
         }
-        else
+
+        // General n-dimensional traversal in row-major order (last dimension varies fastest).
+        var sizes = new int[dims];
+        for (var d = 0; d < dims; d++)
+            sizes[d] = Size(d);
+        var total = Total();
+        var idx = new int[dims];
+        for (long n = 0; n < total; n++)
         {
-            throw new NotImplementedException("GetEnumerator supports only 2-dimensional Mat");
+            yield return indexer[idx];
+            for (var d = dims - 1; d >= 0; d--)
+            {
+                if (++idx[d] < sizes[d])
+                    break;
+                idx[d] = 0;
+            }
         }
     }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         
     /// <summary>
     /// Convert this mat to managed array

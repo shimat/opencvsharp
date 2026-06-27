@@ -109,4 +109,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_SparseMat_getNodes(
         OpenCvSafeHandle obj, int dims, IntPtr outIndices, IntPtr outValues, nuint elemSize);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static unsafe partial ExceptionStatus core_SparseMat_erase_nd(
+        OpenCvSafeHandle obj, int[] idx, ulong* hashVal);
+
 }
