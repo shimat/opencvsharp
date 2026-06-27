@@ -1,0 +1,407 @@
+﻿name: macOS x64/arm64
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    types: [synchronize, opened, reopened]
+
+  push:
+    branches:
+      - main
+
+env:
+  OPENCV_VERSION: 4.13.0
+  CACHE_VERSION: "1"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build libOpenCvSharpExtern.dylib for macOS x64 (Intel).
+  # Uses vcpkg for static image libs + Tesseract + Leptonica.
+  # Tesseract is disabled on macOS (see CMakeLists.txt APPLE guard).
+  # ---------------------------------------------------------------------------
+  build_x64:
+    runs-on: macos-26-intel
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+
+      # -- System tools --------------------------------------------------------
+      # NOTE: Do NOT install protobuf via Homebrew. The macos-13 runner already
+      # has protobuf+abseil in /usr/local/, and OpenCV's bundled 3rdparty protobuf
+      # would pick up those headers (requiring C++17) instead of its own (C++11).
+      - name: Install system tools
+        run: |
+          brew install ninja pkg-config nasm yasm
+          brew uninstall protobuf abseil 2>/dev/null || true
+
+      # -- vcpkg (image libs) --------------------------------------------------
+      - name: Bootstrap vcpkg
+        run: |
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /tmp/vcpkg
+          /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+      - name: Restore vcpkg package cache
+        id: vcpkg-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+
+      - name: Install packages via vcpkg
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          /tmp/vcpkg/vcpkg install \
+            --triplet x64-osx-static \
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+
+      - name: Save vcpkg package cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+
+      # -- OpenCV cache --------------------------------------------------------
+      - name: Capture OpenCV revisions
+        id: opencv-revs
+        run: |
+          echo "opencv=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "contrib=$(git -C opencv_contrib rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+
+      - name: Configure OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake \
+            -G Ninja \
+            -C cmake/opencv_build_options.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            -D CMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -D VCPKG_TARGET_TRIPLET=x64-osx-static \
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+            -D CMAKE_OSX_ARCHITECTURES=x86_64 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D BUILD_JPEG=OFF \
+            -D BUILD_PNG=OFF \
+            -D BUILD_TIFF=OFF \
+            -D BUILD_WEBP=OFF \
+            -D BUILD_ZLIB=ON \
+            -D WITH_TBB=OFF \
+            -D WITH_OPENEXR=OFF \
+            -D WITH_JASPER=OFF \
+            -D WITH_OPENGL=OFF \
+            -D WITH_VA=OFF \
+            -D WITH_VA_INTEL=OFF \
+            -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
+            2>&1 | tee /tmp/opencv-configure.log
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          log=/tmp/opencv-configure.log
+          fail=0
+          for feature in JPEG PNG TIFF WEBP FFMPEG Tesseract; do
+            val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+            if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+              echo "OK: $feature = $val"
+            else
+              echo "MISSING or DISABLED: $feature"
+              grep -iE "${feature}" "$log" | tail -3 || true
+              fail=1
+            fi
+          done
+          # FFMPEG and Tesseract are now enabled on macOS via vcpkg
+          [ "$fail" -eq 0 ]
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+          echo "=== opencv_artifacts layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
+
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+
+      # -- OpenCvSharpExtern ---------------------------------------------------
+      - name: Build OpenCvSharpExtern
+        run: |
+          cmake \
+            -G Ninja \
+            -S src \
+            -B src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib/cmake/opencv4 \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static" \
+            -D CMAKE_OSX_ARCHITECTURES=x86_64 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
+          cmake --build src/build -j
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - name: Check dylib architecture
+        run: |
+          file ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | head -20
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: libOpenCvSharpExtern-osx-x64
+          path: libOpenCvSharpExtern.dylib
+
+  # ---------------------------------------------------------------------------
+  # Build libOpenCvSharpExtern.dylib for macOS arm64 (Apple Silicon).
+  # ---------------------------------------------------------------------------
+  build_arm64:
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+
+      # -- System tools --------------------------------------------------------
+      # NOTE: Do NOT install protobuf via Homebrew — see build_x64 comment.
+      - name: Install system tools
+        run: |
+          brew install ninja pkg-config nasm yasm
+          brew uninstall protobuf abseil 2>/dev/null || true
+
+      # -- vcpkg (image libs) --------------------------------------------------
+      - name: Bootstrap vcpkg
+        run: |
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /tmp/vcpkg
+          /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+      - name: Restore vcpkg package cache
+        id: vcpkg-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+
+      - name: Install packages via vcpkg
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          /tmp/vcpkg/vcpkg install \
+            --triplet arm64-osx-static \
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+
+      - name: Save vcpkg package cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+
+      # -- OpenCV cache --------------------------------------------------------
+      - name: Capture OpenCV revisions
+        id: opencv-revs
+        run: |
+          echo "opencv=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "contrib=$(git -C opencv_contrib rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+
+      - name: Configure OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake \
+            -G Ninja \
+            -C cmake/opencv_build_options.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            -D CMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -D VCPKG_TARGET_TRIPLET=arm64-osx-static \
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+            -D CMAKE_OSX_ARCHITECTURES=arm64 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D BUILD_JPEG=OFF \
+            -D BUILD_PNG=OFF \
+            -D BUILD_TIFF=OFF \
+            -D BUILD_WEBP=OFF \
+            -D BUILD_ZLIB=ON \
+            -D WITH_TBB=OFF \
+            -D WITH_OPENEXR=OFF \
+            -D WITH_JASPER=OFF \
+            -D WITH_OPENGL=OFF \
+            -D WITH_VA=OFF \
+            -D WITH_VA_INTEL=OFF \
+            -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
+            2>&1 | tee /tmp/opencv-configure.log
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          log=/tmp/opencv-configure.log
+          fail=0
+          for feature in JPEG PNG TIFF WEBP FFMPEG Tesseract; do
+            val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+            if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+              echo "OK: $feature = $val"
+            else
+              echo "MISSING or DISABLED: $feature"
+              grep -iE "${feature}" "$log" | tail -3 || true
+              fail=1
+            fi
+          done
+          # FFMPEG and Tesseract are now enabled on macOS via vcpkg
+          [ "$fail" -eq 0 ]
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+          echo "=== opencv_artifacts layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
+
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+
+      # -- OpenCvSharpExtern ---------------------------------------------------
+      - name: Build OpenCvSharpExtern
+        run: |
+          cmake \
+            -G Ninja \
+            -S src \
+            -B src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib/cmake/opencv4 \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static" \
+            -D CMAKE_OSX_ARCHITECTURES=arm64 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
+          cmake --build src/build -j
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - name: Check dylib architecture
+        run: |
+          file ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | head -20
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: libOpenCvSharpExtern-osx-arm64
+          path: libOpenCvSharpExtern.dylib
+
+  # ---------------------------------------------------------------------------
+  # Integration test on arm64 (the native runner arch).
+  # ---------------------------------------------------------------------------
+  test:
+    needs: [build_arm64]
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+
+      - name: Download arm64 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: libOpenCvSharpExtern-osx-arm64
+          path: nuget/
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Test
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib bin/Release/net10.0/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ./
+          sudo mkdir -p /usr/local/lib
+          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
+          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
+            --logger "trx;LogFileName=test-results.trx" < /dev/null
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: test-results-macos
+          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
+
+  # ---------------------------------------------------------------------------
+  # Create NuGet packages from the macOS-built binaries.
+  # ---------------------------------------------------------------------------
+  nuget:
+    needs: [build_x64, build_arm64, test]
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download x64 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: libOpenCvSharpExtern-osx-x64
+          path: /tmp/dylib-x64/
+
+      - name: Download arm64 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: libOpenCvSharpExtern-osx-arm64
+          path: /tmp/dylib-arm64/
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Create NuGet packages
+        env:
+          BETA: "-beta"
+        run: |
+          yyyymmdd=$(date '+%Y%m%d')
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+
+          # x64 package
+          cp /tmp/dylib-x64/libOpenCvSharpExtern.dylib nuget/libOpenCvSharpExtern.dylib
+          dotnet pack nuget/OpenCvSharp4.runtime.osx.x64.csproj \
+            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
+          # arm64 package
+          cp /tmp/dylib-arm64/libOpenCvSharpExtern.dylib nuget/libOpenCvSharpExtern.dylib
+          dotnet pack nuget/OpenCvSharp4.runtime.osx.arm64.csproj \
+            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
+          ls ${GITHUB_WORKSPACE}/artifacts
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nuget-packages-macos
+          path: artifacts

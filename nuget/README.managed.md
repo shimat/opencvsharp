@@ -29,6 +29,16 @@ dotnet add package OpenCvSharp4
 dotnet add package OpenCvSharp4.official.runtime.linux-x64
 ```
 
+### macOS
+
+```bash
+dotnet add package OpenCvSharp4
+# Intel (x64):
+dotnet add package OpenCvSharp4.runtime.osx.x64
+# Apple Silicon (arm64):
+dotnet add package OpenCvSharp4.runtime.osx.arm64
+```
+
 For more installation options, see [Installation on GitHub](https://github.com/shimat/opencvsharp#installation).
 
 ## Requirements
@@ -44,6 +54,9 @@ The official `OpenCvSharp4.official.runtime.linux-x64` package is built on manyl
 
 - **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **slim** package which has no GUI dependencies.
 - **Slim package** (`OpenCvSharp4.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
+
+### macOS (Intel and Apple Silicon)
+The `OpenCvSharp4.runtime.osx.x64` and `OpenCvSharp4.runtime.osx.arm64` packages provide native bindings for macOS. FFmpeg, Tesseract, Freetype, and all standard OpenCV modules are statically linked.
 
 ## Slim Profile
 

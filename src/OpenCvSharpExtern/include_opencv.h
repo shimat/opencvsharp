@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //#define ENABLED_CONTRIB
 //#undef ENABLED_CONTRIB

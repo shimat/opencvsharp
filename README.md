@@ -1,6 +1,6 @@
 ﻿![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
-[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Docker Test Status](https://github.com/shimat/opencvsharp/workflows/Docker%20Test/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions manylinux Status](https://github.com/shimat/opencvsharp/workflows/manylinux/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Docker Test Status](https://github.com/shimat/opencvsharp/workflows/Docker%20Test/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions manylinux Status](https://github.com/shimat/opencvsharp/workflows/manylinux/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![Github Actions macOS Status](https://github.com/shimat/opencvsharp/workflows/macos/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. It supports .NET 8+, .NET Standard 2.0/2.1, and .NET Framework 4.6.1+.
 
@@ -23,6 +23,15 @@ dotnet add package OpenCvSharp4
 dotnet add package OpenCvSharp4.official.runtime.linux-x64
 # optional slim profile (smaller native dependency surface)
 # dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim
+```
+
+### macOS
+```bash
+dotnet add package OpenCvSharp4
+# Intel (x64):
+dotnet add package OpenCvSharp4.runtime.osx.x64
+# Apple Silicon (arm64):
+dotnet add package OpenCvSharp4.runtime.osx.arm64
 ```
 
 For more installation options, see the [Installation](#installation) section below.
@@ -81,6 +90,23 @@ dotnet run
 ```
 
 > ⚠️ The distro-specific `OpenCvSharp4.official.runtime.ubuntu.*` packages are **no longer maintained**. Use `OpenCvSharp4.official.runtime.linux-x64` instead.
+
+
+### macOS (Intel and Apple Silicon)
+Add `OpenCvSharp4` and the runtime package matching your architecture:
+```bash
+dotnet new console -n ConsoleApp01
+cd ConsoleApp01
+dotnet add package OpenCvSharp4
+# Intel (x64):
+dotnet add package OpenCvSharp4.runtime.osx.x64
+# Apple Silicon (arm64):
+dotnet add package OpenCvSharp4.runtime.osx.arm64
+# --- edit Program.cs ---
+dotnet run
+```
+
+> **Note:** The macOS packages include FFmpeg, Tesseract, Freetype, and all standard OpenCV modules, statically linked.
 
 
 ### Slim profile module coverage
@@ -177,12 +203,14 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp4.runtime.linux-arm64](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm64/)**| Native bindings for Linux ARM64 (AArch64) |
 |**[OpenCvSharp4.runtime.linux-arm](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/)**| **Deprecated.** Compatibility shim for `OpenCvSharp4.runtime.linux-arm64`. |
 |**[OpenCvSharp4.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/)**| Native bindings for WebAssembly |
-
+|**[OpenCvSharp4.runtime.osx.x64](https://www.nuget.org/packages/OpenCvSharp4.runtime.osx.x64/)**| Native bindings for macOS Intel (x64). FFmpeg, Tesseract, HDF, and Freetype are not included. |
+|**[OpenCvSharp4.runtime.osx.arm64](https://www.nuget.org/packages/OpenCvSharp4.runtime.osx.arm64/)**| Native bindings for macOS Apple Silicon (arm64). FFmpeg, Tesseract, HDF, and Freetype are not included. |
+ 
 > **Note:** Windows x86 (32-bit) support has been dropped as of the OpenCV 4.13.0 release series.
 > The `OpenCvSharp4.runtime.win` and `OpenCvSharp4.runtime.win.slim` packages now ship **x64-only** native binaries.
 > Users requiring x86 Windows support should stay on the last OpenCV 4.12.x-based packages.
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows x64/ARM64, Linux x64/ARM64, and WebAssembly are available.
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so / libOpenCvSharpExtern.dylib) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows x64/ARM64, Linux x64/ARM64, macOS x64/arm64, and WebAssembly are available.
 
 Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 > [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) / [OpenCvSharp3-WithoutDll](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) / [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) /  [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)

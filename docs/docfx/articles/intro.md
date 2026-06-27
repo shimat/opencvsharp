@@ -1,4 +1,4 @@
-# Introduction to OpenCvSharp
+﻿# Introduction to OpenCvSharp
 
 OpenCvSharp is a .NET wrapper for OpenCV, one of the most popular open-source computer vision libraries.
 
@@ -10,7 +10,7 @@ OpenCvSharp provides cross-platform .NET bindings for OpenCV, allowing you to us
 
 - **Windows**: x64, x86, UWP
 - **Linux**: Ubuntu 22.04, 24.04, ARM
-- **macOS**: x64
+- **macOS**: x64 (Intel), arm64 (Apple Silicon)
 - **WebAssembly**: Browser-based applications
 
 ## Getting Started
@@ -28,6 +28,8 @@ dotnet add package OpenCvSharp4.runtime.win                            # Windows
 # dotnet add package OpenCvSharp4.runtime.win.slim                       # Windows slim
 dotnet add package OpenCvSharp4.official.runtime.linux-x64               # Linux x64
 # dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim        # Linux x64 slim
+dotnet add package OpenCvSharp4.runtime.osx.x64                        # macOS x64 (Intel)
+dotnet add package OpenCvSharp4.runtime.osx.arm64                        # macOS arm64 (Apple Silicon)
 ```
 
 ### Quick Example
