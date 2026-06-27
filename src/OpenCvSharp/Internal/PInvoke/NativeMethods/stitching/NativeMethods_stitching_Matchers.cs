@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Detail;
 
@@ -30,7 +30,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_FeaturesMatcher_apply(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         ref WImageFeatures features1, 
         ref WImageFeatures features2,
         out int outSrcImgIdx, 
@@ -43,7 +43,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_FeaturesMatcher_apply2(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         WImageFeatures[] features, int featuresSize,
         IntPtr mask,
         IntPtr outSrcImgIdx,
@@ -56,11 +56,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_FeaturesMatcher_isThreadSafe(
-        IntPtr obj, out int returnValue);
+        OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_FeaturesMatcher_collectGarbage(
-        IntPtr obj);
+        OpenCvSafeHandle obj);
 
 
     // BestOf2NearestMatcher
@@ -74,7 +74,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus stitching_BestOf2NearestMatcher_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_BestOf2NearestMatcher_collectGarbage(IntPtr obj);
+    public static partial ExceptionStatus stitching_BestOf2NearestMatcher_collectGarbage(OpenCvSafeHandle obj);
 
 
     // AffineBestOf2NearestMatcher
