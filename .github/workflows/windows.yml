@@ -174,7 +174,10 @@ jobs:
           DOTNET_DbgMiniDumpName: "${{ github.workspace }}\\crashdumps\\coredump.%d.dmp"
         run: |
           mkdir "%GITHUB_WORKSPACE%\crashdumps" 2>nul
-          dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-dump-type full --results-directory "%GITHUB_WORKSPACE%\TestResults"
+          for /l %%i in (1,1,8) do (
+            echo === Test attempt %%i / 8 ===
+            dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-dump-type full --results-directory "%GITHUB_WORKSPACE%\TestResults\attempt%%i" || exit /b 1
+          )
 
       - name: Upload test crash dumps
         if: always()
