@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -57,10 +57,9 @@ public class WeChatQRCode : CvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode_points(
-                CvPtr, inputImage.CvPtr, pointsVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.CvPtr, pointsVec.CvPtr, texts.CvPtr));
 
         points = pointsVec.ToArray();
-        GC.KeepAlive(this);
         GC.KeepAlive(inputImage);
         return texts.ToArray();
     }
@@ -86,10 +85,9 @@ public class WeChatQRCode : CvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
-                CvPtr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
-        GC.KeepAlive(this);
         GC.KeepAlive(inputImage);
         return texts.ToArray();
     }

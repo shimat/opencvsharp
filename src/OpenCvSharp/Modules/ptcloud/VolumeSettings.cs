@@ -52,16 +52,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getIntegrateWidth(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getIntegrateWidth(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setIntegrateWidth(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setIntegrateWidth(Handle, value));
         }
     }
 
@@ -74,16 +72,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getIntegrateHeight(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getIntegrateHeight(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setIntegrateHeight(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setIntegrateHeight(Handle, value));
         }
     }
 
@@ -96,16 +92,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getRaycastWidth(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getRaycastWidth(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setRaycastWidth(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setRaycastWidth(Handle, value));
         }
     }
 
@@ -118,16 +112,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getRaycastHeight(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getRaycastHeight(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setRaycastHeight(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setRaycastHeight(Handle, value));
         }
     }
 
@@ -140,16 +132,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getDepthFactor(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getDepthFactor(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setDepthFactor(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setDepthFactor(Handle, value));
         }
     }
 
@@ -162,16 +152,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getVoxelSize(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getVoxelSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setVoxelSize(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setVoxelSize(Handle, value));
         }
     }
 
@@ -184,16 +172,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getTsdfTruncateDistance(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getTsdfTruncateDistance(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setTsdfTruncateDistance(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setTsdfTruncateDistance(Handle, value));
         }
     }
 
@@ -206,16 +192,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getMaxDepth(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getMaxDepth(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setMaxDepth(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setMaxDepth(Handle, value));
         }
     }
 
@@ -228,16 +212,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getMaxWeight(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getMaxWeight(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setMaxWeight(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setMaxWeight(Handle, value));
         }
     }
 
@@ -250,16 +232,14 @@ public class VolumeSettings : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_getRaycastStepFactor(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_getRaycastStepFactor(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_VolumeSettings_setRaycastStepFactor(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_VolumeSettings_setRaycastStepFactor(Handle, value));
         }
     }
 
@@ -278,8 +258,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumePose(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_VolumeSettings_setVolumePose(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -294,9 +273,8 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumePose(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumePose(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -310,8 +288,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -326,9 +303,8 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -342,9 +318,8 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -358,8 +333,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -374,9 +348,8 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -390,8 +363,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -406,9 +378,8 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     #endregion

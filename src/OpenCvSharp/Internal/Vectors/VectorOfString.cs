@@ -43,8 +43,7 @@ public class VectorOfString : CvObject, IStdVector<string?>
     {
         get
         {
-            var res = NativeMethods.vector_string_getSize(CvPtr);
-            GC.KeepAlive(this);
+            var res = NativeMethods.vector_string_getSize(Handle);
             return (int)res;
         }
     }
@@ -63,7 +62,7 @@ public class VectorOfString : CvObject, IStdVector<string?>
         var cStringPointers = new IntPtr[size];
         var stringLengths = new int[size];
 
-        NativeMethods.vector_string_getElements(CvPtr, cStringPointers, stringLengths);
+        NativeMethods.vector_string_getElements(Handle, cStringPointers, stringLengths);
 
         for (var i = 0; i < size; i++)
         {
@@ -75,6 +74,7 @@ public class VectorOfString : CvObject, IStdVector<string?>
 
         GC.KeepAlive(cStringPointers);
         GC.KeepAlive(stringLengths);
+        // cStringPointers alias native memory held by this vector and were just dereferenced above.
         GC.KeepAlive(this);
         return ret;
     }

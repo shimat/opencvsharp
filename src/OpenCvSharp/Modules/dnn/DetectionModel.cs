@@ -57,8 +57,7 @@ public class DetectionModel : Model
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_DetectionModel_setNmsAcrossClasses(CvPtr, value ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_DetectionModel_setNmsAcrossClasses(Handle, value ? 1 : 0));
     }
 
     /// <summary>
@@ -70,8 +69,7 @@ public class DetectionModel : Model
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_DetectionModel_getNmsAcrossClasses(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_DetectionModel_getNmsAcrossClasses(Handle, out var ret));
         return ret != 0;
     }
 
@@ -98,9 +96,8 @@ public class DetectionModel : Model
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_detect(
-                CvPtr, frame.CvPtr, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
+                Handle, frame.CvPtr, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
                 confThreshold, nmsThreshold));
-        GC.KeepAlive(this);
         GC.KeepAlive(frame);
 
         classIds = classIdsVec.ToArray();

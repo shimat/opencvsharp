@@ -69,9 +69,8 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         get
         {
-            var res = GetSize(CvPtr);
-            GC.KeepAlive(this);
-            return (int)res;
+            // GetSize passes the SafeHandle, which keeps this alive for the native call.
+            return (int)GetSize(Handle);
         }
     }
 
@@ -82,7 +81,8 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         get
         {
-            var res = GetPointer(CvPtr);
+            var res = GetPointer(Handle);
+            // Returns an interior pointer into this vector; keep it alive for the caller's dereference.
             GC.KeepAlive(this);
             return res;
         }
@@ -175,7 +175,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         throw new NotSupportedException($"std::vector<{typeof(T)}> cannot be constructed from data.");
     }
 
-    private static nuint GetSize(IntPtr ptr)
+    private static nuint GetSize(OpenCvSafeHandle ptr)
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_getSize(ptr);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_getSize(ptr);
@@ -199,7 +199,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         throw Unsupported();
     }
 
-    private static IntPtr GetPointer(IntPtr ptr)
+    private static IntPtr GetPointer(OpenCvSafeHandle ptr)
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_getPointer(ptr);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_getPointer(ptr);

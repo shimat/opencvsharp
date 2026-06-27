@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -20,19 +20,19 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setDownsamplingThreshold(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         double thresh
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setDetectorScales(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr sizes
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setGradientThreshold(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         double thresh
     );
 
@@ -41,7 +41,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_decodeWithType(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr inputImage,
         IntPtr points,
         IntPtr infos,
@@ -50,7 +50,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr inputImage,
         IntPtr points,
         IntPtr infos,

@@ -60,8 +60,7 @@ public class TextRecognitionModel : Model
             throw new ArgumentNullException(nameof(decodeType));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_setDecodeType(CvPtr, decodeType));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_setDecodeType(Handle, decodeType));
     }
 
     /// <summary>
@@ -73,8 +72,7 @@ public class TextRecognitionModel : Model
         ThrowIfDisposed();
         using var result = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_getDecodeType(CvPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_getDecodeType(Handle, result.CvPtr));
         return result.ToString();
     }
 
@@ -88,8 +86,7 @@ public class TextRecognitionModel : Model
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_setDecodeOptsCTCPrefixBeamSearch(CvPtr, beamSize, vocPruneSize));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_setDecodeOptsCTCPrefixBeamSearch(Handle, beamSize, vocPruneSize));
     }
 
     /// <summary>
@@ -104,8 +101,7 @@ public class TextRecognitionModel : Model
 
         var vocabularyArray = vocabulary as string[] ?? vocabulary.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_setVocabulary(CvPtr, vocabularyArray, vocabularyArray.Length));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_setVocabulary(Handle, vocabularyArray, vocabularyArray.Length));
     }
 
     /// <summary>
@@ -117,8 +113,7 @@ public class TextRecognitionModel : Model
         ThrowIfDisposed();
         using var resultVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_getVocabulary(CvPtr, resultVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_getVocabulary(Handle, resultVec.CvPtr));
         return resultVec.ToArray();
     }
 
@@ -136,8 +131,7 @@ public class TextRecognitionModel : Model
 
         using var result = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_recognize(CvPtr, frame.CvPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextRecognitionModel_recognize(Handle, frame.CvPtr, result.CvPtr));
         GC.KeepAlive(frame);
         return result.ToString();
     }

@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -61,7 +61,7 @@ public abstract class FeaturesMatcher : CvObject
         var h = new Mat();
         NativeMethods.HandleException(
             NativeMethods.stitching_FeaturesMatcher_apply(
-                CvPtr,
+                Handle,
                 ref features1Cpp,
                 ref features2Cpp,
                 out var srcImgIdx, 
@@ -72,7 +72,6 @@ public abstract class FeaturesMatcher : CvObject
                 h.CvPtr,
                 out var confidence));
 
-        GC.KeepAlive(this);
 
         return new MatchesInfo(
             srcImgIdx, dstImgIdx, matchesVec.ToArray(), inliersMaskVec.ToArray(), 
@@ -125,7 +124,7 @@ public abstract class FeaturesMatcher : CvObject
             using var confidenceVecs = new StdVector<double>();
             NativeMethods.HandleException(
                 NativeMethods.stitching_FeaturesMatcher_apply2(
-                    CvPtr, 
+                    Handle, 
                     wImageFeatures, wImageFeatures.Length,
                     mask?.CvPtr ?? IntPtr.Zero,
                     srcImgIndexVecs.CvPtr,
@@ -164,7 +163,6 @@ public abstract class FeaturesMatcher : CvObject
             {
                 vec?.Dispose();
             }
-            GC.KeepAlive(this);
         }
     }
         
@@ -176,8 +174,7 @@ public abstract class FeaturesMatcher : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.stitching_FeaturesMatcher_isThreadSafe(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.stitching_FeaturesMatcher_isThreadSafe(Handle, out var ret));
         return ret != 0;
     }
         
@@ -188,7 +185,6 @@ public abstract class FeaturesMatcher : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.stitching_FeaturesMatcher_collectGarbage(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.stitching_FeaturesMatcher_collectGarbage(Handle));
     }
 }

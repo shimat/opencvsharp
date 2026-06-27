@@ -30,8 +30,7 @@ public class VectorOfVectorPoint2f : CvObject, IStdVector<Point2f[]>
     /// </summary>
     public int GetSize1()
     {
-        var res = NativeMethods.vector_vector_Point2f_getSize1(CvPtr);
-        GC.KeepAlive(this);
+        var res = NativeMethods.vector_vector_Point2f_getSize1(Handle);
         return (int)res;
     }
 
@@ -47,8 +46,7 @@ public class VectorOfVectorPoint2f : CvObject, IStdVector<Point2f[]>
     {
         var size1 = GetSize1();
         var size2 = new nuint[size1];
-        NativeMethods.vector_vector_Point2f_getSize2(CvPtr, size2);
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_Point2f_getSize2(Handle, size2);
         return size2.Select(s => (long)s).ToArray();
     }
 
@@ -70,8 +68,7 @@ public class VectorOfVectorPoint2f : CvObject, IStdVector<Point2f[]>
         }
 
         using var retPtr = new ArrayAddress2<Point2f>(ret);
-        NativeMethods.vector_vector_Point2f_copy(CvPtr, retPtr.GetPointer());
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_Point2f_copy(Handle, retPtr.GetPointer());
         return ret;
     }
 }

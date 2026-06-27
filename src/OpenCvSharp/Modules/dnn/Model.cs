@@ -79,8 +79,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setInputSize(CvPtr, size));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setInputSize(Handle, size));
     }
 
     /// <summary>
@@ -98,8 +97,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setInputMean(CvPtr, mean));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setInputMean(Handle, mean));
     }
 
     /// <summary>
@@ -110,8 +108,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setInputScale(CvPtr, scale));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setInputScale(Handle, scale));
     }
 
     /// <summary>
@@ -122,8 +119,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setInputCrop(CvPtr, crop ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setInputCrop(Handle, crop ? 1 : 0));
     }
 
     /// <summary>
@@ -134,8 +130,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setInputSwapRB(CvPtr, swapRB ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setInputSwapRB(Handle, swapRB ? 1 : 0));
     }
 
     /// <summary>
@@ -150,8 +145,7 @@ public class Model : CvObject
 
         var outNamesArray = outNames as string[] ?? outNames.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setOutputNames(CvPtr, outNamesArray, outNamesArray.Length));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setOutputNames(Handle, outNamesArray, outNamesArray.Length));
     }
 
     /// <summary>
@@ -167,8 +161,7 @@ public class Model : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_Model_setInputParams(
-                CvPtr, scale, size ?? new Size(), mean ?? new Scalar(), swapRB ? 1 : 0, crop ? 1 : 0));
-        GC.KeepAlive(this);
+                Handle, scale, size ?? new Size(), mean ?? new Scalar(), swapRB ? 1 : 0, crop ? 1 : 0));
     }
 
     /// <summary>
@@ -185,8 +178,7 @@ public class Model : CvObject
 
         using var outsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_predict(CvPtr, frame.CvPtr, outsVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_predict(Handle, frame.CvPtr, outsVec.CvPtr));
         GC.KeepAlive(frame);
         return outsVec.ToArray();
     }
@@ -199,8 +191,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setPreferableBackend(CvPtr, (int)backendId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setPreferableBackend(Handle, (int)backendId));
     }
 
     /// <summary>
@@ -211,8 +202,7 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_setPreferableTarget(CvPtr, (int)targetId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_setPreferableTarget(Handle, (int)targetId));
     }
 
     /// <summary>
@@ -223,7 +213,6 @@ public class Model : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_enableWinograd(CvPtr, useWinograd ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Model_enableWinograd(Handle, useWinograd ? 1 : 0));
     }
 }

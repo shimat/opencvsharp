@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -37,8 +37,7 @@ public class BarcodeDetector : CvObject
     public void SetDownsamplingThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(CvPtr, thresh));
-        GC.KeepAlive(this);
+            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(Handle, thresh));
     }
 
     /// <summary>
@@ -52,8 +51,7 @@ public class BarcodeDetector : CvObject
     public void SetGradientThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(CvPtr, thresh));
-        GC.KeepAlive(this);
+            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(Handle, thresh));
     }
 
     /// <summary>
@@ -70,8 +68,7 @@ public class BarcodeDetector : CvObject
             throw new ArgumentNullException(nameof(sizes));
         using var sizesVec = new StdVector<float>(sizes);
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDetectorScales(CvPtr, sizesVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.barcode_BarcodeDetector_setDetectorScales(Handle, sizesVec.CvPtr));
     }
 
     /// <summary>
@@ -93,12 +90,11 @@ public class BarcodeDetector : CvObject
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_detectAndDecodeWithType(
-                CvPtr, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
+                Handle, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
 
         points = pointsVec.ToArray();
         results = infos.ToArray();
         types = resultTypes.ToArray();
-        GC.KeepAlive(this);
         GC.KeepAlive(inputImage);
     }
 

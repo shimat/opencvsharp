@@ -22,119 +22,119 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string xml, [MarshalAs(UnmanagedType.LPStr)] string bin, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_empty(IntPtr net, out int returnValue);
+    public static partial ExceptionStatus dnn_Net_empty(OpenCvSafeHandle net, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_dump(IntPtr net, IntPtr outString);
+    public static partial ExceptionStatus dnn_Net_dump(OpenCvSafeHandle net, IntPtr outString);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_dumpToFile(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string path);
+    public static partial ExceptionStatus dnn_Net_dumpToFile(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string path);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getLayerId(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string layer, out int returnValue);
+    public static partial ExceptionStatus dnn_Net_getLayerId(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string layer, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getLayerNames(IntPtr net, IntPtr outVec);
+    public static partial ExceptionStatus dnn_Net_getLayerNames(OpenCvSafeHandle net, IntPtr outVec);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_connect1(
-        IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string outPin, [MarshalAs(UnmanagedType.LPStr)] string inpPin);
+        OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string outPin, [MarshalAs(UnmanagedType.LPStr)] string inpPin);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_connect2(IntPtr net, int outLayerId, int outNum, int inpLayerId, int inpNum);
+    public static partial ExceptionStatus dnn_Net_connect2(OpenCvSafeHandle net, int outLayerId, int outNum, int inpLayerId, int inpNum);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setInputsNames(IntPtr net, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] inputBlobNames, int inputBlobNamesLength);
+    public static partial ExceptionStatus dnn_Net_setInputsNames(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] inputBlobNames, int inputBlobNamesLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_forward1(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string? outputName, out IntPtr returnValue);
+    public static partial ExceptionStatus dnn_Net_forward1(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string? outputName, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_forward2(
-        IntPtr net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPStr)] string? outputName);
+        OpenCvSafeHandle net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPStr)] string? outputName);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_forward3(
-        IntPtr net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] outBlobNames, int outBlobNamesLength);
+        OpenCvSafeHandle net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] outBlobNames, int outBlobNamesLength);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setPreferableBackend(IntPtr net, int backendId);
+    public static partial ExceptionStatus dnn_Net_setPreferableBackend(OpenCvSafeHandle net, int backendId);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setPreferableTarget(IntPtr net, int targetId);
+    public static partial ExceptionStatus dnn_Net_setPreferableTarget(OpenCvSafeHandle net, int targetId);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setInput(IntPtr net, IntPtr blob, [MarshalAs(UnmanagedType.LPStr)] string name);
+    public static partial ExceptionStatus dnn_Net_setInput(OpenCvSafeHandle net, IntPtr blob, [MarshalAs(UnmanagedType.LPStr)] string name);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getUnconnectedOutLayers(IntPtr net, IntPtr result);
+    public static partial ExceptionStatus dnn_Net_getUnconnectedOutLayers(OpenCvSafeHandle net, IntPtr result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getUnconnectedOutLayersNames(IntPtr net, IntPtr result);
+    public static partial ExceptionStatus dnn_Net_getUnconnectedOutLayersNames(OpenCvSafeHandle net, IntPtr result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_enableFusion(IntPtr net, int fusion);
+    public static partial ExceptionStatus dnn_Net_enableFusion(OpenCvSafeHandle net, int fusion);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getPerfProfile(IntPtr net, IntPtr timings, out long returnValue);
+    public static partial ExceptionStatus dnn_Net_getPerfProfile(OpenCvSafeHandle net, IntPtr timings, out long returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_setInputShape(
-        IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string inputName, int[] shape, int shapeLength);
+        OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string inputName, int[] shape, int shapeLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getParam(IntPtr net, int layer, int numParam, out IntPtr returnValue);
+    public static partial ExceptionStatus dnn_Net_getParam(OpenCvSafeHandle net, int layer, int numParam, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setParam(IntPtr net, int layer, int numParam, IntPtr blob);
+    public static partial ExceptionStatus dnn_Net_setParam(OpenCvSafeHandle net, int layer, int numParam, IntPtr blob);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getLayerTypes(IntPtr net, IntPtr outVec);
+    public static partial ExceptionStatus dnn_Net_getLayerTypes(OpenCvSafeHandle net, IntPtr outVec);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_getLayersCount(
-        IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string layerType, out int returnValue);
+        OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string layerType, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_enableWinograd(IntPtr net, int useWinograd);
+    public static partial ExceptionStatus dnn_Net_enableWinograd(OpenCvSafeHandle net, int useWinograd);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_dumpToPbtxt(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string path);
+    public static partial ExceptionStatus dnn_Net_dumpToPbtxt(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string path);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getModelFormat(IntPtr net, out int returnValue);
+    public static partial ExceptionStatus dnn_Net_getModelFormat(OpenCvSafeHandle net, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_enableKVCache(IntPtr net);
+    public static partial ExceptionStatus dnn_Net_enableKVCache(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_disableKVCache(IntPtr net);
+    public static partial ExceptionStatus dnn_Net_disableKVCache(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_resetKVCache(IntPtr net);
+    public static partial ExceptionStatus dnn_Net_resetKVCache(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_printPerfProfile(IntPtr net);
+    public static partial ExceptionStatus dnn_Net_printPerfProfile(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_finalizeNet(IntPtr net);
+    public static partial ExceptionStatus dnn_Net_finalizeNet(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setTracingMode(IntPtr net, int tracingMode);
+    public static partial ExceptionStatus dnn_Net_setTracingMode(OpenCvSafeHandle net, int tracingMode);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getTracingMode(IntPtr net, out int returnValue);
+    public static partial ExceptionStatus dnn_Net_getTracingMode(OpenCvSafeHandle net, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_setProfilingMode(IntPtr net, int profilingMode);
+    public static partial ExceptionStatus dnn_Net_setProfilingMode(OpenCvSafeHandle net, int profilingMode);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getProfilingMode(IntPtr net, out int returnValue);
+    public static partial ExceptionStatus dnn_Net_getProfilingMode(OpenCvSafeHandle net, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_registerOutput(
-        IntPtr net, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputName, int layerId, int outputPort, out int returnValue);
+        OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputName, int layerId, int outputPort, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Net_getPerfProfileDetailed(IntPtr net, IntPtr names, IntPtr timems, IntPtr counts);
+    public static partial ExceptionStatus dnn_Net_getPerfProfileDetailed(OpenCvSafeHandle net, IntPtr names, IntPtr timems, IntPtr counts);
 }

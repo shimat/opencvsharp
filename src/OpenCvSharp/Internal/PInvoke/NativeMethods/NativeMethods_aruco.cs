@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Aruco;
 
@@ -48,11 +48,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_ArucoDetector_detectMarkers(
-        IntPtr detector, IntPtr image, IntPtr corners, IntPtr ids, IntPtr rejectedImgPoints);
+        OpenCvSafeHandle detector, IntPtr image, IntPtr corners, IntPtr ids, IntPtr rejectedImgPoints);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_ArucoDetector_refineDetectedMarkers(
-        IntPtr detector, IntPtr image, IntPtr board,
+        OpenCvSafeHandle detector, IntPtr image, IntPtr board,
         IntPtr detectedCorners, IntPtr detectedIds, IntPtr rejectedCorners,
         IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr recoveredIdxs);
 
@@ -68,27 +68,27 @@ static partial class NativeMethods
     public static partial ExceptionStatus aruco_CharucoBoard_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_CharucoBoard_getChessboardSize(IntPtr ptr, out Size returnValue);
+    public static partial ExceptionStatus aruco_CharucoBoard_getChessboardSize(OpenCvSafeHandle ptr, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_CharucoBoard_getSquareLength(IntPtr ptr, out float returnValue);
+    public static partial ExceptionStatus aruco_CharucoBoard_getSquareLength(OpenCvSafeHandle ptr, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_CharucoBoard_getMarkerLength(IntPtr ptr, out float returnValue);
+    public static partial ExceptionStatus aruco_CharucoBoard_getMarkerLength(OpenCvSafeHandle ptr, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_CharucoBoard_setLegacyPattern(IntPtr ptr, int value);
+    public static partial ExceptionStatus aruco_CharucoBoard_setLegacyPattern(OpenCvSafeHandle ptr, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_CharucoBoard_getLegacyPattern(IntPtr ptr, out int returnValue);
+    public static partial ExceptionStatus aruco_CharucoBoard_getLegacyPattern(OpenCvSafeHandle ptr, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_CharucoBoard_generateImage(
-        IntPtr ptr, Size outSize, IntPtr img, int marginSize, int borderBits);
+        OpenCvSafeHandle ptr, Size outSize, IntPtr img, int marginSize, int borderBits);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_CharucoBoard_checkCharucoCornersCollinear(
-        IntPtr ptr, IntPtr charucoIds, out int returnValue);
+        OpenCvSafeHandle ptr, IntPtr charucoIds, out int returnValue);
 
     #endregion
 
@@ -108,13 +108,13 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_CharucoDetector_detectBoard(
-        IntPtr detector, IntPtr image,
+        OpenCvSafeHandle detector, IntPtr image,
         IntPtr charucoCorners, IntPtr charucoIds,
         IntPtr markerCorners, IntPtr markerIds);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_CharucoDetector_detectDiamonds(
-        IntPtr detector, IntPtr image,
+        OpenCvSafeHandle detector, IntPtr image,
         IntPtr diamondCorners, IntPtr diamondIds,
         IntPtr markerCorners, IntPtr markerIds);
 
@@ -126,23 +126,23 @@ static partial class NativeMethods
     public static partial ExceptionStatus aruco_Dictionary_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_Dictionary_setMarkerSize(IntPtr obj, int value);
+    public static partial ExceptionStatus aruco_Dictionary_setMarkerSize(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_Dictionary_setMaxCorrectionBits(IntPtr obj, int value);
+    public static partial ExceptionStatus aruco_Dictionary_setMaxCorrectionBits(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_Dictionary_getBytesList(IntPtr obj, out IntPtr returnValue);
+    public static partial ExceptionStatus aruco_Dictionary_getBytesList(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_Dictionary_getMarkerSize(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus aruco_Dictionary_getMarkerSize(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus aruco_Dictionary_getMaxCorrectionBits(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus aruco_Dictionary_getMaxCorrectionBits(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_Dictionary_identify(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr onlyBits,
         out int idx,
         out int rotation,
@@ -151,7 +151,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_Dictionary_getDistanceToId(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr bits,
         int id,
         int allRotations,
@@ -159,7 +159,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus aruco_Dictionary_generateImageMarker(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         int id,
         int sidePixels,
         IntPtr img,

@@ -47,8 +47,7 @@ public class Tokenizer : CvObject
 
         using var vec = new StdVector<int>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Tokenizer_encode(CvPtr, text, vec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Tokenizer_encode(Handle, text, vec.CvPtr));
         return vec.ToArray();
     }
 
@@ -65,8 +64,7 @@ public class Tokenizer : CvObject
 
         using var stdString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Tokenizer_decode(CvPtr, tokens, tokens.Length, stdString.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Tokenizer_decode(Handle, tokens, tokens.Length, stdString.CvPtr));
         return stdString.ToString();
     }
 }

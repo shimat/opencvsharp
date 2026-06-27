@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -55,8 +55,7 @@ public class FontFace : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_FontFace_set(CvPtr, fontPathOrName, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.imgproc_FontFace_set(Handle, fontPathOrName, out var ret));
         return ret != 0;
     }
 
@@ -70,8 +69,7 @@ public class FontFace : CvObject
             ThrowIfDisposed();
             using var stdString = new StdString();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_FontFace_getName(CvPtr, stdString.CvPtr));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_FontFace_getName(Handle, stdString.CvPtr));
             return stdString.ToString();
         }
     }
@@ -89,8 +87,7 @@ public class FontFace : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_FontFace_setInstance(CvPtr, @params, @params.Length, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.imgproc_FontFace_setInstance(Handle, @params, @params.Length, out var ret));
         return ret != 0;
     }
 
@@ -105,8 +102,7 @@ public class FontFace : CvObject
 
         using var vec = new StdVector<int>();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_FontFace_getInstance(CvPtr, vec.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.imgproc_FontFace_getInstance(Handle, vec.CvPtr, out var ret));
         @params = vec.ToArray();
         return ret != 0;
     }

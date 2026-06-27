@@ -30,8 +30,8 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Tokenizer_encode(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, IntPtr returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Tokenizer_decode(IntPtr obj, int[] tokens, int tokensLength, IntPtr returnValue);
+    public static partial ExceptionStatus dnn_Tokenizer_decode(OpenCvSafeHandle obj, int[] tokens, int tokensLength, IntPtr returnValue);
 }

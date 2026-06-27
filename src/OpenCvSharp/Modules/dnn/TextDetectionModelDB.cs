@@ -51,8 +51,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_setBinaryThreshold(CvPtr, binaryThreshold));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_setBinaryThreshold(Handle, binaryThreshold));
     }
 
     /// <summary>
@@ -63,8 +62,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_getBinaryThreshold(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_getBinaryThreshold(Handle, out var ret));
         return ret;
     }
 
@@ -76,8 +74,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_setPolygonThreshold(CvPtr, polygonThreshold));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_setPolygonThreshold(Handle, polygonThreshold));
     }
 
     /// <summary>
@@ -88,8 +85,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_getPolygonThreshold(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_getPolygonThreshold(Handle, out var ret));
         return ret;
     }
 
@@ -101,8 +97,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_setUnclipRatio(CvPtr, unclipRatio));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_setUnclipRatio(Handle, unclipRatio));
     }
 
     /// <summary>
@@ -113,8 +108,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_getUnclipRatio(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_getUnclipRatio(Handle, out var ret));
         return ret;
     }
 
@@ -126,8 +120,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_setMaxCandidates(CvPtr, maxCandidates));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_setMaxCandidates(Handle, maxCandidates));
     }
 
     /// <summary>
@@ -138,8 +131,7 @@ public class TextDetectionModelDB : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_DB_getMaxCandidates(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_DB_getMaxCandidates(Handle, out var ret));
         return ret;
     }
 }

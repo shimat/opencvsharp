@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Flann;
 
@@ -21,26 +21,26 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_knnSearch1(
-        IntPtr obj, [In] float[] queries, int queriesLength, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
+        OpenCvSafeHandle obj, [In] float[] queries, int queriesLength, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_knnSearch2(
-        IntPtr obj, IntPtr queries, IntPtr indices, IntPtr dists, int knn, IntPtr @params);
+        OpenCvSafeHandle obj, IntPtr queries, IntPtr indices, IntPtr dists, int knn, IntPtr @params);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_knnSearch3(
-        IntPtr obj, IntPtr queries, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
+        OpenCvSafeHandle obj, IntPtr queries, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_radiusSearch1(
-        IntPtr obj, [In] float[] queries, int queriesLength, [Out] int[] indices, int indicesLength, [Out] float[] dists, int distsLength, double radius, int maxResults, IntPtr @params);
+        OpenCvSafeHandle obj, [In] float[] queries, int queriesLength, [Out] int[] indices, int indicesLength, [Out] float[] dists, int distsLength, double radius, int maxResults, IntPtr @params);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_radiusSearch2(
-        IntPtr obj, IntPtr queries, IntPtr indices, IntPtr dists, double radius, int maxResults, IntPtr @params);
+        OpenCvSafeHandle obj, IntPtr queries, IntPtr indices, IntPtr dists, double radius, int maxResults, IntPtr @params);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_radiusSearch3(
-        IntPtr obj, IntPtr queries, [Out] int[] indices, int indicesLength, [Out] float[] dists, int distsLength, double radius, int maxResults, IntPtr @params);
+        OpenCvSafeHandle obj, IntPtr queries, [Out] int[] indices, int indicesLength, [Out] float[] dists, int distsLength, double radius, int maxResults, IntPtr @params);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_Index_save(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
+    public static partial ExceptionStatus flann_Index_save(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
     #endregion
 
@@ -56,26 +56,26 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_IndexParams_getString(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string? defaultVal, IntPtr returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string? defaultVal, IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_IndexParams_getInt(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, int defaultVal, out int returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, int defaultVal, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_IndexParams_getDouble(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, double defaultVal, out double returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, double defaultVal, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setString(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
+    public static partial ExceptionStatus flann_IndexParams_setString(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setInt(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, int value);
+    public static partial ExceptionStatus flann_IndexParams_setInt(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setDouble(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, double value);
+    public static partial ExceptionStatus flann_IndexParams_setDouble(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, double value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setFloat(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, float value);
+    public static partial ExceptionStatus flann_IndexParams_setFloat(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, float value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setBool(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string key, int value);
+    public static partial ExceptionStatus flann_IndexParams_setBool(OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string key, int value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_IndexParams_setAlgorithm(IntPtr obj, int value);
+    public static partial ExceptionStatus flann_IndexParams_setAlgorithm(OpenCvSafeHandle obj, int value);
 
     #endregion
 

@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -37,7 +37,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run1(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr image,
         IntPtr outputText,
         IntPtr componentRects,
@@ -47,7 +47,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run2(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr image,
         IntPtr mask,
         IntPtr outputText,
@@ -59,7 +59,7 @@ static partial class NativeMethods
     /*
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run3(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr image,
         int minConfidence,
         int componentLevel,
@@ -67,7 +67,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_run4(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr image,
         IntPtr mask,
         int minConfidence,
@@ -76,7 +76,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_OCRTesseract_setWhiteList(
-        IntPtr obj, 
+        OpenCvSafeHandle obj, 
         [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

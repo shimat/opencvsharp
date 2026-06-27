@@ -29,24 +29,24 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextRecognitionModel_setDecodeType(
-        IntPtr model, [MarshalAs(UnmanagedType.LPStr)] string decodeType);
+        OpenCvSafeHandle model, [MarshalAs(UnmanagedType.LPStr)] string decodeType);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_getDecodeType(IntPtr model, IntPtr outString);
+    public static partial ExceptionStatus dnn_TextRecognitionModel_getDecodeType(OpenCvSafeHandle model, IntPtr outString);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextRecognitionModel_setDecodeOptsCTCPrefixBeamSearch(
-        IntPtr model, int beamSize, int vocPruneSize);
+        OpenCvSafeHandle model, int beamSize, int vocPruneSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextRecognitionModel_setVocabulary(
-        IntPtr model, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vocabulary, int vocabularyLength);
+        OpenCvSafeHandle model, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vocabulary, int vocabularyLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_getVocabulary(IntPtr model, IntPtr outVec);
+    public static partial ExceptionStatus dnn_TextRecognitionModel_getVocabulary(OpenCvSafeHandle model, IntPtr outVec);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_recognize(IntPtr model, IntPtr frame, IntPtr outString);
+    public static partial ExceptionStatus dnn_TextRecognitionModel_recognize(OpenCvSafeHandle model, IntPtr frame, IntPtr outString);
 
     // ------------------------------------------------------------------------
     // TextDetectionModel (base; shared by EAST and DB)
@@ -54,11 +54,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextDetectionModel_detect(
-        IntPtr model, IntPtr frame, IntPtr detections, IntPtr confidences);
+        OpenCvSafeHandle model, IntPtr frame, IntPtr detections, IntPtr confidences);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_TextDetectionModel_detectTextRectangles(
-        IntPtr model, IntPtr frame, IntPtr detections, IntPtr confidences);
+        OpenCvSafeHandle model, IntPtr frame, IntPtr detections, IntPtr confidences);
 
     // ------------------------------------------------------------------------
     // TextDetectionModel_EAST
@@ -77,16 +77,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_TextDetectionModel_EAST_delete(IntPtr model);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_setConfidenceThreshold(IntPtr model, float confThreshold);
+    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_setConfidenceThreshold(OpenCvSafeHandle model, float confThreshold);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_getConfidenceThreshold(IntPtr model, out float returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_getConfidenceThreshold(OpenCvSafeHandle model, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_setNMSThreshold(IntPtr model, float nmsThreshold);
+    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_setNMSThreshold(OpenCvSafeHandle model, float nmsThreshold);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_getNMSThreshold(IntPtr model, out float returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_EAST_getNMSThreshold(OpenCvSafeHandle model, out float returnValue);
 
     // ------------------------------------------------------------------------
     // TextDetectionModel_DB
@@ -105,26 +105,26 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_TextDetectionModel_DB_delete(IntPtr model);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setBinaryThreshold(IntPtr model, float binaryThreshold);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setBinaryThreshold(OpenCvSafeHandle model, float binaryThreshold);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getBinaryThreshold(IntPtr model, out float returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getBinaryThreshold(OpenCvSafeHandle model, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setPolygonThreshold(IntPtr model, float polygonThreshold);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setPolygonThreshold(OpenCvSafeHandle model, float polygonThreshold);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getPolygonThreshold(IntPtr model, out float returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getPolygonThreshold(OpenCvSafeHandle model, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setUnclipRatio(IntPtr model, double unclipRatio);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setUnclipRatio(OpenCvSafeHandle model, double unclipRatio);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getUnclipRatio(IntPtr model, out double returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getUnclipRatio(OpenCvSafeHandle model, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setMaxCandidates(IntPtr model, int maxCandidates);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_setMaxCandidates(OpenCvSafeHandle model, int maxCandidates);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getMaxCandidates(IntPtr model, out int returnValue);
+    public static partial ExceptionStatus dnn_TextDetectionModel_DB_getMaxCandidates(OpenCvSafeHandle model, out int returnValue);
 }

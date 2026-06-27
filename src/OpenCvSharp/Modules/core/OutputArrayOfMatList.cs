@@ -39,8 +39,9 @@ public sealed class OutputArrayOfMatList : OutputArray
             
         using var vectorOfMat = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_getVectorOfMat(CvPtr, vectorOfMat.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_OutputArray_getVectorOfMat(Handle, vectorOfMat.CvPtr));
+        // getVectorOfMat copies into vectorOfMat; nothing dereferences this afterwards,
+        // and the Handle keeps it alive for the call's duration.
         list.Clear();
         list.AddRange(vectorOfMat.ToArray());
     }

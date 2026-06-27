@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Aruco;
 
@@ -43,8 +43,7 @@ public class CharucoBoard : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_CharucoBoard_getChessboardSize(CvPtr, out var size));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_CharucoBoard_getChessboardSize(Handle, out var size));
             return size;
         }
     }
@@ -58,8 +57,7 @@ public class CharucoBoard : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_CharucoBoard_getSquareLength(CvPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_CharucoBoard_getSquareLength(Handle, out var val));
             return val;
         }
     }
@@ -73,8 +71,7 @@ public class CharucoBoard : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_CharucoBoard_getMarkerLength(CvPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_CharucoBoard_getMarkerLength(Handle, out var val));
             return val;
         }
     }
@@ -88,16 +85,14 @@ public class CharucoBoard : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_CharucoBoard_getLegacyPattern(CvPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_CharucoBoard_getLegacyPattern(Handle, out var val));
             return val != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_CharucoBoard_setLegacyPattern(CvPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_CharucoBoard_setLegacyPattern(Handle, value ? 1 : 0));
         }
     }
 
@@ -112,9 +107,8 @@ public class CharucoBoard : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_CharucoBoard_generateImage(CvPtr, outSize, img.CvPtr, marginSize, borderBits));
+            NativeMethods.aruco_CharucoBoard_generateImage(Handle, outSize, img.CvPtr, marginSize, borderBits));
         img.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -128,8 +122,7 @@ public class CharucoBoard : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_CharucoBoard_checkCharucoCornersCollinear(CvPtr, charucoIds.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.aruco_CharucoBoard_checkCharucoCornersCollinear(Handle, charucoIds.CvPtr, out var ret));
         GC.KeepAlive(charucoIds);
         return ret != 0;
     }

@@ -16,75 +16,75 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_VolumeSettings_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setIntegrateWidth(IntPtr obj, int val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setIntegrateWidth(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getIntegrateWidth(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getIntegrateWidth(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setIntegrateHeight(IntPtr obj, int val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setIntegrateHeight(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getIntegrateHeight(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getIntegrateHeight(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastWidth(IntPtr obj, int val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastWidth(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastWidth(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastWidth(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastHeight(IntPtr obj, int val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastHeight(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastHeight(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastHeight(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setDepthFactor(IntPtr obj, float val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setDepthFactor(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getDepthFactor(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getDepthFactor(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setVoxelSize(IntPtr obj, float val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setVoxelSize(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVoxelSize(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getVoxelSize(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setTsdfTruncateDistance(IntPtr obj, float val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setTsdfTruncateDistance(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getTsdfTruncateDistance(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getTsdfTruncateDistance(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setMaxDepth(IntPtr obj, float val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setMaxDepth(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getMaxDepth(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getMaxDepth(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setMaxWeight(IntPtr obj, int val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setMaxWeight(OpenCvSafeHandle obj, int val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getMaxWeight(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getMaxWeight(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastStepFactor(IntPtr obj, float val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setRaycastStepFactor(OpenCvSafeHandle obj, float val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastStepFactor(IntPtr obj, out float returnValue);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastStepFactor(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumePose(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumePose(OpenCvSafeHandle obj, IntPtr val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumePose(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumePose(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumeResolution(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumeResolution(OpenCvSafeHandle obj, IntPtr val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeResolution(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeResolution(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeStrides(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeStrides(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(OpenCvSafeHandle obj, IntPtr val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(OpenCvSafeHandle obj, IntPtr val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraRaycastIntrinsics(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraRaycastIntrinsics(OpenCvSafeHandle obj, IntPtr val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraRaycastIntrinsics(IntPtr obj, IntPtr val);
+    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraRaycastIntrinsics(OpenCvSafeHandle obj, IntPtr val);
 }
