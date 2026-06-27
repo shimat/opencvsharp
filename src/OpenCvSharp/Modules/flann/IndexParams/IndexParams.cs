@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann;
 
@@ -42,8 +42,7 @@ public class IndexParams : CvObject
     {
         using var result = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_getString(CvPtr, key, defaultVal, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_getString(Handle, key, defaultVal, result.CvPtr));
         return result.ToString();
     }
 
@@ -56,8 +55,7 @@ public class IndexParams : CvObject
     public int GetInt(string key, int defaultVal = -1)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_getInt(CvPtr, key, defaultVal, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_getInt(Handle, key, defaultVal, out var ret));
         return ret;
     }
 
@@ -70,8 +68,7 @@ public class IndexParams : CvObject
     public double GetDouble(string key, double defaultVal = -1)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_getDouble(CvPtr, key, defaultVal, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_getDouble(Handle, key, defaultVal, out var ret));
         return ret;
     }
 
@@ -85,8 +82,7 @@ public class IndexParams : CvObject
     public void SetString(string key, string value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setString(CvPtr, key, value));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setString(Handle, key, value));
     }
     /// <summary>
     /// 
@@ -96,8 +92,7 @@ public class IndexParams : CvObject
     public void SetInt(string key, int value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setInt(CvPtr, key, value));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setInt(Handle, key, value));
     }
     /// <summary>
     /// 
@@ -107,8 +102,7 @@ public class IndexParams : CvObject
     public void SetDouble(string key, double value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setDouble(CvPtr, key, value));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setDouble(Handle, key, value));
     }
     /// <summary>
     /// 
@@ -118,8 +112,7 @@ public class IndexParams : CvObject
     public void SetFloat(string key, float value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setFloat(CvPtr, key, value));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setFloat(Handle, key, value));
     }
     /// <summary>
     /// 
@@ -129,8 +122,7 @@ public class IndexParams : CvObject
     public void SetBool(string key, bool value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setBool(CvPtr, key, value ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setBool(Handle, key, value ? 1 : 0));
     }
     /// <summary>
     /// 
@@ -139,8 +131,7 @@ public class IndexParams : CvObject
     public void SetAlgorithm(int value)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_IndexParams_setAlgorithm(CvPtr, value));
-        GC.KeepAlive(this);
+            NativeMethods.flann_IndexParams_setAlgorithm(Handle, value));
     }
     #endregion
     #endregion

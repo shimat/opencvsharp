@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -12,11 +12,11 @@ static partial class NativeMethods
 {
     // ReSharper disable once IdentifierTypo
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus text_TextDetector_detect(IntPtr obj, IntPtr inputImage, IntPtr bbox, IntPtr confidence);
+    public static partial ExceptionStatus text_TextDetector_detect(OpenCvSafeHandle obj, IntPtr inputImage, IntPtr bbox, IntPtr confidence);
 
     // ReSharper disable once IdentifierTypo
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus text_TextDetectorCNN_detect(IntPtr obj, IntPtr inputImage, IntPtr bbox, IntPtr confidence);
+    public static partial ExceptionStatus text_TextDetectorCNN_detect(OpenCvSafeHandle obj, IntPtr inputImage, IntPtr bbox, IntPtr confidence);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus text_TextDetectorCNN_create1(
