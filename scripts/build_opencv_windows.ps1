@@ -1,4 +1,4 @@
-﻿# Build OpenCV from source for Windows x64 development.
+# Build OpenCV from source for Windows x64 development.
 # Output: opencv_artifacts/ (include/ + lib/ + bin/)
 #
 # Prerequisites:

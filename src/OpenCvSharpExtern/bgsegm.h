@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // OpenCV 5: kept available in every profile (including slim); see include_opencv.h.
 

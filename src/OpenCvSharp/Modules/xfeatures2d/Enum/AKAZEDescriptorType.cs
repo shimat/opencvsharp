@@ -1,4 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
+// ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 #pragma warning disable CA1008 // Enums should have zero value
 

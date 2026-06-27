@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.XPhoto;
+namespace OpenCvSharp.XPhoto;
 
 /// <summary>
 /// The base class for auto white balance algorithms.

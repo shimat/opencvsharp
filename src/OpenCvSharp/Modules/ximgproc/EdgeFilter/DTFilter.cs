@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;

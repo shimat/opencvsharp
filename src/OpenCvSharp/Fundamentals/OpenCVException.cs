@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// The default exception to be thrown by OpenCV 

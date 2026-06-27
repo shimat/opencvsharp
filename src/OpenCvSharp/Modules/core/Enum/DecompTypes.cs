@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1027 // Mark enums with FlagsAttribute
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
 
 namespace OpenCvSharp;
 

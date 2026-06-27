@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Contracts;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591

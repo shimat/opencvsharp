@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Method for solving a PnP problem:

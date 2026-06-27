@@ -1,4 +1,4 @@
-﻿# OpenCvSharp
+# OpenCvSharp
 
 A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image processing and computer vision functionality.
 

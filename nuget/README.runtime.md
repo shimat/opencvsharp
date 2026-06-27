@@ -1,4 +1,4 @@
-﻿# OpenCvSharp Native Runtime Package
+# OpenCvSharp Native Runtime Package
 
 This is an **internal implementation package** for [OpenCvSharp](https://github.com/shimat/opencvsharp). It provides the native OpenCV shared library (`OpenCvSharpExtern`) for a specific platform.
 

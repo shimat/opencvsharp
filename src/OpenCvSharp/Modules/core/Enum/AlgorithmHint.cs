@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Hint that selects between alternative algorithm implementations (OpenCV 5).

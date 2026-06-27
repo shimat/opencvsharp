@@ -1,4 +1,4 @@
-﻿// ReSharper disable CommentTypo
+// ReSharper disable CommentTypo
 // ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp;

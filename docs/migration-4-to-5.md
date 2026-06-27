@@ -1,4 +1,4 @@
-﻿# Migrating from OpenCvSharp4 to OpenCvSharp5
+# Migrating from OpenCvSharp4 to OpenCvSharp5
 
 OpenCvSharp5 wraps **OpenCV 5.x** and is published as a new package family
 (`OpenCvSharp5.*`) alongside the existing **OpenCvSharp4** family

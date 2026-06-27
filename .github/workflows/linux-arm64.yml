@@ -1,4 +1,4 @@
-﻿name: Linux ARM64
+name: Linux ARM64
 
 on:
   pull_request:

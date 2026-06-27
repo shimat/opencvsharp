@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Parameters for the OpenCV 5 <see cref="Cv2.Filter2D(InputArray, OutputArray, InputArray, Filter2DParams)"/> overload.

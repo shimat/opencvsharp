@@ -1,4 +1,4 @@
-﻿![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
+![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
 [![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Docker Test Status](https://github.com/shimat/opencvsharp/workflows/Docker%20Test/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions manylinux Status](https://github.com/shimat/opencvsharp/workflows/manylinux/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Wasm Status](https://github.com/shimat/opencvsharp/workflows/Wasm/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 

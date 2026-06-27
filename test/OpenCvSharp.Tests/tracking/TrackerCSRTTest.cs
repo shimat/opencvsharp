@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Tracking;
+using OpenCvSharp.Tracking;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Tracking;

@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// The operation flags for cvStereoRectify

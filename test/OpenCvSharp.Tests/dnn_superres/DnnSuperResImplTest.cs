@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.DnnSuperres;
+using OpenCvSharp.DnnSuperres;
 using Xunit;
 
 namespace OpenCvSharp.Tests.DnnSuperres;

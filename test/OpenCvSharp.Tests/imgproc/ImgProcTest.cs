@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Globalization;
 using OpenCvSharp.Internal.Vectors;
 using Xunit;

@@ -1,4 +1,4 @@
-﻿# CMake initial cache for OpenCV slim build (Ubuntu only).
+# CMake initial cache for OpenCV slim build (Ubuntu only).
 # Used via: cmake -C cmake/opencv_build_options_slim.cmake -S opencv ...
 # Platform-specific settings (CMAKE_INSTALL_PREFIX) are passed directly by the workflow.
 

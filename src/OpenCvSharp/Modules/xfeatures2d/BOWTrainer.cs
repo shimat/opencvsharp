@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.XFeatures2D;

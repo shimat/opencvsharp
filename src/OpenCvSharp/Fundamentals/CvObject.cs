@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA2216
+#pragma warning disable CA2216
 #pragma warning disable CA1805 // Do not initialize unnecessarily.
 
 namespace OpenCvSharp;

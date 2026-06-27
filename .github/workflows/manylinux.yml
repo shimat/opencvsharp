@@ -1,4 +1,4 @@
-﻿name: manylinux
+name: manylinux
 
 on:
   pull_request:

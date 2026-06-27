@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Dnn;
+using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;

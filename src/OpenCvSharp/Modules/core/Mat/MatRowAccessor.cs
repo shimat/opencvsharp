@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Provides zero-allocation, zero-P/Invoke-per-element row access to a 2D <see cref="Mat"/>.

@@ -1,2 +1,2 @@
-﻿// ReSharper disable CppUnusedIncludeDirective
+// ReSharper disable CppUnusedIncludeDirective
 #include "geometry.h"

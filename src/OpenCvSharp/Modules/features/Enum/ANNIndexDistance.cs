@@ -1,4 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace OpenCvSharp;
 
 // ReSharper disable once InconsistentNaming

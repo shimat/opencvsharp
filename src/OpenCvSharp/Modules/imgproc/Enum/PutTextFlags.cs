@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Flags for the FontFace-based <see cref="Cv2.PutText(InputOutputArray, string, Point, Scalar, FontFace, int, int, PutTextFlags, OpenCvSharp.Range?)"/>

@@ -1,4 +1,4 @@
-﻿# Release Process
+# Release Process
 
 This document describes the steps required to publish a new version of OpenCvSharp.
 
