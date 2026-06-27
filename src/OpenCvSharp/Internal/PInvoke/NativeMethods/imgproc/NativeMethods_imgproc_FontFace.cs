@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -33,25 +33,25 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern, EntryPoint = "imgproc_FontFace_set"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_FontFace_set_NotWindows(
-        IntPtr obj, [MarshalAs(StringUnmanagedTypeNotWindows)] string fontPathOrName, out int returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(StringUnmanagedTypeNotWindows)] string fontPathOrName, out int returnValue);
 
     [LibraryImport(DllExtern, EntryPoint = "imgproc_FontFace_set"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_FontFace_set_Windows(
-        IntPtr obj, [MarshalAs(StringUnmanagedTypeWindows)] string fontPathOrName, out int returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(StringUnmanagedTypeWindows)] string fontPathOrName, out int returnValue);
 
-    public static ExceptionStatus imgproc_FontFace_set(IntPtr obj, string fontPathOrName, out int returnValue)
+    public static ExceptionStatus imgproc_FontFace_set(OpenCvSafeHandle obj, string fontPathOrName, out int returnValue)
         => IsWindows()
             ? imgproc_FontFace_set_Windows(obj, fontPathOrName, out returnValue)
             : imgproc_FontFace_set_NotWindows(obj, fontPathOrName, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_FontFace_getName(IntPtr obj, IntPtr returnValue);
+    public static partial ExceptionStatus imgproc_FontFace_getName(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_FontFace_setInstance(IntPtr obj, int[] @params, int paramsLength, out int returnValue);
+    public static partial ExceptionStatus imgproc_FontFace_setInstance(OpenCvSafeHandle obj, int[] @params, int paramsLength, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_FontFace_getInstance(IntPtr obj, IntPtr @params, out int returnValue);
+    public static partial ExceptionStatus imgproc_FontFace_getInstance(OpenCvSafeHandle obj, IntPtr @params, out int returnValue);
 
     // putText / getTextSize with FontFace (text is UTF-8 for full Unicode support)
 

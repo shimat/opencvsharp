@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -21,49 +21,49 @@ static partial class NativeMethods
     public static partial ExceptionStatus imgproc_Subdiv2D_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_initDelaunay1(IntPtr obj, Rect rect);
+    public static partial ExceptionStatus imgproc_Subdiv2D_initDelaunay1(OpenCvSafeHandle obj, Rect rect);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_initDelaunay2(IntPtr obj, Rect2f rect);
+    public static partial ExceptionStatus imgproc_Subdiv2D_initDelaunay2(OpenCvSafeHandle obj, Rect2f rect);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_insert1(IntPtr obj, Point2f pt, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_insert1(OpenCvSafeHandle obj, Point2f pt, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_Subdiv2D_insert2(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] Point2f[] ptArray, int length);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPArray)] Point2f[] ptArray, int length);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_locate(IntPtr obj, Point2f pt, out int edge, out int vertex, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_locate(OpenCvSafeHandle obj, Point2f pt, out int edge, out int vertex, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_findNearest(IntPtr obj, Point2f pt, out Point2f nearestPt, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_findNearest(OpenCvSafeHandle obj, Point2f pt, out Point2f nearestPt, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_getEdgeList(IntPtr obj, IntPtr edgeList);
+    public static partial ExceptionStatus imgproc_Subdiv2D_getEdgeList(OpenCvSafeHandle obj, IntPtr edgeList);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_getLeadingEdgeList(IntPtr obj, IntPtr leadingEdgeList);
+    public static partial ExceptionStatus imgproc_Subdiv2D_getLeadingEdgeList(OpenCvSafeHandle obj, IntPtr leadingEdgeList);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_getTriangleList(IntPtr obj, IntPtr triangleList);
+    public static partial ExceptionStatus imgproc_Subdiv2D_getTriangleList(OpenCvSafeHandle obj, IntPtr triangleList);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_Subdiv2D_getVoronoiFacetList(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPArray), In] int[]? idx, int idxCount,
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPArray), In] int[]? idx, int idxCount,
         IntPtr facetList, IntPtr facetCenters);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_getVertex(IntPtr obj, int vertex, out int firstEdge, out Point2f returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_getVertex(OpenCvSafeHandle obj, int vertex, out int firstEdge, out Point2f returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_getEdge(IntPtr obj, int edge, int nextEdgeType, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_getEdge(OpenCvSafeHandle obj, int edge, int nextEdgeType, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_nextEdge(IntPtr obj, int edge, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_nextEdge(OpenCvSafeHandle obj, int edge, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_rotateEdge(IntPtr obj, int edge, int rotate, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_rotateEdge(OpenCvSafeHandle obj, int edge, int rotate, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_symEdge(IntPtr obj, int edge, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_symEdge(OpenCvSafeHandle obj, int edge, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_edgeOrg(IntPtr obj, int edge, out Point2f orgPt, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_edgeOrg(OpenCvSafeHandle obj, int edge, out Point2f orgPt, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_Subdiv2D_edgeDst(IntPtr obj, int edge, out Point2f dstPt, out int returnValue);
+    public static partial ExceptionStatus imgproc_Subdiv2D_edgeDst(OpenCvSafeHandle obj, int edge, out Point2f dstPt, out int returnValue);
 
 }

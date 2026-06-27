@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -29,11 +29,11 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus line_descriptor_LSDDetector_detect1(
-        IntPtr obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, IntPtr mask);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus line_descriptor_LSDDetector_detect2(
-        IntPtr obj,
+        OpenCvSafeHandle obj,
         IntPtr[] images, int imagesSize,
         IntPtr keyLines, int scale, int numOctaves,
         IntPtr[] masks, int masksSize);

@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -16,10 +16,10 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path, out IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
+    public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(OpenCvSafeHandle obj, IntPtr inputImage, IntPtr points, IntPtr texts);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode_points(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
+    public static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode_points(OpenCvSafeHandle obj, IntPtr inputImage, IntPtr points, IntPtr texts);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

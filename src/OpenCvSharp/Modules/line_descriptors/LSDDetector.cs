@@ -1,4 +1,4 @@
-
+﻿
 
 // ReSharper disable UnusedMember.Global
 
@@ -82,9 +82,8 @@ namespace OpenCvSharp.LineDescriptor
             using var keypointsVec = new VectorOfKeyLine();
             NativeMethods.HandleException(
                 NativeMethods.line_descriptor_LSDDetector_detect1(
-                    CvPtr, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
+                    Handle, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
 
-            GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
 
@@ -122,12 +121,11 @@ namespace OpenCvSharp.LineDescriptor
             using var keypointsVec = new VectorOfVectorKeyLine();
             NativeMethods.HandleException(
                 NativeMethods.line_descriptor_LSDDetector_detect2(
-                    CvPtr, 
+                    Handle, 
                     imagesPtrs, imagesPtrs.Length,
                     keypointsVec.CvPtr, scale, numOctaves,
                     masksPtrs, masksPtrs.Length));
 
-            GC.KeepAlive(this);
             GC.KeepAlive(images);
             GC.KeepAlive(masks);
 
