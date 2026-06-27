@@ -325,8 +325,7 @@ public class Net : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_empty(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -341,8 +340,7 @@ public class Net : CvObject
 
         using var stdString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_dump(CvPtr, stdString.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_dump(Handle, stdString.CvPtr));
         return stdString.ToString();
     }
         
@@ -355,8 +353,7 @@ public class Net : CvObject
         if (path is null) 
             throw new ArgumentNullException(nameof(path));
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_dumpToFile(CvPtr, path));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_dumpToFile(Handle, path));
     }
 
     /// <summary>
@@ -371,8 +368,7 @@ public class Net : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayerId(CvPtr, layer, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getLayerId(Handle, layer, out var ret));
         return ret;
     }
 
@@ -384,8 +380,7 @@ public class Net : CvObject
     {
         using var namesVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayerNames(CvPtr, namesVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getLayerNames(Handle, namesVec.CvPtr));
         return namesVec.ToArray();
     }
 
@@ -402,8 +397,7 @@ public class Net : CvObject
             throw new ArgumentNullException(nameof(inpPin));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_connect1(CvPtr, outPin, inpPin));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_connect1(Handle, outPin, inpPin));
     }
 
     /// <summary>
@@ -416,8 +410,7 @@ public class Net : CvObject
     public void Connect(int outLayerId, int outNum, int inpLayerId, int inpNum)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_connect2(CvPtr, outLayerId, outNum, inpLayerId, inpNum));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_connect2(Handle, outLayerId, outNum, inpLayerId, inpNum));
     }
 
     /// <summary>
@@ -437,8 +430,7 @@ public class Net : CvObject
 
         var inputBlobNamesArray = inputBlobNames.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setInputsNames(CvPtr, inputBlobNamesArray, inputBlobNamesArray.Length));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setInputsNames(Handle, inputBlobNamesArray, inputBlobNamesArray.Length));
     }
 
     /// <summary>
@@ -450,8 +442,7 @@ public class Net : CvObject
     public Mat Forward(string? outputName = null)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_forward1(CvPtr, outputName, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_forward1(Handle, outputName, out var ret));
         return new Mat(ret);
     }
 
@@ -468,10 +459,9 @@ public class Net : CvObject
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_forward2(CvPtr, outputBlobsPtrs, outputBlobsPtrs.Length, outputName));
+            NativeMethods.dnn_Net_forward2(Handle, outputBlobsPtrs, outputBlobsPtrs.Length, outputName));
 
         GC.KeepAlive(outputBlobs);
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -490,10 +480,9 @@ public class Net : CvObject
         var outBlobNamesArray = outBlobNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_forward3(
-                CvPtr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
+                Handle, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
 
         GC.KeepAlive(outputBlobs);
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -504,8 +493,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setPreferableBackend(CvPtr, (int)backendId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setPreferableBackend(Handle, (int)backendId));
     }
 
     /// <summary>
@@ -516,8 +504,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setPreferableTarget(CvPtr, (int)targetId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setPreferableTarget(Handle, (int)targetId));
     }
 
     /// <summary>
@@ -536,8 +523,7 @@ public class Net : CvObject
             throw new ArgumentNullException(nameof(blob));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setInput(CvPtr, blob.CvPtr, name));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setInput(Handle, blob.CvPtr, name));
     }
 
     /// <summary>
@@ -550,8 +536,7 @@ public class Net : CvObject
 
         using var resultVec = new StdVector<int>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getUnconnectedOutLayers(CvPtr, resultVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getUnconnectedOutLayers(Handle, resultVec.CvPtr));
         return resultVec.ToArray();
     }
 
@@ -565,8 +550,7 @@ public class Net : CvObject
             
         using var resultVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getUnconnectedOutLayersNames(CvPtr, resultVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getUnconnectedOutLayersNames(Handle, resultVec.CvPtr));
         return resultVec.ToArray();
     }
 
@@ -578,8 +562,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_enableFusion(CvPtr, fusion ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_enableFusion(Handle, fusion ? 1 : 0));
     }
 
     /// <summary>
@@ -595,8 +578,7 @@ public class Net : CvObject
 
         using var timingsVec = new StdVector<double>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getPerfProfile(CvPtr, timingsVec.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getPerfProfile(Handle, timingsVec.CvPtr, out var ret));
 
         timings = timingsVec.ToArray();
         return ret;
@@ -617,8 +599,7 @@ public class Net : CvObject
 
         var shapeArray = shape as int[] ?? shape.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setInputShape(CvPtr, inputName, shapeArray, shapeArray.Length));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setInputShape(Handle, inputName, shapeArray, shapeArray.Length));
     }
 
     /// <summary>
@@ -631,8 +612,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getParam(CvPtr, layer, numParam, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getParam(Handle, layer, numParam, out var ret));
         return new Mat(ret);
     }
 
@@ -662,8 +642,7 @@ public class Net : CvObject
         ThrowIfDisposed();
         blob.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setParam(CvPtr, layer, numParam, blob.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_setParam(Handle, layer, numParam, blob.CvPtr));
         GC.KeepAlive(blob);
     }
 
@@ -689,8 +668,7 @@ public class Net : CvObject
         ThrowIfDisposed();
         using var resultVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayerTypes(CvPtr, resultVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getLayerTypes(Handle, resultVec.CvPtr));
         return resultVec.ToArray();
     }
 
@@ -705,8 +683,7 @@ public class Net : CvObject
             throw new ArgumentNullException(nameof(layerType));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getLayersCount(CvPtr, layerType, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getLayersCount(Handle, layerType, out var ret));
         return ret;
     }
 
@@ -718,8 +695,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_enableWinograd(CvPtr, useWinograd ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_enableWinograd(Handle, useWinograd ? 1 : 0));
     }
 
     /// <summary>
@@ -734,8 +710,7 @@ public class Net : CvObject
             throw new ArgumentNullException(nameof(path));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_dumpToPbtxt(CvPtr, path));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_dumpToPbtxt(Handle, path));
     }
 
     /// <summary>
@@ -746,8 +721,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getModelFormat(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getModelFormat(Handle, out var ret));
         return (ModelFormat)ret;
     }
 
@@ -758,8 +732,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_enableKVCache(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_enableKVCache(Handle));
     }
 
     /// <summary>
@@ -769,8 +742,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_disableKVCache(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_disableKVCache(Handle));
     }
 
     /// <summary>
@@ -780,8 +752,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_resetKVCache(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_resetKVCache(Handle));
     }
 
     /// <summary>
@@ -791,8 +762,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_printPerfProfile(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_printPerfProfile(Handle));
     }
 
     /// <summary>
@@ -804,8 +774,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_finalizeNet(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_finalizeNet(Handle));
     }
 
     /// <summary>
@@ -817,16 +786,14 @@ public class Net : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.dnn_Net_getTracingMode(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.dnn_Net_getTracingMode(Handle, out var ret));
             return (TracingMode)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.dnn_Net_setTracingMode(CvPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.dnn_Net_setTracingMode(Handle, (int)value));
         }
     }
 
@@ -839,16 +806,14 @@ public class Net : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.dnn_Net_getProfilingMode(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.dnn_Net_getProfilingMode(Handle, out var ret));
             return (ProfilingMode)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.dnn_Net_setProfilingMode(CvPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.dnn_Net_setProfilingMode(Handle, (int)value));
         }
     }
 
@@ -865,8 +830,7 @@ public class Net : CvObject
             throw new ArgumentNullException(nameof(outputName));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_registerOutput(CvPtr, outputName, layerId, outputPort, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_registerOutput(Handle, outputName, layerId, outputPort, out var ret));
         return ret;
     }
 
@@ -884,8 +848,7 @@ public class Net : CvObject
         using var timemsVec = new VectorOfString();
         using var countsVec = new VectorOfString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_getPerfProfileDetailed(CvPtr, namesVec.CvPtr, timemsVec.CvPtr, countsVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_Net_getPerfProfileDetailed(Handle, namesVec.CvPtr, timemsVec.CvPtr, countsVec.CvPtr));
         names = Array.ConvertAll(namesVec.ToArray(), s => s ?? string.Empty);
         timems = Array.ConvertAll(timemsVec.ToArray(), s => s ?? string.Empty);
         counts = Array.ConvertAll(countsVec.ToArray(), s => s ?? string.Empty);

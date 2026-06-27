@@ -40,8 +40,7 @@ public abstract class TextDetectionModel : Model
         using var detectionsVec = new VectorOfVectorPoint();
         using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_detect(CvPtr, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_detect(Handle, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
         GC.KeepAlive(frame);
 
         detections = detectionsVec.ToArray();
@@ -65,8 +64,7 @@ public abstract class TextDetectionModel : Model
         using var detectionsVec = new StdVector<RotatedRect>();
         using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_detectTextRectangles(CvPtr, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_detectTextRectangles(Handle, frame.CvPtr, detectionsVec.CvPtr, confidencesVec.CvPtr));
         GC.KeepAlive(frame);
 
         detections = detectionsVec.ToArray();

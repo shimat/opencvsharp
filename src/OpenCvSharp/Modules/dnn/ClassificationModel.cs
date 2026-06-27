@@ -54,8 +54,7 @@ public class ClassificationModel : Model
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_setEnableSoftmaxPostProcessing(CvPtr, enable ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_ClassificationModel_setEnableSoftmaxPostProcessing(Handle, enable ? 1 : 0));
     }
 
     /// <summary>
@@ -66,8 +65,7 @@ public class ClassificationModel : Model
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_getEnableSoftmaxPostProcessing(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_ClassificationModel_getEnableSoftmaxPostProcessing(Handle, out var ret));
         return ret != 0;
     }
 
@@ -85,8 +83,7 @@ public class ClassificationModel : Model
         frame.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_classify(CvPtr, frame.CvPtr, out classId, out conf));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.CvPtr, out classId, out conf));
         GC.KeepAlive(frame);
     }
 }

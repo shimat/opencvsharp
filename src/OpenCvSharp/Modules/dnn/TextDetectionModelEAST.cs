@@ -51,8 +51,7 @@ public class TextDetectionModelEAST : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_EAST_setConfidenceThreshold(CvPtr, confThreshold));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_EAST_setConfidenceThreshold(Handle, confThreshold));
     }
 
     /// <summary>
@@ -63,8 +62,7 @@ public class TextDetectionModelEAST : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_EAST_getConfidenceThreshold(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_EAST_getConfidenceThreshold(Handle, out var ret));
         return ret;
     }
 
@@ -76,8 +74,7 @@ public class TextDetectionModelEAST : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_EAST_setNMSThreshold(CvPtr, nmsThreshold));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_EAST_setNMSThreshold(Handle, nmsThreshold));
     }
 
     /// <summary>
@@ -88,8 +85,7 @@ public class TextDetectionModelEAST : TextDetectionModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_EAST_getNMSThreshold(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_TextDetectionModel_EAST_getNMSThreshold(Handle, out var ret));
         return ret;
     }
 }
