@@ -16,38 +16,38 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_Volume_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_integrateFrame(IntPtr obj, IntPtr frame, IntPtr pose);
+    public static partial ExceptionStatus ptcloud_Volume_integrateFrame(OpenCvSafeHandle obj, IntPtr frame, IntPtr pose);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_integrate(IntPtr obj, IntPtr depth, IntPtr pose);
+    public static partial ExceptionStatus ptcloud_Volume_integrate(OpenCvSafeHandle obj, IntPtr depth, IntPtr pose);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_integrateColor(IntPtr obj, IntPtr depth, IntPtr image, IntPtr pose);
+    public static partial ExceptionStatus ptcloud_Volume_integrateColor(OpenCvSafeHandle obj, IntPtr depth, IntPtr image, IntPtr pose);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_raycast(IntPtr obj, IntPtr cameraPose, IntPtr points, IntPtr normals);
+    public static partial ExceptionStatus ptcloud_Volume_raycast(OpenCvSafeHandle obj, IntPtr cameraPose, IntPtr points, IntPtr normals);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_raycastColor(IntPtr obj, IntPtr cameraPose, IntPtr points, IntPtr normals, IntPtr colors);
+    public static partial ExceptionStatus ptcloud_Volume_raycastColor(OpenCvSafeHandle obj, IntPtr cameraPose, IntPtr points, IntPtr normals, IntPtr colors);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_raycastEx(IntPtr obj, IntPtr cameraPose, int height, int width, IntPtr k, IntPtr points, IntPtr normals);
+    public static partial ExceptionStatus ptcloud_Volume_raycastEx(OpenCvSafeHandle obj, IntPtr cameraPose, int height, int width, IntPtr k, IntPtr points, IntPtr normals);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_raycastExColor(IntPtr obj, IntPtr cameraPose, int height, int width, IntPtr k, IntPtr points, IntPtr normals, IntPtr colors);
+    public static partial ExceptionStatus ptcloud_Volume_raycastExColor(OpenCvSafeHandle obj, IntPtr cameraPose, int height, int width, IntPtr k, IntPtr points, IntPtr normals, IntPtr colors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_fetchNormals(IntPtr obj, IntPtr points, IntPtr normals);
+    public static partial ExceptionStatus ptcloud_Volume_fetchNormals(OpenCvSafeHandle obj, IntPtr points, IntPtr normals);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_fetchPointsNormals(IntPtr obj, IntPtr points, IntPtr normals);
+    public static partial ExceptionStatus ptcloud_Volume_fetchPointsNormals(OpenCvSafeHandle obj, IntPtr points, IntPtr normals);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_fetchPointsNormalsColors(IntPtr obj, IntPtr points, IntPtr normals, IntPtr colors);
+    public static partial ExceptionStatus ptcloud_Volume_fetchPointsNormalsColors(OpenCvSafeHandle obj, IntPtr points, IntPtr normals, IntPtr colors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_reset(IntPtr obj);
+    public static partial ExceptionStatus ptcloud_Volume_reset(OpenCvSafeHandle obj);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_getVisibleBlocks(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_Volume_getVisibleBlocks(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_getTotalVolumeUnits(IntPtr obj, out long returnValue);
+    public static partial ExceptionStatus ptcloud_Volume_getTotalVolumeUnits(OpenCvSafeHandle obj, out long returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_getBoundingBox(IntPtr obj, IntPtr bb, int precision);
+    public static partial ExceptionStatus ptcloud_Volume_getBoundingBox(OpenCvSafeHandle obj, IntPtr bb, int precision);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_setEnableGrowth(IntPtr obj, int v);
+    public static partial ExceptionStatus ptcloud_Volume_setEnableGrowth(OpenCvSafeHandle obj, int v);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Volume_getEnableGrowth(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus ptcloud_Volume_getEnableGrowth(OpenCvSafeHandle obj, out int returnValue);
 }

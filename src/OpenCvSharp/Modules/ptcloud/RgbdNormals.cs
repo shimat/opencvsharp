@@ -83,9 +83,8 @@ public class RgbdNormals : CvPtrObject
         points.ThrowIfDisposed();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_apply(RawPtr, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_RgbdNormals_apply(Handle, points.CvPtr, normals.CvPtr));
         normals.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(points);
     }
 
@@ -97,8 +96,7 @@ public class RgbdNormals : CvPtrObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_cache(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_RgbdNormals_cache(Handle));
     }
 
     /// <summary>
@@ -110,16 +108,14 @@ public class RgbdNormals : CvPtrObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_getRows(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_getRows(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_setRows(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_setRows(Handle, value));
         }
     }
 
@@ -132,16 +128,14 @@ public class RgbdNormals : CvPtrObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_getCols(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_getCols(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_setCols(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_setCols(Handle, value));
         }
     }
 
@@ -154,16 +148,14 @@ public class RgbdNormals : CvPtrObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_getWindowSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_getWindowSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_setWindowSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_setWindowSize(Handle, value));
         }
     }
 
@@ -176,8 +168,7 @@ public class RgbdNormals : CvPtrObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ptcloud_RgbdNormals_getDepth(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ptcloud_RgbdNormals_getDepth(Handle, out var ret));
             return ret;
         }
     }
@@ -193,9 +184,8 @@ public class RgbdNormals : CvPtrObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_getK(RawPtr, val.CvPtr));
+            NativeMethods.ptcloud_RgbdNormals_getK(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -209,8 +199,7 @@ public class RgbdNormals : CvPtrObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_setK(RawPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_RgbdNormals_setK(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -221,8 +210,7 @@ public class RgbdNormals : CvPtrObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_getMethod(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_RgbdNormals_getMethod(Handle, out var ret));
         return (RgbdNormalsMethod)ret;
     }
 

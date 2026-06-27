@@ -71,9 +71,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getImage(CvPtr, image.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getImage(Handle, image.CvPtr));
         image.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -86,9 +85,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getGrayImage(CvPtr, image.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getGrayImage(Handle, image.CvPtr));
         image.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -101,9 +99,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(depth));
         depth.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getDepth(CvPtr, depth.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getDepth(Handle, depth.CvPtr));
         depth.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -116,9 +113,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(depth));
         depth.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getProcessedDepth(CvPtr, depth.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getProcessedDepth(Handle, depth.CvPtr));
         depth.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -131,9 +127,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(mask));
         mask.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getMask(CvPtr, mask.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getMask(Handle, mask.CvPtr));
         mask.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -146,9 +141,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(normals));
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getNormals(CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_OdometryFrame_getNormals(Handle, normals.CvPtr));
         normals.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -158,8 +152,7 @@ public class OdometryFrame : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getPyramidLevels(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_OdometryFrame_getPyramidLevels(Handle, out var ret));
         return ret;
     }
 
@@ -176,9 +169,8 @@ public class OdometryFrame : CvObject
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getPyramidAt(CvPtr, img.CvPtr, (int)pyrType, new IntPtr(level)));
+            NativeMethods.ptcloud_OdometryFrame_getPyramidAt(Handle, img.CvPtr, (int)pyrType, new IntPtr(level)));
         img.Fix();
-        GC.KeepAlive(this);
     }
 
     #endregion

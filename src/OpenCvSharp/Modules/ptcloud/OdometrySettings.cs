@@ -52,8 +52,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -67,9 +66,8 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -82,8 +80,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setIterCounts(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_OdometrySettings_setIterCounts(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -97,9 +94,8 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getIterCounts(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getIterCounts(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     /// <summary>
@@ -112,8 +108,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(CvPtr, val.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(Handle, val.CvPtr));
         GC.KeepAlive(val);
     }
 
@@ -127,9 +122,8 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(CvPtr, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(Handle, val.CvPtr));
         val.Fix();
-        GC.KeepAlive(this);
     }
 
     #endregion
@@ -144,15 +138,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMinDepth(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMinDepth(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMinDepth(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMinDepth(Handle, value));
         }
     }
 
@@ -164,15 +156,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxDepth(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxDepth(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxDepth(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxDepth(Handle, value));
         }
     }
 
@@ -184,15 +174,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxDepthDiff(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxDepthDiff(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxDepthDiff(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxDepthDiff(Handle, value));
         }
     }
 
@@ -204,15 +192,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxPointsPart(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxPointsPart(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxPointsPart(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxPointsPart(Handle, value));
         }
     }
 
@@ -224,15 +210,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getSobelSize(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getSobelSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setSobelSize(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setSobelSize(Handle, value));
         }
     }
 
@@ -244,15 +228,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getSobelScale(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getSobelScale(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setSobelScale(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setSobelScale(Handle, value));
         }
     }
 
@@ -264,15 +246,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalWinSize(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalWinSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalWinSize(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalWinSize(Handle, value));
         }
     }
 
@@ -284,15 +264,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalDiffThreshold(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalDiffThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalDiffThreshold(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalDiffThreshold(Handle, value));
         }
     }
 
@@ -304,15 +282,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalMethod(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getNormalMethod(Handle, out var ret));
             return (RgbdNormalsMethod)ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalMethod(CvPtr, (int)value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setNormalMethod(Handle, (int)value));
         }
     }
 
@@ -324,15 +300,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getAngleThreshold(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getAngleThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setAngleThreshold(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setAngleThreshold(Handle, value));
         }
     }
 
@@ -344,15 +318,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxTranslation(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxTranslation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxTranslation(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxTranslation(Handle, value));
         }
     }
 
@@ -364,15 +336,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxRotation(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMaxRotation(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxRotation(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMaxRotation(Handle, value));
         }
     }
 
@@ -384,15 +354,13 @@ public class OdometrySettings : CvObject
         get
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitude(CvPtr, out var ret));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitude(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitude(CvPtr, value));
-            GC.KeepAlive(this);
+            NativeMethods.HandleException(NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitude(Handle, value));
         }
     }
 
