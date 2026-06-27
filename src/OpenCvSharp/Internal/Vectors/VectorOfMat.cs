@@ -67,8 +67,7 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
     {
         get
         {
-            var res = NativeMethods.vector_Mat_getSize(CvPtr);
-            GC.KeepAlive(this);
+            var res = NativeMethods.vector_Mat_getSize(Handle);
             return (int)res;
         }
     }
@@ -80,7 +79,8 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
     {
         get
         {
-            var res = NativeMethods.vector_Mat_getPointer(CvPtr);
+            var res = NativeMethods.vector_Mat_getPointer(Handle);
+            // Returns an interior pointer into this vector; keep it alive for the caller's dereference.
             GC.KeepAlive(this);
             return res;
         }
@@ -114,8 +114,7 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
             dst[i] = m;
             dstPtr[i] = m.CvPtr;
         }
-        NativeMethods.vector_Mat_assignToArray(CvPtr, dstPtr);
-        GC.KeepAlive(this);
+        NativeMethods.vector_Mat_assignToArray(Handle, dstPtr);
 
         return dst;
     }

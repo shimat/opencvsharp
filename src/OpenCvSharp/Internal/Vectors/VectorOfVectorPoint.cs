@@ -41,8 +41,7 @@ public class VectorOfVectorPoint : CvObject, IStdVector<Point[]>
     /// </summary>
     public int GetSize1()
     {
-        var res = NativeMethods.vector_vector_Point_getSize1(CvPtr);
-        GC.KeepAlive(this);
+        var res = NativeMethods.vector_vector_Point_getSize1(Handle);
         return (int)res;
     }
 
@@ -58,8 +57,7 @@ public class VectorOfVectorPoint : CvObject, IStdVector<Point[]>
     {
         var size1 = GetSize1();
         var size2 = new nuint[size1];
-        NativeMethods.vector_vector_Point_getSize2(CvPtr, size2);
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_Point_getSize2(Handle, size2);
         return size2.Select(s => (long)s).ToArray();
     }
 
@@ -81,8 +79,7 @@ public class VectorOfVectorPoint : CvObject, IStdVector<Point[]>
         }
 
         using var retPtr = new ArrayAddress2<Point>(ret);
-        NativeMethods.vector_vector_Point_copy(CvPtr, retPtr.GetPointer());
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_Point_copy(Handle, retPtr.GetPointer());
         return ret;
     }
 }

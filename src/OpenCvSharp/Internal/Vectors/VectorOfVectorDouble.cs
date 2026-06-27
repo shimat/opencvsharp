@@ -29,8 +29,7 @@ public class VectorOfVectorDouble : CvObject, IStdVector<double[]>
     /// </summary>
     public int GetSize1()
     {
-        var res = NativeMethods.vector_vector_double_getSize1(CvPtr);
-        GC.KeepAlive(this);
+        var res = NativeMethods.vector_vector_double_getSize1(Handle);
         return (int)res;
     }
 
@@ -46,8 +45,7 @@ public class VectorOfVectorDouble : CvObject, IStdVector<double[]>
     {
         var size1 = GetSize1();
         var size2 = new nuint[size1];
-        NativeMethods.vector_vector_double_getSize2(CvPtr, size2);
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_double_getSize2(Handle, size2);
         return size2.Select(s => (long)s).ToArray();
     }
 
@@ -69,8 +67,7 @@ public class VectorOfVectorDouble : CvObject, IStdVector<double[]>
         }
 
         using var retPtr = new ArrayAddress2<double>(ret);
-        NativeMethods.vector_vector_double_copy(CvPtr, retPtr.GetPointer());
-        GC.KeepAlive(this);
+        NativeMethods.vector_vector_double_copy(Handle, retPtr.GetPointer());
         return ret;
     }
 }

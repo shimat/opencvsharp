@@ -31,8 +31,7 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
     {
         get
         {
-            var res = NativeMethods.vector_ImageFeatures_getSize(CvPtr);
-            GC.KeepAlive(this);
+            var res = NativeMethods.vector_ImageFeatures_getSize(Handle);
             return (int)res;
         }
     }
@@ -62,7 +61,7 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
                 nativeResult[i].Descriptors = descriptors[i].CvPtr;
             }
 
-            NativeMethods.vector_ImageFeatures_getElements(CvPtr, nativeResult);
+            NativeMethods.vector_ImageFeatures_getElements(Handle, nativeResult);
 
             var result = new ImageFeatures[size];
             for (int i = 0; i < size; i++)
@@ -75,7 +74,6 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
             }
 
             // ElemPtr is IntPtr to memory held by this object, so make sure we are not disposed until finished with copy.
-            GC.KeepAlive(this);
             return result;
         }
         catch
@@ -107,8 +105,7 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
     private int[] KeypointsSizes(int size)
     {
         var ret = new nuint[size];
-        NativeMethods.vector_ImageFeatures_getKeypointsSize(CvPtr, ret);
-        GC.KeepAlive(this);
+        NativeMethods.vector_ImageFeatures_getKeypointsSize(Handle, ret);
         return ret.Select(v => (int)v).ToArray();
     }
 }

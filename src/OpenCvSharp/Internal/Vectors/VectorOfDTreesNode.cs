@@ -33,8 +33,7 @@ public class VectorOfDTreesNode : CvObject, IStdVector<DTrees.Node>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Node_getSize(CvPtr);
-            GC.KeepAlive(this);
+            var res = NativeMethods.vector_DTrees_Node_getSize(Handle);
             return (int)res;
         }
     }
@@ -46,7 +45,8 @@ public class VectorOfDTreesNode : CvObject, IStdVector<DTrees.Node>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Node_getPointer(CvPtr);
+            var res = NativeMethods.vector_DTrees_Node_getPointer(Handle);
+            // Returns an interior pointer into this vector; keep it alive for the caller's dereference.
             GC.KeepAlive(this);
             return res;
         }

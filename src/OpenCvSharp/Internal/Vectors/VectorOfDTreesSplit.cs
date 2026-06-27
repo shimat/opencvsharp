@@ -33,8 +33,7 @@ internal sealed class VectorOfDTreesSplit : CvObject, IStdVector<DTrees.Split>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getSize(CvPtr);
-            GC.KeepAlive(this);
+            var res = NativeMethods.vector_DTrees_Split_getSize(Handle);
             return (int)res;
         }
     }
@@ -46,7 +45,8 @@ internal sealed class VectorOfDTreesSplit : CvObject, IStdVector<DTrees.Split>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getPointer(CvPtr);
+            var res = NativeMethods.vector_DTrees_Split_getPointer(Handle);
+            // Returns an interior pointer into this vector; keep it alive for the caller's dereference.
             GC.KeepAlive(this);
             return res;
         }
