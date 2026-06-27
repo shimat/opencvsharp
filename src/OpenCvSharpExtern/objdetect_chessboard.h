@@ -10,7 +10,7 @@
 
 
 CVAPI(ExceptionStatus) objdetect_checkChessboard(
-    cv::_InputArray *img, MyCvSize size, int *returnValue)
+    cv::_InputArray *img, interop::Size size, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
@@ -19,7 +19,7 @@ CVAPI(ExceptionStatus) objdetect_checkChessboard(
 
 
 CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_OutputArray(
-    cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags, 
+    cv::_InputArray *image, interop::Size patternSize, cv::_OutputArray *corners, int flags, 
     int *returnValue)
 {
     BEGIN_WRAP
@@ -28,7 +28,7 @@ CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_OutputArray(
 }
 
 CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_vector(
-    cv::_InputArray *image, MyCvSize patternSize, std::vector<cv::Point2f> *corners, int flags, 
+    cv::_InputArray *image, interop::Size patternSize, std::vector<cv::Point2f> *corners, int flags, 
     int *returnValue)
 {
     BEGIN_WRAP
@@ -38,7 +38,7 @@ CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_vector(
 
 
 CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_InputArray(
-    cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize, 
+    cv::_InputArray *img, cv::_InputOutputArray *corners, interop::Size regionSize, 
     int *returnValue)
 {
     BEGIN_WRAP
@@ -47,7 +47,7 @@ CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_InputArray(
 }
 
 CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_vector(
-    cv::_InputArray *img, std::vector<cv::Point2f> *corners, MyCvSize regionSize, 
+    cv::_InputArray *img, std::vector<cv::Point2f> *corners, interop::Size regionSize, 
     int *returnValue)
 {
     BEGIN_WRAP
@@ -57,7 +57,7 @@ CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_vector(
 
 
 CVAPI(ExceptionStatus) objdetect_drawChessboardCorners_InputArray(
-    cv::_InputOutputArray *image, MyCvSize patternSize,
+    cv::_InputOutputArray *image, interop::Size patternSize,
     cv::_InputArray *corners, int patternWasFound)
 {
     BEGIN_WRAP
@@ -66,7 +66,7 @@ CVAPI(ExceptionStatus) objdetect_drawChessboardCorners_InputArray(
 }
 
 CVAPI(ExceptionStatus) objdetect_drawChessboardCorners_array(
-    cv::_InputOutputArray *image, MyCvSize patternSize,
+    cv::_InputOutputArray *image, interop::Size patternSize,
     cv::Point2f *corners, int cornersLength, int patternWasFound)
 {
     BEGIN_WRAP

@@ -84,7 +84,7 @@ CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_applyImageFeat
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_buildMap(
     cv::segmentation::IntelligentScissorsMB *obj,
-    MyCvPoint sourcePt)
+    interop::Point sourcePt)
 {
     BEGIN_WRAP
     obj->buildMap(cpp(sourcePt));
@@ -93,7 +93,7 @@ CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_buildMap(
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_getContour(
     cv::segmentation::IntelligentScissorsMB *obj,
-    MyCvPoint targetPt, cv::_OutputArray *contour, int backward)
+    interop::Point targetPt, cv::_OutputArray *contour, int backward)
 {
     BEGIN_WRAP
     obj->getContour(cpp(targetPt), *contour, backward != 0);

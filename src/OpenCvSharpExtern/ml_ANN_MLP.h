@@ -44,13 +44,13 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_getLayerSizes(cv::ml::ANN_MLP *obj, cv::Mat **
 }
 
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_getTermCriteria(cv::ml::ANN_MLP *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_ANN_MLP_getTermCriteria(cv::ml::ANN_MLP *obj, interop::TermCriteria *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTermCriteria());
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_ANN_MLP_setTermCriteria(cv::ml::ANN_MLP *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setTermCriteria(cv::ml::ANN_MLP *obj, interop::TermCriteria val)
 {
     BEGIN_WRAP
     obj->setTermCriteria(cpp(val));

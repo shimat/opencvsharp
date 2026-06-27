@@ -30,7 +30,7 @@ CVAPI(ExceptionStatus) imgproc_undistort(
 CVAPI(ExceptionStatus) imgproc_initUndistortRectifyMap(
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     cv::_InputArray *R, cv::_InputArray *newCameraMatrix,
-    MyCvSize size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
+    interop::Size size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
 {
     BEGIN_WRAP
     cv::initUndistortRectifyMap(*cameraMatrix, *distCoeffs, *R, *newCameraMatrix, cpp(size), m1type, *map1, *map2);
@@ -40,7 +40,7 @@ CVAPI(ExceptionStatus) imgproc_initUndistortRectifyMap(
 
 CVAPI(ExceptionStatus) imgproc_initWideAngleProjMap(
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    MyCvSize imageSize, int destImageWidth,
+    interop::Size imageSize, int destImageWidth,
     int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2,
     int projType, double alpha,
     float *returnValue)

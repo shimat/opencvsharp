@@ -27,14 +27,14 @@ CVAPI(ExceptionStatus) core_UMat_new3(cv::Size size, int type, cv::UMatUsageFlag
 }
 */
 CVAPI(ExceptionStatus) core_UMat_new3(
-    const int rows, const int cols, const int type, const MyCvScalar s, const cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+    const int rows, const int cols, const int type, const interop::Scalar s, const cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::UMat(rows, cols, type, cpp(s), usageFlags);
     END_WRAP
 }
 /*
-CVAPI(ExceptionStatus) core_UMat_new5(cv::Size size, int type, MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new5(cv::Size size, int type, interop::Scalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::UMat(size, type, cpp(s), usageFlags);
@@ -49,7 +49,7 @@ CVAPI(ExceptionStatus) core_UMat_new4(
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_UMat_new5(
-    const int ndims, const int* sizes, const int type, const MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+    const int ndims, const int* sizes, const int type, const interop::Scalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::UMat(ndims, sizes, type, cpp(s), usageFlags);
@@ -61,13 +61,13 @@ CVAPI(ExceptionStatus) core_UMat_new6(cv::UMat* umat, cv::UMat** returnValue)
     *returnValue = new cv::UMat(*umat);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_new7(cv::UMat* umat, const MyCvSlice rowRange, const MyCvSlice colRange, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new7(cv::UMat* umat, const interop::Range rowRange, const interop::Range colRange, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::UMat(*umat, cpp(rowRange), cpp(colRange));
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_new8(cv::UMat* umat, const MyCvRect roi, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new8(cv::UMat* umat, const interop::Rect roi, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::UMat(*umat, cpp(roi));
@@ -197,7 +197,7 @@ CVAPI(ExceptionStatus) core_UMat_assignTo(cv::UMat* self, cv::UMat* m, int type)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_UMat_setTo_Scalar(cv::UMat* self, MyCvScalar value, cv::UMat* mask)
+CVAPI(ExceptionStatus) core_UMat_setTo_Scalar(cv::UMat* self, interop::Scalar value, cv::UMat* mask)
 {
     BEGIN_WRAP
     if (mask == nullptr)
@@ -310,7 +310,7 @@ CVAPI(ExceptionStatus) core_UMat_create2(cv::UMat* self, int ndims, const int* s
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_UMat_locateROI(cv::UMat* self, MyCvSize* wholeSize, MyCvPoint* ofs)
+CVAPI(ExceptionStatus) core_UMat_locateROI(cv::UMat* self, interop::Size* wholeSize, interop::Point* ofs)
 {
     BEGIN_WRAP
     cv::Size wholeSize2;
@@ -338,7 +338,7 @@ CVAPI(ExceptionStatus) core_UMat_subMat1(cv::UMat* self, int rowStart, int rowEn
     *returnValue = new cv::UMat(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_subMat2(cv::UMat* self, int nRanges, MyCvSlice* ranges, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_subMat2(cv::UMat* self, int nRanges, interop::Range* ranges, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     std::vector<cv::Range> rangesVec(nRanges);
@@ -462,7 +462,7 @@ CVAPI(ExceptionStatus) core_UMat_cols(cv::UMat* self, int* returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_UMat_size(cv::UMat* self, MyCvSize* returnValue)
+CVAPI(ExceptionStatus) core_UMat_size(cv::UMat* self, interop::Size* returnValue)
 {
     BEGIN_WRAP
     // See core_Mat_size: avoid OpenCV 5's dims <= 2 assert for multi-dimensional matrices.

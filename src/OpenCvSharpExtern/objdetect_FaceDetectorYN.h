@@ -15,7 +15,7 @@
 CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_create(
     cv::String* model,
     cv::String* config,
-    MyCvSize* inputSize,
+    interop::Size* inputSize,
     float scoreThreshold,
     float nmsThreshold,
     int topK,

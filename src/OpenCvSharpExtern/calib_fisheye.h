@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) calib_fisheye_undistortPoints(
 
 CVAPI(ExceptionStatus) calib_fisheye_initUndistortRectifyMap(
     cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P,
-    MyCvSize size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
+    interop::Size size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
 {
     BEGIN_WRAP
     cv::fisheye::initUndistortRectifyMap(*K, *D, *R, *P, cpp(size), m1type, *map1, *map2);
@@ -62,7 +62,7 @@ CVAPI(ExceptionStatus) calib_fisheye_initUndistortRectifyMap(
 
 CVAPI(ExceptionStatus) calib_fisheye_undistortImage(
     cv::_InputArray *distorted, cv::_OutputArray *undistorted,
-    cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *Knew, MyCvSize newSize)
+    cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *Knew, interop::Size newSize)
 {
     BEGIN_WRAP
     cv::fisheye::undistortImage(*distorted, *undistorted, *K, *D, entity(Knew), cpp(newSize));
@@ -70,8 +70,8 @@ CVAPI(ExceptionStatus) calib_fisheye_undistortImage(
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
-    cv::_InputArray *K, cv::_InputArray *D, MyCvSize image_size, cv::_InputArray *R,
-    cv::_OutputArray *P, double balance, MyCvSize newSize, double fov_scale)
+    cv::_InputArray *K, cv::_InputArray *D, interop::Size image_size, cv::_InputArray *R,
+    cv::_OutputArray *P, double balance, interop::Size newSize, double fov_scale)
 {
     BEGIN_WRAP
     cv::fisheye::estimateNewCameraMatrixForUndistortRectify(*K, *D, cpp(image_size), *R, *P, balance, cpp(newSize), fov_scale);
@@ -81,13 +81,13 @@ CVAPI(ExceptionStatus) calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
 CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     std::vector<cv::Mat> *objectPoints,
     std::vector<cv::Mat> *imagePoints,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::_InputOutputArray *K,
     cv::_InputOutputArray *D,
     std::vector<cv::Mat> *rvecs,
     std::vector<cv::Mat> *tvecs,
     int flags,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP
@@ -98,8 +98,8 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_stereoRectify(
-    cv::_InputArray *K1, cv::_InputArray *D1, cv::_InputArray *K2, cv::_InputArray *D2, MyCvSize imageSize, cv::_InputArray *R, cv::_InputArray *tvec,
-    cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *Q, int flags, MyCvSize newImageSize,
+    cv::_InputArray *K1, cv::_InputArray *D1, cv::_InputArray *K2, cv::_InputArray *D2, interop::Size imageSize, cv::_InputArray *R, cv::_InputArray *tvec,
+    cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *Q, int flags, interop::Size newImageSize,
     double balance, double fov_scale)
 {
     BEGIN_WRAP
@@ -115,11 +115,11 @@ CVAPI(ExceptionStatus) calib_fisheye_stereoCalibrate(
     cv::_InputOutputArray *D1,
     cv::_InputOutputArray *K2,
     cv::_InputOutputArray *D2,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     cv::_OutputArray *R,
     cv::_OutputArray *T,
     int flags,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     double *returnValue)
 {
     BEGIN_WRAP

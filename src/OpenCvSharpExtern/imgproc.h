@@ -23,7 +23,7 @@ CVAPI(ExceptionStatus) imgproc_getDerivKernels(cv::_OutputArray *kx, cv::_Output
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_getGaborKernel(MyCvSize ksize, double sigma, double theta,
+CVAPI(ExceptionStatus) imgproc_getGaborKernel(interop::Size ksize, double sigma, double theta,
     double lambd, double gamma, double psi, int ktype, cv::Mat **returnValue)
 {
     BEGIN_WRAP
@@ -32,7 +32,7 @@ CVAPI(ExceptionStatus) imgproc_getGaborKernel(MyCvSize ksize, double sigma, doub
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgproc_getStructuringElement(int shape, interop::Size ksize, interop::Point anchor, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray
 }
 
 CVAPI(ExceptionStatus) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
-                                            MyCvSize ksize, double sigmaX, double sigmaY, int borderType, int hint)
+                                            interop::Size ksize, double sigmaX, double sigmaY, int borderType, int hint)
 {
     BEGIN_WRAP
     cv::GaussianBlur(*src, *dst, cpp(ksize), sigmaX, sigmaY, borderType, static_cast<cv::AlgorithmHint>(hint));
@@ -64,7 +64,7 @@ CVAPI(ExceptionStatus) imgproc_bilateralFilter(cv::_InputArray *src, cv::_Output
 }
 
 CVAPI(ExceptionStatus) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-                              MyCvSize ksize, MyCvPoint anchor, int normalize, int borderType)
+                              interop::Size ksize, interop::Point anchor, int normalize, int borderType)
 {
     BEGIN_WRAP
     cv::boxFilter(*src, *dst, ddepth, cpp(ksize), cpp(anchor), normalize != 0, borderType);
@@ -73,14 +73,14 @@ CVAPI(ExceptionStatus) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray 
 
 CVAPI(ExceptionStatus) imgproc_sqrBoxFilter(
     cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-    MyCvSize ksize, MyCvPoint anchor, int normalize, int borderType)
+    interop::Size ksize, interop::Point anchor, int normalize, int borderType)
 {
     BEGIN_WRAP
     cv::sqrBoxFilter(*src, *dst, ddepth, cpp(ksize), cpp(anchor), normalize != 0, borderType);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize ksize, MyCvPoint anchor, int borderType)
+CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, interop::Size ksize, interop::Point anchor, int borderType)
 {
     BEGIN_WRAP
     cv::blur(*src, *dst, cpp(ksize), cpp(anchor), borderType);
@@ -88,7 +88,7 @@ CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst,
 }
 
 CVAPI(ExceptionStatus) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-                             cv::_InputArray *kernel, MyCvPoint anchor, double delta, int borderType)
+                             cv::_InputArray *kernel, interop::Point anchor, double delta, int borderType)
 {
     BEGIN_WRAP
     cv::filter2D(*src, *dst, ddepth, *kernel, cpp(anchor), delta, borderType);
@@ -96,7 +96,7 @@ CVAPI(ExceptionStatus) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *
 }
 
 CVAPI(ExceptionStatus) imgproc_filter2Dp(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
-                             int anchorX, int anchorY, int borderType, MyCvScalar borderValue, int ddepth, double scale, double shift)
+                             int anchorX, int anchorY, int borderType, interop::Scalar borderValue, int ddepth, double scale, double shift)
 {
     BEGIN_WRAP
     cv::Filter2DParams params;
@@ -113,7 +113,7 @@ CVAPI(ExceptionStatus) imgproc_filter2Dp(cv::_InputArray *src, cv::_OutputArray 
 
 CVAPI(ExceptionStatus) imgproc_sepFilter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                                 cv::_InputArray *kernelX, cv::_InputArray *kernelY,
-                                MyCvPoint anchor, double delta, int borderType)
+                                interop::Point anchor, double delta, int borderType)
 {
     BEGIN_WRAP
     cv::sepFilter2D(*src, *dst, ddepth, *kernelX, *kernelY, cpp(anchor), delta, borderType);
@@ -201,7 +201,7 @@ CVAPI(ExceptionStatus) imgproc_preCornerDetect(cv::_InputArray *src, cv::_Output
 }
 
 CVAPI(ExceptionStatus) imgproc_cornerSubPix(cv::_InputArray *image, std::vector<cv::Point2f> *corners,
-                                 MyCvSize winSize, MyCvSize zeroZone, MyCvTermCriteria criteria)
+                                 interop::Size winSize, interop::Size zeroZone, interop::TermCriteria criteria)
 {
     BEGIN_WRAP
     cv::cornerSubPix(*image, *corners, cpp(winSize), cpp(zeroZone), cpp(criteria));
@@ -257,7 +257,7 @@ CVAPI(ExceptionStatus) imgproc_HoughCircles(cv::_InputArray *src, std::vector<cv
 
 
 CVAPI(ExceptionStatus) imgproc_erode(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
-                          MyCvPoint anchor, int iterations,    int borderType, MyCvScalar borderValue)
+                          interop::Point anchor, int iterations,    int borderType, interop::Scalar borderValue)
 {
     BEGIN_WRAP
     cv::erode(*src, *dst, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
@@ -265,7 +265,7 @@ CVAPI(ExceptionStatus) imgproc_erode(cv::_InputArray *src, cv::_OutputArray *dst
 }
 
 CVAPI(ExceptionStatus) imgproc_dilate(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
-                           MyCvPoint anchor, int iterations, int borderType, MyCvScalar borderValue)
+                           interop::Point anchor, int iterations, int borderType, interop::Scalar borderValue)
 {
     BEGIN_WRAP
     cv::dilate(*src, *dst, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
@@ -273,38 +273,38 @@ CVAPI(ExceptionStatus) imgproc_dilate(cv::_InputArray *src, cv::_OutputArray *ds
 }
 
 CVAPI(ExceptionStatus) imgproc_morphologyEx(cv::_InputArray *src, cv::_OutputArray *dst, int op, cv::_InputArray *kernel,
-                                 MyCvPoint anchor, int iterations, int borderType, MyCvScalar borderValue)
+                                 interop::Point anchor, int iterations, int borderType, interop::Scalar borderValue)
 {
     BEGIN_WRAP
     cv::morphologyEx(*src, *dst, op, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_resize(cv::_InputArray* src, cv::_OutputArray* dst, MyCvSize dsize, double fx, double fy, int interpolation)
+CVAPI(ExceptionStatus) imgproc_resize(cv::_InputArray* src, cv::_OutputArray* dst, interop::Size dsize, double fx, double fy, int interpolation)
 {
     BEGIN_WRAP
     cv::resize(*src, *dst, cpp(dsize), fx, fy, interpolation);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, MyCvSize dsize,
-                                          int flags, int borderMode, MyCvScalar borderValue, int hint)
+CVAPI(ExceptionStatus) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, interop::Size dsize,
+                                          int flags, int borderMode, interop::Scalar borderValue, int hint)
 {
     BEGIN_WRAP
     cv::warpAffine(*src, *dst, *M, cpp(dsize), flags, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, MyCvSize dsize,
-                                                             int flags, int borderMode, MyCvScalar borderValue, int hint)
+CVAPI(ExceptionStatus) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, interop::Size dsize,
+                                                             int flags, int borderMode, interop::Scalar borderValue, int hint)
 {
     BEGIN_WRAP
     cv::warpPerspective(*src, *dst, *m, cpp(dsize), flags, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, MyCvSize dsize,
-                                                        int flags, int borderMode, MyCvScalar borderValue, int hint)
+CVAPI(ExceptionStatus) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, interop::Size dsize,
+                                                        int flags, int borderMode, interop::Scalar borderValue, int hint)
 {
     BEGIN_WRAP
     const cv::Mat mmat(mRow, mCol, CV_32FC1, m);
@@ -313,7 +313,7 @@ CVAPI(ExceptionStatus) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv
 }
 
 CVAPI(ExceptionStatus) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* map1, cv::_InputArray* map2,
-                                     int interpolation, int borderMode, MyCvScalar borderValue, int hint)
+                                     int interpolation, int borderMode, interop::Scalar borderValue, int hint)
 {
     BEGIN_WRAP
     cv::remap(*src, *dst, *map1, *map2, interpolation, borderMode, cpp(borderValue), static_cast<cv::AlgorithmHint>(hint));
@@ -328,7 +328,7 @@ CVAPI(ExceptionStatus) imgproc_convertMaps(cv::_InputArray* map1, cv::_InputArra
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_getRotationMatrix2D(MyCvPoint2D32f center, double angle, double scale, cv::Mat** returnValue)
+CVAPI(ExceptionStatus) imgproc_getRotationMatrix2D(interop::Point2f center, double angle, double scale, cv::Mat** returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::getRotationMatrix2D(cpp(center), angle, scale);
@@ -373,7 +373,7 @@ CVAPI(ExceptionStatus) imgproc_getAffineTransform2(cv::_InputArray *src, cv::_In
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, MyCvSize patchSize, MyCvPoint2D32f center, cv::_OutputArray *patch, int patchType)
+CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, interop::Size patchSize, interop::Point2f center, cv::_OutputArray *patch, int patchType)
 {
     BEGIN_WRAP
     cv::getRectSubPix(*image, cpp(patchSize), cpp(center), *patch, patchType);
@@ -381,8 +381,8 @@ CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, MyCvSize pa
 }
 
 CVAPI(ExceptionStatus) imgproc_warpPolar(
-    cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dsize,
-    MyCvPoint2D32f center, double maxRadius, int flags)
+    cv::_InputArray *src, cv::_OutputArray *dst, interop::Size dsize,
+    interop::Point2f center, double maxRadius, int flags)
 {
     BEGIN_WRAP
     cv::warpPolar(*src, *dst, cpp(dsize), cpp(center), maxRadius, flags);
@@ -439,7 +439,7 @@ CVAPI(ExceptionStatus) imgproc_accumulateWeighted(cv::_InputArray *src, cv::_Inp
 }
 
 CVAPI(ExceptionStatus) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
-                                              cv::_InputArray *window, double* response, MyCvPoint2D64f* returnValue)
+                                              cv::_InputArray *window, double* response, interop::Point2d* returnValue)
 {
     BEGIN_WRAP
     const auto p = cv::phaseCorrelate(*src1, *src2, *window, response);
@@ -447,7 +447,7 @@ CVAPI(ExceptionStatus) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputA
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_createHanningWindow(cv::_OutputArray *dst, MyCvSize winSize, int type)
+CVAPI(ExceptionStatus) imgproc_createHanningWindow(cv::_OutputArray *dst, interop::Size winSize, int type)
 {
     BEGIN_WRAP
     cv::createHanningWindow(*dst, cpp(winSize), type);
@@ -471,13 +471,13 @@ CVAPI(ExceptionStatus) imgproc_adaptiveThreshold(cv::_InputArray *src, cv::_Outp
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstSize, int borderType)
+CVAPI(ExceptionStatus) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, interop::Size dstSize, int borderType)
 {
     BEGIN_WRAP
     cv::pyrDown(*src, *dst, cpp(dstSize), borderType);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstSize, int borderType)
+CVAPI(ExceptionStatus) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, interop::Size dstSize, int borderType)
 {
     BEGIN_WRAP
     cv::pyrUp(*src, *dst, cpp(dstSize), borderType);
@@ -546,13 +546,13 @@ CVAPI(ExceptionStatus) imgproc_watershed(cv::_InputArray *image, cv::_InputOutpu
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_InputOutputArray *dst,
-                                          double sp, double sr, int maxLevel, MyCvTermCriteria termCrit)
+                                          double sp, double sr, int maxLevel, interop::TermCriteria termCrit)
 {
     BEGIN_WRAP
     cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, cpp(termCrit));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, MyCvRect rect,
+CVAPI(ExceptionStatus) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, interop::Rect rect,
                             cv::_InputOutputArray *bgdModel, cv::_InputOutputArray *fgdModel,
                             int iterCount, int mode)
 {
@@ -579,8 +579,8 @@ CVAPI(ExceptionStatus) imgproc_distanceTransform(cv::_InputArray *src, cv::_Outp
 }
 
 CVAPI(ExceptionStatus) imgproc_floodFill1(cv::_InputOutputArray *image,
-                              MyCvPoint seedPoint, MyCvScalar newVal, MyCvRect *rect,
-                              MyCvScalar loDiff, MyCvScalar upDiff, int flags, int *returnValue)
+                              interop::Point seedPoint, interop::Scalar newVal, interop::Rect *rect,
+                              interop::Scalar loDiff, interop::Scalar upDiff, int flags, int *returnValue)
 {
     BEGIN_WRAP
     cv::Rect rect0;
@@ -589,8 +589,8 @@ CVAPI(ExceptionStatus) imgproc_floodFill1(cv::_InputOutputArray *image,
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_floodFill2(cv::_InputOutputArray *image, cv::_InputOutputArray *mask,
-                              MyCvPoint seedPoint, MyCvScalar newVal, MyCvRect *rect,
-                              MyCvScalar loDiff, MyCvScalar upDiff, int flags, int* returnValue)
+                              interop::Point seedPoint, interop::Scalar newVal, interop::Rect *rect,
+                              interop::Scalar loDiff, interop::Scalar upDiff, int flags, int* returnValue)
 {
     BEGIN_WRAP
     cv::Rect rect0;
@@ -628,7 +628,7 @@ CVAPI(ExceptionStatus) imgproc_demosaicing(cv::_InputArray *src, cv::_OutputArra
     END_WRAP    
 }
 
-CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, MyCvMoments *returnValue)
+CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, interop::Moments *returnValue)
 {
     BEGIN_WRAP
     const auto m = cv::moments(*arr, binaryImage != 0);
@@ -636,7 +636,7 @@ CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, My
     END_WRAP
 }
 /*
-CVAPI(ExceptionStatus) imgproc_HuMoments(MyCvMoments *moments, double hu[7])
+CVAPI(ExceptionStatus) imgproc_HuMoments(interop::Moments *moments, double hu[7])
 {
     BEGIN_WRAP
     cv::HuMoments(cpp(*moments), hu);
@@ -688,28 +688,28 @@ CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStats(cv::_InputArray *ima
 }
 
 CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > *contours,
-                                         std::vector<cv::Vec4i> *hierarchy, int mode, int method, MyCvPoint offset)
+                                         std::vector<cv::Vec4i> *hierarchy, int mode, int method, interop::Point offset)
 {
     BEGIN_WRAP
     cv::findContours(*image, *contours, *hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> *contours,
-                                              cv::_OutputArray *hierarchy, int mode, int method, MyCvPoint offset)
+                                              cv::_OutputArray *hierarchy, int mode, int method, interop::Point offset)
 {
     BEGIN_WRAP
     cv::findContours(*image, *contours, *hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > *contours,
-                                         int mode, int method, MyCvPoint offset)
+                                         int mode, int method, interop::Point offset)
 {
     BEGIN_WRAP
     cv::findContours(*image, *contours, mode, method, cpp(offset));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> *contours,
-                                              int mode, int method, MyCvPoint offset)
+                                              int mode, int method, interop::Point offset)
 {
     BEGIN_WRAP
     cv::findContours(*image, *contours, mode, method, cpp(offset));
@@ -773,20 +773,20 @@ CVAPI(ExceptionStatus) imgproc_arcLength_Point2f(cv::Point2f *curve, int curveLe
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_boundingRect_InputArray(cv::_InputArray *curve, MyCvRect* returnValue)
+CVAPI(ExceptionStatus) imgproc_boundingRect_InputArray(cv::_InputArray *curve, interop::Rect* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::boundingRect(*curve));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_boundingRect_Point(cv::Point *curve, int curveLength, MyCvRect* returnValue)
+CVAPI(ExceptionStatus) imgproc_boundingRect_Point(cv::Point *curve, int curveLength, interop::Rect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
     *returnValue = c(cv::boundingRect(curveMat));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_boundingRect_Point2f(cv::Point2f *curve, int curveLength, MyCvRect* returnValue)
+CVAPI(ExceptionStatus) imgproc_boundingRect_Point2f(cv::Point2f *curve, int curveLength, interop::Rect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
@@ -815,20 +815,20 @@ CVAPI(ExceptionStatus) imgproc_contourArea_Point2f(cv::Point2f *contour, int con
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_minAreaRect_InputArray(cv::_InputArray *points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_InputArray(cv::_InputArray *points, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::minAreaRect(*points));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_minAreaRect_Point(cv::Point *points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_Point(cv::Point *points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     *returnValue = c(cv::minAreaRect(pointsMat));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_minAreaRect_Point2f(cv::Point2f *points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_Point2f(cv::Point2f *points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
@@ -836,20 +836,20 @@ CVAPI(ExceptionStatus) imgproc_minAreaRect_Point2f(cv::Point2f *points, int poin
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_boxPoints_OutputArray(MyCvBox2D box, cv::_OutputArray* points)
+CVAPI(ExceptionStatus) imgproc_boxPoints_OutputArray(interop::RotatedRect box, cv::_OutputArray* points)
 {
     BEGIN_WRAP
     cv::boxPoints(cpp(box), *points);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_boxPoints_Point2f(MyCvBox2D box, cv::Point2f points[4])
+CVAPI(ExceptionStatus) imgproc_boxPoints_Point2f(interop::RotatedRect box, cv::Point2f points[4])
 {
     BEGIN_WRAP
     cpp(box).points(points);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *points, MyCvPoint2D32f *center, float *radius)
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *points, interop::Point2f *center, float *radius)
 {
     BEGIN_WRAP
     cv::Point2f center0;
@@ -859,7 +859,7 @@ CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *po
     *radius = radius0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength, MyCvPoint2D32f*center, float *radius)
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength, interop::Point2f*center, float *radius)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
@@ -870,7 +870,7 @@ CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point(cv::Point *points, int p
     *radius = radius0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point2f(cv::Point2f *points, int pointsLength, MyCvPoint2D32f*center, float *radius)
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point2f(cv::Point2f *points, int pointsLength, interop::Point2f*center, float *radius)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
@@ -1028,20 +1028,20 @@ CVAPI(ExceptionStatus) imgproc_intersectConvexConvex_Point2f(cv::Point2f *p1, in
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_fitEllipse_InputArray(cv::_InputArray *points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipse_InputArray(cv::_InputArray *points, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::fitEllipse(*points));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipse_Point(cv::Point *points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipse_Point(cv::Point *points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
     *returnValue = c(cv::fitEllipse(pointsVec));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipse_Point2f(cv::Point2f *points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipse_Point2f(cv::Point2f *points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
@@ -1049,20 +1049,20 @@ CVAPI(ExceptionStatus) imgproc_fitEllipse_Point2f(cv::Point2f *points, int point
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_InputArray(cv::_InputArray *points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_InputArray(cv::_InputArray *points, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::fitEllipseAMS(*points));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point(cv::Point* points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point(cv::Point* points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
     *returnValue = c(cv::fitEllipseAMS(pointsVec));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point2f(cv::Point2f* points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point2f(cv::Point2f* points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
@@ -1070,20 +1070,20 @@ CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point2f(cv::Point2f* points, int po
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_InputArray(cv::_InputArray* points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_InputArray(cv::_InputArray* points, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::fitEllipseDirect(*points));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_Point(cv::Point* points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_Point(cv::Point* points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
     *returnValue = c(cv::fitEllipseDirect(pointsVec));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_Point2f(cv::Point2f* points, int pointsLength, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_Point2f(cv::Point2f* points, int pointsLength, interop::RotatedRect* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
@@ -1136,14 +1136,14 @@ CVAPI(ExceptionStatus) imgproc_fitLine_Point3f(cv::Point3f *points, int pointsLe
 }
 
 CVAPI(ExceptionStatus) imgproc_pointPolygonTest_InputArray(
-    cv::_InputArray* contour, MyCvPoint2D32f pt, int measureDist, double *returnValue)
+    cv::_InputArray* contour, interop::Point2f pt, int measureDist, double *returnValue)
 {
     BEGIN_WRAP
     *returnValue = cv::pointPolygonTest(*contour, cpp(pt), measureDist != 0);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_pointPolygonTest_Point(
-    cv::Point *contour, int contourLength, MyCvPoint2D32f pt, int measureDist, double* returnValue)
+    cv::Point *contour, int contourLength, interop::Point2f pt, int measureDist, double* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> contourVec(contourLength, 1, contour);
@@ -1151,7 +1151,7 @@ CVAPI(ExceptionStatus) imgproc_pointPolygonTest_Point(
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_pointPolygonTest_Point2f(
-    cv::Point2f *contour, int contourLength, MyCvPoint2D32f pt, int measureDist, double* returnValue)
+    cv::Point2f *contour, int contourLength, interop::Point2f pt, int measureDist, double* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> contourVec(contourLength, 1, contour);
@@ -1160,14 +1160,14 @@ CVAPI(ExceptionStatus) imgproc_pointPolygonTest_Point2f(
 }
 
 CVAPI(ExceptionStatus) imgproc_rotatedRectangleIntersection_OutputArray(
-    MyCvBox2D rect1, MyCvBox2D rect2, cv::_OutputArray *intersectingRegion, int* returnValue)
+    interop::RotatedRect rect1, interop::RotatedRect rect2, cv::_OutputArray *intersectingRegion, int* returnValue)
 {
     BEGIN_WRAP
     *returnValue = cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), *intersectingRegion);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_rotatedRectangleIntersection_vector(
-    MyCvBox2D rect1, MyCvBox2D rect2, std::vector<cv::Point2f> *intersectingRegion, int* returnValue)
+    interop::RotatedRect rect1, interop::RotatedRect rect2, std::vector<cv::Point2f> *intersectingRegion, int* returnValue)
 {
     BEGIN_WRAP
     *returnValue = cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), *intersectingRegion);
@@ -1191,7 +1191,7 @@ CVAPI(ExceptionStatus) imgproc_applyColorMap2(cv::_InputArray *src, cv::_OutputA
 #pragma region Drawing
 
 CVAPI(ExceptionStatus) imgproc_line(
-    cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
+    cv::_InputOutputArray *img, interop::Point pt1, interop::Point pt2, interop::Scalar color,
     int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
@@ -1200,7 +1200,7 @@ CVAPI(ExceptionStatus) imgproc_line(
 }
 
 CVAPI(ExceptionStatus) imgproc_arrowedLine(
-    cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
+    cv::_InputOutputArray *img, interop::Point pt1, interop::Point pt2, interop::Scalar color,
     int thickness, int line_type, int shift, double tipLength)
 {
     BEGIN_WRAP
@@ -1210,32 +1210,32 @@ CVAPI(ExceptionStatus) imgproc_arrowedLine(
 
 
 CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray_Point(
-    cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    cv::_InputOutputArray *img, interop::Point pt1, interop::Point pt2,
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray_Rect(
-    cv::_InputOutputArray* img, MyCvRect rect,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    cv::_InputOutputArray* img, interop::Rect rect,
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::rectangle(*img, cpp(rect), cpp(color), thickness, lineType, shift);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Point(
-    cv::Mat* img, MyCvPoint pt1, MyCvPoint pt2,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    cv::Mat* img, interop::Point pt1, interop::Point pt2,
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Rect(
-    cv::Mat *img, MyCvRect rect,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    cv::Mat *img, interop::Rect rect,
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::rectangle(*img, cpp(rect), cpp(color), thickness, lineType, shift);
@@ -1244,8 +1244,8 @@ CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Rect(
 
 
 CVAPI(ExceptionStatus) imgproc_circle(
-    cv::_InputOutputArray *img, MyCvPoint center, int radius,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    cv::_InputOutputArray *img, interop::Point center, int radius,
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::circle(*img, cpp(center), radius, cpp(color), thickness, lineType, shift);
@@ -1253,16 +1253,16 @@ CVAPI(ExceptionStatus) imgproc_circle(
 }
 
 CVAPI(ExceptionStatus) imgproc_ellipse1(
-    cv::_InputOutputArray *img, MyCvPoint center, MyCvSize axes,
+    cv::_InputOutputArray *img, interop::Point center, interop::Size axes,
     double angle, double startAngle, double endAngle,
-    MyCvScalar color, int thickness, int lineType, int shift)
+    interop::Scalar color, int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::ellipse(*img, cpp(center), cpp(axes), angle, startAngle, endAngle, cpp(color), thickness, lineType, shift);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_ellipse2(
-    cv::_InputOutputArray *img, MyCvBox2D box, MyCvScalar color, int thickness, int lineType)
+    cv::_InputOutputArray *img, interop::RotatedRect box, interop::Scalar color, int thickness, int lineType)
 {
     BEGIN_WRAP
     cv::ellipse(*img, cpp(box), cpp(color), thickness, lineType);
@@ -1270,7 +1270,7 @@ CVAPI(ExceptionStatus) imgproc_ellipse2(
 }
 
 CVAPI(ExceptionStatus) imgproc_drawMarker(
-    cv::_InputOutputArray *img, MyCvPoint position, MyCvScalar color,
+    cv::_InputOutputArray *img, interop::Point position, interop::Scalar color,
     int markerType, int markerSize, int thickness, int lineType)
 {
     BEGIN_WRAP
@@ -1279,14 +1279,14 @@ CVAPI(ExceptionStatus) imgproc_drawMarker(
 }
 
 CVAPI(ExceptionStatus) imgproc_fillConvexPoly_Mat(
-    cv::Mat *img, cv::Point *pts, int npts, MyCvScalar color, int lineType, int shift)
+    cv::Mat *img, cv::Point *pts, int npts, interop::Scalar color, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::fillConvexPoly(*img, pts, npts, cpp(color), lineType, shift);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_fillConvexPoly_InputOutputArray(
-    cv::_InputOutputArray *img, cv::_InputArray *points, MyCvScalar color, int lineType, int shift)
+    cv::_InputOutputArray *img, cv::_InputArray *points, interop::Scalar color, int lineType, int shift)
 {
     BEGIN_WRAP
     cv::fillConvexPoly(*img, *points, cpp(color), lineType, shift);
@@ -1294,14 +1294,14 @@ CVAPI(ExceptionStatus) imgproc_fillConvexPoly_InputOutputArray(
 }
 
 CVAPI(ExceptionStatus) imgproc_fillPoly_Mat(cv::Mat *img, const cv::Point **pts, const int *npts,
-                                 int ncontours, MyCvScalar color, int lineType, int shift, MyCvPoint offset)
+                                 int ncontours, interop::Scalar color, int lineType, int shift, interop::Point offset)
 {
     BEGIN_WRAP
     cv::fillPoly(*img, pts, npts, ncontours, cpp(color), lineType, shift, cpp(offset));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_fillPoly_InputOutputArray(cv::_InputOutputArray *img, cv::_InputArray *pts,
-                                              MyCvScalar color, int lineType, int shift, MyCvPoint offset)
+                                              interop::Scalar color, int lineType, int shift, interop::Point offset)
 {
     BEGIN_WRAP
     cv::fillPoly(*img, *pts, cpp(color), lineType, shift, cpp(offset));
@@ -1310,7 +1310,7 @@ CVAPI(ExceptionStatus) imgproc_fillPoly_InputOutputArray(cv::_InputOutputArray *
 
 CVAPI(ExceptionStatus) imgproc_polylines_Mat(
     cv::Mat *img, const cv::Point **pts, const int *npts,
-    int ncontours, int isClosed, MyCvScalar color,
+    int ncontours, int isClosed, interop::Scalar color,
     int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
@@ -1319,7 +1319,7 @@ CVAPI(ExceptionStatus) imgproc_polylines_Mat(
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_polylines_InputOutputArray(
-    cv::_InputOutputArray *img, cv::_InputArray *pts, int isClosed, MyCvScalar color,
+    cv::_InputOutputArray *img, cv::_InputArray *pts, int isClosed, interop::Scalar color,
     int thickness, int lineType, int shift)
 {
     BEGIN_WRAP
@@ -1329,8 +1329,8 @@ CVAPI(ExceptionStatus) imgproc_polylines_InputOutputArray(
 
 CVAPI(ExceptionStatus) imgproc_drawContours_vector(cv::_InputOutputArray *image,
                                         cv::Point **contours, int contoursSize1, int *contoursSize2,
-                                        int contourIdx, MyCvScalar color, int thickness, int lineType,
-                                        cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, MyCvPoint offset)
+                                        int contourIdx, interop::Scalar color, int thickness, int lineType,
+                                        cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, interop::Point offset)
 {
     BEGIN_WRAP
     std::vector<std::vector<cv::Point> > contoursVec;
@@ -1351,8 +1351,8 @@ CVAPI(ExceptionStatus) imgproc_drawContours_vector(cv::_InputOutputArray *image,
 }
 CVAPI(ExceptionStatus) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
                                             cv::Mat **contours, int contoursLength,
-                                            int contourIdx, MyCvScalar color, int thickness, int lineType,
-                                            cv::_InputArray *hierarchy, int maxLevel, MyCvPoint offset)
+                                            int contourIdx, interop::Scalar color, int thickness, int lineType,
+                                            cv::_InputArray *hierarchy, int maxLevel, interop::Point offset)
 {
     BEGIN_WRAP
     std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
@@ -1363,7 +1363,7 @@ CVAPI(ExceptionStatus) imgproc_drawContours_InputArray(cv::_InputOutputArray *im
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvPoint *pt2, int* returnValue)
+CVAPI(ExceptionStatus) imgproc_clipLine1(interop::Size imgSize, interop::Point *pt1, interop::Point *pt2, int* returnValue)
 {
     BEGIN_WRAP
     auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
@@ -1373,7 +1373,7 @@ CVAPI(ExceptionStatus) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvP
     *returnValue = result ? 1 : 0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvPoint *pt2, int* returnValue)
+CVAPI(ExceptionStatus) imgproc_clipLine2(interop::Rect imgRect, interop::Point *pt1, interop::Point *pt2, int* returnValue)
 {
     BEGIN_WRAP
     auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
@@ -1385,7 +1385,7 @@ CVAPI(ExceptionStatus) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvP
 }
 
 CVAPI(ExceptionStatus) imgproc_ellipse2Poly_int(
-    MyCvPoint center, MyCvSize axes, int angle, int arcStart, int arcEnd,
+    interop::Point center, interop::Size axes, int angle, int arcStart, int arcEnd,
     int delta, std::vector<cv::Point>* pts)
 {
     BEGIN_WRAP
@@ -1394,7 +1394,7 @@ CVAPI(ExceptionStatus) imgproc_ellipse2Poly_int(
 }
 
 CVAPI(ExceptionStatus) imgproc_ellipse2Poly_double(
-    MyCvPoint2D64f center, MyCvSize2D64f axes, int angle, int arcStart, int arcEnd,
+    interop::Point2d center, interop::Size2d axes, int angle, int arcStart, int arcEnd,
     int delta, std::vector<cv::Point2d>* pts)
 {
     BEGIN_WRAP
@@ -1402,8 +1402,8 @@ CVAPI(ExceptionStatus) imgproc_ellipse2Poly_double(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_putText(cv::_InputOutputArray *img, const char *text, MyCvPoint org,
-                         int fontFace, double fontScale, MyCvScalar color,
+CVAPI(ExceptionStatus) imgproc_putText(cv::_InputOutputArray *img, const char *text, interop::Point org,
+                         int fontFace, double fontScale, interop::Scalar color,
                          int thickness, int lineType, int bottomLeftOrigin)
 {
     BEGIN_WRAP
@@ -1412,7 +1412,7 @@ CVAPI(ExceptionStatus) imgproc_putText(cv::_InputOutputArray *img, const char *t
 }
 
 CVAPI(ExceptionStatus) imgproc_getTextSize(const char *text, int fontFace,
-                                 double fontScale, int thickness, int *baseLine, MyCvSize *returnValue)
+                                 double fontScale, int thickness, int *baseLine, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));

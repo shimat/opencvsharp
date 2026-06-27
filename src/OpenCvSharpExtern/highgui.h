@@ -103,7 +103,7 @@ CVAPI(ExceptionStatus) highgui_getWindowProperty(const char *winName, int propId
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) highgui_getWindowImageRect(const char *winName, MyCvRect *returnValue)
+CVAPI(ExceptionStatus) highgui_getWindowImageRect(const char *winName, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::getWindowImageRect(winName));
@@ -124,14 +124,14 @@ CVAPI(ExceptionStatus) highgui_getMouseWheelDelta(int flags, int *returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) highgui_selectROI1(const char *windowName, cv::_InputArray *img, int showCrosshair, int fromCenter, MyCvRect *returnValue)
+CVAPI(ExceptionStatus) highgui_selectROI1(const char *windowName, cv::_InputArray *img, int showCrosshair, int fromCenter, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::selectROI(windowName, *img, showCrosshair != 0, fromCenter != 0));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) highgui_selectROI2(cv::_InputArray *img, int showCrosshair, int fromCenter, MyCvRect *returnValue)
+CVAPI(ExceptionStatus) highgui_selectROI2(cv::_InputArray *img, int showCrosshair, int fromCenter, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::selectROI(*img, showCrosshair != 0, fromCenter != 0));

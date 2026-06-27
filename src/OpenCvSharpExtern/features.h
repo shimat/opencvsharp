@@ -10,7 +10,7 @@
 
 
 CVAPI(ExceptionStatus) features_drawKeypoints(cv::_InputArray *image, cv::KeyPoint *keypoints, int keypointsLength,
-    cv::_InputOutputArray *outImage, MyCvScalar color, int flags)
+    cv::_InputOutputArray *outImage, interop::Scalar color, int flags)
 {
     BEGIN_WRAP
     const std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
@@ -22,7 +22,7 @@ CVAPI(ExceptionStatus) features_drawKeypoints(cv::_InputArray *image, cv::KeyPoi
 CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
     cv::Mat *img2, cv::KeyPoint *keypoints2, int keypoints2Length,
     cv::DMatch *matches1to2, int matches1to2Length, cv::Mat *outImg,
-    MyCvScalar matchColor, MyCvScalar singlePointColor,
+    interop::Scalar matchColor, interop::Scalar singlePointColor,
     char *matchesMask, int matchesMaskLength, int flags)
 {
     BEGIN_WRAP
@@ -40,7 +40,7 @@ CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoin
 CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
     cv::Mat *img2, cv::KeyPoint *keypoints2, int keypoints2Length,
     cv::DMatch **matches1to2, int matches1to2Size1, int *matches1to2Size2,
-    cv::Mat *outImg, MyCvScalar matchColor, MyCvScalar singlePointColor,
+    cv::Mat *outImg, interop::Scalar matchColor, interop::Scalar singlePointColor,
     char **matchesMask, int matchesMaskSize1, int *matchesMaskSize2, int flags)
 {
     BEGIN_WRAP
@@ -130,7 +130,7 @@ CVAPI(ExceptionStatus) features_getNearestPoint(
 #pragma region KeyPointsFilter
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByImageBorder(
-    std::vector<cv::KeyPoint> *keypoints, MyCvSize imageSize, int borderSize)
+    std::vector<cv::KeyPoint> *keypoints, interop::Size imageSize, int borderSize)
 {
     BEGIN_WRAP
     cv::KeyPointsFilter::runByImageBorder(*keypoints, cpp(imageSize), borderSize);

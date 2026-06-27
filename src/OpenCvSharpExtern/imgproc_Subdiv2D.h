@@ -11,13 +11,13 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_new1(cv::Subdiv2D **returnValue)
     *returnValue = new cv::Subdiv2D;
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_new2(MyCvRect rect, cv::Subdiv2D **returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_new2(interop::Rect rect, cv::Subdiv2D **returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::Subdiv2D(cpp(rect));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_new3(MyCvRect2D32f rect, cv::Subdiv2D** returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_new3(interop::Rect2f rect, cv::Subdiv2D** returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::Subdiv2D(cpp(rect));
@@ -31,26 +31,26 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_delete(cv::Subdiv2D *obj)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay1(cv::Subdiv2D *obj, MyCvRect rect)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay1(cv::Subdiv2D *obj, interop::Rect rect)
 {
     BEGIN_WRAP
     obj->initDelaunay(cpp(rect));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay2(cv::Subdiv2D* obj, MyCvRect2D32f rect)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay2(cv::Subdiv2D* obj, interop::Rect2f rect)
 {
     BEGIN_WRAP
     obj->initDelaunay(cpp(rect));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_insert1(cv::Subdiv2D *obj, MyCvPoint2D32f pt, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_insert1(cv::Subdiv2D *obj, interop::Point2f pt, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->insert(cpp(pt));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_insert2(cv::Subdiv2D *obj, MyCvPoint2D32f *ptArray, int length)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_insert2(cv::Subdiv2D *obj, interop::Point2f *ptArray, int length)
 {
     BEGIN_WRAP
     std::vector<cv::Point2f> ptVec(length);
@@ -63,7 +63,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_insert2(cv::Subdiv2D *obj, MyCvPoint2D32
 }
 
 CVAPI(ExceptionStatus) imgproc_Subdiv2D_locate(
-    cv::Subdiv2D *obj, MyCvPoint2D32f pt, int *edge, int *vertex, int *returnValue)
+    cv::Subdiv2D *obj, interop::Point2f pt, int *edge, int *vertex, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->locate(cpp(pt), *edge, *vertex);
@@ -71,7 +71,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_locate(
 }
 
 CVAPI(ExceptionStatus) imgproc_Subdiv2D_findNearest(
-    cv::Subdiv2D *obj, MyCvPoint2D32f pt, MyCvPoint2D32f* nearestPt, int *returnValue)
+    cv::Subdiv2D *obj, interop::Point2f pt, interop::Point2f* nearestPt, int *returnValue)
 {
     BEGIN_WRAP
     cv::Point2f nearestPt0;
@@ -113,7 +113,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_getVoronoiFacetList(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_getVertex(cv::Subdiv2D *obj, int vertex, int* firstEdge, MyCvPoint2D32f *returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_getVertex(cv::Subdiv2D *obj, int vertex, int* firstEdge, interop::Point2f *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getVertex(vertex, firstEdge));
@@ -148,7 +148,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_symEdge(cv::Subdiv2D *obj, int edge, int
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeOrg(cv::Subdiv2D *obj, int edge, MyCvPoint2D32f *orgPt, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeOrg(cv::Subdiv2D *obj, int edge, interop::Point2f *orgPt, int *returnValue)
 {
     BEGIN_WRAP
     cv::Point2f orgPt0;
@@ -157,7 +157,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeOrg(cv::Subdiv2D *obj, int edge, MyC
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeDst(cv::Subdiv2D *obj, int edge, MyCvPoint2D32f *dstPt, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeDst(cv::Subdiv2D *obj, int edge, interop::Point2f *dstPt, int *returnValue)
 {
     BEGIN_WRAP
     cv::Point2f dstPt0;

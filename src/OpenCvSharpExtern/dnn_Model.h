@@ -41,21 +41,21 @@ CVAPI(ExceptionStatus) dnn_Model_delete(cv::dnn::Model *model)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_Model_setInputSize(cv::dnn::Model *model, const MyCvSize size)
+CVAPI(ExceptionStatus) dnn_Model_setInputSize(cv::dnn::Model *model, const interop::Size size)
 {
     BEGIN_WRAP
     model->setInputSize(cpp(size));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_Model_setInputMean(cv::dnn::Model *model, const MyCvScalar mean)
+CVAPI(ExceptionStatus) dnn_Model_setInputMean(cv::dnn::Model *model, const interop::Scalar mean)
 {
     BEGIN_WRAP
     model->setInputMean(cpp(mean));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_Model_setInputScale(cv::dnn::Model *model, const MyCvScalar scale)
+CVAPI(ExceptionStatus) dnn_Model_setInputScale(cv::dnn::Model *model, const interop::Scalar scale)
 {
     BEGIN_WRAP
     model->setInputScale(cpp(scale));
@@ -77,7 +77,7 @@ CVAPI(ExceptionStatus) dnn_Model_setInputSwapRB(cv::dnn::Model *model, const int
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputParams(
-    cv::dnn::Model *model, const double scale, const MyCvSize size, const MyCvScalar mean, const int swapRB, const int crop)
+    cv::dnn::Model *model, const double scale, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop)
 {
     BEGIN_WRAP
     model->setInputParams(scale, cpp(size), cpp(mean), swapRB != 0, crop != 0);

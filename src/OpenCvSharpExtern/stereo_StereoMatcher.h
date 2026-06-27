@@ -228,14 +228,14 @@ CVAPI(ExceptionStatus) stereo_StereoBM_setSmallerBlockSize(
 }
 
 CVAPI(ExceptionStatus) stereo_StereoBM_getROI1(
-    cv::StereoBM *obj, MyCvRect *returnValue)
+    cv::StereoBM *obj, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getROI1());
     END_WRAP
 }
 CVAPI(ExceptionStatus) stereo_StereoBM_setROI1(
-    cv::StereoBM *obj, MyCvRect value)
+    cv::StereoBM *obj, interop::Rect value)
 {
     BEGIN_WRAP
     obj->setROI1(cpp(value));
@@ -243,14 +243,14 @@ CVAPI(ExceptionStatus) stereo_StereoBM_setROI1(
 }
 
 CVAPI(ExceptionStatus) stereo_StereoBM_getROI2(
-    cv::StereoBM *obj, MyCvRect *returnValue)
+    cv::StereoBM *obj, interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getROI2());
     END_WRAP
 }
 CVAPI(ExceptionStatus) stereo_StereoBM_setROI2(
-    cv::StereoBM *obj, MyCvRect value)
+    cv::StereoBM *obj, interop::Rect value)
 {
     BEGIN_WRAP
     obj->setROI2(cpp(value));

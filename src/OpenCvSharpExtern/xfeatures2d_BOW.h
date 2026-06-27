@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_clear(cv::xfeatures2d::BOWTrainer 
 // BOWKMeansTrainer
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_new(
-    int clusterCount, MyCvTermCriteria termcrit, int attempts, int flags, cv::xfeatures2d::BOWKMeansTrainer **returnValue)
+    int clusterCount, interop::TermCriteria termcrit, int attempts, int flags, cv::xfeatures2d::BOWKMeansTrainer **returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::xfeatures2d::BOWKMeansTrainer(clusterCount, cpp(termcrit), attempts, flags);

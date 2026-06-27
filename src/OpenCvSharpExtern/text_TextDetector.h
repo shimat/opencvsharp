@@ -24,7 +24,7 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(cv::Ptr<cv::text::TextDetecto
 }
 
 CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
-    const char *modelArchFilename, const char *modelWeightsFilename, MyCvSize *detectionSizes, int detectionSizesLength,
+    const char *modelArchFilename, const char *modelWeightsFilename, interop::Size *detectionSizes, int detectionSizesLength,
     cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
     BEGIN_WRAP

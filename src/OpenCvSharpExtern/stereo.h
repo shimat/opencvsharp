@@ -12,12 +12,12 @@
 CVAPI(ExceptionStatus) stereo_stereoRectify_InputArray(
     cv::_InputArray *cameraMatrix1, cv::_InputArray *distCoeffs1,
     cv::_InputArray *cameraMatrix2, cv::_InputArray *distCoeffs2,
-    MyCvSize imageSize, cv::_InputArray *R, cv::_InputArray *T,
+    interop::Size imageSize, cv::_InputArray *R, cv::_InputArray *T,
     cv::_OutputArray *R1, cv::_OutputArray *R2,
     cv::_OutputArray *P1, cv::_OutputArray *P2,
     cv::_OutputArray *Q, int flags,
-    double alpha, MyCvSize newImageSize,
-    MyCvRect *validPixROI1, MyCvRect *validPixROI2)
+    double alpha, interop::Size newImageSize,
+    interop::Rect *validPixROI1, interop::Rect *validPixROI2)
 {
     BEGIN_WRAP
     cv::Rect _validPixROI1, _validPixROI2;
@@ -33,11 +33,11 @@ CVAPI(ExceptionStatus) stereo_stereoRectify_array(double *cameraMatrix1,
     double *distCoeffs1, int dc1Size,
     double *cameraMatrix2,
     double *distCoeffs2, int dc2Size,
-    MyCvSize imageSize,
+    interop::Size imageSize,
     double *R, double *T,
     double *R1, double *R2, double *P1, double *P2,
-    double *Q, int flags, double alpha, MyCvSize newImageSize,
-    MyCvRect *validPixROI1, MyCvRect *validPixROI2)
+    double *Q, int flags, double alpha, interop::Size newImageSize,
+    interop::Rect *validPixROI1, interop::Rect *validPixROI2)
 {
     BEGIN_WRAP
     cv::Mat cameraMatrix1M(3, 3, CV_64FC1, cameraMatrix1);
@@ -64,7 +64,7 @@ CVAPI(ExceptionStatus) stereo_stereoRectify_array(double *cameraMatrix1,
 
 
 CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_InputArray(cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_InputArray *F, MyCvSize imgSize,
+    cv::_InputArray *F, interop::Size imgSize,
     cv::_OutputArray *H1, cv::_OutputArray *H2,
     double threshold,
     int *returnValue)
@@ -76,7 +76,7 @@ CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_InputArray(cv::_InputArr
 
 CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_array(cv::Point2d *points1, int points1Size,
     cv::Point2d *points2, int points2Size,
-    cv::_InputArray *F, MyCvSize imgSize,
+    cv::_InputArray *F, interop::Size imgSize,
     double *H1, double *H2,
     double threshold,
     int *returnValue)
@@ -97,12 +97,12 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
     cv::_InputArray *cameraMatrix3, cv::_InputArray *distCoeffs3,
     cv::_InputArray **imgpt1, int imgpt1Size,
     cv::_InputArray **imgpt3, int imgpt3Size,
-    MyCvSize imageSize, cv::_InputArray *R12, cv::_InputArray *T12,
+    interop::Size imageSize, cv::_InputArray *R12, cv::_InputArray *T12,
     cv::_InputArray *R13, cv::_InputArray *T13,
     cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *R3,
     cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *P3,
-    cv::_OutputArray *Q, double alpha, MyCvSize newImgSize,
-    MyCvRect *roi1, MyCvRect *roi2, int flags,
+    cv::_OutputArray *Q, double alpha, interop::Size newImgSize,
+    interop::Rect *roi1, interop::Rect *roi2, int flags,
     float *returnValue)
 {
     BEGIN_WRAP
@@ -137,9 +137,9 @@ CVAPI(ExceptionStatus) stereo_filterSpeckles(
 
 
 CVAPI(ExceptionStatus) stereo_getValidDisparityROI(
-    MyCvRect roi1, MyCvRect roi2,
+    interop::Rect roi1, interop::Rect roi2,
     int minDisparity, int numberOfDisparities, int SADWindowSize,
-    MyCvRect *returnValue)
+    interop::Rect *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::getValidDisparityROI(

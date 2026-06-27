@@ -130,8 +130,8 @@ CVAPI(ExceptionStatus) ximgproc_FastHoughTransform(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_HoughPoint2Line(MyCvPoint houghPoint, cv::_InputArray* srcImgInfo,
-    int angleRange, int makeSkew, int rules, CvVec4i* returnValue)
+CVAPI(ExceptionStatus) ximgproc_HoughPoint2Line(interop::Point houghPoint, cv::_InputArray* srcImgInfo,
+    int angleRange, int makeSkew, int rules, interop::Vec4i* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::ximgproc::HoughPoint2Line(cpp(houghPoint), *srcImgInfo, angleRange, makeSkew, rules));
@@ -187,7 +187,7 @@ CVAPI(ExceptionStatus) ximgproc_rl_threshold(cv::_InputArray *src, cv::_OutputAr
 }
 
 CVAPI(ExceptionStatus) ximgproc_rl_dilate(
-    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel, MyCvPoint anchor)
+    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel, interop::Point anchor)
 {
     BEGIN_WRAP
     cv::ximgproc::rl::dilate(*rlSrc, *rlDest, *rlKernel, cpp(anchor));
@@ -196,14 +196,14 @@ CVAPI(ExceptionStatus) ximgproc_rl_dilate(
 
 CVAPI(ExceptionStatus) ximgproc_rl_erode(
     cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel,
-    int bBoundaryOn, MyCvPoint anchor)
+    int bBoundaryOn, interop::Point anchor)
 {
     BEGIN_WRAP
     cv::ximgproc::rl::erode(*rlSrc, *rlDest, *rlKernel, bBoundaryOn != 0, cpp(anchor));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, MyCvSize ksize, cv::Mat *outValue)
+CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, interop::Size ksize, cv::Mat *outValue)
 {
     BEGIN_WRAP
     auto result = cv::ximgproc::rl::getStructuringElement(shape, cpp(ksize));
@@ -211,7 +211,7 @@ CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, MyCvSize ksi
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_paint(cv::_InputOutputArray *image, cv::_InputArray *rlSrc, MyCvScalar value)
+CVAPI(ExceptionStatus) ximgproc_rl_paint(cv::_InputOutputArray *image, cv::_InputArray *rlSrc, interop::Scalar value)
 {
     BEGIN_WRAP
     cv::ximgproc::rl::paint(*image, *rlSrc, cpp(value));
@@ -225,7 +225,7 @@ CVAPI(ExceptionStatus) ximgproc_rl_isRLMorphologyPossible(cv::_InputArray *rlStr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(MyCvPoint3D32i *runs, size_t runsLength, cv::_OutputArray *res, MyCvSize size)
+CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(interop::Point3i *runs, size_t runsLength, cv::_OutputArray *res, interop::Size size)
 {
     BEGIN_WRAP
     std::vector<cv::Point3i> runsVec(runsLength);
@@ -239,7 +239,7 @@ CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(MyCvPoint3D32i *runs, size_t r
 
 CVAPI(ExceptionStatus) ximgproc_rl_morphologyEx(
     cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, int op, cv::_InputArray *rlKernel,
-    int bBoundaryOnForErosion, MyCvPoint anchor)
+    int bBoundaryOnForErosion, interop::Point anchor)
 {
     BEGIN_WRAP
     cv::ximgproc::rl::morphologyEx(*rlSrc, *rlDest, op, *rlKernel, bBoundaryOnForErosion != 0, cpp(anchor));

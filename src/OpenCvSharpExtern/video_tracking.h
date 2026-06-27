@@ -9,7 +9,7 @@
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) video_CamShift(
-    cv::_InputArray *probImage, MyCvRect *window, MyCvTermCriteria criteria, MyCvBox2D *returnValue)
+    cv::_InputArray *probImage, interop::Rect *window, interop::TermCriteria criteria, interop::RotatedRect *returnValue)
 {
     BEGIN_WRAP
     cv::Rect window0 = cpp(*window);
@@ -20,7 +20,7 @@ CVAPI(ExceptionStatus) video_CamShift(
 }
 
 CVAPI(ExceptionStatus) video_meanShift(
-    cv::_InputArray *probImage, MyCvRect *window, MyCvTermCriteria criteria, int *returnValue)
+    cv::_InputArray *probImage, interop::Rect *window, interop::TermCriteria criteria, int *returnValue)
 {
     BEGIN_WRAP
     cv::Rect window0 = cpp(*window);
@@ -32,7 +32,7 @@ CVAPI(ExceptionStatus) video_meanShift(
 
 CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
     cv::_InputArray* img, cv::_OutputArray* pyramid,
-    MyCvSize winSize, int maxLevel, int withDerivatives,
+    interop::Size winSize, int maxLevel, int withDerivatives,
     int pyrBorder, int derivBorder, int tryReuseInputImage,
     int* returnValue)
 {
@@ -44,7 +44,7 @@ CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
 }
 CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
     cv::_InputArray* img, std::vector<cv::Mat>* pyramidVec,
-    MyCvSize winSize, int maxLevel, int withDerivatives,
+    interop::Size winSize, int maxLevel, int withDerivatives,
     int pyrBorder, int derivBorder, int tryReuseInputImage,
     int* returnValue)
 {
@@ -59,7 +59,7 @@ CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
     cv::_InputArray* prevImg, cv::_InputArray* nextImg,
     cv::_InputArray* prevPts, cv::_InputOutputArray* nextPts,
     cv::_OutputArray* status, cv::_OutputArray* err,
-    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
+    interop::Size winSize, int maxLevel, interop::TermCriteria criteria,
     int flags, double minEigThreshold)
 {
     BEGIN_WRAP
@@ -74,7 +74,7 @@ CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
     std::vector<cv::Point2f>* nextPts,
     std::vector<uchar>* status,
     std::vector<float>* err,
-    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
+    interop::Size winSize, int maxLevel, interop::TermCriteria criteria,
     int flags, double minEigThreshold)
 {
     BEGIN_WRAP
@@ -112,7 +112,7 @@ CVAPI(ExceptionStatus) video_computeECC(cv::_InputArray *templateImage, cv::_Inp
 CVAPI(ExceptionStatus) video_findTransformECC1(
     cv::_InputArray *templateImage, cv::_InputArray *inputImage,
     cv::_InputOutputArray *warpMatrix, int motionType,
-    MyCvTermCriteria criteria,
+    interop::TermCriteria criteria,
     cv::_InputArray *inputMask, int gaussFiltSize, double *returnValue)
 {
     BEGIN_WRAP
@@ -125,7 +125,7 @@ CVAPI(ExceptionStatus) video_findTransformECC1(
 CVAPI(ExceptionStatus) video_findTransformECC2(
     cv::_InputArray *templateImage, cv::_InputArray *inputImage,
     cv::_InputOutputArray *warpMatrix, int motionType,
-    MyCvTermCriteria criteria, cv::_InputArray *inputMask, double* returnValue)
+    interop::TermCriteria criteria, cv::_InputArray *inputMask, double* returnValue)
 {
     BEGIN_WRAP
     *returnValue = cv::findTransformECC(
@@ -243,14 +243,14 @@ CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv
 
 #pragma region Tracker
 
-CVAPI(ExceptionStatus) video_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
+CVAPI(ExceptionStatus) video_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const interop::Rect boundingBox)
 {
     BEGIN_WRAP
     tracker->init(*image, cpp(boundingBox));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect* boundingBox, int* returnValue)
+CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, interop::Rect* boundingBox, int* returnValue)
 {
     BEGIN_WRAP
     cv::Rect bb = cpp(*boundingBox);

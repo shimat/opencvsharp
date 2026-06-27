@@ -8,14 +8,14 @@
 // GeneralizedHough
 
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate1(
-    cv::GeneralizedHough *obj, cv::_InputArray *templ, MyCvPoint templCenter)
+    cv::GeneralizedHough *obj, cv::_InputArray *templ, interop::Point templCenter)
 {
     BEGIN_WRAP
     obj->setTemplate(*templ, cpp(templCenter));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate2(
-    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, MyCvPoint templCenter)
+    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, interop::Point templCenter)
 {
     BEGIN_WRAP
     obj->setTemplate(*edges, *dx, *dy, cpp(templCenter));

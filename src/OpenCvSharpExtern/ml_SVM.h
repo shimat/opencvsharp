@@ -112,13 +112,13 @@ CVAPI(ExceptionStatus) ml_SVM_setClassWeights(cv::ml::SVM *obj, cv::Mat *val)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_SVM_getTermCriteria(cv::ml::SVM *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_SVM_getTermCriteria(cv::ml::SVM *obj, interop::TermCriteria *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTermCriteria());
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_SVM_setTermCriteria(cv::ml::SVM *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_SVM_setTermCriteria(cv::ml::SVM *obj, interop::TermCriteria val)
 {
     BEGIN_WRAP
     obj->setTermCriteria(cpp(val));

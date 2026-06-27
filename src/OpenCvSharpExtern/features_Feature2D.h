@@ -682,7 +682,7 @@ CVAPI(ExceptionStatus) features_Ptr_AffineFeature_delete(cv::Ptr<cv::AffineFeatu
 #pragma region DISK
 
 CVAPI(ExceptionStatus) features_DISK_create(
-    const char *modelPath, int maxKeypoints, float scoreThreshold, MyCvSize imageSize, int backendId, int targetId,
+    const char *modelPath, int maxKeypoints, float scoreThreshold, interop::Size imageSize, int backendId, int targetId,
     cv::Ptr<cv::DISK> **returnValue)
 {
     BEGIN_WRAP
@@ -692,7 +692,7 @@ CVAPI(ExceptionStatus) features_DISK_create(
 }
 
 CVAPI(ExceptionStatus) features_DISK_create_buffer(
-    const uchar *bufferModel, size_t bufferModelLength, int maxKeypoints, float scoreThreshold, MyCvSize imageSize, int backendId, int targetId,
+    const uchar *bufferModel, size_t bufferModelLength, int maxKeypoints, float scoreThreshold, interop::Size imageSize, int backendId, int targetId,
     cv::Ptr<cv::DISK> **returnValue)
 {
     BEGIN_WRAP
@@ -726,13 +726,13 @@ CVAPI(ExceptionStatus) features_DISK_getScoreThreshold(cv::DISK *obj, float *ret
     *returnValue = obj->getScoreThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) features_DISK_setImageSize(cv::DISK *obj, MyCvSize size)
+CVAPI(ExceptionStatus) features_DISK_setImageSize(cv::DISK *obj, interop::Size size)
 {
     BEGIN_WRAP
     obj->setImageSize(cpp(size));
     END_WRAP
 }
-CVAPI(ExceptionStatus) features_DISK_getImageSize(cv::DISK *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) features_DISK_getImageSize(cv::DISK *obj, interop::Size *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getImageSize());
@@ -752,7 +752,7 @@ CVAPI(ExceptionStatus) features_Ptr_DISK_delete(cv::Ptr<cv::DISK> *ptr)
 #pragma region ALIKED
 
 CVAPI(ExceptionStatus) features_ALIKED_create(
-    const char *modelPath, MyCvSize inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    const char *modelPath, interop::Size inputSize, int normalizeDescriptors, int engine, int backend, int target,
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     BEGIN_WRAP
@@ -768,7 +768,7 @@ CVAPI(ExceptionStatus) features_ALIKED_create(
 }
 
 CVAPI(ExceptionStatus) features_ALIKED_create_buffer(
-    const uchar *modelData, size_t modelDataLength, MyCvSize inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    const uchar *modelData, size_t modelDataLength, interop::Size inputSize, int normalizeDescriptors, int engine, int backend, int target,
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     BEGIN_WRAP

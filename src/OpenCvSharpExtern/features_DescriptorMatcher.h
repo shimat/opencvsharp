@@ -307,7 +307,7 @@ CVAPI(ExceptionStatus) features_LightGlueMatcher_create_buffer(
 
 CVAPI(ExceptionStatus) features_LightGlueMatcher_setPairInfo(
     cv::LightGlueMatcher *obj, cv::_InputArray *queryKpts, cv::_InputArray *trainKpts,
-    MyCvSize queryImageSize, MyCvSize trainImageSize)
+    interop::Size queryImageSize, interop::Size trainImageSize)
 {
     BEGIN_WRAP
     obj->setPairInfo(*queryKpts, *trainKpts, cpp(queryImageSize), cpp(trainImageSize));

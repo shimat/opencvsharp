@@ -9,8 +9,8 @@
 #pragma region core.hpp
 
 
-CVAPI(MyCvBox2D) core_RotatedRect_byThreeVertexPoints(
-    MyCvPoint2D32f p1, MyCvPoint2D32f p2, MyCvPoint2D32f p3)
+CVAPI(interop::RotatedRect) core_RotatedRect_byThreeVertexPoints(
+    interop::Point2f p1, interop::Point2f p2, interop::Point2f p3)
 {
     return c(
         cv::RotatedRect(cpp(p1), cpp(p2), cpp(p3)));
@@ -24,7 +24,7 @@ CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, in
 }
 
 CVAPI(ExceptionStatus) core_copyMakeBorder(
-    cv::_InputArray* src, cv::_OutputArray* dst, int top, int bottom, int left, int right, int borderType, MyCvScalar value)
+    cv::_InputArray* src, cv::_OutputArray* dst, int top, int bottom, int left, int right, int borderType, interop::Scalar value)
 {
     BEGIN_WRAP
     cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
@@ -47,14 +47,14 @@ CVAPI(ExceptionStatus) core_subtract_InputArray2(
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_subtract_InputArrayScalar(
-    cv::_InputArray *src1, MyCvScalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    cv::_InputArray *src1, interop::Scalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
     BEGIN_WRAP
     cv::subtract(*src1, cpp(src2), *dst, entity(mask), dtype);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
-    MyCvScalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::Scalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
     BEGIN_WRAP
     cv::subtract(cpp(src1), *src2, *dst, entity(mask), dtype);
@@ -111,7 +111,7 @@ CVAPI(ExceptionStatus) core_LUT(cv::_InputArray* src, cv::_InputArray* lut, cv::
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_sum(cv::_InputArray* src, MyCvScalar* returnValue)
+CVAPI(ExceptionStatus) core_sum(cv::_InputArray* src, interop::Scalar* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::sum(*src));
@@ -132,7 +132,7 @@ CVAPI(ExceptionStatus) core_findNonZero(cv::_InputArray* src, cv::_OutputArray* 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_mean(cv::_InputArray* src, cv::_InputArray* mask, MyCvScalar* returnValue)
+CVAPI(ExceptionStatus) core_mean(cv::_InputArray* src, cv::_InputArray* mask, interop::Scalar* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::mean(*src, entity(mask)));
@@ -147,7 +147,7 @@ CVAPI(ExceptionStatus) core_meanStdDev_OutputArray(
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_meanStdDev_Scalar(
-    cv::_InputArray* src, MyCvScalar* mean, MyCvScalar* stddev, cv::_InputArray* mask)
+    cv::_InputArray* src, interop::Scalar* mean, interop::Scalar* stddev, cv::_InputArray* mask)
 {
     BEGIN_WRAP
     cv::Scalar mean0, stddev0;
@@ -222,7 +222,7 @@ CVAPI(ExceptionStatus) core_minMaxLoc1(cv::_InputArray* src, double* minVal, dou
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_minMaxLoc2(cv::_InputArray* src, double* minVal, double* maxVal,
-    MyCvPoint* minLoc, MyCvPoint* maxLoc, cv::_InputArray* mask)
+    interop::Point* minLoc, interop::Point* maxLoc, cv::_InputArray* mask)
 {
     BEGIN_WRAP
     cv::InputArray maskVal = entity(mask);
@@ -413,7 +413,7 @@ CVAPI(ExceptionStatus) core_inRange_InputArray(
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_inRange_Scalar(
-    cv::_InputArray *src, MyCvScalar lowerb, MyCvScalar upperb, cv::_OutputArray *dst)
+    cv::_InputArray *src, interop::Scalar lowerb, interop::Scalar upperb, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
     cv::inRange(*src, cpp(lowerb), cpp(upperb), *dst);
@@ -524,7 +524,7 @@ CVAPI(ExceptionStatus) core_magnitude_Mat(cv::_InputArray* x, cv::_InputArray* y
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_checkRange(cv::_InputArray* a, int quiet, MyCvPoint* pos, double minVal, double maxVal, int* returnValue)
+CVAPI(ExceptionStatus) core_checkRange(cv::_InputArray* a, int quiet, interop::Point* pos, double minVal, double maxVal, int* returnValue)
 {
     BEGIN_WRAP
     cv::Point pos0;
@@ -622,7 +622,7 @@ CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerTo
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_setIdentity(cv::_InputOutputArray *mtx, MyCvScalar s)
+CVAPI(ExceptionStatus) core_setIdentity(cv::_InputOutputArray *mtx, interop::Scalar s)
 {
     BEGIN_WRAP
     cv::setIdentity(*mtx, cpp(s));
@@ -636,7 +636,7 @@ CVAPI(ExceptionStatus) core_determinant(cv::_InputArray *mtx, double *returnValu
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_trace(cv::_InputArray *mtx, MyCvScalar *returnValue)
+CVAPI(ExceptionStatus) core_trace(cv::_InputArray *mtx, interop::Scalar *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::trace(*mtx));
@@ -857,7 +857,7 @@ CVAPI(ExceptionStatus) core_randu_InputArray(cv::_InputOutputArray *dst, cv::_In
     cv::randu(*dst, *low, *high);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_randu_Scalar(cv::_InputOutputArray *dst, MyCvScalar low, MyCvScalar high)
+CVAPI(ExceptionStatus) core_randu_Scalar(cv::_InputOutputArray *dst, interop::Scalar low, interop::Scalar high)
 {
     BEGIN_WRAP
     cv::randu(*dst, cpp(low), cpp(high));
@@ -870,7 +870,7 @@ CVAPI(ExceptionStatus) core_randn_InputArray(cv::_InputOutputArray *dst, cv::_In
     cv::randn(*dst, *mean, *stddev);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_randn_Scalar(cv::_InputOutputArray *dst, MyCvScalar mean, MyCvScalar stddev)
+CVAPI(ExceptionStatus) core_randn_Scalar(cv::_InputOutputArray *dst, interop::Scalar mean, interop::Scalar stddev)
 {
     BEGIN_WRAP
     cv::randn(*dst, cpp(mean), cpp(stddev));
@@ -888,7 +888,7 @@ CVAPI(ExceptionStatus) core_randShuffle(cv::_InputOutputArray *dst, double iterF
 
 CVAPI(ExceptionStatus) core_kmeans(
     cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
-    MyCvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers, 
+    interop::TermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers, 
     double* returnValue)
 {
     BEGIN_WRAP

@@ -63,9 +63,9 @@ CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(cv::FontFace *obj, std::vect
 #pragma region putText / getTextSize with FontFace
 
 CVAPI(ExceptionStatus) imgproc_putText_FontFace(
-    cv::_InputOutputArray *img, const char *text, MyCvPoint org, MyCvScalar color,
+    cv::_InputOutputArray *img, const char *text, interop::Point org, interop::Scalar color,
     cv::FontFace *fface, int size, int weight, int flags, int wrapStart, int wrapEnd,
-    MyCvPoint *returnValue)
+    interop::Point *returnValue)
 {
     BEGIN_WRAP
     const auto p = cv::putText(
@@ -76,9 +76,9 @@ CVAPI(ExceptionStatus) imgproc_putText_FontFace(
 }
 
 CVAPI(ExceptionStatus) imgproc_getTextSize_FontFace(
-    MyCvSize imgsize, const char *text, MyCvPoint org,
+    interop::Size imgsize, const char *text, interop::Point org,
     cv::FontFace *fface, int size, int weight, int flags, int wrapStart, int wrapEnd,
-    MyCvRect *returnValue)
+    interop::Rect *returnValue)
 {
     BEGIN_WRAP
     const auto r = cv::getTextSize(
