@@ -1,38 +1,21 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp;
 
 /// <summary>
-/// Sparse matrix class.
+/// Sparse matrix (cv::SparseMat). This type-erased base exposes the structural and
+/// metadata operations that do not depend on the element type. For typed element
+/// access use <see cref="SparseMat{T}"/> (e.g. via <see cref="As{T}"/>).
 /// </summary>
 public class SparseMat : CvObject
 {
-    // Cached element size in bytes (SparseMat.ElemSize()), used to reject mismatched
-    // element types before they read/write the wrong number of bytes. -1 = not yet queried;
-    // invalidated by the operations that change the matrix type (Create / AssignFrom).
-    private int cachedElementByteSize = -1;
-
-    /// <summary>
-    /// Throws if <typeparamref name="T"/>'s size does not match this matrix's element size.
-    /// Accessing an element with a wrongly sized <typeparamref name="T"/> would otherwise read
-    /// or write past the element and silently corrupt memory.
-    /// </summary>
-    private void ValidateElementType<T>() where T : struct
-    {
-        if (cachedElementByteSize < 0)
-            cachedElementByteSize = ElemSize();
-        var requested = Marshal.SizeOf<T>();
-        if (requested != cachedElementByteSize)
-            throw new OpenCvSharpException(
-                $"Element type '{typeof(T)}' (size {requested}) does not match the matrix element size ({cachedElementByteSize}).");
-    }
-
     #region Init & Disposal
 
     /// <summary>
-    /// Creates from native cv::SparseMat* pointer
+    /// Creates from a native cv::SparseMat* pointer.
     /// </summary>
     /// <param name="ptr"></param>
     public SparseMat(IntPtr ptr)
@@ -43,7 +26,7 @@ public class SparseMat : CvObject
     }
 
     /// <summary>
-    /// Creates empty SparseMat
+    /// Creates an empty SparseMat.
     /// </summary>
     public SparseMat()
     {
@@ -53,12 +36,10 @@ public class SparseMat : CvObject
     }
 
     /// <summary>
-    /// constructs n-dimensional sparse matrix
+    /// Constructs an n-dimensional sparse matrix.
     /// </summary>
     /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
-    /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
-    /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
+    /// <param name="type">Array type.</param>
     public SparseMat(IEnumerable<int> sizes, MatType type)
     {
         if (sizes is null)
@@ -71,7 +52,7 @@ public class SparseMat : CvObject
     }
 
     /// <summary>
-    /// converts old-style CvMat to the new matrix; the data is not copied by default
+    /// Converts a dense cv::Mat to a sparse matrix.
     /// </summary>
     /// <param name="m">cv::Mat object</param>
     public SparseMat(Mat m)
@@ -90,61 +71,49 @@ public class SparseMat : CvObject
     }
 
     /// <summary>
-    /// Releases the resources
+    /// Releases the resources.
     /// </summary>
     public void Release()
     {
         Dispose();
     }
 
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-
     private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
             static h => NativeMethods.HandleException(NativeMethods.core_SparseMat_delete(h))));
     }
-        
+
     /// <summary>
-    /// Create SparseMat from Mat
+    /// Creates a sparse matrix from a dense cv::Mat.
     /// </summary>
     /// <param name="mat"></param>
-    /// <returns></returns>
-    public static SparseMat FromMat(Mat mat)
-    {
-        return new SparseMat(mat);
-    }
-        
+    public static SparseMat FromMat(Mat mat) => new(mat);
+
     #endregion
 
-    #region Public Methods
+    #region Type-erased operations
 
     /// <summary>
-    /// Assignment operator. This is O(1) operation, i.e. no data is copied
+    /// Assignment operator. This is an O(1) operation that shares the data.
     /// </summary>
     /// <param name="m"></param>
-    /// <returns></returns>
     public SparseMat AssignFrom(SparseMat m)
     {
         ThrowIfDisposed();
-        if(m is null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_SparseMat(Handle, m.CvPtr));
-
-        cachedElementByteSize = -1;
         GC.KeepAlive(m);
         return this;
     }
 
     /// <summary>
-    /// Assignment operator. equivalent to the corresponding constructor.
+    /// Assignment from a dense matrix (equivalent to the corresponding constructor).
     /// </summary>
     /// <param name="m"></param>
-    /// <returns></returns>
     public SparseMat AssignFrom(Mat m)
     {
         ThrowIfDisposed();
@@ -153,121 +122,102 @@ public class SparseMat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_Mat(Handle, m.CvPtr));
-
-        cachedElementByteSize = -1;
         GC.KeepAlive(m);
         return this;
     }
-        
+
     /// <summary>
-    /// creates full copy of the matrix
+    /// Creates a full copy of the matrix.
     /// </summary>
-    /// <returns></returns>
     public SparseMat Clone()
     {
         ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_clone(Handle, out var p));
-
+        GC.KeepAlive(this);
         return new SparseMat(p);
     }
 
     /// <summary>
-    /// copies all the data to the destination matrix. All the previous content of m is erased.
+    /// Copies all the data to another sparse matrix.
     /// </summary>
     /// <param name="m"></param>
     public void CopyTo(SparseMat m)
     {
+        ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
-        ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_copyTo_SparseMat(Handle, m.CvPtr));
-
         GC.KeepAlive(m);
     }
 
     /// <summary>
-    /// converts sparse matrix to dense matrix.
+    /// Converts the sparse matrix to a dense matrix.
     /// </summary>
     /// <param name="m"></param>
     public void CopyTo(Mat m)
     {
+        ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
-        ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_copyTo_Mat(Handle, m.CvPtr));
-
         GC.KeepAlive(m);
     }
 
     /// <summary>
-    /// multiplies all the matrix elements by the specified scale factor alpha and converts the results to the specified data type
+    /// Multiplies all the matrix elements by the specified scale factor.
     /// </summary>
-    /// <param name="m"></param>
-    /// <param name="rtype"></param>
-    /// <param name="alpha"></param>
     public void ConvertTo(SparseMat m, MatType rtype, double alpha = 1)
     {
-        if (m is null) 
-            throw new ArgumentNullException(nameof(m));
         ThrowIfDisposed();
-
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_convertTo_SparseMat(Handle, m.CvPtr, rtype, alpha));
-
-        GC.KeepAlive(m);
-    }
-
-    /// <summary>
-    /// converts sparse matrix to dense n-dim matrix with optional type conversion and scaling.
-    /// </summary>
-    /// <param name="m"></param>
-    /// <param name="rtype">The output matrix data type. When it is =-1, the output array will have the same data type as (*this)</param>
-    /// <param name="alpha">The scale factor</param>
-    /// <param name="beta">The optional delta added to the scaled values before the conversion</param>
-    public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
-    {
         if (m is null)
             throw new ArgumentNullException(nameof(m));
-        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.core_SparseMat_convertTo_SparseMat(Handle, m.CvPtr, rtype, alpha));
+        GC.KeepAlive(m);
+    }
 
+    /// <summary>
+    /// Converts sparse matrix to dense matrix.
+    /// </summary>
+    public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
+    {
+        ThrowIfDisposed();
+        if (m is null)
+            throw new ArgumentNullException(nameof(m));
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_convertTo_Mat(Handle, m.CvPtr, rtype, alpha, beta));
-
         GC.KeepAlive(m);
     }
 
     /// <summary>
-    /// not used now
+    /// Converts this sparse matrix to a new dense <see cref="Mat"/> of the same type.
     /// </summary>
-    /// <param name="m"></param>
-    /// <param name="type"></param>
+    public Mat ToMat()
+    {
+        ThrowIfDisposed();
+        var dst = new Mat();
+        ConvertTo(dst, Type());
+        return dst;
+    }
+
+    /// <summary>
+    /// </summary>
     public void AssignTo(SparseMat m, MatType? type = null)
     {
-        if (m is null) 
-            throw new ArgumentNullException(nameof(m));
         ThrowIfDisposed();
-
+        if (m is null)
+            throw new ArgumentNullException(nameof(m));
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_assignTo(Handle, m.CvPtr, type?.Value ?? -1));
-
         GC.KeepAlive(m);
     }
 
     /// <summary>
-    /// Reallocates sparse matrix.
-    /// If the matrix already had the proper size and type,
-    /// it is simply cleared with clear(), otherwise,
-    /// the old matrix is released (using release()) and the new one is allocated.
+    /// Reallocates the sparse matrix.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="sizes"></param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public void Create(MatType type, params int[] sizes)
     {
         ThrowIfDisposed();
@@ -275,111 +225,98 @@ public class SparseMat : CvObject
             throw new ArgumentNullException(nameof(sizes));
         if (sizes.Length == 1)
             throw new ArgumentException("sizes is empty");
-
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_create(Handle, sizes.Length, sizes, type));
-        cachedElementByteSize = -1;
     }
 
     /// <summary>
-    /// sets all the sparse matrix elements to 0, which means clearing the hash table.
+    /// Sets all the matrix elements to 0, which means clearing the hash table.
     /// </summary>
     public void Clear()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_clear(Handle));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_clear(Handle));
     }
 
     /// <summary>
-    /// manually increments the reference counter to the header.
+    /// Manually increments the reference counter to the header.
     /// </summary>
     public void AddRef()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_addref(Handle));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_addref(Handle));
     }
 
+    #endregion
+
+    #region Metadata
+
     /// <summary>
-    /// returns the size of each element in bytes (not including the overhead - the space occupied by SparseMat::Node elements)
+    /// Returns the size of each element in bytes.
     /// </summary>
-    /// <returns></returns>
     public int ElemSize()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_elemSize(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_elemSize(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
-    /// returns elemSize()/channels()
+    /// Returns the size of each element channel in bytes.
     /// </summary>
-    /// <returns></returns>
     public int ElemSize1()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_elemSize1(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_elemSize1(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
     /// Returns the type of sparse matrix element.
     /// </summary>
-    /// <returns></returns>
     public MatType Type()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_type(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_type(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
     /// Returns the depth of sparse matrix element.
     /// </summary>
-    /// <returns></returns>
     public int Depth()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_depth(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_depth(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
-    /// Returns the matrix dimensionality
+    /// Returns the matrix dimensionality.
     /// </summary>
     public int Dims()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_dims(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_dims(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
     /// Returns the number of sparse matrix channels.
     /// </summary>
-    /// <returns></returns>
     public int Channels()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_channels(Handle, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_channels(Handle, out var ret));
         return ret;
     }
 
     /// <summary>
-    /// Returns the array of sizes, or null if the matrix is not allocated
+    /// Returns the array of sizes, or null if the matrix is not allocated.
     /// </summary>
-    /// <returns></returns>
     public int[] Size()
     {
         ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_size1(Handle, out var sizePtr));
         if (sizePtr == IntPtr.Zero)
@@ -394,374 +331,271 @@ public class SparseMat : CvObject
     }
 
     /// <summary>
-    /// Returns the size of i-th matrix dimension (or 0)
+    /// Returns the size of i-th matrix dimension (or 0).
     /// </summary>
-    /// <param name="dim"></param>
-    /// <returns></returns>
     public int Size(int dim)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_size2(Handle, dim, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_size2(Handle, dim, out var ret));
         return ret;
     }
 
     /// <summary>
-    /// returns the number of non-zero elements (=the number of hash table nodes)
+    /// Returns the number of non-zero elements (the number of hash table nodes).
     /// </summary>
-    /// <returns></returns>
-    public long NzCount() 
+    public long NzCount()
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_nzcount(Handle, out var ret));
-        return ret.ToInt64();
-    }
-
-    #region Hash
-
-    /// <summary>
-    /// Computes the element hash value (1D case)
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <returns></returns>
-    public long Hash(int i0)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_1d(Handle, i0, out var ret));
-        return ret.ToInt64();
-    }
-
-    /// <summary>
-    /// Computes the element hash value (2D case)
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <returns></returns>
-    public long Hash(int i0, int i1)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_2d(Handle, i0, i1, out var ret));
-        return ret.ToInt64();
-    }
-
-    /// <summary>
-    /// Computes the element hash value (3D case)
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <returns></returns>
-    public long Hash(int i0, int i1, int i2)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_SparseMat_hash_3d(Handle, i0, i1, i2, out var ret));
-        return ret.ToInt64();
-    }
-
-    /// <summary>
-    /// Computes the element hash value (nD case)
-    /// </summary>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <returns></returns>
-    public long Hash(params int[] idx)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_nd(Handle, idx, out var ret));
-        return ret.ToInt64();
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_nzcount(Handle, out var ret));
+        return (long)ret;
     }
 
     #endregion
 
-    #region Ptr
+    #region Typed access support (used by SparseMat&lt;T&gt;)
 
     /// <summary>
-    /// Low-level element-access function.
+    /// Returns a pointer to the element at <paramref name="index"/>, creating it (zero-initialized)
+    /// when <paramref name="createMissing"/> is true. Returns <see cref="IntPtr.Zero"/> if the element
+    /// does not exist and is not created.
     /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public unsafe IntPtr Ptr(int i0, bool createMissing, long? hashVal = null)
+    internal IntPtr ElementPointer(ReadOnlySpan<int> index, bool createMissing)
     {
+        ThrowIfDisposed();
         IntPtr ret;
-        //ThrowIfDisposed();
-        if (hashVal.HasValue)
+        var flag = createMissing ? 1 : 0;
+        unsafe
         {
-            var hashVal0 = (ulong)hashVal.Value;
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_1d(
-                    Handle, i0, createMissing ? 1 : 0, &hashVal0, out ret));
+            switch (index.Length)
+            {
+                case 1:
+                    NativeMethods.HandleException(
+                        NativeMethods.core_SparseMat_ptr_1d(Handle, index[0], flag, null, out ret));
+                    break;
+                case 2:
+                    NativeMethods.HandleException(
+                        NativeMethods.core_SparseMat_ptr_2d(Handle, index[0], index[1], flag, null, out ret));
+                    break;
+                case 3:
+                    NativeMethods.HandleException(
+                        NativeMethods.core_SparseMat_ptr_3d(Handle, index[0], index[1], index[2], flag, null, out ret));
+                    break;
+                default:
+                    NativeMethods.HandleException(
+                        NativeMethods.core_SparseMat_ptr_nd(Handle, index.ToArray(), flag, null, out ret));
+                    break;
+            }
         }
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_1d(
-                    Handle, i0, createMissing ? 1 : 0, null, out ret));
-
         // Returns an interior pointer into this SparseMat; keep it alive for the caller's dereference.
         GC.KeepAlive(this);
         return ret;
     }
 
     /// <summary>
-    /// Low-level element-access function.
+    /// Removes the stored element at <paramref name="index"/> (no-op if it does not exist).
     /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public unsafe IntPtr Ptr(int i0, int i1, bool createMissing, long? hashVal = null)
+    internal void EraseElement(ReadOnlySpan<int> index)
     {
-        IntPtr ret;
-        //ThrowIfDisposed();
-        if (hashVal.HasValue)
+        ThrowIfDisposed();
+        unsafe
         {
-            var hashVal0 = (ulong)hashVal.Value;
             NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_2d(
-                    Handle, i0, i1, createMissing ? 1 : 0, &hashVal0, out ret));
+                NativeMethods.core_SparseMat_erase_nd(Handle, index.ToArray(), null));
         }
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_2d(
-                    Handle, i0, i1, createMissing ? 1 : 0, null, out ret));
-
-        // Returns an interior pointer into this SparseMat; keep it alive for the caller's dereference.
         GC.KeepAlive(this);
-        return ret;
-    }
-
-    /// <summary>
-    /// Low-level element-access function.
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public unsafe IntPtr Ptr(int i0, int i1, int i2, bool createMissing, long? hashVal = null)
-    {
-        IntPtr ret;
-        //ThrowIfDisposed();
-        if (hashVal.HasValue)
-        {
-            var hashVal0 = (ulong)hashVal.Value;
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_3d(
-                    Handle, i0, i1, i2, createMissing ? 1 : 0, &hashVal0, out ret));
-        }
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_3d(
-                    Handle, i0, i1, i2, createMissing ? 1 : 0, null, out ret));
-
-        // Returns an interior pointer into this SparseMat; keep it alive for the caller's dereference.
-        GC.KeepAlive(this);
-        return ret;
-    }
-
-    /// <summary>
-    /// Low-level element-access function.
-    /// </summary>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public unsafe IntPtr Ptr(int[] idx, bool createMissing, long? hashVal = null)
-    {
-        IntPtr ret;
-        //ThrowIfDisposed();
-        if (hashVal.HasValue)
-        {
-            var hashVal0 = (ulong)hashVal.Value;
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_nd(
-                    Handle, idx, createMissing ? 1 : 0, &hashVal0, out ret));
-        }
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_SparseMat_ptr_nd(
-                    Handle, idx, createMissing ? 1 : 0, null, out ret));
-        // Returns an interior pointer into this SparseMat; keep it alive for the caller's dereference.
-        GC.KeepAlive(this);
-        return ret;
     }
 
     #endregion
 
-    #region Find
-
     /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+    /// Returns a typed view of this sparse matrix. The element type must match this matrix's type.
+    /// The returned matrix shares the data with this one (O(1)).
     /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T? Find<T>(int i0, long? hashVal = null)
-        where T : struct
+    /// <typeparam name="T">Element type matching this matrix's <see cref="Type"/>.</typeparam>
+    public SparseMat<T> As<T>() where T : unmanaged
     {
-        ValidateElementType<T>();
-        var p = Ptr(i0, false, hashVal);
-        if (p == IntPtr.Zero)
-            return null;
-
-        return Marshal.PtrToStructure<T>(p);
+        ThrowIfDisposed();
+        var expected = MatTypeMap.Get<T>();
+        var actual = Type();
+        if (actual != expected)
+            throw new OpenCvSharpException(
+                $"This SparseMat has type {actual}, which does not match {typeof(T)} ({expected}).");
+        return SparseMat<T>.WrapShared(this);
     }
 
     /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+    /// Returns a string that represents this SparseMat.
     /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T? Find<T>(int i0, int i1, long? hashVal = null)
-        where T : struct 
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, false, hashVal);
-        if (p == IntPtr.Zero)
-            return null;
+    public override string ToString()
+        => $"SparseMat [ Dims={Dims()}, Type={Type()}, NzCount={NzCount()} ]";
+}
 
-        return Marshal.PtrToStructure<T>(p);
+/// <summary>
+/// Strongly-typed sparse matrix. <typeparamref name="T"/> determines the element type, so element
+/// access needs no per-call type argument and no runtime type checks: reading an absent element
+/// returns <c>default</c> without creating it; assigning through the indexer creates it.
+/// </summary>
+/// <typeparam name="T">Element type (e.g. <see cref="int"/>, <see cref="Vec3b"/>).</typeparam>
+public sealed class SparseMat<T> : SparseMat
+    where T : unmanaged
+{
+    /// <summary>
+    /// Constructs an n-dimensional sparse matrix of the given shape.
+    /// </summary>
+    /// <param name="dimensions">Size along each dimension.</param>
+    public SparseMat(params int[] dimensions)
+        : base(dimensions ?? throw new ArgumentNullException(nameof(dimensions)), MatTypeMap.Get<T>())
+    {
+    }
+
+    private SparseMat()
+        : base()
+    {
+    }
+
+    private SparseMat(IntPtr ptr)
+        : base(ptr)
+    {
+    }
+
+    internal static SparseMat<T> WrapShared(SparseMat source)
+    {
+        var result = new SparseMat<T>();
+        result.AssignFrom(source);
+        return result;
     }
 
     /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+    /// Creates a typed sparse matrix from a dense <see cref="Mat"/>. The Mat type must match
+    /// <typeparamref name="T"/>.
     /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T? Find<T>(int i0, int i1, int i2, long? hashVal = null)
-        where T : struct 
+    public static new SparseMat<T> FromMat(Mat mat)
     {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, i2, false, hashVal);
-        if (p == IntPtr.Zero)
-            return null;
+        if (mat is null)
+            throw new ArgumentNullException(nameof(mat));
+        var expected = MatTypeMap.Get<T>();
+        if (mat.Type() != expected)
+            throw new OpenCvSharpException(
+                $"Mat has type {mat.Type()}, which does not match {typeof(T)} ({expected}).");
+        var result = new SparseMat<T>();
+        result.AssignFrom(mat);
+        return result;
+    }
 
-        return Marshal.PtrToStructure<T>(p);
+    #region Element access
+
+    /// <summary>
+    /// Gets or sets the element at the given 2-D index. Reading an absent element returns
+    /// <c>default</c> (without creating it); assigning creates the element.
+    /// </summary>
+    public T this[int i0, int i1]
+    {
+        get => Read([i0, i1]);
+        set => Write([i0, i1], value);
     }
 
     /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, null.
+    /// Gets or sets the element at the given 3-D index. Reading an absent element returns
+    /// <c>default</c> (without creating it); assigning creates the element.
     /// </summary>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T? Find<T>(int[] idx, long? hashVal = null)
-        where T : struct 
+    public T this[int i0, int i1, int i2]
     {
-        ValidateElementType<T>();
-        var p = Ptr(idx, false, hashVal);
-        if (p == IntPtr.Zero)
-            return null;
+        get => Read([i0, i1, i2]);
+        set => Write([i0, i1, i2], value);
+    }
 
-        return Marshal.PtrToStructure<T>(p);
+    /// <summary>
+    /// Gets or sets the element at the given n-D index. Reading an absent element returns
+    /// <c>default</c> (without creating it); assigning creates the element.
+    /// </summary>
+    public T this[ReadOnlySpan<int> index]
+    {
+        get => Read(index);
+        set => Write(index, value);
+    }
+
+    private unsafe T Read(ReadOnlySpan<int> index)
+    {
+        var p = ElementPointer(index, createMissing: false);
+        if (p == IntPtr.Zero)
+            return default;
+        var value = Unsafe.Read<T>((void*)p);
+        GC.KeepAlive(this);
+        return value;
+    }
+
+    private unsafe void Write(ReadOnlySpan<int> index, T value)
+    {
+        var p = ElementPointer(index, createMissing: true);
+        Unsafe.Write((void*)p, value);
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Returns whether an element is stored (non-zero) at the given index.
+    /// </summary>
+    public bool Contains(ReadOnlySpan<int> index)
+    {
+        var p = ElementPointer(index, createMissing: false);
+        return p != IntPtr.Zero;
+    }
+
+    /// <summary>
+    /// Gets the element at the given index if it is stored, without creating it.
+    /// </summary>
+    public unsafe bool TryGetValue(ReadOnlySpan<int> index, out T value)
+    {
+        var p = ElementPointer(index, createMissing: false);
+        if (p == IntPtr.Zero)
+        {
+            value = default;
+            return false;
+        }
+        value = Unsafe.Read<T>((void*)p);
+        GC.KeepAlive(this);
+        return true;
+    }
+
+    /// <summary>
+    /// Removes the stored element at the given index. Returns false if it was not stored.
+    /// </summary>
+    public bool Remove(ReadOnlySpan<int> index)
+    {
+        var existed = Contains(index);
+        EraseElement(index);
+        return existed;
+    }
+
+    /// <summary>
+    /// Returns a reference to the element at the given index, creating it (zero-initialized) if it
+    /// does not exist. Useful for in-place updates such as accumulation (<c>sm.GetValueRef(i, j)++</c>),
+    /// which performs a single hash lookup.
+    /// </summary>
+    /// <remarks>
+    /// The reference points into native storage and is only valid until the next structural change
+    /// to the matrix (an insertion that triggers a rehash, <see cref="SparseMat.Clear"/>, disposal,
+    /// etc.). Do not retain it across such operations.
+    /// </remarks>
+    public unsafe ref T GetValueRef(ReadOnlySpan<int> index)
+    {
+        var p = ElementPointer(index, createMissing: true);
+        return ref Unsafe.AsRef<T>((void*)p);
     }
 
     #endregion
-
-    #region Value
-
-    /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T Value<T>(int i0, long? hashVal = null)
-        where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, false, hashVal);
-        if (p == IntPtr.Zero)
-            return default;
-
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T Value<T>(int i0, int i1, long? hashVal = null)
-        where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, false, hashVal);
-        if (p == IntPtr.Zero)
-            return default;
-
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
-    /// </summary>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T Value<T>(int i0, int i1, int i2, long? hashVal = null)
-        where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, i2, false, hashVal);
-        if (p == IntPtr.Zero)
-            return default;
-
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Return pthe specified sparse matrix element if it exists; otherwise, default(T).
-    /// </summary>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns></returns>
-    public T Value<T>(int[] idx, long? hashVal = null)
-        where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(idx, false, hashVal);
-        if (p == IntPtr.Zero)
-            return default;
-
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    #endregion
-
-    #region EnumerateNonZero
 
     /// <summary>
     /// Enumerates every stored (non-zero) element together with its index, mirroring
-    /// cv::SparseMatConstIterator. This is the efficient way to walk a sparse matrix: it
-    /// visits only the stored elements, not the full dense index space.
+    /// cv::SparseMatConstIterator. This visits only the stored elements, not the full dense
+    /// index space.
     /// </summary>
-    /// <typeparam name="T">Element type; its size must match <see cref="ElemSize"/>.</typeparam>
     /// <returns>
     /// A sequence of (index, value) pairs. Each <c>Index</c> is a fresh array of length
-    /// <see cref="Dims"/>. The enumeration is a snapshot taken when the method is called.
+    /// <see cref="SparseMat.Dims"/>. The enumeration is a snapshot taken when the method is called.
     /// </returns>
-    public IEnumerable<(int[] Index, T Value)> EnumerateNonZero<T>() where T : unmanaged
+    public IEnumerable<(int[] Index, T Value)> EnumerateNonZero()
     {
         ThrowIfDisposed();
-        ValidateElementType<T>();
-        var elemSize = cachedElementByteSize;
-
         var count = (int)NzCount();
         var dims = Dims();
         var indices = new int[count * dims];
@@ -775,13 +609,11 @@ public class SparseMat : CvObject
                 {
                     NativeMethods.HandleException(
                         NativeMethods.core_SparseMat_getNodes(
-                            Handle, dims, (IntPtr)indicesPtr, (IntPtr)valuesPtr, (nuint)elemSize));
+                            Handle, dims, (IntPtr)indicesPtr, (IntPtr)valuesPtr, (nuint)Unsafe.SizeOf<T>()));
                 }
             }
             GC.KeepAlive(this);
         }
-
-        // Native already copied everything into managed arrays, so yielding is allocation-only.
         return Enumerate(indices, values, count, dims);
 
         static IEnumerable<(int[], T)> Enumerate(int[] indices, T[] values, int count, int dims)
@@ -795,261 +627,15 @@ public class SparseMat : CvObject
         }
     }
 
-    #endregion
-
-    #region Element Indexer
-
-#pragma warning disable CA1034
     /// <summary>
-    /// Mat Indexer
+    /// Creates a full (deep) copy of the matrix.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public sealed class Indexer<T> : SparseMatIndexer<T> where T : struct
+    public new SparseMat<T> Clone()
     {
-        internal Indexer(SparseMat parent)
-            : base(parent)
-        {
-            parent.ValidateElementType<T>();
-        }
-
-        /// <summary>
-        /// 1-dimensional indexer
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-        /// <returns>A value to the specified array element.</returns>
-        public override T this[int i0, long? hashVal = null]
-        {
-            get
-            {
-                var p = Parent.Ptr(i0, true, hashVal);
-                return Marshal.PtrToStructure<T>(p);
-            }
-            set
-            {
-                var p = Parent.Ptr(i0, true, hashVal);
-                Marshal.StructureToPtr(value, p, false);
-            }
-        }
-
-        /// <summary>
-        /// 2-dimensional indexer
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-        /// <returns>A value to the specified array element.</returns>
-        public override T this[int i0, int i1, long? hashVal = null]
-        {
-            get
-            {
-                var p = Parent.Ptr(i0, i1, true, hashVal);
-                return Marshal.PtrToStructure<T>(p);
-            }
-            set
-            {
-                var p = Parent.Ptr(i0, i1, true, hashVal);
-                Marshal.StructureToPtr(value, p, false);
-            }
-        }
-
-        /// <summary>
-        /// 3-dimensional indexer
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="i2"> Index along the dimension 2</param>
-        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-        /// <returns>A value to the specified array element.</returns>
-        public override T this[int i0, int i1, int i2, long? hashVal = null]
-        {
-            get
-            {
-                var p = Parent.Ptr(i0, i1, i2, true, hashVal);
-                return Marshal.PtrToStructure<T>(p);
-            }
-            set
-            {
-                var p = Parent.Ptr(i0, i1, i2, true, hashVal);
-                Marshal.StructureToPtr(value, p, false);
-            }
-        }
-
-        /// <summary>
-        /// n-dimensional indexer
-        /// </summary>
-        /// <param name="idx">Array of Mat::dims indices.</param>
-        /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-        /// <returns>A value to the specified array element.</returns>
-        public override T this[int[] idx, long? hashVal = null]
-        {
-            get
-            {
-                var p = Parent.Ptr(idx, true, hashVal);
-                return Marshal.PtrToStructure<T>(p);
-            }
-            set
-            {
-                var p = Parent.Ptr(idx, true, hashVal);
-                Marshal.StructureToPtr(value, p, false);
-            }
-        }
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.core_SparseMat_clone(Handle, out var p));
+        GC.KeepAlive(this);
+        return new SparseMat<T>(p);
     }
-
-    /// <summary>
-    /// Gets a type-specific indexer. 
-    /// The indexer has getters/setters to access each matrix element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public Indexer<T> Ref<T>() where T : struct
-    {
-        return new Indexer<T>(this);
-    }
-
-    /// <summary>
-    /// Gets a type-specific indexer. 
-    /// The indexer has getters/setters to access each matrix element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public Indexer<T> GetIndexer<T>() where T : struct
-        => Ref<T>();
-
-    #endregion
-
-    #region Get/Set
-
-    /// <summary>
-    /// Returns a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns>A value to the specified array element.</returns>
-    public T Get<T>(int i0, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, true, hashVal);
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Returns a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns>A value to the specified array element.</returns>
-    public T Get<T>(int i0, int i1, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, true, hashVal);
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Returns a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns>A value to the specified array element.</returns>
-    public T Get<T>(int i0, int i1, int i2, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, i2, true, hashVal);
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Returns a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    /// <returns>A value to the specified array element.</returns>
-    public T Get<T>(int[] idx, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(idx, true, hashVal);
-        return Marshal.PtrToStructure<T>(p);
-    }
-
-    /// <summary>
-    /// Set a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="value"></param>
-    /// <param name="hashVal"></param>
-    public void Set<T>(int i0, T value, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, true, hashVal);
-        Marshal.StructureToPtr(value, p, false);
-    }
-
-    /// <summary>
-    /// Set a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="value"></param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    public void Set<T>(int i0, int i1, T value, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, true, hashVal);
-        Marshal.StructureToPtr(value, p, false);
-    }
-
-    /// <summary>
-    /// Set a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="i0">Index along the dimension 0</param>
-    /// <param name="i1">Index along the dimension 1</param>
-    /// <param name="i2">Index along the dimension 2</param>
-    /// <param name="value"></param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    public void Set<T>(int i0, int i1, int i2, T value, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(i0, i1, i2, true, hashVal);
-        Marshal.StructureToPtr(value, p, false);
-    }
-
-    /// <summary>
-    /// Set a value to the specified array element.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="idx">Array of Mat::dims indices.</param>
-    /// <param name="value"></param>
-    /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
-    public void Set<T>(int[] idx, T value, long? hashVal = null) where T : struct
-    {
-        ValidateElementType<T>();
-        var p = Ptr(idx, true, hashVal);
-        Marshal.StructureToPtr(value, p, false);
-    }
-
-    #endregion
-
-    #region ToString
-
-    /// <summary>
-    /// Returns a string that represents this SparseMat.
-    /// </summary>
-    /// <returns></returns>
-    public override string ToString()
-        => $"SparseMat [ Dims={Dims()}, Type={Type()}, NzCount={NzCount()} ]";
-
-    #endregion
-        
-    #endregion
 }

@@ -276,3 +276,19 @@ CVAPI(ExceptionStatus) core_SparseMat_getNodes(cv::SparseMat *obj, int dims, int
     }
     END_WRAP
 }
+
+// Removes the stored element at idx (no-op if absent). idx has length dims.
+CVAPI(ExceptionStatus) core_SparseMat_erase_nd(cv::SparseMat *obj, const int *idx, uint64 *hashVal)
+{
+    BEGIN_WRAP
+    if (hashVal == nullptr)
+    {
+        obj->erase(idx);
+    }
+    else
+    {
+        auto hashVal0 = static_cast<size_t>(*hashVal);
+        obj->erase(idx, &hashVal0);
+    }
+    END_WRAP
+}
