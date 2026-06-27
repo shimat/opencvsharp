@@ -80,6 +80,11 @@ jobs:
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
+          # Disable the ASM language so OpenCV 5's vendored MLAS turns off and DNN
+          # falls back to its built-in SGEMM. The MLAS FP16/GQA path references
+          # MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls but never
+          # defines, breaking the extern link (same fix as windows.yml / linux-arm64.yml).
+          # Image codecs come from vcpkg here, so no other ASM language is needed.
           cmake \
             -G Ninja \
             -C cmake/opencv_build_options.cmake \
@@ -104,6 +109,7 @@ jobs:
             -D WITH_VA=OFF \
             -D WITH_VA_INTEL=OFF \
             -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
+            -D CMAKE_ASM_COMPILER="" \
             2>&1 | tee /tmp/opencv-configure.log
 
       - name: Verify OpenCV cmake features
@@ -148,7 +154,6 @@ jobs:
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib/cmake/opencv4 \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
@@ -228,6 +233,11 @@ jobs:
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
+          # Disable the ASM language so OpenCV 5's vendored MLAS turns off and DNN
+          # falls back to its built-in SGEMM. The MLAS FP16/GQA path references
+          # MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls but never
+          # defines, breaking the extern link (same fix as windows.yml / linux-arm64.yml).
+          # Image codecs come from vcpkg here, so no other ASM language is needed.
           cmake \
             -G Ninja \
             -C cmake/opencv_build_options.cmake \
@@ -252,6 +262,7 @@ jobs:
             -D WITH_VA=OFF \
             -D WITH_VA_INTEL=OFF \
             -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
+            -D CMAKE_ASM_COMPILER="" \
             2>&1 | tee /tmp/opencv-configure.log
 
       - name: Verify OpenCV cmake features
@@ -296,7 +307,6 @@ jobs:
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib/cmake/opencv4 \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
