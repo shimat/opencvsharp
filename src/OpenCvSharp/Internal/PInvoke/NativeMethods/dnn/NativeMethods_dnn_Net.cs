@@ -137,4 +137,32 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_getPerfProfileDetailed(OpenCvSafeHandle net, IntPtr names, IntPtr timems, IntPtr counts);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getFLOPS_netInputs(
+        OpenCvSafeHandle net, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength, out long returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getFLOPS_layer(
+        OpenCvSafeHandle net, int layerId, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength, out long returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getLayerShapes(
+        OpenCvSafeHandle net, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength,
+        int layerId, IntPtr outInLayerShapes, IntPtr outOutLayerShapes);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getLayersShapes(
+        OpenCvSafeHandle net, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength,
+        IntPtr outLayerIds, IntPtr outInLayersShapes, IntPtr outOutLayersShapes);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getMemoryConsumption(
+        OpenCvSafeHandle net, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength,
+        out long outWeights, out long outBlobs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getMemoryConsumption_perLayer(
+        OpenCvSafeHandle net, int[] shapesData, int shapesLength, int[] netInputTypes, int netInputTypesLength,
+        IntPtr outLayerIds, IntPtr outWeights, IntPtr outBlobs);
 }

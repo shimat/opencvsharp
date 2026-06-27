@@ -64,6 +64,33 @@ CVAPI(void) vector_int32_delete(std::vector<int>* vector)
 }
 #pragma endregion
 
+#pragma region int64
+CVAPI(std::vector<int64>*) vector_int64_new1()
+{
+    return new std::vector<int64>;
+}
+CVAPI(std::vector<int64>*) vector_int64_new2(size_t size)
+{
+    return new std::vector<int64>(size);
+}
+CVAPI(std::vector<int64>*) vector_int64_new3(int64* data, size_t dataLength)
+{
+    return new std::vector<int64>(data, data + dataLength);
+}
+CVAPI(size_t) vector_int64_getSize(std::vector<int64>* vector)
+{
+    return vector->size();
+}
+CVAPI(int64*) vector_int64_getPointer(std::vector<int64>* vector)
+{
+    return &(vector->at(0));
+}
+CVAPI(void) vector_int64_delete(std::vector<int64>* vector)
+{
+    delete vector;
+}
+#pragma endregion
+
 #pragma region float
 CVAPI(std::vector<float>*) vector_float_new1()
 {

@@ -119,6 +119,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_new1();
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_new1();
+        if (typeof(T) == typeof(long)) return NativeMethods.vector_int64_new1();
         if (typeof(T) == typeof(float)) return NativeMethods.vector_float_new1();
         if (typeof(T) == typeof(double)) return NativeMethods.vector_double_new1();
         if (typeof(T) == typeof(Point)) return NativeMethods.vector_Point2i_new1();
@@ -143,6 +144,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_new2(size);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_new2(size);
+        if (typeof(T) == typeof(long)) return NativeMethods.vector_int64_new2(size);
         if (typeof(T) == typeof(float)) return NativeMethods.vector_float_new2(size);
         if (typeof(T) == typeof(double)) return NativeMethods.vector_double_new2(size);
         if (typeof(T) == typeof(Point)) return NativeMethods.vector_Point2i_new2(size);
@@ -160,6 +162,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_new3((byte[])(object)data, length);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_new3((int[])(object)data, length);
+        if (typeof(T) == typeof(long)) return NativeMethods.vector_int64_new3((long[])(object)data, length);
         if (typeof(T) == typeof(float)) return NativeMethods.vector_float_new3((float[])(object)data, length);
         if (typeof(T) == typeof(double)) return NativeMethods.vector_double_new3((double[])(object)data, length);
         if (typeof(T) == typeof(Point)) return NativeMethods.vector_Point2i_new3((Point[])(object)data, length);
@@ -179,6 +182,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_getSize(ptr);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_getSize(ptr);
+        if (typeof(T) == typeof(long)) return NativeMethods.vector_int64_getSize(ptr);
         if (typeof(T) == typeof(float)) return NativeMethods.vector_float_getSize(ptr);
         if (typeof(T) == typeof(double)) return NativeMethods.vector_double_getSize(ptr);
         if (typeof(T) == typeof(Point)) return NativeMethods.vector_Point2i_getSize(ptr);
@@ -203,6 +207,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) return NativeMethods.vector_uchar_getPointer(ptr);
         if (typeof(T) == typeof(int)) return NativeMethods.vector_int32_getPointer(ptr);
+        if (typeof(T) == typeof(long)) return NativeMethods.vector_int64_getPointer(ptr);
         if (typeof(T) == typeof(float)) return NativeMethods.vector_float_getPointer(ptr);
         if (typeof(T) == typeof(double)) return NativeMethods.vector_double_getPointer(ptr);
         if (typeof(T) == typeof(Point)) return NativeMethods.vector_Point2i_getPointer(ptr);
@@ -227,6 +232,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
     {
         if (typeof(T) == typeof(byte)) { NativeMethods.vector_uchar_delete(ptr); return; }
         if (typeof(T) == typeof(int)) { NativeMethods.vector_int32_delete(ptr); return; }
+        if (typeof(T) == typeof(long)) { NativeMethods.vector_int64_delete(ptr); return; }
         if (typeof(T) == typeof(float)) { NativeMethods.vector_float_delete(ptr); return; }
         if (typeof(T) == typeof(double)) { NativeMethods.vector_double_delete(ptr); return; }
         if (typeof(T) == typeof(Point)) { NativeMethods.vector_Point2i_delete(ptr); return; }
