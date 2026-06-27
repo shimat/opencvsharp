@@ -5,8 +5,19 @@ using OpenCvSharp.Internal;
 namespace OpenCvSharp;
 
 /// <summary>
-/// Contrast Limited Adaptive Histogram Equalization
+/// Iterates over the pixels that lie on a line segment of an image, mirroring
+/// cv::LineIterator. The instance describes the scan (its length is available
+/// through <see cref="Count"/> immediately after construction); enumerating it
+/// walks the pixels from <c>pt1</c> to <c>pt2</c>.
 /// </summary>
+/// <remarks>
+/// Enumeration is independent of the instance state, so a single
+/// <see cref="LineIterator"/> can be iterated more than once. Prefer
+/// <see cref="AsValues{T}"/> to read pixel values safely: it dereferences each
+/// pixel while the source image is guaranteed to be alive. The raw
+/// <see cref="Pixel.Ptr"/> exposed by <see cref="GetEnumerator"/> points directly
+/// into the image buffer and is only valid while that image has not been disposed.
+/// </remarks>
 public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
 {
     private readonly Mat img;
@@ -23,7 +34,6 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
     /// <param name="pt2"></param>
     /// <param name="connectivity"></param>
     /// <param name="leftToRight"></param>
-    /// <returns></returns>
     public LineIterator(
         Mat img,
         Point pt1,
@@ -36,63 +46,69 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         this.pt2 = pt2;
         this.connectivity = connectivity;
         this.leftToRight = leftToRight;
+
+        // Create the native iterator eagerly so that Count and the other fields are
+        // valid as soon as the object exists, matching cv::LineIterator semantics.
+        SetSafeHandle(CreateNative());
     }
 
     /// <summary>
-    /// Initializes the iterator
+    /// Creates a fresh native cv::LineIterator positioned at the start of the line.
+    /// Each enumeration uses its own instance, so the public one is never advanced.
     /// </summary>
-    /// <returns></returns>
-    private void Initialize()
+    private OpenCvPtrSafeHandle CreateNative()
     {
-        if (ptr != IntPtr.Zero)
-            throw new OpenCvSharpException("invalid state");
         img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_LineIterator_new(
                 img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0, out var p));
-        InitSafeHandle(p);
+        GC.KeepAlive(img);
+        return new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            static h => NativeMethods.HandleException(NativeMethods.imgproc_LineIterator_delete(h)));
     }
 
     /// <summary>
-    /// Releases unmanaged resources
+    /// Enumerates the pixels along the line. Each <see cref="Pixel"/> carries its
+    /// position and a raw pointer into the image buffer; that pointer is only valid
+    /// while the source image is alive. Use <see cref="AsValues{T}"/> for safe access.
     /// </summary>
-
-    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
-            static h => NativeMethods.HandleException(NativeMethods.imgproc_LineIterator_delete(h))));
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     public IEnumerator<Pixel> GetEnumerator()
     {
-        Dispose();
-        Initialize();
-
+        // A dedicated native iterator per enumeration keeps the public instance
+        // immutable and makes re-enumeration well defined.
+        using var it = CreateNative();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_LineIterator_count_get(CvPtr, out var count));
+            NativeMethods.imgproc_LineIterator_count_get(it, out var count));
         for (var i = 0; i < count; i++)
         {
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_getValuePosAndShiftToNext(CvPtr, out var value, out var pos));
+                NativeMethods.imgproc_LineIterator_getValuePosAndShiftToNext(it, out var value, out var pos));
             yield return new Pixel(pos, value);
-            GC.KeepAlive(this);
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>
+    /// Enumerates the pixel values along the line as <typeparamref name="T"/>.
+    /// Each value is read while the source image is kept alive, so the result is
+    /// safe to use after enumeration (unlike the raw <see cref="Pixel.Ptr"/>).
+    /// </summary>
+    /// <typeparam name="T">Pixel type (e.g. <see cref="Vec3b"/>).</typeparam>
+    public IEnumerable<T> AsValues<T>() where T : struct
     {
-        return GetEnumerator();
+        foreach (var pixel in this)
+        {
+            var value = pixel.GetValue<T>();
+            GC.KeepAlive(this); // keep this -> img -> Mat alive across the dereference
+            yield return value;
+        }
     }
 
     #region Properties
 
     /// <summary>
-    /// 
+    /// Pointer to the current pixel (into the image buffer).
     /// </summary>
     public IntPtr Ptr
     {
@@ -100,14 +116,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_ptr_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_ptr_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    /// Pointer to the first pixel of the image.
     /// </summary>
     public IntPtr Ptr0
     {
@@ -115,14 +130,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_ptr0_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_ptr0_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    /// Number of bytes between two consecutive rows of the image.
     /// </summary>
     public int Step
     {
@@ -130,14 +144,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_step_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_step_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    /// Size of one pixel in bytes.
     /// </summary>
     public int ElemSize
     {
@@ -145,14 +158,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_elemSize_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_elemSize_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    /// Bresenham error term of the current position.
     /// </summary>
     public int Err
     {
@@ -160,14 +172,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_err_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_err_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    /// Number of pixels along the line.
     /// </summary>
     public int Count
     {
@@ -175,14 +186,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_count_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_count_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int MinusDelta
     {
@@ -190,14 +200,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_minusDelta_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_minusDelta_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int PlusDelta
     {
@@ -205,14 +214,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_plusDelta_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_plusDelta_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int MinusStep
     {
@@ -220,14 +228,13 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_minusStep_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_minusStep_get(Handle, out var ret));
             return ret;
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int PlusStep
     {
@@ -235,8 +242,7 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_LineIterator_plusStep_get(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_LineIterator_plusStep_get(Handle, out var ret));
             return ret;
         }
     }
@@ -245,55 +251,34 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
 
 #pragma warning disable CA1034
     /// <summary>
-    /// LineIterator pixel data
+    /// LineIterator pixel data: its position and a pointer into the image buffer.
     /// </summary>
-    public class Pixel
+    /// <param name="Pos">Pixel position.</param>
+    /// <param name="Ptr">Pointer to the pixel inside the image buffer. Only valid
+    /// while the source image has not been disposed.</param>
+    public readonly record struct Pixel(Point Pos, IntPtr Ptr)
     {
         /// <summary>
-        /// 
+        /// Pointer to the pixel as a byte pointer.
         /// </summary>
         public unsafe byte* ValuePointer => (byte*)Ptr.ToPointer();
 
         /// <summary>
-        /// 
-        /// </summary>
-        public Point Pos { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IntPtr Ptr { get; }
-
-        /// <summary>
-        /// 
+        /// Reads the pixel value as <typeparamref name="T"/>.
+        /// The source image must still be alive.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public T GetValue<T>() where T : struct
-        {
-            return Marshal.PtrToStructure<T>(Ptr);
-        }
+            => Marshal.PtrToStructure<T>(Ptr);
 
         /// <summary>
-        /// 
+        /// Writes the pixel value of type <typeparamref name="T"/>.
+        /// The source image must still be alive.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        /// <returns></returns>
         public void SetValue<T>(T value) where T : struct
-        {
-            Marshal.StructureToPtr(value, Ptr, false);
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="ptr"></param>
-        internal Pixel(Point pos, IntPtr ptr)
-        {
-            Pos = pos;
-            Ptr = ptr;
-        }
+            => Marshal.StructureToPtr(value, Ptr, false);
     }
 }
