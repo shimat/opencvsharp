@@ -44,5 +44,5 @@ while i < len(lines):
     out.extend(new_block.split("\n"))
     i = j + 1
 
-path.write_text(nl.join(out), encoding="utf-8-sig", newline="")
+path.write_text(nl.join(out), encoding="utf-8", newline="")
 print(f"{path.name}: converted {changed} entry points (prefix {prefix})")

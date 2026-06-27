@@ -60,8 +60,7 @@ public class CascadeClassifier : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_empty(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -81,8 +80,7 @@ public class CascadeClassifier : CvObject
             throw new FileNotFoundException("\"" + fileName + "\"not found", fileName);
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_load(CvPtr, fileName, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_load(Handle, fileName, out var ret));
         return ret != 0;
     }
 
@@ -98,8 +96,7 @@ public class CascadeClassifier : CvObject
             throw new ArgumentNullException(nameof(fn));
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_read(CvPtr, fn.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_read(Handle, fn.CvPtr, out var ret));
         GC.KeepAlive(fn);
 
         return ret != 0;
@@ -135,10 +132,9 @@ public class CascadeClassifier : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
-                CvPtr, image.CvPtr, objectsVec.CvPtr,
+                Handle, image.CvPtr, objectsVec.CvPtr,
                 scaleFactor, minNeighbors, (int) flags, minSize0, maxSize0));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         return objectsVec.ToArray();
     }
@@ -181,10 +177,9 @@ public class CascadeClassifier : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(
-                CvPtr, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
+                Handle, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
                 scaleFactor, minNeighbors, (int) flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
 
         rejectLevels = rejectLevelsVec.ToArray();
@@ -200,8 +195,7 @@ public class CascadeClassifier : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(Handle, out var ret));
         return ret != 0;
     }
 
@@ -213,8 +207,7 @@ public class CascadeClassifier : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(Handle, out var ret));
         return ret;
     }
 
@@ -226,8 +219,7 @@ public class CascadeClassifier : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_getFeatureType(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_CascadeClassifier_getFeatureType(Handle, out var ret));
         return ret;
     }
 

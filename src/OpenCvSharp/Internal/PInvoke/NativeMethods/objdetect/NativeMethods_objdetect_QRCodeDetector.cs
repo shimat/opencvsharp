@@ -17,31 +17,31 @@ static partial class NativeMethods
     public static partial ExceptionStatus objdetect_QRCodeDetector_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_QRCodeDetector_setEpsX(IntPtr obj, double epsX);
+    public static partial ExceptionStatus objdetect_QRCodeDetector_setEpsX(OpenCvSafeHandle obj, double epsX);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_QRCodeDetector_setEpsY(IntPtr obj, double epsY);
+    public static partial ExceptionStatus objdetect_QRCodeDetector_setEpsY(OpenCvSafeHandle obj, double epsY);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_QRCodeDetector_detect(IntPtr obj, IntPtr img, IntPtr points, out int returnValue);
+    public static partial ExceptionStatus objdetect_QRCodeDetector_detect(OpenCvSafeHandle obj, IntPtr img, IntPtr points, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_QRCodeDetector_decode(
-        IntPtr obj, IntPtr img, IntPtr points, IntPtr straightQrCode, IntPtr returnValue);
+        OpenCvSafeHandle obj, IntPtr img, IntPtr points, IntPtr straightQrCode, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_QRCodeDetector_detectAndDecode(
-        IntPtr obj, IntPtr img, IntPtr points,
+        OpenCvSafeHandle obj, IntPtr img, IntPtr points,
         IntPtr straightQrCode, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_QRCodeDetector_detectMulti(IntPtr obj, IntPtr img, IntPtr points, out int returnValue);
+    public static partial ExceptionStatus objdetect_QRCodeDetector_detectMulti(OpenCvSafeHandle obj, IntPtr img, IntPtr points, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_QRCodeDetector_decodeMulti(
-        IntPtr obj, IntPtr img, IntPtr points, IntPtr decodedInfo, IntPtr straightQrCode, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr img, IntPtr points, IntPtr decodedInfo, IntPtr straightQrCode, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
-        IntPtr obj, IntPtr img, IntPtr points, IntPtr decodedInfo, out int returnValue);
+        OpenCvSafeHandle obj, IntPtr img, IntPtr points, IntPtr decodedInfo, out int returnValue);
 }

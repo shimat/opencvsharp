@@ -28,5 +28,5 @@ for line in lines:
     out.append(re.sub(rf"(?<!\.)\b{re.escape(accessor)}\b", "Handle", line))
 
 new = nl.join(out)
-path.write_text(new, encoding="utf-8-sig", newline="")
+path.write_text(new, encoding="utf-8", newline="")
 print(f"{path.name}: accessor {accessor}->Handle, removed {removed} KeepAlive(this)")

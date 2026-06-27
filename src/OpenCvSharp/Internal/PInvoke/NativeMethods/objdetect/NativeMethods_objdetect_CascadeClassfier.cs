@@ -12,7 +12,7 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_CascadeClassifier_read(IntPtr obj, IntPtr fn, out int returnValue);
+    public static partial ExceptionStatus objdetect_CascadeClassifier_read(OpenCvSafeHandle obj, IntPtr fn, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_CascadeClassifier_new(out IntPtr returnValue);
@@ -25,30 +25,30 @@ static partial class NativeMethods
     public static partial ExceptionStatus objdetect_CascadeClassifier_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_CascadeClassifier_empty(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus objdetect_CascadeClassifier_empty(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_CascadeClassifier_load(
-        IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_CascadeClassifier_detectMultiScale1(
-        IntPtr obj, IntPtr image, IntPtr objects,
+        OpenCvSafeHandle obj, IntPtr image, IntPtr objects,
         double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus objdetect_CascadeClassifier_detectMultiScale2(
-        IntPtr obj, IntPtr image, IntPtr objects,
+        OpenCvSafeHandle obj, IntPtr image, IntPtr objects,
         IntPtr rejectLevels, IntPtr levelWeights,
         double scaleFactor, int minNeighbors, int flags,
         Size minSize, Size maxSize, int outputRejectLevels);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus objdetect_CascadeClassifier_isOldFormatCascade(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj, out Size returnValue);
+    public static partial ExceptionStatus objdetect_CascadeClassifier_getOriginalWindowSize(OpenCvSafeHandle obj, out Size returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_CascadeClassifier_getFeatureType(IntPtr obj, out int returnValue);
+    public static partial ExceptionStatus objdetect_CascadeClassifier_getFeatureType(OpenCvSafeHandle obj, out int returnValue);
 }
