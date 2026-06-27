@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using OpenCvSharp.XPhoto;
 using Xunit;
 
@@ -7,6 +8,8 @@ namespace OpenCvSharp.Tests.XPhoto;
 // ReSharper disable InconsistentNaming
 public class XPhotoTest : TestBase
 {
+    public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
     private readonly ITestOutputHelper testOutputHelper;
 
     public XPhotoTest(ITestOutputHelper testOutputHelper)
@@ -233,7 +236,10 @@ public class XPhotoTest : TestBase
         }
     }
 
-    [Fact]
+    // On Windows, bm3dDenoising corrupts the heap and crashes the whole test
+    // process (BEGIN_WRAP/END_WRAP are no-ops on _WIN32, so it cannot be caught).
+    // It runs fine on Linux/macOS, so only skip on Windows. Upstream bug: #1904.
+    [Fact(Skip = "Crashes the test process on Windows (heap corruption); see https://github.com/shimat/opencvsharp/issues/1904", SkipWhen = nameof(IsWindows))]
     public void Bm3dDenoising()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
