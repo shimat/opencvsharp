@@ -34,13 +34,13 @@ jobs:
           name: artifacts_linux_arm64
           branch: ${{ github.ref_name }}
 
-      #- name: Download macos artifact
-      #  uses: dawidd6/action-download-artifact@v19
-      #  with:
-      #    github_token: ${{secrets.GITHUB_TOKEN}}
-      #    workflow: macos10.yml
-      #    name: artifacts_macos_10
-      #    branch: ${{ github.ref_name }}
+      - name: Download macos artifact
+        uses: dawidd6/action-download-artifact@v21
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: macos.yml
+          name: nuget-packages-macos
+          branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
         uses: dawidd6/action-download-artifact@v21
@@ -92,6 +92,8 @@ jobs:
           check_package "OpenCvSharp5.runtime.wasm.*.nupkg"
           check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
           check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
+          check_package "OpenCvSharp5.runtime.osx.x64.*.nupkg"
+          check_package "OpenCvSharp5.runtime.osx.arm64.*.nupkg"
 
           if [ "$failed" -gt 0 ]; then
             echo ""
