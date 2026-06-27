@@ -246,9 +246,8 @@ public class VideoWriter : CvObject
         IsColor = isColor;
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_open1(CvPtr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
+            NativeMethods.videoio_VideoWriter_open1(Handle, fileName, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
 
-        GC.KeepAlive(this);
         return ret != 0;
     }
 
@@ -276,9 +275,8 @@ public class VideoWriter : CvObject
         IsColor = isColor;
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_open2(CvPtr, fileName, (int)apiPreference, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
+            NativeMethods.videoio_VideoWriter_open2(Handle, fileName, (int)apiPreference, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
 
-        GC.KeepAlive(this);
         return ret != 0;
     }
 
@@ -290,8 +288,7 @@ public class VideoWriter : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_isOpened(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.videoio_VideoWriter_isOpened(Handle, out var ret));
         return ret != 0;
     }
 
@@ -303,8 +300,7 @@ public class VideoWriter : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_release(CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.videoio_VideoWriter_release(Handle));
     }
 
     /// <summary>
@@ -320,9 +316,8 @@ public class VideoWriter : CvObject
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_write(CvPtr, image.CvPtr));
+            NativeMethods.videoio_VideoWriter_write(Handle, image.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 
@@ -337,9 +332,8 @@ public class VideoWriter : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_set(CvPtr, (int)propId, value, out var ret));
+            NativeMethods.videoio_VideoWriter_set(Handle, (int)propId, value, out var ret));
 
-        GC.KeepAlive(this);
         return ret != 0;
     }
 
@@ -353,9 +347,8 @@ public class VideoWriter : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_get(CvPtr, (int)propId, out var ret));
+            NativeMethods.videoio_VideoWriter_get(Handle, (int)propId, out var ret));
 
-        GC.KeepAlive(this);
         return ret;
     }
 
@@ -401,9 +394,8 @@ public class VideoWriter : CvObject
 
         using var returnString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_getBackendName(CvPtr, returnString.CvPtr));
+            NativeMethods.videoio_VideoWriter_getBackendName(Handle, returnString.CvPtr));
 
-        GC.KeepAlive(this);
         return returnString.ToString();
     }
 
