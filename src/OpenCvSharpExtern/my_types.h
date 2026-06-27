@@ -40,7 +40,9 @@ namespace cv
 // OCS_INTEROP_BITCAST macro, which std::bit_cast between the two and
 // static_asserts that their sizes match and both are trivially copyable, so
 // any future layout drift is caught at compile time. Types that need real
-// computation (e.g. Moments::inv_sqrt_m00) keep explicit converters.
+// computation (e.g. Moments::inv_sqrt_m00) or whose cv:: counterpart is not
+// trivially copyable (cv::Scalar / cv::Vec derive from cv::Matx, which has
+// user-provided copy/move members) keep explicit converters.
 // -------------------------------------------------------------------------
 namespace interop
 {
@@ -251,15 +253,44 @@ OCS_INTEROP_BITCAST(Size2d, cv::Size2d)
 OCS_INTEROP_BITCAST(Rect, cv::Rect)
 OCS_INTEROP_BITCAST(Rect2f, cv::Rect2f)
 OCS_INTEROP_BITCAST(Rect2d, cv::Rect2d)
-OCS_INTEROP_BITCAST(Scalar, cv::Scalar)
 OCS_INTEROP_BITCAST(Range, cv::Range)
 OCS_INTEROP_BITCAST(TermCriteria, cv::TermCriteria)
 OCS_INTEROP_BITCAST(RotatedRect, cv::RotatedRect)
 OCS_INTEROP_BITCAST(KeyPoint, cv::KeyPoint)
 OCS_INTEROP_BITCAST(DMatch, cv::DMatch)
-OCS_INTEROP_BITCAST(Vec4i, cv::Vec4i)
 
 #undef OCS_INTEROP_BITCAST
+
+// cv::Scalar / cv::Vec derive from cv::Matx, which declares user-provided
+// copy/move members, so they are NOT trivially copyable and cannot be
+// bit_cast. Keep explicit field-wise converters for them.
+static interop::Scalar c(const cv::Scalar &s)
+{
+    interop::Scalar ret{};
+    ret.val[0] = s[0];
+    ret.val[1] = s[1];
+    ret.val[2] = s[2];
+    ret.val[3] = s[3];
+    return ret;
+}
+static cv::Scalar cpp(const interop::Scalar &s)
+{
+    return {s.val[0], s.val[1], s.val[2], s.val[3]};
+}
+
+static interop::Vec4i c(const cv::Vec4i &v)
+{
+    interop::Vec4i vv{};
+    vv.val[0] = v.val[0];
+    vv.val[1] = v.val[1];
+    vv.val[2] = v.val[2];
+    vv.val[3] = v.val[3];
+    return vv;
+}
+static cv::Vec4i cpp(const interop::Vec4i &v)
+{
+    return cv::Vec4i(v.val[0], v.val[1], v.val[2], v.val[3]);
+}
 
 // Converts a jagged array of interop::Rect into nested std::vector<cv::Rect>.
 // (Replaces the legacy CvRect-based toVec path; CvRect was dropped from the
