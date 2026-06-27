@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Aruco;
@@ -51,13 +51,12 @@ public class ArucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_ArucoDetector_detectMarkers(
-                CvPtr, image.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
+                Handle, image.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
 
         corners = cornersVec.ToArray();
         ids = idsVec.ToArray();
         rejectedImgPoints = rejectedVec.ToArray();
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 }

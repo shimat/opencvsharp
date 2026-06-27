@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Aruco;
 
@@ -42,8 +42,7 @@ public class Dictionary : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getBytesList(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_Dictionary_getBytesList(Handle, out var ret));
             return new Mat(ret);
         }
     }
@@ -57,16 +56,14 @@ public class Dictionary : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getMarkerSize(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_Dictionary_getMarkerSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_setMarkerSize(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_Dictionary_setMarkerSize(Handle, value));
         }
     }
 
@@ -79,16 +76,14 @@ public class Dictionary : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_getMaxCorrectionBits(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_Dictionary_getMaxCorrectionBits(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_setMaxCorrectionBits(CvPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.aruco_Dictionary_setMaxCorrectionBits(Handle, value));
         }
     }
     
@@ -109,9 +104,8 @@ public class Dictionary : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_identify(CvPtr, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
+            NativeMethods.aruco_Dictionary_identify(Handle, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
         
-        GC.KeepAlive(this);
         return ret != 0;
     }
     
@@ -131,9 +125,8 @@ public class Dictionary : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_getDistanceToId(CvPtr, bits.CvPtr, id, allRotations ? 1 : 0, out var ret));
+            NativeMethods.aruco_Dictionary_getDistanceToId(Handle, bits.CvPtr, id, allRotations ? 1 : 0, out var ret));
         
-        GC.KeepAlive(this);
         return ret;
     }
     
@@ -152,9 +145,8 @@ public class Dictionary : CvObject
         ThrowIfDisposed();
         
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_generateImageMarker(CvPtr, id, sidePixels, img.CvPtr, borderBits));
+            NativeMethods.aruco_Dictionary_generateImageMarker(Handle, id, sidePixels, img.CvPtr, borderBits));
         
-        GC.KeepAlive(this);
     }
     
     /// <summary>

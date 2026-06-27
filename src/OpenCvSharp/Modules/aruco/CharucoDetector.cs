@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Aruco;
@@ -76,7 +76,7 @@ public class CharucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectBoard(
-                CvPtr, image.CvPtr,
+                Handle, image.CvPtr,
                 charucoCornersVec.CvPtr, charucoIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 
@@ -85,7 +85,6 @@ public class CharucoDetector : CvObject
         markerCorners = markerCornersVec.ToArray();
         markerIds = markerIdsVec.ToArray();
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 
@@ -110,7 +109,7 @@ public class CharucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectDiamonds(
-                CvPtr, image.CvPtr,
+                Handle, image.CvPtr,
                 diamondCornersVec.CvPtr, diamondIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 
@@ -119,7 +118,6 @@ public class CharucoDetector : CvObject
         markerCorners = markerCornersVec.ToArray();
         markerIds = markerIdsVec.ToArray();
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 }
