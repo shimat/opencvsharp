@@ -258,3 +258,21 @@ CVAPI(ExceptionStatus) core_SparseMat_ptr_nd(cv::SparseMat *obj, const int* idx,
     }
     END_WRAP
 }
+
+// Copies the indices and values of every stored (non-zero) element into caller-provided buffers.
+// outIndices must hold nzcount()*dims ints, outValues must hold nzcount()*elemSize bytes.
+CVAPI(ExceptionStatus) core_SparseMat_getNodes(cv::SparseMat *obj, int dims, int *outIndices, uchar *outValues, size_t elemSize)
+{
+    BEGIN_WRAP
+    const cv::SparseMat *cobj = obj;
+    cv::SparseMatConstIterator it = cobj->begin();
+    cv::SparseMatConstIterator it_end = cobj->end();
+    for (int i = 0; it != it_end; ++it, ++i)
+    {
+        const cv::SparseMat::Node *node = it.node();
+        for (int d = 0; d < dims; d++)
+            outIndices[static_cast<size_t>(i) * dims + d] = node->idx[d];
+        std::memcpy(outValues + static_cast<size_t>(i) * elemSize, it.ptr, elemSize);
+    }
+    END_WRAP
+}
