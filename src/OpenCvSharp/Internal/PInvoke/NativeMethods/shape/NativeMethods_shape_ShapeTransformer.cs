@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,74 +11,74 @@ static partial class NativeMethods
 {
     // ShapeTransformer (base class methods)
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeTransformer_estimateTransformation(
-        IntPtr obj, IntPtr transformingShape, IntPtr targetShape, IntPtr matches);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeTransformer_estimateTransformation(
+        OpenCvSafeHandle obj, IntPtr transformingShape, IntPtr targetShape, IntPtr matches);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeTransformer_applyTransformation(
-        IntPtr obj, IntPtr input, IntPtr output, out float returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeTransformer_applyTransformation(
+        OpenCvSafeHandle obj, IntPtr input, IntPtr output, out float returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeTransformer_warpImage(
-        IntPtr obj, IntPtr transformingImage, IntPtr output,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeTransformer_warpImage(
+        OpenCvSafeHandle obj, IntPtr transformingImage, IntPtr output,
         int flags, int borderMode, Scalar borderValue);
 
     // ThinPlateSplineShapeTransformer
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_get(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_get(
         IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_createThinPlateSplineShapeTransformer(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_createThinPlateSplineShapeTransformer(
         double regularizationParameter, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(
-        IntPtr obj, double beta);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(
+        OpenCvSafeHandle obj, double beta);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(
-        IntPtr obj, out double returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(
+        OpenCvSafeHandle obj, out double returnValue);
 
     // AffineTransformer
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_AffineTransformer_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_AffineTransformer_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_AffineTransformer_get(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_AffineTransformer_get(
         IntPtr obj, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_createAffineTransformer(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_createAffineTransformer(
         int fullAffine, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_AffineTransformer_setFullAffine(IntPtr obj, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_AffineTransformer_setFullAffine(OpenCvSafeHandle obj, int value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_AffineTransformer_getFullAffine(
-        IntPtr obj, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_AffineTransformer_getFullAffine(
+        OpenCvSafeHandle obj, out int returnValue);
 
     // Upcast helpers: Ptr<Derived> → Ptr<ShapeTransformer>
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_upcast(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ThinPlateSplineShapeTransformer_upcast(
         IntPtr src, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_AffineTransformer_upcast(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_AffineTransformer_upcast(
         IntPtr src, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_Ptr_ShapeTransformer_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ShapeTransformer_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
-        IntPtr obj, IntPtr transformer);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
+        OpenCvSafeHandle obj, IntPtr transformer);
 }

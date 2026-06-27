@@ -1,14 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp</AssemblyName>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>OpenCvSharp4</PackageId>
+    <PackageId>OpenCvSharp5</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -27,20 +27,16 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</Description>
+    <Description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp5.runtime.*).</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  <PropertyGroup>
     <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
-    
-  <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.6.3" />
-  </ItemGroup>
 
   <ItemGroup>
     <!-- OutputItemType="Analyzer" enables the analyzer during in-solution builds.
@@ -55,10 +51,6 @@
           PackagePath="analyzers/dotnet/cs"
           Visible="false" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
   </ItemGroup>
@@ -74,11 +66,7 @@
     </None>
   </ItemGroup>
 
-  <PropertyGroup Condition="$(TargetFramework.Contains('netstandard')) Or $(TargetFramework.Contains('netcoreapp')) ">
-    <DefineConstants>TRACE;DOTNETCORE;WINRT</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(TargetFramework.Contains('net8.0')) ">
+  <PropertyGroup>
     <DefineConstants>TRACE;DOTNETCORE;</DefineConstants>
   </PropertyGroup>
 
@@ -87,12 +75,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoWarn>1701;1702;CA1303;CA1707;CA1814;CA1401;CA1720;CA2213;</NoWarn>
-  </PropertyGroup>
-
-  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+    <NoWarn>1701;1702;CA1303;CA1707;CA1814;CA1401;CA1720;CA2213;CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
 
 </Project>

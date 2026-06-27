@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -11,18 +11,16 @@ public class BarcodeDetector : CvObject
 {
     /// <summary>
     /// Initialize the BarcodeDetector.
-    /// It includes one models, which are packaged with caffe format.
-    /// Therefore, there are prototxt and caffe models (In total, four paramenters).
+    /// Optionally loads an ONNX super resolution model that is applied to zoom in barcodes when they are small.
+    /// Pass an empty string to create the default detector without a super resolution model.
     /// </summary>
-    /// <param name="superResolutionPrototxtPath">prototxt file path for the super resolution model</param>
-    /// <param name="superResolutionCaffeModelPath">caffe file path for the super resolution model</param>
+    /// <param name="superResolutionModelPath">ONNX file path for the super resolution model</param>
     public BarcodeDetector(
-        string superResolutionPrototxtPath = "",
-        string superResolutionCaffeModelPath = "")
+        string superResolutionModelPath = "")
     {
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_create(
-                superResolutionPrototxtPath, superResolutionCaffeModelPath,
+                superResolutionModelPath,
                 out var p));
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: ptr => NativeMethods.HandleException(NativeMethods.barcode_BarcodeDetector_delete(ptr))));
@@ -70,7 +68,7 @@ public class BarcodeDetector : CvObject
     {
         if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
-        using var sizesVec = new VectorOfFloat(sizes);
+        using var sizesVec = new StdVector<float>(sizes);
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_setDetectorScales(CvPtr, sizesVec.CvPtr));
         GC.KeepAlive(this);
@@ -90,7 +88,7 @@ public class BarcodeDetector : CvObject
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 
-        using var pointsVec = new VectorOfPoint2f();
+        using var pointsVec = new StdVector<Point2f>();
         using var infos = new VectorOfString();
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(

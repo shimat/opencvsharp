@@ -62,9 +62,8 @@ public class LineSegmentDetector : Algorithm
         prec?.ThrowIfNotReady();
         nfa?.ThrowIfNotReady();
 
-        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(RawPtr, image.CvPtr, lines.CvPtr,
+        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.CvPtr, lines.CvPtr,
             Cv2.ToPtr(width), Cv2.ToPtr(prec), Cv2.ToPtr(nfa));
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         GC.KeepAlive(lines);
         GC.KeepAlive(width);
@@ -94,12 +93,12 @@ public class LineSegmentDetector : Algorithm
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using (var linesVec = new VectorOfVec4f())
-        using (var widthVec = new VectorOfDouble())
-        using (var precVec = new VectorOfDouble())
-        using (var nfaVec = new VectorOfDouble())
+        using (var linesVec = new StdVector<Vec4f>())
+        using (var widthVec = new StdVector<double>())
+        using (var precVec = new StdVector<double>())
+        using (var nfaVec = new StdVector<double>())
         {
-            NativeMethods.imgproc_LineSegmentDetector_detect_vector(RawPtr, image.CvPtr,
+            NativeMethods.imgproc_LineSegmentDetector_detect_vector(Handle, image.CvPtr,
                 linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
 
             lines = linesVec.ToArray();
@@ -107,7 +106,6 @@ public class LineSegmentDetector : Algorithm
             prec = precVec.ToArray();
             nfa = nfaVec.ToArray();
         }
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 
@@ -126,8 +124,7 @@ public class LineSegmentDetector : Algorithm
         image.ThrowIfNotReady();
         lines.ThrowIfDisposed();
 
-        NativeMethods.imgproc_LineSegmentDetector_drawSegments(RawPtr, image.CvPtr, lines.CvPtr);
-        GC.KeepAlive(this);
+        NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.CvPtr, lines.CvPtr);
         GC.KeepAlive(image);
         image.Fix();
         GC.KeepAlive(lines);
@@ -155,8 +152,7 @@ public class LineSegmentDetector : Algorithm
         image?.ThrowIfNotReady();
 
         var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
-            RawPtr, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
-        GC.KeepAlive(this);
+            Handle, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
         GC.KeepAlive(lines1);
         GC.KeepAlive(lines2);
         GC.KeepAlive(image);

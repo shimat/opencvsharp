@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Detail;
+using OpenCvSharp.Detail;
 using Xunit;
 
 #pragma warning disable CA5394 // Do not use insecure randomness

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Face;
+using OpenCvSharp.Face;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Face;
@@ -18,7 +18,7 @@ public class FacemarkLBFTest : TestBase
     [Fact]
     public void CreateAndDisposeWithParameter()
     {
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         using (var facemark = FacemarkLBF.Create(parameter))
         {
             GC.KeepAlive(facemark);
@@ -26,11 +26,30 @@ public class FacemarkLBFTest : TestBase
     }
         
     [Fact]
+    public void ParameterDefaultsFromNative()
+    {
+        // Verifies the managed Params pulls the real OpenCV defaults through the
+        // native getAll bridge (a wrong struct layout would surface as garbage here).
+        var parameter = new FacemarkLBF.Params();
+        Assert.Equal(68, parameter.NLandmarks);
+        Assert.Equal(5, parameter.StagesN);
+        Assert.Equal(6, parameter.TreeN);
+        Assert.Equal(5, parameter.TreeDepth);
+        Assert.True(parameter.Verbose);
+        Assert.True(parameter.SaveModel);
+        Assert.Equal(0.4, parameter.BaggingOverlap, 6);
+        Assert.NotEmpty(parameter.FeatsM);
+        Assert.NotEmpty(parameter.RadiusM);
+        Assert.Equal([36, 37, 38, 39, 40, 41], parameter.Pupils0);
+        Assert.Equal([42, 43, 44, 45, 46, 47], parameter.Pupils1);
+    }
+
+    [Fact]
     public void ParameterBaggingOverlap()
     {
         const double value = 3.14;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.BaggingOverlap = value;
             Assert.Equal(value, parameter.BaggingOverlap);
@@ -42,7 +61,7 @@ public class FacemarkLBFTest : TestBase
     {
         const string value = "foo";
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.CascadeFace = value;
             Assert.Equal(value, parameter.CascadeFace);
@@ -55,7 +74,7 @@ public class FacemarkLBFTest : TestBase
     {
         var value = new Rect(1, 2, 3, 4);
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.DetectROI = value;
             Assert.Equal(value, parameter.DetectROI);
@@ -67,7 +86,7 @@ public class FacemarkLBFTest : TestBase
     {
         int[] value = [9, 8, 7, 6, 5];
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.FeatsM = value;
             Assert.Equal(value, parameter.FeatsM);
@@ -79,7 +98,7 @@ public class FacemarkLBFTest : TestBase
     {
         const int value = 12345;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.InitShapeN = value;
             Assert.Equal(value, parameter.InitShapeN);
@@ -91,7 +110,7 @@ public class FacemarkLBFTest : TestBase
     {
         const string value = "foo";
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.ModelFilename = value;
             Assert.Equal(value, parameter.ModelFilename);
@@ -103,7 +122,7 @@ public class FacemarkLBFTest : TestBase
     {
         const int value = 12345;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.NLandmarks = value;
             Assert.Equal(value, parameter.NLandmarks);
@@ -115,7 +134,7 @@ public class FacemarkLBFTest : TestBase
     {
         int[] value = [9, 8, 7, 6, 5];
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.Pupils0 = value;
             Assert.Equal(value, parameter.Pupils0);
@@ -127,7 +146,7 @@ public class FacemarkLBFTest : TestBase
     {
         int[] value = [9, 8, 7, 6, 5];
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.Pupils1 = value;
             Assert.Equal(value, parameter.Pupils1);
@@ -139,7 +158,7 @@ public class FacemarkLBFTest : TestBase
     {
         double[] value = [1, 2, 3];
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.RadiusM = value;
             Assert.Equal(value, parameter.RadiusM);
@@ -149,7 +168,7 @@ public class FacemarkLBFTest : TestBase
     [Fact]
     public void ParameterSaveModel()
     {
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.SaveModel = true;
             Assert.True(parameter.SaveModel);
@@ -163,7 +182,7 @@ public class FacemarkLBFTest : TestBase
     {
         const uint value = uint.MaxValue;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.Seed = value;
             Assert.Equal(value, parameter.Seed);
@@ -175,7 +194,7 @@ public class FacemarkLBFTest : TestBase
     {
         const double value = 3.14;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.ShapeOffset = value;
             Assert.Equal(value, parameter.ShapeOffset);
@@ -187,7 +206,7 @@ public class FacemarkLBFTest : TestBase
     {
         const int value = 12345;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.StagesN = value;
             Assert.Equal(value, parameter.StagesN);
@@ -199,7 +218,7 @@ public class FacemarkLBFTest : TestBase
     {
         const int value = 12345;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.TreeDepth = value;
             Assert.Equal(value, parameter.TreeDepth);
@@ -211,7 +230,7 @@ public class FacemarkLBFTest : TestBase
     {
         const int value = 12345;
 
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.TreeN = value;
             Assert.Equal(value, parameter.TreeN);
@@ -221,7 +240,7 @@ public class FacemarkLBFTest : TestBase
     [Fact]
     public void ParameterVerbose()
     {
-        using (var parameter = new FacemarkLBF.Params())
+        var parameter = new FacemarkLBF.Params();
         {
             parameter.Verbose = true;
             Assert.True(parameter.Verbose);

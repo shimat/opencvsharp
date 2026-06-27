@@ -1,10 +1,12 @@
-﻿# OpenCvSharp Native Runtime Package
+# OpenCvSharp Native Runtime Package
 
 This is an **internal implementation package** for [OpenCvSharp](https://github.com/shimat/opencvsharp). It provides the native OpenCV shared library (`OpenCvSharpExtern`) for a specific platform.
 
 > In most cases you do not need to reference this package directly. Use one of the all-in-one packages instead:
-> - **Windows:** `OpenCvSharp4.Windows` or `OpenCvSharp4.Windows.Slim`
-> - **Linux:** `OpenCvSharp4` + `OpenCvSharp4.official.runtime.linux-x64`
+> - **Windows:** `OpenCvSharp5.Windows` or `OpenCvSharp5.Windows.Slim`
+> - **Linux:** `OpenCvSharp5` + `OpenCvSharp5.official.runtime.linux-x64`
+
+> The `OpenCvSharp5.*` runtime packages target OpenCV 5.x. An identically-named `OpenCvSharp4.*` counterpart (OpenCV 4.13.0) is also published for .NET Framework / older runtimes.
 
 The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
 
@@ -12,24 +14,24 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 > - Ubuntu/Debian: `apt-get install libgtk-3-0`
 > - RHEL/AlmaLinux: `dnf install gtk3`
 >
-> For headless servers or minimal containers, use the **slim** package (`OpenCvSharp4.official.runtime.linux-x64.slim`) instead, which disables `highgui` and has no GUI dependencies.
+> For headless servers or minimal containers, use the **slim** package (`OpenCvSharp5.official.runtime.linux-x64.slim`) instead, which disables `highgui` and has no GUI dependencies.
 
 ## Available Runtime Packages
 
 | Package | Platform |
 |---|---|
-| `OpenCvSharp4.runtime.win` | Windows x64 |
-| `OpenCvSharp4.runtime.win.slim` | Windows x64 (slim) |
-| `OpenCvSharp4.runtime.win-arm64` | Windows ARM64 (Snapdragon X and other arm64 devices). FFmpeg not included. |
-| `OpenCvSharp4.runtime.win-arm64.slim` | Windows ARM64 (slim) |
-| `OpenCvSharp4.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
-| `OpenCvSharp4.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
-| `OpenCvSharp4.runtime.linux-arm64` | Linux ARM64 (AArch64) |
-| `OpenCvSharp4.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
-| `OpenCvSharp4.runtime.osx.10.15-x64` | macOS 10.15+ x64 |
+| `OpenCvSharp5.runtime.win` | Windows x64 |
+| `OpenCvSharp5.runtime.win.slim` | Windows x64 (slim) |
+| `OpenCvSharp5.runtime.win-arm64` | Windows ARM64 (Snapdragon X and other arm64 devices). FFmpeg not included. |
+| `OpenCvSharp5.runtime.win-arm64.slim` | Windows ARM64 (slim) |
+| `OpenCvSharp5.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
+| `OpenCvSharp5.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
+| `OpenCvSharp5.runtime.linux-arm64` | Linux ARM64 (AArch64) |
+| `OpenCvSharp5.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
+| `OpenCvSharp5.runtime.osx.10.15-x64` | macOS 10.15+ x64 |
 
-> **Note:** `OpenCvSharp4.official.runtime.ubuntu.22.04-x64`, `ubuntu.22.04-x64.slim`, `ubuntu.24.04-x64`, and `ubuntu.24.04-x64.slim` are **deprecated**. Migrate to the portable `linux-x64` packages.
-> **Note:** `OpenCvSharp4.runtime.linux-arm` has been renamed to `OpenCvSharp4.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp4.runtime.linux-arm64` directly.
+> **Note:** `OpenCvSharp5.official.runtime.ubuntu.22.04-x64`, `ubuntu.22.04-x64.slim`, `ubuntu.24.04-x64`, and `ubuntu.24.04-x64.slim` are **deprecated**. Migrate to the portable `linux-x64` packages.
+> **Note:** `OpenCvSharp5.runtime.linux-arm` has been renamed to `OpenCvSharp5.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp5.runtime.linux-arm64` directly.
 
 ## Slim Profile
 
@@ -43,5 +45,5 @@ The `slim` packages bundle a smaller native library with a reduced OpenCV module
 ## Resources
 
 - [GitHub Repository](https://github.com/shimat/opencvsharp)
-- [OpenCvSharp4 (managed package)](https://www.nuget.org/packages/OpenCvSharp4)
+- [OpenCvSharp5 (managed package)](https://www.nuget.org/packages/OpenCvSharp5)
 - [Issue Tracker](https://github.com/shimat/opencvsharp/issues)

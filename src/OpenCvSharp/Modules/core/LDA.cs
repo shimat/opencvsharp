@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -59,8 +59,7 @@ public class LDA : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_eigenvectors(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_eigenvectors(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -71,8 +70,7 @@ public class LDA : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_eigenvalues(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_eigenvalues(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -86,8 +84,7 @@ public class LDA : CvObject
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_save_String(CvPtr, fileName));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_save_String(Handle, fileName));
     }
 
     /// <summary>
@@ -100,8 +97,7 @@ public class LDA : CvObject
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_load_String(CvPtr, fileName));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_load_String(Handle, fileName));
     }
 
     /// <summary>
@@ -116,9 +112,8 @@ public class LDA : CvObject
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_save_FileStorage(CvPtr, fs.CvPtr));
+            NativeMethods.core_LDA_save_FileStorage(Handle, fs.CvPtr));
             
-        GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
 
@@ -134,9 +129,8 @@ public class LDA : CvObject
         node.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_load_FileStorage(CvPtr, node.CvPtr));
+            NativeMethods.core_LDA_load_FileStorage(Handle, node.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(node);
     }
 
@@ -156,9 +150,8 @@ public class LDA : CvObject
         labels.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_compute(CvPtr, src.CvPtr, labels.CvPtr));
+            NativeMethods.core_LDA_compute(Handle, src.CvPtr, labels.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(labels);
     }
@@ -177,9 +170,8 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_project(CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_project(Handle, src.CvPtr, out var ret));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
 
         return new Mat(ret);
@@ -199,9 +191,8 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_reconstruct(CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_reconstruct(Handle, src.CvPtr, out var ret));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
 
         return new Mat(ret);

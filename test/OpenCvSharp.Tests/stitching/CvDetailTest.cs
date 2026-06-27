@@ -1,5 +1,6 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Detail;
+using OpenCvSharp.XFeatures2D;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Stitching;

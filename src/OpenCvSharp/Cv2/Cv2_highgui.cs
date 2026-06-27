@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -313,7 +313,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
-        using var boundingBoxesVec = new VectorOfRect();
+        using var boundingBoxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.highgui_selectROIs(windowName, img.CvPtr, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
 
@@ -443,32 +443,4 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.highgui_setTrackbarMin(trackbarName, winName, minVal));
     }
-
-    /// <summary>
-    /// get native window handle (HWND in case of Win32 and Widget in case of X Window) 
-    /// </summary>
-    /// <param name="windowName"></param>
-    public static IntPtr GetWindowHandle(string windowName)
-    {
-        if (windowName is null)
-            throw new ArgumentNullException(nameof(windowName));
-
-        NativeMethods.HandleException(
-            NativeMethods.highgui_cvGetWindowHandle(windowName, out var ret));
-        return ret;
-    }
-
-#if WINRT
-        // MP! Added: To correctly support imShow under WinRT.
-
-        /// <summary>
-        /// Initialize XAML container panel for use by ImShow
-        /// </summary>
-        /// <param name="panel">Panel container.</param>
-        public static void InitContainer(object panel)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.highgui_initContainer(panel));
-        }
-#endif
 }

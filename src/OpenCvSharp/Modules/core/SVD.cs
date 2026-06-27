@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -51,8 +51,7 @@ public class SVD : CvObject
 
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_u(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_SVD_u(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -63,8 +62,7 @@ public class SVD : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_w(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_SVD_w(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -75,8 +73,7 @@ public class SVD : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_vt(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_SVD_vt(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -93,7 +90,7 @@ public class SVD : CvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_operatorThis(CvPtr, src.CvPtr, (int)flags));
+            NativeMethods.core_SVD_operatorThis(Handle, src.CvPtr, (int)flags));
         GC.KeepAlive(src);
         return this;
     }
@@ -114,8 +111,7 @@ public class SVD : CvObject
         rhs.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_backSubst(CvPtr, rhs.CvPtr, dst.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_SVD_backSubst(Handle, rhs.CvPtr, dst.CvPtr));
         GC.KeepAlive(rhs);
         GC.KeepAlive(dst);
     }

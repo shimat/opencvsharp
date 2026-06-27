@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,38 +11,38 @@ static partial class NativeMethods
 {
     #region motempl
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_updateMotionHistory(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_motempl_updateMotionHistory(
         IntPtr silhouette, IntPtr mhi,
         double timestamp, double duration);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_calcMotionGradient(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_motempl_calcMotionGradient(
         IntPtr mhi, IntPtr mask, IntPtr orientation,
         double delta1, double delta2, int apertureSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_calcGlobalOrientation(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_motempl_calcGlobalOrientation(
         IntPtr orientation, IntPtr mask,
         IntPtr mhi, double timestamp, double duration, out double returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_segmentMotion(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_motempl_segmentMotion(
         IntPtr mhi, IntPtr segmask, IntPtr boundingRects,
         double timestamp, double segThresh);
 
     #endregion
 
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSF1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_calcOpticalFlowSF1(
         IntPtr from, IntPtr to, IntPtr flow,
         int layers,
         int averagingBlockSize,
         int maxFlow);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSF2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_calcOpticalFlowSF2(
         IntPtr from, IntPtr to, IntPtr flow,
         int layers,
         int averagingBlockSize,
@@ -57,8 +58,8 @@ static partial class NativeMethods
         double upscaleSigmaColor,
         double speedUpThr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSparseToDense(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus optflow_calcOpticalFlowSparseToDense(
         IntPtr from, IntPtr to, IntPtr flow,
         int gridStep, int k, float sigma, int usePostProc, float fgsLambda, float fgsSigma);
 }

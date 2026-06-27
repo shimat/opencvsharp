@@ -1,11 +1,11 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// Used for managing the resources of OpenCVSharp, like Mat, MatExpr, etc.
 /// </summary>
 public sealed class ResourcesTracker : IDisposable
 {
-    private readonly HashSet<DisposableObject> trackedObjects = [];
+    private readonly HashSet<IDisposable> trackedObjects = [];
     private readonly object asyncLock = new ();
 
     /// <summary>
@@ -15,7 +15,7 @@ public sealed class ResourcesTracker : IDisposable
     /// <param name="obj"></param>
     /// <returns></returns>
     public TCvObject T<TCvObject>(TCvObject obj) 
-        where TCvObject : DisposableObject
+        where TCvObject : IDisposable
     {
         if (obj is null)
             throw new ArgumentNullException(nameof(obj));
@@ -34,7 +34,7 @@ public sealed class ResourcesTracker : IDisposable
     /// <param name="objects"></param>
     /// <returns></returns>
     public TCvObject[] T<TCvObject>(TCvObject[] objects)
-        where TCvObject : DisposableObject
+        where TCvObject : IDisposable
     {
         if (objects is null)
             throw new ArgumentNullException(nameof(objects));
@@ -97,10 +97,8 @@ public sealed class ResourcesTracker : IDisposable
         {
             foreach (var obj in trackedObjects)
             {
-                if (obj.IsDisposed == false)
-                {
-                    obj.Dispose();
-                }
+                // Dispose is idempotent, so no IsDisposed pre-check is needed.
+                obj.Dispose();
             }
             trackedObjects.Clear();
         }

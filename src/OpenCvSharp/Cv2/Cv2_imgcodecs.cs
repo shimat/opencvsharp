@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -220,7 +220,7 @@ static partial class Cv2
         prms ??= [];
         img.ThrowIfDisposed();
 
-        using var bufVec = new VectorOfByte();
+        using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(img);

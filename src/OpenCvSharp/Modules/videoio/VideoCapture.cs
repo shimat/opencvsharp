@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -1434,7 +1434,7 @@ public class VideoCapture : CvObject
             s.ThrowIfDisposed();
             return s.CvPtr;
         }).ToArray();
-        using var readyIndexVec = new VectorOfInt32();
+        using var readyIndexVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_waitAny(

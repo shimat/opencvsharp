@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal.Vectors;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
 

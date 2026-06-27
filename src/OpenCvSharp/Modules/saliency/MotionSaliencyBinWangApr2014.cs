@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -44,8 +44,7 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_MotionSaliencyBinWangApr2014_computeSaliency(
-                RawPtr, image.CvPtr, saliencyMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, image.CvPtr, saliencyMap.CvPtr, out var ret));
         GC.KeepAlive(image);
         saliencyMap.Fix();
         return ret != 0;
@@ -61,8 +60,7 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImagesize(RawPtr, width, height));
-        GC.KeepAlive(this);
+            NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImagesize(Handle, width, height));
     }
 
     /// <summary>
@@ -74,8 +72,7 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.saliency_MotionSaliencyBinWangApr2014_init(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.saliency_MotionSaliencyBinWangApr2014_init(Handle, out var ret));
         return ret != 0;
     }
 
@@ -88,16 +85,14 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_MotionSaliencyBinWangApr2014_getImageWidth(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_MotionSaliencyBinWangApr2014_getImageWidth(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImageWidth(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImageWidth(Handle, value));
         }
     }
 
@@ -110,16 +105,14 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_MotionSaliencyBinWangApr2014_getImageHeight(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_MotionSaliencyBinWangApr2014_getImageHeight(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImageHeight(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_MotionSaliencyBinWangApr2014_setImageHeight(Handle, value));
         }
     }
 }

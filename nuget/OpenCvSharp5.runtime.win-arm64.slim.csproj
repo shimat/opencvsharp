@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+
+    <PackageId>OpenCvSharp5.runtime.win-arm64.slim</PackageId>
+    <Title>OpenCvSharp5 native slim bindings for Windows ARM64</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Slim native runtime package for OpenCvSharp on Windows ARM64. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows arm64 slim</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../src/build_arm64_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-arm64/native/OpenCvSharpExtern.dll" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.props" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.props" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.props" Pack="true" PackagePath="build/net8.0" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.targets" Pack="true" PackagePath="build/netstandard" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.targets" Pack="true" PackagePath="build/netcoreapp" />
+    <None Include="OpenCvSharp5.runtime.win-arm64.slim.targets" Pack="true" PackagePath="build/net8.0" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.runtime.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

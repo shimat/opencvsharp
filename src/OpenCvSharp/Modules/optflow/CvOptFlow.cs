@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.OptFlow;
@@ -130,7 +130,7 @@ public static class CvOptFlow
         mhi.ThrowIfDisposed();
         segmask.ThrowIfNotReady();
 
-        using var br = new VectorOfRect();
+        using var br = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.optflow_motempl_segmentMotion(
                 mhi.CvPtr, segmask.CvPtr, br.CvPtr, timestamp, segThresh));

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Saliency;
+using OpenCvSharp.Saliency;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Saliency;

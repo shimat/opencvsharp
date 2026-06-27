@@ -59,8 +59,7 @@ public class FastLineDetector : Algorithm
         lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(RawPtr, image.CvPtr, lines.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.CvPtr, lines.CvPtr));
         GC.KeepAlive(image);
         GC.KeepAlive(lines);
         lines.Fix();
@@ -84,10 +83,9 @@ public class FastLineDetector : Algorithm
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
-        using var lines = new VectorOfVec4f();
+        using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_vector(RawPtr, image.CvPtr, lines.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.CvPtr, lines.CvPtr));
         GC.KeepAlive(image);
         return lines.ToArray();
     }
@@ -108,8 +106,7 @@ public class FastLineDetector : Algorithm
             throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(RawPtr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
         GC.KeepAlive(image);
         image.Fix();
         GC.KeepAlive(lines);
@@ -129,12 +126,11 @@ public class FastLineDetector : Algorithm
         if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
-        using var linesVec = new VectorOfVec4f(lines);
+        using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
-                RawPtr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
+                Handle, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
             
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
         image.Fix();
     }

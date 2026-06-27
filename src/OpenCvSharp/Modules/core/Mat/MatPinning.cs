@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp;
 
@@ -10,6 +10,8 @@ public partial class Mat
     protected override void DisposeManaged()
     {
         pinLifetime?.Dispose();
+        // Keep the view's owner (if any) alive until this view is disposed.
+        GC.KeepAlive(viewOwner);
         base.DisposeManaged();
     }
 

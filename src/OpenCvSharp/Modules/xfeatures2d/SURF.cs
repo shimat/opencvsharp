@@ -53,16 +53,14 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getHessianThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_getHessianThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setHessianThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_setHessianThreshold(Handle, value));
         }
     }
 
@@ -76,16 +74,14 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getNOctaves(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_getNOctaves(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setNOctaves(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_setNOctaves(Handle, value));
         }
     }
 
@@ -98,16 +94,14 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getNOctaveLayers(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_getNOctaveLayers(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setNOctaveLayers(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_setNOctaveLayers(Handle, value));
         }
     }
 
@@ -121,16 +115,14 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getExtended(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_getExtended(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setExtended(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_setExtended(Handle, value ? 1 : 0));
         }
     }
 
@@ -146,8 +138,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getUpright(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_getUpright(Handle, out var ret));
             return ret != 0;
 
         }
@@ -155,8 +146,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setUpright(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.xfeatures2d_SURF_setUpright(Handle, value ? 1 : 0));
         }
     }
 

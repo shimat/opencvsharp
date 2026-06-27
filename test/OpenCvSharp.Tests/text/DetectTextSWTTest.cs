@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Text;
+using OpenCvSharp.Text;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Text;

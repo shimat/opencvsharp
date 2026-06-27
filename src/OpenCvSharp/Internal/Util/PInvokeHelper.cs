@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Internal.Util;
+namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
 /// Provides utility methods for native library (P/Invoke) calls.

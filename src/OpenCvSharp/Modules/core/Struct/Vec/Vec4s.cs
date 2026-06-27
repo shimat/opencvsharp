@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 #pragma warning disable CA1051
@@ -153,10 +153,8 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
 #pragma warning restore 1591
 
 
-#if !NETSTANDARD2_0
     /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
-#endif
 
     /// <inheritdoc />
     public readonly bool Equals(Vec4s other) =>
@@ -189,18 +187,7 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if NETSTANDARD2_0
-        unchecked
-        {
-            var hashCode = Item0.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item1.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item2.GetHashCode();
-            hashCode = (hashCode * 397) ^ Item3.GetHashCode();
-            return hashCode;
-        }
-#else
         return HashCode.Combine(Item0, Item1, Item2, Item3);
-#endif
     }
 
     /// <inheritdoc />

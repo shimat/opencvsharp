@@ -45,6 +45,77 @@ static int p(T obj, const std::string &caption = "MessageBox")
 #endif
 
 
+#ifdef _WIN32
+#include <Windows.h>
+
+// Windows narrow file APIs (fopen) interpret paths in the active code page, so OpenCV cannot open
+// UTF-8 / non-ANSI file names. These helpers let the path-taking entry points do their own I/O via
+// wide (UTF-16) streams on Windows, combined with OpenCV's in-memory decode/encode APIs. Fixes opencv #4242.
+static std::wstring utf8ToWide(const char *utf8)
+{
+    if (utf8 == nullptr || utf8[0] == '\0')
+        return std::wstring();
+    const int len = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, nullptr, 0);
+    if (len <= 1)
+        return std::wstring();
+    std::wstring wide(static_cast<size_t>(len - 1), L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, utf8, -1, &wide[0], len);
+    return wide;
+}
+
+// True if the UTF-8 path can be represented losslessly in the process active code page (so OpenCV's
+// narrow file APIs can open it directly, preserving streaming). 'acp' receives the narrow path.
+// Returns false only for paths with characters the code page cannot represent (those previously
+// failed on Windows and now need the wide path).
+static bool pathRoundTripsAcp(const char *utf8, std::string &acp)
+{
+    if (utf8 == nullptr || utf8[0] == '\0') { acp.clear(); return true; }
+    // A UTF-8 active code page (Windows 10 1903+) opens UTF-8 narrow paths directly.
+    if (GetACP() == CP_UTF8) { acp = utf8; return true; }
+    // Pure ASCII is representable in every code page.
+    bool ascii = true;
+    for (const char *p = utf8; *p != '\0'; ++p)
+        if (static_cast<unsigned char>(*p) >= 0x80) { ascii = false; break; }
+    if (ascii) { acp = utf8; return true; }
+
+    const std::wstring wide = utf8ToWide(utf8);
+    if (wide.empty()) return false;
+    BOOL usedDefault = FALSE;
+    const int len = WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, wide.c_str(), -1, nullptr, 0, nullptr, &usedDefault);
+    if (len <= 0) return false; // e.g. flag unsupported by the code page -> treat as non-representable
+    std::string buf(static_cast<size_t>(len - 1), '\0');
+    WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, wide.c_str(), -1, len > 1 ? &buf[0] : nullptr, len, nullptr, &usedDefault);
+    if (usedDefault) return false; // a character could not be represented in the code page
+    acp = std::move(buf);
+    return true;
+}
+
+// Reads the whole file at a UTF-8 path. Returns false if it could not be opened.
+static bool readAllBytesWide(const char *utf8Path, std::vector<uchar> &out)
+{
+    std::ifstream file(utf8ToWide(utf8Path), std::ios::binary | std::ios::ate);
+    if (!file)
+        return false;
+    const std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+    out.resize(static_cast<size_t>(size < 0 ? 0 : size));
+    if (size > 0)
+        file.read(reinterpret_cast<char*>(out.data()), size);
+    return true;
+}
+
+// Writes bytes to a UTF-8 path. Returns false on failure.
+static bool writeAllBytesWide(const char *utf8Path, const uchar *data, size_t size)
+{
+    std::ofstream file(utf8ToWide(utf8Path), std::ios::binary);
+    if (!file)
+        return false;
+    if (size > 0)
+        file.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(size));
+    return file.good();
+}
+#endif
+
 #if defined WIN32 || defined _WIN32
 #  define CV_CDECL __cdecl
 #  define CV_STDCALL __stdcall

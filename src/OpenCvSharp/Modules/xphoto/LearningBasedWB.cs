@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XPhoto;
 
@@ -36,16 +36,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(Handle, value));
         }
     }
 
@@ -58,16 +56,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(Handle, value));
         }
     }
 
@@ -80,16 +76,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(Handle, value));
         }
     }
 
@@ -108,9 +102,8 @@ public class LearningBasedWB : WhiteBalancer
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_balanceWhite(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_balanceWhite(Handle, src.CvPtr, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
         dst.Fix();
@@ -131,9 +124,8 @@ public class LearningBasedWB : WhiteBalancer
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(Handle, src.CvPtr, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
         dst.Fix();

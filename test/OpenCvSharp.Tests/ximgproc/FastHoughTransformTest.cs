@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.XImgProc;
+using OpenCvSharp.XImgProc;
 using Xunit;
 
 // ReSharper disable RedundantArgumentDefaultValue

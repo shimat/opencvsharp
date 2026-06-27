@@ -34,15 +34,62 @@
 
 #include <opencv2/opencv.hpp>
 
+// OpenCV 5 split calib3d into the calib / 3d / stereo modules, and opencv.hpp
+// now pulls the new headers (opencv2/3d.hpp, objdetect.hpp). The legacy
+// opencv2/calib3d.hpp still re-declares the same enums (LMEDS, SolvePnPMethod,
+// CALIB_CB_*, ...) under its own include guard, so it clashes when something
+// drags it into the same translation unit (e.g. opencv2/ximgproc/disparity_filter.hpp).
+// OpenCvSharpExtern uses the new API via opencv.hpp, so neutralize the legacy
+// umbrella by pre-defining its include guard.
+#define OPENCV_CALIB3D_HPP
+
+// OpenCV 5 moved the geometry primitives into the new "geometry" module:
+//  - 2D (opencv2/geometry/2d.hpp): convexHull, minAreaRect, fitEllipse, boxPoints,
+//    minEnclosingCircle/Triangle, Subdiv2D, ...
+//  - 3D (opencv2/geometry/3d.hpp): solvePnP, findHomography, triangulatePoints, ...
+// opencv2/opencv.hpp does not pull opencv2/geometry.hpp (and the legacy calib3d
+// umbrella that used to is neutralized above), so include it explicitly.
+#include <opencv2/geometry.hpp>
+
+// OpenCV 5 moved CascadeClassifier / HOGDescriptor / groupRectangles out of the
+// main objdetect module into the contrib xobjdetect module (still in the cv::
+// namespace). It is lightweight (depends only on core/imgproc/imgcodecs/features),
+// so OpenCvSharpExtern keeps it available in every profile (including slim) and is
+// not aggregated by opencv2/opencv.hpp, so include it explicitly. These APIs are
+// not exposed under WinRT, mirroring the objdetect_*.h export guards.
+#ifndef _WINRT_DLL
+#include <opencv2/xobjdetect.hpp>
+#endif
+
+// OpenCV 5 relocated several feature detectors/descriptors (BRISK, KAZE, AKAZE,
+// AGAST, FREAK, BRIEF, DAISY, LATCH, VGG, ...) from the main features module into
+// the contrib xfeatures2d module (cv::xfeatures2d). Its required deps
+// (core/imgproc/features/geometry) are all present in the slim profile and it
+// pulls no heavy external dependency, so it is kept available in every profile
+// (including slim). Not aggregated by opencv.hpp, so include it explicitly.
+// (SURF/nonfree lives in the separate opencv2/xfeatures2d/nonfree.hpp.)
+#include <opencv2/xfeatures2d.hpp>
+
+// A few lightweight contrib modules are kept available in every profile
+// (including slim): their dependencies are all already present in the slim build
+// and they pull no heavy external dependency. They are not aggregated by
+// opencv.hpp, so include them explicitly.
+//   ximgproc - extended image processing (guided filter, superpixel, edge, ...)
+//   xphoto   - white balance / inpainting / denoising extensions
+//   bgsegm   - background subtraction (MOG / GMG / GSOC)
+//   img_hash - perceptual image hashes (pHash / aHash / ...)
+#include <opencv2/ximgproc.hpp>
+#include <opencv2/xphoto.hpp>
+#include <opencv2/bgsegm.hpp>
+#include <opencv2/img_hash.hpp>
+
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>
 #endif
 #include <opencv2/core/utils/logger.hpp>
-#ifndef NO_HIGHGUI
-#include <opencv2/highgui/highgui_c.h>
-#endif
-#include <opencv2/imgproc/imgproc_c.h>
+// NOTE: the legacy C API (imgproc_c.h / highgui_c.h) was removed in OpenCV 5
+// and is not used by OpenCvSharpExtern, so the includes have been dropped.
 
 #ifndef NO_VIDEO
 #include <opencv2/video.hpp>
@@ -63,18 +110,15 @@
 #include <opencv2/superres/optical_flow.hpp>
 #endif 
 // opencv_contrib
-#include <opencv2/aruco.hpp>
-#include <opencv2/aruco/charuco.hpp>
-#include <opencv2/bgsegm.hpp>
-#include <opencv2/img_hash.hpp>
+// NOTE: OpenCV 5 merged the aruco module into the main objdetect module
+// (opencv2/objdetect/aruco_detector.hpp, charuco_detector.hpp, ...), which is
+// already pulled in by opencv2/opencv.hpp. The legacy contrib umbrella headers
+// opencv2/aruco.hpp / opencv2/aruco/charuco.hpp were removed.
 #include <opencv2/line_descriptor.hpp>
 #include <opencv2/optflow.hpp>
 #include <opencv2/quality.hpp>
 #include <opencv2/tracking.hpp>
-#include <opencv2/xfeatures2d.hpp>
-#include <opencv2/ximgproc.hpp>
 #include <opencv2/saliency.hpp>
-#include <opencv2/xphoto.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/wechat_qrcode.hpp>
 #include <opencv2/dnn.hpp>

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Detail;
+using OpenCvSharp.Detail;
 
 namespace OpenCvSharp.Internal.Vectors;
 
@@ -47,16 +47,16 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
         if (size == 0)
             return [];
             
-        VectorOfKeyPoint[]? keypointsVecs = null;
+        StdVector<KeyPoint>[]? keypointsVecs = null;
         Mat[]? descriptors = null;
         try
         {
             var nativeResult = new WImageFeatures[size];
-            keypointsVecs = new VectorOfKeyPoint[size];
+            keypointsVecs = new StdVector<KeyPoint>[size];
             descriptors = new Mat[size];
             for (var i = 0; i < size; i++)
             {
-                keypointsVecs[i] = new VectorOfKeyPoint();
+                keypointsVecs[i] = new StdVector<KeyPoint>();
                 descriptors[i] = new Mat();
                 nativeResult[i].Keypoints = keypointsVecs[i].CvPtr;
                 nativeResult[i].Descriptors = descriptors[i].CvPtr;

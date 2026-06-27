@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -53,10 +53,10 @@ public sealed class CLAHE : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_apply(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.imgproc_CLAHE_apply(Handle, src.CvPtr, dst.CvPtr));
 
         dst.Fix();
-        GC.KeepAlive(this);
+        // Handle (a SafeHandle) keeps this alive across the call, so no GC.KeepAlive(this) is needed.
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
     }
@@ -70,16 +70,14 @@ public sealed class CLAHE : Algorithm
         { 
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_getClipLimit(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_CLAHE_getClipLimit(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_setClipLimit(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_CLAHE_setClipLimit(Handle, value));
         }
     }
 
@@ -92,16 +90,14 @@ public sealed class CLAHE : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_getTilesGridSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_CLAHE_getTilesGridSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_setTilesGridSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_CLAHE_setTilesGridSize(Handle, value));
         }
     }
 
@@ -112,7 +108,6 @@ public sealed class CLAHE : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_collectGarbage(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.imgproc_CLAHE_collectGarbage(Handle));
     }
 }

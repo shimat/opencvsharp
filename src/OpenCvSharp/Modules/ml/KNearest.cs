@@ -71,15 +71,13 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getDefaultK(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_getDefaultK(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setDefaultK(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_setDefaultK(Handle, value));
         }
     }
 
@@ -91,15 +89,13 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getIsClassifier(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_getIsClassifier(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setIsClassifier(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_setIsClassifier(Handle, value ? 1 : 0));
         }
     }
 
@@ -111,15 +107,13 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getEmax(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_getEmax(Handle, out var ret));
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setEmax(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_setEmax(Handle, value));
         }
     }
 
@@ -131,15 +125,13 @@ public class KNearest : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_getAlgorithmType(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_getAlgorithmType(Handle, out var ret));
             return (Types)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_KNearest_setAlgorithmType(RawPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.ml_KNearest_setAlgorithmType(Handle, (int)value));
         }
     }
 
@@ -173,11 +165,10 @@ public class KNearest : StatModel
 
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_findNearest(
-                RawPtr,
+                Handle,
                 samples.CvPtr, k, results.CvPtr,
                 Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist), out var ret));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(samples);
         GC.KeepAlive(results);
         GC.KeepAlive(neighborResponses);

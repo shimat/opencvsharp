@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.13.0
+  OPENCV_VERSION: 5.0.0
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -266,12 +266,13 @@ jobs:
             -S src \
             -B src/build-slim \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv4 \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv5 \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
             -D NO_CONTRIB=ON \
             -D NO_VIDEOIO=ON \
             -D NO_HIGHGUI=ON \
-            -D NO_DNN=ON
+            -D NO_DNN=ON \
+            -D NO_STITCHING=ON
           cmake --build src/build-slim -j
           cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
 
@@ -372,12 +373,12 @@ jobs:
 
           # Full package
           cp /tmp/so-full/libOpenCvSharpExtern.so nuget/libOpenCvSharpExtern.so
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj \
+          dotnet pack nuget/OpenCvSharp5.official.runtime.linux-x64.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           # Slim package (overwrite .so in nuget/ with slim binary)
           cp /tmp/so-slim/libOpenCvSharpExtern-slim.so nuget/libOpenCvSharpExtern.so
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.slim.csproj \
+          dotnet pack nuget/OpenCvSharp5.official.runtime.linux-x64.slim.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts

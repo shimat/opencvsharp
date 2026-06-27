@@ -62,8 +62,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-                RawPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, out var ret));
         return ret;
     }
 
@@ -85,8 +84,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_iterate(
-                RawPtr, numIterations));
-        GC.KeepAlive(this);
+                Handle, numIterations));
     }
 
     /// <summary>
@@ -106,8 +104,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabels(
-                RawPtr, labelsOut.CvPtr));
-        GC.KeepAlive(this);
+                Handle, labelsOut.CvPtr));
         labelsOut.Fix();
     }
 
@@ -126,8 +123,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabelContourMask(
-                RawPtr, image.CvPtr, thickLine ? 1 : 0));
-        GC.KeepAlive(this);
+                Handle, image.CvPtr, thickLine ? 1 : 0));
         image.Fix();
     }
 
@@ -145,8 +141,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-                RawPtr, minElementSize));
-        GC.KeepAlive(this);
+                Handle, minElementSize));
     }
 
     }

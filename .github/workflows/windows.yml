@@ -1,4 +1,4 @@
-﻿name: Windows Server 2025
+name: Windows Server 2025
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: "4.13.0"
+  OPENCV_VERSION: "5.0.0"
 
 jobs:
   build:
@@ -71,6 +71,14 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
+          # Force OpenCV 5's vendored MLAS off by giving CMake no ASM compiler
+          # (see -D CMAKE_ASM_COMPILER below). MinGW or Strawberry-Perl gcc on the
+          # runner PATH would otherwise be picked by MLAS's check_language(ASM),
+          # building GNU-syntax .S SGEMM kernels that fail the MSVC link (x64:
+          # missing SgemmKernelSse2.obj) and inject pthread into the OpenCV link
+          # interface (arm64: LNK1181 pthread.lib). MLAS then disables and DNN uses
+          # its built-in SGEMM, matching a clean local VS build. Windows builds the
+          # image codecs via vcpkg, so no other ASM language is needed.
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -83,6 +91,7 @@ jobs:
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -160,6 +169,7 @@ jobs:
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
+            -D NO_STITCHING=ON `
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_slim --config Release -j 4
 
@@ -172,12 +182,6 @@ jobs:
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net10.0-windows --runtime win-x64
-
-      - name: Test Windows-only functions (net48)
-        shell: powershell
-        run: |
-          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net48 --runtime win-x64
 
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
@@ -228,25 +232,27 @@ jobs:
 
           # Pack main libraries (dotnet pack triggers build implicitly)
           dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.GdipExtensions/OpenCvSharp.GdipExtensions.csproj -c Release -o artifacts -p:Version=$version
           dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
 
           # Pack runtime packages
-          dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
-          dotnet pack nuget/OpenCvSharp4.runtime.win.slim.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp5.runtime.win.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp5.runtime.win.slim.csproj -o artifacts -p:Version=$version
 
           # Add local artifacts as NuGet source for meta-package
           dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
 
           # Pack meta-package (depends on packages built above)
-          dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
-          dotnet pack nuget/OpenCvSharp4.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          dotnet pack nuget/OpenCvSharp5.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          dotnet pack nuget/OpenCvSharp5.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
-      - name: Run ReleaseMaker
-        shell: powershell
+      - name: Pack release zip
+        shell: pwsh
         run: |
-          cd "${env:GITHUB_WORKSPACE}\src\tools\OpenCvSharp.ReleaseMaker"
-          dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
+          ./scripts/pack-release-zip.ps1 `
+            -WorkspaceDir "${env:GITHUB_WORKSPACE}" `
+            -OutputDir "${env:GITHUB_WORKSPACE}\artifacts" `
+            -Version ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
         uses: actions/upload-artifact@v7
@@ -308,6 +314,25 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = 'Continue'
+          # Force OpenCV 5's vendored MLAS off by giving CMake no ASM compiler
+          # (see -D CMAKE_ASM_COMPILER below). MinGW or Strawberry-Perl gcc on the
+          # runner PATH would otherwise be picked by MLAS's check_language(ASM),
+          # building GNU-syntax .S SGEMM kernels that fail the MSVC link (x64:
+          # missing SgemmKernelSse2.obj) and inject pthread into the OpenCV link
+          # interface (arm64: LNK1181 pthread.lib). MLAS then disables and DNN uses
+          # its built-in SGEMM, matching a clean local VS build. Windows builds the
+          # image codecs via vcpkg, so no other ASM language is needed.
+          # OpenCV 5's vendored MLAS uses GNU-syntax aarch64 .S SGEMM kernels that
+          # armasm64 (the only ASM compiler on the VS2022 ARM64 toolchain, which
+          # windows-11-arm ships instead of VS2026) cannot assemble, and
+          # CMAKE_ASM_COMPILER="" does not disable ASM under the VS ARM64 generator
+          # (it does under VS2026 x64). MLAS is an OpenCV 5 addition (absent in
+          # OpenCV 4), so skip building it on this toolchain; DNN keeps working via
+          # its built-in SGEMM (as OpenCV 4 ARM64 did). Drop the add_subdirectory
+          # that pulls MLAS into opencv_dnn.
+          (Get-Content opencv/modules/dnn/CMakeLists.txt) `
+            -replace 'add_subdirectory\("\$\{OpenCV_SOURCE_DIR\}/3rdparty/mlas".*', '# [win-arm64] MLAS disabled (armasm64 cannot assemble its aarch64 .S kernels)' `
+            | Set-Content opencv/modules/dnn/CMakeLists.txt
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -321,6 +346,7 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D WITH_FFMPEG=OFF `
+            -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -391,6 +417,7 @@ jobs:
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
+            -D NO_STITCHING=ON `
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_arm64_slim --config Release -j 4
 
@@ -408,8 +435,8 @@ jobs:
           $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
 
-          dotnet pack nuget/OpenCvSharp4.runtime.win-arm64.csproj -o artifacts -p:Version=$version
-          dotnet pack nuget/OpenCvSharp4.runtime.win-arm64.slim.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp5.runtime.win-arm64.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp5.runtime.win-arm64.slim.csproj -o artifacts -p:Version=$version
 
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v7

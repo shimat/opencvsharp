@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -32,7 +32,7 @@ public static class CvText
         draw?.ThrowIfNotReady();
         chainBBs?.ThrowIfNotReady();
             
-        using var result = new VectorOfRect();
+        using var result = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.text_detectTextSWT(
                 input.CvPtr, 

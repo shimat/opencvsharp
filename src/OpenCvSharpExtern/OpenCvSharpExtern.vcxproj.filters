@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="aruco.cpp">
@@ -292,6 +292,12 @@
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
     <ClInclude Include="dnn_Net.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_Model.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_TextModel.h">
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
     <ClInclude Include="dnn.h">

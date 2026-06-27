@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XImgProc.Segmentation;
 
@@ -43,16 +43,14 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getSigma(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getSigma(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setSigma(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setSigma(Handle, value));
         }
     }
 
@@ -65,16 +63,14 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getK(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getK(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setK(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setK(Handle, value));
         }
     }
 
@@ -87,16 +83,14 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getMinSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getMinSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setMinSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setMinSize(Handle, value));
         }
     }
 
@@ -116,9 +110,8 @@ public class GraphSegmentation : Algorithm
         dst.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.CvPtr, dst.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
     }

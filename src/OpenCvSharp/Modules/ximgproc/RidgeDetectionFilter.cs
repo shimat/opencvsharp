@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -65,7 +65,6 @@ public class RidgeDetectionFilter : Algorithm
             throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(RawPtr, src.CvPtr, dst.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.CvPtr, dst.CvPtr));
     }
 }

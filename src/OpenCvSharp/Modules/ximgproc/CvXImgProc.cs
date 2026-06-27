@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.XImgProc.Segmentation;
 
 // ReSharper disable UnusedMember.Global

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net8.0-windows</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+
+    <PackageId>OpenCvSharp5.Windows.Slim</PackageId>
+    <Title>OpenCvSharp NuGet package for x64 Windows (Slim)</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>OpenCV 5.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows slim</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.managed.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp5" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5.runtime.win.slim" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.runtime.win.slim" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp5.GdipExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.GdipExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
+  </ItemGroup>
+
+  <!-- WPF extensions only flow to the Windows-desktop TFM -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp5.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.managed.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

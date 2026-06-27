@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -85,8 +85,7 @@ public class PCA : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_PCA_eigenvectors(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_PCA_eigenvectors(Handle, out var ret));
             return Mat.FromNativePointer(ret);
         }
     }
@@ -100,8 +99,7 @@ public class PCA : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_PCA_eigenvalues(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_PCA_eigenvalues(Handle, out var ret));
             return Mat.FromNativePointer(ret);
         }
     }
@@ -115,8 +113,7 @@ public class PCA : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_PCA_mean(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_PCA_mean(Handle, out var ret));
             return Mat.FromNativePointer(ret);
         }
     }
@@ -149,7 +146,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_operatorThis(CvPtr, data.CvPtr, mean.CvPtr, (int)flags, maxComponents));
+            NativeMethods.core_PCA_operatorThis(Handle, data.CvPtr, mean.CvPtr, (int)flags, maxComponents));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         return this;
@@ -186,7 +183,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_computeVar(CvPtr, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance));
+            NativeMethods.core_PCA_computeVar(Handle, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         return this;
@@ -215,8 +212,7 @@ public class PCA : CvObject
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project1(CvPtr, vec.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_PCA_project1(Handle, vec.CvPtr, out var ret));
         GC.KeepAlive(vec);
         return Mat.FromNativePointer(ret);
     }
@@ -243,9 +239,8 @@ public class PCA : CvObject
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project2(CvPtr, vec.CvPtr, result.CvPtr));
+            NativeMethods.core_PCA_project2(Handle, vec.CvPtr, result.CvPtr));
         result.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(vec);
         GC.KeepAlive(result);
     }
@@ -270,8 +265,7 @@ public class PCA : CvObject
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject1(CvPtr, vec.CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_PCA_backProject1(Handle, vec.CvPtr, out var ret));
         GC.KeepAlive(vec);
         return new Mat(ret);
     }
@@ -300,9 +294,8 @@ public class PCA : CvObject
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject2(CvPtr, vec.CvPtr, result.CvPtr));
+            NativeMethods.core_PCA_backProject2(Handle, vec.CvPtr, result.CvPtr));
         result.Fix();
-        GC.KeepAlive(this);
         GC.KeepAlive(vec);
         GC.KeepAlive(result);
     }
@@ -319,9 +312,8 @@ public class PCA : CvObject
         fs.ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_write(CvPtr, fs.CvPtr));
+            NativeMethods.core_PCA_write(Handle, fs.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
 
@@ -337,9 +329,8 @@ public class PCA : CvObject
         fn.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_read(CvPtr, fn.CvPtr));
+            NativeMethods.core_PCA_read(Handle, fn.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(fn);
     }
 

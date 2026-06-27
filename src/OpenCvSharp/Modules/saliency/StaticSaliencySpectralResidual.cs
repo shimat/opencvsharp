@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -44,8 +44,7 @@ public class StaticSaliencySpectralResidual : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeSaliency(
-                RawPtr, image.CvPtr, saliencyMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, image.CvPtr, saliencyMap.CvPtr, out var ret));
         GC.KeepAlive(image);
         saliencyMap.Fix();
         return ret != 0;
@@ -69,8 +68,7 @@ public class StaticSaliencySpectralResidual : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeBinaryMap(
-                RawPtr, saliencyMap.CvPtr, binaryMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, saliencyMap.CvPtr, binaryMap.CvPtr, out var ret));
         GC.KeepAlive(saliencyMap);
         binaryMap.Fix();
         return ret != 0;
@@ -85,16 +83,14 @@ public class StaticSaliencySpectralResidual : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageWidth(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageWidth(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageWidth(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageWidth(Handle, value));
         }
     }
 
@@ -107,16 +103,14 @@ public class StaticSaliencySpectralResidual : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageHeight(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageHeight(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageHeight(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageHeight(Handle, value));
         }
     }
 }

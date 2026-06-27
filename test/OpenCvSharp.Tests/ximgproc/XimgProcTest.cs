@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
@@ -154,7 +154,9 @@ public class XImgProcTest : TestBase
         using var se = CvXImgProc.RL.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
             
         Assert.False(se.Empty());
-        Assert.Equal(new Size(1, 4), se.Size());
+        // OpenCV 5 returns the run-length structuring element as a 1xN row vector
+        // instead of the Nx1 column vector OpenCV 4 produced.
+        Assert.Equal(new Size(4, 1), se.Size());
         Assert.Equal(MatType.CV_32SC3, se.Type());
     }
         
@@ -172,12 +174,14 @@ public class XImgProcTest : TestBase
         CvXImgProc.RL.Dilate(binary, dilate, se);
         CvXImgProc.RL.Erode(binary, erode, se);
             
+        // OpenCV 5 returns the run-length encoded result as a 1xN row vector
+        // instead of the Nx1 column vector OpenCV 4 produced.
         Assert.False(dilate.Empty());
-        Assert.Equal(new Size(1, 1785), dilate.Size());
+        Assert.Equal(new Size(1785, 1), dilate.Size());
         Assert.Equal(MatType.CV_32SC3, dilate.Type());
 
         Assert.False(erode.Empty());
-        Assert.Equal(new Size(1, 1799), erode.Size());
+        Assert.Equal(new Size(1799, 1), erode.Size());
         Assert.Equal(MatType.CV_32SC3, erode.Type());
     }
         

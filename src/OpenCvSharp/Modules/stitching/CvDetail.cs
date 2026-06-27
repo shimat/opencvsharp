@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -72,7 +72,7 @@ public static class CvDetail
         image.ThrowIfDisposed();
 
         var descriptorsMat = new Mat();
-        using var keypointsVec = new VectorOfKeyPoint();
+        using var keypointsVec = new StdVector<KeyPoint>();
         var wImageFeatures = new WImageFeatures
         {
             Keypoints = keypointsVec.CvPtr,

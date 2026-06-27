@@ -142,13 +142,6 @@ CVAPI(ExceptionStatus) dnn_Net_forward3(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_Net_setHalideScheduler(cv::dnn::Net* net, const char *scheduler)
-{
-    BEGIN_WRAP
-    net->setHalideScheduler(scheduler);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) dnn_Net_setPreferableBackend(cv::dnn::Net* net, int backendId)
 {
     BEGIN_WRAP
@@ -208,6 +201,144 @@ CVAPI(ExceptionStatus) dnn_Net_getPerfProfile(cv::dnn::Net* net, std::vector<dou
 {
     BEGIN_WRAP
     *returnValue = net->getPerfProfile(*timings);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setInputShape(cv::dnn::Net* net, const char *inputName, const int *shape, const int shapeLength)
+{
+    BEGIN_WRAP
+    const cv::MatShape shapeObj(shape, shape + shapeLength);
+    net->setInputShape(inputName, shapeObj);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getParam(cv::dnn::Net* net, const int layer, const int numParam, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto m = net->getParam(layer, numParam);
+    *returnValue = new cv::Mat(m);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setParam(cv::dnn::Net* net, const int layer, const int numParam, cv::Mat *blob)
+{
+    BEGIN_WRAP
+    net->setParam(layer, numParam, *blob);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getLayerTypes(cv::dnn::Net* net, std::vector<cv::String> *outVec)
+{
+    BEGIN_WRAP
+    std::vector<cv::String> result;
+    net->getLayerTypes(result);
+    outVec->assign(result.begin(), result.end());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getLayersCount(cv::dnn::Net* net, const char *layerType, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = net->getLayersCount(layerType);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_enableWinograd(cv::dnn::Net* net, const int useWinograd)
+{
+    BEGIN_WRAP
+    net->enableWinograd(useWinograd != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_dumpToPbtxt(cv::dnn::Net* net, const char *path)
+{
+    BEGIN_WRAP
+    net->dumpToPbtxt(path);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getModelFormat(cv::dnn::Net* net, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(net->getModelFormat());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_enableKVCache(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->enableKVCache();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_disableKVCache(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->disableKVCache();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_resetKVCache(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->resetKVCache();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_printPerfProfile(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->printPerfProfile();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_finalizeNet(cv::dnn::Net* net)
+{
+    BEGIN_WRAP
+    net->finalizeNet();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setTracingMode(cv::dnn::Net* net, int tracingMode)
+{
+    BEGIN_WRAP
+    net->setTracingMode(static_cast<cv::dnn::TracingMode>(tracingMode));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getTracingMode(cv::dnn::Net* net, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(net->getTracingMode());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_setProfilingMode(cv::dnn::Net* net, int profilingMode)
+{
+    BEGIN_WRAP
+    net->setProfilingMode(static_cast<cv::dnn::ProfilingMode>(profilingMode));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getProfilingMode(cv::dnn::Net* net, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(net->getProfilingMode());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_registerOutput(cv::dnn::Net* net, const char *outputName, int layerId, int outputPort, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = net->registerOutput(cv::String(outputName), layerId, outputPort);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_getPerfProfileDetailed(
+    cv::dnn::Net* net, std::vector<std::string> *names, std::vector<std::string> *timems, std::vector<std::string> *counts)
+{
+    BEGIN_WRAP
+    net->getPerfProfile(*names, *timems, *counts);
     END_WRAP
 }
 

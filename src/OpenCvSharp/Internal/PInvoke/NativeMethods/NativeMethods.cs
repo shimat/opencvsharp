@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
@@ -27,11 +27,7 @@ public static partial class NativeMethods
     private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeNotWindows =
-#if NETSTANDARD2_0
-        UnmanagedType.LPStr;
-#else
         UnmanagedType.LPUTF8Str;
-#endif
 
     /// <summary>
     /// Is tried P/Invoke once
@@ -163,14 +159,9 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsUnix()
     {
-#if NETCOREAPP3_1_OR_GREATER
         return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
+               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
-#else
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-#endif
     }
 
     /// <summary>
@@ -188,11 +179,7 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsWasm()
     {
-#if NET5_0_OR_GREATER
         return RuntimeInformation.OSArchitecture == Architecture.Wasm;
-#else
-        return false;
-#endif
     }
 
     /// <summary>

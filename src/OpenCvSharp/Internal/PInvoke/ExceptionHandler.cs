@@ -1,4 +1,4 @@
-﻿#if DOTNETCORE
+#if DOTNETCORE
 
 namespace OpenCvSharp.Internal;
 

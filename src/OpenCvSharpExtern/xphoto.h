@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NO_CONTRIB
+// OpenCV 5: kept available in every profile (including slim); see include_opencv.h.
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -393,4 +393,4 @@ CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapD
 
 #pragma endregion
 
-#endif // NO_CONTRIB
+// (no NO_CONTRIB guard: kept in every profile for OpenCV 5)

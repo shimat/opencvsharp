@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -26,8 +26,7 @@ public abstract class Tracker : Algorithm
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.video_Tracker_init(RawPtr, image.CvPtr, boundingBox));
-        GC.KeepAlive(this);
+            NativeMethods.video_Tracker_init(Handle, image.CvPtr, boundingBox));
         GC.KeepAlive(image);
     }
 
@@ -48,8 +47,7 @@ public abstract class Tracker : Algorithm
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.video_Tracker_update(RawPtr, image.CvPtr, ref boundingBox, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.video_Tracker_update(Handle, image.CvPtr, ref boundingBox, out var ret));
         GC.KeepAlive(image);
 
         return ret != 0;

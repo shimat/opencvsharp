@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -28,8 +28,7 @@ public abstract class Facemark : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_Facemark_loadModel(RawPtr, model));
-        GC.KeepAlive(this);
+            NativeMethods.face_Facemark_loadModel(Handle, model));
     }
 
     /// <summary>
@@ -56,11 +55,10 @@ public abstract class Facemark : Algorithm
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(RawPtr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
+                NativeMethods.face_Facemark_fit(Handle, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
 
         return ret != 0;

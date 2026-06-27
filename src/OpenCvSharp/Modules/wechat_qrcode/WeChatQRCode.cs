@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -13,32 +13,23 @@ public class WeChatQRCode : CvObject
 {
     /// <summary>
     /// Initialize the WeChatQRCode.
-    /// It includes two models, which are packaged with caffe format.
-    /// Therefore, there are prototxt and caffe models (In total, four paramenters).
+    /// It includes two ONNX models: an object detection model and a super resolution model.
     /// Pass empty strings to create a detector without neural network models.
     /// </summary>
-    /// <param name="detectorPrototxtPath">prototxt file path for the detector</param>
-    /// <param name="detectorCaffeModelPath">caffe model file path for the detector</param>
-    /// <param name="superResolutionPrototxtPath">prototxt file path for the super resolution model</param>
-    /// <param name="superResolutionCaffeModelPath">caffe file path for the super resolution model</param>
+    /// <param name="detectorModelPath">ONNX model file path for the detector</param>
+    /// <param name="superResolutionModelPath">ONNX model file path for the super resolution model</param>
     public WeChatQRCode(
-        string detectorPrototxtPath = "",
-        string detectorCaffeModelPath = "",
-        string superResolutionPrototxtPath = "",
-        string superResolutionCaffeModelPath = "")
+        string detectorModelPath = "",
+        string superResolutionModelPath = "")
     {
-        if (detectorPrototxtPath is null)
-            throw new ArgumentNullException(nameof(detectorPrototxtPath));
-        if (detectorCaffeModelPath is null)
-            throw new ArgumentNullException(nameof(detectorCaffeModelPath));
-        if (superResolutionPrototxtPath is null)
-            throw new ArgumentNullException(nameof(superResolutionPrototxtPath));
-        if (superResolutionCaffeModelPath is null)
-            throw new ArgumentNullException(nameof(superResolutionCaffeModelPath));
+        if (detectorModelPath is null)
+            throw new ArgumentNullException(nameof(detectorModelPath));
+        if (superResolutionModelPath is null)
+            throw new ArgumentNullException(nameof(superResolutionModelPath));
 
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_create1(
-                detectorPrototxtPath, detectorCaffeModelPath, superResolutionPrototxtPath, superResolutionCaffeModelPath,
+                detectorModelPath, superResolutionModelPath,
                 out var ptr));
 
         SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,

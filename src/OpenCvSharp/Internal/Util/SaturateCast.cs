@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Internal.Util;
+namespace OpenCvSharp.Internal.Util;
 #pragma warning disable 1591
 
 public static class SaturateCast

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -75,134 +75,6 @@ public class Net : CvObject
     }
 
     /// <summary>
-    /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
-    /// </summary>
-    /// <param name="cfgFile">path to the .cfg file with text description of the network architecture.</param>
-    /// <param name="darknetModel">path to the .weights file with learned network.</param>
-    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
-    {
-        if (cfgFile is null)
-            throw new ArgumentNullException(nameof(cfgFile));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromDarknet(cfgFile, darknetModel, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
-    }
-        
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
-    {
-        if (bufferCfg is null)
-            throw new ArgumentNullException(nameof(bufferCfg));
-
-        var ret = ReadNetFromDarknet(
-            new ReadOnlySpan<byte>(bufferCfg),
-            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
-        GC.KeepAlive(bufferCfg);
-        GC.KeepAlive(bufferModel);
-        return ret;
-    }
-        
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
-    /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromDarknet(ReadOnlySpan<byte> bufferCfg, ReadOnlySpan<byte> bufferModel = default)
-    {
-        if (bufferCfg.IsEmpty)
-            throw new ArgumentException("Empty span", nameof(bufferCfg));
-
-        unsafe
-        {
-            fixed (byte* bufferCfgPtr = bufferCfg)
-            fixed (byte* bufferModelPtr = bufferModel)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.dnn_readNetFromDarknet(
-                        bufferCfgPtr, new IntPtr(bufferCfg.Length),
-                        bufferModelPtr, new IntPtr(bufferModel.Length),
-                        out var p));
-                return (p == IntPtr.Zero) ? null : new Net(p);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files.
-    /// </summary>
-    /// <param name="prototxt">path to the .prototxt file with text description of the network architecture.</param>
-    /// <param name="caffeModel">path to the .caffemodel file with learned network.</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
-    {
-        if (prototxt is null)
-            throw new ArgumentNullException(nameof(prototxt));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromCaffe(prototxt, caffeModel, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model in memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
-    {
-        if (bufferProto is null)
-            throw new ArgumentNullException(nameof(bufferProto));
-            
-        var ret = ReadNetFromCaffe(
-            new ReadOnlySpan<byte>(bufferProto),
-            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
-        GC.KeepAlive(bufferProto);
-        GC.KeepAlive(bufferModel);
-        return ret;
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Caffe model files from memory.
-    /// </summary>
-    /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
-    /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromCaffe(ReadOnlySpan<byte> bufferProto, ReadOnlySpan<byte> bufferModel = default)
-    {
-        if (bufferProto.IsEmpty)
-            throw new ArgumentException("Empty span", nameof(bufferProto));
-
-        unsafe
-        {
-            fixed (byte* bufferProtoPtr = bufferProto)
-            fixed (byte* bufferModelPtr = bufferModel)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.dnn_readNetFromCaffe(
-                        bufferProtoPtr, new IntPtr(bufferProto.Length),
-                        bufferModelPtr, new IntPtr(bufferModel.Length),
-                        out var p));
-                return (p == IntPtr.Zero) ? null : new Net(p);
-            }
-        }
-    }
-
-    /// <summary>
     /// Reads a network model stored in Tensorflow model file.
     /// </summary>
     /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
@@ -210,13 +82,14 @@ public class Net : CvObject
     /// <returns>Resulting Net object is built by text graph using weights from a binary one that
     /// let us make it more flexible.</returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(string model, string? config = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
     {
         if (model is null)
             throw new ArgumentNullException(nameof(model));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTensorflow(model, config, out var p));
+            NativeMethods.dnn_readNetFromTensorflow(model, config, (int)engine, out var p));
         return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
@@ -227,14 +100,16 @@ public class Net : CvObject
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
     {
         if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
-            
+
         var ret = ReadNetFromTensorflow(
             new ReadOnlySpan<byte>(bufferModel),
-            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig));
+            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig),
+            engine);
         GC.KeepAlive(bufferModel);
         GC.KeepAlive(bufferConfig);
         return ret;
@@ -247,11 +122,12 @@ public class Net : CvObject
     /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
     /// <returns></returns>
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default)
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default, EngineType engine = EngineType.Auto)
     {
         if (bufferModel.IsEmpty)
             throw new ArgumentException("Empty span", nameof(bufferModel));
-            
+
         unsafe
         {
             fixed (byte* bufferModelPtr = bufferModel)
@@ -261,27 +137,11 @@ public class Net : CvObject
                     NativeMethods.dnn_readNetFromTensorflow(
                         bufferModelPtr, new IntPtr(bufferModel.Length),
                         bufferConfigPtr, new IntPtr(bufferConfig.Length),
+                        (int)engine,
                         out var p));
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
         }
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Torch model file.
-    /// </summary>
-    /// <param name="model"></param>
-    /// <param name="isBinary"></param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
-    public static Net? ReadNetFromTorch(string model, bool isBinary = true)
-    {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTorch(model, isBinary ? 1 : 0, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
     /// <summary>
@@ -305,7 +165,8 @@ public class Net : CvObject
     /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
     /// <param name="framework">Explicit framework name tag to determine a format.</param>
     /// <returns></returns>
-    public static Net ReadNet(string model, string config = "", string framework = "")
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    public static Net ReadNet(string model, string config = "", string framework = "", EngineType engine = EngineType.Auto)
     {
         if (string.IsNullOrEmpty(model))
             throw new ArgumentException("message is null or empty", nameof(model));
@@ -313,7 +174,7 @@ public class Net : CvObject
         framework ??= "";
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNet(model, config, framework, out var p));
+            NativeMethods.dnn_readNet(model, config, framework, (int)engine, out var p));
         return new Net(p);
     }
 
@@ -341,14 +202,15 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(string onnxFile)
+    public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
     {
         if (onnxFile is null)
             throw new ArgumentNullException(nameof(onnxFile));
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromONNX(onnxFile, out var p));
+            NativeMethods.dnn_readNetFromONNX(onnxFile, (int)engine, out var p));
         return (p == IntPtr.Zero) ? null : new Net(p);
     }
 
@@ -357,14 +219,15 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(byte[] onnxFileData)
+    public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
     {
         if (onnxFileData is null)
             throw new ArgumentNullException(nameof(onnxFileData));
-            
+
         var ret = ReadNetFromONNX(
-            new ReadOnlySpan<byte>(onnxFileData));
+            new ReadOnlySpan<byte>(onnxFileData), engine);
         GC.KeepAlive(onnxFileData);
         return ret;
     }
@@ -374,8 +237,9 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     // ReSharper disable once InconsistentNaming
-    public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData)
+    public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
     {
         if (onnxFileData.IsEmpty)
             throw new ArgumentException("Empty span", nameof(onnxFileData));
@@ -385,7 +249,64 @@ public class Net : CvObject
             {
                 NativeMethods.HandleException(
                     NativeMethods.dnn_readNetFromONNX(
-                        onnxFileDataPtr, new IntPtr(onnxFileData.Length), out var p));
+                        onnxFileDataPtr, new IntPtr(onnxFileData.Length), (int)engine, out var p));
+                return (p == IntPtr.Zero) ? null : new Net(p);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Reads a network model stored in TFLite (https://www.tensorflow.org/lite) framework's format.
+    /// </summary>
+    /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
+    {
+        if (model is null)
+            throw new ArgumentNullException(nameof(model));
+
+        NativeMethods.HandleException(
+            NativeMethods.dnn_readNetFromTFLite(model, (int)engine, out var p));
+        return (p == IntPtr.Zero) ? null : new Net(p);
+    }
+
+    /// <summary>
+    /// Reads a network model stored in TFLite framework's format from memory.
+    /// </summary>
+    /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
+    {
+        if (bufferModel is null)
+            throw new ArgumentNullException(nameof(bufferModel));
+
+        var ret = ReadNetFromTFLite(new ReadOnlySpan<byte>(bufferModel), engine);
+        GC.KeepAlive(bufferModel);
+        return ret;
+    }
+
+    /// <summary>
+    /// Reads a network model stored in TFLite framework's format from memory.
+    /// </summary>
+    /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
+    /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    // ReSharper disable once InconsistentNaming
+    public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel, EngineType engine = EngineType.Auto)
+    {
+        if (bufferModel.IsEmpty)
+            throw new ArgumentException("Empty span", nameof(bufferModel));
+        unsafe
+        {
+            fixed (byte* bufferModelPtr = bufferModel)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.dnn_readNetFromTFLite(
+                        bufferModelPtr, new IntPtr(bufferModel.Length), (int)engine, out var p));
                 return (p == IntPtr.Zero) ? null : new Net(p);
             }
         }
@@ -576,21 +497,6 @@ public class Net : CvObject
     }
 
     /// <summary>
-    /// Compile Halide layers.
-    /// Schedule layers that support Halide backend. Then compile them for 
-    /// specific target.For layers that not represented in scheduling file 
-    /// or if no manual scheduling used at all, automatic scheduling will be applied.
-    /// </summary>
-    /// <param name="scheduler">Path to YAML file with scheduling directives.</param>
-    public void SetHalideScheduler(string scheduler)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.dnn_Net_setHalideScheduler(CvPtr, scheduler));
-        GC.KeepAlive(this);
-    }
-
-    /// <summary>
     /// Ask network to use specific computation backend where it supported.
     /// </summary>
     /// <param name="backendId">backend identifier.</param>
@@ -642,7 +548,7 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
 
-        using var resultVec = new VectorOfInt32();
+        using var resultVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_getUnconnectedOutLayers(CvPtr, resultVec.CvPtr));
         GC.KeepAlive(this);
@@ -687,13 +593,302 @@ public class Net : CvObject
     {
         ThrowIfDisposed();
 
-        using var timingsVec = new VectorOfDouble();
+        using var timingsVec = new StdVector<double>();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_getPerfProfile(CvPtr, timingsVec.CvPtr, out var ret));
         GC.KeepAlive(this);
 
         timings = timingsVec.ToArray();
         return ret;
+    }
+
+    /// <summary>
+    /// Specify shape of network input.
+    /// </summary>
+    /// <param name="inputName">name of the input layer.</param>
+    /// <param name="shape">the shape of the input blob.</param>
+    public void SetInputShape(string inputName, IEnumerable<int> shape)
+    {
+        if (inputName is null)
+            throw new ArgumentNullException(nameof(inputName));
+        if (shape is null)
+            throw new ArgumentNullException(nameof(shape));
+        ThrowIfDisposed();
+
+        var shapeArray = shape as int[] ?? shape.ToArray();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_setInputShape(CvPtr, inputName, shapeArray, shapeArray.Length));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Returns parameter blob of the layer.
+    /// </summary>
+    /// <param name="layer">id of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <returns></returns>
+    public Mat GetParam(int layer, int numParam = 0)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getParam(CvPtr, layer, numParam, out var ret));
+        GC.KeepAlive(this);
+        return new Mat(ret);
+    }
+
+    /// <summary>
+    /// Returns parameter blob of the layer.
+    /// </summary>
+    /// <param name="layerName">name of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <returns></returns>
+    public Mat GetParam(string layerName, int numParam = 0)
+    {
+        if (layerName is null)
+            throw new ArgumentNullException(nameof(layerName));
+        return GetParam(GetLayerId(layerName), numParam);
+    }
+
+    /// <summary>
+    /// Sets the new value for the learned param of the layer.
+    /// </summary>
+    /// <param name="layer">id of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <param name="blob">the new value.</param>
+    public void SetParam(int layer, int numParam, Mat blob)
+    {
+        if (blob is null)
+            throw new ArgumentNullException(nameof(blob));
+        ThrowIfDisposed();
+        blob.ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_setParam(CvPtr, layer, numParam, blob.CvPtr));
+        GC.KeepAlive(this);
+        GC.KeepAlive(blob);
+    }
+
+    /// <summary>
+    /// Sets the new value for the learned param of the layer.
+    /// </summary>
+    /// <param name="layerName">name of the layer.</param>
+    /// <param name="numParam">index of the layer parameter in the Layer::blobs array.</param>
+    /// <param name="blob">the new value.</param>
+    public void SetParam(string layerName, int numParam, Mat blob)
+    {
+        if (layerName is null)
+            throw new ArgumentNullException(nameof(layerName));
+        SetParam(GetLayerId(layerName), numParam, blob);
+    }
+
+    /// <summary>
+    /// Returns list of types for layer used in model.
+    /// </summary>
+    /// <returns></returns>
+    public string?[] GetLayerTypes()
+    {
+        ThrowIfDisposed();
+        using var resultVec = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayerTypes(CvPtr, resultVec.CvPtr));
+        GC.KeepAlive(this);
+        return resultVec.ToArray();
+    }
+
+    /// <summary>
+    /// Returns count of layers of specified type.
+    /// </summary>
+    /// <param name="layerType">type.</param>
+    /// <returns>count of layers</returns>
+    public int GetLayersCount(string layerType)
+    {
+        if (layerType is null)
+            throw new ArgumentNullException(nameof(layerType));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayersCount(CvPtr, layerType, out var ret));
+        GC.KeepAlive(this);
+        return ret;
+    }
+
+    /// <summary>
+    /// Enables or disables the Winograd convolution optimization.
+    /// </summary>
+    /// <param name="useWinograd">true to enable, false to disable.</param>
+    public void EnableWinograd(bool useWinograd)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_enableWinograd(CvPtr, useWinograd ? 1 : 0));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Dump net structure, hyperparameters, backend, target and fusion to a pbtxt file.
+    /// </summary>
+    /// <remarks>Requires the network's output blobs to be allocated (e.g. after the input
+    /// shape is known and the net has been set up); otherwise OpenCV raises an exception.</remarks>
+    /// <param name="path">path to output file with .pbtxt extension.</param>
+    public void DumpToPbtxt(string path)
+    {
+        if (path is null)
+            throw new ArgumentNullException(nameof(path));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_dumpToPbtxt(CvPtr, path));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Returns the original framework format the network was loaded from.
+    /// </summary>
+    /// <returns></returns>
+    public ModelFormat GetModelFormat()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getModelFormat(CvPtr, out var ret));
+        GC.KeepAlive(this);
+        return (ModelFormat)ret;
+    }
+
+    /// <summary>
+    /// Enables the Key-Value (KV) cache, used to accelerate inference of transformer / LLM models.
+    /// </summary>
+    public void EnableKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_enableKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Disables the Key-Value (KV) cache.
+    /// </summary>
+    public void DisableKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_disableKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Resets the Key-Value (KV) cache contents.
+    /// </summary>
+    public void ResetKVCache()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_resetKVCache(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Prints per-layer performance profile to the standard output.
+    /// </summary>
+    public void PrintPerfProfile()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_printPerfProfile(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Finalizes the network (new DNN engine, OpenCV 5). The first forward() does this
+    /// automatically; calling it early pays the one-time setup cost at a predictable point
+    /// and surfaces configuration errors before inference.
+    /// </summary>
+    public void FinalizeNet()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_finalizeNet(CvPtr));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Gets or sets the tracing mode of the new DNN engine (OpenCV 5).
+    /// </summary>
+    public TracingMode TracingMode
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_getTracingMode(CvPtr, out var ret));
+            GC.KeepAlive(this);
+            return (TracingMode)ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_setTracingMode(CvPtr, (int)value));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the profiling mode of the new DNN engine (OpenCV 5).
+    /// </summary>
+    public ProfilingMode ProfilingMode
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_getProfilingMode(CvPtr, out var ret));
+            GC.KeepAlive(this);
+            return (ProfilingMode)ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_setProfilingMode(CvPtr, (int)value));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// Registers a network output by name (new DNN engine, OpenCV 5).
+    /// </summary>
+    /// <param name="outputName">Name to register the output under.</param>
+    /// <param name="layerId">Id of the producing layer.</param>
+    /// <param name="outputPort">Output port of the producing layer.</param>
+    /// <returns>The index of the registered output.</returns>
+    public int RegisterOutput(string outputName, int layerId, int outputPort)
+    {
+        if (outputName is null)
+            throw new ArgumentNullException(nameof(outputName));
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_registerOutput(CvPtr, outputName, layerId, outputPort, out var ret));
+        GC.KeepAlive(this);
+        return ret;
+    }
+
+    /// <summary>
+    /// Returns the detailed per-layer performance profile (new DNN engine, OpenCV 5): for each
+    /// reported layer, its name, execution time and call count (all as strings).
+    /// </summary>
+    /// <param name="names">Output layer names.</param>
+    /// <param name="timems">Output per-layer execution times (ms), as strings.</param>
+    /// <param name="counts">Output per-layer call counts, as strings.</param>
+    public void GetPerfProfileDetailed(out string[] names, out string[] timems, out string[] counts)
+    {
+        ThrowIfDisposed();
+        using var namesVec = new VectorOfString();
+        using var timemsVec = new VectorOfString();
+        using var countsVec = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getPerfProfileDetailed(CvPtr, namesVec.CvPtr, timemsVec.CvPtr, countsVec.CvPtr));
+        GC.KeepAlive(this);
+        names = Array.ConvertAll(namesVec.ToArray(), s => s ?? string.Empty);
+        timems = Array.ConvertAll(timemsVec.ToArray(), s => s ?? string.Empty);
+        counts = Array.ConvertAll(countsVec.ToArray(), s => s ?? string.Empty);
     }
 
     #endregion

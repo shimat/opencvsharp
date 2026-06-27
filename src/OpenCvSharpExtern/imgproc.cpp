@@ -6,3 +6,5 @@
 #include "imgproc_GeneralizedHough.h"
 #include "imgproc_Segmentation.h"
 #include "imgproc_LineSegmentDetector.h"
+#include "imgproc_undistort.h"
+#include "imgproc_FontFace.h"

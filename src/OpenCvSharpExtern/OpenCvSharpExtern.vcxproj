@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -109,6 +109,8 @@
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="dnn.h" />
+    <ClInclude Include="dnn_Model.h" />
+    <ClInclude Include="dnn_TextModel.h" />
     <ClInclude Include="dnn_Net.h" />
     <ClInclude Include="dnn_superres.h" />
     <ClInclude Include="face_Facemark.h" />

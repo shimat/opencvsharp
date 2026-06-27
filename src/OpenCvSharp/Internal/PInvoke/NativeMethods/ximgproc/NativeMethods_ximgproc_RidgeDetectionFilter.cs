@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
 
@@ -10,19 +11,19 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_RidgeDetectionFilter_create(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_RidgeDetectionFilter_create(
         MatType ddepth, int dx, int dy, int ksize, MatType outDtype, double scale, double delta, int borderType,
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
-        IntPtr obj, IntPtr _img, IntPtr @out);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
+        OpenCvSafeHandle obj, IntPtr _img, IntPtr @out);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ximgproc_Ptr_RidgeDetectionFilter_get(IntPtr ptr, out IntPtr returnValue);
 
 }

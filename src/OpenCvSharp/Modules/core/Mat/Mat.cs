@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -84,15 +84,37 @@ public partial class Mat : CvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
-    /// Creates a non-owning wrapper around an existing native cv::Mat* pointer.
-    /// The native Mat will not be deleted when this instance is disposed.
+    /// Optional object whose native lifetime backs this Mat's pointer (e.g. the object that
+    /// owns the cv::Mat field this is a view into). Held only to keep that owner — and thus
+    /// the native memory — reachable for as long as this view is, so it cannot be
+    /// garbage-collected out from under the view.
     /// </summary>
-    internal Mat(IntPtr ptr, bool isEnabledDispose) : base(ptr, isEnabledDispose)
-    { }
+    private readonly object? viewOwner;
+
+    /// <summary>
+    /// Creates a wrapper around an existing native cv::Mat* pointer.
+    /// </summary>
+    /// <param name="ptr">Native cv::Mat* pointer.</param>
+    /// <param name="ownsHandle">
+    /// <c>true</c> to delete the native Mat on disposal; <c>false</c> for a borrowed view that
+    /// must not be deleted (e.g. a cv::Mat field owned by another OpenCV object).
+    /// </param>
+    /// <param name="owner">
+    /// Optional owner of the native memory this view points into. Holding it keeps the owner
+    /// alive while this view is reachable (guards against GC, not against the owner being
+    /// explicitly disposed — that remains a use-after-dispose error).
+    /// </param>
+    internal Mat(IntPtr ptr, bool ownsHandle, object? owner = null)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Native object address is NULL");
+        viewOwner = owner;
+        InitSafeHandle(ptr, ownsHandle);
+    }
 
     /// <summary>
     /// Creates from native cv::Mat* pointer
@@ -108,7 +130,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new1(out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -126,7 +148,7 @@ public partial class Mat : CvObject
         pinLifetime = m.pinLifetime?.Ref();
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -141,7 +163,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imread(fileName, (int) flags, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -155,7 +177,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new2(rows, cols, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -169,7 +191,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new2(size.Height, size.Width, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -185,7 +207,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new3(rows, cols, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -201,7 +223,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -226,7 +248,7 @@ public partial class Mat : CvObject
             NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out p));
         else
             NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -251,7 +273,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new6(m.ptr, ranges, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -272,7 +294,7 @@ public partial class Mat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new7(m.ptr, roi, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -294,7 +316,7 @@ public partial class Mat : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -338,7 +360,7 @@ public partial class Mat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type,
                 pinLifetime.DataPtr, new IntPtr(step), out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -431,7 +453,7 @@ public partial class Mat : CvObject
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, pinLifetime.DataPtr, stepsArray, out p));
         }
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -465,7 +487,7 @@ public partial class Mat : CvObject
 #pragma warning restore CA1508
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -485,7 +507,35 @@ public partial class Mat : CvObject
 #pragma warning restore CA1508
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out var p));
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        InitSafeHandle(p);
+    }
+
+    /// <summary>
+    /// Constructs a matrix of the given shape (OpenCV 5). The shape may be N-D, a 0-D scalar or empty,
+    /// and can carry a data layout and channel count.
+    /// </summary>
+    /// <param name="shape">Matrix shape.</param>
+    /// <param name="type">Array type.</param>
+    public Mat(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_newFromMatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var p));
+        InitSafeHandle(p);
+    }
+
+    /// <summary>
+    /// Constructs a matrix of the given shape (OpenCV 5), initialized with the given value.
+    /// </summary>
+    /// <param name="shape">Matrix shape.</param>
+    /// <param name="type">Array type.</param>
+    /// <param name="s">Value to initialize each element with.</param>
+    public Mat(MatShape shape, MatType type, Scalar s)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_newFromMatShapeScalar(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, s, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -493,17 +543,18 @@ public partial class Mat : CvObject
     /// </summary>
     public void Release() => Dispose();
 
-    /// <inheritdoc />
     /// <summary>
-    /// Releases unmanaged resources
+    /// Wraps a native cv::Mat* pointer in a SafeHandle.
     /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_delete(CvPtr));
-        base.DisposeUnmanaged();
-    }
+    /// <param name="handle">Native cv::Mat* pointer.</param>
+    /// <param name="ownsHandle">
+    /// <c>true</c> (default) to delete the native Mat when this instance is disposed/finalized;
+    /// <c>false</c> for a borrowed view that must not be deleted (e.g. a sub-object owned by
+    /// another OpenCV object).
+    /// </param>
+    private void InitSafeHandle(IntPtr handle, bool ownsHandle = true)
+        => SetSafeHandle(new OpenCvPtrSafeHandle(
+            handle, ownsHandle, static h => { NativeMethods.core_Mat_delete(h); }));
 
     #region Static Initializers
 
@@ -629,7 +680,20 @@ public partial class Mat : CvObject
         var retVal = new MatExpr(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Returns a zero array of the specified shape and type (OpenCV 5, <see cref="MatShape"/>).
+    /// </summary>
+    /// <param name="shape">Created matrix shape.</param>
+    /// <param name="type">Created matrix type.</param>
+    public static MatExpr Zeros(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_zeros_MatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+        return new MatExpr(ret);
+    }
+
     /// <summary>
     /// Returns an array of all 1’s of the specified size and type.
     /// </summary>
@@ -670,7 +734,20 @@ public partial class Mat : CvObject
         var retVal = new MatExpr(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Returns an array of all 1's of the specified shape and type (OpenCV 5, <see cref="MatShape"/>).
+    /// </summary>
+    /// <param name="shape">Created matrix shape.</param>
+    /// <param name="type">Created matrix type.</param>
+    public static MatExpr Ones(MatShape shape, MatType type)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_ones_MatShape(
+                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+        return new MatExpr(ret);
+    }
+
     /// <summary>
     /// Returns an identity matrix of the specified size and type.
     /// </summary>
@@ -1361,13 +1438,12 @@ public partial class Mat : CvObject
         }
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
-    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
     /// To select all the rows, use Range.All().</param>
-    /// <param name="colRange">Start and end column of the extracted submatrix. 
+    /// <param name="colRange">Start and end column of the extracted submatrix.
     /// The upper boundary is not included. To select all the columns, use Range.All().</param>
     /// <returns></returns>
     public Mat this[System.Range rowRange, System.Range colRange]
@@ -1389,7 +1465,6 @@ public partial class Mat : CvObject
             value.CopyTo(sub);
         }
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.
@@ -1529,7 +1604,6 @@ public partial class Mat : CvObject
     public Mat ColRange(Range range) 
         => ColRange(range.Start, range.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Creates a matrix header for the specified column span.
     /// </summary>
@@ -1540,7 +1614,6 @@ public partial class Mat : CvObject
         var (colStart, colLength) = range.GetOffsetAndLength(Cols);
         return ColRange(colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Creates a matrix header for the specified matrix row.
@@ -1579,7 +1652,6 @@ public partial class Mat : CvObject
     public Mat RowRange(Range range) 
         => RowRange(range.Start, range.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     ///  Creates a matrix header for the specified row span.
     /// </summary>
@@ -1590,7 +1662,6 @@ public partial class Mat : CvObject
         var (rowStart, rowLength) = range.GetOffsetAndLength(Rows);
         return RowRange(rowStart, rowStart + rowLength);
     }
-#endif
 
     /// <summary>
     /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
@@ -1815,7 +1886,25 @@ public partial class Mat : CvObject
         var retVal = new Mat(ret);
         return retVal;
     }
-        
+
+    /// <summary>
+    /// Changes the shape (and optionally the number of channels) of the matrix without copying the data,
+    /// using a <see cref="MatShape"/> (OpenCV 5).
+    /// </summary>
+    /// <param name="cn">New number of channels. If 0, the number of channels remains the same.</param>
+    /// <param name="newShape">New shape.</param>
+    public Mat Reshape(int cn, MatShape newShape)
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_reshapeMatShape(
+                CvPtr, cn, newShape.NativeDims, newShape.NativeSizes, (int)newShape.Layout, newShape.Channels, out var ret));
+
+        GC.KeepAlive(this);
+        return new Mat(ret);
+    }
+
     /// <summary>
     /// Transposes a matrix.
     /// </summary>
@@ -2581,7 +2670,6 @@ public partial class Mat : CvObject
     public Mat SubMat(Range rowRange, Range colRange) 
         => SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
@@ -2596,7 +2684,6 @@ public partial class Mat : CvObject
         var (colStart, colLength) = colRange.GetOffsetAndLength(Cols);
         return SubMat(rowStart, rowStart + rowLength, colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.
@@ -2878,7 +2965,9 @@ public partial class Mat : CvObject
     }
 
     /// <summary>
-    /// the array dimensionality, >= 2
+    /// The array dimensionality. In OpenCV 5 this can also be 0 (a scalar; rows == cols == total() == 1)
+    /// or 1 (a 1D array; dims == rows == 1, cols == total() == N); use <see cref="Empty"/> to tell an
+    /// empty matrix apart from a 0D scalar.
     /// </summary>
     public int Dims
     {
@@ -2891,7 +2980,28 @@ public partial class Mat : CvObject
             return ret;
         }
     }
-        
+
+    /// <summary>
+    /// Returns the shape of the matrix as a <see cref="MatShape"/> (OpenCV 5), including its data
+    /// layout and channel count, and distinguishing an empty matrix from a 0-D scalar.
+    /// </summary>
+    public MatShape Shape()
+    {
+        ThrowIfDisposed();
+        var sizes = new int[10]; // cv::MatShape::MAX_DIMS
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_shape(CvPtr, sizes, out var ndims, out var layout, out var channels, out var empty));
+        GC.KeepAlive(this);
+
+        if (empty != 0)
+            return MatShape.Empty;
+        if (ndims <= 0)
+            return MatShape.Scalar((DataLayout)layout);
+        var dims = new int[ndims];
+        Array.Copy(sizes, dims, ndims);
+        return new MatShape(dims, (DataLayout)layout, channels);
+    }
+
     /// <summary>
     /// the number of rows or -1 when the array has more than 2 dimensions
     /// </summary>

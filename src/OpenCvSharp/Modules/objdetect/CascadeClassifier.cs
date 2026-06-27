@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -131,7 +131,7 @@ public class CascadeClassifier : CvObject
 
         var minSize0 = minSize.GetValueOrDefault(new Size());
         var maxSize0 = maxSize.GetValueOrDefault(new Size());
-        using var objectsVec = new VectorOfRect();
+        using var objectsVec = new StdVector<Rect>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
@@ -175,9 +175,9 @@ public class CascadeClassifier : CvObject
 
         var minSize0 = minSize.GetValueOrDefault(new Size());
         var maxSize0 = maxSize.GetValueOrDefault(new Size());
-        using var objectsVec = new VectorOfRect();
-        using var rejectLevelsVec = new VectorOfInt32();
-        using var levelWeightsVec = new VectorOfDouble();
+        using var objectsVec = new StdVector<Rect>();
+        using var rejectLevelsVec = new StdVector<int>();
+        using var levelWeightsVec = new StdVector<double>();
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(

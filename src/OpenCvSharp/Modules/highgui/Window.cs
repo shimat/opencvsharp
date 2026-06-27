@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 
@@ -320,16 +320,6 @@ public class Window : DisposableObject
                 NativeMethods.highgui_imshow_umat(name, img.CvPtr));
             GC.KeepAlive(img);
         }
-    }
-
-    /// <summary>
-    /// get native window handle (HWND in case of Win32 and Widget in case of X Window) 
-    /// </summary>
-    public IntPtr GetHandle()
-    {
-        NativeMethods.HandleException(
-            NativeMethods.highgui_cvGetWindowHandle(name, out var ret));
-        return ret;
     }
 
     /// <summary>

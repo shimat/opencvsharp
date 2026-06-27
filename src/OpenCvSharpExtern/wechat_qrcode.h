@@ -1,18 +1,19 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) wechat_qrcode_create1(const char *detector_prototxt_path,
-    const char *detector_caffe_model_path ,
-    const char *super_resolution_prototxt_path ,
-    const char *super_resolution_caffe_model_path, cv::wechat_qrcode::WeChatQRCode **returnValue)
+CVAPI(ExceptionStatus) wechat_qrcode_create1(
+    const char *detector_model_path,
+    const char *super_resolution_model_path, cv::wechat_qrcode::WeChatQRCode **returnValue)
 {
     BEGIN_WRAP
+    // OpenCV 5: WeChatQRCode takes one ONNX detector model path and one ONNX super-resolution
+    // model path (Caffe prototxt/caffemodel pairs dropped).
     *returnValue = new cv::wechat_qrcode::WeChatQRCode(
-        detector_prototxt_path, detector_caffe_model_path,
-        super_resolution_prototxt_path, super_resolution_caffe_model_path);
+        detector_model_path == nullptr ? std::string() : std::string(detector_model_path),
+        super_resolution_model_path == nullptr ? std::string() : std::string(super_resolution_model_path));
     END_WRAP
 }
 
