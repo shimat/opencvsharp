@@ -902,6 +902,9 @@ public class Net : CvObject
     /// <param name="layerId">id of the layer.</param>
     /// <param name="inLayerShapes">output: input shapes of the layer.</param>
     /// <param name="outLayerShapes">output: output shapes of the layer.</param>
+    /// <remarks>When the model is backed by OpenCV 5's new dnn engine, only <paramref name="layerId"/> 0
+    /// is supported (it infers the whole graph); other ids throw. Use <see cref="GetLayersShapes"/> to
+    /// enumerate every layer, or pass one of the ids it reports.</remarks>
     public void GetLayerShapes(
         IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes, int layerId,
         out MatShape[] inLayerShapes, out MatShape[] outLayerShapes)

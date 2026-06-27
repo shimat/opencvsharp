@@ -169,15 +169,19 @@ public class NetIntrospectionTest : TestBase
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
-    public void GetLayerShapesReturnsShapesForOutputLayer()
+    public void GetLayerShapesReturnsShapes()
     {
         using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
-        var outLayerId = net!.GetUnconnectedOutLayers()[0];
-        net.GetLayerShapes([MnistInputShape], [MatType.CV_32F], outLayerId, out var inShapes, out var outShapes);
+        // OpenCV 5's new dnn engine only supports per-layer shape queries for layerId 0
+        // (it infers the whole graph). Use the ids reported by GetLayersShapes so the test
+        // is valid regardless of which engine backs the model.
+        net!.GetLayersShapes([MnistInputShape], [MatType.CV_32F], out var layerIds, out _, out _);
+        Assert.NotEmpty(layerIds);
 
-        Assert.NotEmpty(inShapes);
+        net.GetLayerShapes([MnistInputShape], [MatType.CV_32F], layerIds[0], out _, out var outShapes);
+
         Assert.NotEmpty(outShapes);
         // Every reported shape should carry at least one axis.
         Assert.All(outShapes, s => Assert.True(s.Dims > 0));
