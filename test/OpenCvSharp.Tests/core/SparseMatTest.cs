@@ -45,6 +45,16 @@ public class SparseMatTest : TestBase
     }
 
     [Fact]
+    public void ElementTypeMismatchThrows()
+    {
+        using var sm = new SparseMat([10, 20], MatType.CV_32SC1); // 4-byte elements
+        Assert.Throws<OpenCvSharpException>(() => sm.Set<byte>(0, 0, 1));
+        Assert.Throws<OpenCvSharpException>(() => sm.Get<byte>(0, 0));
+        Assert.Throws<OpenCvSharpException>(() => sm.Find<byte>(0, 0));
+        Assert.Throws<OpenCvSharpException>(() => sm.Ref<byte>());
+    }
+
+    [Fact]
     public void ToStringDescribesSparseMat()
     {
         using var sm = new SparseMat([10, 20], MatType.CV_8UC1);
