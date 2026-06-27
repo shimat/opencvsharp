@@ -38,7 +38,8 @@ CVAPI(void) vector_string_delete(std::vector<std::string>* vector)
 // The macros expand to the same extern "C" symbols/signatures as the former
 // hand-written blocks. Special element types (std::string, cv::Mat, ml::DTrees::*,
 // cv::detail::ImageFeatures, line_descriptor::KeyLine) keep their bespoke
-// definitions and are not generated here.
+// definitions and are not generated here. The scalar primitives (uchar/int/int64/
+// float/double) are generated here too; only vector_uchar_copy stays bespoke.
 
 #define CV_VECTOR_CORE(SUFFIX, ELEM) \
     CVAPI(std::vector<ELEM>*) vector_##SUFFIX##_new1() { return new std::vector<ELEM>; } \
@@ -51,6 +52,32 @@ CVAPI(void) vector_string_delete(std::vector<std::string>* vector)
 
 #define CV_VECTOR_NEW3(SUFFIX, ELEM) \
     CVAPI(std::vector<ELEM>*) vector_##SUFFIX##_new3(ELEM* data, size_t dataLength) { return new std::vector<ELEM>(data, data + dataLength); }
+
+// Scalar primitives (StdVector<byte/int/long/float/double>).
+CV_VECTOR_CORE(uchar, uchar)
+CV_VECTOR_NEW2(uchar, uchar)
+CV_VECTOR_NEW3(uchar, uchar)
+CVAPI(void) vector_uchar_copy(std::vector<uchar>* vector, uchar* dst)
+{
+    const size_t length = sizeof(uchar) * vector->size();
+    memcpy(dst, &(vector->at(0)), length);
+}
+
+CV_VECTOR_CORE(int32, int)
+CV_VECTOR_NEW2(int32, int)
+CV_VECTOR_NEW3(int32, int)
+
+CV_VECTOR_CORE(int64, int64)
+CV_VECTOR_NEW2(int64, int64)
+CV_VECTOR_NEW3(int64, int64)
+
+CV_VECTOR_CORE(float, float)
+CV_VECTOR_NEW2(float, float)
+CV_VECTOR_NEW3(float, float)
+
+CV_VECTOR_CORE(double, double)
+CV_VECTOR_NEW2(double, double)
+CV_VECTOR_NEW3(double, double)
 
 CV_VECTOR_CORE(Vec2f, cv::Vec2f)
 

@@ -161,7 +161,6 @@
     <ClInclude Include="std_string.h" />
     <ClInclude Include="std_vector.h" />
     <ClInclude Include="std_vector_nesting.h" />
-    <ClInclude Include="std_vector_primitive.h" />
     <ClInclude Include="stitching.h" />
     <ClInclude Include="stitching_detail_Matchers.h" />
     <ClInclude Include="superres.h" />

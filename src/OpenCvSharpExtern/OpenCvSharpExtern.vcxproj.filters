@@ -321,9 +321,6 @@
     <ClInclude Include="flann.h">
       <Filter>Header Files\flann</Filter>
     </ClInclude>
-    <ClInclude Include="std_vector_primitive.h">
-      <Filter>Header Files\std_vector</Filter>
-    </ClInclude>
     <ClInclude Include="std_vector_nesting.h">
       <Filter>Header Files\std_vector</Filter>
     </ClInclude>
