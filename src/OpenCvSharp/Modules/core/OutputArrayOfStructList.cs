@@ -31,8 +31,7 @@ public sealed class OutputArrayOfStructList<T> : OutputArray
             throw new NotSupportedException();
             
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_getMat(CvPtr, out var matPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_OutputArray_getMat(Handle, out var matPtr));
         using var mat = new Mat(matPtr);
 
         var size = mat.Rows * mat.Cols;
@@ -45,6 +44,8 @@ public sealed class OutputArrayOfStructList<T> : OutputArray
                 Buffer.MemoryCopy(mat.DataPointer, aa.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
             }
         }
+        // matPtr/mat aliases native memory owned by this OutputArray; keep it alive across the copy.
+        GC.KeepAlive(this);
 
         list.Clear();
         list.AddRange(array);

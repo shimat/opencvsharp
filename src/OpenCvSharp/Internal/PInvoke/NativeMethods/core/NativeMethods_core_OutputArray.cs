@@ -27,11 +27,11 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_OutputArray_delete(IntPtr oa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_OutputArray_getMat(IntPtr oa, out IntPtr returnValue);
+    public static partial ExceptionStatus core_OutputArray_getMat(OpenCvSafeHandle oa, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_getScalar(IntPtr oa, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_OutputArray_getVectorOfMat(IntPtr oa, IntPtr vector);
+    public static partial ExceptionStatus core_OutputArray_getVectorOfMat(OpenCvSafeHandle oa, IntPtr vector);
 }
