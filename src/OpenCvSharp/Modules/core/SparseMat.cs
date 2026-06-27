@@ -9,6 +9,26 @@ namespace OpenCvSharp;
 /// </summary>
 public class SparseMat : CvObject
 {
+    // Cached element size in bytes (SparseMat.ElemSize()), used to reject mismatched
+    // element types before they read/write the wrong number of bytes. -1 = not yet queried;
+    // invalidated by the operations that change the matrix type (Create / AssignFrom).
+    private int cachedElementByteSize = -1;
+
+    /// <summary>
+    /// Throws if <typeparamref name="T"/>'s size does not match this matrix's element size.
+    /// Accessing an element with a wrongly sized <typeparamref name="T"/> would otherwise read
+    /// or write past the element and silently corrupt memory.
+    /// </summary>
+    private void ValidateElementType<T>() where T : struct
+    {
+        if (cachedElementByteSize < 0)
+            cachedElementByteSize = ElemSize();
+        var requested = Marshal.SizeOf<T>();
+        if (requested != cachedElementByteSize)
+            throw new OpenCvSharpException(
+                $"Element type '{typeof(T)}' (size {requested}) does not match the matrix element size ({cachedElementByteSize}).");
+    }
+
     #region Init & Disposal
 
     /// <summary>
@@ -115,6 +135,7 @@ public class SparseMat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_SparseMat(Handle, m.CvPtr));
 
+        cachedElementByteSize = -1;
         GC.KeepAlive(m);
         return this;
     }
@@ -133,6 +154,7 @@ public class SparseMat : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_Mat(Handle, m.CvPtr));
 
+        cachedElementByteSize = -1;
         GC.KeepAlive(m);
         return this;
     }
@@ -256,7 +278,7 @@ public class SparseMat : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_create(Handle, sizes.Length, sizes, type));
-
+        cachedElementByteSize = -1;
     }
 
     /// <summary>
@@ -583,6 +605,7 @@ public class SparseMat : CvObject
     public T? Find<T>(int i0, long? hashVal = null)
         where T : struct
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, false, hashVal);
         if (p == IntPtr.Zero)
             return null;
@@ -600,6 +623,7 @@ public class SparseMat : CvObject
     public T? Find<T>(int i0, int i1, long? hashVal = null)
         where T : struct 
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, i1, false, hashVal);
         if (p == IntPtr.Zero)
             return null;
@@ -618,6 +642,7 @@ public class SparseMat : CvObject
     public T? Find<T>(int i0, int i1, int i2, long? hashVal = null)
         where T : struct 
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, i1, i2, false, hashVal);
         if (p == IntPtr.Zero)
             return null;
@@ -634,6 +659,7 @@ public class SparseMat : CvObject
     public T? Find<T>(int[] idx, long? hashVal = null)
         where T : struct 
     {
+        ValidateElementType<T>();
         var p = Ptr(idx, false, hashVal);
         if (p == IntPtr.Zero)
             return null;
@@ -654,6 +680,7 @@ public class SparseMat : CvObject
     public T Value<T>(int i0, long? hashVal = null)
         where T : struct
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, false, hashVal);
         if (p == IntPtr.Zero)
             return default;
@@ -671,6 +698,7 @@ public class SparseMat : CvObject
     public T Value<T>(int i0, int i1, long? hashVal = null)
         where T : struct
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, i1, false, hashVal);
         if (p == IntPtr.Zero)
             return default;
@@ -689,6 +717,7 @@ public class SparseMat : CvObject
     public T Value<T>(int i0, int i1, int i2, long? hashVal = null)
         where T : struct
     {
+        ValidateElementType<T>();
         var p = Ptr(i0, i1, i2, false, hashVal);
         if (p == IntPtr.Zero)
             return default;
@@ -705,11 +734,65 @@ public class SparseMat : CvObject
     public T Value<T>(int[] idx, long? hashVal = null)
         where T : struct
     {
+        ValidateElementType<T>();
         var p = Ptr(idx, false, hashVal);
         if (p == IntPtr.Zero)
             return default;
 
         return Marshal.PtrToStructure<T>(p);
+    }
+
+    #endregion
+
+    #region EnumerateNonZero
+
+    /// <summary>
+    /// Enumerates every stored (non-zero) element together with its index, mirroring
+    /// cv::SparseMatConstIterator. This is the efficient way to walk a sparse matrix: it
+    /// visits only the stored elements, not the full dense index space.
+    /// </summary>
+    /// <typeparam name="T">Element type; its size must match <see cref="ElemSize"/>.</typeparam>
+    /// <returns>
+    /// A sequence of (index, value) pairs. Each <c>Index</c> is a fresh array of length
+    /// <see cref="Dims"/>. The enumeration is a snapshot taken when the method is called.
+    /// </returns>
+    public IEnumerable<(int[] Index, T Value)> EnumerateNonZero<T>() where T : unmanaged
+    {
+        ThrowIfDisposed();
+        ValidateElementType<T>();
+        var elemSize = cachedElementByteSize;
+
+        var count = (int)NzCount();
+        var dims = Dims();
+        var indices = new int[count * dims];
+        var values = new T[count];
+        if (count > 0)
+        {
+            unsafe
+            {
+                fixed (int* indicesPtr = indices)
+                fixed (T* valuesPtr = values)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.core_SparseMat_getNodes(
+                            Handle, dims, (IntPtr)indicesPtr, (IntPtr)valuesPtr, (nuint)elemSize));
+                }
+            }
+            GC.KeepAlive(this);
+        }
+
+        // Native already copied everything into managed arrays, so yielding is allocation-only.
+        return Enumerate(indices, values, count, dims);
+
+        static IEnumerable<(int[], T)> Enumerate(int[] indices, T[] values, int count, int dims)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var index = new int[dims];
+                Array.Copy(indices, i * dims, index, 0, dims);
+                yield return (index, values[i]);
+            }
+        }
     }
 
     #endregion
@@ -726,6 +809,7 @@ public class SparseMat : CvObject
         internal Indexer(SparseMat parent)
             : base(parent)
         {
+            parent.ValidateElementType<T>();
         }
 
         /// <summary>
@@ -830,9 +914,7 @@ public class SparseMat : CvObject
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public Indexer<T> GetIndexer<T>() where T : struct
-    {
-        return new Indexer<T>(this);
-    }
+        => Ref<T>();
 
     #endregion
 
@@ -847,7 +929,9 @@ public class SparseMat : CvObject
     /// <returns>A value to the specified array element.</returns>
     public T Get<T>(int i0, long? hashVal = null) where T : struct
     {
-        return new Indexer<T>(this)[i0, hashVal];
+        ValidateElementType<T>();
+        var p = Ptr(i0, true, hashVal);
+        return Marshal.PtrToStructure<T>(p);
     }
 
     /// <summary>
@@ -860,7 +944,9 @@ public class SparseMat : CvObject
     /// <returns>A value to the specified array element.</returns>
     public T Get<T>(int i0, int i1, long? hashVal = null) where T : struct
     {
-        return new Indexer<T>(this)[i0, i1, hashVal];
+        ValidateElementType<T>();
+        var p = Ptr(i0, i1, true, hashVal);
+        return Marshal.PtrToStructure<T>(p);
     }
 
     /// <summary>
@@ -874,7 +960,9 @@ public class SparseMat : CvObject
     /// <returns>A value to the specified array element.</returns>
     public T Get<T>(int i0, int i1, int i2, long? hashVal = null) where T : struct
     {
-        return new Indexer<T>(this)[i0, i1, i2, hashVal];
+        ValidateElementType<T>();
+        var p = Ptr(i0, i1, i2, true, hashVal);
+        return Marshal.PtrToStructure<T>(p);
     }
 
     /// <summary>
@@ -886,7 +974,9 @@ public class SparseMat : CvObject
     /// <returns>A value to the specified array element.</returns>
     public T Get<T>(int[] idx, long? hashVal = null) where T : struct
     {
-        return new Indexer<T>(this)[idx, hashVal];
+        ValidateElementType<T>();
+        var p = Ptr(idx, true, hashVal);
+        return Marshal.PtrToStructure<T>(p);
     }
 
     /// <summary>
@@ -898,7 +988,9 @@ public class SparseMat : CvObject
     /// <param name="hashVal"></param>
     public void Set<T>(int i0, T value, long? hashVal = null) where T : struct
     {
-        (new Indexer<T>(this))[i0, hashVal] = value;
+        ValidateElementType<T>();
+        var p = Ptr(i0, true, hashVal);
+        Marshal.StructureToPtr(value, p, false);
     }
 
     /// <summary>
@@ -911,7 +1003,9 @@ public class SparseMat : CvObject
     /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
     public void Set<T>(int i0, int i1, T value, long? hashVal = null) where T : struct
     {
-        (new Indexer<T>(this))[i0, i1, hashVal] = value;
+        ValidateElementType<T>();
+        var p = Ptr(i0, i1, true, hashVal);
+        Marshal.StructureToPtr(value, p, false);
     }
 
     /// <summary>
@@ -925,7 +1019,9 @@ public class SparseMat : CvObject
     /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
     public void Set<T>(int i0, int i1, int i2, T value, long? hashVal = null) where T : struct
     {
-        (new Indexer<T>(this)[i0, i1, i2, hashVal]) = value;
+        ValidateElementType<T>();
+        var p = Ptr(i0, i1, i2, true, hashVal);
+        Marshal.StructureToPtr(value, p, false);
     }
 
     /// <summary>
@@ -937,7 +1033,9 @@ public class SparseMat : CvObject
     /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
     public void Set<T>(int[] idx, T value, long? hashVal = null) where T : struct
     {
-        (new Indexer<T>(this)[idx, hashVal]) = value;
+        ValidateElementType<T>();
+        var p = Ptr(idx, true, hashVal);
+        Marshal.StructureToPtr(value, p, false);
     }
 
     #endregion
@@ -945,16 +1043,11 @@ public class SparseMat : CvObject
     #region ToString
 
     /// <summary>
-    /// Returns a string that represents this Mat.
+    /// Returns a string that represents this SparseMat.
     /// </summary>
     /// <returns></returns>
     public override string ToString()
-    {
-        return "Mat [ " +
-               "Dims=" + Dims() +
-               "Type=" + Type().ToString() +
-               " ]";
-    }
+        => $"SparseMat [ Dims={Dims()}, Type={Type()}, NzCount={NzCount()} ]";
 
     #endregion
         
