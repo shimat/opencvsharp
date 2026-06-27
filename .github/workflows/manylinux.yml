@@ -19,6 +19,7 @@ jobs:
   # The resulting .so depends only on glibc / libstdc++ system libraries.
   # ---------------------------------------------------------------------------
   build_full:
+    name: Linux (x64, full)
     runs-on: ubuntu-24.04
     container:
       image: quay.io/pypa/manylinux_2_28_x86_64
@@ -199,6 +200,7 @@ jobs:
   # jpeg/png/tiff/webp/zlib internally.
   # ---------------------------------------------------------------------------
   build_slim:
+    name: Linux (x64, slim)
     runs-on: ubuntu-24.04
     container:
       image: quay.io/pypa/manylinux_2_28_x86_64
@@ -286,6 +288,7 @@ jobs:
   # This validates that a glibc 2.28-built binary works on a newer distro.
   # ---------------------------------------------------------------------------
   test:
+    name: Linux (test)
     needs: [build_full, build_slim]
     runs-on: ubuntu-24.04
 
@@ -339,6 +342,7 @@ jobs:
   # Only runs on push to main.
   # ---------------------------------------------------------------------------
   nuget:
+    name: Linux (nuget)
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
