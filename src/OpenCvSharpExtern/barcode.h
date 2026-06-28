@@ -7,57 +7,57 @@
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(
     const char *super_resolution_model_path, cv::barcode::BarcodeDetector **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     // OpenCV 5: BarcodeDetector takes a single ONNX super-resolution model path (Caffe dropped).
     if (super_resolution_model_path == nullptr || super_resolution_model_path[0] == '\0')
         *returnValue = new cv::barcode::BarcodeDetector();
     else
         *returnValue = new cv::barcode::BarcodeDetector(std::string(super_resolution_model_path));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_delete(cv::barcode::BarcodeDetector *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDownsamplingThreshold(cv::barcode::BarcodeDetector *obj, double thresh)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setDownsamplingThreshold(thresh);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDetectorScales(cv::barcode::BarcodeDetector *obj, std::vector<float> *sizes)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setDetectorScales(*sizes);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_setGradientThreshold(cv::barcode::BarcodeDetector *obj, double thresh)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setGradientThreshold(thresh);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
     std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->decodeWithType(*inputImage, *points, *detectorInfos, *detectorTypes);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
     std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->detectAndDecodeWithType(*inputImage, *detectorInfos, *detectorTypes, *points);
-    END_WRAP
+    });
 }
 
 #endif //NO_BARCODE

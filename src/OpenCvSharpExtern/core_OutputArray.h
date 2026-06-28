@@ -8,10 +8,10 @@
 
 CVAPI(ExceptionStatus) core_OutputArray_new_byMat(cv::Mat *mat, cv::_OutputArray **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::_OutputArray ia(*mat);
     *returnValue = new cv::_OutputArray(ia);
-    END_WRAP
+    });
 }
 
 /*CVAPI(cv::_OutputArray*) core_OutputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
@@ -22,56 +22,56 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byMat(cv::Mat *mat, cv::_OutputArray
 
 CVAPI(ExceptionStatus) core_OutputArray_new_byUMat(cv::UMat* mat, cv::_OutputArray** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
         const cv::_OutputArray ia(*mat);
     *returnValue = new cv::_OutputArray(ia);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_new_byScalar(interop::Scalar scalar, cv::_OutputArray **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Scalar scalarVal(cpp(scalar));
     const cv::_OutputArray ia(scalarVal);
     *returnValue = new cv::_OutputArray(ia);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_new_byVectorOfMat(std::vector<cv::Mat> *vector, cv::_OutputArray **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::_OutputArray ia(*vector);
     *returnValue = new cv::_OutputArray(ia);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_delete(cv::_OutputArray *oa)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete oa;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_getMat(cv::_OutputArray *oa, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     auto& mat = oa->getMatRef();
     *returnValue = new cv::Mat(mat);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_getScalar(cv::_OutputArray *oa, interop::Scalar *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Mat &mat = oa->getMatRef();
     const auto scalar = mat.at<cv::Scalar>(0);
     *returnValue = c(scalar);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) core_OutputArray_getVectorOfMat(cv::_OutputArray *oa, std::vector<cv::Mat*> *vector)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> temp;
     oa->getMatVector(temp);
 
@@ -80,5 +80,5 @@ CVAPI(ExceptionStatus) core_OutputArray_getVectorOfMat(cv::_OutputArray *oa, std
     {
         (*vector)[i] = new cv::Mat(temp[i]);
     }
-    END_WRAP
+    });
 }

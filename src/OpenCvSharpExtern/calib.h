@@ -15,7 +15,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
     interop::Size imageSize, double aspectRatio,
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> objectPointsVec(objectPointsLength);
     for (auto i = 0; i < objectPointsLength; i++)
         objectPointsVec[i] = *objectPoints[i];
@@ -25,7 +25,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
 
     const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     *returnValue = new cv::Mat(ret);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_initCameraMatrix2D_array(
@@ -33,7 +33,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_array(
     cv::Point2f **imagePoints, int ipSize1, int *ipSize2, interop::Size imageSize, double aspectRatio,
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
@@ -43,7 +43,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_array(
 
     const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     *returnValue = new cv::Mat(ret);
-    END_WRAP
+    });
 }
 
 
@@ -52,9 +52,9 @@ CVAPI(ExceptionStatus) calib_findChessboardCorners_InputArray(
     cv::_OutputArray *corners, int flags, 
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_findChessboardCorners_vector(
@@ -62,9 +62,9 @@ CVAPI(ExceptionStatus) calib_findChessboardCorners_vector(
     std::vector<cv::Point2f> *corners, int flags, 
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 
@@ -76,7 +76,7 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_InputArray(
     cv::_OutputArray *centers, int flags, cv::FeatureDetector* blobDetector,
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     if (blobDetector == nullptr)
     {
         *returnValue = cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
@@ -86,7 +86,7 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_InputArray(
         const cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
         *returnValue = cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
     }
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
@@ -94,7 +94,7 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
     std::vector<cv::Point2f> *centers, int flags, cv::FeatureDetector* blobDetector,
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     if (blobDetector == nullptr)
     {
         *returnValue = cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
@@ -104,7 +104,7 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
         const cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
         *returnValue = cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
     }
-    END_WRAP
+    });
 }
 
 
@@ -119,7 +119,7 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_InputArray(
     interop::TermCriteria criteria,
     double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> objectPointsVec(objectPointsSize);
     for (auto i = 0; i < objectPointsSize; i++)
         objectPointsVec[i] = *objectPoints[i];
@@ -129,7 +129,7 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_InputArray(
 
     *returnValue = cv::calibrateCamera(objectPointsVec, imagePointsVec, cpp(imageSize),
         *cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
@@ -143,7 +143,7 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
     interop::TermCriteria criteria,
     double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
@@ -157,7 +157,7 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
 
     *returnValue = cv::calibrateCamera(objectPointsVec, imagePointsVec, cpp(imageSize),
         cametaMatrixM, distCoeffsM, *rvecs, *tvecs, flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 
@@ -176,7 +176,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_InputArray(
     interop::TermCriteria criteria,
     double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> objectPointsVec(opSize);
     std::vector<cv::Mat> imagePoints1Vec(ip1Size);
     std::vector<cv::Mat> imagePoints2Vec(ip2Size);
@@ -191,7 +191,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_InputArray(
         *cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2,
         cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
@@ -209,7 +209,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
     interop::TermCriteria criteria,
     double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> objectPointsVec(opSize);
     std::vector<cv::Mat> imagePoints1Vec(ip1Size);
     std::vector<cv::Mat> imagePoints2Vec(ip2Size);
@@ -224,7 +224,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
         *cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2,
         cpp(imageSize), *R, *T, *E, *F, flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) calib_stereoCalibrate_array(
@@ -242,7 +242,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_array(
     interop::TermCriteria criteria,
     double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     std::vector<std::vector<cv::Point2f> > imagePoints1Vec(ip1Size1);
     std::vector<std::vector<cv::Point2f> > imagePoints2Vec(ip2Size1);
@@ -265,7 +265,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_array(
         cameraMatrix1M, distCoeffs1M,
         cameraMatrix2M, distCoeffs2M,
         cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 
@@ -278,7 +278,7 @@ CVAPI(ExceptionStatus) calib_calibrateHandEye(
     cv::_OutputArray *t_cam2gripper,
     int32_t method)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> R_gripper2base;
     std::vector<cv::Mat> t_gripper2base;
     std::vector<cv::Mat> R_target2cam;
@@ -292,7 +292,7 @@ CVAPI(ExceptionStatus) calib_calibrateHandEye(
         R_target2cam, t_target2cam, 
         *R_cam2gripper, *t_cam2gripper,
         static_cast<cv::HandEyeCalibrationMethod>(method));
-    END_WRAP    
+    });    
 }
 
 
@@ -313,7 +313,7 @@ CVAPI(ExceptionStatus) calib_calibrateRobotWorldHandEye_OutputArray(
     cv::_OutputArray* R_gripper2cam, cv::_OutputArray* t_gripper2cam,
     int32_t method)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> R_gripper2base;
     std::vector<cv::Mat> t_gripper2base;
     std::vector<cv::Mat> R_target2cam;
@@ -328,7 +328,7 @@ CVAPI(ExceptionStatus) calib_calibrateRobotWorldHandEye_OutputArray(
         *R_base2world, *t_base2world,
         *R_gripper2cam, *t_gripper2cam,
         static_cast<cv::RobotWorldHandEyeCalibrationMethod>(method));
-    END_WRAP
+    });
 }
 
 
@@ -341,7 +341,7 @@ CVAPI(ExceptionStatus) calib_calibrateRobotWorldHandEye_Pointer(
     double* R_gripper2cam, double* t_gripper2cam,
     int32_t method)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> R_gripper2base;
     std::vector<cv::Mat> t_gripper2base;
     std::vector<cv::Mat> R_target2cam;
@@ -366,7 +366,7 @@ CVAPI(ExceptionStatus) calib_calibrateRobotWorldHandEye_Pointer(
     std::memcpy(R_gripper2cam, R_gripper2camM.val, 9 * sizeof(double));
     std::memcpy(t_gripper2cam, t_gripper2camM.val, 3 * sizeof(double));
 
-    END_WRAP
+    });
 }
 
 #endif // NO_CALIB

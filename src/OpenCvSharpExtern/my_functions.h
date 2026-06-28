@@ -132,13 +132,32 @@ static bool writeAllBytesWide(const char *utf8Path, const uchar *data, size_t si
 // catch all exception
 enum class ExceptionStatus : int { NotOccurred = 0, Occurred = 1 };
 
+// Runs an exported function body and reports whether a C++ exception escaped it via the
+// ExceptionStatus return value. This is a drop-in replacement for the former
+// BEGIN_WRAP / END_WRAP macros and preserves their exact, per-platform behavior:
+//   * Windows: no try/catch -- exceptions propagate as before (a managed exception thrown
+//     from the OpenCV error callback unwinds through native frames via SEH).
+//   * Other:   the body runs inside try/catch and a caught std::exception is reported as
+//     Occurred.
+// (A later change unifies these onto a single portable path.)
+template <typename TFunc>
+ExceptionStatus cvTry(TFunc&& body)
+{
 #if defined WIN32 || defined _WIN32
-#define BEGIN_WRAP
-#define END_WRAP return ExceptionStatus::NotOccurred;
+    body();
+    return ExceptionStatus::NotOccurred;
 #else
-#define BEGIN_WRAP try{
-#define END_WRAP return ExceptionStatus::NotOccurred;}catch(std::exception){return ExceptionStatus::Occurred;}
+    try
+    {
+        body();
+        return ExceptionStatus::NotOccurred;
+    }
+    catch (const std::exception&)
+    {
+        return ExceptionStatus::Occurred;
+    }
 #endif
+}
 
 
 static cv::_InputArray entity(cv::_InputArray *obj)

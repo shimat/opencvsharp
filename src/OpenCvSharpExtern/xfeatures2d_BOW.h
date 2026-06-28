@@ -17,31 +17,31 @@
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_add(cv::xfeatures2d::BOWTrainer *obj, cv::Mat *descriptors)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->add(*descriptors);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_getDescriptors(cv::xfeatures2d::BOWTrainer *obj, std::vector<cv::Mat> *descriptors)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::Mat> d = obj->getDescriptors();
     std::copy(d.begin(), d.end(), std::back_inserter(*descriptors));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_descriptorsCount(cv::xfeatures2d::BOWTrainer *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->descriptorsCount();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_clear(cv::xfeatures2d::BOWTrainer *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->clear();
-    END_WRAP
+    });
 }
 
 
@@ -50,31 +50,31 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_clear(cv::xfeatures2d::BOWTrainer 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_new(
     int clusterCount, interop::TermCriteria termcrit, int attempts, int flags, cv::xfeatures2d::BOWKMeansTrainer **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWKMeansTrainer(clusterCount, cpp(termcrit), attempts, flags);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_delete(cv::xfeatures2d::BOWKMeansTrainer *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster1(cv::xfeatures2d::BOWKMeansTrainer *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::Mat m = obj->cluster();
     *returnValue = new cv::Mat(m);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster2(cv::xfeatures2d::BOWKMeansTrainer *obj, cv::Mat *descriptors, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::Mat m = obj->cluster(*descriptors);
     *returnValue = new cv::Mat(m);
-    END_WRAP
+    });
 }
 
 // BOWImgDescriptorExtractor
@@ -85,98 +85,98 @@ static void DescriptorMatcherDeleter(cv::DescriptorMatcher *) { }
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_Ptr(
     cv::Ptr<cv::DescriptorExtractor> *dextractor, cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dextractor, *dmatcher);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_Ptr(
     cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dmatcher);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_RawPtr(
     cv::DescriptorExtractor *dextractor, cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     // do not delete dextractor and dmatcher
     const cv::Ptr<cv::DescriptorExtractor> dextractorPtr(dextractor, DescriptorExtractorDeleter);
     const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_RawPtr(
     cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     // do not delete dmatcher
     const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dmatcherPtr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_delete(cv::xfeatures2d::BOWImgDescriptorExtractor *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat *vocabulary)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setVocabulary(*vocabulary);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Mat m = obj->getVocabulary();
     *returnValue = new cv::Mat(m);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute11(
     cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *imgDescriptor, 
     std::vector<std::vector<int> >* pointIdxsOfClusters, cv::Mat* descriptors)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->compute(*image, *keypoints, *imgDescriptor, pointIdxsOfClusters, descriptors);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute12(
     cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::_InputArray *keypointDescriptors, 
     cv::_OutputArray *imgDescriptor,     std::vector<std::vector<int> >* pointIdxsOfClusters)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->compute(*keypointDescriptors, *imgDescriptor, pointIdxsOfClusters);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute2(
     cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *imgDescriptor)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->compute2(*image, *keypoints, *imgDescriptor);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->descriptorSize();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_descriptorType(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->descriptorType();
-    END_WRAP
+    });
 }
 
 #endif // NO_CONTRIB

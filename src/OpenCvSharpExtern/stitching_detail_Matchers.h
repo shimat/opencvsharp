@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures1(
     std::vector<cv::detail::ImageFeatures> *featuresVec,
     cv::Mat **masks)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 
     // Do not free Feature2D
     const cv::Ptr<cv::Feature2D> featuresFinderPtr(featuresFinder, [](cv::Feature2D*){});
@@ -41,7 +41,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures1(
     std::vector<cv::detail::ImageFeatures> rawFeatures;
     cv::detail::computeImageFeatures(featuresFinderPtr, imagesVec, *featuresVec, masksArrays);
     
-    END_WRAP  
+    });  
 }
 
 CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
@@ -50,7 +50,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
     detail_ImageFeatures *features,
     cv::_InputArray *mask)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 
     // Do not free Feature2D
     const cv::Ptr<cv::Feature2D> featuresFinderPtr(featuresFinder, [](cv::Feature2D*){});
@@ -63,7 +63,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
     std::copy(rawFeature.keypoints.begin(), rawFeature.keypoints.end(), std::back_inserter(*features->keypoints));
     rawFeature.descriptors.copyTo(*features->descriptors); 
 
-    END_WRAP  
+    });  
 }
 
 
@@ -81,7 +81,7 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply(
     cv::Mat *out_H,
     double *out_confidence)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::detail::ImageFeatures features1Cpp{
         features1->img_idx,
         cpp(features1->img_size),
@@ -107,7 +107,7 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply(
     *out_num_inliers = result.num_inliers;
     result.H.copyTo(*out_H);
     *out_confidence = result.confidence;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply2(
@@ -122,7 +122,7 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply2(
     std::vector<cv::Mat> *out_H,
     std::vector<double> *out_confidence)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::detail::ImageFeatures> featuresVec(featuresSize);
     for (int i = 0; i < featuresSize; i++)
     {
@@ -162,23 +162,23 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply2(
         out_confidence->push_back(m.confidence);
     }
 
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stitching_FeaturesMatcher_isThreadSafe(
     cv::detail::FeaturesMatcher* obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->isThreadSafe() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stitching_FeaturesMatcher_collectGarbage(
     cv::detail::FeaturesMatcher* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->collectGarbage();
-    END_WRAP
+    });
 }
 
 
@@ -188,25 +188,25 @@ CVAPI(ExceptionStatus) stitching_BestOf2NearestMatcher_new(
     int try_use_gpu, float match_conf, int num_matches_thresh1,int num_matches_thresh2,
     cv::detail::BestOf2NearestMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::detail::BestOf2NearestMatcher(
         try_use_gpu != 0, match_conf, num_matches_thresh1, num_matches_thresh2);
-    END_WRAP    
+    });    
 }
 
 CVAPI(ExceptionStatus) stitching_BestOf2NearestMatcher_delete(cv::detail::BestOf2NearestMatcher* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stitching_BestOf2NearestMatcher_collectGarbage(
     cv::detail::BestOf2NearestMatcher* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->collectGarbage();
-    END_WRAP
+    });
 }
 
 
@@ -216,18 +216,18 @@ CVAPI(ExceptionStatus) stitching_AffineBestOf2NearestMatcher_new(
     int full_affine, int try_use_gpu, float match_conf, int num_matches_thresh1,
     cv::detail::AffineBestOf2NearestMatcher** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::detail::AffineBestOf2NearestMatcher(
         full_affine != 0, try_use_gpu != 0, match_conf, num_matches_thresh1);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stitching_AffineBestOf2NearestMatcher_delete(
     cv::detail::AffineBestOf2NearestMatcher* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 #endif // NO_STITCHING

@@ -44,9 +44,9 @@ struct FacemarkAAMParamsData
 
 CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->loadModel(model);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus)
@@ -57,9 +57,9 @@ face_Facemark_fit(
     std::vector<std::vector<cv::Point2f>> *landmarks,
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->fit(*image, *faces, *landmarks) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -68,42 +68,42 @@ face_Facemark_fit(
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_create(cv::face::FacemarkLBF::Params *params, cv::Ptr<cv::face::FacemarkLBF> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto obj = (params == nullptr) ? 
         cv::face::FacemarkLBF::create() :
         cv::face::FacemarkLBF::create(*params);
     *returnValue = clone(obj);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_get(cv::Ptr<cv::face::FacemarkLBF> *obj, cv::face::FacemarkLBF **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_delete(cv::Ptr<cv::face::FacemarkLBF> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 #pragma region Params
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_new(cv::face::FacemarkLBF::Params **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::face::FacemarkLBF::Params;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_delete(cv::face::FacemarkLBF::Params *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_getAll(
@@ -116,7 +116,7 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_getAll(
     std::vector<int> *pupils0,
     std::vector<int> *pupils1)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     data->shape_offset = obj->shape_offset;
     data->verbose = obj->verbose ? 1 : 0;
     data->n_landmarks = obj->n_landmarks;
@@ -134,7 +134,7 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_getAll(
     std::copy(obj->radius_m.begin(), obj->radius_m.end(), std::back_inserter(*radiusM));
     std::copy(obj->pupils[0].begin(), obj->pupils[0].end(), std::back_inserter(*pupils0));
     std::copy(obj->pupils[1].begin(), obj->pupils[1].end(), std::back_inserter(*pupils1));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_setAll(
@@ -147,7 +147,7 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_setAll(
     std::vector<int> *pupils0,
     std::vector<int> *pupils1)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->shape_offset = data.shape_offset;
     obj->verbose = (data.verbose != 0);
     obj->n_landmarks = data.n_landmarks;
@@ -165,22 +165,22 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_setAll(
     obj->radius_m.assign(radiusM->begin(), radiusM->end());
     obj->pupils[0].assign(pupils0->begin(), pupils0->end());
     obj->pupils[1].assign(pupils1->begin(), pupils1->end());
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_read(cv::face::FacemarkLBF::Params *obj, cv::FileNode *fn)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->read(*fn);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_write(cv::face::FacemarkLBF::Params *obj, cv::FileStorage *fs)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->write(*fs);
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -190,42 +190,42 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_write(cv::face::FacemarkLBF::Para
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_create(cv::face::FacemarkAAM::Params *params, cv::Ptr<cv::face::FacemarkAAM> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto obj = (params == nullptr) ?
         cv::face::FacemarkAAM::create() :
         cv::face::FacemarkAAM::create(*params);
     *returnValue = clone(obj);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_get(cv::Ptr<cv::face::FacemarkAAM> *obj, cv::face::FacemarkAAM **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_delete(cv::Ptr<cv::face::FacemarkAAM> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 #pragma region Params
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_new(cv::face::FacemarkAAM::Params **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::face::FacemarkAAM::Params;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_delete(cv::face::FacemarkAAM::Params *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_getAll(
@@ -234,7 +234,7 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_getAll(
     std::string *modelFilename,
     std::vector<float> *scales)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     data->m = obj->m;
     data->n = obj->n;
     data->n_iter = obj->n_iter;
@@ -245,7 +245,7 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_getAll(
     data->texture_max_m = obj->texture_max_m;
     modelFilename->assign(obj->model_filename);
     std::copy(obj->scales.begin(), obj->scales.end(), std::back_inserter(*scales));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_setAll(
@@ -254,7 +254,7 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_setAll(
     const char *modelFilename,
     std::vector<float> *scales)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->m = data.m;
     obj->n = data.n;
     obj->n_iter = data.n_iter;
@@ -265,22 +265,22 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_setAll(
     obj->texture_max_m = data.texture_max_m;
     obj->model_filename = modelFilename;
     obj->scales.assign(scales->begin(), scales->end());
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_read(cv::face::FacemarkAAM::Params *obj, cv::FileNode *fn)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->read(*fn);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Params *obj, cv::FileStorage *fs)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->write(*fs);
-    END_WRAP
+    });
 }
 
 #pragma endregion

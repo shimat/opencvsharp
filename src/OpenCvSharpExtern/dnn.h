@@ -68,7 +68,7 @@ static cv::dnn::Net dnn_readNetGated(const char *model, const char *config, cons
 
 CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     const bool hasConfig = (config != nullptr && config[0] != '\0');
     std::string modelAcp, configAcp;
@@ -92,27 +92,27 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *
     const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
     *returnValue = new cv::dnn::Net(net);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
     *returnValue = new cv::dnn::Net(net);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const char *framework, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::Net(dnn_readNetGated(model, config, framework, engine));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char *bin, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     std::string xmlAcp, binAcp;
     cv::dnn::Net net;
@@ -131,12 +131,12 @@ CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char
     const auto net = cv::dnn::readNetFromModelOptimizer(xml, bin);
     *returnValue = new cv::dnn::Net(net);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     std::string acp;
     cv::dnn::Net net;
@@ -155,103 +155,103 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv:
     const auto net = cv::dnn::readNetFromONNX(cv::String(onnxFile), engine);
     *returnValue = new cv::dnn::Net(net);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* buffer, size_t sizeBuffer, int engine, cv::dnn::Net** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer, engine);
     *returnValue = new cv::dnn::Net(net);
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) dnn_readTensorFromONNX(const char *path, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto mat = cv::dnn::readTensorFromONNX(path);
     *returnValue = new cv::Mat(mat);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImage(
     cv::Mat *image, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto blob = cv::dnn::blobFromImage(*image, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
     *returnValue = new cv::Mat(blob);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImages(
     const cv::Mat **images, const int imagesLength, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesLength, imagesVec);
 
     const auto blob = cv::dnn::blobFromImages(imagesVec, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
     *returnValue = new cv::Mat(blob);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_writeTextGraph(const char *model, const char *output)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::writeTextGraph(model, output);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect(std::vector<cv::Rect> *bboxes, std::vector<float> *scores,
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const float eta, const int top_k)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect2d(std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores,
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const float eta, const int top_k)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxes_RotatedRect(std::vector<cv::RotatedRect> *bboxes, std::vector<float> *scores,
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const float eta, const int top_k)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::resetMyriadDevice();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_getAvailableTargets(const int be, std::vector<int> *targets)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto v = cv::dnn::getAvailableTargets(static_cast<cv::dnn::Backend>(be));
     targets->clear();
     for (const auto t : v)
         targets->push_back(static_cast<int>(t));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_getAvailableBackends(std::vector<int> *backends, std::vector<int> *targets)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto v = cv::dnn::getAvailableBackends();
     backends->clear();
     targets->clear();
@@ -260,19 +260,19 @@ CVAPI(ExceptionStatus) dnn_getAvailableBackends(std::vector<int> *backends, std:
         backends->push_back(static_cast<int>(p.first));
         targets->push_back(static_cast<int>(p.second));
     }
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::enableModelDiagnostics(isDiagnosticsMode != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     std::string acp;
     cv::dnn::Net net;
@@ -291,15 +291,15 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::
     const auto net = cv::dnn::readNetFromTFLite(cv::String(model), engine);
     *returnValue = new cv::dnn::Net(net);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel, size_t lenModel, int engine, cv::dnn::Net **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel, engine);
     *returnValue = new cv::dnn::Net(net);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
@@ -307,13 +307,13 @@ CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
     const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::dnn::Image2BlobParams param(
         cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
         static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
     const auto blob = cv::dnn::blobFromImageWithParams(*image, param);
     *returnValue = new cv::Mat(blob);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
@@ -321,7 +321,7 @@ CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
     const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesLength, imagesVec);
     const cv::dnn::Image2BlobParams param(
@@ -329,14 +329,14 @@ CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
         static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
     const auto blob = cv::dnn::blobFromImagesWithParams(imagesVec, param);
     *returnValue = new cv::Mat(blob);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_imagesFromBlob(cv::Mat *blob, std::vector<cv::Mat> *images)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::imagesFromBlob(*blob, *images);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
@@ -344,9 +344,9 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const float eta, const int top_k)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
@@ -354,9 +354,9 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const float eta, const int top_k)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_softNMSBoxes_Rect(
@@ -364,11 +364,11 @@ CVAPI(ExceptionStatus) dnn_softNMSBoxes_Rect(
     const float score_threshold, const float nms_threshold,
     std::vector<int> *indices, const size_t top_k, const float sigma, const int method)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::dnn::softNMSBoxes(
         *bboxes, *scores, *updated_scores, score_threshold, nms_threshold, *indices,
         top_k, sigma, static_cast<cv::dnn::SoftNMSMethod>(method));
-    END_WRAP
+    });
 }
 
 #endif // !#ifndef _WINRT_DLL

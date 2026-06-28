@@ -11,23 +11,23 @@
 CVAPI(ExceptionStatus) video_CamShift(
     cv::_InputArray *probImage, interop::Rect *window, interop::TermCriteria criteria, interop::RotatedRect *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Rect window0 = cpp(*window);
     const auto ret = cv::CamShift(*probImage, window0, cpp(criteria));
     *window = c(window0);
     *returnValue = c(ret);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_meanShift(
     cv::_InputArray *probImage, interop::Rect *window, interop::TermCriteria criteria, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Rect window0 = cpp(*window);
     const auto ret = cv::meanShift(*probImage, window0, cpp(criteria));
     *window = c(window0);
     *returnValue = ret;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
@@ -36,11 +36,11 @@ CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
     int pyrBorder, int derivBorder, int tryReuseInputImage,
     int* returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     * returnValue = cv::buildOpticalFlowPyramid(
         *img, *pyramid, cpp(winSize), maxLevel, withDerivatives != 0,
         pyrBorder, derivBorder, tryReuseInputImage != 0);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
     cv::_InputArray* img, std::vector<cv::Mat>* pyramidVec,
@@ -48,11 +48,11 @@ CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
     int pyrBorder, int derivBorder, int tryReuseInputImage,
     int* returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     * returnValue = cv::buildOpticalFlowPyramid(
         *img, *pyramidVec, cpp(winSize), maxLevel, withDerivatives != 0,
         pyrBorder, derivBorder, tryReuseInputImage != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
@@ -62,10 +62,10 @@ CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
     interop::Size winSize, int maxLevel, interop::TermCriteria criteria,
     int flags, double minEigThreshold)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, *prevPts, *nextPts, *status, *err,
         cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
@@ -77,11 +77,11 @@ CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
     interop::Size winSize, int maxLevel, interop::TermCriteria criteria,
     int flags, double minEigThreshold)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::Point2f> prevPtsVec(prevPts, prevPts + prevPtsSize);
     cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, prevPtsVec, *nextPts,
     *status, *err, cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_calcOpticalFlowFarneback(
@@ -89,10 +89,10 @@ CVAPI(ExceptionStatus) video_calcOpticalFlowFarneback(
     cv::_InputOutputArray* flow, double pyrScale, int levels, int winSize,
     int iterations, int polyN, double polySigma, int flags)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::calcOpticalFlowFarneback(*prev, *next, *flow, pyrScale, levels, winSize,
         iterations, polyN, polySigma, flags);
-    END_WRAP
+    });
 }
 
 /* deprecated
@@ -104,9 +104,9 @@ CVAPI(ExceptionStatus) video_estimateRigidTransform(cv::_InputArray *src, cv::_I
 
 CVAPI(ExceptionStatus) video_computeECC(cv::_InputArray *templateImage, cv::_InputArray *inputImage, cv::_InputArray *inputMask, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::computeECC(*templateImage, *inputImage, entity(inputMask));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_findTransformECC1(
@@ -115,11 +115,11 @@ CVAPI(ExceptionStatus) video_findTransformECC1(
     interop::TermCriteria criteria,
     cv::_InputArray *inputMask, int gaussFiltSize, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::findTransformECC(
         *templateImage, *inputImage, *warpMatrix, motionType, 
         cpp(criteria),entity(inputMask), gaussFiltSize);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_findTransformECC2(
@@ -127,116 +127,116 @@ CVAPI(ExceptionStatus) video_findTransformECC2(
     cv::_InputOutputArray *warpMatrix, int motionType,
     interop::TermCriteria criteria, cv::_InputArray *inputMask, double* returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::findTransformECC(
         *templateImage, *inputImage, *warpMatrix, motionType,
         cpp(criteria), entity(inputMask));
-    END_WRAP
+    });
 }
 
 #pragma region KalmanFilter
 
 CVAPI(ExceptionStatus) video_KalmanFilter_new1(cv::KalmanFilter **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::KalmanFilter;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_new2(int dynamParams, int measureParams, int controlParams, int type, cv::KalmanFilter **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::KalmanFilter(dynamParams, measureParams, controlParams, type);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_KalmanFilter_init(cv::KalmanFilter *obj, int dynamParams, int measureParams, int controlParams, int type)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->init(dynamParams, measureParams, controlParams, type);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_KalmanFilter_delete(cv::KalmanFilter *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_KalmanFilter_predict(cv::KalmanFilter *obj, cv::Mat *control, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto result = obj->predict(entity(control));
     *returnValue = new cv::Mat(result);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_correct(cv::KalmanFilter *obj, cv::Mat *measurement, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto result = obj->correct(*measurement);
     *returnValue = new cv::Mat(result);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_KalmanFilter_statePre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->statePre);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_statePost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->statePost);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_transitionMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->transitionMatrix);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_controlMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->controlMatrix);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_measurementMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->measurementMatrix);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_processNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->processNoiseCov);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_measurementNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->measurementNoiseCov);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->errorCovPre);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_gain(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->gain);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = &(obj->errorCovPost);
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -245,14 +245,14 @@ CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv
 
 CVAPI(ExceptionStatus) video_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const interop::Rect boundingBox)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     tracker->init(*image, cpp(boundingBox));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, interop::Rect* boundingBox, int* returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Rect bb = cpp(*boundingBox);
     const bool ret = tracker->update(*image, bb);
     if (ret)
@@ -264,7 +264,7 @@ CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat*
     }
 
     *returnValue = ret ? 1 : 0;
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -273,32 +273,32 @@ CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat*
 
 CVAPI(ExceptionStatus) video_TrackerMIL_create1(cv::Ptr<cv::TrackerMIL>** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto p = cv::TrackerMIL::create();
     *returnValue = clone(p);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_TrackerMIL_create2(cv::TrackerMIL::Params* parameters, cv::Ptr<cv::TrackerMIL>** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto p = cv::TrackerMIL::create(*parameters);
     *returnValue = clone(p);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_delete(cv::Ptr<cv::TrackerMIL>* ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL>* ptr, cv::TrackerMIL** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -310,30 +310,30 @@ CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL>* ptr, cv
     cv::DenseOpticalFlow *obj,
     cv::_InputArray *i0, cv::_InputArray *i1, cv::_InputOutputArray *flow)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->calc(*i0, *i1, *flow);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_DenseOpticalFlow_collectGarbage(cv::DenseOpticalFlow *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->collectGarbage();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_get(cv::Ptr<cv::DenseOpticalFlow> *ptr, cv::DenseOpticalFlow **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOpticalFlow> *ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 */
 

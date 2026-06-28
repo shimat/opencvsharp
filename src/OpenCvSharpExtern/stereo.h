@@ -19,14 +19,14 @@ CVAPI(ExceptionStatus) stereo_stereoRectify_InputArray(
     double alpha, interop::Size newImageSize,
     interop::Rect *validPixROI1, interop::Rect *validPixROI2)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Rect _validPixROI1, _validPixROI2;
     cv::stereoRectify(*cameraMatrix1, *distCoeffs1, *cameraMatrix2, *distCoeffs2,
         cpp(imageSize), *R, *T, *R1, *R2, *P1, *P2, *Q, flags, alpha, cpp(newImageSize),
         &_validPixROI1, &_validPixROI2);
     *validPixROI1 = c(_validPixROI1);
     *validPixROI2 = c(_validPixROI2);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stereo_stereoRectify_array(double *cameraMatrix1,
@@ -39,7 +39,7 @@ CVAPI(ExceptionStatus) stereo_stereoRectify_array(double *cameraMatrix1,
     double *Q, int flags, double alpha, interop::Size newImageSize,
     interop::Rect *validPixROI1, interop::Rect *validPixROI2)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Mat cameraMatrix1M(3, 3, CV_64FC1, cameraMatrix1);
     cv::Mat cameraMatrix2M(3, 3, CV_64FC1, cameraMatrix2);
     cv::Mat distCoeffs1M(dc1Size, 1, CV_64FC1, distCoeffs1);
@@ -59,7 +59,7 @@ CVAPI(ExceptionStatus) stereo_stereoRectify_array(double *cameraMatrix1,
         &_validPixROI1, &_validPixROI2);
     *validPixROI1 = c(_validPixROI1);
     *validPixROI2 = c(_validPixROI2);
-    END_WRAP
+    });
 }
 
 
@@ -69,9 +69,9 @@ CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_InputArray(cv::_InputArr
     double threshold,
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::stereoRectifyUncalibrated(*points1, *points2, *F, cpp(imgSize), *H1, *H2, threshold) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_array(cv::Point2d *points1, int points1Size,
@@ -81,13 +81,13 @@ CVAPI(ExceptionStatus) stereo_stereoRectifyUncalibrated_array(cv::Point2d *point
     double threshold,
     int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::Mat points1Mat(points1Size, 1, CV_64FC2, points1);
     const cv::Mat points2Mat(points2Size, 1, CV_64FC2, points2);
     cv::Mat H1M(3, 3, CV_64FC1, H1);
     cv::Mat H2M(3, 3, CV_64FC1, H2);
     *returnValue = cv::stereoRectifyUncalibrated(points1Mat, points2Mat, *F, cpp(imgSize), H1M, H2M, threshold) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 
@@ -105,7 +105,7 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
     interop::Rect *roi1, interop::Rect *roi2, int flags,
     float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> imgpt1Vec(imgpt1Size);
     std::vector<cv::Mat> imgpt3Vec(imgpt3Size);
     for (auto i = 0; i < imgpt1Size; i++)
@@ -122,7 +122,7 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
     *roi1 = c(_roi1);
     *roi2 = c(_roi2);
     *returnValue = ret;
-    END_WRAP
+    });
 }
 
 
@@ -130,9 +130,9 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
 CVAPI(ExceptionStatus) stereo_filterSpeckles(
     cv::_InputOutputArray *img, double newVal, int maxSpeckleSize, double maxDiff, cv::_InputOutputArray *buf)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::filterSpeckles(*img, newVal, maxSpeckleSize, maxDiff, entity(buf));
-    END_WRAP
+    });
 }
 
 
@@ -141,10 +141,10 @@ CVAPI(ExceptionStatus) stereo_getValidDisparityROI(
     int minDisparity, int numberOfDisparities, int SADWindowSize,
     interop::Rect *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = c(cv::getValidDisparityROI(
         cpp(roi1), cpp(roi2), minDisparity, numberOfDisparities, SADWindowSize));
-    END_WRAP
+    });
 }
 
 
@@ -152,9 +152,9 @@ CVAPI(ExceptionStatus) stereo_validateDisparity(
     cv::_InputOutputArray *disparity, cv::_InputArray *cost,
     int minDisparity, int numberOfDisparities, int disp12MaxDisp)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::validateDisparity(*disparity, *cost, minDisparity, numberOfDisparities, disp12MaxDisp);
-    END_WRAP
+    });
 }
 
 
@@ -162,9 +162,9 @@ CVAPI(ExceptionStatus) stereo_reprojectImageTo3D(
     cv::_InputArray *disparity, cv::_OutputArray *_3dImage,
     cv::_InputArray *Q, int handleMissingValues, int ddepth)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::reprojectImageTo3D(*disparity, *_3dImage, *Q, handleMissingValues != 0, ddepth);
-    END_WRAP
+    });
 }
 
 #endif // NO_STEREO

@@ -10,55 +10,55 @@
 #pragma region DescriptorMatcher
 CVAPI(ExceptionStatus) features_DescriptorMatcher_add(cv::DescriptorMatcher *obj, cv::Mat **descriptors, int descriptorLength)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> descriptorsVec(descriptorLength);
     for (int i = 0; i < descriptorLength; i++)    
         descriptorsVec[i] = *descriptors[i];
     obj->add(descriptorsVec);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_getTrainDescriptors(cv::DescriptorMatcher *obj, std::vector<cv::Mat> *dst)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *dst = obj->getTrainDescriptors();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_clear(cv::DescriptorMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->clear();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_empty(cv::DescriptorMatcher *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->empty() ? 1 : 0;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) features_DescriptorMatcher_isMaskSupported(cv::DescriptorMatcher *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->isMaskSupported() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_train(cv::DescriptorMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->train();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_match1(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, 
     cv::Mat *trainDescriptors, std::vector<cv::DMatch> *matches, cv::Mat *mask)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->match(*queryDescriptors, *trainDescriptors, *matches, entity(mask));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_knnMatch1(
@@ -66,9 +66,9 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_knnMatch1(
     cv::Mat *trainDescriptors, std::vector<std::vector<cv::DMatch> > *matches, int k,
     cv::Mat *mask, int compactResult)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->knnMatch(*queryDescriptors, *trainDescriptors, *matches, k, entity(mask), compactResult != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_radiusMatch1(
@@ -76,16 +76,16 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_radiusMatch1(
     cv::Mat *trainDescriptors, std::vector<std::vector<cv::DMatch> > *matches, float maxDistance,
     cv::Mat *mask, int compactResult)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->radiusMatch(*queryDescriptors, *trainDescriptors, *matches, maxDistance, entity(mask), compactResult != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_match2(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<cv::DMatch> *matches,
     cv::Mat **masks, int masksSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> masksVal;
     if (masksSize != 0)
     {
@@ -96,14 +96,14 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_match2(
         }
     }
     obj->match(*queryDescriptors, *matches, masksVal);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_knnMatch2(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<std::vector<cv::DMatch> > *matches, 
     int k, cv::Mat **masks, int masksSize, int compactResult)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> masksVal;
     if (masksSize != 0)
     {
@@ -114,14 +114,14 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_knnMatch2(
         }
     }
     obj->knnMatch(*queryDescriptors, *matches, k, masksVal, compactResult != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_radiusMatch2(
     cv::DescriptorMatcher *obj, cv::Mat *queryDescriptors, std::vector<std::vector<cv::DMatch> > *matches, 
     float maxDistance, cv::Mat **masks, int masksSize, int compactResult)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> masksVal;
     if (masksSize != 0)
     {
@@ -132,30 +132,30 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_radiusMatch2(
         }
     }
     obj->radiusMatch(*queryDescriptors, *matches, maxDistance, masksVal, compactResult != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_DescriptorMatcher_create(
     const char *descriptorMatcherType, cv::Ptr<cv::DescriptorMatcher> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const cv::Ptr<cv::DescriptorMatcher> ret = cv::DescriptorMatcher::create(descriptorMatcherType);
     *returnValue = new cv::Ptr<cv::DescriptorMatcher>(ret);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_DescriptorMatcher_get(
     cv::Ptr<cv::DescriptorMatcher> *ptr, cv::DescriptorMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) features_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatcher> *ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -164,37 +164,37 @@ CVAPI(ExceptionStatus) features_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::Descrip
 
 CVAPI(ExceptionStatus) features_BFMatcher_new(int normType, int crossCheck, cv::BFMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::BFMatcher(normType, crossCheck != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_BFMatcher_delete(cv::BFMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_BFMatcher_isMaskSupported(cv::BFMatcher *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->isMaskSupported() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_BFMatcher_get(cv::Ptr<cv::BFMatcher> *ptr, cv::BFMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -204,7 +204,7 @@ CVAPI(ExceptionStatus) features_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_new(
     cv::Ptr<cv::flann::IndexParams> *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams, cv::FlannBasedMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;
     cv::Ptr<cv::flann::SearchParams> searchParamsPtr;
     if (indexParams == nullptr)
@@ -218,63 +218,63 @@ CVAPI(ExceptionStatus) features_FlannBasedMatcher_new(
         searchParamsPtr = *searchParams;
     
     *returnValue = new cv::FlannBasedMatcher(indexParamsPtr, searchParamsPtr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_delete(cv::FlannBasedMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_add(
     cv::FlannBasedMatcher *obj, cv::Mat **descriptors, int descriptorsSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> descriptorsVal(descriptorsSize);
     for (int i = 0; i < descriptorsSize; i++)
     {
         descriptorsVal[i] = *(descriptors[i]);
     }
     obj->add(descriptorsVal);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_clear(cv::FlannBasedMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->clear();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_train(cv::FlannBasedMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->train();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_FlannBasedMatcher_isMaskSupported(cv::FlannBasedMatcher *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->isMaskSupported() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_FlannBasedMatcher_get(
     cv::Ptr<cv::FlannBasedMatcher> *ptr, cv::FlannBasedMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::FlannBasedMatcher> *ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -288,52 +288,52 @@ CVAPI(ExceptionStatus) features_LightGlueMatcher_create(
     const char *modelPath, float scoreThreshold, int backend, int target,
     cv::Ptr<cv::LightGlueMatcher> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::LightGlueMatcher::create(cv::String(modelPath), scoreThreshold, backend, target);
     *returnValue = clone(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_LightGlueMatcher_create_buffer(
     const uchar *modelData, size_t modelDataLength, float scoreThreshold, int backend, int target,
     cv::Ptr<cv::LightGlueMatcher> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<uchar> buf(modelData, modelData + modelDataLength);
     const auto ptr = cv::LightGlueMatcher::create(buf, scoreThreshold, backend, target);
     *returnValue = clone(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_LightGlueMatcher_setPairInfo(
     cv::LightGlueMatcher *obj, cv::_InputArray *queryKpts, cv::_InputArray *trainKpts,
     interop::Size queryImageSize, interop::Size trainImageSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setPairInfo(*queryKpts, *trainKpts, cpp(queryImageSize), cpp(trainImageSize));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_LightGlueMatcher_clearPairInfo(cv::LightGlueMatcher *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->clearPairInfo();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_LightGlueMatcher_get(
     cv::Ptr<cv::LightGlueMatcher> *ptr, cv::LightGlueMatcher **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_LightGlueMatcher_delete(cv::Ptr<cv::LightGlueMatcher> *ptr)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete ptr;
-    END_WRAP
+    });
 }
 
 #pragma endregion

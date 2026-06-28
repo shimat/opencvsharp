@@ -17,111 +17,111 @@
 
 CVAPI(ExceptionStatus) dnn_Model_new_String(const char *model, const char *config, cv::dnn::Model **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     *returnValue = new cv::dnn::Model(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::Model(model, configStr);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_new_Net(cv::dnn::Net *network, cv::dnn::Model **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::Model(*network);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_delete(cv::dnn::Model *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete model;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputSize(cv::dnn::Model *model, const interop::Size size)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputSize(cpp(size));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputMean(cv::dnn::Model *model, const interop::Scalar mean)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputMean(cpp(mean));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputScale(cv::dnn::Model *model, const interop::Scalar scale)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputScale(cpp(scale));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputCrop(cv::dnn::Model *model, const int crop)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputCrop(crop != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputSwapRB(cv::dnn::Model *model, const int swapRB)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputSwapRB(swapRB != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputParams(
     cv::dnn::Model *model, const double scale, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setInputParams(scale, cpp(size), cpp(mean), swapRB != 0, crop != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setOutputNames(cv::dnn::Model *model, const char **outNames, const int outNamesLength)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::String> outNamesVec(outNamesLength);
     for (auto i = 0; i < outNamesLength; i++)
     {
         outNamesVec[i] = outNames[i];
     }
     model->setOutputNames(outNamesVec);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_predict(cv::dnn::Model *model, cv::_InputArray *frame, std::vector<cv::Mat> *outs)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->predict(*frame, *outs);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setPreferableBackend(cv::dnn::Model *model, const int backendId)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setPreferableBackend(static_cast<cv::dnn::Backend>(backendId));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setPreferableTarget(cv::dnn::Model *model, const int targetId)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setPreferableTarget(static_cast<cv::dnn::Target>(targetId));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_Model_enableWinograd(cv::dnn::Model *model, const int useWinograd)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->enableWinograd(useWinograd != 0);
-    END_WRAP
+    });
 }
 
 // ----------------------------------------------------------------------------
@@ -131,52 +131,52 @@ CVAPI(ExceptionStatus) dnn_Model_enableWinograd(cv::dnn::Model *model, const int
 CVAPI(ExceptionStatus) dnn_ClassificationModel_new_String(
     const char *model, const char *config, cv::dnn::ClassificationModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     *returnValue = new cv::dnn::ClassificationModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::ClassificationModel(model, configStr);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_new_Net(cv::dnn::Net *network, cv::dnn::ClassificationModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::ClassificationModel(*network);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_delete(cv::dnn::ClassificationModel *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete model;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_setEnableSoftmaxPostProcessing(
     cv::dnn::ClassificationModel *model, const int enable)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setEnableSoftmaxPostProcessing(enable != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_getEnableSoftmaxPostProcessing(
     cv::dnn::ClassificationModel *model, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = model->getEnableSoftmaxPostProcessing() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_classify(
     cv::dnn::ClassificationModel *model, cv::_InputArray *frame, int *classId, float *conf)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->classify(*frame, *classId, *conf);
-    END_WRAP
+    });
 }
 
 // ----------------------------------------------------------------------------
@@ -186,42 +186,42 @@ CVAPI(ExceptionStatus) dnn_ClassificationModel_classify(
 CVAPI(ExceptionStatus) dnn_DetectionModel_new_String(
     const char *model, const char *config, cv::dnn::DetectionModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     *returnValue = new cv::dnn::DetectionModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::DetectionModel(model, configStr);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_new_Net(cv::dnn::Net *network, cv::dnn::DetectionModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::DetectionModel(*network);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_delete(cv::dnn::DetectionModel *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete model;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_setNmsAcrossClasses(cv::dnn::DetectionModel *model, const int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->setNmsAcrossClasses(value != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_getNmsAcrossClasses(cv::dnn::DetectionModel *model, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = model->getNmsAcrossClasses() ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_detect(
@@ -229,9 +229,9 @@ CVAPI(ExceptionStatus) dnn_DetectionModel_detect(
     std::vector<int> *classIds, std::vector<float> *confidences, std::vector<cv::Rect> *boxes,
     const float confThreshold, const float nmsThreshold)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->detect(*frame, *classIds, *confidences, *boxes, confThreshold, nmsThreshold);
-    END_WRAP
+    });
 }
 
 // ----------------------------------------------------------------------------
@@ -241,36 +241,36 @@ CVAPI(ExceptionStatus) dnn_DetectionModel_detect(
 CVAPI(ExceptionStatus) dnn_SegmentationModel_new_String(
     const char *model, const char *config, cv::dnn::SegmentationModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     *returnValue = new cv::dnn::SegmentationModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::SegmentationModel(model, configStr);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_SegmentationModel_new_Net(cv::dnn::Net *network, cv::dnn::SegmentationModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::SegmentationModel(*network);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_SegmentationModel_delete(cv::dnn::SegmentationModel *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete model;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_SegmentationModel_segment(
     cv::dnn::SegmentationModel *model, cv::_InputArray *frame, cv::_OutputArray *mask)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     model->segment(*frame, *mask);
-    END_WRAP
+    });
 }
 
 // ----------------------------------------------------------------------------
@@ -280,37 +280,37 @@ CVAPI(ExceptionStatus) dnn_SegmentationModel_segment(
 CVAPI(ExceptionStatus) dnn_KeypointsModel_new_String(
     const char *model, const char *config, cv::dnn::KeypointsModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 #ifdef _WIN32
     *returnValue = new cv::dnn::KeypointsModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     *returnValue = new cv::dnn::KeypointsModel(model, configStr);
 #endif
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_KeypointsModel_new_Net(cv::dnn::Net *network, cv::dnn::KeypointsModel **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::dnn::KeypointsModel(*network);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_KeypointsModel_delete(cv::dnn::KeypointsModel *model)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete model;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) dnn_KeypointsModel_estimate(
     cv::dnn::KeypointsModel *model, cv::_InputArray *frame, std::vector<cv::Point2f> *keypoints, const float thresh)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto result = model->estimate(*frame, thresh);
     keypoints->assign(result.begin(), result.end());
-    END_WRAP
+    });
 }
 
 #endif // !#ifndef _WINRT_DLL

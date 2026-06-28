@@ -21,7 +21,7 @@ CVAPI(ExceptionStatus) calib_registerCameras(
     cv::_OutputArray *perViewErrors,
     int flags, interop::TermCriteria criteria, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> op1(objectPoints1Size), op2(objectPoints2Size), ip1(imagePoints1Size), ip2(imagePoints2Size);
     for (int i = 0; i < objectPoints1Size; i++) op1[i] = *objectPoints1[i];
     for (int i = 0; i < objectPoints2Size; i++) op2[i] = *objectPoints2[i];
@@ -33,7 +33,7 @@ CVAPI(ExceptionStatus) calib_registerCameras(
         *cameraMatrix1, *distCoeffs1, static_cast<cv::CameraModel>(cameraModel1),
         *cameraMatrix2, *distCoeffs2, static_cast<cv::CameraModel>(cameraModel2),
         *R, *T, *E, *F, *perViewErrors, flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 // calibrateMultiview (OpenCV 5): intrinsics + extrinsics for a multi-camera system.
@@ -49,7 +49,7 @@ CVAPI(ExceptionStatus) calib_calibrateMultiview(
     cv::_InputArray *flagsForIntrinsics, int flags,
     interop::TermCriteria criteria, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> objPointsVec(objPointsSize);
     for (int i = 0; i < objPointsSize; i++)
         objPointsVec[i] = *objPoints[i];
@@ -72,7 +72,7 @@ CVAPI(ExceptionStatus) calib_calibrateMultiview(
         *detectionMask, *models,
         *Ks, *distortions, *Rs, *Ts,
         entity(flagsForIntrinsics), flags, cpp(criteria));
-    END_WRAP
+    });
 }
 
 #endif // NO_CALIB

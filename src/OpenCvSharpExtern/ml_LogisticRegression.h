@@ -9,139 +9,139 @@
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getLearningRate(cv::ml::LogisticRegression *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getLearningRate();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setLearningRate(cv::ml::LogisticRegression *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setLearningRate(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getIterations(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getIterations();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setIterations(cv::ml::LogisticRegression *obj, int val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setIterations(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getRegularization(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRegularization();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setRegularization(cv::ml::LogisticRegression *obj, int val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRegularization(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getTrainMethod(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getTrainMethod();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setTrainMethod(cv::ml::LogisticRegression *obj, int val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setTrainMethod(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getMiniBatchSize(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getMiniBatchSize();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setMiniBatchSize(cv::ml::LogisticRegression *obj, int val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setMiniBatchSize(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_getTermCriteria(cv::ml::LogisticRegression *obj, interop::TermCriteria *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = c(obj->getTermCriteria());
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticRegression *obj, interop::TermCriteria val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setTermCriteria(cpp(val));
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_predict(
     cv::ml::LogisticRegression *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags, float *returnValue)
 { 
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->predict(entity(samples), entity(results), flags);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_get_learnt_thetas(cv::ml::LogisticRegression *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::Mat(obj->get_learnt_thetas());
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_create(cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::ml::LogisticRegression::create();
     *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::LogisticRegression> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(
     cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_load(
     const char *filePath, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::Algorithm::load<cv::ml::LogisticRegression>(filePath);
     *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(
     const char *strModel, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto objName = cv::ml::LogisticRegression::create()->getDefaultName();
     const auto ptr = cv::Algorithm::loadFromString<cv::ml::LogisticRegression>(strModel, objName);
     *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
-    END_WRAP
+    });
 }
 
 #endif // NO_ML
