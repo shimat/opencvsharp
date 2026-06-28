@@ -3629,27 +3629,7 @@ public static partial class Cv2
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_abs_Mat(src.CvPtr, out var ret));
-        GC.KeepAlive(src);
-        return new MatExpr(ret);
-    }
-
-    /// <summary>
-    /// Computes absolute value of each matrix element
-    /// </summary>
-    /// <param name="src">matrix expression</param>
-    /// <returns></returns>
-    public static MatExpr Abs(MatExpr src)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_abs_MatExpr(src.CvPtr, out var ret));
-        GC.KeepAlive(src);
-        return new MatExpr(ret);
+        return MatExpr.From(src).Abs();
     }
         
     /// <summary>

@@ -327,7 +327,7 @@ public class ArucoTest : TestBase
     {
         using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
-        using var emptyImage = Mat.Zeros(300, 300, MatType.CV_8UC1);
+        using var emptyImage = Mat.ZerosMat(300, 300, MatType.CV_8UC1);
 
         using var detector = new CharucoDetector(board);
         detector.DetectBoard(emptyImage, out var charucoCorners, out var charucoIds,

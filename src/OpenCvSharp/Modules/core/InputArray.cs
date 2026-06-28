@@ -14,6 +14,10 @@ public class InputArray : CvObject
 {
     private object? obj;
 
+    // A resource materialized by this InputArray itself (e.g. the Mat produced from a
+    // MatExpr). Unlike 'obj', which is merely kept alive, this is disposed with the InputArray.
+    private IDisposable? ownedDisposable;
+
 #pragma warning disable 1591
     // ReSharper disable InconsistentNaming
     public const int KIND_SHIFT = 16;
@@ -73,13 +77,32 @@ public class InputArray : CvObject
     /// </summary>
     /// <param name="expr"></param>
     // ReSharper disable once SuggestBaseTypeForParameter
-    internal InputArray(MatExpr? expr)
+    internal InputArray(NativeMatExpr? expr)
     {
         if (expr is null)
             return;
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out var p));
         GC.KeepAlive(expr);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
+    }
+
+    /// <summary>
+    /// Constructor. Materializes the lazy expression into a Mat that this InputArray owns and
+    /// disposes together with itself.
+    /// </summary>
+    /// <param name="node"></param>
+    internal InputArray(MatExpr? node)
+    {
+        if (node is null)
+            return;
+        var mat = node.ToMat();
+        ownedDisposable = mat;
+        obj = mat;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out var p));
+        GC.KeepAlive(mat);
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
@@ -264,6 +287,8 @@ public class InputArray : CvObject
     {
         GC.KeepAlive(obj);
         obj = null;
+        ownedDisposable?.Dispose();
+        ownedDisposable = null;
         base.DisposeManaged();
     }
 
@@ -286,11 +311,11 @@ public class InputArray : CvObject
     public static InputArray Create(UMat mat) => new(mat);
 
     /// <summary>
-    /// Creates a proxy class of the specified MatExpr
+    /// Creates a proxy class of the specified matrix expression (materializing it to a Mat).
     /// </summary>
-    /// <param name="expr"></param>
+    /// <param name="node"></param>
     /// <returns></returns>
-    public static InputArray Create(MatExpr expr) => new(expr);
+    public static InputArray Create(MatExpr node) => new(node);
 
     /// <summary>
     /// Creates a proxy class of the specified Scalar
@@ -583,7 +608,7 @@ public class InputArray : CvObject
 
     public static implicit operator InputArray(UMat mat) => Create(mat);
 
-    public static implicit operator InputArray(MatExpr expr) => Create(expr);
+    public static implicit operator InputArray(MatExpr node) => Create(node);
 
     public static implicit operator InputArray(Scalar val) => Create(val);
 

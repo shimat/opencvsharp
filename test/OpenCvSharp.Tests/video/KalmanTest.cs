@@ -180,7 +180,7 @@ public class KalmanTest : TestBase
         Assert.Equal(lhs.Type(), rhs.Type());
         Assert.Equal(lhs.Sum(), rhs.Sum());
 
-        using var diff = lhs - rhs;
+        using Mat diff = lhs - rhs;
         Assert.Equal(Scalar.Black, Cv2.Sum(diff));
     }
 }

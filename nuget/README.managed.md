@@ -72,18 +72,15 @@ using (new Window("dst image", dst))
 }
 ```
 
-For complex pipelines, use `ResourcesTracker` to manage multiple resources automatically:
+`Mat` arithmetic operators (`+`, `-`, `*`, `/`, comparisons, bitwise, `T()`, `Inv()`, ...) return a
+lazily-evaluated managed expression tree that holds no unmanaged resources, so chained expressions
+never leak. Just receive the result in a `using Mat`:
 
 ```csharp
-using var t = new ResourcesTracker();
+using var src = new Mat("lenna.png", ImreadModes.Grayscale);
 
-var src = t.T(new Mat("lenna.png", ImreadModes.Grayscale));
-var dst = t.NewMat();
-Cv2.Canny(src, dst, 50, 200);
-var blurred = t.T(dst.Blur(new Size(3, 3)));
-t.T(new Window("src image", src));
-t.T(new Window("dst image", blurred));
-Cv2.WaitKey();
+// The intermediate (src * 0.8) holds no native resource; nothing leaks.
+using Mat dst = 255 - src * 0.8;
 ```
 
 > **Note:** OpenCvSharp does not support Unity, Xamarin, CUDA or UWP.

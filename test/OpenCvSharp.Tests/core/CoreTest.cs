@@ -111,20 +111,16 @@ public class CoreTest : TestBase
         // MatExpr - Scalar
         using (var src = Mat.FromPixelData(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
         {
-            using MatExpr srcExpr = src;
-            using MatExpr dstExpr = srcExpr - new Scalar(1);
-            using Mat dst = dstExpr;
+            using Mat dst = src - new Scalar(1);
             Assert.Equal(0, dst.Get<short>(0));
             Assert.Equal(1, dst.Get<short>(1));
             Assert.Equal(2, dst.Get<short>(2));
         }
 
-        // Scalar - MatExpr
+        // Scalar - Mat
         using (var src = Mat.FromPixelData(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
         {
-            using MatExpr srcExpr = src;
-            using MatExpr dstExpr = new Scalar(1) - srcExpr;
-            using Mat dst = dstExpr;
+            using Mat dst = new Scalar(1) - src;
             Assert.Equal(0, dst.Get<short>(0));
             Assert.Equal(-1, dst.Get<short>(1));
             Assert.Equal(-2, dst.Get<short>(2));

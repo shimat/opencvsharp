@@ -128,32 +128,25 @@ using (new Window("dst image", dst))
 ```
 
 <details>
-<summary><b>Advanced: Using ResourcesTracker for automatic resource management</b></summary>
+<summary><b>Note: chained Mat arithmetic is leak-free</b></summary>
 
-As mentioned above, objects of classes such as Mat and MatExpr have unmanaged resources and need to be manually released by calling the Dispose() method. Additionally, the +, -, *, and other operators create new objects each time, and these objects need to be disposed to prevent memory leaks. Despite having the using syntax, the code can still look verbose.
+`Mat` arithmetic operators (`+`, `-`, `*`, `/`, the comparison and bitwise operators, `T()`, `Inv()`, `Mul()`, `Abs()`, `Eye`/`Zeros`/`Ones`, ...) return a purely managed, lazily-evaluated expression tree (`MatExprNode`) that holds **no** unmanaged resources. The native `cv::MatExpr` chain is built only when the expression is materialized — when it is assigned to a `Mat`, or passed where a `Mat`/`InputArray` is expected — and every native intermediate is disposed immediately during that evaluation.
 
-Therefore, a ResourcesTracker class is provided. The ResourcesTracker implements the IDisposable interface, and when the Dispose() method is called, all resources tracked by the ResourcesTracker are disposed. The T() method of ResourcesTracker can track an object or an array of objects, and the NewMat() method is equivalent to T(new Mat(...)). All objects that need to be released can be wrapped with T(). For example: t.T(255 - t.T(picMat * 0.8)). Example code is as follows:
+As a result, chained expressions never leak: you only need `using` on your inputs and on the final `Mat`. The intermediate expression nodes require no disposal.
 
-```csharp
-using (var t = new ResourcesTracker())
-{
-    Mat mat1 = t.NewMat(new Size(100, 100), MatType.CV_8UC3, new Scalar(0));
-    Mat mat3 = t.T(255-t.T(mat1*0.8));
-    Mat[] mats1 = t.T(mat3.Split());
-    Mat mat4 = t.NewMat();
-    Cv2.Merge(new Mat[] { mats1[0], mats1[1], mats1[2] }, mat4);
-}
+```C#
+using var src = new Mat("lenna.png", ImreadModes.Grayscale);
 
-using (var t = new ResourcesTracker())
-{
-    var src = t.T(new Mat(@"lenna.png", ImreadModes.Grayscale));
-    var dst = t.NewMat();
-    Cv2.Canny(src, dst, 50, 200);
-    var blurredDst = t.T(dst.Blur(new Size(3, 3)));
-    t.T(new Window("src image", src));
-    t.T(new Window("dst image", blurredDst));
-    Cv2.WaitKey();
-}      
+// The intermediate (src * 0.8) holds no native resource; nothing leaks.
+using Mat dst = 255 - src * 0.8;
+```
+
+```C#
+using var mat1 = new Mat(new Size(100, 100), MatType.CV_8UC3, new Scalar(0));
+using Mat mat3 = 255 - mat1 * 0.8;
+
+using var canny = new Mat();
+Cv2.Canny(src, canny, 50, 200);   // an expression can be passed directly to a Cv2 method
 ```
 
 </details>
