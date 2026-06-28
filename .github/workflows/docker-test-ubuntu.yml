@@ -15,6 +15,7 @@ env:
 
 jobs:
   build_full:
+    name: Docker (full)
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -37,6 +38,7 @@ jobs:
           cache-to: type=gha,mode=min,scope=full-${{ github.ref_name }}
 
   build_slim:
+    name: Docker (slim)
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
