@@ -17,7 +17,7 @@ public class EdgeBoxesTest : TestBase
     [Fact]
     public void CreateAndDispose2()
     {
-        using (var eb = CvXImgProc.CreateEdgeBoxes())
+        using (var eb = Cv2.XImgProc.CreateEdgeBoxes())
         {
             GC.KeepAlive(eb);
         }

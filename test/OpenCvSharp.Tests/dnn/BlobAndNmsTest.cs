@@ -16,12 +16,12 @@ public class BlobAndNmsTest : TestBase
     {
         using var img = LoadImage("lenna.png");
 
-        using var expected = CvDnn.BlobFromImage(
+        using var expected = Cv2.Dnn.BlobFromImage(
             img, 1.0, new Size(224, 224), new Scalar(0, 0, 0), swapRB: false, crop: false);
 
         var param = new Image2BlobParams(
             new Scalar(1, 1, 1, 1), new Size(224, 224), new Scalar(0, 0, 0), swapRB: false);
-        using var actual = CvDnn.BlobFromImageWithParams(img, param);
+        using var actual = Cv2.Dnn.BlobFromImageWithParams(img, param);
 
         Assert.Equal(expected.Dims, actual.Dims);
         for (var i = 0; i < expected.Dims; i++)
@@ -40,7 +40,7 @@ public class BlobAndNmsTest : TestBase
         {
             PaddingMode = ImagePaddingMode.LETTERBOX,
         };
-        using var blob = CvDnn.BlobFromImageWithParams(img, param);
+        using var blob = Cv2.Dnn.BlobFromImageWithParams(img, param);
 
         // NCHW: [1, 3, 416, 416]
         Assert.Equal(4, blob.Dims);
@@ -56,10 +56,10 @@ public class BlobAndNmsTest : TestBase
         using var img1 = LoadImage("lenna.png");
         using var img2 = LoadImage("mandrill.png");
 
-        using var blob = CvDnn.BlobFromImages(
+        using var blob = Cv2.Dnn.BlobFromImages(
             new[] { img1, img2 }, 1.0, new Size(100, 100), new Scalar(0, 0, 0), swapRB: false, crop: false);
 
-        var images = CvDnn.ImagesFromBlob(blob);
+        var images = Cv2.Dnn.ImagesFromBlob(blob);
         try
         {
             Assert.Equal(2, images.Length);
@@ -89,7 +89,7 @@ public class BlobAndNmsTest : TestBase
         var scores = new[] { 1.0f, 0.1f, 0.6f };
         var classIds = new[] { 0, 0, 0 };
 
-        CvDnn.NMSBoxesBatched(bboxes, scores, classIds, 0.5f, 0.4f, out var indices);
+        Cv2.Dnn.NMSBoxesBatched(bboxes, scores, classIds, 0.5f, 0.4f, out var indices);
 
         Assert.Equal(2, indices.Length);
         Assert.Equal(0, indices[0]);
@@ -107,7 +107,7 @@ public class BlobAndNmsTest : TestBase
         };
         var scores = new[] { 1.0f, 0.1f, 0.6f };
 
-        CvDnn.SoftNMSBoxes(bboxes, scores, out var updatedScores, 0.5f, 0.4f, out var indices);
+        Cv2.Dnn.SoftNMSBoxes(bboxes, scores, out var updatedScores, 0.5f, 0.4f, out var indices);
 
         Assert.NotEmpty(indices);
         Assert.Equal(indices.Length, updatedScores.Length);
@@ -121,6 +121,6 @@ public class BlobAndNmsTest : TestBase
         // A non-tflite buffer must fail inside OpenCV (proves the native entry point is wired),
         // not with a P/Invoke EntryPointNotFoundException.
         var garbage = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        Assert.ThrowsAny<OpenCVException>(() => CvDnn.ReadNetFromTFLite(garbage));
+        Assert.ThrowsAny<OpenCVException>(() => Cv2.Dnn.ReadNetFromTFLite(garbage));
     }
 }

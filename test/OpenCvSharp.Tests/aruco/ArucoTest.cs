@@ -83,7 +83,7 @@ public class ArucoTest : TestBase
         foreach (PredefinedDictionaryType val in enumValues)
 #pragma warning restore CS8605
         {
-            var dict = CvAruco.GetPredefinedDictionary(val);
+            var dict = Cv2.Aruco.GetPredefinedDictionary(val);
             dict.Dispose();
         }
     }
@@ -92,8 +92,8 @@ public class ArucoTest : TestBase
     public void ReadDictionaryFromFile()
     {
         var dictionaryFile = Path.Combine("_data", "aruco", "Dict6X6_1000.yaml");
-        var toCompareWith = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_1000);
-        var dict = CvAruco.ReadDictionary(dictionaryFile);
+        var toCompareWith = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_1000);
+        var dict = Cv2.Aruco.ReadDictionary(dictionaryFile);
 
         Assert.Equal(toCompareWith.BytesList.Rows, dict.BytesList.Rows);
         Assert.Equal(toCompareWith.BytesList.Cols, dict.BytesList.Cols);
@@ -113,7 +113,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DictionaryProperties()
     {
-        var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         Assert.Equal(250, dict.BytesList.Rows);
         Assert.Equal(5, dict.BytesList.Cols); // (6*6 + 7)/8
         Assert.Equal(6, dict.MarkerSize);
@@ -130,7 +130,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void ArucoDetector_CreateDefault()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         using var detector = new ArucoDetector(dict);
         Assert.NotNull(detector);
     }
@@ -138,7 +138,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void ArucoDetector_CreateWithCustomParams()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         var dp = new DetectorParameters { CornerRefinementMethod = CornerRefineMethod.Subpix };
         var rp = new RefineParameters(5f, 2f, false);
         using var detector = new ArucoDetector(dict, dp, rp);
@@ -149,7 +149,7 @@ public class ArucoTest : TestBase
     public void ArucoDetector_DetectMarkers()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         using var detector = new ArucoDetector(dict);
 
         detector.DetectMarkers(image, out var corners, out var ids, out var rejectedImgPoints);
@@ -167,7 +167,7 @@ public class ArucoTest : TestBase
     public void ArucoDetector_DetectMarkersWithCustomParams()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         var dp = new DetectorParameters { CornerRefinementMethod = CornerRefineMethod.Subpix };
         using var detector = new ArucoDetector(dict, dp, new RefineParameters());
 
@@ -180,7 +180,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void ArucoDetector_Dispose()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         var detector = new ArucoDetector(dict);
         detector.Dispose();
         Assert.True(detector.IsDisposed);
@@ -193,13 +193,13 @@ public class ArucoTest : TestBase
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         using var detector = new ArucoDetector(dict);
         detector.DetectMarkers(image, out var corners, out var ids, out var rejectedImgPoints);
 
-        CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
+        Cv2.Aruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
         // ids=null path
-        CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
+        Cv2.Aruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
 
         if (Debugger.IsAttached)
         {
@@ -214,7 +214,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_Create()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         Assert.NotNull(board);
     }
@@ -222,7 +222,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_Properties()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
 
         Assert.Equal(new Size(5, 7), board.ChessboardSize);
@@ -233,7 +233,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_LegacyPattern()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
 
         Assert.False(board.LegacyPattern);
@@ -246,7 +246,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_GenerateImage()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var img = new Mat();
 
@@ -260,7 +260,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_CheckCharucoCornersCollinear_Collinear()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
 
         // IDs on the same row are collinear
@@ -272,7 +272,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoBoard_Dispose()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         board.Dispose();
         Assert.True(board.IsDisposed);
@@ -283,7 +283,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoDetector_Create()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var detector = new CharucoDetector(board);
         Assert.NotNull(detector);
@@ -292,7 +292,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoDetector_CreateWithAllParams()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         var dp = new DetectorParameters();
         var rp = new RefineParameters();
@@ -304,7 +304,7 @@ public class ArucoTest : TestBase
     public void CharucoDetector_DetectBoard()
     {
         // Generate a synthetic charuco board image and detect from it
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var boardImage = new Mat();
         board.GenerateImage(new Size(600, 800), boardImage, 10, 1);
@@ -325,7 +325,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoDetector_DetectBoard_EmptyImage()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var emptyImage = Mat.Zeros(300, 300, MatType.CV_8UC1);
 
@@ -341,7 +341,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void CharucoDetector_Dispose()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         var detector = new CharucoDetector(board);
         detector.Dispose();
@@ -353,7 +353,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DrawDetectedCornersCharuco()
     {
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var boardImage = new Mat();
         board.GenerateImage(new Size(600, 800), boardImage, 10, 1);
@@ -363,8 +363,8 @@ public class ArucoTest : TestBase
         detector.DetectBoard(boardImage, out var charucoCorners, out var charucoIds, out _, out _);
 
         // With ids
-        CvAruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, charucoIds, new Scalar(0, 255, 0));
+        Cv2.Aruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, charucoIds, new Scalar(0, 255, 0));
         // Without ids (null path)
-        CvAruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, null);
+        Cv2.Aruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, null);
     }
 }

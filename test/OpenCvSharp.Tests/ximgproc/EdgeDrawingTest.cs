@@ -17,7 +17,7 @@ public class EdgeDrawingTest : TestBase
     [Fact]
     public void CreateViaStaticMethod()
     {
-        using var ed = CvXImgProc.CreateEdgeDrawing();
+        using var ed = Cv2.XImgProc.CreateEdgeDrawing();
         Assert.NotNull(ed);
     }
 

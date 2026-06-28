@@ -69,7 +69,7 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void ModelFromNetSharesBaseSetters()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         using var model = new Model(net!);
@@ -85,7 +85,7 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void ClassificationModelSoftmaxToggle()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new ClassificationModel(net!);
 
         model.SetEnableSoftmaxPostProcessing(true);
@@ -97,7 +97,7 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void DetectionModelLifecycle()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new DetectionModel(net!);
 
         model.SetNmsAcrossClasses(true);
@@ -111,7 +111,7 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void SegmentationModelLifecycle()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new SegmentationModel(net!);
         model.SetInputParams(1.0 / 255.0, new Size(26, 26));
     }
@@ -119,7 +119,7 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void KeypointsModelLifecycle()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new KeypointsModel(net!);
         model.SetInputParams(1.0 / 255.0, new Size(26, 26));
     }

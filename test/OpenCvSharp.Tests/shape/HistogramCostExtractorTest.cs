@@ -20,7 +20,7 @@ public class HistogramCostExtractorTest : TestBase
     [Fact]
     public void Norm_CreateViaStaticMethod()
     {
-        using var ext = CvShape.CreateNormHistogramCostExtractor();
+        using var ext = Cv2.CreateNormHistogramCostExtractor();
         Assert.NotNull(ext);
     }
 
@@ -86,7 +86,7 @@ public class HistogramCostExtractorTest : TestBase
     [Fact]
     public void EMD_CreateViaStaticMethod()
     {
-        using var ext = CvShape.CreateEMDHistogramCostExtractor();
+        using var ext = Cv2.CreateEMDHistogramCostExtractor();
         Assert.NotNull(ext);
     }
 
@@ -120,7 +120,7 @@ public class HistogramCostExtractorTest : TestBase
     [Fact]
     public void Chi_CreateViaStaticMethod()
     {
-        using var ext = CvShape.CreateChiHistogramCostExtractor();
+        using var ext = Cv2.CreateChiHistogramCostExtractor();
         Assert.NotNull(ext);
     }
 
@@ -154,7 +154,7 @@ public class HistogramCostExtractorTest : TestBase
     [Fact]
     public void EMDL1Ext_CreateViaStaticMethod()
     {
-        using var ext = CvShape.CreateEMDL1HistogramCostExtractor();
+        using var ext = Cv2.CreateEMDL1HistogramCostExtractor();
         Assert.NotNull(ext);
     }
 
@@ -167,7 +167,7 @@ public class HistogramCostExtractorTest : TestBase
     }
 
     // ----------------------------------------------------------------
-    // CvShape.EMDL1 free function
+    // Cv2.EMDL1 free function
     // ----------------------------------------------------------------
 
     [Fact]
@@ -176,7 +176,7 @@ public class HistogramCostExtractorTest : TestBase
         var data = new float[] { 0.1f, 0.3f, 0.4f, 0.2f };
         using var sig = Mat.FromArray(data);
 
-        float dist = CvShape.EMDL1(sig, sig);
+        float dist = Cv2.EMDL1(sig, sig);
         Assert.True(dist >= 0, $"Expected non-negative distance, got {dist}");
     }
 
@@ -188,7 +188,7 @@ public class HistogramCostExtractorTest : TestBase
         using var sig1 = Mat.FromArray(d1);
         using var sig2 = Mat.FromArray(d2);
 
-        float dist = CvShape.EMDL1(sig1, sig2);
+        float dist = Cv2.EMDL1(sig1, sig2);
         Assert.True(dist > 0, $"Expected positive distance, got {dist}");
     }
 

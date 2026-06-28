@@ -25,7 +25,7 @@ public class DnnUnicodePathTest : TestBase
         {
             File.Copy(MnistModelPath, unicodePath, true);
 
-            using var net = CvDnn.ReadNetFromTensorflow(unicodePath);
+            using var net = Cv2.Dnn.ReadNetFromTensorflow(unicodePath);
             Assert.NotNull(net);
             Assert.False(net!.Empty());
         }
@@ -48,7 +48,7 @@ public class DnnUnicodePathTest : TestBase
         {
             File.Copy(MnistModelPath, unicodePath, true);
 
-            using var net = CvDnn.ReadNet(unicodePath);
+            using var net = Cv2.Dnn.ReadNet(unicodePath);
             Assert.NotNull(net);
             Assert.False(net!.Empty());
         }

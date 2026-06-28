@@ -15,7 +15,7 @@ public class PerfProfileDetailedTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetPerfProfileDetailedIsWired()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         // Must reach OpenCV (the three string arrays come back with matching lengths) rather than

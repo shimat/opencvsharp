@@ -2,10 +2,7 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
-/// <summary>
-/// Factory methods for the shape module.
-/// </summary>
-public static partial class CvShape
+public static partial class Cv2
 {
     #region shape_transformer.hpp
 

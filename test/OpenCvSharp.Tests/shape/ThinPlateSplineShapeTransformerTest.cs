@@ -20,7 +20,7 @@ public class ThinPlateSplineShapeTransformerTest : TestBase
     [Fact]
     public void TPSS_CreateViaStaticMethod()
     {
-        using var tps = CvShape.CreateThinPlateSplineShapeTransformer();
+        using var tps = Cv2.CreateThinPlateSplineShapeTransformer();
         Assert.NotNull(tps);
     }
 
@@ -108,7 +108,7 @@ public class ThinPlateSplineShapeTransformerTest : TestBase
     [Fact]
     public void Affine_CreateViaStaticMethod()
     {
-        using var at = CvShape.CreateAffineTransformer();
+        using var at = Cv2.CreateAffineTransformer();
         Assert.NotNull(at);
     }
 
