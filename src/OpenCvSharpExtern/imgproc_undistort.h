@@ -11,9 +11,9 @@ CVAPI(ExceptionStatus) imgproc_drawFrameAxes(
     cv::_InputOutputArray *image, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     cv::_InputArray *rvec, cv::_InputArray *tvec, float length, int thickness)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::drawFrameAxes(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length, thickness);
-    END_WRAP
+    });
 }
 
 
@@ -21,9 +21,9 @@ CVAPI(ExceptionStatus) imgproc_undistort(
     cv::_InputArray *src, cv::_OutputArray *dst,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_InputArray *newCameraMatrix)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::undistort(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(newCameraMatrix));
-    END_WRAP
+    });
 }
 
 
@@ -32,9 +32,9 @@ CVAPI(ExceptionStatus) imgproc_initUndistortRectifyMap(
     cv::_InputArray *R, cv::_InputArray *newCameraMatrix,
     interop::Size size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::initUndistortRectifyMap(*cameraMatrix, *distCoeffs, *R, *newCameraMatrix, cpp(size), m1type, *map1, *map2);
-    END_WRAP
+    });
 }
 
 
@@ -45,8 +45,8 @@ CVAPI(ExceptionStatus) imgproc_initWideAngleProjMap(
     int projType, double alpha,
     float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::initWideAngleProjMap(*cameraMatrix, *distCoeffs, cpp(imageSize), destImageWidth, m1type, 
         *map1, *map2, static_cast<cv::UndistortTypes>(projType), alpha);
-    END_WRAP
+    });
 }

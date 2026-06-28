@@ -12,10 +12,10 @@
 CVAPI(ExceptionStatus) features_drawKeypoints(cv::_InputArray *image, cv::KeyPoint *keypoints, int keypointsLength,
     cv::_InputOutputArray *outImage, interop::Scalar color, int flags)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
     cv::drawKeypoints(*image, keypointsVec, *outImage, cpp(color), static_cast<cv::DrawMatchesFlags>(flags));
-    END_WRAP
+    });
 }
 
 
@@ -25,7 +25,7 @@ CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoin
     interop::Scalar matchColor, interop::Scalar singlePointColor,
     char *matchesMask, int matchesMaskLength, int flags)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
     const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
     const std::vector<cv::DMatch> matches1to2Vec(matches1to2, matches1to2 + matches1to2Length);
@@ -34,7 +34,7 @@ CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoin
         matchesMaskVec = std::vector<char>(matchesMask, matchesMask + matchesMaskLength);
     cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec, *outImg,
         cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
@@ -43,7 +43,7 @@ CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keyp
     cv::Mat *outImg, interop::Scalar matchColor, interop::Scalar singlePointColor,
     char **matchesMask, int matchesMaskSize1, int *matchesMaskSize2, int flags)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
     const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
     std::vector<std::vector<cv::DMatch> > matches1to2Vec(matches1to2Size1);
@@ -66,7 +66,7 @@ CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keyp
 
     cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec,
         *outImg, cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
-    END_WRAP
+    });
 }
 
 
@@ -76,11 +76,11 @@ CVAPI(ExceptionStatus) features_evaluateFeatureDetector(
     float *repeatability, int *correspCount/*,
     const Ptr<FeatureDetector>& fdetector = Ptr<FeatureDetector>()*/)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::evaluateFeatureDetector(
         *img1, *img2, *H1to2, keypoints1, keypoints2,
         *repeatability, *correspCount);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
@@ -88,7 +88,7 @@ CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
     uchar **correctMatches1to2Mask, int correctMatches1to2MaskSize1, int *correctMatches1to2MaskSize2,
     std::vector<cv::Point2f> *recallPrecisionCurve)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<std::vector<cv::DMatch> > matches1to2Vec;
     std::vector<std::vector<uchar> > correctMatches1to2MaskVec;
     matches1to2Vec.reserve(matches1to2Size1);
@@ -103,27 +103,27 @@ CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
     }
     cv::computeRecallPrecisionCurve(
         matches1to2Vec, correctMatches1to2MaskVec, *recallPrecisionCurve);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_getRecall(
     cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::Point2f> recallPrecisionCurveVec(
         recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
     *returnValue = cv::getRecall(recallPrecisionCurveVec, l_precision);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_getNearestPoint(
     cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const std::vector<cv::Point2f> recallPrecisionCurveVec(
         recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
     *returnValue = cv::getNearestPoint(recallPrecisionCurveVec, l_precision);
-    END_WRAP
+    });
 }
 
 
@@ -132,49 +132,49 @@ CVAPI(ExceptionStatus) features_getNearestPoint(
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByImageBorder(
     std::vector<cv::KeyPoint> *keypoints, interop::Size imageSize, int borderSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::runByImageBorder(*keypoints, cpp(imageSize), borderSize);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByKeypointSize(
     std::vector<cv::KeyPoint> *keypoints, float minSize, float maxSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::runByKeypointSize(*keypoints, minSize, maxSize);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask(
     std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::runByPixelsMask(*keypoints, *mask);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_removeDuplicated(
     std::vector<cv::KeyPoint> *keypoints)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::removeDuplicated(*keypoints);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_removeDuplicatedSorted(
     std::vector<cv::KeyPoint> *keypoints)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::removeDuplicatedSorted(*keypoints);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_retainBest(
     std::vector<cv::KeyPoint> *keypoints, int nPoints)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::KeyPointsFilter::retainBest(*keypoints, nPoints);
-    END_WRAP
+    });
 }
 
 #pragma endregion

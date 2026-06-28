@@ -10,17 +10,17 @@
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_new(
     cv::segmentation::IntelligentScissorsMB** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::segmentation::IntelligentScissorsMB();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_delete(
     cv::segmentation::IntelligentScissorsMB *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 
@@ -28,27 +28,27 @@ CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_setWeights(
     cv::segmentation::IntelligentScissorsMB *obj,
     float weight_non_edge, float weight_gradient_direction, float weight_gradient_magnitude)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setWeights(weight_non_edge, weight_gradient_direction, weight_gradient_magnitude);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_setGradientMagnitudeMaxLimit(
     cv::segmentation::IntelligentScissorsMB *obj,
     float gradient_magnitude_threshold_max)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setGradientMagnitudeMaxLimit(gradient_magnitude_threshold_max);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_setEdgeFeatureZeroCrossingParameters(
     cv::segmentation::IntelligentScissorsMB *obj,
     float gradient_magnitude_min_value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setEdgeFeatureZeroCrossingParameters(gradient_magnitude_min_value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_setEdgeFeatureCannyParameters(
@@ -56,18 +56,18 @@ CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_setEdgeFeature
     double threshold1, double threshold2,
     int apertureSize, int L2gradient)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setEdgeFeatureCannyParameters(threshold1, threshold2, apertureSize, L2gradient != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_applyImage(
     cv::segmentation::IntelligentScissorsMB *obj,
     cv::_InputArray *image)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->applyImage(*image);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
@@ -77,25 +77,25 @@ CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_applyImageFeat
     cv::_InputArray *gradient_magnitude,
     cv::_InputArray *image)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->applyImageFeatures(*non_edge, *gradient_direction, *gradient_magnitude, entity(image));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_buildMap(
     cv::segmentation::IntelligentScissorsMB *obj,
     interop::Point sourcePt)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->buildMap(cpp(sourcePt));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) imgproc_segmentation_IntelligentScissorsMB_getContour(
     cv::segmentation::IntelligentScissorsMB *obj,
     interop::Point targetPt, cv::_OutputArray *contour, int backward)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->getContour(cpp(targetPt), *contour, backward != 0);
-    END_WRAP
+    });
 }

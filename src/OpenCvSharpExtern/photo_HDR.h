@@ -11,117 +11,117 @@
 CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
     int samples, float lambda, int random, cv::Ptr<cv::CalibrateDebevec> **returnValue) 
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = clone(cv::createCalibrateDebevec(samples, lambda, random != 0));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDebevec> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj, cv::CalibrateDebevec **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_getLambda(cv::CalibrateDebevec *obj, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getLambda();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::CalibrateDebevec *obj, float value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setLambda(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getLambda();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, float value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setLambda(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_getRandom(cv::CalibrateDebevec *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRandom() ? 1 : 0;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_setRandom(cv::CalibrateDebevec *obj, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRandom(value != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
     int max_iter, float threshold, cv::Ptr<cv::CalibrateRobertson> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = clone(cv::createCalibrateRobertson(max_iter, threshold));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_getMaxIter(cv::CalibrateRobertson *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getMaxIter();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_setMaxIter(cv::CalibrateRobertson *obj, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setMaxIter(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_getThreshold(cv::CalibrateRobertson *obj, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getThreshold();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_setThreshold(cv::CalibrateRobertson *obj, float value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setThreshold(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::CalibrateRobertson *obj, cv::Mat *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->getRadiance().copyTo(*returnValue);
-    END_WRAP
+    });
 }
 
 
@@ -129,7 +129,7 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
     cv::CalibrateCRF *obj, 
     cv::Mat ** srcImgs, int srcImgsLength, cv::_OutputArray *dst, float* times)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
 
     // Build Mat Vector of images
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
@@ -143,52 +143,52 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
     }
 
     obj->process(srcImgsVec, *dst, times_vec);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_createMergeDebevec(cv::Ptr<cv::MergeDebevec>** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = clone(cv::createMergeDebevec());
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj, cv::MergeDebevec **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_createMergeMertens(cv::Ptr<cv::MergeMertens>** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = clone(cv::createMergeMertens());
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj, cv::MergeMertens **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_MergeExposures_process(
     cv::MergeExposures* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
     std::vector<float> times_vec(srcImgsLength);
     for (int i = 0; i < srcImgsLength; i++) {
@@ -196,20 +196,20 @@ CVAPI(ExceptionStatus) photo_MergeExposures_process(
         times_vec[i] = times[i];
     }
     obj->process(srcImgsVec, *dst, times_vec, *response);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) photo_MergeMertens_process(
     cv::MergeMertens* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
     for (int i = 0; i < srcImgsLength; i++) {
         srcImgsVec[i] = *srcImgs[i];
     }
     obj->process(srcImgsVec, *dst);
-    END_WRAP
+    });
 }
 
 #endif // NO_PHOTO

@@ -13,91 +13,91 @@
 CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorMOG(
     int history, int nmixtures, double backgroundRatio, double noiseSigma, cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::bgsegm::createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
     *returnValue = new cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG>(ptr);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_get(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj, cv::bgsegm::BackgroundSubtractorMOG **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_delete(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getHistory(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getHistory();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setHistory(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setHistory(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getNMixtures(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getNMixtures();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setNMixtures(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setNMixtures(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getBackgroundRatio();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setBackgroundRatio(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setBackgroundRatio(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getNoiseSigma(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getNoiseSigma();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setNoiseSigma(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setNoiseSigma(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_apply(
     cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->apply(*image, *fgmask, learningRate);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(
     cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_OutputArray *backgroundImage)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->getBackgroundImage(*backgroundImage);
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -107,169 +107,169 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(
 CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorGMG(
     int initializationFrames, double decisionThreshold, cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::bgsegm::createBackgroundSubtractorGMG(initializationFrames, decisionThreshold);
     *returnValue = new cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG>(ptr);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_get(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj, cv::bgsegm::BackgroundSubtractorGMG **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_delete(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getMaxFeatures(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getMaxFeatures();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxFeatures(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setMaxFeatures(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getDefaultLearningRate(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getDefaultLearningRate();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setDefaultLearningRate(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getNumFrames(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getNumFrames();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setNumFrames(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setNumFrames(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getQuantizationLevels(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getQuantizationLevels();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setQuantizationLevels(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setQuantizationLevels(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getBackgroundPrior(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getBackgroundPrior();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setBackgroundPrior(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setBackgroundPrior(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getSmoothingRadius(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getSmoothingRadius();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setSmoothingRadius(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setSmoothingRadius(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getDecisionThreshold(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getDecisionThreshold();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setDecisionThreshold(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setDecisionThreshold(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getUpdateBackgroundModel(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getUpdateBackgroundModel() ? 1 : 0;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setUpdateBackgroundModel(value != 0);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getMinVal(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getMinVal();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMinVal(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setMinVal(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getMaxVal(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = (*ptr)->getMaxVal();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double value)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     (*ptr)->setMaxVal(value);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_apply(
     cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->apply(*image, *fgmask, learningRate);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getBackgroundImage(
     cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_OutputArray *backgroundImage)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->getBackgroundImage(*backgroundImage);
-    END_WRAP
+    });
 }
 
 #pragma endregion

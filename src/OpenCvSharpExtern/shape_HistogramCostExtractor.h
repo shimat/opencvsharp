@@ -21,41 +21,41 @@ CVAPI(ExceptionStatus) shape_HistogramCostExtractor_buildCostMatrix(
     cv::_InputArray *descriptors2,
     cv::_OutputArray *costMatrix)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->buildCostMatrix(*descriptors1, *descriptors2, *costMatrix);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setNDummies(
     cv::HistogramCostExtractor *obj, int val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setNDummies(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getNDummies(
     cv::HistogramCostExtractor *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getNDummies();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setDefaultCost(
     cv::HistogramCostExtractor *obj, float val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setDefaultCost(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(
     cv::HistogramCostExtractor *obj, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getDefaultCost();
-    END_WRAP
+    });
 }
 
 
@@ -68,18 +68,18 @@ CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(
 CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_delete(
     cv::Ptr<cv::HistogramCostExtractor> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_get(
     cv::Ptr<cv::HistogramCostExtractor> *ptr,
     cv::HistogramCostExtractor **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
 
@@ -93,26 +93,26 @@ CVAPI(ExceptionStatus) shape_createNormHistogramCostExtractor(
     int flag, int nDummies, float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::createNormHistogramCostExtractor(flag, nDummies, defaultCost);
     *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_setNormFlag(
     cv::HistogramCostExtractor *obj, int flag)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     static_cast<cv::NormHistogramCostExtractor*>(obj)->setNormFlag(flag);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_getNormFlag(
     cv::HistogramCostExtractor *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = static_cast<cv::NormHistogramCostExtractor*>(obj)->getNormFlag();
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -128,26 +128,26 @@ CVAPI(ExceptionStatus) shape_createEMDHistogramCostExtractor(
     int flag, int nDummies, float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::createEMDHistogramCostExtractor(flag, nDummies, defaultCost);
     *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_setNormFlag(
     cv::HistogramCostExtractor *obj, int flag)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     static_cast<cv::EMDHistogramCostExtractor*>(obj)->setNormFlag(flag);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_getNormFlag(
     cv::HistogramCostExtractor *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = static_cast<cv::EMDHistogramCostExtractor*>(obj)->getNormFlag();
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -163,10 +163,10 @@ CVAPI(ExceptionStatus) shape_createChiHistogramCostExtractor(
     int nDummies, float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::createChiHistogramCostExtractor(nDummies, defaultCost);
     *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -182,10 +182,10 @@ CVAPI(ExceptionStatus) shape_createEMDL1HistogramCostExtractor(
     int nDummies, float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::createEMDL1HistogramCostExtractor(nDummies, defaultCost);
     *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -198,9 +198,9 @@ CVAPI(ExceptionStatus) shape_createEMDL1HistogramCostExtractor(
 CVAPI(ExceptionStatus) shape_EMDL1(
     cv::_InputArray *signature1, cv::_InputArray *signature2, float *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = cv::EMDL1(*signature1, *signature2);
-    END_WRAP
+    });
 }
 
 
