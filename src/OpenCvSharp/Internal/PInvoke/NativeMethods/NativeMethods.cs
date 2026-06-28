@@ -42,19 +42,15 @@ public static partial class NativeMethods
         LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
     }
 
-#pragma warning disable CA1801
     public static void HandleException(ExceptionStatus status)
     {
-#if DOTNETCORE
-        // Check if there has been an exception
-        if (status == ExceptionStatus.Occurred /*&& IsUnix()*/) // thrown can be 1 when unix 
+        // The native wrapper caught an exception and reported it through the status
+        // return value (on every platform). Surface the recorded details as a managed exception.
+        if (status == ExceptionStatus.Occurred)
         {
             ExceptionHandler.ThrowPossibleException();
         }
-#else
-#endif
     }
-#pragma warning restore CA1801
 
     /// <summary>
     /// Load DLL files dynamically using Win32 LoadLibrary
@@ -69,9 +65,9 @@ public static partial class NativeMethods
 
         if (IsUnix())
         {
-#if DOTNETCORE
-            ExceptionHandler.RegisterExceptionCallback();
-#endif
+            // On *nix the native library is resolved by the OS loader; the P/Invoke below
+            // triggers the load and installs the default error handler.
+            InstallDefaultErrorHandler();
             return;
         }
 
@@ -85,10 +81,18 @@ public static partial class NativeMethods
         //*/
         WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
-        // Redirection of error occurred in native library 
-        var zero = IntPtr.Zero;
-        var current = redirectError(ErrorHandlerThrowException, zero, ref zero);
-        GC.KeepAlive(current);
+        InstallDefaultErrorHandler();
+    }
+
+    /// <summary>
+    /// Installs the default native (managed-free) OpenCV error handler. It only mutes
+    /// OpenCV's stderr dump; error details are captured natively and surfaced as a managed
+    /// exception via <see cref="HandleException"/> on each call's returned status.
+    /// Use <see cref="OpenCvSharp.Cv2.SetErrorHandler"/> to override it.
+    /// </summary>
+    private static void InstallDefaultErrorHandler()
+    {
+        HandleException(core_setSilentErrorHandler());
     }
 
     /// <summary>
@@ -181,13 +185,6 @@ public static partial class NativeMethods
     {
         return RuntimeInformation.OSArchitecture == Architecture.Wasm;
     }
-
-    /// <summary>
-    /// Custom error handler to be thrown by OpenCV
-    /// </summary>
-    public static readonly CvErrorCallback ErrorHandlerThrowException =
-        // ReSharper disable once UnusedParameter.Local
-        (status, funcName, errMsg, fileName, line, userData) => throw new OpenCVException(status, funcName, errMsg, fileName, line);
 
     /// <summary>
     /// Custom error handler to ignore all OpenCV errors

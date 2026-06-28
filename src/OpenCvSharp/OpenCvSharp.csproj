@@ -67,7 +67,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <DefineConstants>TRACE;DOTNETCORE;</DefineConstants>
+    <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-JP' ">
