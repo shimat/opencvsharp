@@ -7,6 +7,48 @@ namespace OpenCvSharp;
 
 static partial class Cv2
 {
+    // OpenCV's highgui stores raw function pointers for the mouse/trackbar callbacks of each
+    // (name-keyed, process-global) window and invokes them later, from its own UI loop. The
+    // managed delegates must therefore be kept alive until the owning window is destroyed,
+    // otherwise the GC could collect one that OpenCV still calls -> crash. This registry mirrors
+    // OpenCV's name-keyed model and is the single place those delegates are rooted.
+    private static readonly Dictionary<string, MouseCallback> mouseCallbacks = [];
+    private static readonly Dictionary<(string Window, string Trackbar), TrackbarCallbackNative> trackbarCallbacks = [];
+    private static readonly object highguiCallbackSync = new();
+
+    private static void RegisterMouseCallback(string winName, MouseCallback onMouse)
+    {
+        lock (highguiCallbackSync)
+            mouseCallbacks[winName] = onMouse;
+    }
+
+    private static void RegisterTrackbarCallback(string winName, string trackbarName, TrackbarCallbackNative? onChange)
+    {
+        if (onChange is null)
+            return;
+        lock (highguiCallbackSync)
+            trackbarCallbacks[(winName, trackbarName)] = onChange;
+    }
+
+    private static void ForgetWindowCallbacks(string winName)
+    {
+        lock (highguiCallbackSync)
+        {
+            mouseCallbacks.Remove(winName);
+            foreach (var key in trackbarCallbacks.Keys.Where(k => k.Window == winName).ToArray())
+                trackbarCallbacks.Remove(key);
+        }
+    }
+
+    private static void ForgetAllCallbacks()
+    {
+        lock (highguiCallbackSync)
+        {
+            mouseCallbacks.Clear();
+            trackbarCallbacks.Clear();
+        }
+    }
+
     /// <summary>
     /// Creates a window.
     /// </summary>
@@ -35,6 +77,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.highgui_destroyWindow(winName));
+
+        ForgetWindowCallbacks(winName);
     }
 
     /// <summary>
@@ -44,6 +88,8 @@ static partial class Cv2
     {
         NativeMethods.HandleException(
             NativeMethods.highgui_destroyAllWindows());
+
+        ForgetAllCallbacks();
     }
 
     /// <summary>
@@ -218,6 +264,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.highgui_setMouseCallback(windowName, onMouse, userData));
+
+        // Root the delegate for the lifetime of the window (see registry note above).
+        RegisterMouseCallback(windowName, onMouse);
     }
 
     /// <summary>
@@ -349,6 +398,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, onChange, userData, out var ret));
+
+        // Root the delegate for the lifetime of the window (see registry note above).
+        RegisterTrackbarCallback(winName, trackbarName, onChange);
         return ret;
     }
         
@@ -378,6 +430,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.highgui_createTrackbar(trackbarName, winName, IntPtr.Zero, count, onChange, userData, out var ret));
+
+        // Root the delegate for the lifetime of the window (see registry note above).
+        RegisterTrackbarCallback(winName, trackbarName, onChange);
         return ret;
     }
 
