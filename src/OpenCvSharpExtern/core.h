@@ -927,6 +927,40 @@ CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* user
     return cv::redirectError(errCallback, userdata, prevUserdata);
 }
 
+// Native, managed-free OpenCV error handler installed by default. It exists only to
+// suppress OpenCV's stderr dump (OpenCV prints to stderr only when no handler is set).
+// Error details are captured by cvTry from the thrown exception, not here.
+static int opencvsharp_silentErrorHandler(int /*status*/, const char* /*funcName*/,
+    const char* /*errMsg*/, const char* /*fileName*/, int /*line*/, void* /*userdata*/)
+{
+    return 0;
+}
+
+// Installs the default native silent error handler. Idempotent. Pass-through for the
+// managed default path and for restoring the default after Cv2.SetErrorHandler(null).
+CVAPI(ExceptionStatus) core_setSilentErrorHandler()
+{
+    return cvTry([&] {
+        cv::redirectError(opencvsharp_silentErrorHandler);
+    });
+}
+
+// Reads the per-thread record of the last exception caught at the export boundary
+// (see cvTry / LastNativeException). The managed side calls this after an export
+// returns ExceptionStatus::Occurred.
+CVAPI(ExceptionStatus) core_getLastException(
+    int* code, int* line, std::string* func, std::string* file, std::string* message)
+{
+    return cvTry([&] {
+    const auto& last = lastNativeException();
+    *code = last.code;
+    *line = last.line;
+    func->assign(last.func);
+    file->assign(last.file);
+    message->assign(last.message);
+    });
+}
+
 CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
 {
     return cvTry([&] {

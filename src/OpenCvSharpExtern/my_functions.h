@@ -129,34 +129,81 @@ static bool writeAllBytesWide(const char *utf8Path, const uchar *data, size_t si
 #endif
 
 
-// catch all exception
+// Status returned by every exported function: whether a C++ exception escaped its body.
 enum class ExceptionStatus : int { NotOccurred = 0, Occurred = 1 };
 
-// Runs an exported function body and reports whether a C++ exception escaped it via the
-// ExceptionStatus return value. This is a drop-in replacement for the former
-// BEGIN_WRAP / END_WRAP macros and preserves their exact, per-platform behavior:
-//   * Windows: no try/catch -- exceptions propagate as before (a managed exception thrown
-//     from the OpenCV error callback unwinds through native frames via SEH).
-//   * Other:   the body runs inside try/catch and a caught std::exception is reported as
-//     Occurred.
-// (A later change unifies these onto a single portable path.)
+// Per-thread record of the last C++ exception caught at the export boundary. Captured
+// directly from the thrown exception object -- no OpenCV error callback is involved -- so
+// the details are recorded on the very thread that ran the body and returns to managed
+// code. This stays correct even when cv::parallel_for_ rethrows a worker exception on the
+// calling thread. The managed side reads this via core_getLastException when an export
+// reports ExceptionStatus::Occurred.
+struct LastNativeException
+{
+    int code = 0;
+    int line = 0;
+    std::string func;
+    std::string file;
+    std::string message;
+};
+
+inline LastNativeException& lastNativeException()
+{
+    thread_local LastNativeException value;
+    return value;
+}
+
+// Runs an exported function body and converts any C++ exception into an ExceptionStatus
+// return value, uniformly on all platforms. Every catchable C++ exception is recorded into
+// the per-thread LastNativeException and reported as Occurred; the managed side turns that
+// into a managed OpenCVException (see NativeMethods.HandleException /
+// ExceptionHandler.ThrowPossibleException). Only non-C++ faults (SEH / SIGSEGV) pass
+// through -- catch(...) does not (and should not) mask those.
+//
+// This portable path replaces the former Windows-only scheme of throwing a managed
+// exception from the error callback through native frames, which is unsafe under
+// .NET Core / NativeAOT (the CLR cannot unwind native C++ frames reliably).
+//
+// Usage:
+//     CVAPI(ExceptionStatus) foo(int* out) { return cvTry([&] { *out = 42; }); }
 template <typename TFunc>
 ExceptionStatus cvTry(TFunc&& body)
 {
-#if defined WIN32 || defined _WIN32
-    body();
-    return ExceptionStatus::NotOccurred;
-#else
     try
     {
         body();
         return ExceptionStatus::NotOccurred;
     }
-    catch (const std::exception&)
+    catch (const cv::Exception& e)
     {
+        auto& last = lastNativeException();
+        last.code = e.code;
+        last.line = e.line;
+        last.func = e.func;
+        last.file = e.file;
+        last.message = e.err;
         return ExceptionStatus::Occurred;
     }
-#endif
+    catch (const std::exception& e)
+    {
+        auto& last = lastNativeException();
+        last.code = 0;
+        last.line = 0;
+        last.func.clear();
+        last.file.clear();
+        last.message = e.what() != nullptr ? e.what() : "";
+        return ExceptionStatus::Occurred;
+    }
+    catch (...)
+    {
+        auto& last = lastNativeException();
+        last.code = 0;
+        last.line = 0;
+        last.func.clear();
+        last.file.clear();
+        last.message = "Unknown C++ exception";
+        return ExceptionStatus::Occurred;
+    }
 }
 
 
