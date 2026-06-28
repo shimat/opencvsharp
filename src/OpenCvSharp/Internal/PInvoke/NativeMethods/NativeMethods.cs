@@ -114,7 +114,7 @@ public static partial class NativeMethods
         }
         catch (DllNotFoundException e)
         {
-            var exception = PInvokeHelper.CreateException(e);
+            var exception = new OpenCvSharpException(e.Message, e);
             try{Console.WriteLine(exception.Message); }
             // ReSharper disable once EmptyGeneralCatchClause
             catch { }
@@ -125,7 +125,7 @@ public static partial class NativeMethods
         }
         catch (BadImageFormatException e)
         {
-            var exception = PInvokeHelper.CreateException(e);
+            var exception = new OpenCvSharpException(e.Message, e);
             try { Console.WriteLine(exception.Message); }
             // ReSharper disable once EmptyGeneralCatchClause
             catch { }
