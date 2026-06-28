@@ -20,6 +20,7 @@ jobs:
   # Uses vcpkg for static image libs + Tesseract + Leptonica.
   # ---------------------------------------------------------------------------
   build_x64:
+    name: macOS (x64)
     runs-on: macos-26-intel
 
     steps:
@@ -175,6 +176,7 @@ jobs:
   # Build libOpenCvSharpExtern.dylib for macOS arm64 (Apple Silicon).
   # ---------------------------------------------------------------------------
   build_arm64:
+    name: macOS (arm64)
     runs-on: macos-26
 
     steps:
@@ -324,24 +326,9 @@ jobs:
           name: libOpenCvSharpExtern-osx-arm64
           path: libOpenCvSharpExtern.dylib
 
-  # ---------------------------------------------------------------------------
-  # Integration test on arm64 (the native runner arch).
-  # ---------------------------------------------------------------------------
-  test:
-    needs: [build_arm64]
-    runs-on: macos-26
-
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          submodules: false
-
-      - name: Download arm64 artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: libOpenCvSharpExtern-osx-arm64
-          path: nuget/
-
+      # -- Integration test on arm64 (the native runner arch) ------------------
+      # Folded into this job: runs against the just-built dylib, avoiding a
+      # separate runner and an artifact upload/download round-trip.
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
@@ -351,10 +338,10 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net10.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib bin/Release/net10.0/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ./
+          cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
+          cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib ./
           sudo mkdir -p /usr/local/lib
-          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
+          sudo cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib /usr/local/lib/
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
             --logger "trx;LogFileName=test-results.trx" < /dev/null
 
@@ -367,7 +354,9 @@ jobs:
   # Create NuGet packages from the macOS-built binaries.
   # ---------------------------------------------------------------------------
   nuget:
-    needs: [build_x64, build_arm64, test]
+    name: macOS (nuget)
+    needs: [build_x64, build_arm64]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: macos-26
 
     steps:

@@ -18,6 +18,7 @@ env:
 
 jobs:
   build:
+    name: Windows (x64)
 
     runs-on: windows-2025
 
@@ -261,6 +262,7 @@ jobs:
           path: ${{ github.workspace }}\artifacts
 
   build-arm64:
+    name: Windows (arm64)
 
     runs-on: windows-11-arm
 
