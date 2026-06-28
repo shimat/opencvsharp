@@ -556,7 +556,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// <returns></returns>
     public new Mat<TElem> T()
     {
-        using var result = base.T();
+        using var result = base.T().ToMat();
         return Wrap(result);
     }
 

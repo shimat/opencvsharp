@@ -11,7 +11,7 @@ public class LineIteratorTest : TestBase
         var p1 = new Point(0, 0);
         var p2 = new Point(9, 9);
 
-        using var mat = Mat.Zeros(10, 10, MatType.CV_8UC1);
+        using var mat = Mat.ZerosMat(10, 10, MatType.CV_8UC1);
         using var lineIterator = new LineIterator(mat, p1, p2);
 
         // The native iterator is created eagerly, so Count is valid immediately.
@@ -57,7 +57,7 @@ public class LineIteratorTest : TestBase
         var p1 = new Point(0, 0);
         var p2 = new Point(9, 9);
 
-        using (var mat = Mat.Zeros(10, 10, MatType.CV_8UC1))
+        using (var mat = Mat.ZerosMat(10, 10, MatType.CV_8UC1))
         using (var lineIterator = new LineIterator(mat, p1, p2))
         {
 #pragma warning disable CA1829 

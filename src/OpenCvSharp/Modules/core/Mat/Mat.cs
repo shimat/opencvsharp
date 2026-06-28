@@ -590,12 +590,12 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static MatExpr Zeros(int rows, int cols, MatType type)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_zeros1(rows, cols, type, out var ret));
-        var retVal = new MatExpr(ret);
-        return retVal;
-    }
+        => MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros1(rows, cols, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
 
     /// <summary>
     /// Returns a zero array of the specified size and type.
@@ -603,7 +603,7 @@ public partial class Mat : CvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Zeros(Size size, MatType type) 
+    public static MatExpr Zeros(Size size, MatType type)
         => Zeros(size.Height, size.Width, type);
 
     /// <summary>
@@ -617,10 +617,12 @@ public partial class Mat : CvObject
         if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
-        var retVal = new MatExpr(ret);
-        return retVal;
+        return MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
     }
 
     /// <summary>
@@ -629,12 +631,13 @@ public partial class Mat : CvObject
     /// <param name="shape">Created matrix shape.</param>
     /// <param name="type">Created matrix type.</param>
     public static MatExpr Zeros(MatShape shape, MatType type)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_zeros_MatShape(
-                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
-        return new MatExpr(ret);
-    }
+        => MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros_MatShape(
+                    shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
 
     /// <summary>
     /// Returns an array of all 1’s of the specified size and type.
@@ -644,12 +647,12 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static MatExpr Ones(int rows, int cols, MatType type)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_ones1(rows, cols, type, out var ret));
-        var retVal = new MatExpr(ret);
-        return retVal;
-    }
+        => MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ones1(rows, cols, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
 
     /// <summary>
     /// Returns an array of all 1’s of the specified size and type.
@@ -657,7 +660,7 @@ public partial class Mat : CvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Ones(Size size, MatType type) 
+    public static MatExpr Ones(Size size, MatType type)
         => Ones(size.Height, size.Width, type);
 
     /// <summary>
@@ -671,10 +674,12 @@ public partial class Mat : CvObject
         if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_ones2(sizes.Length, sizes, type, out var ret));
-        var retVal = new MatExpr(ret);
-        return retVal;
+        return MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ones2(sizes.Length, sizes, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
     }
 
     /// <summary>
@@ -683,12 +688,13 @@ public partial class Mat : CvObject
     /// <param name="shape">Created matrix shape.</param>
     /// <param name="type">Created matrix type.</param>
     public static MatExpr Ones(MatShape shape, MatType type)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_ones_MatShape(
-                shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
-        return new MatExpr(ret);
-    }
+        => MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ones_MatShape(
+                    shape.NativeDims, shape.NativeSizes, (int)shape.Layout, shape.Channels, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
 
     /// <summary>
     /// Returns an identity matrix of the specified size and type.
@@ -696,7 +702,7 @@ public partial class Mat : CvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Eye(Size size, MatType type) 
+    public static MatExpr Eye(Size size, MatType type)
         => Eye(size.Height, size.Width, type);
 
     /// <summary>
@@ -707,12 +713,12 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static MatExpr Eye(int rows, int cols, MatType type)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_eye(rows, cols, type, out var ret));
-        var retVal = new MatExpr(ret);
-        return retVal;
-    }
+        => MatExpr.FromExpr(() =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_eye(rows, cols, type, out var ret));
+            return new NativeMatExpr(ret);
+        });
 
     /// <summary>
     /// Returns a zero array of the specified size and type as <see cref="Mat"/>.
@@ -724,10 +730,7 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static Mat ZerosMat(int rows, int cols, MatType type)
-    {
-        using var expr = Zeros(rows, cols, type);
-        return (Mat)expr;
-    }
+        => Zeros(rows, cols, type);
 
     /// <summary>
     /// Returns a zero array of the specified size and type as <see cref="Mat"/>.
@@ -750,10 +753,7 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static Mat OnesMat(int rows, int cols, MatType type)
-    {
-        using var expr = Ones(rows, cols, type);
-        return (Mat)expr;
-    }
+        => Ones(rows, cols, type);
 
     /// <summary>
     /// Returns an array of all 1's of the specified size and type as <see cref="Mat"/>.
@@ -776,10 +776,7 @@ public partial class Mat : CvObject
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
     public static Mat EyeMat(int rows, int cols, MatType type)
-    {
-        using var expr = Eye(rows, cols, type);
-        return (Mat)expr;
-    }
+        => Eye(rows, cols, type);
 
     /// <summary>
     /// Returns an identity matrix of the specified size and type as <see cref="Mat"/>.
@@ -851,313 +848,62 @@ public partial class Mat : CvObject
 
     public static Mat operator +(Mat mat) => mat;
 
-    public MatExpr Plus() => this;
+    public MatExpr Plus() => MatExpr.From(this);
 
-    public static MatExpr operator -(Mat mat)
-    {
-        if (mat is null)            
-            throw new ArgumentNullException(nameof(mat));            
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr, out var ret));
-        GC.KeepAlive(mat);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator -(Mat mat) => -MatExpr.From(mat);
 
     public MatExpr Negate() => -this;
-        
-    public static MatExpr operator +(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAdd_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator +(Mat a, Scalar s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAdd_MatScalar(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator +(Scalar s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAdd_ScalarMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator +(Mat a, Mat b) => MatExpr.From(a) + MatExpr.From(b);
+    public static MatExpr operator +(Mat a, Scalar s) => MatExpr.From(a) + s;
+    public static MatExpr operator +(Scalar s, Mat a) => s + MatExpr.From(a);
 
     public MatExpr Add(Mat m) => this + m;
     public MatExpr Add(Scalar s) => this + s;
 
-    public static MatExpr operator -(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorSubtract_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator -(Mat a, Scalar s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorSubtract_MatScalar(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator -(Scalar s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorSubtract_ScalarMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator -(Mat a, Mat b) => MatExpr.From(a) - MatExpr.From(b);
+    public static MatExpr operator -(Mat a, Scalar s) => MatExpr.From(a) - s;
+    public static MatExpr operator -(Scalar s, Mat a) => s - MatExpr.From(a);
 
     public MatExpr Subtract(Mat m) => this - m;
     public MatExpr Subtract(Scalar s) => this - s;
 
-    public static MatExpr operator *(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorMultiply_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator *(Mat a, double s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorMultiply_MatDouble(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator *(double s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorMultiply_DoubleMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator *(Mat a, Mat b) => MatExpr.From(a) * MatExpr.From(b);
+    public static MatExpr operator *(Mat a, double s) => MatExpr.From(a) * s;
+    public static MatExpr operator *(double s, Mat a) => s * MatExpr.From(a);
 
     public MatExpr Multiply(Mat m) => this * m;
     public MatExpr Multiply(double s) => this * s;
 
-    public static MatExpr operator /(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorDivide_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator /(Mat a, double s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorDivide_MatDouble(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator /(double s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorDivide_DoubleMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator /(Mat a, Mat b) => MatExpr.From(a) / MatExpr.From(b);
+    public static MatExpr operator /(Mat a, double s) => MatExpr.From(a) / s;
+    public static MatExpr operator /(double s, Mat a) => s / MatExpr.From(a);
 
     public MatExpr Divide(Mat m) => this / m;
     public MatExpr Divide(double s) => this / s;
 
-    public static MatExpr operator &(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAnd_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator &(Mat a, double s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAnd_MatDouble(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator &(double s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorAnd_DoubleMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator &(Mat a, Mat b) => MatExpr.From(a) & MatExpr.From(b);
+    public static MatExpr operator &(Mat a, double s) => MatExpr.From(a) & s;
+    public static MatExpr operator &(double s, Mat a) => s & MatExpr.From(a);
 
     public MatExpr BitwiseAnd(Mat m) => this & m;
     public MatExpr BitwiseAnd(double s) => this & s;
 
-    public static MatExpr operator |(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorOr_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator |(Mat a, double s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorOr_MatDouble(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator |(double s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorOr_DoubleMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator |(Mat a, Mat b) => MatExpr.From(a) | MatExpr.From(b);
+    public static MatExpr operator |(Mat a, double s) => MatExpr.From(a) | s;
+    public static MatExpr operator |(double s, Mat a) => s | MatExpr.From(a);
 
     public MatExpr BitwiseOr(Mat m) => this | m;
     public MatExpr BitwiseOr(double s) => this | s;
 
-    public static MatExpr operator ^(Mat a, Mat b)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorXor_MatMat(a.CvPtr, b.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator ^(Mat a, double s)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorXor_MatDouble(a.CvPtr, s, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
-        
-    public static MatExpr operator ^(double s, Mat a)
-    {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorXor_DoubleMat(s, a.CvPtr, out var ret));
-        GC.KeepAlive(a);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator ^(Mat a, Mat b) => MatExpr.From(a) ^ MatExpr.From(b);
+    public static MatExpr operator ^(Mat a, double s) => MatExpr.From(a) ^ s;
+    public static MatExpr operator ^(double s, Mat a) => s ^ MatExpr.From(a);
 
     public MatExpr Xor(Mat m) => this ^ m;
     public MatExpr Xor(double s) => this ^ s;
 
-    public static MatExpr operator ~(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorNot(m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public static MatExpr operator ~(Mat m) => ~MatExpr.From(m);
 
     public MatExpr OnesComplement() => ~this;
 
@@ -1169,170 +915,62 @@ public partial class Mat : CvObject
     /// <summary>
     /// operator &lt;
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr LessThan(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLT_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr LessThan(Mat m) => MatExpr.From(this).LessThan(m);
 
     /// <summary>
     /// operator &lt;
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr LessThan(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLT_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr LessThan(double d) => MatExpr.From(this).LessThan(d);
 
     /// <summary>
     /// operator &lt;=
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr LessThanOrEqual(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLE_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr LessThanOrEqual(Mat m) => MatExpr.From(this).LessThanOrEqual(m);
 
     /// <summary>
     /// operator &lt;=
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr LessThanOrEqual(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLE_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr LessThanOrEqual(double d) => MatExpr.From(this).LessThanOrEqual(d);
 
     /// <summary>
     /// operator ==
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr Equals(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorEQ_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr Equals(Mat m) => MatExpr.From(this).Equal(m);
 
     /// <summary>
     /// operator ==
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr Equals(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorEQ_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr Equals(double d) => MatExpr.From(this).Equal(d);
 
     /// <summary>
     /// operator !=
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr NotEquals(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorNE_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr NotEquals(Mat m) => MatExpr.From(this).NotEqual(m);
 
     /// <summary>
     /// operator !=
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr NotEquals(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorNE_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr NotEquals(double d) => MatExpr.From(this).NotEqual(d);
 
     /// <summary>
     /// operator &gt;
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr GreaterThan(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGT_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr GreaterThan(Mat m) => MatExpr.From(this).GreaterThan(m);
 
     /// <summary>
     /// operator &gt;
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr GreaterThan(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGT_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr GreaterThan(double d) => MatExpr.From(this).GreaterThan(d);
 
     /// <summary>
     /// operator &gt;=
     /// </summary>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    public MatExpr GreaterThanOrEqual(Mat m)
-    {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGE_MatMat(Handle, m.CvPtr, out var ret));
-        GC.KeepAlive(m);
-        return new MatExpr(ret);
-    }
+    public MatExpr GreaterThanOrEqual(Mat m) => MatExpr.From(this).GreaterThanOrEqual(m);
 
     /// <summary>
     /// operator &gt;=
     /// </summary>
-    /// <param name="d"></param>
-    /// <returns></returns>
-    public MatExpr GreaterThanOrEqual(double d)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGE_MatDouble(Handle, d, out var ret));
-        return new MatExpr(ret);
-    }
+    public MatExpr GreaterThanOrEqual(double d) => MatExpr.From(this).GreaterThanOrEqual(d);
 
     #endregion
 
@@ -1825,33 +1463,15 @@ public partial class Mat : CvObject
     /// Transposes a matrix.
     /// </summary>
     /// <returns></returns>
-    public MatExpr T()
-    {
-        ThrowIfDisposed();
+    public MatExpr T() => MatExpr.From(this).T();
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_t(Handle, out var ret));
-
-        var retVal = new MatExpr(ret);
-        return retVal;
-    }
-        
     /// <summary>
     /// Inverses a matrix.
     /// </summary>
     /// <param name="method">Matrix inversion method</param>
     /// <returns></returns>
-    public MatExpr Inv(DecompTypes method = DecompTypes.LU)
-    {
-        ThrowIfDisposed();
+    public MatExpr Inv(DecompTypes method = DecompTypes.LU) => MatExpr.From(this).Inv(method);
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_inv(Handle, (int) method, out var ret));
-
-        var retVal = new MatExpr(ret);
-        return retVal;
-    }
-        
     /// <summary>
     /// Performs an element-wise multiplication or division of the two matrices.
     /// </summary>
@@ -1860,17 +1480,19 @@ public partial class Mat : CvObject
     /// <returns></returns>
     public MatExpr Mul(InputArray m, double scale = 1)
     {
-        ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_mul(Handle, m.CvPtr, scale, out var ret));
-
-        GC.KeepAlive(m);
-        var retVal = new MatExpr(ret);
-        return retVal;
+        return MatExpr.FromExpr(() =>
+        {
+            ThrowIfDisposed();
+            m.ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_mul(Handle, m.CvPtr, scale, out var ret));
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            return new NativeMatExpr(ret);
+        });
     }
 
     /// <summary>

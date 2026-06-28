@@ -38,8 +38,7 @@ public class ExceptionTest : TestBase
             using var mat = Mat.FromPixelData(3, 1, MatType.CV_8UC1, data);
             var ex = Assert.Throws<OpenCVException>(() =>
             {
-                using var expr = mat.Inv();
-                using var evaluated = expr.ToMat();
+                using Mat evaluated = mat.Inv();
                 GC.KeepAlive(evaluated);
             });
                 

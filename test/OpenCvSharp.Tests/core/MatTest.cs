@@ -234,7 +234,7 @@ public class MatTest : TestBase
     {
         using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        using var mask = src.GreaterThan(128);
+        using Mat mask = src.GreaterThan(128);
         src.CopyTo(dst, mask);
         ShowImagesWhenDebugMode(dst);
         src.CopyTo(dst, null);
@@ -357,8 +357,7 @@ public class MatTest : TestBase
     {
         var data = new byte[] { 1, 10, 100 };
         using var mat = Mat.FromPixelData(3, 1, MatType.CV_8UC1, data);
-        using var tExpr = mat.T();
-        using var t = tExpr.ToMat();
+        using Mat t = mat.T();
 
         Assert.Equal(1, t.Rows);
         Assert.Equal(3, t.Cols);
@@ -374,8 +373,7 @@ public class MatTest : TestBase
     {
         var data = new double[] { 1, 2, 3, 4 };
         using var mat = Mat.FromPixelData(2, 2, MatType.CV_64FC1, data);
-        using var invExpr = mat.Inv();
-        using var inv = invExpr.ToMat();
+        using Mat inv = mat.Inv();
 
         Assert.Equal(2, inv.Rows);
         Assert.Equal(2, inv.Cols);

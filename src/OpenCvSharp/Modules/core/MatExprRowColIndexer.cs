@@ -5,17 +5,17 @@ namespace OpenCvSharp;
 /// <summary>
 /// 
 /// </summary>
-public abstract class MatExprRowColIndexer
+internal abstract class MatExprRowColIndexer
 {
     /// <summary> 
     /// </summary>
-    protected MatExpr Parent { get; }
+    protected NativeMatExpr Parent { get; }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="parent"></param>
-    internal protected MatExprRowColIndexer(MatExpr parent)
+    internal protected MatExprRowColIndexer(NativeMatExpr parent)
     {
         Parent = parent;
     }
@@ -25,7 +25,7 @@ public abstract class MatExprRowColIndexer
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public abstract MatExpr this[int pos] { get; }
+    public abstract NativeMatExpr this[int pos] { get; }
 
     /// <summary>
     /// 
@@ -33,7 +33,7 @@ public abstract class MatExprRowColIndexer
     /// <param name="pos"></param>
     /// <returns></returns>
     [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
-    public virtual MatExpr Get(int pos)
+    public virtual NativeMatExpr Get(int pos)
     {
         return this[pos];
     }
