@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using OpenCvSharp.Internal.Util;
 using OpenCvSharp.ML;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -63,17 +61,12 @@ public class VectorOfDTreesNode : CvObject, IStdVector<DTrees.Node>
         {
             return [];
         }
-        var dst = new DTrees.Node[size];
-        using (var dstPtr = new ArrayAddress1<DTrees.Node>(dst))
+        unsafe
         {
-            long bytesToCopy = Marshal.SizeOf<DTrees.Node>() * dst.Length;
-            unsafe
-            {
-                Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
-            }
+            var dst = new ReadOnlySpan<DTrees.Node>((void*)ElemPtr, size).ToArray();
+            // ElemPtr aliases memory held by this object; keep it alive until the copy completes.
+            GC.KeepAlive(this);
+            return dst;
         }
-        GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
-        // make sure we are not disposed until finished with copy.
-        return dst;
     }
 }

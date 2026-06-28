@@ -1,6 +1,4 @@
-using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
-using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp;
 
@@ -35,19 +33,13 @@ public sealed class OutputArrayOfStructList<T> : OutputArray
         using var mat = new Mat(matPtr);
 
         var size = mat.Rows * mat.Cols;
-        var array = new T[size];
-        using (var aa = new ArrayAddress1<T>(array))
+
+        list.Clear();
+        unsafe
         {
-            long bytesToCopy = Marshal.SizeOf<T>() * size;
-            unsafe
-            {
-                Buffer.MemoryCopy(mat.DataPointer, aa.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
-            }
+            list.AddRange(new ReadOnlySpan<T>(mat.DataPointer, size));
         }
         // matPtr/mat aliases native memory owned by this OutputArray; keep it alive across the copy.
         GC.KeepAlive(this);
-
-        list.Clear();
-        list.AddRange(array);
     }
 }
