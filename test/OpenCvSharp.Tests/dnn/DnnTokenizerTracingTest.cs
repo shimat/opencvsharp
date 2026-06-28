@@ -19,7 +19,7 @@ public class DnnTokenizerTracingTest : TestBase
     [InlineData(TracingMode.Op)]
     public void TracingModeRoundTrip(TracingMode mode)
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
         net!.TracingMode = mode;
         Assert.Equal(mode, net.TracingMode);
@@ -31,7 +31,7 @@ public class DnnTokenizerTracingTest : TestBase
     [InlineData(ProfilingMode.Detailed)]
     public void ProfilingModeRoundTrip(ProfilingMode mode)
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
         net!.ProfilingMode = mode;
         Assert.Equal(mode, net.ProfilingMode);
@@ -40,7 +40,7 @@ public class DnnTokenizerTracingTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void FinalizeNetIsWired()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         // finalizeNet is a new-engine operation; for a classic-engine net it may succeed or raise
@@ -52,7 +52,7 @@ public class DnnTokenizerTracingTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void RegisterOutputIsWired()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         var ex = Record.Exception(() => net!.RegisterOutput("___out___", 0, 0));

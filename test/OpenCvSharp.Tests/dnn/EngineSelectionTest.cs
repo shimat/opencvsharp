@@ -51,7 +51,7 @@ public class EngineSelectionTest : TestBase
     public void ReadNetFromTensorflowWithClassicEngine()
     {
         // The classic engine parses every legacy format, so the committed TF model loads.
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Classic);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Classic);
         Assert.NotNull(net);
         Assert.False(net!.Empty());
     }
@@ -60,7 +60,7 @@ public class EngineSelectionTest : TestBase
     public void ReadNetFromTensorflowWithAutoEngine()
     {
         // Auto is the default; it must keep working for the TF model.
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Auto);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Auto);
         Assert.NotNull(net);
         Assert.False(net!.Empty());
     }

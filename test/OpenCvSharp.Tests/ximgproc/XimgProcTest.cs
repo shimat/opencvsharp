@@ -17,7 +17,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5, method);
+        Cv2.XImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5, method);
         ShowImagesWhenDebugMode(dst);
     }
 
@@ -28,7 +28,7 @@ public class XImgProcTest : TestBase
         {
             using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
             using var dst = new Mat();
-            CvXImgProc.NiblackThreshold(
+            Cv2.XImgProc.NiblackThreshold(
                 src, dst,
                 255,
                 ThresholdTypes.Binary,
@@ -44,7 +44,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("blob/shapes2.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
+        Cv2.XImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
         ShowImagesWhenDebugMode(src, dst);
     }
 
@@ -53,7 +53,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("blob/shapes2.png", ImreadModes.Color);
         using var dst = new Mat();
-        CvXImgProc.AnisotropicDiffusion(src, dst, 1, 1, 1);
+        Cv2.XImgProc.AnisotropicDiffusion(src, dst, 1, 1, 1);
         ShowImagesWhenDebugMode(src, dst);
     }
 
@@ -62,7 +62,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXImgProc.WeightedMedianFilter(src, src, dst, 7);
+        Cv2.XImgProc.WeightedMedianFilter(src, src, dst, 7);
         ShowImagesWhenDebugMode(dst);
     }
 
@@ -72,7 +72,7 @@ public class XImgProcTest : TestBase
         const int windowSize = 7;
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXImgProc.CovarianceEstimation(src, dst, windowSize, windowSize);
+        Cv2.XImgProc.CovarianceEstimation(src, dst, windowSize, windowSize);
         // TODO
         Assert.Equal(windowSize * windowSize, dst.Rows);
         Assert.Equal(windowSize * windowSize, dst.Cols);
@@ -86,7 +86,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dst = new Mat();
-        CvXImgProc.BrightEdges(src, dst);
+        Cv2.XImgProc.BrightEdges(src, dst);
         ShowImagesWhenDebugMode(src, dst);
     }
 
@@ -99,7 +99,7 @@ public class XImgProcTest : TestBase
         using var template = src[new Rect(200, 230, 150, 150)];
         using var dst = new Mat();
 
-        CvXImgProc.ColorMatchTemplate(src, template, dst);
+        Cv2.XImgProc.ColorMatchTemplate(src, template, dst);
         Assert.False(dst.Empty());
         Assert.Equal(MatType.CV_64FC1, dst.Type());
             
@@ -118,8 +118,8 @@ public class XImgProcTest : TestBase
         using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dstX = new Mat();
         using var dstY = new Mat();
-        CvXImgProc.GradientDericheX(src, dstX, 10.0, 10.0);
-        CvXImgProc.GradientDericheX(src, dstY, 10.0, 10.0);
+        Cv2.XImgProc.GradientDericheX(src, dstX, 10.0, 10.0);
+        Cv2.XImgProc.GradientDericheX(src, dstY, 10.0, 10.0);
         ShowImagesWhenDebugMode(src, dstX, dstY);
     }
 
@@ -130,7 +130,7 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dst = new Mat();
-        CvXImgProc.EdgePreservingFilter(src, dst, 7, 10.0);
+        Cv2.XImgProc.EdgePreservingFilter(src, dst, 7, 10.0);
         ShowImagesWhenDebugMode(src, dst);
     }
 
@@ -142,7 +142,7 @@ public class XImgProcTest : TestBase
         using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
             
-        CvXImgProc.RL.Threshold(src, dst, 128, ThresholdTypes.Binary);
+        Cv2.XImgProc.RL.Threshold(src, dst, 128, ThresholdTypes.Binary);
             
         Assert.False(dst.Empty());
         Assert.Equal(MatType.CV_32SC3, dst.Type());
@@ -151,7 +151,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void RLGetStructuringElement()
     {
-        using var se = CvXImgProc.RL.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
+        using var se = Cv2.XImgProc.RL.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
             
         Assert.False(se.Empty());
         // OpenCV 5 returns the run-length structuring element as a 1xN row vector
@@ -168,11 +168,11 @@ public class XImgProcTest : TestBase
         using var dilate = new Mat();
         using var erode = new Mat();
                         
-        CvXImgProc.RL.Threshold(src, binary, 128, ThresholdTypes.Binary);
+        Cv2.XImgProc.RL.Threshold(src, binary, 128, ThresholdTypes.Binary);
 
-        using var se = CvXImgProc.RL.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
-        CvXImgProc.RL.Dilate(binary, dilate, se);
-        CvXImgProc.RL.Erode(binary, erode, se);
+        using var se = Cv2.XImgProc.RL.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
+        Cv2.XImgProc.RL.Dilate(binary, dilate, se);
+        Cv2.XImgProc.RL.Erode(binary, erode, se);
             
         // OpenCV 5 returns the run-length encoded result as a 1xN row vector
         // instead of the Nx1 column vector OpenCV 4 produced.
@@ -192,8 +192,8 @@ public class XImgProcTest : TestBase
     {
         using var src = LoadImage("peilin_plane.png", ImreadModes.Grayscale);
         using var tMat = src.Clone();
-        CvXImgProc.PeiLinNormalization(src, tMat); 
-        var tArray = CvXImgProc.PeiLinNormalization(src);
+        Cv2.XImgProc.PeiLinNormalization(src, tMat); 
+        var tArray = Cv2.XImgProc.PeiLinNormalization(src);
 
         Assert.Equal(MatType.CV_64FC1, tMat.Type());
         Assert.Equal(2, tMat.Rows);

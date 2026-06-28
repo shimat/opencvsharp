@@ -83,7 +83,7 @@ public class EastTextDetectionTest : TestBase
     {
         Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
 
-        using var net = CvDnn.ReadNet(LocalModelPath);
+        using var net = Cv2.Dnn.ReadNet(LocalModelPath);
     }
 
     [ExplicitFact]
@@ -102,7 +102,7 @@ public class EastTextDetectionTest : TestBase
         {
             var ex = Assert.Throws<OpenCVException>(() =>
             {
-                using var net = CvDnn.ReadNet(unicodeFileName);
+                using var net = Cv2.Dnn.ReadNet(unicodeFileName);
             });
             Assert.StartsWith("FAILED: fs.is_open(). Can't open", ex.Message, StringComparison.InvariantCulture);
             Assert.Equal("cv::dnn::ReadProtoFromBinaryFile", ex.FuncName);
@@ -129,11 +129,11 @@ public class EastTextDetectionTest : TestBase
         const float NmsThreshold = 0.4f;
 
         // Load network.
-        using (Net net = CvDnn.ReadNet(Path.GetFullPath(LocalModelPath)))
+        using (Net net = Cv2.Dnn.ReadNet(Path.GetFullPath(LocalModelPath)))
         using (Mat img = new Mat(fileName))
 
             // Prepare input image
-        using (var blob = CvDnn.BlobFromImage(img, 1.0, new Size(InputWidth, InputHeight), new Scalar(123.68, 116.78, 103.94), true, false))
+        using (var blob = Cv2.Dnn.BlobFromImage(img, 1.0, new Size(InputWidth, InputHeight), new Scalar(123.68, 116.78, 103.94), true, false))
         {
             // Forward Pass
             // Now that we have prepared the input, we will pass it through the network. There are two outputs of the network.
@@ -153,7 +153,7 @@ public class EastTextDetectionTest : TestBase
             Decode(scores, geometry, ConfThreshold, out var boxes, out var confidences);
 
             // Apply non-maximum suppression procedure for filtering out the false positives and get the final predictions
-            CvDnn.NMSBoxes(boxes, confidences, ConfThreshold, NmsThreshold, out var indices);
+            Cv2.Dnn.NMSBoxes(boxes, confidences, ConfThreshold, NmsThreshold, out var indices);
 
             // Render detections.
             Point2f ratio = new Point2f((float)img.Cols / InputWidth, (float)img.Rows / InputHeight);

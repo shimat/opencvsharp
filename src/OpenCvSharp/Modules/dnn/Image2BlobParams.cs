@@ -8,7 +8,7 @@ namespace OpenCvSharp.Dnn;
 /// Processing params of image to blob.
 /// It includes all possible image processing operations and corresponding parameters.
 /// </summary>
-/// <seealso cref="CvDnn.BlobFromImageWithParams(InputArray, Image2BlobParams)"/>
+/// <seealso cref="Cv2.Dnn.BlobFromImageWithParams(InputArray, Image2BlobParams)"/>
 public class Image2BlobParams
 {
     /// <summary>

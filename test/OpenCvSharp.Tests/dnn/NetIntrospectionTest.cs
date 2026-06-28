@@ -16,7 +16,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetModelFormatReturnsTensorflow()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
         Assert.Equal(ModelFormat.TF, net!.GetModelFormat());
     }
@@ -24,7 +24,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetLayerTypesAndCount()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         var types = net!.GetLayerTypes();
@@ -47,7 +47,7 @@ public class NetIntrospectionTest : TestBase
         // round-trip cannot be demonstrated with the available test data. Verify instead
         // that both calls reach OpenCV and fail there (entry points wired correctly),
         // rather than failing with a P/Invoke error.
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         Assert.ThrowsAny<OpenCVException>(() => net!.GetParam(99999));
@@ -62,7 +62,7 @@ public class NetIntrospectionTest : TestBase
         // Verifies the call reaches OpenCV (which validates the input name) rather than
         // failing in the P/Invoke layer. A valid-input success path is model-specific and
         // not asserted here.
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
         Assert.ThrowsAny<OpenCVException>(() => net!.SetInputShape("___no_such_input___", new[] { 1, 1, 1, 1 }));
     }
@@ -75,7 +75,7 @@ public class NetIntrospectionTest : TestBase
         // not reliably reachable from a unit test; verify instead that the call reaches
         // OpenCV (raises OpenCVException about the missing blobs) rather than failing in
         // the P/Invoke layer.
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         var path = Path.Combine(Path.GetTempPath(), $"opencvsharp_dump_{Guid.NewGuid():N}.pbtxt");
@@ -93,7 +93,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void EnableWinogradAndKVCacheDoNotThrow()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         net!.EnableWinograd(true);
@@ -107,14 +107,14 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetAvailableTargetsContainsCpu()
     {
-        var targets = CvDnn.GetAvailableTargets(Backend.OPENCV);
+        var targets = Cv2.Dnn.GetAvailableTargets(Backend.OPENCV);
         Assert.Contains(Target.CPU, targets);
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetAvailableBackendsNotEmpty()
     {
-        var backends = CvDnn.GetAvailableBackends();
+        var backends = Cv2.Dnn.GetAvailableBackends();
         Assert.NotEmpty(backends);
         Assert.Contains(backends, p => p.Backend == Backend.OPENCV && p.Target == Target.CPU);
     }
@@ -122,8 +122,8 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void EnableModelDiagnosticsDoesNotThrow()
     {
-        CvDnn.EnableModelDiagnostics(true);
-        CvDnn.EnableModelDiagnostics(false);
+        Cv2.Dnn.EnableModelDiagnostics(true);
+        Cv2.Dnn.EnableModelDiagnostics(false);
     }
 
     // The committed MNIST model takes a single 1x1x28x28 (NCHW) CV_32F blob,
@@ -133,7 +133,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetFLOPSReturnsPositive()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         var flops = net!.GetFLOPS([MnistInputShape], [MatType.CV_32F]);
@@ -146,7 +146,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetMemoryConsumptionTotalReturnsPositive()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         net!.GetMemoryConsumption([MnistInputShape], [MatType.CV_32F], out var weights, out var blobs);
@@ -157,7 +157,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetMemoryConsumptionPerLayerReturnsParallelArrays()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         net!.GetMemoryConsumption([MnistInputShape], [MatType.CV_32F], out var layerIds, out var weights, out var blobs);
@@ -171,7 +171,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetLayerShapesReturnsShapes()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         // OpenCV 5's new dnn engine only supports per-layer shape queries for layerId 0
@@ -190,7 +190,7 @@ public class NetIntrospectionTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetLayersShapesIsConsistentAcrossLayers()
     {
-        using var net = CvDnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
 
         net!.GetLayersShapes([MnistInputShape], [MatType.CV_32F], out var layerIds, out var inShapes, out var outShapes);

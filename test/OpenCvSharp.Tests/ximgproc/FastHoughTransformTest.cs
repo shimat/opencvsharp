@@ -17,7 +17,7 @@ public class FastHoughTransformTest : TestBase
         using (var image = LoadImage("building.jpg", ImreadModes.Grayscale))
         using (var fht = new Mat())
         {
-            CvXImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);
+            Cv2.XImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);
 
             Cv2.MinMaxLoc(fht, out var minv, out double maxv);
 
@@ -53,7 +53,7 @@ public class FastHoughTransformTest : TestBase
         {
             Cv2.Canny(image, canny, 50, 200, 3);
 
-            CvXImgProc.FastHoughTransform(canny, hough, MatType.CV_32S/*C1*/, AngleRangeOption.ARO_315_135, HoughOP.FHT_ADD, HoughDeskewOption.DESKEW);
+            Cv2.XImgProc.FastHoughTransform(canny, hough, MatType.CV_32S/*C1*/, AngleRangeOption.ARO_315_135, HoughOP.FHT_ADD, HoughDeskewOption.DESKEW);
 
             var lines = new List<Vec4i>();
             GetLocalExtr(lines, canny, hough, 255f * 0.3f * Math.Min(canny.Rows, canny.Cols), 50);
@@ -124,7 +124,7 @@ public class FastHoughTransformTest : TestBase
             weightedPoints = weightedPoints.Take(maxCount).ToList();
 
             foreach (var t in weightedPoints)
-                lines.Add(CvXImgProc.HoughPoint2Line(t.Value, src));
+                lines.Add(Cv2.XImgProc.HoughPoint2Line(t.Value, src));
         }
 
         bool IncIfGreater(int a, int b, ref int value)

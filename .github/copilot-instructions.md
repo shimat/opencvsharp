@@ -145,6 +145,15 @@ public struct SomeClassParams {
 
 From `namespace OpenCvSharp.Internal`, types in `namespace OpenCvSharp` are directly visible (outer scope rule). Types in a sub-namespace such as `namespace OpenCvSharp.XImgProc` are NOT — add an explicit `using` directive in the NativeMethods file when referencing structs defined there.
 
+### Free-function facade naming: `Cv2` mirrors `cv::`
+
+Free functions are exposed as static methods on `Cv2`, mirroring the C++ namespace structure:
+
+- `Cv2` = `cv::` — e.g. `Cv2.CvtColor` ↔ `cv::cvtColor`.
+- `Cv2.<Sub>` (a nested `public static partial class` under `Cv2`) = `cv::<sub>::` — e.g. `Cv2.Dnn.ReadNetFromOnnx` ↔ `cv::dnn::readNet`, matching the Python `cv2.dnn.*` submodules. In scope: `Dnn`, `Aruco`, `XImgProc`, `XPhoto`, `OptFlow`, `Text`, `Detail`.
+
+Place each submodule facade in its module folder as `Cv2.<Sub>.cs` (e.g. `Modules/dnn/Cv2.Dnn.cs`). The file uses `namespace OpenCvSharp;` and `using OpenCvSharp.<Sub>;` (the wrapper *types* stay in their `OpenCvSharp.<Sub>` namespaces). Where a sub-namespace type name collides with one in `OpenCvSharp` root (e.g. `InpaintTypes`), fully-qualify it in the signature (`OpenCvSharp.XPhoto.InpaintTypes`). Functions that live directly in `cv::` (no sub-namespace, e.g. the shape `Create…` factories) go on `Cv2` itself, not a nested class. The `CvExtensions` *extension methods* (`OpenCvSharp.Extensions`) are not part of this and keep their name.
+
 ### std::vector return values
 
 - `std::vector<std::vector<Point>>` → `VectorOfVectorPoint` (already exists)
