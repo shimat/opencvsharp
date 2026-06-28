@@ -6,26 +6,27 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
-/// 
+/// Pins a managed array for the duration of a single native call and exposes its address.
+/// Scoped, stack-only helper (use with <c>using</c>): no heap allocation and no finalizer.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ArrayAddress1<T> : DisposableObject
+public ref struct ArrayAddress1<T>
     where T : unmanaged
 {
     private readonly Array array;
     private GCHandle gch;
-        
+
     public ArrayAddress1(T[] array)
     {
         this.array = array ?? throw new ArgumentNullException(nameof(array));
         gch = GCHandle.Alloc(array, GCHandleType.Pinned);
     }
-        
+
     public ArrayAddress1(IEnumerable<T> enumerable)
         : this(enumerable.ToArray())
     {
     }
-        
+
     public ArrayAddress1(T[,] array)
     {
         this.array = array ?? throw new ArgumentNullException(nameof(array));
@@ -33,18 +34,17 @@ public class ArrayAddress1<T> : DisposableObject
     }
 
     /// <summary>
-    /// Releases unmanaged resources
+    /// Releases the pin.
     /// </summary>
-    protected override void DisposeUnmanaged()
+    public void Dispose()
     {
         if (gch.IsAllocated)
         {
             gch.Free();
         }
-        base.DisposeUnmanaged();
     }
-        
-    public IntPtr Pointer => gch.AddrOfPinnedObject();
-        
-    public int Length => array.Length;
+
+    public readonly IntPtr Pointer => gch.AddrOfPinnedObject();
+
+    public readonly int Length => array.Length;
 }
