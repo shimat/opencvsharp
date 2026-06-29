@@ -83,59 +83,59 @@ CVAPI(ExceptionStatus) core_divide2(
     });
 }
 
-CVAPI(ExceptionStatus) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_scaleAdd(interop::ArrayProxy src1, double alpha, interop::ArrayProxy src2, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::scaleAdd(*src1, alpha, *src2, *dst);
+    cv::scaleAdd(InProxy(src1), alpha, InProxy(src2), OutProxy(dst));
     });
 }
-CVAPI(ExceptionStatus) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArray *src2,
-                             double beta, double gamma, cv::_OutputArray *dst, int dtype)
+CVAPI(ExceptionStatus) core_addWeighted(interop::ArrayProxy src1, double alpha, interop::ArrayProxy src2,
+                             double beta, double gamma, interop::ArrayProxy dst, int dtype)
 {
     return cvTry([&] {
-    cv::addWeighted(*src1, alpha, *src2, beta, gamma, *dst, dtype);
-    });
-}
-
-CVAPI(ExceptionStatus) core_convertScaleAbs(cv::_InputArray* src, cv::_OutputArray* dst, double alpha, double beta)
-{
-    return cvTry([&] {
-    cv::convertScaleAbs(*src, *dst, alpha, beta);
+    cv::addWeighted(InProxy(src1), alpha, InProxy(src2), beta, gamma, OutProxy(dst), dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_LUT(cv::_InputArray* src, cv::_InputArray* lut, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_convertScaleAbs(interop::ArrayProxy src, interop::ArrayProxy dst, double alpha, double beta)
 {
     return cvTry([&] {
-    cv::LUT(*src, *lut, *dst);
+    cv::convertScaleAbs(InProxy(src), OutProxy(dst), alpha, beta);
     });
 }
 
-CVAPI(ExceptionStatus) core_sum(cv::_InputArray* src, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_LUT(interop::ArrayProxy src, interop::ArrayProxy lut, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    *returnValue = c(cv::sum(*src));
+    cv::LUT(InProxy(src), InProxy(lut), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_countNonZero(cv::_InputArray* src, int* returnValue)
+CVAPI(ExceptionStatus) core_sum(interop::ArrayProxy src, interop::Scalar* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::countNonZero(*src);
+    *returnValue = c(cv::sum(InProxy(src)));
     });
 }
 
-CVAPI(ExceptionStatus) core_findNonZero(cv::_InputArray* src, cv::_OutputArray* idx)
+CVAPI(ExceptionStatus) core_countNonZero(interop::ArrayProxy src, int* returnValue)
 {
     return cvTry([&] {
-    cv::findNonZero(*src, *idx);
+    *returnValue = cv::countNonZero(InProxy(src));
     });
 }
 
-CVAPI(ExceptionStatus) core_mean(cv::_InputArray* src, cv::_InputArray* mask, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_findNonZero(interop::ArrayProxy src, interop::ArrayProxy idx)
 {
     return cvTry([&] {
-    *returnValue = c(cv::mean(*src, entity(mask)));
+    cv::findNonZero(InProxy(src), OutProxy(idx));
+    });
+}
+
+CVAPI(ExceptionStatus) core_mean(interop::ArrayProxy src, interop::ArrayProxy mask, interop::Scalar* returnValue)
+{
+    return cvTry([&] {
+    *returnValue = c(cv::mean(InProxy(src), InProxy(mask)));
     });
 }
 

@@ -128,29 +128,29 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_divide2(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, double scale, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
+    internal static partial ExceptionStatus core_scaleAdd(ArrayProxy src1, double alpha, ArrayProxy src2, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_addWeighted(IntPtr src1, double alpha, IntPtr src2,
-        double beta, double gamma, IntPtr dst, int dtype);
+    internal static partial ExceptionStatus core_addWeighted(ArrayProxy src1, double alpha, ArrayProxy src2,
+        double beta, double gamma, ArrayProxy dst, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
+    internal static partial ExceptionStatus core_convertScaleAbs(ArrayProxy src, ArrayProxy dst, double alpha, double beta);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LUT(IntPtr src, IntPtr lut, IntPtr dst);
+    internal static partial ExceptionStatus core_LUT(ArrayProxy src, ArrayProxy lut, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_sum(IntPtr src, out Scalar returnValue);
+    internal static partial ExceptionStatus core_sum(ArrayProxy src, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_countNonZero(IntPtr src, out int returnValue);
+    internal static partial ExceptionStatus core_countNonZero(ArrayProxy src, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_findNonZero(IntPtr src, IntPtr idx);
+    internal static partial ExceptionStatus core_findNonZero(ArrayProxy src, ArrayProxy idx);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_mean(IntPtr src, IntPtr mask, out Scalar returnValue);
+    internal static partial ExceptionStatus core_mean(ArrayProxy src, ArrayProxy mask, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_meanStdDev_OutputArray(
