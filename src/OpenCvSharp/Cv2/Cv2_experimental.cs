@@ -27,7 +27,7 @@ static partial class Cv2
     public static void AddRef(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_add_io(src1.Proxy, src2.Proxy, dst.Proxy));
+            NativeMethods.core_add(src1.Proxy, src2.Proxy, dst.Proxy, default, -1));
         GC.KeepAlive(src1.Source);
         GC.KeepAlive(src2.Source);
         GC.KeepAlive(dst.Source);

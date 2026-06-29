@@ -418,3 +418,45 @@ static cv::_InputOutputArray fromInputOutputProxy(const interop::ArrayProxy &p)
     default: return cv::noArray();
     }
 }
+
+// -------------------------------------------------------------------------
+// RAII views that turn a by-value interop::ArrayProxy into a cv::_InputArray /
+// _OutputArray / _InputOutputArray for use directly inside an OpenCV call. Each
+// view owns the scratch storage its proxy may reference (the scalar for scalar
+// kinds), so as long as the view lives to the end of the call expression the
+// cv:: array stays valid. This keeps migrated CVAPI bodies a one-liner, e.g.
+//
+//     CVAPI(...) core_foo(interop::ArrayProxy src, interop::ArrayProxy dst) {
+//         return cvTry([&] { cv::foo(InProxy(src), OutProxy(dst)); });
+//     }
+// -------------------------------------------------------------------------
+class InProxy
+{
+    cv::Scalar scratch_;
+    cv::_InputArray ia_;
+public:
+    explicit InProxy(const interop::ArrayProxy &p) : ia_(fromInputProxy(p, scratch_)) {}
+    InProxy(const InProxy &) = delete;
+    InProxy &operator=(const InProxy &) = delete;
+    operator const cv::_InputArray &() const { return ia_; }
+};
+
+class OutProxy
+{
+    cv::_OutputArray oa_;
+public:
+    explicit OutProxy(const interop::ArrayProxy &p) : oa_(fromOutputProxy(p)) {}
+    OutProxy(const OutProxy &) = delete;
+    OutProxy &operator=(const OutProxy &) = delete;
+    operator const cv::_OutputArray &() const { return oa_; }
+};
+
+class IoProxy
+{
+    cv::_InputOutputArray ioa_;
+public:
+    explicit IoProxy(const interop::ArrayProxy &p) : ioa_(fromInputOutputProxy(p)) {}
+    IoProxy(const IoProxy &) = delete;
+    IoProxy &operator=(const IoProxy &) = delete;
+    operator const cv::_InputOutputArray &() const { return ioa_; }
+};

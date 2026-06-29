@@ -107,7 +107,7 @@ static partial class NativeMethods
         IntPtr src, IntPtr dst, int top, int bottom, int left, int right, int borderType, Scalar value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_add(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+    internal static partial ExceptionStatus core_add(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_subtract_InputArray2(
@@ -320,8 +320,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_transpose(ArrayProxy src, ArrayProxy dst);
 
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_add_io(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_transform(IntPtr src, IntPtr dst, IntPtr m);

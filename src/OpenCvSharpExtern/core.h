@@ -32,10 +32,10 @@ CVAPI(ExceptionStatus) core_copyMakeBorder(
 }
 
 CVAPI(ExceptionStatus) core_add(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
 {
     return cvTry([&] {
-    cv::add(*src1, *src2, *dst, entity(mask), dtype);
+    cv::add(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 
@@ -564,16 +564,7 @@ CVAPI(ExceptionStatus) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray
 CVAPI(ExceptionStatus) core_transpose(interop::ArrayProxy src, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::Scalar s;
-    cv::transpose(fromInputProxy(src, s), fromOutputProxy(dst));
-    });
-}
-
-CVAPI(ExceptionStatus) core_add_io(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
-{
-    return cvTry([&] {
-    cv::Scalar s1, s2;
-    cv::add(fromInputProxy(src1, s1), fromInputProxy(src2, s2), fromOutputProxy(dst));
+    cv::transpose(InProxy(src), OutProxy(dst));
     });
 }
 

@@ -81,7 +81,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_add(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
