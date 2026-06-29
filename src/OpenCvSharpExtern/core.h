@@ -24,7 +24,7 @@ CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, in
 }
 
 CVAPI(ExceptionStatus) core_copyMakeBorder(
-    interop::ArrayProxy src, interop::ArrayProxy dst, int top, int bottom, int left, int right, int borderType, interop::Scalar value)
+    interop::InputArrayProxy src, interop::OutputArrayProxy dst, int top, int bottom, int left, int right, int borderType, interop::Scalar value)
 {
     return cvTry([&] {
     cv::copyMakeBorder(InProxy(src), OutProxy(dst), top, bottom, left, right, borderType, cpp(value));
@@ -32,7 +32,7 @@ CVAPI(ExceptionStatus) core_copyMakeBorder(
 }
 
 CVAPI(ExceptionStatus) core_add(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask, int dtype)
 {
     return cvTry([&] {
     cv::add(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
@@ -40,21 +40,21 @@ CVAPI(ExceptionStatus) core_add(
 }
 
 CVAPI(ExceptionStatus) core_subtract_InputArray2(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask, int dtype)
 {
     return cvTry([&] {
     cv::subtract(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_InputArrayScalar(
-    interop::ArrayProxy src1, interop::Scalar src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
+    interop::InputArrayProxy src1, interop::Scalar src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask, int dtype)
 {
     return cvTry([&] {
     cv::subtract(InProxy(src1), cpp(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
-    interop::Scalar src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
+    interop::Scalar src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask, int dtype)
 {
     return cvTry([&] {
     cv::subtract(cpp(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
@@ -62,77 +62,77 @@ CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
 }
 
 CVAPI(ExceptionStatus) core_multiply(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, double scale, int dtype)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, double scale, int dtype)
 {
     return cvTry([&] {
     cv::multiply(InProxy(src1), InProxy(src2), OutProxy(dst), scale, dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide1(
-    double scale, interop::ArrayProxy src2, interop::ArrayProxy dst, int dtype)
+    double scale, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, int dtype)
 {
     return cvTry([&] {
     cv::divide(scale, InProxy(src2), OutProxy(dst), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide2(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, double scale, int dtype)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, double scale, int dtype)
 {
     return cvTry([&] {
     cv::divide(InProxy(src1), InProxy(src2), OutProxy(dst), scale, dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_scaleAdd(interop::ArrayProxy src1, double alpha, interop::ArrayProxy src2, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_scaleAdd(interop::InputArrayProxy src1, double alpha, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::scaleAdd(InProxy(src1), alpha, InProxy(src2), OutProxy(dst));
     });
 }
-CVAPI(ExceptionStatus) core_addWeighted(interop::ArrayProxy src1, double alpha, interop::ArrayProxy src2,
-                             double beta, double gamma, interop::ArrayProxy dst, int dtype)
+CVAPI(ExceptionStatus) core_addWeighted(interop::InputArrayProxy src1, double alpha, interop::InputArrayProxy src2,
+                             double beta, double gamma, interop::OutputArrayProxy dst, int dtype)
 {
     return cvTry([&] {
     cv::addWeighted(InProxy(src1), alpha, InProxy(src2), beta, gamma, OutProxy(dst), dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_convertScaleAbs(interop::ArrayProxy src, interop::ArrayProxy dst, double alpha, double beta)
+CVAPI(ExceptionStatus) core_convertScaleAbs(interop::InputArrayProxy src, interop::OutputArrayProxy dst, double alpha, double beta)
 {
     return cvTry([&] {
     cv::convertScaleAbs(InProxy(src), OutProxy(dst), alpha, beta);
     });
 }
 
-CVAPI(ExceptionStatus) core_LUT(interop::ArrayProxy src, interop::ArrayProxy lut, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_LUT(interop::InputArrayProxy src, interop::InputArrayProxy lut, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::LUT(InProxy(src), InProxy(lut), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_sum(interop::ArrayProxy src, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_sum(interop::InputArrayProxy src, interop::Scalar* returnValue)
 {
     return cvTry([&] {
     *returnValue = c(cv::sum(InProxy(src)));
     });
 }
 
-CVAPI(ExceptionStatus) core_countNonZero(interop::ArrayProxy src, int* returnValue)
+CVAPI(ExceptionStatus) core_countNonZero(interop::InputArrayProxy src, int* returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::countNonZero(InProxy(src));
     });
 }
 
-CVAPI(ExceptionStatus) core_findNonZero(interop::ArrayProxy src, interop::ArrayProxy idx)
+CVAPI(ExceptionStatus) core_findNonZero(interop::InputArrayProxy src, interop::OutputArrayProxy idx)
 {
     return cvTry([&] {
     cv::findNonZero(InProxy(src), OutProxy(idx));
     });
 }
 
-CVAPI(ExceptionStatus) core_mean(interop::ArrayProxy src, interop::ArrayProxy mask, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_mean(interop::InputArrayProxy src, interop::InputArrayProxy mask, interop::Scalar* returnValue)
 {
     return cvTry([&] {
     *returnValue = c(cv::mean(InProxy(src), InProxy(mask)));
@@ -301,7 +301,7 @@ CVAPI(ExceptionStatus) core_insertChannel(cv::_InputArray* src, cv::_InputOutput
     });
 }
 
-CVAPI(ExceptionStatus) core_flip(interop::ArrayProxy src, interop::ArrayProxy dst, int flipCode)
+CVAPI(ExceptionStatus) core_flip(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int flipCode)
 {
     return cvTry([&] {
     cv::flip(InProxy(src), OutProxy(dst), flipCode);
@@ -362,28 +362,28 @@ CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src
 }
 
 CVAPI(ExceptionStatus) core_bitwise_and(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::bitwise_and(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_or(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::bitwise_or(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_xor(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::bitwise_xor(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_not(
-    interop::ArrayProxy src, interop::ArrayProxy dst, interop::ArrayProxy mask)
+    interop::InputArrayProxy src, interop::OutputArrayProxy dst, interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::bitwise_not(InProxy(src), OutProxy(dst), InProxy(mask));
@@ -391,14 +391,14 @@ CVAPI(ExceptionStatus) core_bitwise_not(
 }
 
 CVAPI(ExceptionStatus) core_absdiff(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::absdiff(InProxy(src1), InProxy(src2), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_copyTo(interop::ArrayProxy src, interop::ArrayProxy dst, interop::ArrayProxy mask)
+CVAPI(ExceptionStatus) core_copyTo(interop::InputArrayProxy src, interop::OutputArrayProxy dst, interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::copyTo(InProxy(src), OutProxy(dst), InProxy(mask));
@@ -406,14 +406,14 @@ CVAPI(ExceptionStatus) core_copyTo(interop::ArrayProxy src, interop::ArrayProxy 
 }
 
 CVAPI(ExceptionStatus) core_inRange_InputArray(
-    interop::ArrayProxy src, interop::ArrayProxy lowerb, interop::ArrayProxy upperb, interop::ArrayProxy dst)
+    interop::InputArrayProxy src, interop::InputArrayProxy lowerb, interop::InputArrayProxy upperb, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::inRange(InProxy(src), InProxy(lowerb), InProxy(upperb), OutProxy(dst));
     });
 }
 CVAPI(ExceptionStatus) core_inRange_Scalar(
-    interop::ArrayProxy src, interop::Scalar lowerb, interop::Scalar upperb, interop::ArrayProxy dst)
+    interop::InputArrayProxy src, interop::Scalar lowerb, interop::Scalar upperb, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::inRange(InProxy(src), cpp(lowerb), cpp(upperb), OutProxy(dst));
@@ -421,14 +421,14 @@ CVAPI(ExceptionStatus) core_inRange_Scalar(
 }
 
 CVAPI(ExceptionStatus) core_compare(
-    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, int cmpop)
+    interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst, int cmpop)
 {
     return cvTry([&] {
     cv::compare(InProxy(src1), InProxy(src2), OutProxy(dst), cmpop);
     });
 }
 
-CVAPI(ExceptionStatus) core_min1(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_min1(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     // Named lvalues (not InProxy temporaries): cv::min/max also have a [[nodiscard]] MatExpr(Mat,Mat)
@@ -455,7 +455,7 @@ CVAPI(ExceptionStatus) core_min_MatDouble(cv::Mat* src1, double src2, cv::Mat* d
     });
 }
 
-CVAPI(ExceptionStatus) core_max1(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_max1(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     // See core_min1: named lvalues force the void max(InputArray,InputArray,OutputArray) overload
@@ -480,58 +480,58 @@ CVAPI(ExceptionStatus) core_max_MatDouble(cv::Mat *src1, double src2, cv::Mat *d
     });
 }
 
-CVAPI(ExceptionStatus) core_sqrt(interop::ArrayProxy src, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_sqrt(interop::InputArrayProxy src, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::sqrt(InProxy(src), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_pow_Mat(interop::ArrayProxy src, double power, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_pow_Mat(interop::InputArrayProxy src, double power, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::pow(InProxy(src), power, OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_exp_Mat(interop::ArrayProxy src, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_exp_Mat(interop::InputArrayProxy src, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::exp(InProxy(src), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_log_Mat(interop::ArrayProxy src, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_log_Mat(interop::InputArrayProxy src, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::log(InProxy(src), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_polarToCart(interop::ArrayProxy magnitude, interop::ArrayProxy angle,
-    interop::ArrayProxy x, interop::ArrayProxy y, int angleInDegrees)
+CVAPI(ExceptionStatus) core_polarToCart(interop::InputArrayProxy magnitude, interop::InputArrayProxy angle,
+    interop::OutputArrayProxy x, interop::OutputArrayProxy y, int angleInDegrees)
 {
     return cvTry([&] {
     cv::polarToCart(InProxy(magnitude), InProxy(angle), OutProxy(x), OutProxy(y), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_cartToPolar(interop::ArrayProxy x, interop::ArrayProxy y,
-    interop::ArrayProxy magnitude, interop::ArrayProxy angle, int angleInDegrees)
+CVAPI(ExceptionStatus) core_cartToPolar(interop::InputArrayProxy x, interop::InputArrayProxy y,
+    interop::OutputArrayProxy magnitude, interop::OutputArrayProxy angle, int angleInDegrees)
 {
     return cvTry([&] {
     cv::cartToPolar(InProxy(x), InProxy(y), OutProxy(magnitude), OutProxy(angle), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_phase(interop::ArrayProxy x, interop::ArrayProxy y, interop::ArrayProxy angle, int angleInDegrees)
+CVAPI(ExceptionStatus) core_phase(interop::InputArrayProxy x, interop::InputArrayProxy y, interop::OutputArrayProxy angle, int angleInDegrees)
 {
     return cvTry([&] {
     cv::phase(InProxy(x), InProxy(y), OutProxy(angle), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_magnitude_Mat(interop::ArrayProxy x, interop::ArrayProxy y, interop::ArrayProxy magnitude)
+CVAPI(ExceptionStatus) core_magnitude_Mat(interop::InputArrayProxy x, interop::InputArrayProxy y, interop::OutputArrayProxy magnitude)
 {
     return cvTry([&] {
     cv::magnitude(InProxy(x), InProxy(y), OutProxy(magnitude));
@@ -570,12 +570,12 @@ CVAPI(ExceptionStatus) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray
     });
 }
 
-// MIGRATION (issue #1976, strategy 3): array arguments arrive as interop::ArrayProxy passed BY VALUE;
-// fromInputProxy()/fromOutputProxy() (my_types.h) rebuild cv::_InputArray/_OutputArray on this stack
+// MIGRATION (issue #1976, strategy 3): array arguments arrive as interop::{Input,Output,InputOutput}
+// ArrayProxy passed BY VALUE (the type names keep the signature self-documenting about in/out).
+// The InProxy/OutProxy/IoProxy views (my_types.h) rebuild cv::_InputArray/_OutputArray on this stack
 // frame. The same signature serves both the ref-struct path (optimized kinds, zero managed alloc) and
-// the still-class path (Raw kinds that wrap an existing cv::_InputArray*). Scalar-kind inputs
-// reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
-CVAPI(ExceptionStatus) core_transpose(interop::ArrayProxy src, interop::ArrayProxy dst)
+// the still-class path (Raw kinds that wrap an existing cv::_InputArray*).
+CVAPI(ExceptionStatus) core_transpose(interop::InputArrayProxy src, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
     cv::transpose(InProxy(src), OutProxy(dst));
@@ -642,7 +642,7 @@ CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerTo
 }
 
 // FOUNDATION: ref-struct proxy path for an _InputOutputArray argument (see core_transpose_io).
-CVAPI(ExceptionStatus) core_completeSymm_io(interop::ArrayProxy mtx, int lowerToUpper)
+CVAPI(ExceptionStatus) core_completeSymm_io(interop::InputOutputArrayProxy mtx, int lowerToUpper)
 {
     return cvTry([&] {
     cv::completeSymm(fromInputOutputProxy(mtx), lowerToUpper != 0);

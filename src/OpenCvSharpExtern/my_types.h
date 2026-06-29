@@ -197,29 +197,47 @@ namespace interop
     typedef struct Vec4d { double val[4]; } Vec4d;
     typedef struct Vec6d { double val[6]; } Vec6d;
 
-    // Stack-only array proxy for the ref-struct InputArray/OutputArray redesign. It mirrors
-    // cv::_InputArray/_OutputArray (a kind tag + a pointer/inline payload) and is passed BY VALUE
+    // Stack-only array proxies for the ref-struct InputArray/OutputArray redesign. They mirror
+    // cv::_InputArray/_OutputArray (a kind tag + a pointer/inline payload) and are passed BY VALUE
     // across the P/Invoke boundary, so the managed side never allocates a heap cv::_InputArray per
-    // call. The native side rebuilds a cv::_InputArray/_OutputArray on its own stack from these
-    // fields via fromInputProxy()/fromOutputProxy().
+    // call. The native side rebuilds the cv:: array on its own stack via from{Input,Output,
+    // InputOutput}Proxy().
     //
-    // For Scalar kinds the inline payload feeds a stack-local cv::Scalar (see fromInputProxy). For
-    // Vec kinds the cv::_InputArray references this struct's own `payload` storage; because the
-    // proxy is taken by value, the parameter copy stays valid for the duration of the OpenCV call.
-    struct ArrayProxy
+    // There are three distinct types so a CVAPI signature is self-documenting (which argument is in
+    // vs out, like the old cv::_InputArray*/_OutputArray*) and so the in/out role is type-checked.
+    // Only inputs can be a Scalar/Vec value, so only InputArrayProxy carries the inline payload; the
+    // output proxies are just a handle + kind.
+
+    struct InputArrayProxy
     {
         void  *handle;     // cv::Mat*/cv::UMat*/cv::MatExpr* for handle kinds; null otherwise
-        int    kind;       // ArrayProxyKind: 0 None, 1 Mat, 2 UMat, 3 MatExpr, 4 Scalar, 5 Double, 6 Vec
+        int    kind;       // ArrayProxyKind: 0 None, 1 Mat, 2 UMat, 3 MatExpr, 4 Scalar, 5 Double, 6 Vec, 7 Raw
         int    vecDepth;   // Vec only: CV_8U..CV_64F element depth; otherwise 0
         int    vecLength;  // Vec only: element count (2/3/4/6); otherwise 0
         double payload[6]; // inline storage: Scalar (4 doubles) | double (1) | Vec (raw bytes, <= 48)
     };
 
-    // ArrayProxy is passed BY VALUE through extern "C" (CVAPI), so it must stay a C-ABI-compatible
-    // POD: standard-layout and trivially copyable (no user copy/move/dtor, no virtuals). This guard
-    // fails the build the moment a non-trivial member sneaks in.
-    static_assert(std::is_standard_layout_v<ArrayProxy> && std::is_trivially_copyable_v<ArrayProxy>,
-        "interop::ArrayProxy must stay a C-ABI-compatible POD");
+    struct OutputArrayProxy
+    {
+        void *handle;      // cv::Mat*/cv::UMat* (or a cv::_OutputArray* for the Raw kind)
+        int   kind;        // ArrayProxyKind: 0 None, 1 Mat, 2 UMat, 8 RawOutputArray
+    };
+
+    struct InputOutputArrayProxy
+    {
+        void *handle;      // cv::Mat*/cv::UMat* (or a cv::_InputOutputArray* for the Raw kind)
+        int   kind;        // ArrayProxyKind: 0 None, 1 Mat, 2 UMat, 9 RawInputOutputArray
+    };
+
+    // These are passed BY VALUE through extern "C" (CVAPI), so each must stay a C-ABI-compatible POD:
+    // standard-layout and trivially copyable (no user copy/move/dtor, no virtuals). The guards fail
+    // the build the moment a non-trivial member sneaks in.
+    static_assert(std::is_standard_layout_v<InputArrayProxy> && std::is_trivially_copyable_v<InputArrayProxy>,
+        "interop::InputArrayProxy must stay a C-ABI-compatible POD");
+    static_assert(std::is_standard_layout_v<OutputArrayProxy> && std::is_trivially_copyable_v<OutputArrayProxy>,
+        "interop::OutputArrayProxy must stay a C-ABI-compatible POD");
+    static_assert(std::is_standard_layout_v<InputOutputArrayProxy> && std::is_trivially_copyable_v<InputOutputArrayProxy>,
+        "interop::InputOutputArrayProxy must stay a C-ABI-compatible POD");
 
 } // namespace interop
 
@@ -356,26 +374,20 @@ static cv::Moments cpp(const interop::Moments &m)
 }
 
 // -------------------------------------------------------------------------
-// interop::ArrayProxy -> cv::_InputArray / _OutputArray / _InputOutputArray
+// interop::{Input,Output,InputOutput}ArrayProxy -> cv::_InputArray / _OutputArray /
+// _InputOutputArray
 //
-// These build the cv:: array proxy on the caller's stack from a by-value
-// interop::ArrayProxy, so no heap cv::_InputArray is allocated per call. Use
-// them at the head of a CVAPI body, e.g.:
+// These build the cv:: array proxy on the caller's stack from a by-value proxy, so
+// no heap cv::_InputArray is allocated per call. Use the InProxy/OutProxy/IoProxy
+// views below at the head of a CVAPI body.
 //
-//     CVAPI(...) foo(interop::ArrayProxy src, interop::ArrayProxy dst) {
-//         return cvTry([&] {
-//         cv::Scalar s; // scratch storage for scalar-kind inputs (see below)
-//         cv::bar(fromInputProxy(src, s), fromOutputProxy(dst));
-//         });
-//     }
-//
-// Scalar/Double inputs: cv::_InputArray references a cv::Scalar, so the caller
-// must keep `scalarScratch` alive for the whole OpenCV call (one scratch per
-// input that may be a scalar).
-// Vec inputs: cv::_InputArray references proxy.payload; the by-value parameter
-// copy stays valid for the call.
+// Scalar/Double inputs: cv::_InputArray references a cv::Scalar, so the caller must
+// keep `scalarScratch` alive for the whole OpenCV call (one scratch per input that
+// may be a scalar).
+// Vec inputs: cv::_InputArray references proxy.payload; the by-value parameter copy
+// stays valid for the call.
 // -------------------------------------------------------------------------
-static cv::_InputArray fromInputProxy(const interop::ArrayProxy &p, cv::Scalar &scalarScratch)
+static cv::_InputArray fromInputProxy(const interop::InputArrayProxy &p, cv::Scalar &scalarScratch)
 {
     switch (p.kind)
     {
@@ -403,7 +415,7 @@ static cv::_InputArray fromInputProxy(const interop::ArrayProxy &p, cv::Scalar &
     }
 }
 
-static cv::_OutputArray fromOutputProxy(const interop::ArrayProxy &p)
+static cv::_OutputArray fromOutputProxy(const interop::OutputArrayProxy &p)
 {
     switch (p.kind)
     {
@@ -414,7 +426,7 @@ static cv::_OutputArray fromOutputProxy(const interop::ArrayProxy &p)
     }
 }
 
-static cv::_InputOutputArray fromInputOutputProxy(const interop::ArrayProxy &p)
+static cv::_InputOutputArray fromInputOutputProxy(const interop::InputOutputArrayProxy &p)
 {
     switch (p.kind)
     {
@@ -426,13 +438,13 @@ static cv::_InputOutputArray fromInputOutputProxy(const interop::ArrayProxy &p)
 }
 
 // -------------------------------------------------------------------------
-// RAII views that turn a by-value interop::ArrayProxy into a cv::_InputArray /
-// _OutputArray / _InputOutputArray for use directly inside an OpenCV call. Each
-// view owns the scratch storage its proxy may reference (the scalar for scalar
-// kinds), so as long as the view lives to the end of the call expression the
-// cv:: array stays valid. This keeps migrated CVAPI bodies a one-liner, e.g.
+// RAII views that turn a by-value proxy into a cv::_InputArray / _OutputArray /
+// _InputOutputArray for use directly inside an OpenCV call. Each view owns the
+// scratch storage its proxy may reference (the scalar for scalar kinds), so as long
+// as the view lives to the end of the call expression the cv:: array stays valid.
+// This keeps migrated CVAPI bodies a one-liner, e.g.
 //
-//     CVAPI(...) core_foo(interop::ArrayProxy src, interop::ArrayProxy dst) {
+//     CVAPI(...) core_foo(interop::InputArrayProxy src, interop::OutputArrayProxy dst) {
 //         return cvTry([&] { cv::foo(InProxy(src), OutProxy(dst)); });
 //     }
 // -------------------------------------------------------------------------
@@ -441,7 +453,7 @@ class InProxy
     cv::Scalar scratch_;
     cv::_InputArray ia_;
 public:
-    explicit InProxy(const interop::ArrayProxy &p) : ia_(fromInputProxy(p, scratch_)) {}
+    explicit InProxy(const interop::InputArrayProxy &p) : ia_(fromInputProxy(p, scratch_)) {}
     InProxy(const InProxy &) = delete;
     InProxy &operator=(const InProxy &) = delete;
     operator const cv::_InputArray &() const { return ia_; }
@@ -451,7 +463,7 @@ class OutProxy
 {
     cv::_OutputArray oa_;
 public:
-    explicit OutProxy(const interop::ArrayProxy &p) : oa_(fromOutputProxy(p)) {}
+    explicit OutProxy(const interop::OutputArrayProxy &p) : oa_(fromOutputProxy(p)) {}
     OutProxy(const OutProxy &) = delete;
     OutProxy &operator=(const OutProxy &) = delete;
     operator const cv::_OutputArray &() const { return oa_; }
@@ -461,7 +473,7 @@ class IoProxy
 {
     cv::_InputOutputArray ioa_;
 public:
-    explicit IoProxy(const interop::ArrayProxy &p) : ioa_(fromInputOutputProxy(p)) {}
+    explicit IoProxy(const interop::InputOutputArrayProxy &p) : ioa_(fromInputOutputProxy(p)) {}
     IoProxy(const IoProxy &) = delete;
     IoProxy &operator=(const IoProxy &) = delete;
     operator const cv::_InputOutputArray &() const { return ioa_; }

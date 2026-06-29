@@ -104,53 +104,53 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_copyMakeBorder(
-        ArrayProxy src, ArrayProxy dst, int top, int bottom, int left, int right, int borderType, Scalar value);
+        InputArrayProxy src, OutputArrayProxy dst, int top, int bottom, int left, int right, int borderType, Scalar value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_add(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
+    internal static partial ExceptionStatus core_add(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_subtract_InputArray2(
-        ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
+        InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_subtract_InputArrayScalar(
-        ArrayProxy src1, Scalar src2, ArrayProxy dst, ArrayProxy mask, int dtype);
+        InputArrayProxy src1, Scalar src2, OutputArrayProxy dst, InputArrayProxy mask, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_subtract_ScalarInputArray(
-        Scalar src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
+        Scalar src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_multiply(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, double scale, int dtype);
+    internal static partial ExceptionStatus core_multiply(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, double scale, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_divide1(double scale, ArrayProxy src2, ArrayProxy dst, int dtype);
+    internal static partial ExceptionStatus core_divide1(double scale, InputArrayProxy src2, OutputArrayProxy dst, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_divide2(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, double scale, int dtype);
+    internal static partial ExceptionStatus core_divide2(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, double scale, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_scaleAdd(ArrayProxy src1, double alpha, ArrayProxy src2, ArrayProxy dst);
+    internal static partial ExceptionStatus core_scaleAdd(InputArrayProxy src1, double alpha, InputArrayProxy src2, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_addWeighted(ArrayProxy src1, double alpha, ArrayProxy src2,
-        double beta, double gamma, ArrayProxy dst, int dtype);
+    internal static partial ExceptionStatus core_addWeighted(InputArrayProxy src1, double alpha, InputArrayProxy src2,
+        double beta, double gamma, OutputArrayProxy dst, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_convertScaleAbs(ArrayProxy src, ArrayProxy dst, double alpha, double beta);
+    internal static partial ExceptionStatus core_convertScaleAbs(InputArrayProxy src, OutputArrayProxy dst, double alpha, double beta);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_LUT(ArrayProxy src, ArrayProxy lut, ArrayProxy dst);
+    internal static partial ExceptionStatus core_LUT(InputArrayProxy src, InputArrayProxy lut, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_sum(ArrayProxy src, out Scalar returnValue);
+    internal static partial ExceptionStatus core_sum(InputArrayProxy src, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_countNonZero(ArrayProxy src, out int returnValue);
+    internal static partial ExceptionStatus core_countNonZero(InputArrayProxy src, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_findNonZero(ArrayProxy src, ArrayProxy idx);
+    internal static partial ExceptionStatus core_findNonZero(InputArrayProxy src, OutputArrayProxy idx);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_mean(ArrayProxy src, ArrayProxy mask, out Scalar returnValue);
+    internal static partial ExceptionStatus core_mean(InputArrayProxy src, InputArrayProxy mask, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_meanStdDev_OutputArray(
@@ -217,7 +217,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_insertChannel(IntPtr src, IntPtr dst, int coi);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_flip(ArrayProxy src, ArrayProxy dst, int flipCode);
+    internal static partial ExceptionStatus core_flip(InputArrayProxy src, OutputArrayProxy dst, int flipCode);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_rotate(IntPtr src, IntPtr dst, int rotateCode);
@@ -238,69 +238,69 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_vconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_bitwise_and(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
+    internal static partial ExceptionStatus core_bitwise_and(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_bitwise_or(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
+    internal static partial ExceptionStatus core_bitwise_or(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_bitwise_xor(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
+    internal static partial ExceptionStatus core_bitwise_xor(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_bitwise_not(ArrayProxy src, ArrayProxy dst, ArrayProxy mask);
+    internal static partial ExceptionStatus core_bitwise_not(InputArrayProxy src, OutputArrayProxy dst, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_absdiff(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
+    internal static partial ExceptionStatus core_absdiff(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_copyTo(ArrayProxy src, ArrayProxy dst, ArrayProxy mask);
+    internal static partial ExceptionStatus core_copyTo(InputArrayProxy src, OutputArrayProxy dst, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_inRange_InputArray(ArrayProxy src, ArrayProxy lowerb, ArrayProxy upperb, ArrayProxy dst);
+    internal static partial ExceptionStatus core_inRange_InputArray(InputArrayProxy src, InputArrayProxy lowerb, InputArrayProxy upperb, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_inRange_Scalar(ArrayProxy src, Scalar lowerb, Scalar upperb, ArrayProxy dst);
+    internal static partial ExceptionStatus core_inRange_Scalar(InputArrayProxy src, Scalar lowerb, Scalar upperb, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_compare(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, int cmpop);
+    internal static partial ExceptionStatus core_compare(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, int cmpop);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_min1(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
+    internal static partial ExceptionStatus core_min1(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_min_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_min_MatDouble(IntPtr src1, double src2, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_max1(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
+    internal static partial ExceptionStatus core_max1(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_max_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_max_MatDouble(IntPtr src1, double src2, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_sqrt(ArrayProxy src, ArrayProxy dst);
+    internal static partial ExceptionStatus core_sqrt(InputArrayProxy src, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_pow_Mat(ArrayProxy src, double power, ArrayProxy dst);
+    internal static partial ExceptionStatus core_pow_Mat(InputArrayProxy src, double power, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_exp_Mat(ArrayProxy src, ArrayProxy dst);
+    internal static partial ExceptionStatus core_exp_Mat(InputArrayProxy src, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_log_Mat(ArrayProxy src, ArrayProxy dst);
+    internal static partial ExceptionStatus core_log_Mat(InputArrayProxy src, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_polarToCart(ArrayProxy magnitude, ArrayProxy angle, ArrayProxy x, ArrayProxy y, int angleInDegrees);
+    internal static partial ExceptionStatus core_polarToCart(InputArrayProxy magnitude, InputArrayProxy angle, OutputArrayProxy x, OutputArrayProxy y, int angleInDegrees);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_cartToPolar(ArrayProxy x, ArrayProxy y, ArrayProxy magnitude, ArrayProxy angle, int angleInDegrees);
+    internal static partial ExceptionStatus core_cartToPolar(InputArrayProxy x, InputArrayProxy y, OutputArrayProxy magnitude, OutputArrayProxy angle, int angleInDegrees);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_phase(ArrayProxy x, ArrayProxy y, ArrayProxy angle, int angleInDegrees);
+    internal static partial ExceptionStatus core_phase(InputArrayProxy x, InputArrayProxy y, OutputArrayProxy angle, int angleInDegrees);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_magnitude_Mat(ArrayProxy x, ArrayProxy y, ArrayProxy magnitude);
+    internal static partial ExceptionStatus core_magnitude_Mat(InputArrayProxy x, InputArrayProxy y, OutputArrayProxy magnitude);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_checkRange(IntPtr a, int quiet, out Point pos, double minVal, double maxVal, out int returnValue);
@@ -318,7 +318,7 @@ static partial class NativeMethods
     // side rebuilds cv::_InputArray/_OutputArray on its stack. One signature serves both the ref-struct
     // path (optimized kinds) and the still-class path (Raw kinds wrapping an existing cv::_InputArray*).
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_transpose(ArrayProxy src, ArrayProxy dst);
+    internal static partial ExceptionStatus core_transpose(InputArrayProxy src, OutputArrayProxy dst);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -342,7 +342,7 @@ static partial class NativeMethods
 
     // FOUNDATION: ref-struct proxy path for an InputOutputArray argument.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_completeSymm_io(ArrayProxy mtx, int lowerToUpper);
+    internal static partial ExceptionStatus core_completeSymm_io(InputOutputArrayProxy mtx, int lowerToUpper);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_setIdentity(IntPtr mtx, Scalar s);

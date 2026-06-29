@@ -16,7 +16,7 @@ public class OutputArray : CvObject
     // Migration scaffold (issue #1976, strategy 3): wraps this class's native cv::_OutputArray* as an
     // ArrayProxy so externs can move to the ArrayProxy ABI one module at a time while OutputArray is
     // still a class. The caller must keep this object alive across the native call (GC.KeepAlive).
-    internal ArrayProxy ToOutputProxy() => new() { Handle = CvPtr, Kind = (int)ArrayProxyKind.RawOutputArray };
+    internal OutputArrayProxy ToOutputProxy() => new() { Handle = CvPtr, Kind = (int)ArrayProxyKind.RawOutputArray };
 
     #region Init & Disposal
 
