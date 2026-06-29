@@ -191,118 +191,166 @@ CVAPI(ExceptionStatus) core_mean(
 }
 
 CVAPI(ExceptionStatus) core_meanStdDev_OutputArray(
-    cv::_InputArray* src, cv::_OutputArray* mean, cv::_OutputArray* stddev, cv::_InputArray* mask)
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy mean,
+    interop::OutputArrayProxy stddev,
+    interop::InputArrayProxy mask)
 {
     return cvTry([&] {
-    cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+    cv::meanStdDev(InProxy(src), OutProxy(mean), OutProxy(stddev), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_meanStdDev_Scalar(
-    cv::_InputArray* src, interop::Scalar* mean, interop::Scalar* stddev, cv::_InputArray* mask)
+    interop::InputArrayProxy src,
+    interop::Scalar* mean,
+    interop::Scalar* stddev,
+    interop::InputArrayProxy mask)
 {
     return cvTry([&] {
     cv::Scalar mean0, stddev0;
-    cv::meanStdDev(*src, mean0, stddev0, entity(mask));
+    cv::meanStdDev(InProxy(src), mean0, stddev0, InProxy(mask));
     *mean = c(mean0);
     *stddev = c(stddev0);
     });
 }
 
 CVAPI(ExceptionStatus) core_norm1(
-    cv::_InputArray* src1, int normType, cv::_InputArray* mask, double *returnValue)
+    interop::InputArrayProxy src1,
+    int normType,
+    interop::InputArrayProxy mask,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::norm(*src1, normType, entity(mask));
+    *returnValue = cv::norm(InProxy(src1), normType, InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_norm2(
-    cv::_InputArray* src1, cv::_InputArray* src2,
-    int normType, cv::_InputArray* mask, double* returnValue)
+    interop::InputArrayProxy src1,
+    interop::InputArrayProxy src2,
+    int normType,
+    interop::InputArrayProxy mask,
+    double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::norm(*src1, *src2, normType, entity(mask));
+    *returnValue = cv::norm(InProxy(src1), InProxy(src2), normType, InProxy(mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
+CVAPI(ExceptionStatus) core_PSNR(
+    interop::InputArrayProxy src1,
+    interop::InputArrayProxy src2,
+    double R,
+    double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::PSNR(*src1, *src2, R);
+    *returnValue = cv::PSNR(InProxy(src1), InProxy(src2), R);
     });
 }
 
 CVAPI(ExceptionStatus) core_batchDistance(
-    cv::_InputArray* src1, cv::_InputArray* src2,
-    cv::_OutputArray* dist, int dtype, cv::_OutputArray* nidx,
-    int normType, int K, cv::_InputArray* mask,
-    int update, int crosscheck)
+    interop::InputArrayProxy src1,
+    interop::InputArrayProxy src2,
+    interop::OutputArrayProxy dist,
+    int dtype,
+    interop::OutputArrayProxy nidx,
+    int normType,
+    int K,
+    interop::InputArrayProxy mask,
+    int update,
+    int crosscheck)
 {
     return cvTry([&] {
     cv::batchDistance(
-        *src1, *src2, *dist, dtype, *nidx, normType, K, entity(mask), update, crosscheck != 0);
+        InProxy(src1), InProxy(src2), OutProxy(dist), dtype, OutProxy(nidx), normType, K, InProxy(mask), update, crosscheck != 0);
     });
 }
 
 CVAPI(ExceptionStatus) core_normalize(
-    cv::_InputArray* src, cv::_InputOutputArray* dst, double alpha, double beta, int normType, int dtype, cv::_InputArray* mask)
+    interop::InputArrayProxy src,
+    interop::InputOutputArrayProxy dst,
+    double alpha,
+    double beta,
+    int normType,
+    int dtype,
+    interop::InputArrayProxy mask)
 {
     return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
-    cv::normalize(*src, *dst, alpha, beta, normType, dtype, maskVal);
+    cv::normalize(InProxy(src), IoProxy(dst), alpha, beta, normType, dtype, InProxy(mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_reduceArgMax(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+CVAPI(ExceptionStatus) core_reduceArgMax(
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy dst,
+    int axis,
+    bool lastIndex)
 {
     return cvTry([&] {
-    cv::reduceArgMax(*src, *dst, axis, lastIndex);
+    cv::reduceArgMax(InProxy(src), OutProxy(dst), axis, lastIndex);
     });
 }
 
-CVAPI(ExceptionStatus) core_reduceArgMin(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+CVAPI(ExceptionStatus) core_reduceArgMin(
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy dst,
+    int axis,
+    bool lastIndex)
 {
     return cvTry([&] {
-    cv::reduceArgMin(*src, *dst, axis, lastIndex);
+    cv::reduceArgMin(InProxy(src), OutProxy(dst), axis, lastIndex);
     });
 }
 
-CVAPI(ExceptionStatus) core_minMaxLoc1(cv::_InputArray* src, double* minVal, double* maxVal)
+CVAPI(ExceptionStatus) core_minMaxLoc1(interop::InputArrayProxy src, double* minVal, double* maxVal)
 {
     return cvTry([&] {
-    cv::minMaxLoc(*src, minVal, maxVal);
+    cv::minMaxLoc(InProxy(src), minVal, maxVal);
     });
 }
-CVAPI(ExceptionStatus) core_minMaxLoc2(cv::_InputArray* src, double* minVal, double* maxVal,
-    interop::Point* minLoc, interop::Point* maxLoc, cv::_InputArray* mask)
+CVAPI(ExceptionStatus) core_minMaxLoc2(
+    interop::InputArrayProxy src,
+    double* minVal,
+    double* maxVal,
+    interop::Point* minLoc,
+    interop::Point* maxLoc,
+    interop::InputArrayProxy mask)
 {
     return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
     cv::Point minLoc0, maxLoc0;
-    cv::minMaxLoc(*src, minVal, maxVal, &minLoc0, &maxLoc0, maskVal);
+    cv::minMaxLoc(InProxy(src), minVal, maxVal, &minLoc0, &maxLoc0, InProxy(mask));
     *minLoc = c(minLoc0);
     *maxLoc = c(maxLoc0);
     });
 }
 
-CVAPI(ExceptionStatus) core_minMaxIdx1(cv::_InputArray* src, double* minVal, double* maxVal)
+CVAPI(ExceptionStatus) core_minMaxIdx1(interop::InputArrayProxy src, double* minVal, double* maxVal)
 {
     return cvTry([&] {
-    cv::minMaxIdx(*src, minVal, maxVal);
+    cv::minMaxIdx(InProxy(src), minVal, maxVal);
     });
 }
-CVAPI(ExceptionStatus) core_minMaxIdx2(cv::_InputArray* src, double* minVal, double* maxVal,
-    int* minIdx, int* maxIdx, cv::_InputArray* mask)
+CVAPI(ExceptionStatus) core_minMaxIdx2(
+    interop::InputArrayProxy src,
+    double* minVal,
+    double* maxVal,
+    int* minIdx,
+    int* maxIdx,
+    interop::InputArrayProxy mask)
 {
     return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
-    cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
+    cv::minMaxIdx(InProxy(src), minVal, maxVal, minIdx, maxIdx, InProxy(mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_reduce(cv::_InputArray* src, cv::_OutputArray* dst, int dim, int rtype, int dtype)
+CVAPI(ExceptionStatus) core_reduce(
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy dst,
+    int dim,
+    int rtype,
+    int dtype)
 {
     return cvTry([&] {
-    cv::reduce(*src, *dst, dim, rtype, dtype);
+    cv::reduce(InProxy(src), OutProxy(dst), dim, rtype, dtype);
     });
 }
 
@@ -338,17 +386,17 @@ CVAPI(ExceptionStatus) core_mixChannels(cv::Mat** src, uint32_t nsrcs, cv::Mat**
     });
 }
 
-CVAPI(ExceptionStatus) core_extractChannel(cv::_InputArray* src, cv::_OutputArray* dst, int coi)
+CVAPI(ExceptionStatus) core_extractChannel(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int coi)
 {
     return cvTry([&] {
-    cv::extractChannel(*src, *dst, coi);
+    cv::extractChannel(InProxy(src), OutProxy(dst), coi);
     });
 }
 
-CVAPI(ExceptionStatus) core_insertChannel(cv::_InputArray* src, cv::_InputOutputArray* dst, int coi)
+CVAPI(ExceptionStatus) core_insertChannel(interop::InputArrayProxy src, interop::InputOutputArrayProxy dst, int coi)
 {
     return cvTry([&] {
-    cv::insertChannel(*src, *dst, coi);
+    cv::insertChannel(InProxy(src), IoProxy(dst), coi);
     });
 }
 
@@ -359,17 +407,21 @@ CVAPI(ExceptionStatus) core_flip(interop::InputArrayProxy src, interop::OutputAr
     });
 }
 
-CVAPI(ExceptionStatus) core_rotate(cv::_InputArray *src, cv::_OutputArray *dst, int rotateCode)
+CVAPI(ExceptionStatus) core_rotate(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int rotateCode)
 {
     return cvTry([&] {
-    cv::rotate(*src, *dst, rotateCode);
+    cv::rotate(InProxy(src), OutProxy(dst), rotateCode);
     });
 }
 
-CVAPI(ExceptionStatus) core_repeat1(cv::_InputArray* src, int ny, int nx, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_repeat1(
+    interop::InputArrayProxy src,
+    int ny,
+    int nx,
+    interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
-    cv::repeat(*src, ny, nx, *dst);
+    cv::repeat(InProxy(src), ny, nx, OutProxy(dst));
     });
 }
 CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** returnValue)
@@ -389,10 +441,10 @@ CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputAr
     cv::hconcat(&srcVec[0], nsrc, *dst);
     });
 }
-CVAPI(ExceptionStatus) core_hconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_hconcat2(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
-    cv::hconcat(*src1, *src2, *dst);
+    cv::hconcat(InProxy(src1), InProxy(src2), OutProxy(dst));
     });
 }
 
@@ -405,10 +457,10 @@ CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputAr
     cv::vconcat(&srcVec[0], nsrc, *dst);
     });
 }
-CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_vconcat2(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
-    cv::vconcat(*src1, *src2, *dst);
+    cv::vconcat(InProxy(src1), InProxy(src2), OutProxy(dst));
     });
 }
 

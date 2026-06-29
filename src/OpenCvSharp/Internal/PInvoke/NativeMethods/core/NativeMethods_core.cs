@@ -153,52 +153,52 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_mean(InputArrayProxy src, InputArrayProxy mask, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_meanStdDev_OutputArray(
-        IntPtr src, IntPtr mean, IntPtr stddev, IntPtr mask);
+    internal static partial ExceptionStatus core_meanStdDev_OutputArray(
+        InputArrayProxy src, OutputArrayProxy mean, OutputArrayProxy stddev, InputArrayProxy mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_meanStdDev_Scalar(
-        IntPtr src, out Scalar mean, out Scalar stddev, IntPtr mask);
+    internal static partial ExceptionStatus core_meanStdDev_Scalar(
+        InputArrayProxy src, out Scalar mean, out Scalar stddev, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_norm1(
-        IntPtr src1, int normType, IntPtr mask, out double returnValue);
+    internal static partial ExceptionStatus core_norm1(
+        InputArrayProxy src1, int normType, InputArrayProxy mask, out double returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_norm2(
-        IntPtr src1, IntPtr src2, int normType, IntPtr mask, out double returnValue);
+    internal static partial ExceptionStatus core_norm2(
+        InputArrayProxy src1, InputArrayProxy src2, int normType, InputArrayProxy mask, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PSNR(IntPtr src1, IntPtr src2, double r, out double returnValue);
+    internal static partial ExceptionStatus core_PSNR(InputArrayProxy src1, InputArrayProxy src2, double r, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_batchDistance(IntPtr src1, IntPtr src2,
-        IntPtr dist, int dtype, IntPtr nidx,
-        int normType, int k, IntPtr mask,
+    internal static partial ExceptionStatus core_batchDistance(InputArrayProxy src1, InputArrayProxy src2,
+        OutputArrayProxy dist, int dtype, OutputArrayProxy nidx,
+        int normType, int k, InputArrayProxy mask,
         int update, int crosscheck);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
-        int normType, int dtype, IntPtr mask);
+    internal static partial ExceptionStatus core_normalize(InputArrayProxy src, InputOutputArrayProxy dst, double alpha, double beta,
+        int normType, int dtype, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_reduceArgMax(IntPtr src, IntPtr dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
+    internal static partial ExceptionStatus core_reduceArgMax(InputArrayProxy src, OutputArrayProxy dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_reduceArgMin(IntPtr src, IntPtr dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
+    internal static partial ExceptionStatus core_reduceArgMin(InputArrayProxy src, OutputArrayProxy dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_minMaxLoc1(IntPtr src, out double minVal, out double maxVal);
+    internal static partial ExceptionStatus core_minMaxLoc1(InputArrayProxy src, out double minVal, out double maxVal);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_minMaxLoc2(IntPtr src, out double minVal, out double maxVal,
-        out Point minLoc, out Point maxLoc, IntPtr mask);
+    internal static partial ExceptionStatus core_minMaxLoc2(InputArrayProxy src, out double minVal, out double maxVal,
+        out Point minLoc, out Point maxLoc, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_minMaxIdx1(IntPtr src, out double minVal, out double maxVal);
+    internal static partial ExceptionStatus core_minMaxIdx1(InputArrayProxy src, out double minVal, out double maxVal);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_minMaxIdx2(IntPtr src, out double minVal, out double maxVal,
-        [MarshalAs(UnmanagedType.LPArray), Out] int[] minIdx, [MarshalAs(UnmanagedType.LPArray), Out] int[] maxIdx, IntPtr mask);
+    internal static partial ExceptionStatus core_minMaxIdx2(InputArrayProxy src, out double minVal, out double maxVal,
+        [MarshalAs(UnmanagedType.LPArray), Out] int[] minIdx, [MarshalAs(UnmanagedType.LPArray), Out] int[] maxIdx, InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_reduce(IntPtr src, IntPtr dst, int dim, int rtype, int dtype);
+    internal static partial ExceptionStatus core_reduce(InputArrayProxy src, OutputArrayProxy dst, int dim, int rtype, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_merge([MarshalAs(UnmanagedType.LPArray)] IntPtr[] mv, uint count, IntPtr dst);
@@ -211,31 +211,31 @@ static partial class NativeMethods
         IntPtr[] dst, uint ndsts, int[] fromTo, uint npairs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_extractChannel(IntPtr src, IntPtr dst, int coi);
+    internal static partial ExceptionStatus core_extractChannel(InputArrayProxy src, OutputArrayProxy dst, int coi);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_insertChannel(IntPtr src, IntPtr dst, int coi);
+    internal static partial ExceptionStatus core_insertChannel(InputArrayProxy src, InputOutputArrayProxy dst, int coi);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_flip(InputArrayProxy src, OutputArrayProxy dst, int flipCode);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_rotate(IntPtr src, IntPtr dst, int rotateCode);
+    internal static partial ExceptionStatus core_rotate(InputArrayProxy src, OutputArrayProxy dst, int rotateCode);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_repeat1(IntPtr src, int ny, int nx, IntPtr dst);
+    internal static partial ExceptionStatus core_repeat1(InputArrayProxy src, int ny, int nx, OutputArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_repeat2(IntPtr src, int ny, int nx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_hconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_hconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
+    internal static partial ExceptionStatus core_hconcat2(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_vconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_vconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
+    internal static partial ExceptionStatus core_vconcat2(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_bitwise_and(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, InputArrayProxy mask);
