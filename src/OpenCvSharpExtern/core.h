@@ -563,63 +563,23 @@ CVAPI(ExceptionStatus) core_transpose(cv::_InputArray *src, cv::_OutputArray *ds
     });
 }
 
-// PROTOTYPE: ref-struct proxy path. Build cv::_InputArray / cv::_OutputArray on the stack from a
-// raw handle + kind tag, so the managed side never allocates a heap _InputArray per call.
-// kind: 1 = Mat, 2 = UMat (scalar kinds handled later by overloads taking interop::Scalar).
-static cv::_InputArray refToInputArray(void *handle, int kind)
-{
-    switch (kind)
-    {
-    case 1: return cv::_InputArray(*static_cast<cv::Mat *>(handle));
-    case 2: return cv::_InputArray(*static_cast<cv::UMat *>(handle));
-    default: return cv::noArray();
-    }
-}
-static cv::_OutputArray refToOutputArray(void *handle, int kind)
-{
-    switch (kind)
-    {
-    case 1: return cv::_OutputArray(*static_cast<cv::Mat *>(handle));
-    case 2: return cv::_OutputArray(*static_cast<cv::UMat *>(handle));
-    default: return cv::noArray();
-    }
-}
-
-CVAPI(ExceptionStatus) core_transpose_io(void *src, int srcKind, void *dst, int dstKind)
+// FOUNDATION: ref-struct proxy path. Each array argument arrives as an interop::ArrayProxy passed
+// BY VALUE; fromInputProxy()/fromOutputProxy() (in my_types.h) rebuild a cv::_InputArray /
+// _OutputArray on this stack frame, so the managed side never allocates a heap _InputArray per call.
+// Scalar-kind inputs reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
+CVAPI(ExceptionStatus) core_transpose_io(interop::ArrayProxy src, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::transpose(refToInputArray(src, srcKind), refToOutputArray(dst, dstKind));
+    cv::Scalar s;
+    cv::transpose(fromInputProxy(src, s), fromOutputProxy(dst));
     });
 }
 
-// Scalar-aware overload. For scalar kinds the cv::_InputArray references 'scalar', so the caller
-// must keep that cv::Scalar alive on its own stack for the duration of the OpenCV call.
-// kind: 1 = Mat, 2 = UMat, 3 = Scalar, 4 = Double.
-static cv::_InputArray refToInputArray(void *handle, int kind, const cv::Scalar &scalar)
-{
-    switch (kind)
-    {
-    case 1: return cv::_InputArray(*static_cast<cv::Mat *>(handle));
-    case 2: return cv::_InputArray(*static_cast<cv::UMat *>(handle));
-    case 3:
-    case 4: return cv::_InputArray(scalar);
-    default: return cv::noArray();
-    }
-}
-
-CVAPI(ExceptionStatus) core_add_io(
-    void *src1, int kind1, interop::Scalar scalar1,
-    void *src2, int kind2, interop::Scalar scalar2,
-    void *dst, int dstKind)
+CVAPI(ExceptionStatus) core_add_io(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    // Materialize scalars onto this stack frame so the _InputArray references stay valid.
-    const cv::Scalar s1 = cpp(scalar1);
-    const cv::Scalar s2 = cpp(scalar2);
-    cv::add(
-        refToInputArray(src1, kind1, s1),
-        refToInputArray(src2, kind2, s2),
-        refToOutputArray(dst, dstKind));
+    cv::Scalar s1, s2;
+    cv::add(fromInputProxy(src1, s1), fromInputProxy(src2, s2), fromOutputProxy(dst));
     });
 }
 
@@ -679,6 +639,14 @@ CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerTo
 {
     return cvTry([&] {
     cv::completeSymm(*mtx, lowerToUpper != 0);
+    });
+}
+
+// FOUNDATION: ref-struct proxy path for an _InputOutputArray argument (see core_transpose_io).
+CVAPI(ExceptionStatus) core_completeSymm_io(interop::ArrayProxy mtx, int lowerToUpper)
+{
+    return cvTry([&] {
+    cv::completeSymm(fromInputOutputProxy(mtx), lowerToUpper != 0);
     });
 }
 

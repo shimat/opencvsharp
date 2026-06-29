@@ -317,18 +317,13 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_transpose(IntPtr src, IntPtr dst);
 
-    // PROTOTYPE: ref-struct proxy path. Receives handle + kind and builds cv::_InputArray /
-    // cv::_OutputArray on the native stack (no managed-side _InputArray allocation).
+    // FOUNDATION: ref-struct proxy path. Each array argument is an ArrayProxy passed BY VALUE; the
+    // native side rebuilds cv::_InputArray/_OutputArray on its stack (no managed _InputArray alloc).
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_transpose_io(IntPtr src, int srcKind, IntPtr dst, int dstKind);
+    internal static partial ExceptionStatus core_transpose_io(ArrayProxy src, ArrayProxy dst);
 
-    // PROTOTYPE: scalar-aware ref-struct path. Scalar/double operands are passed by value (inline),
-    // so no _InputArray is allocated for them either.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_add_io(
-        IntPtr src1, int kind1, Scalar scalar1,
-        IntPtr src2, int kind2, Scalar scalar2,
-        IntPtr dst, int dstKind);
+    internal static partial ExceptionStatus core_add_io(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_transform(IntPtr src, IntPtr dst, IntPtr m);
@@ -348,6 +343,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_completeSymm(IntPtr mtx, int lowerToUpper);
+
+    // FOUNDATION: ref-struct proxy path for an InputOutputArray argument.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_completeSymm_io(ArrayProxy mtx, int lowerToUpper);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_setIdentity(IntPtr mtx, Scalar s);
