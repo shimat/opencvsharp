@@ -117,6 +117,68 @@ public readonly ref struct InputArrayRef
     /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline as Scalar(d,0,0,0)).</summary>
     public static implicit operator InputArrayRef(double d) =>
         new(null, new ArrayProxy { Kind = (int)ArrayProxyKind.Double, Payload0 = d });
+
+    // cv depth constants for the inline Vec payload (cv::CV_8U .. CV_64F).
+    private const int DepthU8 = 0, DepthU16 = 2, DepthS16 = 3, DepthS32 = 4, DepthF32 = 5, DepthF64 = 6;
+
+    // Copies a fixed-length vector value into the inline payload (no allocation). The native side
+    // reads it back as (const T*)payload with VecLength elements; see fromInputProxy in my_types.h.
+    private static InputArrayRef FromVec<T>(T vec, int depth, int length) where T : unmanaged
+    {
+        var proxy = new ArrayProxy { Kind = (int)ArrayProxyKind.Vec, VecDepth = depth, VecLength = length };
+        var payload = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref proxy.Payload0, 6));
+        MemoryMarshal.Write(payload, in vec);
+        return new InputArrayRef(null, proxy);
+    }
+
+    /// <summary>Wraps a <see cref="Vec2b"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2b v) => FromVec(v, DepthU8, 2);
+    /// <summary>Wraps a <see cref="Vec3b"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3b v) => FromVec(v, DepthU8, 3);
+    /// <summary>Wraps a <see cref="Vec4b"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4b v) => FromVec(v, DepthU8, 4);
+    /// <summary>Wraps a <see cref="Vec6b"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6b v) => FromVec(v, DepthU8, 6);
+    /// <summary>Wraps a <see cref="Vec2s"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2s v) => FromVec(v, DepthS16, 2);
+    /// <summary>Wraps a <see cref="Vec3s"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3s v) => FromVec(v, DepthS16, 3);
+    /// <summary>Wraps a <see cref="Vec4s"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4s v) => FromVec(v, DepthS16, 4);
+    /// <summary>Wraps a <see cref="Vec6s"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6s v) => FromVec(v, DepthS16, 6);
+    /// <summary>Wraps a <see cref="Vec2w"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2w v) => FromVec(v, DepthU16, 2);
+    /// <summary>Wraps a <see cref="Vec3w"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3w v) => FromVec(v, DepthU16, 3);
+    /// <summary>Wraps a <see cref="Vec4w"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4w v) => FromVec(v, DepthU16, 4);
+    /// <summary>Wraps a <see cref="Vec6w"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6w v) => FromVec(v, DepthU16, 6);
+    /// <summary>Wraps a <see cref="Vec2i"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2i v) => FromVec(v, DepthS32, 2);
+    /// <summary>Wraps a <see cref="Vec3i"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3i v) => FromVec(v, DepthS32, 3);
+    /// <summary>Wraps a <see cref="Vec4i"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4i v) => FromVec(v, DepthS32, 4);
+    /// <summary>Wraps a <see cref="Vec6i"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6i v) => FromVec(v, DepthS32, 6);
+    /// <summary>Wraps a <see cref="Vec2f"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2f v) => FromVec(v, DepthF32, 2);
+    /// <summary>Wraps a <see cref="Vec3f"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3f v) => FromVec(v, DepthF32, 3);
+    /// <summary>Wraps a <see cref="Vec4f"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4f v) => FromVec(v, DepthF32, 4);
+    /// <summary>Wraps a <see cref="Vec6f"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6f v) => FromVec(v, DepthF32, 6);
+    /// <summary>Wraps a <see cref="Vec2d"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec2d v) => FromVec(v, DepthF64, 2);
+    /// <summary>Wraps a <see cref="Vec3d"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec3d v) => FromVec(v, DepthF64, 3);
+    /// <summary>Wraps a <see cref="Vec4d"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec4d v) => FromVec(v, DepthF64, 4);
+    /// <summary>Wraps a <see cref="Vec6d"/> value (no allocation; travels inline).</summary>
+    public static implicit operator InputArrayRef(Vec6d v) => FromVec(v, DepthF64, 6);
 }
 
 /// <summary>

@@ -127,6 +127,36 @@ public class InputArrayRefTest : TestBase
     }
 
     [Fact]
+    public void TransposeRef_Vec_Matches()
+    {
+        var v = new Vec3d(1, 2, 3);
+
+        using var actual = new Mat();
+        Cv2.TransposeRef(v, actual);   // Vec3d -> InputArrayRef(Vec), travels inline
+
+        using var expected = new Mat();
+        Cv2.Transpose(v, expected);    // Vec3d -> class InputArray(Vec)
+
+        ImageEquals(expected, actual);
+    }
+
+    [Fact]
+    public void TransposeRef_Vec_IsAllocationFree()
+    {
+        var v = new Vec3d(1, 2, 3);
+        using var dst = new Mat();
+
+        Cv2.TransposeRef(v, dst); // warmup
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 1000; i++)
+            Cv2.TransposeRef(v, dst);
+        var after = GC.GetAllocatedBytesForCurrentThread();
+
+        Assert.Equal(0, after - before);
+    }
+
+    [Fact]
     public void CompleteSymmRef_Matches()
     {
         using var actual = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
