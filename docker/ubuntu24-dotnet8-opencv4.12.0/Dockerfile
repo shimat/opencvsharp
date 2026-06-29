@@ -124,7 +124,7 @@ RUN --mount=type=cache,target=/root/.ccache \
 
 ########## Test native .so file ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS test-native
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
 RUN apt-get update && apt-get -y install --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /usr/lib /usr/lib
 RUN echo "\n\
@@ -141,7 +141,7 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS test-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
 COPY --from=builder /usr/lib /usr/lib
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
@@ -153,10 +153,10 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS final-sdk
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
 COPY --from=builder /usr/lib /usr/lib
 COPY --from=builder /artifacts /artifacts
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS final
 COPY --from=builder /usr/lib /usr/lib
 COPY --from=builder /artifacts /artifacts
