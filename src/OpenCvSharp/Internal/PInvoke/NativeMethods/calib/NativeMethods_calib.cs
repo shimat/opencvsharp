@@ -101,21 +101,6 @@ static partial class NativeMethods
         out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_stereoCalibrate_Mat(
-        IntPtr[] objectPoints, int opSize,
-        IntPtr[] imagePoints1, int ip1Size,
-        IntPtr[] imagePoints2, int ip2Size,
-        IntPtr cameraMatrix1,
-        IntPtr distCoeffs1,
-        IntPtr cameraMatrix2,
-        IntPtr distCoeffs2,
-        Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
-        int flags, TermCriteria criteria,
-        out double returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus calib_stereoCalibrate_array(
         IntPtr[] objectPoints, int opSize1, int[] opSizes2,
         IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,

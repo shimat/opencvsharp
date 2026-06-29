@@ -413,7 +413,7 @@ static partial class Cv2
         InputArray cameraMatrix1, InputArray distCoeffs1,
         InputArray cameraMatrix2, InputArray distCoeffs2,
         InputArray cameraMatrix3, InputArray distCoeffs3,
-        IEnumerable<InputArray> imgpt1, IEnumerable<InputArray> imgpt3,
+        IReadOnlyList<Mat> imgpt1, IReadOnlyList<Mat> imgpt3,
         Size imageSize, InputArray R12, InputArray T12,
         InputArray R13, InputArray T13,
         OutputArray R1, OutputArray R2, OutputArray R3,

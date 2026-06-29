@@ -162,9 +162,9 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
 
 
 CVAPI(ExceptionStatus) calib_stereoCalibrate_InputArray(
-    cv::_InputArray **objectPoints, int opSize,
-    cv::_InputArray **imagePoints1, int ip1Size,
-    cv::_InputArray **imagePoints2, int ip2Size,
+    cv::Mat **objectPoints, int opSize,
+    cv::Mat **imagePoints1, int ip1Size,
+    cv::Mat **imagePoints2, int ip2Size,
     cv::_InputOutputArray *cameraMatrix1,
     cv::_InputOutputArray *distCoeffs1,
     cv::_InputOutputArray *cameraMatrix2,
@@ -172,39 +172,6 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_InputArray(
     interop::Size imageSize,
     cv::_OutputArray *R, cv::_OutputArray *T,
     cv::_OutputArray *E, cv::_OutputArray *F,
-    int flags, 
-    interop::TermCriteria criteria,
-    double *returnValue)
-{
-    return cvTry([&] {
-    std::vector<cv::Mat> objectPointsVec(opSize);
-    std::vector<cv::Mat> imagePoints1Vec(ip1Size);
-    std::vector<cv::Mat> imagePoints2Vec(ip2Size);
-    for (auto i = 0; i < opSize; i++)
-        objectPointsVec[i] = objectPoints[i]->getMat();
-    for (auto i = 0; i < ip1Size; i++)
-        imagePoints1Vec[i] = imagePoints1[i]->getMat();
-    for (auto i = 0; i < ip2Size; i++)
-        imagePoints2Vec[i] = imagePoints2[i]->getMat();
-
-    *returnValue = cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
-        *cameraMatrix1, *distCoeffs1,
-        *cameraMatrix2, *distCoeffs2,
-        cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
-    });
-}
-
-CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
-    cv::Mat **objectPoints, int opSize,
-    cv::Mat **imagePoints1, int ip1Size,
-    cv::Mat **imagePoints2, int ip2Size,
-    cv::Mat *cameraMatrix1,
-    cv::Mat *distCoeffs1,
-    cv::Mat *cameraMatrix2,
-    cv::Mat *distCoeffs2,
-    interop::Size imageSize,
-    cv::Mat *R, cv::Mat *T,
-    cv::Mat *E, cv::Mat *F,
     int flags,
     interop::TermCriteria criteria,
     double *returnValue)
@@ -223,7 +190,7 @@ CVAPI(ExceptionStatus) calib_stereoCalibrate_Mat(
     *returnValue = cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
         *cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2,
-        cpp(imageSize), *R, *T, *E, *F, flags, cpp(criteria));
+        cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
     });
 }
 
