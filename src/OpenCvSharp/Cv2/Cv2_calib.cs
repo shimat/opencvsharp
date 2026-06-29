@@ -546,9 +546,9 @@ static partial class Cv2
     /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
     /// <returns></returns>
     public static double StereoCalibrate(
-        IEnumerable<InputArray> objectPoints,
-        IEnumerable<InputArray> imagePoints1,
-        IEnumerable<InputArray> imagePoints2,
+        IReadOnlyList<Mat> objectPoints,
+        IReadOnlyList<Mat> imagePoints1,
+        IReadOnlyList<Mat> imagePoints2,
         InputOutputArray cameraMatrix1, InputOutputArray distCoeffs1,
         InputOutputArray cameraMatrix2, InputOutputArray distCoeffs2,
         Size imageSize, OutputArray R,
@@ -614,90 +614,6 @@ static partial class Cv2
         T.Fix();
         E.Fix();
         F.Fix();
-
-        return ret;
-    }
-
-    /// <summary>
-    /// finds intrinsic and extrinsic parameters of a stereo camera
-    /// </summary>
-    /// <param name="objectPoints">Vector of vectors of the calibration pattern points.</param>
-    /// <param name="imagePoints1">Vector of vectors of the projections of the calibration pattern points, observed by the first camera.</param>
-    /// <param name="imagePoints2">Vector of vectors of the projections of the calibration pattern points, observed by the second camera.</param>
-    /// <param name="cameraMatrix1">Input/output first camera matrix</param>
-    /// <param name="distCoeffs1">Input/output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
-    /// The output vector length depends on the flags.</param>
-    /// <param name="cameraMatrix2"> Input/output second camera matrix. The parameter is similar to cameraMatrix1 .</param>
-    /// <param name="distCoeffs2">Input/output lens distortion coefficients for the second camera. The parameter is similar to distCoeffs1 .</param>
-    /// <param name="imageSize">Size of the image used only to initialize intrinsic camera matrix.</param>
-    /// <param name="R">Output rotation matrix between the 1st and the 2nd camera coordinate systems.</param>
-    /// <param name="T">Output translation vector between the coordinate systems of the cameras.</param>
-    /// <param name="E">Output essential matrix.</param>
-    /// <param name="F">Output fundamental matrix.</param>
-    /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
-    /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
-    /// <returns></returns>
-    public static double StereoCalibrate(
-        IEnumerable<Mat> objectPoints,
-        IEnumerable<Mat> imagePoints1,
-        IEnumerable<Mat> imagePoints2,
-        Mat cameraMatrix1, Mat distCoeffs1,
-        Mat cameraMatrix2, Mat distCoeffs2,
-        Size imageSize, Mat R, Mat T, Mat E, Mat F,
-        CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
-        TermCriteria? criteria = null)
-    {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints1 is null)
-            throw new ArgumentNullException(nameof(imagePoints1));
-        if (imagePoints2 is null)
-            throw new ArgumentNullException(nameof(imagePoints2));
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (T is null)
-            throw new ArgumentNullException(nameof(T));
-        if (E is null)
-            throw new ArgumentNullException(nameof(E));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-
-        var opPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
-        var ip1Ptrs = imagePoints1.Select(x => x.CvPtr).ToArray();
-        var ip2Ptrs = imagePoints2.Select(x => x.CvPtr).ToArray();
-
-        var criteria0 = criteria.GetValueOrDefault(
-            new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
-
-        NativeMethods.HandleException(
-            NativeMethods.calib_stereoCalibrate_Mat(
-                opPtrs, opPtrs.Length,
-                ip1Ptrs, ip1Ptrs.Length,
-                ip2Ptrs, ip2Ptrs.Length,
-                cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
-                cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
-                imageSize, R.CvPtr, T.CvPtr, E.CvPtr, F.CvPtr,
-                (int)flags, criteria0, out var ret));
-
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(imagePoints1);
-        GC.KeepAlive(imagePoints2);
-        GC.KeepAlive(cameraMatrix1);
-        GC.KeepAlive(distCoeffs1);
-        GC.KeepAlive(cameraMatrix2);
-        GC.KeepAlive(distCoeffs2);
-        GC.KeepAlive(R);
-        GC.KeepAlive(T);
-        GC.KeepAlive(E);
-        GC.KeepAlive(F);
 
         return ret;
     }

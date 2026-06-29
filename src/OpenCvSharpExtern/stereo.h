@@ -95,8 +95,8 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
     cv::_InputArray *cameraMatrix1, cv::_InputArray *distCoeffs1,
     cv::_InputArray *cameraMatrix2, cv::_InputArray *distCoeffs2,
     cv::_InputArray *cameraMatrix3, cv::_InputArray *distCoeffs3,
-    cv::_InputArray **imgpt1, int imgpt1Size,
-    cv::_InputArray **imgpt3, int imgpt3Size,
+    cv::Mat **imgpt1, int imgpt1Size,
+    cv::Mat **imgpt3, int imgpt3Size,
     interop::Size imageSize, cv::_InputArray *R12, cv::_InputArray *T12,
     cv::_InputArray *R13, cv::_InputArray *T13,
     cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *R3,
@@ -109,9 +109,9 @@ CVAPI(ExceptionStatus) stereo_rectify3Collinear_InputArray(
     std::vector<cv::Mat> imgpt1Vec(imgpt1Size);
     std::vector<cv::Mat> imgpt3Vec(imgpt3Size);
     for (auto i = 0; i < imgpt1Size; i++)
-        imgpt1Vec[i] = imgpt1[i]->getMat();
+        imgpt1Vec[i] = *imgpt1[i];
     for (auto i = 0; i < imgpt3Size; i++)
-        imgpt3Vec[i] = imgpt3[i]->getMat();
+        imgpt3Vec[i] = *imgpt3[i];
     cv::Rect _roi1, _roi2;
 
     const auto ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1,
