@@ -52,7 +52,7 @@ public static partial class Cv2
         var value0 = value.GetValueOrDefault(new Scalar());
         NativeMethods.HandleException(
             NativeMethods.core_copyMakeBorder(
-                src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0));
+                src.ToInputProxy(), dst.ToOutputProxy(), top, bottom, left, right, (int)borderType, value0));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -1051,7 +1051,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int) flipCode));
+            NativeMethods.core_flip(src.ToInputProxy(), dst.ToOutputProxy(), (int) flipCode));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -1396,7 +1396,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_copyTo(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_copyTo(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1427,7 +1427,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_InputArray(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr));
+            NativeMethods.core_inRange_InputArray(src.ToInputProxy(), lowerb.ToInputProxy(), upperb.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(lowerb);
@@ -1453,7 +1453,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_Scalar(src.CvPtr, lowerb, upperb, dst.CvPtr));
+            NativeMethods.core_inRange_Scalar(src.ToInputProxy(), lowerb, upperb, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1481,7 +1481,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) cmpop));
+            NativeMethods.core_compare(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), (int) cmpop));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1654,7 +1654,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_sqrt(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1677,7 +1677,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr));
+            NativeMethods.core_pow_Mat(src.ToInputProxy(), power, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1699,7 +1699,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_exp_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1721,7 +1721,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_log_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1755,7 +1755,7 @@ public static partial class Cv2
         y.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_polarToCart(magnitude.ToInputProxy(), angle.ToInputProxy(), x.ToOutputProxy(), y.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(magnitude);
         GC.KeepAlive(angle);
@@ -1791,7 +1791,7 @@ public static partial class Cv2
         angle.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_cartToPolar(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
@@ -1821,7 +1821,7 @@ public static partial class Cv2
         angle.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_phase(x.ToInputProxy(), y.ToInputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
@@ -1848,7 +1848,7 @@ public static partial class Cv2
         magnitude.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr));
+            NativeMethods.core_magnitude_Mat(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy()));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
