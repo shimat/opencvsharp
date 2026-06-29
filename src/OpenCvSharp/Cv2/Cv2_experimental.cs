@@ -15,7 +15,7 @@ static partial class Cv2
     public static void TransposeRef(InputArrayRef src, OutputArrayRef dst)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_transpose_io(src.Proxy, dst.Proxy));
+            NativeMethods.core_transpose(src.Proxy, dst.Proxy));
         GC.KeepAlive(src.Source);
         GC.KeepAlive(dst.Source);
     }

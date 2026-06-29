@@ -33,6 +33,18 @@ public enum ArrayProxyKind
     Double = 5,
     /// <summary>A small fixed-length vector value (inline).</summary>
     Vec = 6,
+
+    // Migration scaffold: a proxy that wraps an existing native cv::_InputArray*/_OutputArray*/
+    // _InputOutputArray* (the handle of a class-based InputArray/OutputArray/InputOutputArray).
+    // Lets externs move to the ArrayProxy ABI one module at a time while the class types still
+    // exist; the native side just dereferences the handle. Removed once the type flip is complete.
+
+    /// <summary>An existing native cv::_InputArray* (class-based <see cref="InputArray"/>).</summary>
+    RawInputArray = 7,
+    /// <summary>An existing native cv::_OutputArray* (class-based <see cref="OutputArray"/>).</summary>
+    RawOutputArray = 8,
+    /// <summary>An existing native cv::_InputOutputArray* (class-based <see cref="InputOutputArray"/>).</summary>
+    RawInputOutputArray = 9,
 }
 
 /// <summary>

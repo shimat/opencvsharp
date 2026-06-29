@@ -314,13 +314,11 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_mulTransposed(IntPtr src, IntPtr dst, int aTa, IntPtr delta, double scale, int dtype);
 
+    // MIGRATION (issue #1976, strategy 3): array arguments are ArrayProxy passed BY VALUE; the native
+    // side rebuilds cv::_InputArray/_OutputArray on its stack. One signature serves both the ref-struct
+    // path (optimized kinds) and the still-class path (Raw kinds wrapping an existing cv::_InputArray*).
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_transpose(IntPtr src, IntPtr dst);
-
-    // FOUNDATION: ref-struct proxy path. Each array argument is an ArrayProxy passed BY VALUE; the
-    // native side rebuilds cv::_InputArray/_OutputArray on its stack (no managed _InputArray alloc).
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_transpose_io(ArrayProxy src, ArrayProxy dst);
+    internal static partial ExceptionStatus core_transpose(ArrayProxy src, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_add_io(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);

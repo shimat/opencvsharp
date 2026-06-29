@@ -392,6 +392,7 @@ static cv::_InputArray fromInputProxy(const interop::ArrayProxy &p, cv::Scalar &
         case CV_64F: return cv::_InputArray(reinterpret_cast<const double *>(p.payload), p.vecLength);
         default:     return cv::noArray();
         }
+    case 7: return *static_cast<cv::_InputArray *>(p.handle); // RawInputArray (class InputArray)
     default: return cv::noArray();
     }
 }
@@ -402,6 +403,7 @@ static cv::_OutputArray fromOutputProxy(const interop::ArrayProxy &p)
     {
     case 1: return cv::_OutputArray(*static_cast<cv::Mat *>(p.handle));
     case 2: return cv::_OutputArray(*static_cast<cv::UMat *>(p.handle));
+    case 8: return *static_cast<cv::_OutputArray *>(p.handle); // RawOutputArray (class OutputArray)
     default: return cv::noArray();
     }
 }
@@ -412,6 +414,7 @@ static cv::_InputOutputArray fromInputOutputProxy(const interop::ArrayProxy &p)
     {
     case 1: return cv::_InputOutputArray(*static_cast<cv::Mat *>(p.handle));
     case 2: return cv::_InputOutputArray(*static_cast<cv::UMat *>(p.handle));
+    case 9: return *static_cast<cv::_InputOutputArray *>(p.handle); // RawInputOutputArray (class)
     default: return cv::noArray();
     }
 }

@@ -1995,7 +1995,7 @@ public static partial class Cv2
             
 
         NativeMethods.HandleException(
-            NativeMethods.core_transpose(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_transpose(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);

@@ -556,18 +556,12 @@ CVAPI(ExceptionStatus) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray
     });
 }
 
-CVAPI(ExceptionStatus) core_transpose(cv::_InputArray *src, cv::_OutputArray *dst)
-{
-    return cvTry([&] {
-    cv::transpose(*src, *dst);
-    });
-}
-
-// FOUNDATION: ref-struct proxy path. Each array argument arrives as an interop::ArrayProxy passed
-// BY VALUE; fromInputProxy()/fromOutputProxy() (in my_types.h) rebuild a cv::_InputArray /
-// _OutputArray on this stack frame, so the managed side never allocates a heap _InputArray per call.
-// Scalar-kind inputs reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
-CVAPI(ExceptionStatus) core_transpose_io(interop::ArrayProxy src, interop::ArrayProxy dst)
+// MIGRATION (issue #1976, strategy 3): array arguments arrive as interop::ArrayProxy passed BY VALUE;
+// fromInputProxy()/fromOutputProxy() (my_types.h) rebuild cv::_InputArray/_OutputArray on this stack
+// frame. The same signature serves both the ref-struct path (optimized kinds, zero managed alloc) and
+// the still-class path (Raw kinds that wrap an existing cv::_InputArray*). Scalar-kind inputs
+// reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
+CVAPI(ExceptionStatus) core_transpose(interop::ArrayProxy src, interop::ArrayProxy dst)
 {
     return cvTry([&] {
     cv::Scalar s;
