@@ -197,6 +197,24 @@ namespace interop
     typedef struct Vec4d { double val[4]; } Vec4d;
     typedef struct Vec6d { double val[6]; } Vec6d;
 
+    // Stack-only array proxy for the ref-struct InputArray/OutputArray redesign. It mirrors
+    // cv::_InputArray/_OutputArray (a kind tag + a pointer/inline payload) and is passed BY VALUE
+    // across the P/Invoke boundary, so the managed side never allocates a heap cv::_InputArray per
+    // call. The native side rebuilds a cv::_InputArray/_OutputArray on its own stack from these
+    // fields via fromInputProxy()/fromOutputProxy().
+    //
+    // For Scalar kinds the inline payload feeds a stack-local cv::Scalar (see fromInputProxy). For
+    // Vec kinds the cv::_InputArray references this struct's own `payload` storage; because the
+    // proxy is taken by value, the parameter copy stays valid for the duration of the OpenCV call.
+    struct ArrayProxy
+    {
+        void  *handle;     // cv::Mat*/cv::UMat*/cv::MatExpr* for handle kinds; null otherwise
+        int    kind;       // ArrayProxyKind: 0 None, 1 Mat, 2 UMat, 3 MatExpr, 4 Scalar, 5 Double, 6 Vec
+        int    vecDepth;   // Vec only: CV_8U..CV_64F element depth; otherwise 0
+        int    vecLength;  // Vec only: element count (2/3/4/6); otherwise 0
+        double payload[6]; // inline storage: Scalar (4 doubles) | double (1) | Vec (raw bytes, <= 48)
+    };
+
 } // namespace interop
 
 extern "C"
@@ -329,4 +347,71 @@ static interop::Moments c(const cv::Moments &m)
 static cv::Moments cpp(const interop::Moments &m)
 {
     return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
+}
+
+// -------------------------------------------------------------------------
+// interop::ArrayProxy -> cv::_InputArray / _OutputArray / _InputOutputArray
+//
+// These build the cv:: array proxy on the caller's stack from a by-value
+// interop::ArrayProxy, so no heap cv::_InputArray is allocated per call. Use
+// them at the head of a CVAPI body, e.g.:
+//
+//     CVAPI(...) foo(interop::ArrayProxy src, interop::ArrayProxy dst) {
+//         return cvTry([&] {
+//         cv::Scalar s; // scratch storage for scalar-kind inputs (see below)
+//         cv::bar(fromInputProxy(src, s), fromOutputProxy(dst));
+//         });
+//     }
+//
+// Scalar/Double inputs: cv::_InputArray references a cv::Scalar, so the caller
+// must keep `scalarScratch` alive for the whole OpenCV call (one scratch per
+// input that may be a scalar).
+// Vec inputs: cv::_InputArray references proxy.payload; the by-value parameter
+// copy stays valid for the call.
+// -------------------------------------------------------------------------
+static cv::_InputArray fromInputProxy(const interop::ArrayProxy &p, cv::Scalar &scalarScratch)
+{
+    switch (p.kind)
+    {
+    case 1: return cv::_InputArray(*static_cast<cv::Mat *>(p.handle));
+    case 2: return cv::_InputArray(*static_cast<cv::UMat *>(p.handle));
+    case 3: return cv::_InputArray(*static_cast<cv::MatExpr *>(p.handle));
+    case 4:
+    case 5:
+        scalarScratch = cv::Scalar(p.payload[0], p.payload[1], p.payload[2], p.payload[3]);
+        return cv::_InputArray(scalarScratch);
+    case 6:
+        switch (p.vecDepth)
+        {
+        case CV_8U:  return cv::_InputArray(reinterpret_cast<const uchar  *>(p.payload), p.vecLength);
+        case CV_8S:  return cv::_InputArray(reinterpret_cast<const schar  *>(p.payload), p.vecLength);
+        case CV_16U: return cv::_InputArray(reinterpret_cast<const ushort *>(p.payload), p.vecLength);
+        case CV_16S: return cv::_InputArray(reinterpret_cast<const short  *>(p.payload), p.vecLength);
+        case CV_32S: return cv::_InputArray(reinterpret_cast<const int    *>(p.payload), p.vecLength);
+        case CV_32F: return cv::_InputArray(reinterpret_cast<const float  *>(p.payload), p.vecLength);
+        case CV_64F: return cv::_InputArray(reinterpret_cast<const double *>(p.payload), p.vecLength);
+        default:     return cv::noArray();
+        }
+    default: return cv::noArray();
+    }
+}
+
+static cv::_OutputArray fromOutputProxy(const interop::ArrayProxy &p)
+{
+    switch (p.kind)
+    {
+    case 1: return cv::_OutputArray(*static_cast<cv::Mat *>(p.handle));
+    case 2: return cv::_OutputArray(*static_cast<cv::UMat *>(p.handle));
+    default: return cv::noArray();
+    }
+}
+
+static cv::_InputOutputArray fromInputOutputProxy(const interop::ArrayProxy &p)
+{
+    switch (p.kind)
+    {
+    case 1: return cv::_InputOutputArray(*static_cast<cv::Mat *>(p.handle));
+    case 2: return cv::_InputOutputArray(*static_cast<cv::UMat *>(p.handle));
+    default: return cv::noArray();
+    }
 }

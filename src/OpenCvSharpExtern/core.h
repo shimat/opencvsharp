@@ -563,6 +563,26 @@ CVAPI(ExceptionStatus) core_transpose(cv::_InputArray *src, cv::_OutputArray *ds
     });
 }
 
+// FOUNDATION: ref-struct proxy path. Each array argument arrives as an interop::ArrayProxy passed
+// BY VALUE; fromInputProxy()/fromOutputProxy() (in my_types.h) rebuild a cv::_InputArray /
+// _OutputArray on this stack frame, so the managed side never allocates a heap _InputArray per call.
+// Scalar-kind inputs reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
+CVAPI(ExceptionStatus) core_transpose_io(interop::ArrayProxy src, interop::ArrayProxy dst)
+{
+    return cvTry([&] {
+    cv::Scalar s;
+    cv::transpose(fromInputProxy(src, s), fromOutputProxy(dst));
+    });
+}
+
+CVAPI(ExceptionStatus) core_add_io(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
+{
+    return cvTry([&] {
+    cv::Scalar s1, s2;
+    cv::add(fromInputProxy(src1, s1), fromInputProxy(src2, s2), fromOutputProxy(dst));
+    });
+}
+
 CVAPI(ExceptionStatus) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
 {
     return cvTry([&] {
@@ -619,6 +639,14 @@ CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerTo
 {
     return cvTry([&] {
     cv::completeSymm(*mtx, lowerToUpper != 0);
+    });
+}
+
+// FOUNDATION: ref-struct proxy path for an _InputOutputArray argument (see core_transpose_io).
+CVAPI(ExceptionStatus) core_completeSymm_io(interop::ArrayProxy mtx, int lowerToUpper)
+{
+    return cvTry([&] {
+    cv::completeSymm(fromInputOutputProxy(mtx), lowerToUpper != 0);
     });
 }
 
