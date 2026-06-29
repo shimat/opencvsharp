@@ -113,7 +113,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArray2(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -141,7 +142,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArrayScalar(
-                src1.CvPtr, src2, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2, dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         dst.Fix();
@@ -168,7 +170,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_ScalarInputArray(
-                src1, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1, src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src2);
         dst.Fix();
@@ -197,7 +200,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_multiply(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -226,7 +229,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_divide2(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype?.Value ?? -1));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype?.Value ?? -1));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -250,7 +253,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_divide1(scale, src2.CvPtr, dst.CvPtr, dtype));
+            NativeMethods.core_divide1(scale, src2.ToInputProxy(), dst.ToOutputProxy(), dtype));
 
         GC.KeepAlive(src2);
         dst.Fix();
@@ -1367,7 +1370,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_absdiff(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);

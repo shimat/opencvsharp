@@ -40,46 +40,46 @@ CVAPI(ExceptionStatus) core_add(
 }
 
 CVAPI(ExceptionStatus) core_subtract_InputArray2(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
 {
     return cvTry([&] {
-    cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
+    cv::subtract(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_InputArrayScalar(
-    cv::_InputArray *src1, interop::Scalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::ArrayProxy src1, interop::Scalar src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
 {
     return cvTry([&] {
-    cv::subtract(*src1, cpp(src2), *dst, entity(mask), dtype);
+    cv::subtract(InProxy(src1), cpp(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
-    interop::Scalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::Scalar src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask, int dtype)
 {
     return cvTry([&] {
-    cv::subtract(cpp(src1), *src2, *dst, entity(mask), dtype);
+    cv::subtract(cpp(src1), InProxy(src2), OutProxy(dst), InProxy(mask), dtype);
     });
 }
 
 CVAPI(ExceptionStatus) core_multiply(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, double scale, int dtype)
 {
     return cvTry([&] {
-    cv::multiply(*src1, *src2, *dst, scale, dtype);
+    cv::multiply(InProxy(src1), InProxy(src2), OutProxy(dst), scale, dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide1(
-    double scale, cv::_InputArray *src2, cv::_OutputArray *dst, int dtype)
+    double scale, interop::ArrayProxy src2, interop::ArrayProxy dst, int dtype)
 {
     return cvTry([&] {
-    cv::divide(scale, *src2, *dst, dtype);
+    cv::divide(scale, InProxy(src2), OutProxy(dst), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide2(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, double scale, int dtype)
 {
     return cvTry([&] {
-    cv::divide(*src1, *src2, *dst, scale, dtype);
+    cv::divide(InProxy(src1), InProxy(src2), OutProxy(dst), scale, dtype);
     });
 }
 
@@ -391,10 +391,10 @@ CVAPI(ExceptionStatus) core_bitwise_not(
 }
 
 CVAPI(ExceptionStatus) core_absdiff(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::absdiff(*src1, *src2, *dst);
+    cv::absdiff(InProxy(src1), InProxy(src2), OutProxy(dst));
     });
 }
 

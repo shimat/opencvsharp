@@ -110,22 +110,22 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_add(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_subtract_InputArray2(
-        IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+    internal static partial ExceptionStatus core_subtract_InputArray2(
+        ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_subtract_InputArrayScalar(
-        IntPtr src1, Scalar src2, IntPtr dst, IntPtr mask, int dtype);
+    internal static partial ExceptionStatus core_subtract_InputArrayScalar(
+        ArrayProxy src1, Scalar src2, ArrayProxy dst, ArrayProxy mask, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_subtract_ScalarInputArray(
-        Scalar src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+    internal static partial ExceptionStatus core_subtract_ScalarInputArray(
+        Scalar src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_multiply(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+    internal static partial ExceptionStatus core_multiply(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, double scale, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_divide1(double scale, IntPtr src2, IntPtr dst, int dtype);
+    internal static partial ExceptionStatus core_divide1(double scale, ArrayProxy src2, ArrayProxy dst, int dtype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_divide2(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+    internal static partial ExceptionStatus core_divide2(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, double scale, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
@@ -250,7 +250,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_absdiff(IntPtr src1, IntPtr src2, IntPtr dst);
+    internal static partial ExceptionStatus core_absdiff(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_copyTo(IntPtr src, IntPtr dst, IntPtr mask);
