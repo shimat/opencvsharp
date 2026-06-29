@@ -238,16 +238,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_vconcat2(IntPtr src1, IntPtr src2, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_bitwise_and(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
+    internal static partial ExceptionStatus core_bitwise_and(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_bitwise_or(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
+    internal static partial ExceptionStatus core_bitwise_or(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_bitwise_xor(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
+    internal static partial ExceptionStatus core_bitwise_xor(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst, ArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_bitwise_not(IntPtr src, IntPtr dst, IntPtr mask);
+    internal static partial ExceptionStatus core_bitwise_not(ArrayProxy src, ArrayProxy dst, ArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_absdiff(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
@@ -265,14 +265,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_compare(IntPtr src1, IntPtr src2, IntPtr dst, int cmpop);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_min1(IntPtr src1, IntPtr src2, IntPtr dst);
+    internal static partial ExceptionStatus core_min1(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_min_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_min_MatDouble(IntPtr src1, double src2, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_max1(IntPtr src1, IntPtr src2, IntPtr dst);
+    internal static partial ExceptionStatus core_max1(ArrayProxy src1, ArrayProxy src2, ArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_max_MatMat(IntPtr src1, IntPtr src2, IntPtr dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

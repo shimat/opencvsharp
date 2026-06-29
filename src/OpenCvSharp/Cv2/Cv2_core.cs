@@ -1261,7 +1261,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_and(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1289,7 +1289,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_or(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1318,7 +1318,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_xor(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1343,7 +1343,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_not(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1508,7 +1508,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_min1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1583,7 +1583,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_max1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);

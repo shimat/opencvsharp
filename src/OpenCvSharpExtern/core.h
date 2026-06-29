@@ -362,31 +362,31 @@ CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src
 }
 
 CVAPI(ExceptionStatus) core_bitwise_and(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
 {
     return cvTry([&] {
-    cv::bitwise_and(*src1, *src2, *dst, entity(mask));
+    cv::bitwise_and(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_or(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
 {
     return cvTry([&] {
-    cv::bitwise_or(*src1, *src2, *dst, entity(mask));
+    cv::bitwise_or(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_xor(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst, interop::ArrayProxy mask)
 {
     return cvTry([&] {
-    cv::bitwise_xor(*src1, *src2, *dst, entity(mask));
+    cv::bitwise_xor(InProxy(src1), InProxy(src2), OutProxy(dst), InProxy(mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_not(
-    cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *mask)
+    interop::ArrayProxy src, interop::ArrayProxy dst, interop::ArrayProxy mask)
 {
     return cvTry([&] {
-    cv::bitwise_not(*src, *dst, entity(mask));
+    cv::bitwise_not(InProxy(src), OutProxy(dst), InProxy(mask));
     });
 }
 
@@ -428,10 +428,18 @@ CVAPI(ExceptionStatus) core_compare(
     });
 }
 
-CVAPI(ExceptionStatus) core_min1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_min1(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::min(*src1, *src2, *dst);
+    // Named lvalues (not InProxy temporaries): cv::min/max also have a [[nodiscard]] MatExpr(Mat,Mat)
+    // overload, and passing InProxy temporaries makes overload resolution pick it (it builds a MatExpr
+    // over dangling temporaries -> heap corruption, plus C4834). Binding to named cv::_InputArray
+    // lvalues forces the void min(InputArray,InputArray,OutputArray) overload.
+    cv::Scalar s1, s2;
+    const cv::_InputArray a = fromInputProxy(src1, s1);
+    const cv::_InputArray b = fromInputProxy(src2, s2);
+    cv::_OutputArray d = fromOutputProxy(dst);
+    cv::min(a, b, d);
     });
 }
 CVAPI(ExceptionStatus) core_min_MatMat(cv::Mat* src1, cv::Mat* src2, cv::Mat* dst)
@@ -447,10 +455,16 @@ CVAPI(ExceptionStatus) core_min_MatDouble(cv::Mat* src1, double src2, cv::Mat* d
     });
 }
 
-CVAPI(ExceptionStatus) core_max1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_max1(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
 {
     return cvTry([&] {
-    cv::max(*src1, *src2, *dst);
+    // See core_min1: named lvalues force the void max(InputArray,InputArray,OutputArray) overload
+    // instead of the [[nodiscard]] MatExpr max(Mat,Mat).
+    cv::Scalar s1, s2;
+    const cv::_InputArray a = fromInputProxy(src1, s1);
+    const cv::_InputArray b = fromInputProxy(src2, s2);
+    cv::_OutputArray d = fromOutputProxy(dst);
+    cv::max(a, b, d);
     });
 }
 CVAPI(ExceptionStatus) core_max_MatMat(cv::Mat *src1, const cv::Mat *src2, cv::Mat *dst)
