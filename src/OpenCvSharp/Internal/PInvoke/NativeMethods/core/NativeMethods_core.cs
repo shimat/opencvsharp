@@ -317,6 +317,19 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_transpose(IntPtr src, IntPtr dst);
 
+    // PROTOTYPE: ref-struct proxy path. Receives handle + kind and builds cv::_InputArray /
+    // cv::_OutputArray on the native stack (no managed-side _InputArray allocation).
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_transpose_io(IntPtr src, int srcKind, IntPtr dst, int dstKind);
+
+    // PROTOTYPE: scalar-aware ref-struct path. Scalar/double operands are passed by value (inline),
+    // so no _InputArray is allocated for them either.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_add_io(
+        IntPtr src1, int kind1, Scalar scalar1,
+        IntPtr src2, int kind2, Scalar scalar2,
+        IntPtr dst, int dstKind);
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_transform(IntPtr src, IntPtr dst, IntPtr m);
 
