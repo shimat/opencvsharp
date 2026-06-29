@@ -53,7 +53,7 @@ jobs:
 
       - name: Restore vcpkg package cache
         id: vcpkg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
@@ -67,7 +67,7 @@ jobs:
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
@@ -75,7 +75,7 @@ jobs:
       # -- FFmpeg cache --------------------------------------------------------
       - name: Restore FFmpeg cache
         id: ffmpeg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: /opt/ffmpeg
           key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
@@ -86,7 +86,7 @@ jobs:
 
       - name: Save FFmpeg cache
         if: steps.ffmpeg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: /opt/ffmpeg
           key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
@@ -94,7 +94,7 @@ jobs:
       # -- OpenCV cache --------------------------------------------------------
       - name: Restore OpenCV cache (full)
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
@@ -164,7 +164,7 @@ jobs:
         shell: bash
       - name: Save OpenCV cache (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
@@ -215,7 +215,7 @@ jobs:
 
       - name: Restore OpenCV cache (slim)
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
@@ -254,7 +254,7 @@ jobs:
         shell: bash
       - name: Save OpenCV cache (slim) - upload
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
