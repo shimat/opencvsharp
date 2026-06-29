@@ -215,6 +215,12 @@ namespace interop
         double payload[6]; // inline storage: Scalar (4 doubles) | double (1) | Vec (raw bytes, <= 48)
     };
 
+    // ArrayProxy is passed BY VALUE through extern "C" (CVAPI), so it must stay a C-ABI-compatible
+    // POD: standard-layout and trivially copyable (no user copy/move/dtor, no virtuals). This guard
+    // fails the build the moment a non-trivial member sneaks in.
+    static_assert(std::is_standard_layout_v<ArrayProxy> && std::is_trivially_copyable_v<ArrayProxy>,
+        "interop::ArrayProxy must stay a C-ABI-compatible POD");
+
 } // namespace interop
 
 extern "C"
