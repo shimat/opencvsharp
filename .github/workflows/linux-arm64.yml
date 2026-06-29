@@ -52,7 +52,7 @@ jobs:
 
       - name: Restore OpenCV cache
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
@@ -98,7 +98,7 @@ jobs:
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include

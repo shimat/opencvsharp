@@ -36,7 +36,7 @@ jobs:
 
       - name: Restore vcpkg packages cache
         id: vcpkg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
@@ -54,14 +54,14 @@ jobs:
 
       - name: Save vcpkg packages cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
       - name: Restore OpenCV cache
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
@@ -114,7 +114,7 @@ jobs:
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
@@ -273,7 +273,7 @@ jobs:
 
       - name: Restore vcpkg packages cache
         id: vcpkg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
@@ -291,14 +291,14 @@ jobs:
 
       - name: Save vcpkg packages cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
 
       - name: Restore OpenCV cache
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
@@ -352,7 +352,7 @@ jobs:
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}

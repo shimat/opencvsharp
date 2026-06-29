@@ -45,7 +45,7 @@ jobs:
 
       - name: Restore vcpkg package cache
         id: vcpkg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
@@ -59,7 +59,7 @@ jobs:
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
@@ -73,7 +73,7 @@ jobs:
 
       - name: Restore OpenCV cache
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
@@ -136,7 +136,7 @@ jobs:
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
@@ -193,7 +193,7 @@ jobs:
 
       - name: Restore vcpkg package cache
         id: vcpkg-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
@@ -207,7 +207,7 @@ jobs:
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
@@ -221,7 +221,7 @@ jobs:
 
       - name: Restore OpenCV cache
         id: opencv-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
@@ -284,7 +284,7 @@ jobs:
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
