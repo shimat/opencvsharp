@@ -57,7 +57,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_putText_FontFace(
-        InputOutputArrayProxy img, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, Point org, Scalar color,
+        in InputOutputArrayProxy img, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, Point org, Scalar color,
         IntPtr fface, int size, int weight, int flags, int wrapStart, int wrapEnd, out Point returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
