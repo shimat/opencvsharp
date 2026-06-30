@@ -857,4 +857,247 @@ public class ImgProcTest : TestBase
         using var dst = src.Resize(default, 0.5, 0.5, flags);
         Assert.Equal(new Size(5, 5), dst.Size());
     }
+
+    // --- ArrayProxy migration coverage (issue #1976): one test per migrated Cv2 method ---
+
+    [Fact]
+    public void Blur()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.Blur(src, dst, new Size(3, 3));
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(src.Type(), dst.Type());
+    }
+
+    [Fact]
+    public void BoxFilter()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.BoxFilter(src, dst, MatType.CV_8U, new Size(3, 3));
+
+        Assert.Equal(src.Size(), dst.Size());
+    }
+
+    [Fact]
+    public void SqrBoxFilter()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.SqrBoxFilter(src, dst, (int)MatType.CV_32F, new Size(3, 3));
+
+        Assert.Equal(src.Size(), dst.Size());
+    }
+
+    [Fact]
+    public void BilateralFilter()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.BilateralFilter(src, dst, 9, 75, 75);
+
+        Assert.Equal(src.Size(), dst.Size());
+    }
+
+    [Fact]
+    public void Sobel()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.Sobel(src, dst, MatType.CV_16S, 1, 0);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_16SC1, dst.Type());
+    }
+
+    [Fact]
+    public void Scharr()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.Scharr(src, dst, MatType.CV_16S, 1, 0);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_16SC1, dst.Type());
+    }
+
+    [Fact]
+    public void Laplacian()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.Laplacian(src, dst, MatType.CV_16S);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_16SC1, dst.Type());
+    }
+
+    [Fact]
+    public void SepFilter2D()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var kernelX = Mat.FromPixelData(3, 1, MatType.CV_32FC1, new float[] { 1f / 3, 1f / 3, 1f / 3 });
+        using var kernelY = Mat.FromPixelData(3, 1, MatType.CV_32FC1, new float[] { 1f / 3, 1f / 3, 1f / 3 });
+        using var dst = new Mat();
+        Cv2.SepFilter2D(src, dst, MatType.CV_8U, kernelX, kernelY);
+
+        Assert.Equal(src.Size(), dst.Size());
+    }
+
+    [Fact]
+    public void GetDerivKernels()
+    {
+        using var kx = new Mat();
+        using var ky = new Mat();
+        Cv2.GetDerivKernels(kx, ky, 1, 0, 3);
+
+        Assert.Equal(3, kx.Total());
+        Assert.Equal(3, ky.Total());
+    }
+
+    [Fact]
+    public void SpatialGradient()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dx = new Mat();
+        using var dy = new Mat();
+        Cv2.SpatialGradient(src, dx, dy);
+
+        Assert.Equal(src.Size(), dx.Size());
+        Assert.Equal(MatType.CV_16SC1, dx.Type());
+    }
+
+    [Fact]
+    public void PreCornerDetect()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.PreCornerDetect(src, dst, 3);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_32FC1, dst.Type());
+    }
+
+    [Fact]
+    public void CornerEigenValsAndVecs()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.CornerEigenValsAndVecs(src, dst, 3, 3);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(6, dst.Channels());
+    }
+
+    [Fact]
+    public void PyrDown()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.PyrDown(src, dst);
+
+        Assert.Equal((src.Cols + 1) / 2, dst.Cols);
+        Assert.Equal((src.Rows + 1) / 2, dst.Rows);
+    }
+
+    [Fact]
+    public void PyrUp()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.PyrUp(src, dst);
+
+        Assert.Equal(src.Cols * 2, dst.Cols);
+        Assert.Equal(src.Rows * 2, dst.Rows);
+    }
+
+    [Fact]
+    public void PyrMeanShiftFiltering()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
+        using var dst = new Mat();
+        Cv2.PyrMeanShiftFiltering(src, dst, 10, 20);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(src.Type(), dst.Type());
+    }
+
+    [Fact]
+    public void EqualizeHist()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.EqualizeHist(src, dst);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_8UC1, dst.Type());
+    }
+
+    [Fact]
+    public void AdaptiveThreshold()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.AdaptiveThreshold(src, dst, 255, AdaptiveThresholdTypes.MeanC, ThresholdTypes.Binary, 11, 2);
+
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_8UC1, dst.Type());
+    }
+
+    [Fact]
+    public void CvtColorTwoPlane()
+    {
+        using var y = new Mat(4, 4, MatType.CV_8UC1, Scalar.All(128));
+        using var uv = new Mat(2, 2, MatType.CV_8UC2, Scalar.All(128));
+        using var dst = new Mat();
+        Cv2.CvtColorTwoPlane(y, uv, dst, ColorConversionCodes.YUV2BGR_NV12);
+
+        Assert.Equal(y.Size(), dst.Size());
+        Assert.Equal(3, dst.Channels());
+    }
+
+    [Fact]
+    public void CreateHanningWindow()
+    {
+        using var dst = new Mat();
+        Cv2.CreateHanningWindow(dst, new Size(8, 8), MatType.CV_32F);
+
+        Assert.Equal(new Size(8, 8), dst.Size());
+        Assert.Equal(MatType.CV_32FC1, dst.Type());
+    }
+
+    [Fact]
+    public void ConvertMaps()
+    {
+        using var map1 = new Mat(4, 4, MatType.CV_32FC1, Scalar.All(1));
+        using var map2 = new Mat(4, 4, MatType.CV_32FC1, Scalar.All(1));
+        using var dstmap1 = new Mat();
+        using var dstmap2 = new Mat();
+        Cv2.ConvertMaps(map1, map2, dstmap1, dstmap2, MatType.CV_16SC2);
+
+        Assert.Equal(map1.Size(), dstmap1.Size());
+    }
+
+    [Fact]
+    public void GetRectSubPix()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var patch = new Mat();
+        Cv2.GetRectSubPix(src, new Size(5, 5), new Point2f(10, 10), patch);
+
+        Assert.Equal(new Size(5, 5), patch.Size());
+    }
+
+    [Fact]
+    public void WarpPolar()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.WarpPolar(src, dst, new Size(64, 64), new Point2f(src.Cols / 2f, src.Rows / 2f),
+            src.Cols / 2.0, InterpolationFlags.Linear, WarpPolarMode.Linear);
+
+        Assert.Equal(new Size(64, 64), dst.Size());
+    }
 }
