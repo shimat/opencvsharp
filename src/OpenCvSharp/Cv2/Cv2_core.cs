@@ -10,6 +10,10 @@ namespace OpenCvSharp;
 
 public static partial class Cv2
 {
+    // Above this count, collect Mat handles into a heap IntPtr[] instead of stackalloc, to bound
+    // stack usage when passing a variable-length vector-of-Mat to the native cv::Mat** ABI.
+    private const int MaxStackAllocHandles = 32;
+
     #region core.hpp
 
     /// <summary>
@@ -882,33 +886,30 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mv"></param>
     /// <param name="dst"></param>
-    public static void Merge(Mat[] mv, Mat dst)
+    public static void Merge(ReadOnlySpan<Mat> mv, Mat dst)
     {
-        if (mv is null)
-            throw new ArgumentNullException(nameof(mv));
         if (mv.Length == 0)
             throw new ArgumentException("mv is empty", nameof(mv));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        foreach (var m in mv)
+
+        Span<IntPtr> handles = mv.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[mv.Length]
+            : new IntPtr[mv.Length];
+        for (var i = 0; i < mv.Length; i++)
         {
-            if (m is null)
-                throw new ArgumentException("mv contains null element");
+            var m = mv[i] ?? throw new ArgumentException("mv contains null element");
             m.ThrowIfDisposed();
+            handles[i] = m.CvPtr;
         }
 
         dst.ThrowIfDisposed();
 
-        var mvPtr = new IntPtr[mv.Length];
-        for (var i = 0; i < mv.Length; i++)
-        {
-            mvPtr[i] = mv[i].CvPtr;
-        }
-
         NativeMethods.HandleException(
-            NativeMethods.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr));
+            NativeMethods.core_merge(handles, (uint)mv.Length, dst.CvPtr));
 
-        GC.KeepAlive(mv);
+        foreach (var m in mv)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
     }
 
@@ -951,12 +952,8 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="fromTo"></param>
-    public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
+    public static void MixChannels(ReadOnlySpan<Mat> src, ReadOnlySpan<Mat> dst, int[] fromTo)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (fromTo is null)
             throw new ArgumentNullException(nameof(fromTo));
         if (src.Length == 0)
@@ -965,8 +962,9 @@ public static partial class Cv2
             throw new ArgumentException("Length == 0", nameof(dst));
         if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
             throw new ArgumentException("Invalid length", nameof(fromTo));
-        var srcPtr = new IntPtr[src.Length];
-        var dstPtr = new IntPtr[dst.Length];
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles ? stackalloc IntPtr[src.Length] : new IntPtr[src.Length];
+        Span<IntPtr> dstPtr = dst.Length <= MaxStackAllocHandles ? stackalloc IntPtr[dst.Length] : new IntPtr[dst.Length];
         for (var i = 0; i < src.Length; i++)
         {
             src[i].ThrowIfDisposed();
@@ -983,8 +981,10 @@ public static partial class Cv2
                 srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length,
                 fromTo, (uint)(fromTo.Length / 2)));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        foreach (var m in src)
+            GC.KeepAlive(m);
+        foreach (var m in dst)
+            GC.KeepAlive(m);
     }
 
     /// <summary>
@@ -1130,28 +1130,27 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void HConcat(IEnumerable<Mat> src, OutputArray dst)
+    public static void HConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-
-        var srcArray = src as Mat[] ?? src.ToArray();
-        if (srcArray.Length == 0)
+        if (src.Length == 0)
             throw new ArgumentException("src is empty", nameof(src));
-        var srcPtr = new IntPtr[srcArray.Length];
-        for (var i = 0; i < srcArray.Length; i++)
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[src.Length]
+            : new IntPtr[src.Length];
+        for (var i = 0; i < src.Length; i++)
         {
-            srcArray[i].ThrowIfDisposed();
-            srcPtr[i] = srcArray[i].CvPtr;
+            src[i].ThrowIfDisposed();
+            srcPtr[i] = src[i].CvPtr;
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat1(srcPtr, (uint) srcArray.Length, dst.ToOutputProxy()));
+            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.ToOutputProxy()));
 
-        GC.KeepAlive(srcArray);
+        foreach (var m in src)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
         dst.Fix();
     }
@@ -1188,28 +1187,27 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void VConcat(IEnumerable<Mat> src, OutputArray dst)
+    public static void VConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-
-        var srcArray = src as Mat[] ?? src.ToArray();
-        if (srcArray.Length == 0)
+        if (src.Length == 0)
             throw new ArgumentException("src.Count == 0", nameof(src));
-        var srcPtr = new IntPtr[srcArray.Length];
-        for (var i = 0; i < srcArray.Length; i++)
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[src.Length]
+            : new IntPtr[src.Length];
+        for (var i = 0; i < src.Length; i++)
         {
-            srcArray[i].ThrowIfDisposed();
-            srcPtr[i] = srcArray[i].CvPtr;
+            src[i].ThrowIfDisposed();
+            srcPtr[i] = src[i].CvPtr;
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat1(srcPtr, (uint)srcArray.Length, dst.ToOutputProxy()));
+            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.ToOutputProxy()));
 
-        GC.KeepAlive(src);
+        foreach (var m in src)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
         dst.Fix();
     }
@@ -2490,24 +2488,28 @@ public static partial class Cv2
     /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
-        Mat[] samples, Mat covar, Mat mean,
+        ReadOnlySpan<Mat> samples, Mat covar, Mat mean,
         CovarFlags flags, MatType? ctype = null)
     {
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
         if (covar is null)
             throw new ArgumentNullException(nameof(covar));
         if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         covar.ThrowIfDisposed();
         mean.ThrowIfDisposed();
-        var samplesPtr = samples.Select(x => x.CvPtr).ToArray();
+
+        Span<IntPtr> samplesPtr = samples.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[samples.Length]
+            : new IntPtr[samples.Length];
+        for (var i = 0; i < samples.Length; i++)
+            samplesPtr[i] = samples[i].CvPtr;
 
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
             NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue.Value));
 
-        GC.KeepAlive(samples);
+        foreach (var m in samples)
+            GC.KeepAlive(m);
         GC.KeepAlive(covar);
         GC.KeepAlive(mean);
     }

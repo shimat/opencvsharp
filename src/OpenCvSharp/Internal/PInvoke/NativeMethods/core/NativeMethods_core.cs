@@ -201,14 +201,14 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_reduce(InputArrayProxy src, OutputArrayProxy dst, int dim, int rtype, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_merge([MarshalAs(UnmanagedType.LPArray)] IntPtr[] mv, uint count, IntPtr dst);
+    internal static partial ExceptionStatus core_merge(ReadOnlySpan<IntPtr> mv, uint count, IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_split(IntPtr src, IntPtr mv);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_mixChannels(IntPtr[] src, uint nsrcs,
-        IntPtr[] dst, uint ndsts, int[] fromTo, uint npairs);
+    internal static partial ExceptionStatus core_mixChannels(ReadOnlySpan<IntPtr> src, uint nsrcs,
+        ReadOnlySpan<IntPtr> dst, uint ndsts, int[] fromTo, uint npairs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_extractChannel(InputArrayProxy src, OutputArrayProxy dst, int coi);
@@ -228,12 +228,12 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_repeat2(IntPtr src, int ny, int nx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_hconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, OutputArrayProxy dst);
+    internal static partial ExceptionStatus core_hconcat1(ReadOnlySpan<IntPtr> src, uint nsrc, OutputArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_hconcat2(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_vconcat1([MarshalAs(UnmanagedType.LPArray)] IntPtr[] src, uint nsrc, OutputArrayProxy dst);
+    internal static partial ExceptionStatus core_vconcat1(ReadOnlySpan<IntPtr> src, uint nsrc, OutputArrayProxy dst);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_vconcat2(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst);
 
@@ -377,7 +377,7 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_eigenNonSymmetric(InputArrayProxy src, OutputArrayProxy eigenvalues, OutputArrayProxy eigenvectors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples,
+    internal static partial ExceptionStatus core_calcCovarMatrix_Mat(ReadOnlySpan<IntPtr> samples,
         int nsamples, IntPtr covar, IntPtr mean, int flags, int ctype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_calcCovarMatrix_InputArray(InputArrayProxy samples, OutputArrayProxy covar,
