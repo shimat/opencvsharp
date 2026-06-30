@@ -1149,7 +1149,7 @@ public static partial class Cv2
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat1(srcPtr, (uint) srcArray.Length, dst.CvPtr));
+            NativeMethods.core_hconcat1(srcPtr, (uint) srcArray.Length, dst.ToOutputProxy()));
 
         GC.KeepAlive(srcArray);
         GC.KeepAlive(dst);
@@ -1207,7 +1207,7 @@ public static partial class Cv2
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat1(srcPtr, (uint)srcArray.Length, dst.CvPtr));
+            NativeMethods.core_vconcat1(srcPtr, (uint)srcArray.Length, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2171,7 +2171,7 @@ public static partial class Cv2
         mtx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0));
+            NativeMethods.core_completeSymm(mtx.ToInputOutputProxy(), lowerToUpper ? 1 : 0));
 
         GC.KeepAlive(mtx);
         mtx.Fix();
@@ -3588,7 +3588,7 @@ public static partial class Cv2
 
         using var buf = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.core_format(mtx.CvPtr, (int) format, buf.CvPtr));
+            NativeMethods.core_format(mtx.ToInputProxy(), (int) format, buf.CvPtr));
         GC.KeepAlive(mtx);
         return buf.ToString();
     }

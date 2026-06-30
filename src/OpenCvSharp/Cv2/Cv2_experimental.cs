@@ -40,7 +40,7 @@ static partial class Cv2
     public static void CompleteSymmRef(InputOutputArrayRef mtx, bool lowerToUpper = false)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_completeSymm_io(mtx.Proxy, lowerToUpper ? 1 : 0));
+            NativeMethods.core_completeSymm(mtx.Proxy, lowerToUpper ? 1 : 0));
         GC.KeepAlive(mtx.Source);
     }
 }

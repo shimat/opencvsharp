@@ -432,13 +432,13 @@ CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** retu
     });
 }
 
-CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
         std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
         for (uint32_t i = 0; i < nsrc; i++)
             srcVec[i] = *(src[i]);
-        cv::hconcat(&srcVec[0], nsrc, *dst);
+        cv::hconcat(&srcVec[0], nsrc, OutProxy(dst));
     });
 }
 CVAPI(ExceptionStatus) core_hconcat2(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
@@ -448,13 +448,13 @@ CVAPI(ExceptionStatus) core_hconcat2(interop::InputArrayProxy src1, interop::Inp
     });
 }
 
-CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
         std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
         for (uint32_t i = 0; i < nsrc; i++)
             srcVec[i] = *(src[i]);
-        cv::vconcat(&srcVec[0], nsrc, *dst);
+        cv::vconcat(&srcVec[0], nsrc, OutProxy(dst));
     });
 }
 CVAPI(ExceptionStatus) core_vconcat2(interop::InputArrayProxy src1, interop::InputArrayProxy src2, interop::OutputArrayProxy dst)
@@ -773,51 +773,43 @@ CVAPI(ExceptionStatus) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst,
         cv::perspectiveTransform(*src, *dst, *m);
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, interop::InputArrayProxy m)
 {
     return cvTry([&] {
         const std::vector<cv::Point2f> srcVector(src, src + srcLength);
         std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
-        cv::perspectiveTransform(srcVector, dstVector, *m);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, interop::InputArrayProxy m)
 {
     return cvTry([&] {
         const std::vector<cv::Point2d> srcVector(src, src + srcLength);
         std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
-        cv::perspectiveTransform(srcVector, dstVector, *m);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, interop::InputArrayProxy m)
 {
     return cvTry([&] {
         const std::vector<cv::Point3f> srcVector(src, src + srcLength);
         std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
-        cv::perspectiveTransform(srcVector, dstVector, *m);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, interop::InputArrayProxy m)
 {
     return cvTry([&] {
         const std::vector<cv::Point3d> srcVector(src, src + srcLength);
         std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
-        cv::perspectiveTransform(srcVector, dstVector, *m);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(m));
     });
 }
 
-CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerToUpper)
+CVAPI(ExceptionStatus) core_completeSymm(interop::InputOutputArrayProxy mtx, int lowerToUpper)
 {
     return cvTry([&] {
-        cv::completeSymm(*mtx, lowerToUpper != 0);
-    });
-}
-
-// FOUNDATION: ref-struct proxy path for an _InputOutputArray argument (see core_transpose_io).
-CVAPI(ExceptionStatus) core_completeSymm_io(interop::InputOutputArrayProxy mtx, int lowerToUpper)
-{
-    return cvTry([&] {
-        cv::completeSymm(fromInputOutputProxy(mtx), lowerToUpper != 0);
+        cv::completeSymm(IoProxy(mtx), lowerToUpper != 0);
     });
 }
 
@@ -1350,10 +1342,10 @@ CVAPI(ExceptionStatus) core_useOptimized(int *returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_format(cv::_InputArray *mtx, int fmt, std::string *buf)
+CVAPI(ExceptionStatus) core_format(interop::InputArrayProxy mtx, int fmt, std::string *buf)
 {
     return cvTry([&] {
-        const auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
+        const auto formatted = cv::format(InProxy(mtx), static_cast<cv::Formatter::FormatType>(fmt));
 
         std::stringstream s;
         s << formatted;
