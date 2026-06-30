@@ -207,6 +207,17 @@ namespace interop
     // vs out, like the old cv::_InputArray*/_OutputArray*) and so the in/out role is type-checked.
     // Only inputs can be a Scalar/Vec value, so only InputArrayProxy carries the inline payload; the
     // output proxies are just a handle + kind.
+    //
+    // On the cost of passing these BY VALUE: InputArrayProxy is 72 bytes on x64 (8 + 3*4 + 4 pad +
+    // 48-byte payload), OutputArray/InputOutputArrayProxy are 16. That is much larger than the old
+    // 8-byte cv::_InputArray* argument, but it is NOT a regression: the old path had to heap-allocate
+    // a cv::_InputArray per call (core_InputArray_new_byMat) and free it (SafeHandle/finalizer + GC
+    // pressure), whereas this path allocates nothing — passing the proxy is just a small stack copy
+    // (and on the Win x64 ABI a >8-byte struct is passed as a hidden pointer to a caller-side copy
+    // anyway). A 72-byte memcpy is negligible next to an eliminated heap alloc/free/GC, so the
+    // ref-struct path is a net win. The 48-byte payload is the deliberate price of carrying a
+    // Scalar/Vec operand inline with zero allocation; the common Mat case leaves it unused (and the
+    // copy stays cheap).
 
     struct InputArrayProxy
     {
@@ -450,6 +461,11 @@ static cv::_InputOutputArray fromInputOutputProxy(const interop::InputOutputArra
 // -------------------------------------------------------------------------
 class InProxy
 {
+    // Stable storage for a scalar operand. A cv::_InputArray built from a cv::Scalar keeps a POINTER
+    // to that Scalar (it does not copy it), so the Scalar must outlive the _InputArray's use. For
+    // Scalar/Double kinds fromInputProxy() writes scratch_ and returns a cv::_InputArray referencing
+    // it; holding scratch_ as a member keeps it alive for the whole OpenCV call (the InProxy lives to
+    // the end of the call expression). Unused for Mat/UMat/MatExpr/Vec/Raw kinds.
     cv::Scalar scratch_;
     cv::_InputArray ia_;
 public:
