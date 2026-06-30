@@ -303,16 +303,16 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_magnitude_Mat(InputArrayProxy x, InputArrayProxy y, OutputArrayProxy magnitude);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_checkRange(IntPtr a, int quiet, out Point pos, double minVal, double maxVal, out int returnValue);
-        
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_patchNaNs(IntPtr a, double val);
+    internal static partial ExceptionStatus core_checkRange(InputArrayProxy a, int quiet, out Point pos, double minVal, double maxVal, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_gemm(IntPtr src1, IntPtr src2, double alpha, IntPtr src3, double gamma, IntPtr dst, int flags);
+    internal static partial ExceptionStatus core_patchNaNs(InputOutputArrayProxy a, double val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_mulTransposed(IntPtr src, IntPtr dst, int aTa, IntPtr delta, double scale, int dtype);
+    internal static partial ExceptionStatus core_gemm(InputArrayProxy src1, InputArrayProxy src2, double alpha, InputArrayProxy src3, double gamma, OutputArrayProxy dst, int flags);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_mulTransposed(InputArrayProxy src, OutputArrayProxy dst, int aTa, InputArrayProxy delta, double scale, int dtype);
 
     // MIGRATION (issue #1976, strategy 3): array arguments are ArrayProxy passed BY VALUE; the native
     // side rebuilds cv::_InputArray/_OutputArray on its stack. One signature serves both the ref-struct
@@ -322,10 +322,10 @@ static partial class NativeMethods
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_transform(IntPtr src, IntPtr dst, IntPtr m);
+    internal static partial ExceptionStatus core_transform(InputArrayProxy src, OutputArrayProxy dst, InputArrayProxy m);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_perspectiveTransform(IntPtr src, IntPtr dst, IntPtr m);
+    internal static partial ExceptionStatus core_perspectiveTransform(InputArrayProxy src, OutputArrayProxy dst, InputArrayProxy m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_perspectiveTransform_Mat(IntPtr src, IntPtr dst, IntPtr m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -345,34 +345,34 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_completeSymm_io(InputOutputArrayProxy mtx, int lowerToUpper);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_setIdentity(IntPtr mtx, Scalar s);
+    internal static partial ExceptionStatus core_setIdentity(InputOutputArrayProxy mtx, Scalar s);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_determinant(IntPtr mtx, out double returnValue);
+    internal static partial ExceptionStatus core_determinant(InputArrayProxy mtx, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_trace(IntPtr mtx, out Scalar returnValue);
+    internal static partial ExceptionStatus core_trace(InputArrayProxy mtx, out Scalar returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_invert(IntPtr src, IntPtr dst, int flags, out double returnValue);
+    internal static partial ExceptionStatus core_invert(InputArrayProxy src, OutputArrayProxy dst, int flags, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_solve(IntPtr src1, IntPtr src2, IntPtr dst, int flags, out int returnValue);
-        
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_solveLP(IntPtr func, IntPtr constr, IntPtr z, out int returnValue);
-        
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_sort(IntPtr src, IntPtr dst, int flags);
+    internal static partial ExceptionStatus core_solve(InputArrayProxy src1, InputArrayProxy src2, OutputArrayProxy dst, int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_sortIdx(IntPtr src, IntPtr dst, int flags);
+    internal static partial ExceptionStatus core_solveLP(InputArrayProxy func, InputArrayProxy constr, OutputArrayProxy z, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_solveCubic(IntPtr coeffs, IntPtr roots, out int returnValue);
+    internal static partial ExceptionStatus core_sort(InputArrayProxy src, OutputArrayProxy dst, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_solvePoly(IntPtr coeffs, IntPtr roots, int maxIters, out double returnValue);
+    internal static partial ExceptionStatus core_sortIdx(InputArrayProxy src, OutputArrayProxy dst, int flags);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_solveCubic(InputArrayProxy coeffs, OutputArrayProxy roots, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_solvePoly(InputArrayProxy coeffs, OutputArrayProxy roots, int maxIters, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_eigen(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors, out int returnValue);
