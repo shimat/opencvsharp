@@ -335,39 +335,44 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Test
-        # INVESTIGATION ONLY (#1984): capture a crash dump for the arm64 SIGBUS.
-        env:
-          DOTNET_DbgEnableMiniDump: '1'
-          DOTNET_DbgMiniDumpType: 'Full'
-          DOTNET_DbgMiniDumpName: '${{ github.workspace }}/dumps/coredump.%p.dmp'
-          DOTNET_CreateDumpVerboseDiagnostics: '1'
+        # INVESTIGATION ONLY (#1984): macOS arm64 heap-corruption hunt with Guard Malloc.
+        # libgmalloc page-guards every native allocation, so an overflow / use-after-free
+        # faults at the corrupting access (not at teardown). Run sequentially so the
+        # crashing test is unambiguous; the crash report's faulting backtrace then names
+        # the culprit (exported imgproc_* symbol).
         run: |
-          mkdir -p ${GITHUB_WORKSPACE}/dumps
-          ulimit -c unlimited || true
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net10.0
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib ./
           sudo mkdir -p /usr/local/lib
           sudo cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib /usr/local/lib/
-          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
-            --logger "trx;LogFileName=test-results.trx" < /dev/null
+          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests \
+          DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib \
+          MallocScribble=1 \
+          dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
+            --logger "console;verbosity=detailed" \
+            -- xunit.parallelizeTestCollections=false < /dev/null
+
+      - name: Dump macOS crash reports (investigation)
+        if: always()
+        run: |
+          sleep 10
+          for d in "$HOME/Library/Logs/DiagnosticReports" "/Library/Logs/DiagnosticReports"; do
+            echo "===== $d ====="
+            ls -la "$d" 2>/dev/null || true
+            for f in "$d"/*.ips "$d"/*.crash; do
+              [ -f "$f" ] || continue
+              echo "########## $f ##########"
+              cat "$f"
+            done
+          done
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: test-results-macos
-          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
-          if-no-files-found: ignore
-
-      - name: Upload crash dumps (investigation)
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: arm64-crash-dumps
-          path: |
-            ${{ github.workspace }}/dumps/
-            /cores/
+          name: macos-crash-reports
+          path: ~/Library/Logs/DiagnosticReports/
           if-no-files-found: ignore
 
   # ---------------------------------------------------------------------------
