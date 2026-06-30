@@ -335,7 +335,15 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Test
+        # INVESTIGATION ONLY (#1984): capture a crash dump for the arm64 SIGBUS.
+        env:
+          DOTNET_DbgEnableMiniDump: '1'
+          DOTNET_DbgMiniDumpType: 'Full'
+          DOTNET_DbgMiniDumpName: '${{ github.workspace }}/dumps/coredump.%p.dmp'
+          DOTNET_CreateDumpVerboseDiagnostics: '1'
         run: |
+          mkdir -p ${GITHUB_WORKSPACE}/dumps
+          ulimit -c unlimited || true
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net10.0
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
@@ -346,9 +354,21 @@ jobs:
             --logger "trx;LogFileName=test-results.trx" < /dev/null
 
       - uses: actions/upload-artifact@v7
+        if: always()
         with:
           name: test-results-macos
           path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
+          if-no-files-found: ignore
+
+      - name: Upload crash dumps (investigation)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: arm64-crash-dumps
+          path: |
+            ${{ github.workspace }}/dumps/
+            /cores/
+          if-no-files-found: ignore
 
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the macOS-built binaries.
