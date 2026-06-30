@@ -4,7 +4,7 @@ namespace OpenCvSharp.Tests.ImgProc;
 
 public class ConnectedComponentsTest : TestBase
 {
-    [Theory(Skip = "arm64 crash bisect #1984")]
+    [Theory]
     [InlineData(PixelConnectivity.Connectivity4, ConnectedComponentsAlgorithmsTypes.Default)]
     [InlineData(PixelConnectivity.Connectivity4, ConnectedComponentsAlgorithmsTypes.GRANA)]
     [InlineData(PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default)]
@@ -28,7 +28,7 @@ public class ConnectedComponentsTest : TestBase
         ShowImagesWhenDebugMode(render);
     }
 
-    [Fact(Skip = "arm64 crash bisect #1984")]
+    [Fact]
     public void GetLargestBlob()
     {
         using var src = new Mat(100, 100, MatType.CV_8UC1, Scalar.Black);
@@ -48,7 +48,7 @@ public class ConnectedComponentsTest : TestBase
         Assert.Equal(new Point2d(59.5, 74.5), largestBlob.Centroid);
     }
 
-    [Fact(Skip = "arm64 crash bisect #1984")]
+    [Fact]
     public void FilterByLabel()
     {
         using var src = new Mat(100, 100, MatType.CV_8UC1, Scalar.Black);

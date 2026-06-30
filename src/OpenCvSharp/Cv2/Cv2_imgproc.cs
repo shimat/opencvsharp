@@ -2781,7 +2781,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponentsWithStatsWithAlgorithm(
-                image.ToInputProxy(), labels.ToOutputProxy(), stats.ToOutputProxy(), centroids.ToOutputProxy(), (int)connectivity, ltype, (int)ccltype, out var ret));
+                image.ToInputProxy(), labels.ToOutputProxy(), stats.ToOutputProxy(), centroids.ToOutputProxy(), (int)connectivity, (int)ltype, (int)ccltype, out var ret));
 
         GC.KeepAlive(image);
         GC.KeepAlive(labels);
