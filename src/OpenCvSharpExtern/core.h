@@ -908,18 +908,24 @@ CVAPI(ExceptionStatus) core_solvePoly(
     });
 }
 
-CVAPI(ExceptionStatus) core_eigen(cv::_InputArray *src, cv::_OutputArray *eigenvalues,    cv::_OutputArray *eigenvectors, int *returnValue)
+CVAPI(ExceptionStatus) core_eigen(
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy eigenvalues,
+    interop::OutputArrayProxy eigenvectors,
+    int *returnValue)
 {
     return cvTry([&] {
-        *returnValue = cv::eigen(*src, *eigenvalues, *eigenvectors) ? 1 : 0;
+        *returnValue = cv::eigen(InProxy(src), OutProxy(eigenvalues), OutProxy(eigenvectors)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) core_eigenNonSymmetric(
-    cv::_InputArray *src,  cv::_OutputArray *eigenvalues, cv::_OutputArray *eigenvectors)
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy eigenvalues,
+    interop::OutputArrayProxy eigenvectors)
 {
     return cvTry([&] {
-        cv::eigenNonSymmetric(*src, *eigenvalues, *eigenvectors);
+        cv::eigenNonSymmetric(InProxy(src), OutProxy(eigenvalues), OutProxy(eigenvectors));
     });
 }
 
@@ -934,114 +940,155 @@ CVAPI(ExceptionStatus) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples,
         cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
     });
 }
-CVAPI(ExceptionStatus) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
-                                            cv::_InputOutputArray *mean, int flags, int ctype)
+CVAPI(ExceptionStatus) core_calcCovarMatrix_InputArray(
+    interop::InputArrayProxy samples,
+    interop::OutputArrayProxy covar,
+    interop::InputOutputArrayProxy mean,
+    int flags,
+    int ctype)
 {
     return cvTry([&] {
-        cv::calcCovarMatrix(*samples, *covar, *mean, flags, ctype);
+        cv::calcCovarMatrix(InProxy(samples), OutProxy(covar), IoProxy(mean), flags, ctype);
     });
 }
 
-CVAPI(ExceptionStatus) core_PCACompute(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                            cv::_OutputArray *eigenvectors, int maxComponents)
+CVAPI(ExceptionStatus) core_PCACompute(
+    interop::InputArrayProxy data,
+    interop::InputOutputArrayProxy mean,
+    interop::OutputArrayProxy eigenvectors,
+    int maxComponents)
 {
     return cvTry([&] {
-        cv::PCACompute(*data, *mean, *eigenvectors, maxComponents);
+        cv::PCACompute(InProxy(data), IoProxy(mean), OutProxy(eigenvectors), maxComponents);
     });
 }
-CVAPI(ExceptionStatus) core_PCACompute2(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                            cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, int maxComponents)
+CVAPI(ExceptionStatus) core_PCACompute2(
+    interop::InputArrayProxy data,
+    interop::InputOutputArrayProxy mean,
+    interop::OutputArrayProxy eigenvectors,
+    interop::OutputArrayProxy eigenvalues,
+    int maxComponents)
 {
     return cvTry([&] {
-        cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, maxComponents);
-    });
-}
-
-CVAPI(ExceptionStatus) core_PCAComputeVar(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                               cv::_OutputArray *eigenvectors, double retainedVariance)
-{
-    return cvTry([&] {
-        cv::PCACompute(*data, *mean, *eigenvectors, retainedVariance);
-    });
-}
-CVAPI(ExceptionStatus) core_PCAComputeVar2(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                               cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, double retainedVariance)
-{
-    return cvTry([&] {
-        cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, retainedVariance);
+        cv::PCACompute(InProxy(data), IoProxy(mean), OutProxy(eigenvectors), OutProxy(eigenvalues), maxComponents);
     });
 }
 
-CVAPI(ExceptionStatus) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
-                            cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+CVAPI(ExceptionStatus) core_PCAComputeVar(
+    interop::InputArrayProxy data,
+    interop::InputOutputArrayProxy mean,
+    interop::OutputArrayProxy eigenvectors,
+    double retainedVariance)
 {
     return cvTry([&] {
-        cv::PCAProject(*data, *mean, *eigenvectors, *result);
+        cv::PCACompute(InProxy(data), IoProxy(mean), OutProxy(eigenvectors), retainedVariance);
     });
 }
-CVAPI(ExceptionStatus) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
-                                cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+CVAPI(ExceptionStatus) core_PCAComputeVar2(
+    interop::InputArrayProxy data,
+    interop::InputOutputArrayProxy mean,
+    interop::OutputArrayProxy eigenvectors,
+    interop::OutputArrayProxy eigenvalues,
+    double retainedVariance)
 {
     return cvTry([&] {
-        cv::PCABackProject(*data, *mean, *eigenvectors, *result);
-    });
-}
-
-CVAPI(ExceptionStatus) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
-                          cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
-{
-    return cvTry([&] {
-        cv::SVDecomp(*src, *w, *u, *vt, flags);
-    });
-}
-
-CVAPI(ExceptionStatus) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
-                             cv::_InputArray *rhs, cv::_OutputArray *dst)
-{
-    return cvTry([&] {
-        cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
+        cv::PCACompute(InProxy(data), IoProxy(mean), OutProxy(eigenvectors), OutProxy(eigenvalues), retainedVariance);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mahalanobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar, double *returnValue)
+CVAPI(ExceptionStatus) core_PCAProject(
+    interop::InputArrayProxy data,
+    interop::InputArrayProxy mean,
+    interop::InputArrayProxy eigenvectors,
+    interop::OutputArrayProxy result)
 {
     return cvTry([&] {
-        *returnValue = cv::Mahalanobis(*v1, *v2, *icovar);
+        cv::PCAProject(InProxy(data), InProxy(mean), InProxy(eigenvectors), OutProxy(result));
+    });
+}
+CVAPI(ExceptionStatus) core_PCABackProject(
+    interop::InputArrayProxy data,
+    interop::InputArrayProxy mean,
+    interop::InputArrayProxy eigenvectors,
+    interop::OutputArrayProxy result)
+{
+    return cvTry([&] {
+        cv::PCABackProject(InProxy(data), InProxy(mean), InProxy(eigenvectors), OutProxy(result));
     });
 }
 
-CVAPI(ExceptionStatus) core_dft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+CVAPI(ExceptionStatus) core_SVDecomp(
+    interop::InputArrayProxy src,
+    interop::OutputArrayProxy w,
+    interop::OutputArrayProxy u,
+    interop::OutputArrayProxy vt,
+    int flags)
 {
     return cvTry([&] {
-        cv::dft(*src, *dst, flags, nonzeroRows);
+        cv::SVDecomp(InProxy(src), OutProxy(w), OutProxy(u), OutProxy(vt), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_idft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+CVAPI(ExceptionStatus) core_SVBackSubst(
+    interop::InputArrayProxy w,
+    interop::InputArrayProxy u,
+    interop::InputArrayProxy vt,
+    interop::InputArrayProxy rhs,
+    interop::OutputArrayProxy dst)
 {
     return cvTry([&] {
-        cv::idft(*src, *dst, flags, nonzeroRows);
+        cv::SVBackSubst(InProxy(w), InProxy(u), InProxy(vt), InProxy(rhs), OutProxy(dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_dct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_Mahalanobis(
+    interop::InputArrayProxy v1,
+    interop::InputArrayProxy v2,
+    interop::InputArrayProxy icovar,
+    double *returnValue)
 {
     return cvTry([&] {
-        cv::dct(*src, *dst, flags); 
+        *returnValue = cv::Mahalanobis(InProxy(v1), InProxy(v2), InProxy(icovar));
     });
 }
 
-CVAPI(ExceptionStatus) core_idct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_dft(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int flags, int nonzeroRows)
 {
     return cvTry([&] {
-        cv::idct(*src, *dst, flags);
+        cv::dft(InProxy(src), OutProxy(dst), flags, nonzeroRows);
     });
 }
 
-CVAPI(ExceptionStatus) core_mulSpectrums(cv::_InputArray *a, cv::_InputArray *b, cv::_OutputArray *c, int flags, int conjB)
+CVAPI(ExceptionStatus) core_idft(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int flags, int nonzeroRows)
 {
     return cvTry([&] {
-        cv::mulSpectrums(*a, *b, *c, flags, conjB != 0);
+        cv::idft(InProxy(src), OutProxy(dst), flags, nonzeroRows);
+    });
+}
+
+CVAPI(ExceptionStatus) core_dct(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int flags)
+{
+    return cvTry([&] {
+        cv::dct(InProxy(src), OutProxy(dst), flags);
+    });
+}
+
+CVAPI(ExceptionStatus) core_idct(interop::InputArrayProxy src, interop::OutputArrayProxy dst, int flags)
+{
+    return cvTry([&] {
+        cv::idct(InProxy(src), OutProxy(dst), flags);
+    });
+}
+
+CVAPI(ExceptionStatus) core_mulSpectrums(
+    interop::InputArrayProxy a,
+    interop::InputArrayProxy b,
+    interop::OutputArrayProxy c,
+    int flags,
+    int conjB)
+{
+    return cvTry([&] {
+        cv::mulSpectrums(InProxy(a), InProxy(b), OutProxy(c), flags, conjB != 0);
     });
 }
 
@@ -1067,48 +1114,53 @@ CVAPI(ExceptionStatus) core_theRNG_set(uint64 value)
     });
 }
 
-CVAPI(ExceptionStatus) core_randu_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
+CVAPI(ExceptionStatus) core_randu_InputArray(interop::InputOutputArrayProxy dst, interop::InputArrayProxy low, interop::InputArrayProxy high)
 {
     return cvTry([&] {
-        cv::randu(*dst, *low, *high);
+        cv::randu(IoProxy(dst), InProxy(low), InProxy(high));
     });
 }
-CVAPI(ExceptionStatus) core_randu_Scalar(cv::_InputOutputArray *dst, interop::Scalar low, interop::Scalar high)
+CVAPI(ExceptionStatus) core_randu_Scalar(interop::InputOutputArrayProxy dst, interop::Scalar low, interop::Scalar high)
 {
     return cvTry([&] {
-        cv::randu(*dst, cpp(low), cpp(high));
-    });
-}
-
-CVAPI(ExceptionStatus) core_randn_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
-{
-    return cvTry([&] {
-        cv::randn(*dst, *mean, *stddev);
-    });
-}
-CVAPI(ExceptionStatus) core_randn_Scalar(cv::_InputOutputArray *dst, interop::Scalar mean, interop::Scalar stddev)
-{
-    return cvTry([&] {
-        cv::randn(*dst, cpp(mean), cpp(stddev));
+        cv::randu(IoProxy(dst), cpp(low), cpp(high));
     });
 }
 
-CVAPI(ExceptionStatus) core_randShuffle(cv::_InputOutputArray *dst, double iterFactor, uint64 *rng)
+CVAPI(ExceptionStatus) core_randn_InputArray(interop::InputOutputArrayProxy dst, interop::InputArrayProxy mean, interop::InputArrayProxy stddev)
+{
+    return cvTry([&] {
+        cv::randn(IoProxy(dst), InProxy(mean), InProxy(stddev));
+    });
+}
+CVAPI(ExceptionStatus) core_randn_Scalar(interop::InputOutputArrayProxy dst, interop::Scalar mean, interop::Scalar stddev)
+{
+    return cvTry([&] {
+        cv::randn(IoProxy(dst), cpp(mean), cpp(stddev));
+    });
+}
+
+CVAPI(ExceptionStatus) core_randShuffle(interop::InputOutputArrayProxy dst, double iterFactor, uint64 *rng)
 {
     return cvTry([&] {
         cv::RNG rng0;
-        cv::randShuffle(*dst, iterFactor, &rng0);
+        cv::randShuffle(IoProxy(dst), iterFactor, &rng0);
         *rng = rng0.state;
     });
 }
 
 CVAPI(ExceptionStatus) core_kmeans(
-    cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
-    interop::TermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers, 
+    interop::InputArrayProxy data,
+    int k,
+    interop::InputOutputArrayProxy bestLabels,
+    interop::TermCriteria criteria,
+    int attempts,
+    int flags,
+    interop::OutputArrayProxy centers,
     double* returnValue)
 {
     return cvTry([&] {
-        *returnValue = cv::kmeans(*data, k, *bestLabels, cpp(criteria), attempts, flags, entity(centers));
+        *returnValue = cv::kmeans(InProxy(data), k, IoProxy(bestLabels), cpp(criteria), attempts, flags, OutProxy(centers));
     });
 }
 
@@ -1331,11 +1383,17 @@ CVAPI(ExceptionStatus) core_logger_getLogLevel(cv::utils::logging::LogLevel *ret
 
 #pragma region RNG
 
-CVAPI(ExceptionStatus) core_RNG_fill(uint64 *state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
+CVAPI(ExceptionStatus) core_RNG_fill(
+    uint64 *state,
+    interop::InputOutputArrayProxy mat,
+    int distType,
+    interop::InputArrayProxy a,
+    interop::InputArrayProxy b,
+    int saturateRange)
 {
     return cvTry([&] {
         cv::RNG rng(*state);
-        rng.fill(*mat, distType, *a, *b, saturateRange != 0);
+        rng.fill(IoProxy(mat), distType, InProxy(a), InProxy(b), saturateRange != 0);
         *state = rng.state;
     });
 }

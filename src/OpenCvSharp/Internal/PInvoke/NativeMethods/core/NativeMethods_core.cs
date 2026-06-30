@@ -375,57 +375,57 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_solvePoly(InputArrayProxy coeffs, OutputArrayProxy roots, int maxIters, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_eigen(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors, out int returnValue);
+    internal static partial ExceptionStatus core_eigen(InputArrayProxy src, OutputArrayProxy eigenvalues, OutputArrayProxy eigenvectors, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_eigenNonSymmetric(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors);
+    internal static partial ExceptionStatus core_eigenNonSymmetric(InputArrayProxy src, OutputArrayProxy eigenvalues, OutputArrayProxy eigenvectors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples, 
+    public static partial ExceptionStatus core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples,
         int nsamples, IntPtr covar, IntPtr mean, int flags, int ctype);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
-        IntPtr mean, int flags, int ctype);
+    internal static partial ExceptionStatus core_calcCovarMatrix_InputArray(InputArrayProxy samples, OutputArrayProxy covar,
+        InputOutputArrayProxy mean, int flags, int ctype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCACompute(IntPtr data, IntPtr mean, IntPtr eigenvectors, int maxComponents);
+    internal static partial ExceptionStatus core_PCACompute(InputArrayProxy data, InputOutputArrayProxy mean, OutputArrayProxy eigenvectors, int maxComponents);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCACompute2(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr eigenvalues, int maxComponents);
+    internal static partial ExceptionStatus core_PCACompute2(InputArrayProxy data, InputOutputArrayProxy mean, OutputArrayProxy eigenvectors, OutputArrayProxy eigenvalues, int maxComponents);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCAComputeVar(IntPtr data, IntPtr mean, IntPtr eigenvectors, double retainedVariance);
+    internal static partial ExceptionStatus core_PCAComputeVar(InputArrayProxy data, InputOutputArrayProxy mean, OutputArrayProxy eigenvectors, double retainedVariance);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCAComputeVar2(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr eigenvalues, double retainedVariance);
+    internal static partial ExceptionStatus core_PCAComputeVar2(InputArrayProxy data, InputOutputArrayProxy mean, OutputArrayProxy eigenvectors, OutputArrayProxy eigenvalues, double retainedVariance);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCAProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+    internal static partial ExceptionStatus core_PCAProject(InputArrayProxy data, InputArrayProxy mean, InputArrayProxy eigenvectors, OutputArrayProxy result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCABackProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+    internal static partial ExceptionStatus core_PCABackProject(InputArrayProxy data, InputArrayProxy mean, InputArrayProxy eigenvectors, OutputArrayProxy result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVDecomp(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
+    internal static partial ExceptionStatus core_SVDecomp(InputArrayProxy src, OutputArrayProxy w, OutputArrayProxy u, OutputArrayProxy vt, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVBackSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
+    internal static partial ExceptionStatus core_SVBackSubst(InputArrayProxy w, InputArrayProxy u, InputArrayProxy vt, InputArrayProxy rhs, OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Mahalanobis(IntPtr v1, IntPtr v2, IntPtr icovar, out double returnValue);
+    internal static partial ExceptionStatus core_Mahalanobis(InputArrayProxy v1, InputArrayProxy v2, InputArrayProxy icovar, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_dft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
+    internal static partial ExceptionStatus core_dft(InputArrayProxy src, OutputArrayProxy dst, int flags, int nonzeroRows);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_idft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
+    internal static partial ExceptionStatus core_idft(InputArrayProxy src, OutputArrayProxy dst, int flags, int nonzeroRows);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_dct(IntPtr src, IntPtr dst, int flags);
+    internal static partial ExceptionStatus core_dct(InputArrayProxy src, OutputArrayProxy dst, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_idct(IntPtr src, IntPtr dst, int flags);
+    internal static partial ExceptionStatus core_idct(InputArrayProxy src, OutputArrayProxy dst, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_mulSpectrums(IntPtr a, IntPtr b, IntPtr c, int flags, int conjB);
+    internal static partial ExceptionStatus core_mulSpectrums(InputArrayProxy a, InputArrayProxy b, OutputArrayProxy c, int flags, int conjB);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_getOptimalDFTSize(int vecsize, out int returnValue);
@@ -436,24 +436,24 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_theRNG_set(ulong returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randu_InputArray(IntPtr dst, IntPtr low, IntPtr high);
+    internal static partial ExceptionStatus core_randu_InputArray(InputOutputArrayProxy dst, InputArrayProxy low, InputArrayProxy high);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randu_Scalar(IntPtr dst, Scalar low, Scalar high);
+    internal static partial ExceptionStatus core_randu_Scalar(InputOutputArrayProxy dst, Scalar low, Scalar high);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randn_InputArray(IntPtr dst, IntPtr mean, IntPtr stddev);
+    internal static partial ExceptionStatus core_randn_InputArray(InputOutputArrayProxy dst, InputArrayProxy mean, InputArrayProxy stddev);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randn_Scalar(IntPtr dst, Scalar mean, Scalar stddev);
+    internal static partial ExceptionStatus core_randn_Scalar(InputOutputArrayProxy dst, Scalar mean, Scalar stddev);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randShuffle(IntPtr dst, double iterFactor, ref ulong rng);
+    internal static partial ExceptionStatus core_randShuffle(InputOutputArrayProxy dst, double iterFactor, ref ulong rng);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_randShuffle(IntPtr dst, double iterFactor, IntPtr rng);
-        
+    internal static partial ExceptionStatus core_randShuffle(InputOutputArrayProxy dst, double iterFactor, IntPtr rng);
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_kmeans(
-        IntPtr data, int k, IntPtr bestLabels,
-        TermCriteria criteria, int attempts, int flags, IntPtr centers,
+    internal static partial ExceptionStatus core_kmeans(
+        InputArrayProxy data, int k, InputOutputArrayProxy bestLabels,
+        TermCriteria criteria, int attempts, int flags, OutputArrayProxy centers,
         out double returnValue);
 
     #region base.hpp

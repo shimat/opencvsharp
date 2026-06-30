@@ -60,7 +60,7 @@ static partial class NativeMethods
     #region RNG
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_RNG_fill(ref ulong state, IntPtr mat, int distType, IntPtr a, IntPtr b, int saturateRange);
+    internal static partial ExceptionStatus core_RNG_fill(ref ulong state, InputOutputArrayProxy mat, int distType, InputArrayProxy a, InputArrayProxy b, int saturateRange);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_RNG_gaussian(ref ulong state, double sigma, out double returnValue);
