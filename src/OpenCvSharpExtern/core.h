@@ -1136,8 +1136,11 @@ CVAPI(ExceptionStatus) core_randShuffle(interop::InputOutputArrayProxy dst, doub
 {
     return cvTry([&] {
         cv::RNG rng0;
+        if (rng != nullptr)
+            rng0.state = *rng;
         cv::randShuffle(IoProxy(dst), iterFactor, &rng0);
-        *rng = rng0.state;
+        if (rng != nullptr)
+            *rng = rng0.state;
     });
 }
 
