@@ -318,9 +318,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_connectedComponentsWithStatsWithAlgorithm(
-        // INVESTIGATION (#1984): ltype is `int` (not MatType) — a small struct spilled to the arm64
-        // stack here is mis-passed on Apple/Windows arm64, corrupting the trailing returnValue pointer.
-        InputArrayProxy image, OutputArrayProxy labels, OutputArrayProxy stats, OutputArrayProxy centroids, int connectivity, int ltype, int ccltype, out int returnValue);
+        // INVESTIGATION (#1984): output proxies passed by `in` (readonly ref => pointer, 1 GPR each)
+        // so the trailing scalar args stay in registers on arm64. ltype kept as MatType to isolate
+        // the `in` effect (it now lands in a register, where a small struct is passed safely).
+        InputArrayProxy image, in OutputArrayProxy labels, in OutputArrayProxy stats, in OutputArrayProxy centroids, int connectivity, MatType ltype, int ccltype, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_connectedComponentsWithStats(

@@ -667,14 +667,16 @@ CVAPI(ExceptionStatus) imgproc_connectedComponents(interop::InputArrayProxy imag
     });
 }
 
+// INVESTIGATION (#1984): output proxies passed by pointer (1 GPR each instead of 2)
+// so the trailing scalar args stay in registers on arm64 (no small-struct stack spill).
 CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStatsWithAlgorithm(
-    interop::InputArrayProxy image, interop::OutputArrayProxy labels,
-    interop::OutputArrayProxy stats, interop::OutputArrayProxy centroids,
+    interop::InputArrayProxy image, const interop::OutputArrayProxy* labels,
+    const interop::OutputArrayProxy* stats, const interop::OutputArrayProxy* centroids,
     int connectivity, int ltype, int ccltype, int* returnValue)
 {
     return cvTry([&] {
         *returnValue = cv::connectedComponentsWithStats(
-                InProxy(image), OutProxy(labels), OutProxy(stats), OutProxy(centroids), connectivity, ltype, ccltype);
+                InProxy(image), OutProxy(*labels), OutProxy(*stats), OutProxy(*centroids), connectivity, ltype, ccltype);
     });
 }
 
