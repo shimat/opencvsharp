@@ -63,13 +63,13 @@ CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(cv::FontFace *obj, std::vect
 #pragma region putText / getTextSize with FontFace
 
 CVAPI(ExceptionStatus) imgproc_putText_FontFace(
-    interop::InputOutputArrayProxy img, const char *text, interop::Point org, interop::Scalar color,
+    const interop::InputOutputArrayProxy* img, const char *text, interop::Point org, interop::Scalar color,
     cv::FontFace *fface, int size, int weight, int flags, int wrapStart, int wrapEnd,
     interop::Point *returnValue)
 {
     return cvTry([&] {
         const auto p = cv::putText(
-            IoProxy(img), cv::String(text), cpp(org), cpp(color), *fface, size, weight,
+            IoProxy(*img), cv::String(text), cpp(org), cpp(color), *fface, size, weight,
             static_cast<cv::PutTextFlags>(flags), cv::Range(wrapStart, wrapEnd));
         *returnValue = c(p);
     });

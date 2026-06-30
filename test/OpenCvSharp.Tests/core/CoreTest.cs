@@ -466,7 +466,7 @@ public class CoreTest : TestBase
 
     // --- ArrayProxy migration coverage (issue #1976): one test per migrated Cv2 method ---
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void AddWeighted()
     {
         using var src1 = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 10, 20, 30, 40 });
@@ -480,7 +480,7 @@ public class CoreTest : TestBase
         Assert.Equal(25, dst.At<byte>(1, 1));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void BatchDistance()
     {
         using var src1 = Mat.FromPixelData(1, 2, MatType.CV_32FC1, new float[] { 0, 0 });
@@ -493,7 +493,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, dist.At<float>(0, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void CalcCovarMatrix()
     {
         using var s0 = Mat.FromPixelData(1, 2, MatType.CV_64FC1, new double[] { 1, 2 });
@@ -508,7 +508,7 @@ public class CoreTest : TestBase
         Assert.Equal(3.0, mean.At<double>(0, 1), 6);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void CartToPolar()
     {
         using var x = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new float[] { 3 });
@@ -520,7 +520,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, mag.At<float>(0, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void CheckRange()
     {
         using var ok = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -530,7 +530,7 @@ public class CoreTest : TestBase
         Assert.False(Cv2.CheckRange(bad));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void ConvertScaleAbs()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { -1, 2, -3, 4 });
@@ -544,7 +544,7 @@ public class CoreTest : TestBase
         Assert.Equal(8, dst.At<byte>(1, 1));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Dct()
     {
         using var src = Mat.FromPixelData(4, 1, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -557,7 +557,7 @@ public class CoreTest : TestBase
             Assert.Equal(src.At<float>(i, 0), restored.At<float>(i, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Dft()
     {
         using var src = Mat.FromPixelData(8, 1, MatType.CV_32FC1, new float[] { 1, 2, 3, 4, 5, 6, 7, 8 });
@@ -570,7 +570,7 @@ public class CoreTest : TestBase
             Assert.Equal(src.At<float>(i, 0), restored.At<float>(i, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Eigen()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 2, 0, 0, 3 });
@@ -582,7 +582,7 @@ public class CoreTest : TestBase
         Assert.Equal(2.0, values.At<float>(1, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void EigenNonSymmetric()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 2, 0, 0, 3 });
@@ -593,7 +593,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, values.Total());
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Exp()
     {
         using var src = Mat.FromPixelData(1, 2, MatType.CV_32FC1, new float[] { 0, 1 });
@@ -604,7 +604,7 @@ public class CoreTest : TestBase
         Assert.Equal(Math.E, dst.At<float>(0, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void ExtractChannel()
     {
         using var src = Mat.FromPixelData(1, 1, MatType.CV_8UC3, new byte[] { 10, 20, 30 });
@@ -615,7 +615,7 @@ public class CoreTest : TestBase
         Assert.Equal(20, dst.At<byte>(0, 0));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void FindNonZero()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 0, 1, 0, 1 });
@@ -625,7 +625,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, idx.Total()); // two non-zero elements
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Flip()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
@@ -638,7 +638,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, dst.At<byte>(1, 1));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void InsertChannel()
     {
         using var dst = Mat.FromPixelData(1, 1, MatType.CV_8UC3, new byte[] { 0, 0, 0 });
@@ -651,7 +651,7 @@ public class CoreTest : TestBase
         Assert.Equal(0, v.Item2);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Kmeans()
     {
         using var data = Mat.FromPixelData(6, 1, MatType.CV_32FC1, new float[] { 0f, 0.1f, 0.2f, 10f, 10.1f, 10.2f });
@@ -664,7 +664,7 @@ public class CoreTest : TestBase
         Assert.NotEqual(labels.At<int>(0, 0), labels.At<int>(5, 0));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void LUT()
     {
         using var src = Mat.FromPixelData(1, 4, MatType.CV_8UC1, new byte[] { 0, 1, 2, 3 });
@@ -681,7 +681,7 @@ public class CoreTest : TestBase
         Assert.Equal(30, dst.At<byte>(0, 3));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Log()
     {
         using var src = Mat.FromPixelData(1, 2, MatType.CV_32FC1, new float[] { 1f, (float)Math.E });
@@ -692,7 +692,7 @@ public class CoreTest : TestBase
         Assert.Equal(1.0, dst.At<float>(0, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Magnitude()
     {
         using var x = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new float[] { 3 });
@@ -703,7 +703,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, mag.At<float>(0, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Mahalanobis()
     {
         using var v1 = Mat.FromPixelData(1, 2, MatType.CV_32FC1, new float[] { 0, 0 });
@@ -714,7 +714,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, d, 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Mean()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 2, 4, 6, 8 });
@@ -723,7 +723,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, mean.Val0, 6);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void MeanStdDev()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 2, 4, 6, 8 });
@@ -735,7 +735,7 @@ public class CoreTest : TestBase
         Assert.Equal(Math.Sqrt(5.0), stddev.At<double>(0, 0), 6);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void MulSpectrums()
     {
         using var a = Mat.FromPixelData(1, 1, MatType.CV_32FC2, new float[] { 2, 0 });
@@ -748,7 +748,7 @@ public class CoreTest : TestBase
         Assert.Equal(0.0, v.Item1, 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void MulTransposed()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -762,7 +762,7 @@ public class CoreTest : TestBase
         Assert.Equal(20.0, dst.At<float>(1, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PCACompute()
     {
         using var data = Mat.FromPixelData(3, 2, MatType.CV_32FC1, new float[] { 0, 0, 1, 1, 2, 2 });
@@ -774,7 +774,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, eigenvectors.Cols);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PCAComputeVar()
     {
         using var data = Mat.FromPixelData(3, 2, MatType.CV_32FC1, new float[] { 0, 0, 1, 1, 2, 2 });
@@ -786,7 +786,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, eigenvectors.Cols);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PCAProjectAndBackProject()
     {
         using var data = Mat.FromPixelData(3, 2, MatType.CV_32FC1, new float[] { 0, 0, 1, 1, 2, 2 });
@@ -804,7 +804,7 @@ public class CoreTest : TestBase
         Assert.Equal(data.Cols, restored.Cols);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PatchNaNs()
     {
         using var a = Mat.FromPixelData(1, 4, MatType.CV_32FC1, new float[] { 1, float.NaN, 3, 4 });
@@ -814,7 +814,7 @@ public class CoreTest : TestBase
         Assert.Equal(1.0, a.At<float>(0, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PerspectiveTransform()
     {
         using var src = Mat.FromPixelData(1, 1, MatType.CV_32FC2, new float[] { 2, 3 });
@@ -827,7 +827,7 @@ public class CoreTest : TestBase
         Assert.Equal(3.0, v.Item1, 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Phase()
     {
         using var x = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new float[] { 1 });
@@ -838,7 +838,7 @@ public class CoreTest : TestBase
         Assert.Equal(45.0, angle.At<float>(0, 0), 1); // single-precision phase, ~44.99 deg
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void PolarToCart()
     {
         using var mag = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new float[] { 5 });
@@ -851,7 +851,7 @@ public class CoreTest : TestBase
         Assert.Equal(0.0, y.At<float>(0, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Pow()
     {
         using var src = Mat.FromPixelData(1, 2, MatType.CV_32FC1, new float[] { 2, 3 });
@@ -862,7 +862,7 @@ public class CoreTest : TestBase
         Assert.Equal(9.0, dst.At<float>(0, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void RandShuffle()
     {
         using var dst = Mat.FromPixelData(1, 10, MatType.CV_32FC1, new float[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
@@ -872,7 +872,7 @@ public class CoreTest : TestBase
         Assert.Equal(45.0, Cv2.Sum(dst).Val0, 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Reduce()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -884,7 +884,7 @@ public class CoreTest : TestBase
         Assert.Equal(6.0, dst.At<float>(0, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void SVDecompAndBackSubst()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 2, 0, 0, 3 });
@@ -905,7 +905,7 @@ public class CoreTest : TestBase
         Assert.Equal(1.0, dst.At<float>(1, 0), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void ScaleAdd()
     {
         using var src1 = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -919,7 +919,7 @@ public class CoreTest : TestBase
         Assert.Equal(9.0, dst.At<float>(1, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void SetIdentity()
     {
         using var mtx = new Mat(3, 3, MatType.CV_32FC1, Scalar.All(0));
@@ -930,7 +930,7 @@ public class CoreTest : TestBase
         Assert.Equal(0.0, mtx.At<float>(0, 1), 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void SolveCubic()
     {
         // x^3 - 6x^2 + 11x - 6 = (x-1)(x-2)(x-3)
@@ -941,7 +941,7 @@ public class CoreTest : TestBase
         Assert.Equal(3, n);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void SolvePoly()
     {
         // x^2 - 1 = 0 -> roots +-1; coeffs are c0 + c1*x + c2*x^2
@@ -952,7 +952,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, roots.Total());
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Sort()
     {
         using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, new int[] { 3, 1, 4, 2 });
@@ -965,7 +965,7 @@ public class CoreTest : TestBase
         Assert.Equal(4, dst.At<int>(0, 3));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void SortIdx()
     {
         using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, new int[] { 3, 1, 4, 2 });
@@ -979,7 +979,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, dst.At<int>(0, 3));
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Trace()
     {
         using var mtx = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
@@ -988,7 +988,7 @@ public class CoreTest : TestBase
         Assert.Equal(5.0, tr.Val0, 3);
     }
 
-    [Fact(Skip = "arm64 crash bisect")]
+    [Fact]
     public void Transform()
     {
         using var src = Mat.FromPixelData(1, 1, MatType.CV_32FC2, new float[] { 2, 3 });
