@@ -287,7 +287,7 @@ public struct RNG : IEquatable<RNG>
         b.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_RNG_fill(ref state, mat.CvPtr, (int) distType, a.CvPtr, b.CvPtr, saturateRange ? 1 : 0));
+            NativeMethods.core_RNG_fill(ref state, mat.ToInputOutputProxy(), (int) distType, a.ToInputProxy(), b.ToInputProxy(), saturateRange ? 1 : 0));
 
         mat.Fix();
         GC.KeepAlive(mat);

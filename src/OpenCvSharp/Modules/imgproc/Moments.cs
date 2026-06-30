@@ -150,7 +150,7 @@ public class Moments
     private void InitializeFromInputArray(InputArray array, bool binaryImage)
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0, out var m));
+            NativeMethods.imgproc_moments(array.ToInputProxy(), binaryImage ? 1 : 0, out var m));
         GC.KeepAlive(array);
         Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
     }

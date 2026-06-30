@@ -25,6 +25,11 @@ public class InputArray : CvObject
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+    // Migration scaffold (issue #1976, strategy 3): wraps this class's native cv::_InputArray* as an
+    // ArrayProxy so externs can move to the ArrayProxy ABI one module at a time while InputArray is
+    // still a class. The caller must keep this object alive across the native call (GC.KeepAlive).
+    internal InputArrayProxy ToInputProxy() => new() { Handle = CvPtr, Kind = (int)ArrayProxyKind.RawInputArray };
+
     #region Init & Disposal
 
     /// <summary>
