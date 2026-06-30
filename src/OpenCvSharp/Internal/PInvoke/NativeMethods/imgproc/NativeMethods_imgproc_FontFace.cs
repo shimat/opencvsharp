@@ -56,8 +56,8 @@ static partial class NativeMethods
     // putText / getTextSize with FontFace (text is UTF-8 for full Unicode support)
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_putText_FontFace(
-        IntPtr img, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, Point org, Scalar color,
+    internal static partial ExceptionStatus imgproc_putText_FontFace(
+        InputOutputArrayProxy img, [MarshalAs(UnmanagedType.LPUTF8Str)] string text, Point org, Scalar color,
         IntPtr fface, int size, int weight, int flags, int wrapStart, int wrapEnd, out Point returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
