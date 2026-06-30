@@ -1100,4 +1100,406 @@ public class ImgProcTest : TestBase
 
         Assert.Equal(new Size(64, 64), dst.Size());
     }
+
+    [Fact]
+    public void Accumulate()
+    {
+        using var src = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(5));
+        using var dst = new Mat(2, 2, MatType.CV_32FC1, Scalar.All(0));
+        using var mask = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(255));
+        Cv2.Accumulate(src, dst, mask);
+
+        Assert.Equal(5.0, dst.At<float>(0, 0), 3);
+    }
+
+    [Fact]
+    public void AccumulateSquare()
+    {
+        using var src = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(5));
+        using var dst = new Mat(2, 2, MatType.CV_32FC1, Scalar.All(0));
+        using var mask = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(255));
+        Cv2.AccumulateSquare(src, dst, mask);
+
+        Assert.Equal(25.0, dst.At<float>(0, 0), 3);
+    }
+
+    [Fact]
+    public void AccumulateProduct()
+    {
+        using var src1 = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(5));
+        using var src2 = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(2));
+        using var dst = new Mat(2, 2, MatType.CV_32FC1, Scalar.All(0));
+        using var mask = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(255));
+        Cv2.AccumulateProduct(src1, src2, dst, mask);
+
+        Assert.Equal(10.0, dst.At<float>(0, 0), 3);
+    }
+
+    [Fact]
+    public void AccumulateWeighted()
+    {
+        using var src = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(10));
+        using var dst = new Mat(2, 2, MatType.CV_32FC1, Scalar.All(0));
+        using var mask = new Mat(2, 2, MatType.CV_8UC1, Scalar.All(255));
+        Cv2.AccumulateWeighted(src, dst, 0.5, mask);
+
+        Assert.Equal(5.0, dst.At<float>(0, 0), 3);
+    }
+
+    [Fact]
+    public void ApproxPolyDP()
+    {
+        using var curve = Mat.FromPixelData(4, 1, MatType.CV_32FC2, new float[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        using var approx = new Mat();
+        Cv2.ApproxPolyDP(curve, approx, 1.0, true);
+
+        Assert.Equal(4, approx.Total());
+    }
+
+    [Fact]
+    public void ArrowedLine()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.ArrowedLine(img, new Point(5, 5), new Point(40, 40), Scalar.All(255), 2);
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void Circle()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Circle(img, 25, 25, 10, Scalar.All(255), 2);
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void Ellipse()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Ellipse(img, new Point(25, 25), new Size(15, 10), 0, 0, 360, Scalar.All(255), 2);
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void DrawMarker()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.DrawMarker(img, new Point(25, 25), Scalar.All(255), MarkerTypes.Cross, 20, 2);
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void FillConvexPoly()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        var pts = new[] { new Point(10, 10), new Point(40, 10), new Point(40, 40), new Point(10, 40) };
+        Cv2.FillConvexPoly(img, pts, Scalar.All(255));
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void FillPoly()
+    {
+        using var img = new Mat(50, 50, MatType.CV_8UC1, Scalar.All(0));
+        var pts = new[] { new[] { new Point(10, 10), new Point(40, 10), new Point(40, 40), new Point(10, 40) } };
+        Cv2.FillPoly(img, pts, Scalar.All(255));
+
+        Assert.True(Cv2.CountNonZero(img) > 0);
+    }
+
+    [Fact]
+    public void CalcBackProject()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var hist = new Mat();
+        var ranges = new[] { new Rangef(0, 256) };
+        Cv2.CalcHist(new[] { src }, new[] { 0 }, null, hist, 1, new[] { 256 }, ranges);
+
+        using var backProject = new Mat();
+        Cv2.CalcBackProject(new[] { src }, new[] { 0 }, hist, backProject, ranges);
+
+        Assert.Equal(src.Size(), backProject.Size());
+    }
+
+    [Fact]
+    public void CompareHist()
+    {
+        using var h1 = Mat.FromPixelData(4, 1, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
+        using var h2 = Mat.FromPixelData(4, 1, MatType.CV_32FC1, new float[] { 1, 2, 3, 4 });
+        var d = Cv2.CompareHist(h1, h2, HistCompMethods.Correl);
+
+        Assert.Equal(1.0, d, 3); // identical histograms correlate perfectly
+    }
+
+    [Fact]
+    public void ConnectedComponents()
+    {
+        using var img = MakeTwoBlobImage();
+        using var labels = new Mat();
+        var n = Cv2.ConnectedComponents(img, labels, PixelConnectivity.Connectivity8);
+
+        Assert.Equal(3, n); // background + two blobs
+    }
+
+    [Fact]
+    public void ConnectedComponentsWithAlgorithm()
+    {
+        using var img = MakeTwoBlobImage();
+        using var labels = new Mat();
+        var n = Cv2.ConnectedComponentsWithAlgorithm(img, labels, PixelConnectivity.Connectivity8,
+            MatType.CV_32S, ConnectedComponentsAlgorithmsTypes.Default);
+
+        Assert.Equal(3, n);
+    }
+
+    [Fact]
+    public void ConnectedComponentsWithStats()
+    {
+        using var img = MakeTwoBlobImage();
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var n = Cv2.ConnectedComponentsWithStats(img, labels, stats, centroids);
+
+        Assert.Equal(3, n);
+        Assert.Equal(3, stats.Rows);
+    }
+
+    [Fact]
+    public void ConnectedComponentsWithStatsWithAlgorithm()
+    {
+        using var img = MakeTwoBlobImage();
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var n = Cv2.ConnectedComponentsWithStatsWithAlgorithm(img, labels, stats, centroids,
+            PixelConnectivity.Connectivity8, MatType.CV_32S, ConnectedComponentsAlgorithmsTypes.Default);
+
+        Assert.Equal(3, n);
+    }
+
+    [Fact]
+    public void CornerSubPix()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        var refined = Cv2.CornerSubPix(src, new[] { new Point2f(50, 50) }, new Size(5, 5), new Size(-1, -1),
+            new TermCriteria(CriteriaTypes.MaxIter | CriteriaTypes.Eps, 30, 0.01));
+
+        Assert.Single(refined);
+    }
+
+    [Fact]
+    public void DistanceTransform()
+    {
+        using var img = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(255));
+        using var dst = new Mat();
+        Cv2.DistanceTransform(img, dst, DistanceTypes.L2, DistanceTransformMasks.Mask3);
+
+        Assert.Equal(img.Size(), dst.Size());
+        Assert.Equal(MatType.CV_32FC1, dst.Type());
+    }
+
+    [Fact]
+    public void DistanceTransformWithLabels()
+    {
+        using var img = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(255));
+        using var dst = new Mat();
+        using var labels = new Mat();
+        Cv2.DistanceTransformWithLabels(img, dst, labels, DistanceTypes.L2, DistanceTransformMasks.Mask3);
+
+        Assert.Equal(img.Size(), dst.Size());
+        Assert.Equal(img.Size(), labels.Size());
+    }
+
+    [Fact]
+    public void EMD()
+    {
+        using var sig1 = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 0.5f, 0, 0.5f, 1 });
+        using var sig2 = Mat.FromPixelData(2, 2, MatType.CV_32FC1, new float[] { 0.5f, 0, 0.5f, 1 });
+        var d = Cv2.EMD(sig1, sig2, DistanceTypes.L2);
+
+        Assert.Equal(0.0, d, 3); // identical signatures
+    }
+
+    [Fact]
+    public void FindContoursAsArray()
+    {
+        using var img = MakeSingleBlobImage();
+        var contours = Cv2.FindContoursAsArray(img, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+        Assert.True(contours.Length >= 1);
+    }
+
+    [Fact]
+    public void FindContoursAsMat()
+    {
+        using var img = MakeSingleBlobImage();
+        var contours = Cv2.FindContoursAsMat(img, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+
+        Assert.True(contours.Length >= 1);
+        foreach (var c in contours)
+            c.Dispose();
+    }
+
+    [Fact]
+    public void FloodFill()
+    {
+        using var img = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+        var area = Cv2.FloodFill(img, new Point(5, 5), Scalar.All(255));
+
+        Assert.True(area > 0);
+    }
+
+    [Fact]
+    public void GetAffineTransform()
+    {
+        var src = new[] { new Point2f(0, 0), new Point2f(1, 0), new Point2f(0, 1) };
+        var dst = new[] { new Point2f(0, 0), new Point2f(2, 0), new Point2f(0, 2) };
+        using var m = Cv2.GetAffineTransform(src, dst);
+
+        Assert.Equal(new Size(3, 2), m.Size());
+    }
+
+    [Fact]
+    public void GetPerspectiveTransform()
+    {
+        var src = new[] { new Point2f(0, 0), new Point2f(1, 0), new Point2f(1, 1), new Point2f(0, 1) };
+        var dst = new[] { new Point2f(0, 0), new Point2f(2, 0), new Point2f(2, 2), new Point2f(0, 2) };
+        using var m = Cv2.GetPerspectiveTransform(src, dst);
+
+        Assert.Equal(new Size(3, 3), m.Size());
+    }
+
+    [Fact]
+    public void GoodFeaturesToTrack()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var mask = new Mat();
+        var corners = Cv2.GoodFeaturesToTrack(src, 100, 0.01, 10, mask, 3, false, 0.04);
+
+        Assert.True(corners.Length > 0);
+    }
+
+    [Fact]
+    public void GrabCut()
+    {
+        using var color = LoadImage("lenna.png", ImreadModes.Color);
+        using var img = color.Resize(new Size(64, 64));
+        using var mask = new Mat();
+        using var bgdModel = new Mat();
+        using var fgdModel = new Mat();
+        Cv2.GrabCut(img, mask, new Rect(8, 8, 48, 48), bgdModel, fgdModel, 1, GrabCutModes.InitWithRect);
+
+        Assert.Equal(img.Size(), mask.Size());
+    }
+
+    [Fact]
+    public void HoughLines()
+    {
+        using var img = new Mat(100, 100, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Line(img, new Point(0, 50), new Point(99, 50), Scalar.All(255), 1);
+        var lines = Cv2.HoughLines(img, 1, Math.PI / 180, 50);
+
+        Assert.True(lines.Length > 0);
+    }
+
+    [Fact]
+    public void HoughCircles()
+    {
+        using var img = new Mat(100, 100, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Circle(img, 50, 50, 20, Scalar.All(255), 2);
+        var circles = Cv2.HoughCircles(img, HoughModes.Gradient, 1, 20, 100, 30, 10, 40);
+
+        Assert.NotNull(circles); // exercises the proxy path; detection itself can vary
+    }
+
+    [Fact]
+    public void IntersectConvexConvex()
+    {
+        using var p1 = Mat.FromPixelData(4, 1, MatType.CV_32FC2, new float[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        using var p2 = Mat.FromPixelData(4, 1, MatType.CV_32FC2, new float[] { 5, 5, 15, 5, 15, 15, 5, 15 });
+        using var p12 = new Mat();
+        var area = Cv2.IntersectConvexConvex(p1, p2, p12);
+
+        Assert.True(area > 0);
+    }
+
+    [Fact]
+    public void InvertAffineTransform()
+    {
+        var src = new[] { new Point2f(0, 0), new Point2f(1, 0), new Point2f(0, 1) };
+        var dst = new[] { new Point2f(0, 0), new Point2f(2, 0), new Point2f(0, 2) };
+        using var m = Cv2.GetAffineTransform(src, dst);
+        using var im = new Mat();
+        Cv2.InvertAffineTransform(m, im);
+
+        Assert.Equal(new Size(3, 2), im.Size());
+    }
+
+    [Fact]
+    public void MatchShapes()
+    {
+        using var c1 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, new int[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        using var c2 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, new int[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        var d = Cv2.MatchShapes(c1, c2, ShapeMatchModes.I1);
+
+        Assert.Equal(0.0, d, 3); // identical contours
+    }
+
+    [Fact]
+    public void MinAreaRect()
+    {
+        using var pts = Mat.FromPixelData(4, 1, MatType.CV_32FC2, new float[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        var rr = Cv2.MinAreaRect(pts);
+
+        Assert.True(rr.Size.Width > 0 && rr.Size.Height > 0);
+    }
+
+    [Fact]
+    public void PhaseCorrelate()
+    {
+        using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var small = gray.Resize(new Size(64, 64));
+        using var src = new Mat();
+        small.ConvertTo(src, MatType.CV_32F);
+        using var window = new Mat();
+        Cv2.CreateHanningWindow(window, new Size(64, 64), MatType.CV_32F);
+
+        var shift = Cv2.PhaseCorrelate(src, src, window, out var response);
+
+        Assert.True(Math.Abs(shift.X) < 1.0 && Math.Abs(shift.Y) < 1.0); // identical inputs -> no shift
+    }
+
+    [Fact]
+    public void Watershed()
+    {
+        using var color = LoadImage("lenna.png", ImreadModes.Color);
+        using var img = color.Resize(new Size(64, 64));
+        using var markers = new Mat(img.Size(), MatType.CV_32SC1, Scalar.All(0));
+        markers.Set(8, 8, 1);
+        markers.Set(56, 56, 2);
+        Cv2.Watershed(img, markers);
+
+        Assert.Equal(img.Size(), markers.Size());
+    }
+
+    private static Mat MakeTwoBlobImage()
+    {
+        var img = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Rectangle(img, new Rect(1, 1, 2, 2), Scalar.All(255), -1);
+        Cv2.Rectangle(img, new Rect(6, 6, 2, 2), Scalar.All(255), -1);
+        return img;
+    }
+
+    private static Mat MakeSingleBlobImage()
+    {
+        var img = new Mat(20, 20, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Rectangle(img, new Rect(5, 5, 10, 10), Scalar.All(255), -1);
+        return img;
+    }
 }
