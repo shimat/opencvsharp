@@ -8,45 +8,63 @@
 
 
 CVAPI(ExceptionStatus) imgproc_drawFrameAxes(
-    cv::_InputOutputArray *image, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *rvec, cv::_InputArray *tvec, float length, int thickness)
+    const interop::InputOutputArrayProxy* image,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputArrayProxy* rvec,
+    const interop::InputArrayProxy* tvec,
+    float length,
+    int thickness)
 {
     return cvTry([&] {
-    cv::drawFrameAxes(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length, thickness);
+    cv::drawFrameAxes(IoProxy(*image), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*rvec), InProxy(*tvec), length, thickness);
     });
 }
 
 
 CVAPI(ExceptionStatus) imgproc_undistort(
-    cv::_InputArray *src, cv::_OutputArray *dst,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_InputArray *newCameraMatrix)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputArrayProxy* newCameraMatrix)
 {
     return cvTry([&] {
-    cv::undistort(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(newCameraMatrix));
+    cv::undistort(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*newCameraMatrix));
     });
 }
 
 
 CVAPI(ExceptionStatus) imgproc_initUndistortRectifyMap(
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *R, cv::_InputArray *newCameraMatrix,
-    interop::Size size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* newCameraMatrix,
+    interop::Size size,
+    int m1type,
+    const interop::OutputArrayProxy* map1,
+    const interop::OutputArrayProxy* map2)
 {
     return cvTry([&] {
-    cv::initUndistortRectifyMap(*cameraMatrix, *distCoeffs, *R, *newCameraMatrix, cpp(size), m1type, *map1, *map2);
+    cv::initUndistortRectifyMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*newCameraMatrix), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
     });
 }
 
 
 CVAPI(ExceptionStatus) imgproc_initWideAngleProjMap(
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    interop::Size imageSize, int destImageWidth,
-    int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2,
-    int projType, double alpha,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    interop::Size imageSize,
+    int destImageWidth,
+    int m1type,
+    const interop::OutputArrayProxy* map1,
+    const interop::OutputArrayProxy* map2,
+    int projType,
+    double alpha,
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::initWideAngleProjMap(*cameraMatrix, *distCoeffs, cpp(imageSize), destImageWidth, m1type, 
-        *map1, *map2, static_cast<cv::UndistortTypes>(projType), alpha);
+    *returnValue = cv::initWideAngleProjMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), cpp(imageSize), destImageWidth, m1type, 
+        OutProxy(*map1), OutProxy(*map2), static_cast<cv::UndistortTypes>(projType), alpha);
     });
 }

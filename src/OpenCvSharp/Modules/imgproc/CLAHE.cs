@@ -53,7 +53,7 @@ public sealed class CLAHE : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_apply(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.imgproc_CLAHE_apply(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         dst.Fix();
         // Handle (a SafeHandle) keeps this alive across the call, so no GC.KeepAlive(this) is needed.

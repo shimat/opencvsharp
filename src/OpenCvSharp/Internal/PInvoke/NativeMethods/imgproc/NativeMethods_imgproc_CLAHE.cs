@@ -25,7 +25,7 @@ static partial class NativeMethods
     // The object handle is passed as an OpenCvSafeHandle so the marshaller keeps the managed CLAHE
     // alive for the duration of the call; callers no longer need GC.KeepAlive(this).
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_CLAHE_apply(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus imgproc_CLAHE_apply(OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_CLAHE_setClipLimit(OpenCvSafeHandle obj, double clipLimit);
