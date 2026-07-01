@@ -42,16 +42,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus ximgproc_Ptr_StructuredEdgeDetection_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_detectEdges(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus ximgproc_StructuredEdgeDetection_detectEdges(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_computeOrientation(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus ximgproc_StructuredEdgeDetection_computeOrientation(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
-        OpenCvSafeHandle obj, IntPtr edge_image, IntPtr orientation_image, IntPtr dst,
+    internal static partial ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
+        OpenCvSafeHandle obj, in InputArrayProxy edge_image, in InputArrayProxy orientation_image, in OutputArrayProxy dst,
         int r, int s, float m, int isParallel);
 
 

@@ -38,7 +38,7 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastBilateralSolverFilter(
-                guide.CvPtr, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var smartPtr));
+                guide.ToInputProxy(), sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var smartPtr));
             
         GC.KeepAlive(guide); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_get(smartPtr, out var rawPtr));
@@ -66,7 +66,7 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastBilateralSolverFilter_filter(
-                Handle, src.CvPtr, confidence.CvPtr, dst.CvPtr));
+                Handle, src.ToInputProxy(), confidence.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(confidence);

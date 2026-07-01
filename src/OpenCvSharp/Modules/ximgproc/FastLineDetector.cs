@@ -59,7 +59,7 @@ public class FastLineDetector : Algorithm
         lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.CvPtr, lines.CvPtr));
+            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.ToInputProxy(), lines.ToOutputProxy()));
         GC.KeepAlive(image);
         GC.KeepAlive(lines);
         lines.Fix();
@@ -85,7 +85,7 @@ public class FastLineDetector : Algorithm
 
         using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.CvPtr, lines.CvPtr));
+            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.ToInputProxy(), lines.CvPtr));
         GC.KeepAlive(image);
         return lines.ToArray();
     }
@@ -106,7 +106,7 @@ public class FastLineDetector : Algorithm
             throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.ToInputOutputProxy(), lines.ToInputProxy(), drawArrow ? 1 : 0));
         GC.KeepAlive(image);
         image.Fix();
         GC.KeepAlive(lines);
@@ -129,7 +129,7 @@ public class FastLineDetector : Algorithm
         using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
-                Handle, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
+                Handle, image.ToInputOutputProxy(), linesVec.CvPtr, drawArrow ? 1 : 0));
             
         GC.KeepAlive(image);
         image.Fix();

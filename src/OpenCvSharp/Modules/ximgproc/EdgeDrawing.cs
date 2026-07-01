@@ -135,7 +135,7 @@ public class EdgeDrawing : Algorithm
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEdges(Handle, src.CvPtr));
+            NativeMethods.ximgproc_EdgeDrawing_detectEdges(Handle, src.ToInputProxy()));
         GC.KeepAlive(src);
     }
 
@@ -151,7 +151,7 @@ public class EdgeDrawing : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(Handle, dst.CvPtr));
+            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(Handle, dst.ToOutputProxy()));
         dst.Fix();
     }
 
@@ -167,7 +167,7 @@ public class EdgeDrawing : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(Handle, dst.CvPtr));
+            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(Handle, dst.ToOutputProxy()));
         dst.Fix();
     }
 
@@ -213,7 +213,7 @@ public class EdgeDrawing : Algorithm
         lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectLines(Handle, lines.CvPtr));
+            NativeMethods.ximgproc_EdgeDrawing_detectLines(Handle, lines.ToOutputProxy()));
         lines.Fix();
     }
 
@@ -248,7 +248,7 @@ public class EdgeDrawing : Algorithm
         ellipses.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(Handle, ellipses.CvPtr));
+            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(Handle, ellipses.ToOutputProxy()));
         ellipses.Fix();
     }
 

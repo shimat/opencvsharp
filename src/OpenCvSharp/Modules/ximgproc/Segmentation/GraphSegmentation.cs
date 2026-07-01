@@ -110,7 +110,7 @@ public class GraphSegmentation : Algorithm
         dst.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);

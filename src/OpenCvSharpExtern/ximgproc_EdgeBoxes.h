@@ -10,11 +10,13 @@
 
 
 CVAPI(ExceptionStatus) ximgproc_EdgeBoxes_getBoundingBoxes(
-    cv::ximgproc::EdgeBoxes *obj, cv::_InputArray *edge_map, 
-    cv::_InputArray *orientation_map, std::vector<cv::Rect> *boxes)
+    cv::ximgproc::EdgeBoxes *obj,
+    const interop::InputArrayProxy* edge_map,
+    const interop::InputArrayProxy* orientation_map,
+    std::vector<cv::Rect> *boxes)
 {
     return cvTry([&] {
-    obj->getBoundingBoxes(*edge_map, *orientation_map, *boxes);
+    obj->getBoundingBoxes(InProxy(*edge_map), InProxy(*orientation_map), *boxes);
     });
 }
 
@@ -45,8 +47,18 @@ CVAPI(ExceptionStatus) ximgproc_EdgeBoxes_setKappa(cv::ximgproc::EdgeBoxes *obj,
 
 
 CVAPI(ExceptionStatus) ximgproc_createEdgeBoxes(
-    float alpha,  float beta, float eta, float minScore, int maxBoxes, float edgeMinMag, float edgeMergeThr,
-    float clusterMinMag, float maxAspectRatio, float minBoxArea, float gamma, float kappa,
+    float alpha,
+    float beta,
+    float eta,
+    float minScore,
+    int maxBoxes,
+    float edgeMinMag,
+    float edgeMergeThr,
+    float clusterMinMag,
+    float maxAspectRatio,
+    float minBoxArea,
+    float gamma,
+    float kappa,
     cv::Ptr<cv::ximgproc::EdgeBoxes> **returnValue)
 {
     return cvTry([&] {

@@ -22,16 +22,16 @@ static partial class NativeMethods
         IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_DTFilter_filter(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst, int dDepth);
+    internal static partial ExceptionStatus ximgproc_DTFilter_filter(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst, int dDepth);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createDTFilter(
-        IntPtr guide, double sigmaSpatial, double sigmaColor, int mode, int numIters, out IntPtr returnValue);
+    internal static partial ExceptionStatus ximgproc_createDTFilter(
+        in InputArrayProxy guide, double sigmaSpatial, double sigmaColor, int mode, int numIters, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_dtFilter(
-        IntPtr guide, IntPtr src, IntPtr dst, double sigmaSpatial, double sigmaColor, int mode, int numIters);
+    internal static partial ExceptionStatus ximgproc_dtFilter(
+        in InputArrayProxy guide, in InputArrayProxy src, in OutputArrayProxy dst, double sigmaSpatial, double sigmaColor, int mode, int numIters);
         
     //////////////////////////////////////////////////////////////////////////
     // GuidedFilter
@@ -45,16 +45,16 @@ static partial class NativeMethods
         IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_GuidedFilter_filter(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst, int dDepth);
+    internal static partial ExceptionStatus ximgproc_GuidedFilter_filter(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst, int dDepth);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createGuidedFilter(
-        IntPtr guide, int radius, double eps, out IntPtr returnValue);
+    internal static partial ExceptionStatus ximgproc_createGuidedFilter(
+        in InputArrayProxy guide, int radius, double eps, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_guidedFilter(
-        IntPtr guide, IntPtr src, IntPtr dst, int radius, double eps, int dDepth);
+    internal static partial ExceptionStatus ximgproc_guidedFilter(
+        in InputArrayProxy guide, in InputArrayProxy src, in OutputArrayProxy dst, int radius, double eps, int dDepth);
 
     //////////////////////////////////////////////////////////////////////////
     // AdaptiveManifoldFilter
@@ -68,8 +68,8 @@ static partial class NativeMethods
         IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_AdaptiveManifoldFilter_filter(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst, IntPtr joint);
+    internal static partial ExceptionStatus ximgproc_AdaptiveManifoldFilter_filter(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst, in InputArrayProxy joint);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_AdaptiveManifoldFilter_collectGarbage(
@@ -116,22 +116,22 @@ static partial class NativeMethods
         double sigma_s, double sigma_r, int adjust_outliers, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_amFilter(
-        IntPtr joint, IntPtr src, IntPtr dst, double sigma_s, double sigma_r, int adjust_outliers);
+    internal static partial ExceptionStatus ximgproc_amFilter(
+        in InputArrayProxy joint, in InputArrayProxy src, in OutputArrayProxy dst, double sigma_s, double sigma_r, int adjust_outliers);
 
     //////////////////////////////////////////////////////////////////////////
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_jointBilateralFilter(
-        IntPtr joint, IntPtr src, IntPtr dst, int d, double sigmaColor, double sigmaSpace, int borderType);
+    internal static partial ExceptionStatus ximgproc_jointBilateralFilter(
+        in InputArrayProxy joint, in InputArrayProxy src, in OutputArrayProxy dst, int d, double sigmaColor, double sigmaSpace, int borderType);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_bilateralTextureFilter(
-        IntPtr src, IntPtr dst, int fr, int numIter, double sigmaAlpha, double sigmaAvg);
+    internal static partial ExceptionStatus ximgproc_bilateralTextureFilter(
+        in InputArrayProxy src, in OutputArrayProxy dst, int fr, int numIter, double sigmaAlpha, double sigmaAvg);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_rollingGuidanceFilter(
-        IntPtr src, IntPtr dst, int d, double sigmaColor, double sigmaSpace, int numOfIter, int borderType);
+    internal static partial ExceptionStatus ximgproc_rollingGuidanceFilter(
+        in InputArrayProxy src, in OutputArrayProxy dst, int d, double sigmaColor, double sigmaSpace, int numOfIter, int borderType);
         
     //////////////////////////////////////////////////////////////////////////
     // FastBilateralSolverFilter 
@@ -145,17 +145,17 @@ static partial class NativeMethods
         IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastBilateralSolverFilter_filter(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr confidence, IntPtr dst);
+    internal static partial ExceptionStatus ximgproc_FastBilateralSolverFilter_filter(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in InputArrayProxy confidence, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createFastBilateralSolverFilter(
-        IntPtr guide, double sigma_spatial, double sigma_luma, double sigma_chroma, double lambda, int num_iter, 
+    internal static partial ExceptionStatus ximgproc_createFastBilateralSolverFilter(
+        in InputArrayProxy guide, double sigma_spatial, double sigma_luma, double sigma_chroma, double lambda, int num_iter, 
         double max_tol, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_fastBilateralSolverFilter(
-        IntPtr guide, IntPtr src, IntPtr confidence, IntPtr dst,
+    internal static partial ExceptionStatus ximgproc_fastBilateralSolverFilter(
+        in InputArrayProxy guide, in InputArrayProxy src, in InputArrayProxy confidence, in OutputArrayProxy dst,
         double sigma_spatial, double sigma_luma, double sigma_chroma, double lambda, int num_iter, double max_tol);
         
     //////////////////////////////////////////////////////////////////////////
@@ -170,19 +170,19 @@ static partial class NativeMethods
         IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastGlobalSmootherFilter_filter(
-        OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus ximgproc_FastGlobalSmootherFilter_filter(
+        OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createFastGlobalSmootherFilter(
-        IntPtr guide, double lambda, double sigma_color, double lambda_attenuation, int num_iter, out IntPtr returnValue);
+    internal static partial ExceptionStatus ximgproc_createFastGlobalSmootherFilter(
+        in InputArrayProxy guide, double lambda, double sigma_color, double lambda_attenuation, int num_iter, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_fastGlobalSmootherFilter(
-        IntPtr guide, IntPtr src, IntPtr dst, double lambda, double sigma_color, double lambda_attenuation, int num_iter);
+    internal static partial ExceptionStatus ximgproc_fastGlobalSmootherFilter(
+        in InputArrayProxy guide, in InputArrayProxy src, in OutputArrayProxy dst, double lambda, double sigma_color, double lambda_attenuation, int num_iter);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_l0Smooth(IntPtr src, IntPtr dst, double lambda, double kappa);
+    internal static partial ExceptionStatus ximgproc_l0Smooth(in InputArrayProxy src, in OutputArrayProxy dst, double lambda, double kappa);
 
 
 

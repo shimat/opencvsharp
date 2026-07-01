@@ -23,7 +23,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus ximgproc_segmentation_Ptr_GraphSegmentation_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_processImage(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_processImage(OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_GraphSegmentation_setSigma(OpenCvSafeHandle obj, double value);
@@ -47,8 +47,8 @@ static partial class NativeMethods
     // SelectiveSearchSegmentationStrategy
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(OpenCvSafeHandle obj,
-        IntPtr img, IntPtr regions, IntPtr sizes, int image_id);
+    internal static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(OpenCvSafeHandle obj,
+        in InputArrayProxy img, in InputArrayProxy regions, in InputArrayProxy sizes, int image_id);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(OpenCvSafeHandle obj, int r1, int r2, out float returnValue);
@@ -131,7 +131,7 @@ static partial class NativeMethods
     // SelectiveSearchSegmentation
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(OpenCvSafeHandle obj, IntPtr img);
+    internal static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(OpenCvSafeHandle obj, in InputArrayProxy img);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_switchToSingleStrategy(OpenCvSafeHandle obj,
@@ -146,7 +146,7 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, int base_k, int inc_k, float sigma);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addImage(OpenCvSafeHandle obj, IntPtr img);
+    internal static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_addImage(OpenCvSafeHandle obj, in InputArrayProxy img);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_segmentation_SelectiveSearchSegmentation_clearImages(OpenCvSafeHandle obj);

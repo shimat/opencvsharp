@@ -36,7 +36,7 @@ public class FastGlobalSmootherFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastGlobalSmootherFilter(
-                guide.CvPtr, lambda, sigmaColor, lambdaAttenuation, numIter, out var smartPtr));
+                guide.ToInputProxy(), lambda, sigmaColor, lambdaAttenuation, numIter, out var smartPtr));
             
         GC.KeepAlive(guide); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastGlobalSmootherFilter_get(smartPtr, out var rawPtr));
@@ -60,7 +60,7 @@ public class FastGlobalSmootherFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastGlobalSmootherFilter_filter(
-                Handle, src.CvPtr, dst.CvPtr));
+                Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         dst.Fix();

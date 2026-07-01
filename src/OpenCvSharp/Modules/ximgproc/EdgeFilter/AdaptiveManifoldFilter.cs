@@ -194,7 +194,7 @@ public class AdaptiveManifoldFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_AdaptiveManifoldFilter_filter(
-                Handle, src.CvPtr, dst.CvPtr, joint?.CvPtr ?? IntPtr.Zero));
+                Handle, src.ToInputProxy(), dst.ToOutputProxy(), joint?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         dst.Fix();

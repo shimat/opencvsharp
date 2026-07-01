@@ -8,32 +8,51 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) ximgproc_niBlackThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
-    double maxValue, int type,
-    int blockSize, double k, int binarizationMethod, double r)
+CVAPI(ExceptionStatus) ximgproc_niBlackThreshold(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double maxValue,
+    int type,
+    int blockSize,
+    double k,
+    int binarizationMethod,
+    double r)
 {
     return cvTry([&] {
-    cv::ximgproc::niBlackThreshold(*src, *dst, maxValue, type, blockSize, k, binarizationMethod, r);
+    cv::ximgproc::niBlackThreshold(InProxy(*src), OutProxy(*dst), maxValue, type, blockSize, k, binarizationMethod, r);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_thinning(cv::_InputArray *src, cv::_OutputArray *dst, int thinningType)
+CVAPI(ExceptionStatus) ximgproc_thinning(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int thinningType)
 {
     return cvTry([&] {
-    cv::ximgproc::thinning(*src, *dst, thinningType);
+    cv::ximgproc::thinning(InProxy(*src), OutProxy(*dst), thinningType);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_anisotropicDiffusion(cv::_InputArray *src, cv::_OutputArray *dst, float alpha, float K, int niters)
+CVAPI(ExceptionStatus) ximgproc_anisotropicDiffusion(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    float alpha,
+    float K,
+    int niters)
 {
     return cvTry([&] {
-    cv::ximgproc::anisotropicDiffusion(*src, *dst, alpha, K, niters);
+    cv::ximgproc::anisotropicDiffusion(InProxy(*src), OutProxy(*dst), alpha, K, niters);
     });
 }
 
 // brightedges.hpp
 
-CVAPI(ExceptionStatus) ximgproc_BrightEdges(cv::Mat *original, cv::Mat *edgeview, int contrast, int shortrange, int longrange)
+CVAPI(ExceptionStatus) ximgproc_BrightEdges(
+    cv::Mat *original,
+    cv::Mat *edgeview,
+    int contrast,
+    int shortrange,
+    int longrange)
 {
     return cvTry([&] {
     cv::ximgproc::BrightEdges(*original, *edgeview, contrast, shortrange, longrange);
@@ -42,124 +61,166 @@ CVAPI(ExceptionStatus) ximgproc_BrightEdges(cv::Mat *original, cv::Mat *edgeview
 
 // color_match.hpp
 
-CVAPI(ExceptionStatus) ximgproc_createQuaternionImage(cv::_InputArray *img, cv::_OutputArray *qimg)
+CVAPI(ExceptionStatus) ximgproc_createQuaternionImage(const interop::InputArrayProxy* img, const interop::OutputArrayProxy* qimg)
 {
     return cvTry([&] {
-    cv::ximgproc::createQuaternionImage(*img, *qimg);
+    cv::ximgproc::createQuaternionImage(InProxy(*img), OutProxy(*qimg));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_qconj(cv::_InputArray *qimg, cv::_OutputArray *qcimg)
+CVAPI(ExceptionStatus) ximgproc_qconj(const interop::InputArrayProxy* qimg, const interop::OutputArrayProxy* qcimg)
 {
     return cvTry([&] {
-    cv::ximgproc::qconj(*qimg, *qcimg);
+    cv::ximgproc::qconj(InProxy(*qimg), OutProxy(*qcimg));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_qunitary(cv::_InputArray *qimg, cv::_OutputArray *qnimg)
+CVAPI(ExceptionStatus) ximgproc_qunitary(const interop::InputArrayProxy* qimg, const interop::OutputArrayProxy* qnimg)
 {
     return cvTry([&] {
-    cv::ximgproc::qunitary(*qimg, *qnimg);
+    cv::ximgproc::qunitary(InProxy(*qimg), OutProxy(*qnimg));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_qmultiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_qmultiply(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::ximgproc::qmultiply(*src1, *src2, *dst);
+    cv::ximgproc::qmultiply(InProxy(*src1), InProxy(*src2), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_qdft(cv::_InputArray *img, cv::_OutputArray *qimg, int flags, int sideLeft)
+CVAPI(ExceptionStatus) ximgproc_qdft(
+    const interop::InputArrayProxy* img,
+    const interop::OutputArrayProxy* qimg,
+    int flags,
+    int sideLeft)
 {
     return cvTry([&] {
-    cv::ximgproc::qdft(*img, *qimg, flags, sideLeft != 0);
+    cv::ximgproc::qdft(InProxy(*img), OutProxy(*qimg), flags, sideLeft != 0);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_colorMatchTemplate(cv::_InputArray *img, cv::_InputArray *templ, cv::_OutputArray *result)
+CVAPI(ExceptionStatus) ximgproc_colorMatchTemplate(
+    const interop::InputArrayProxy* img,
+    const interop::InputArrayProxy* templ,
+    const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    cv::ximgproc::colorMatchTemplate(*img, *templ, *result);
+    cv::ximgproc::colorMatchTemplate(InProxy(*img), InProxy(*templ), OutProxy(*result));
     });
 }
 
 // deriche_filter.hpp
 
-CVAPI(ExceptionStatus) ximgproc_GradientDericheY(cv::_InputArray *op, cv::_OutputArray *dst, double alpha, double omega)
+CVAPI(ExceptionStatus) ximgproc_GradientDericheY(
+    const interop::InputArrayProxy* op,
+    const interop::OutputArrayProxy* dst,
+    double alpha,
+    double omega)
 {
     return cvTry([&] {
-    cv::ximgproc::GradientDericheY(*op, *dst, alpha, omega);
+    cv::ximgproc::GradientDericheY(InProxy(*op), OutProxy(*dst), alpha, omega);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_GradientDericheX(cv::_InputArray *op, cv::_OutputArray *dst, double alpha, double omega)
+CVAPI(ExceptionStatus) ximgproc_GradientDericheX(
+    const interop::InputArrayProxy* op,
+    const interop::OutputArrayProxy* dst,
+    double alpha,
+    double omega)
 {
     return cvTry([&] {
-    cv::ximgproc::GradientDericheX(*op, *dst, alpha, omega);
+    cv::ximgproc::GradientDericheX(InProxy(*op), OutProxy(*dst), alpha, omega);
     });
 }
 
 // edgepreserving_filter.hpp
 
-CVAPI(ExceptionStatus) ximgproc_edgePreservingFilter(cv::_InputArray *src, cv::_OutputArray *dst, int d, double threshold)
+CVAPI(ExceptionStatus) ximgproc_edgePreservingFilter(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int d,
+    double threshold)
 {
     return cvTry([&] {
-    cv::ximgproc::edgePreservingFilter(*src, *dst, d, threshold);
+    cv::ximgproc::edgePreservingFilter(InProxy(*src), OutProxy(*dst), d, threshold);
     });
 }
 
 // estimated_covariance.hpp
 
 CVAPI(ExceptionStatus) ximgproc_covarianceEstimation(
-    cv::_InputArray *src, cv::_OutputArray *dst, int windowRows, int windowCols)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int windowRows,
+    int windowCols)
 {
     return cvTry([&] {
-    cv::ximgproc::covarianceEstimation(*src, *dst, windowRows, windowCols);
+    cv::ximgproc::covarianceEstimation(InProxy(*src), OutProxy(*dst), windowRows, windowCols);
     });
 }
 
 // fast_hough_transform.hpp
 
 CVAPI(ExceptionStatus) ximgproc_FastHoughTransform(
-    cv::_InputArray* src, cv::_OutputArray* dst,
-    int dstMatDepth, int angleRange, int op, int makeSkew)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int dstMatDepth,
+    int angleRange,
+    int op,
+    int makeSkew)
 {
     return cvTry([&] {
-    cv::ximgproc::FastHoughTransform(*src, *dst, dstMatDepth, angleRange, op, makeSkew);
+    cv::ximgproc::FastHoughTransform(InProxy(*src), OutProxy(*dst), dstMatDepth, angleRange, op, makeSkew);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_HoughPoint2Line(interop::Point houghPoint, cv::_InputArray* srcImgInfo,
-    int angleRange, int makeSkew, int rules, interop::Vec4i* returnValue)
+CVAPI(ExceptionStatus) ximgproc_HoughPoint2Line(
+    interop::Point houghPoint,
+    const interop::InputArrayProxy* srcImgInfo,
+    int angleRange,
+    int makeSkew,
+    int rules,
+    interop::Vec4i* returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::ximgproc::HoughPoint2Line(cpp(houghPoint), *srcImgInfo, angleRange, makeSkew, rules));
+    *returnValue = c(cv::ximgproc::HoughPoint2Line(cpp(houghPoint), InProxy(*srcImgInfo), angleRange, makeSkew, rules));
     });
 }
 
 // paillou_filter.hpp
 
-CVAPI(ExceptionStatus) ximgproc_GradientPaillouY(cv::_InputArray* op, cv::_OutputArray* dst, double alpha, double omega)
+CVAPI(ExceptionStatus) ximgproc_GradientPaillouY(
+    const interop::InputArrayProxy* op,
+    const interop::OutputArrayProxy* dst,
+    double alpha,
+    double omega)
 {
     return cvTry([&] {
-    cv::ximgproc::GradientPaillouY(*op, *dst, alpha, omega);
+    cv::ximgproc::GradientPaillouY(InProxy(*op), OutProxy(*dst), alpha, omega);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_GradientPaillouX(cv::_InputArray* op, cv::_OutputArray* dst, double alpha, double omega)
+CVAPI(ExceptionStatus) ximgproc_GradientPaillouX(
+    const interop::InputArrayProxy* op,
+    const interop::OutputArrayProxy* dst,
+    double alpha,
+    double omega)
 {
     return cvTry([&] {
-    cv::ximgproc::GradientPaillouX(*op, *dst, alpha, omega);
+    cv::ximgproc::GradientPaillouX(InProxy(*op), OutProxy(*dst), alpha, omega);
     });
 }
 
 // peilin.hpp
 
-CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_Mat23d(cv::_InputArray *I, double *returnValue)
+CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_Mat23d(const interop::InputArrayProxy* I, double *returnValue)
 {
     return cvTry([&] {
-    auto ret = cv::ximgproc::PeiLinNormalization(*I);
+    auto ret = cv::ximgproc::PeiLinNormalization(InProxy(*I));
     for (int r = 0; r < 2; r++)
     {
         for (int c = 0; c < 3; ++c)
@@ -170,40 +231,53 @@ CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_Mat23d(cv::_InputArray *I, d
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(cv::_InputArray *I, cv::_OutputArray *T)
+CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(const interop::InputArrayProxy* I, const interop::OutputArrayProxy* T)
 {
     return cvTry([&] {
-    cv::ximgproc::PeiLinNormalization(*I, *T);
+    cv::ximgproc::PeiLinNormalization(InProxy(*I), OutProxy(*T));
     });
 }
 
 // run_length_morphology.hpp
 
-CVAPI(ExceptionStatus) ximgproc_rl_threshold(cv::_InputArray *src, cv::_OutputArray *rlDest, double thresh, int type)
+CVAPI(ExceptionStatus) ximgproc_rl_threshold(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* rlDest,
+    double thresh,
+    int type)
 {
     return cvTry([&] {
-    cv::ximgproc::rl::threshold(*src, *rlDest, thresh, type);
+    cv::ximgproc::rl::threshold(InProxy(*src), OutProxy(*rlDest), thresh, type);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_rl_dilate(
-    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel, interop::Point anchor)
+    const interop::InputArrayProxy* rlSrc,
+    const interop::OutputArrayProxy* rlDest,
+    const interop::InputArrayProxy* rlKernel,
+    interop::Point anchor)
 {
     return cvTry([&] {
-    cv::ximgproc::rl::dilate(*rlSrc, *rlDest, *rlKernel, cpp(anchor));
+    cv::ximgproc::rl::dilate(InProxy(*rlSrc), OutProxy(*rlDest), InProxy(*rlKernel), cpp(anchor));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_rl_erode(
-    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel,
-    int bBoundaryOn, interop::Point anchor)
+    const interop::InputArrayProxy* rlSrc,
+    const interop::OutputArrayProxy* rlDest,
+    const interop::InputArrayProxy* rlKernel,
+    int bBoundaryOn,
+    interop::Point anchor)
 {
     return cvTry([&] {
-    cv::ximgproc::rl::erode(*rlSrc, *rlDest, *rlKernel, bBoundaryOn != 0, cpp(anchor));
+    cv::ximgproc::rl::erode(InProxy(*rlSrc), OutProxy(*rlDest), InProxy(*rlKernel), bBoundaryOn != 0, cpp(anchor));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, interop::Size ksize, cv::Mat *outValue)
+CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(
+    int shape,
+    interop::Size ksize,
+    cv::Mat *outValue)
 {
     return cvTry([&] {
     auto result = cv::ximgproc::rl::getStructuringElement(shape, cpp(ksize));
@@ -211,21 +285,28 @@ CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, interop::Siz
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_paint(cv::_InputOutputArray *image, cv::_InputArray *rlSrc, interop::Scalar value)
+CVAPI(ExceptionStatus) ximgproc_rl_paint(
+    const interop::InputOutputArrayProxy* image,
+    const interop::InputArrayProxy* rlSrc,
+    interop::Scalar value)
 {
     return cvTry([&] {
-    cv::ximgproc::rl::paint(*image, *rlSrc, cpp(value));
+    cv::ximgproc::rl::paint(IoProxy(*image), InProxy(*rlSrc), cpp(value));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_isRLMorphologyPossible(cv::_InputArray *rlStructuringElement, int *outValue)
+CVAPI(ExceptionStatus) ximgproc_rl_isRLMorphologyPossible(const interop::InputArrayProxy* rlStructuringElement, int *outValue)
 {
     return cvTry([&] {
-    *outValue = cv::ximgproc::rl::isRLMorphologyPossible(*rlStructuringElement) ? 1 : 0;
+    *outValue = cv::ximgproc::rl::isRLMorphologyPossible(InProxy(*rlStructuringElement)) ? 1 : 0;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(interop::Point3i *runs, size_t runsLength, cv::_OutputArray *res, interop::Size size)
+CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(
+    interop::Point3i *runs,
+    size_t runsLength,
+    const interop::OutputArrayProxy* res,
+    interop::Size size)
 {
     return cvTry([&] {
     std::vector<cv::Point3i> runsVec(runsLength);
@@ -233,28 +314,37 @@ CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(interop::Point3i *runs, size_t
     {
         runsVec[i] = cpp(runs[i]);
     }
-    cv::ximgproc::rl::createRLEImage(runsVec, *res, cpp(size));
+    cv::ximgproc::rl::createRLEImage(runsVec, OutProxy(*res), cpp(size));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_rl_morphologyEx(
-    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, int op, cv::_InputArray *rlKernel,
-    int bBoundaryOnForErosion, interop::Point anchor)
+    const interop::InputArrayProxy* rlSrc,
+    const interop::OutputArrayProxy* rlDest,
+    int op,
+    const interop::InputArrayProxy* rlKernel,
+    int bBoundaryOnForErosion,
+    interop::Point anchor)
 {
     return cvTry([&] {
-    cv::ximgproc::rl::morphologyEx(*rlSrc, *rlDest, op, *rlKernel, bBoundaryOnForErosion != 0, cpp(anchor));
+    cv::ximgproc::rl::morphologyEx(InProxy(*rlSrc), OutProxy(*rlDest), op, InProxy(*rlKernel), bBoundaryOnForErosion != 0, cpp(anchor));
     });
 }
 
 // weighted_median_filter.hpp
 
 CVAPI(ExceptionStatus) ximgproc_weightedMedianFilter(
-    cv::_InputArray* joint, cv::_InputArray* src, cv::_OutputArray* dst,
-    int r, double sigma, int weightType, cv::Mat* mask)
+    const interop::InputArrayProxy* joint,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int r,
+    double sigma,
+    int weightType,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::ximgproc::weightedMedianFilter(*joint, *src, *dst, r, sigma,
-        static_cast<cv::ximgproc::WMFWeightType>(weightType), entity(mask));
+    cv::ximgproc::weightedMedianFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), r, sigma,
+        static_cast<cv::ximgproc::WMFWeightType>(weightType), InProxy(*mask));
     });
 }
 

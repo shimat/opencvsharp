@@ -30,20 +30,20 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabels(
-        OpenCvSafeHandle obj, IntPtr labels_out);
+    internal static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabels(
+        OpenCvSafeHandle obj, in OutputArrayProxy labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabelContourMask(
-        OpenCvSafeHandle obj, IntPtr image, int thick_line);
+    internal static partial ExceptionStatus ximgproc_SuperpixelLSC_getLabelContourMask(
+        OpenCvSafeHandle obj, in OutputArrayProxy image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelLSC_enforceLabelConnectivity(
         OpenCvSafeHandle obj, int min_element_size);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createSuperpixelLSC(
-        IntPtr image, int region_size, float ratio, out IntPtr returnValue);
+    internal static partial ExceptionStatus ximgproc_createSuperpixelLSC(
+        in InputArrayProxy image, int region_size, float ratio, out IntPtr returnValue);
 
 
     // SuperpixelSEEDS
@@ -61,16 +61,16 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_iterate(
-        OpenCvSafeHandle obj, IntPtr img, int num_iterations);
+    internal static partial ExceptionStatus ximgproc_SuperpixelSEEDS_iterate(
+        OpenCvSafeHandle obj, in InputArrayProxy img, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabels(
-        OpenCvSafeHandle obj, IntPtr labels_out);
+    internal static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabels(
+        OpenCvSafeHandle obj, in OutputArrayProxy labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabelContourMask(
-        OpenCvSafeHandle obj, IntPtr image, int thick_line);
+    internal static partial ExceptionStatus ximgproc_SuperpixelSEEDS_getLabelContourMask(
+        OpenCvSafeHandle obj, in OutputArrayProxy image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createSuperpixelSEEDS(
@@ -99,20 +99,20 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, int num_iterations);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabels(
-        OpenCvSafeHandle obj, IntPtr labels_out);
+    internal static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabels(
+        OpenCvSafeHandle obj, in OutputArrayProxy labels_out);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabelContourMask(
-        OpenCvSafeHandle obj, IntPtr image, int thick_line);
+    internal static partial ExceptionStatus ximgproc_SuperpixelSLIC_getLabelContourMask(
+        OpenCvSafeHandle obj, in OutputArrayProxy image, int thick_line);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
         OpenCvSafeHandle obj, int min_element_size);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_createSuperpixelSLIC(
-        IntPtr image, int algorithm, int region_size, float ruler, out IntPtr returnValue);
+    internal static partial ExceptionStatus ximgproc_createSuperpixelSLIC(
+        in InputArrayProxy image, int algorithm, int region_size, float ruler, out IntPtr returnValue);
 
 
 
