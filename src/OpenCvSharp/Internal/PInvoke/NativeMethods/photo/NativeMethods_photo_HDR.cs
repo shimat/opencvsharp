@@ -66,8 +66,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_CalibrateRobertson_getRadiance(OpenCvSafeHandle obj, IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateCRF_process(
-        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times);
+    internal static partial ExceptionStatus photo_CalibrateCRF_process(
+        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, in OutputArrayProxy dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createMergeDebevec(out IntPtr returnValue);
@@ -84,9 +84,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_Ptr_MergeMertens_get(IntPtr obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_MergeExposures_process(
-        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times, IntPtr response);
+    internal static partial ExceptionStatus photo_MergeExposures_process(
+        OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, in OutputArrayProxy dst, [In, MarshalAs(UnmanagedType.LPArray)] float[] times, in InputArrayProxy response);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_MergeMertens_process(OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, IntPtr dst);
+    internal static partial ExceptionStatus photo_MergeMertens_process(OpenCvSafeHandle obj, IntPtr[] srcImgs, int srcImgsLength, in OutputArrayProxy dst);
 }

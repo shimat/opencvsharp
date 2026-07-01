@@ -266,7 +266,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         image2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(Handle, image1.CvPtr, image2.CvPtr));
+            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(Handle, image1.ToInputProxy(), image2.ToInputProxy()));
 
         GC.KeepAlive(image1);
         GC.KeepAlive(image2);
@@ -289,7 +289,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         image2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(Handle, image1.CvPtr, image2.CvPtr));
+            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(Handle, image1.ToOutputProxy(), image2.ToOutputProxy()));
 
         image1.Fix();
         image2.Fix();

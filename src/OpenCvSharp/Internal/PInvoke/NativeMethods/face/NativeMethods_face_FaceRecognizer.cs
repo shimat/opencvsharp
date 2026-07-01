@@ -23,10 +23,10 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, IntPtr[] src, int srcLength, int[] labels, int labelsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_predict1(OpenCvSafeHandle obj, IntPtr src, out int returnValue);
+    internal static partial ExceptionStatus face_FaceRecognizer_predict1(OpenCvSafeHandle obj, in InputArrayProxy src, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus face_FaceRecognizer_predict2(
-        OpenCvSafeHandle obj, IntPtr src, out int label, out double confidence);
+    internal static partial ExceptionStatus face_FaceRecognizer_predict2(
+        OpenCvSafeHandle obj, in InputArrayProxy src, out int label, out double confidence);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_FaceRecognizer_write1(

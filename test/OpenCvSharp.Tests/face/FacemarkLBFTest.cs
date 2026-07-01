@@ -238,6 +238,27 @@ public class FacemarkLBFTest : TestBase
     }
 
     [Fact]
+    public void Fit()
+    {
+        // Smoke test for the ArrayProxy wiring: no trained LBF model is committed (they are
+        // tens of MB), so Fit() on an unloaded model is expected to fail, but reaching native
+        // and failing there still proves the InputArray (image/faces) params marshal correctly.
+        using var facemark = FacemarkLBF.Create();
+        using var image = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var faces = Mat.FromPixelData(1, 1, MatType.CV_32SC4, new[] { 100, 100, 200, 200 });
+
+        try
+        {
+            facemark.Fit(image, faces, out var landmarks);
+            Assert.NotNull(landmarks);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            // Expected: no model has been loaded via LoadModel().
+        }
+    }
+
+    [Fact]
     public void ParameterVerbose()
     {
         var parameter = new FacemarkLBF.Params();

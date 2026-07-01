@@ -11,7 +11,11 @@
 #pragma region FaceRecognizer
 
 CVAPI(ExceptionStatus) face_FaceRecognizer_train(
-    cv::face::FaceRecognizer *obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
+    cv::face::FaceRecognizer *obj,
+    cv::Mat **src,
+    int srcLength,
+    int *labels,
+    int labelsLength)
 {
     return cvTry([&] {
     std::vector<cv::Mat> srcVec(srcLength);
@@ -23,7 +27,11 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_train(
 }
 
 CVAPI(ExceptionStatus) face_FaceRecognizer_update(
-    cv::face::FaceRecognizer *obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
+    cv::face::FaceRecognizer *obj,
+    cv::Mat **src,
+    int srcLength,
+    int *labels,
+    int labelsLength)
 {
     return cvTry([&] {
     std::vector<cv::Mat> srcVec(srcLength);
@@ -34,17 +42,23 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_update(
     });
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_predict1(cv::face::FaceRecognizer *obj, cv::_InputArray *src, int *returnValue)
+CVAPI(ExceptionStatus) face_FaceRecognizer_predict1(
+    cv::face::FaceRecognizer *obj,
+    const interop::InputArrayProxy* src,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->predict(*src);
+    *returnValue = obj->predict(InProxy(*src));
     });
 }
 CVAPI(ExceptionStatus) face_FaceRecognizer_predict2(
-    cv::face::FaceRecognizer *obj, cv::_InputArray *src, int *label, double *confidence)
+    cv::face::FaceRecognizer *obj,
+    const interop::InputArrayProxy* src,
+    int *label,
+    double *confidence)
 {
     return cvTry([&] {
-    obj->predict(*src, *label, *confidence);
+    obj->predict(InProxy(*src), *label, *confidence);
     });
 }
 
@@ -74,13 +88,19 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_read2(cv::face::FaceRecognizer *obj, 
     });
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_setLabelInfo(cv::face::FaceRecognizer *obj, int label, const char *strInfo)
+CVAPI(ExceptionStatus) face_FaceRecognizer_setLabelInfo(
+    cv::face::FaceRecognizer *obj,
+    int label,
+    const char *strInfo)
 {
     return cvTry([&] {
     obj->setLabelInfo(label, strInfo);
     });
 }
-CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(cv::face::FaceRecognizer *obj, int label, std::string *dst)
+CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(
+    cv::face::FaceRecognizer *obj,
+    int label,
+    std::string *dst)
 {
     return cvTry([&] {
     const auto result = obj->getLabelInfo(label);
@@ -88,7 +108,10 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(cv::face::FaceRecognizer
     });
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelsByString(cv::face::FaceRecognizer *obj, const char* str, std::vector<int> *dst)
+CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelsByString(
+    cv::face::FaceRecognizer *obj,
+    const char* str,
+    std::vector<int> *dst)
 {
     return cvTry([&] {
     const auto result = obj->getLabelsByString(str);
@@ -189,7 +212,9 @@ CVAPI(ExceptionStatus) face_BasicFaceRecognizer_getMean(cv::face::BasicFaceRecog
 #pragma region EigenFaceRecognizer
 
 CVAPI(ExceptionStatus) face_EigenFaceRecognizer_create(
-    const int numComponents, const double threshold, cv::Ptr<cv::face::EigenFaceRecognizer> **returnValue)
+    const int numComponents,
+    const double threshold,
+    cv::Ptr<cv::face::EigenFaceRecognizer> **returnValue)
 {
     return cvTry([&] {
     const auto r = cv::face::EigenFaceRecognizer::create(numComponents, threshold);
@@ -216,7 +241,9 @@ CVAPI(ExceptionStatus) face_Ptr_EigenFaceRecognizer_delete(cv::Ptr<cv::face::Eig
 #pragma region FisherFaceRecognizer
 
 CVAPI(ExceptionStatus) face_FisherFaceRecognizer_create(
-    const int numComponents, const double threshold, cv::Ptr<cv::face::FisherFaceRecognizer> **returnValue)
+    const int numComponents,
+    const double threshold,
+    cv::Ptr<cv::face::FisherFaceRecognizer> **returnValue)
 {
     return cvTry([&] {
     const auto r = cv::face::FisherFaceRecognizer::create(numComponents, threshold);
@@ -243,7 +270,11 @@ CVAPI(ExceptionStatus) face_Ptr_FisherFaceRecognizer_delete(cv::Ptr<cv::face::Fi
 #pragma region LBPHFaceRecognizer
 
 CVAPI(ExceptionStatus) face_LBPHFaceRecognizer_create(
-    const int radius, const int neighbors, const int gridX, const int gridY, const double threshold,
+    const int radius,
+    const int neighbors,
+    const int gridX,
+    const int gridY,
+    const double threshold,
     cv::Ptr<cv::face::LBPHFaceRecognizer> **returnValue)
 {
     return cvTry([&] {
