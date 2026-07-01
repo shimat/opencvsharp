@@ -5221,7 +5221,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_drawFrameAxes(
-                image.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, rvec.CvPtr, tvec.CvPtr, length, thickness));
+                image.ToInputOutputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(), rvec.ToInputProxy(), tvec.ToInputProxy(), length, thickness));
 
         GC.KeepAlive(image);
         GC.KeepAlive(cameraMatrix);
@@ -5257,8 +5257,8 @@ static partial class Cv2
         cameraMatrix.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
-                ToPtr(distCoeffs), ToPtr(newCameraMatrix)));
+            NativeMethods.imgproc_undistort(src.ToInputProxy(), dst.ToOutputProxy(), cameraMatrix.ToInputProxy(),
+                distCoeffs?.ToInputProxy() ?? default, newCameraMatrix?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -5305,7 +5305,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_initUndistortRectifyMap(
-                cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr));
+                cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(), r.ToInputProxy(), newCameraMatrix.ToInputProxy(), size, m1Type, map1.ToOutputProxy(), map2.ToOutputProxy()));
 
         GC.KeepAlive(cameraMatrix);
         GC.KeepAlive(distCoeffs);
@@ -5351,8 +5351,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_initWideAngleProjMap(
-                cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
-                destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int) projType, alpha, out var ret));
+                cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(), imageSize,
+                destImageWidth, m1Type, map1.ToOutputProxy(), map2.ToOutputProxy(), (int) projType, alpha, out var ret));
 
         GC.KeepAlive(cameraMatrix);
         GC.KeepAlive(distCoeffs);

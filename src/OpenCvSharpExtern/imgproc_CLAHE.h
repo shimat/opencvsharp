@@ -7,7 +7,10 @@
 #include "include_opencv.h"
 
 
-CVAPI(ExceptionStatus) imgproc_createCLAHE(double clipLimit, interop::Size tileGridSize, cv::Ptr<cv::CLAHE> **returnValue)
+CVAPI(ExceptionStatus) imgproc_createCLAHE(
+    double clipLimit,
+    interop::Size tileGridSize,
+    cv::Ptr<cv::CLAHE> **returnValue)
 {
     return cvTry([&] {
     const auto ret = cv::createCLAHE(clipLimit, cpp(tileGridSize));
@@ -30,10 +33,13 @@ CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj, cv::CLAHE 
 }
 
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_apply(cv::CLAHE *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) imgproc_CLAHE_apply(
+    cv::CLAHE *obj,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->apply(*src, *dst);
+    obj->apply(InProxy(*src), OutProxy(*dst));
     });
 }
 

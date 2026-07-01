@@ -11,25 +11,25 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_drawFrameAxes(
-        IntPtr image, IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr rvec, IntPtr tvec, float length, int thickness);
+    internal static partial ExceptionStatus imgproc_drawFrameAxes(
+        in InputOutputArrayProxy image, in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputArrayProxy rvec, in InputArrayProxy tvec, float length, int thickness);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_undistort(
-        IntPtr src, IntPtr dst,
-        IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
+    internal static partial ExceptionStatus imgproc_undistort(
+        in InputArrayProxy src, in OutputArrayProxy dst,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs, in InputArrayProxy newCameraMatrix);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_initUndistortRectifyMap(
-        IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr R, IntPtr newCameraMatrix,
-        Size size, MatType m1type, IntPtr map1, IntPtr map2);
+    internal static partial ExceptionStatus imgproc_initUndistortRectifyMap(
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputArrayProxy R, in InputArrayProxy newCameraMatrix,
+        Size size, MatType m1type, in OutputArrayProxy map1, in OutputArrayProxy map2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_initWideAngleProjMap(
-        IntPtr cameraMatrix, IntPtr distCoeffs,
+    internal static partial ExceptionStatus imgproc_initWideAngleProjMap(
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
         Size imageSize, int destImageWidth,
-        MatType m1type, IntPtr map1, IntPtr map2,
+        MatType m1type, in OutputArrayProxy map1, in OutputArrayProxy map2,
         int projType, double alpha, out float returnValue);
 }
