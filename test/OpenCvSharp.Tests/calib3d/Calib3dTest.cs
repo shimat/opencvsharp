@@ -137,6 +137,21 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
     }
 
     [Fact]
+    public void Find4QuadCornerSubpix()
+    {
+        var patternSize = new Size(10, 7);
+
+        using var image = LoadImage("calibration/00.jpg", ImreadModes.Grayscale);
+        using var corners = new Mat();
+        Assert.True(Cv2.FindChessboardCorners(image, patternSize, corners));
+
+        var refined = Cv2.Find4QuadCornerSubpix(image, corners, new Size(5, 5));
+
+        Assert.True(refined);
+        Assert.Equal(70, corners.Total());
+    }
+
+    [Fact]
     public void FindChessboardCornersSB()
     {
         var patternSize = new Size(10, 7);

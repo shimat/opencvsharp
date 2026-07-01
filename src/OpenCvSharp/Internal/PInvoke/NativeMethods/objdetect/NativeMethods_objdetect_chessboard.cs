@@ -11,30 +11,30 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_checkChessboard(
-        IntPtr img, Size size, out int returnValue);
+    internal static partial ExceptionStatus objdetect_checkChessboard(
+        in InputArrayProxy img, Size size, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_findChessboardCornersSB_OutputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
+    internal static partial ExceptionStatus objdetect_findChessboardCornersSB_OutputArray(
+        in InputArrayProxy image, Size patternSize, in OutputArrayProxy corners, int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_findChessboardCornersSB_vector(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
+    internal static partial ExceptionStatus objdetect_findChessboardCornersSB_vector(
+        in InputArrayProxy image, Size patternSize, IntPtr corners, int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_find4QuadCornerSubpix_InputArray(
-        IntPtr img, IntPtr corners, Size regionSize, out int returnValue);
+    internal static partial ExceptionStatus objdetect_find4QuadCornerSubpix_InputArray(
+        in InputArrayProxy img, in InputOutputArrayProxy corners, Size regionSize, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_find4QuadCornerSubpix_vector(
-        IntPtr img, IntPtr corners, Size regionSize, out int returnValue);
+    internal static partial ExceptionStatus objdetect_find4QuadCornerSubpix_vector(
+        in InputArrayProxy img, IntPtr corners, Size regionSize, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_drawChessboardCorners_InputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int patternWasFound);
+    internal static partial ExceptionStatus objdetect_drawChessboardCorners_InputArray(
+        in InputOutputArrayProxy image, Size patternSize, in InputArrayProxy corners, int patternWasFound);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus objdetect_drawChessboardCorners_array(
-        IntPtr image, Size patternSize, [In] Point2f[] corners, int cornersLength, int patternWasFound);
+    internal static partial ExceptionStatus objdetect_drawChessboardCorners_array(
+        in InputOutputArrayProxy image, Size patternSize, [In] Point2f[] corners, int cornersLength, int patternWasFound);
 }
