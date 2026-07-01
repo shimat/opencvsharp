@@ -46,9 +46,9 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures1(
 
 CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
     cv::Feature2D *featuresFinder,
-    cv::_InputArray *image,
+    const interop::InputArrayProxy* image,
     detail_ImageFeatures *features,
-    cv::_InputArray *mask)
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
 
@@ -56,7 +56,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
     const cv::Ptr<cv::Feature2D> featuresFinderPtr(featuresFinder, [](cv::Feature2D*){});
     
     cv::detail::ImageFeatures rawFeature;
-    cv::detail::computeImageFeatures(featuresFinderPtr, *image, rawFeature, entity(mask));
+    cv::detail::computeImageFeatures(featuresFinderPtr, InProxy(*image), rawFeature, InProxy(*mask));
 
     features->img_idx = rawFeature.img_idx;
     features->img_size = c(rawFeature.img_size);
@@ -73,9 +73,9 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply(
     cv::detail::FeaturesMatcher* obj,
     detail_ImageFeatures *features1,
     detail_ImageFeatures *features2,
-    int *out_src_img_idx, 
+    int *out_src_img_idx,
     int *out_dst_img_idx,
-    std::vector<cv::DMatch> *out_matches, 
+    std::vector<cv::DMatch> *out_matches,
     std::vector<uchar> *out_inliers_mask,
     int *out_num_inliers,
     cv::Mat *out_H,
@@ -112,7 +112,8 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply(
 
 CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply2(
     cv::detail::FeaturesMatcher* obj,
-    detail_ImageFeatures* features, int featuresSize,
+    detail_ImageFeatures* features,
+    int featuresSize,
     cv::Mat *mask,
     std::vector<int> *out_src_img_idx,
     std::vector<int> *out_dst_img_idx,
@@ -185,7 +186,10 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_collectGarbage(
 // BestOf2NearestMatcher
 
 CVAPI(ExceptionStatus) stitching_BestOf2NearestMatcher_new(
-    int try_use_gpu, float match_conf, int num_matches_thresh1,int num_matches_thresh2,
+    int try_use_gpu,
+    float match_conf,
+    int num_matches_thresh1,
+    int num_matches_thresh2,
     cv::detail::BestOf2NearestMatcher **returnValue)
 {
     return cvTry([&] {
@@ -213,7 +217,10 @@ CVAPI(ExceptionStatus) stitching_BestOf2NearestMatcher_collectGarbage(
 // AffineBestOf2NearestMatcher
 
 CVAPI(ExceptionStatus) stitching_AffineBestOf2NearestMatcher_new(
-    int full_affine, int try_use_gpu, float match_conf, int num_matches_thresh1,
+    int full_affine,
+    int try_use_gpu,
+    float match_conf,
+    int num_matches_thresh1,
     cv::detail::AffineBestOf2NearestMatcher** returnValue)
 {
     return cvTry([&] {

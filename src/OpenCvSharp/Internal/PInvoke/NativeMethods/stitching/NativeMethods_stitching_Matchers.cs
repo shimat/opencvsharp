@@ -19,11 +19,11 @@ static partial class NativeMethods
         IntPtr[]? masks);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static unsafe partial ExceptionStatus stitching_computeImageFeatures2(
+    internal static unsafe partial ExceptionStatus stitching_computeImageFeatures2(
         IntPtr featuresFinder,
-        IntPtr image,
+        in InputArrayProxy image,
         WImageFeatures* features,
-        IntPtr mask);
+        in InputArrayProxy mask);
 
 
     // FeaturesMatcher

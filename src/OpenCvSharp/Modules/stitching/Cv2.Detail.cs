@@ -85,8 +85,7 @@ public static partial class Cv2
             unsafe
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_computeImageFeatures2(
-                        featuresFinder.RawPtr, image.CvPtr, &wImageFeatures, mask?.CvPtr ?? IntPtr.Zero));
+                    NativeMethods.stitching_computeImageFeatures2(featuresFinder.RawPtr, image.ToInputProxy(), &wImageFeatures, mask?.ToInputProxy() ?? default));
             }
             
             GC.KeepAlive(featuresFinder);
