@@ -12,8 +12,8 @@ static partial class NativeMethods
     // HistogramCostExtractor base class
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_HistogramCostExtractor_buildCostMatrix(
-        OpenCvSafeHandle obj, IntPtr descriptors1, IntPtr descriptors2, IntPtr costMatrix);
+    internal static partial ExceptionStatus shape_HistogramCostExtractor_buildCostMatrix(
+        OpenCvSafeHandle obj, in InputArrayProxy descriptors1, in InputArrayProxy descriptors2, in OutputArrayProxy costMatrix);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_HistogramCostExtractor_setNDummies(OpenCvSafeHandle obj, int val);
@@ -74,6 +74,6 @@ static partial class NativeMethods
     // EMDL1 free function
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_EMDL1(
-        IntPtr signature1, IntPtr signature2, out float returnValue);
+    internal static partial ExceptionStatus shape_EMDL1(
+        in InputArrayProxy signature1, in InputArrayProxy signature2, out float returnValue);
 }

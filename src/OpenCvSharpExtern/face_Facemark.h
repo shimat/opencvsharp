@@ -49,16 +49,15 @@ CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const ch
     });
 }
 
-CVAPI(ExceptionStatus)
-face_Facemark_fit(
+CVAPI(ExceptionStatus) face_Facemark_fit(
     cv::face::Facemark *obj,
-    cv::_InputArray *image,
-    cv::_InputArray *faces,
+    const interop::InputArrayProxy* image,
+    const interop::InputArrayProxy* faces,
     std::vector<std::vector<cv::Point2f>> *landmarks,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->fit(*image, *faces, *landmarks) ? 1 : 0;
+    *returnValue = obj->fit(InProxy(*image), InProxy(*faces), *landmarks) ? 1 : 0;
     });
 }
 

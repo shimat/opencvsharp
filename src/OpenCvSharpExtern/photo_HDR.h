@@ -9,7 +9,10 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
-    int samples, float lambda, int random, cv::Ptr<cv::CalibrateDebevec> **returnValue) 
+    int samples,
+    float lambda,
+    int random,
+    cv::Ptr<cv::CalibrateDebevec> **returnValue) 
 {
     return cvTry([&] {
     *returnValue = clone(cv::createCalibrateDebevec(samples, lambda, random != 0));
@@ -70,7 +73,9 @@ CVAPI(ExceptionStatus) photo_CalibrateDebevec_setRandom(cv::CalibrateDebevec *ob
 }
 
 CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
-    int max_iter, float threshold, cv::Ptr<cv::CalibrateRobertson> **returnValue)
+    int max_iter,
+    float threshold,
+    cv::Ptr<cv::CalibrateRobertson> **returnValue)
 {
     return cvTry([&] {
     *returnValue = clone(cv::createCalibrateRobertson(max_iter, threshold));
@@ -126,8 +131,11 @@ CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::CalibrateRoberts
 
 
 CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
-    cv::CalibrateCRF *obj, 
-    cv::Mat ** srcImgs, int srcImgsLength, cv::_OutputArray *dst, float* times)
+    cv::CalibrateCRF *obj,
+    cv::Mat ** srcImgs,
+    int srcImgsLength,
+    const interop::OutputArrayProxy* dst,
+    float* times)
 {
     return cvTry([&] {
 
@@ -142,7 +150,7 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
         times_vec[i] = times[i];
     }
 
-    obj->process(srcImgsVec, *dst, times_vec);
+    obj->process(srcImgsVec, OutProxy(*dst), times_vec);
     });
 }
 
@@ -186,7 +194,11 @@ CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj
 
 CVAPI(ExceptionStatus) photo_MergeExposures_process(
     cv::MergeExposures* obj,
-    cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
+    cv::Mat** srcImgs,
+    int srcImgsLength,
+    const interop::OutputArrayProxy* dst,
+    float* times,
+    const interop::InputArrayProxy* response)
 {
     return cvTry([&] {
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
@@ -195,20 +207,22 @@ CVAPI(ExceptionStatus) photo_MergeExposures_process(
         srcImgsVec[i] = *srcImgs[i];
         times_vec[i] = times[i];
     }
-    obj->process(srcImgsVec, *dst, times_vec, *response);
+    obj->process(srcImgsVec, OutProxy(*dst), times_vec, InProxy(*response));
     });
 }
 
 CVAPI(ExceptionStatus) photo_MergeMertens_process(
     cv::MergeMertens* obj,
-    cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
+    cv::Mat** srcImgs,
+    int srcImgsLength,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
     for (int i = 0; i < srcImgsLength; i++) {
         srcImgsVec[i] = *srcImgs[i];
     }
-    obj->process(srcImgsVec, *dst);
+    obj->process(srcImgsVec, OutProxy(*dst));
     });
 }
 

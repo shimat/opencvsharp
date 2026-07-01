@@ -91,7 +91,7 @@ public static partial class Cv2
         signature2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_EMDL1(signature1.CvPtr, signature2.CvPtr, out var ret));
+            NativeMethods.shape_EMDL1(signature1.ToInputProxy(), signature2.ToInputProxy(), out var ret));
 
         GC.KeepAlive(signature1);
         GC.KeepAlive(signature2);

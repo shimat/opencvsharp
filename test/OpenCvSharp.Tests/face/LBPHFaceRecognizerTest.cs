@@ -43,6 +43,8 @@ public class LBPHFaceRecognizerTest : TestBase
                 testOutputHelper.WriteLine($"{label} ({confidence})");
                 Assert.Equal(1, label);
                 Assert.NotEqual(0, confidence, 9);
+
+                Assert.Equal(1, model.Predict(face));
             }
         }
     }

@@ -10,10 +10,13 @@
 
 #pragma region Tonemap
 
-CVAPI(ExceptionStatus) photo_Tonemap_process(cv::Tonemap *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) photo_Tonemap_process(
+    cv::Tonemap *obj,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->process(*src, *dst);
+    obj->process(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -82,7 +85,11 @@ CVAPI(ExceptionStatus) photo_TonemapDrago_setBias(cv::TonemapDrago *obj, float b
     });
 }
 
-CVAPI(ExceptionStatus) photo_createTonemapDrago(float gamma, float saturation, float bias, cv::Ptr<cv::TonemapDrago> **returnValue)
+CVAPI(ExceptionStatus) photo_createTonemapDrago(
+    float gamma,
+    float saturation,
+    float bias,
+    cv::Ptr<cv::TonemapDrago> **returnValue)
 {
     return cvTry([&] {
     const auto p = cv::createTonemapDrago(gamma, saturation, bias);
@@ -147,7 +154,12 @@ CVAPI(ExceptionStatus) photo_TonemapReinhard_setColorAdaptation(cv::TonemapReinh
     });
 }
 
-CVAPI(ExceptionStatus) photo_createTonemapReinhard(float gamma, float intensity, float light_adapt, float color_adapt, cv::Ptr<cv::TonemapReinhard> **returnValue)
+CVAPI(ExceptionStatus) photo_createTonemapReinhard(
+    float gamma,
+    float intensity,
+    float light_adapt,
+    float color_adapt,
+    cv::Ptr<cv::TonemapReinhard> **returnValue)
 {
     return cvTry([&] {
     const auto p = cv::createTonemapReinhard(gamma, intensity, light_adapt, color_adapt);
@@ -199,7 +211,11 @@ CVAPI(ExceptionStatus) photo_TonemapMantiuk_setSaturation(cv::TonemapMantiuk *ob
     });
 }
 
-CVAPI(ExceptionStatus) photo_createTonemapMantiuk(float gamma, float scale, float saturation, cv::Ptr<cv::TonemapMantiuk> **returnValue)
+CVAPI(ExceptionStatus) photo_createTonemapMantiuk(
+    float gamma,
+    float scale,
+    float saturation,
+    cv::Ptr<cv::TonemapMantiuk> **returnValue)
 {
     return cvTry([&] {
     const auto p = cv::createTonemapMantiuk(gamma, scale, saturation);

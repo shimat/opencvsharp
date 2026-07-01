@@ -72,7 +72,7 @@ public abstract class FaceRecognizer : Algorithm
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict1(Handle, src.CvPtr, out var ret));
+            NativeMethods.face_FaceRecognizer_predict1(Handle, src.ToInputProxy(), out var ret));
         GC.KeepAlive(src);
         return ret;
     }
@@ -91,7 +91,7 @@ public abstract class FaceRecognizer : Algorithm
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict2(Handle, src.CvPtr, out label, out confidence));
+            NativeMethods.face_FaceRecognizer_predict2(Handle, src.ToInputProxy(), out label, out confidence));
         GC.KeepAlive(src);
     }
 

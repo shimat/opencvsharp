@@ -17,41 +17,37 @@
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_buildCostMatrix(
     cv::HistogramCostExtractor *obj,
-    cv::_InputArray *descriptors1,
-    cv::_InputArray *descriptors2,
-    cv::_OutputArray *costMatrix)
+    const interop::InputArrayProxy* descriptors1,
+    const interop::InputArrayProxy* descriptors2,
+    const interop::OutputArrayProxy* costMatrix)
 {
     return cvTry([&] {
-    obj->buildCostMatrix(*descriptors1, *descriptors2, *costMatrix);
+    obj->buildCostMatrix(InProxy(*descriptors1), InProxy(*descriptors2), OutProxy(*costMatrix));
     });
 }
 
-CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setNDummies(
-    cv::HistogramCostExtractor *obj, int val)
+CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setNDummies(cv::HistogramCostExtractor *obj, int val)
 {
     return cvTry([&] {
     obj->setNDummies(val);
     });
 }
 
-CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getNDummies(
-    cv::HistogramCostExtractor *obj, int *returnValue)
+CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getNDummies(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getNDummies();
     });
 }
 
-CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setDefaultCost(
-    cv::HistogramCostExtractor *obj, float val)
+CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setDefaultCost(cv::HistogramCostExtractor *obj, float val)
 {
     return cvTry([&] {
     obj->setDefaultCost(val);
     });
 }
 
-CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(
-    cv::HistogramCostExtractor *obj, float *returnValue)
+CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(cv::HistogramCostExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getDefaultCost();
@@ -65,17 +61,14 @@ CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(
 // so one shared set of delete/get functions covers all subclasses.
 // ============================================================
 
-CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_delete(
-    cv::Ptr<cv::HistogramCostExtractor> *obj)
+CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_delete(cv::Ptr<cv::HistogramCostExtractor> *obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_get(
-    cv::Ptr<cv::HistogramCostExtractor> *ptr,
-    cv::HistogramCostExtractor **returnValue)
+CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_get(cv::Ptr<cv::HistogramCostExtractor> *ptr, cv::HistogramCostExtractor **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -90,7 +83,9 @@ CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_get(
 #pragma region NormHistogramCostExtractor
 
 CVAPI(ExceptionStatus) shape_createNormHistogramCostExtractor(
-    int flag, int nDummies, float defaultCost,
+    int flag,
+    int nDummies,
+    float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
@@ -99,16 +94,14 @@ CVAPI(ExceptionStatus) shape_createNormHistogramCostExtractor(
     });
 }
 
-CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_setNormFlag(
-    cv::HistogramCostExtractor *obj, int flag)
+CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_setNormFlag(cv::HistogramCostExtractor *obj, int flag)
 {
     return cvTry([&] {
     static_cast<cv::NormHistogramCostExtractor*>(obj)->setNormFlag(flag);
     });
 }
 
-CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_getNormFlag(
-    cv::HistogramCostExtractor *obj, int *returnValue)
+CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_getNormFlag(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = static_cast<cv::NormHistogramCostExtractor*>(obj)->getNormFlag();
@@ -125,7 +118,9 @@ CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_getNormFlag(
 #pragma region EMDHistogramCostExtractor
 
 CVAPI(ExceptionStatus) shape_createEMDHistogramCostExtractor(
-    int flag, int nDummies, float defaultCost,
+    int flag,
+    int nDummies,
+    float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
@@ -134,16 +129,14 @@ CVAPI(ExceptionStatus) shape_createEMDHistogramCostExtractor(
     });
 }
 
-CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_setNormFlag(
-    cv::HistogramCostExtractor *obj, int flag)
+CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_setNormFlag(cv::HistogramCostExtractor *obj, int flag)
 {
     return cvTry([&] {
     static_cast<cv::EMDHistogramCostExtractor*>(obj)->setNormFlag(flag);
     });
 }
 
-CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_getNormFlag(
-    cv::HistogramCostExtractor *obj, int *returnValue)
+CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_getNormFlag(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = static_cast<cv::EMDHistogramCostExtractor*>(obj)->getNormFlag();
@@ -160,7 +153,8 @@ CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_getNormFlag(
 #pragma region ChiHistogramCostExtractor
 
 CVAPI(ExceptionStatus) shape_createChiHistogramCostExtractor(
-    int nDummies, float defaultCost,
+    int nDummies,
+    float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
@@ -179,7 +173,8 @@ CVAPI(ExceptionStatus) shape_createChiHistogramCostExtractor(
 #pragma region EMDL1HistogramCostExtractor
 
 CVAPI(ExceptionStatus) shape_createEMDL1HistogramCostExtractor(
-    int nDummies, float defaultCost,
+    int nDummies,
+    float defaultCost,
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
@@ -196,10 +191,12 @@ CVAPI(ExceptionStatus) shape_createEMDL1HistogramCostExtractor(
 // ============================================================
 
 CVAPI(ExceptionStatus) shape_EMDL1(
-    cv::_InputArray *signature1, cv::_InputArray *signature2, float *returnValue)
+    const interop::InputArrayProxy* signature1,
+    const interop::InputArrayProxy* signature2,
+    float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::EMDL1(*signature1, *signature2);
+    *returnValue = cv::EMDL1(InProxy(*signature1), InProxy(*signature2));
     });
 }
 
