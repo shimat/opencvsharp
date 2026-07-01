@@ -1286,13 +1286,12 @@ public partial class Mat : CvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo1(Handle, m.CvPtr));
+                NativeMethods.core_Mat_copyTo1(Handle, m.ToOutputProxy()));
         }
         else
         {
-            var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo2(Handle, m.CvPtr, maskPtr));
+                NativeMethods.core_Mat_copyTo2(Handle, m.ToOutputProxy(), mask.ToInputProxy()));
         }
 
         m.Fix();
@@ -1319,9 +1318,8 @@ public partial class Mat : CvObject
         }
         else
         {
-            var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo_toMat2(Handle, m.CvPtr, maskPtr));
+                NativeMethods.core_Mat_copyTo_toMat2(Handle, m.CvPtr, mask.ToInputProxy()));
         }
 
         GC.KeepAlive(m);
@@ -1344,7 +1342,7 @@ public partial class Mat : CvObject
         m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_convertTo(Handle, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_Mat_convertTo(Handle, m.ToOutputProxy(), rtype, alpha, beta));
 
         m.Fix();
     }
@@ -1399,7 +1397,7 @@ public partial class Mat : CvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_InputArray(Handle, value.CvPtr, maskPtr));
+            NativeMethods.core_Mat_setTo_InputArray(Handle, value.ToInputProxy(), maskPtr));
 
         GC.KeepAlive(value);
         GC.KeepAlive(mask);
@@ -1488,7 +1486,7 @@ public partial class Mat : CvObject
             ThrowIfDisposed();
             m.ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_mul(Handle, m.CvPtr, scale, out var ret));
+                NativeMethods.core_Mat_mul(Handle, m.ToInputProxy(), scale, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(m);
             return new NativeMatExpr(ret);
@@ -1508,7 +1506,7 @@ public partial class Mat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_cross(Handle, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_cross(Handle, m.ToInputProxy(), out var ret));
 
         GC.KeepAlive(m);
         var retVal = new Mat(ret);
@@ -1528,7 +1526,7 @@ public partial class Mat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_dot(Handle, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_dot(Handle, m.ToInputProxy(), out var ret));
 
         GC.KeepAlive(m);
         return ret;

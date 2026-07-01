@@ -12,16 +12,26 @@ CVAPI(ExceptionStatus) core_PCA_new1(cv::PCA **returnValue)
     *returnValue = new cv::PCA;
     });
 }
-CVAPI(ExceptionStatus) core_PCA_new2(cv::_InputArray *data, cv::_InputArray *mean, int flags, int maxComponents, cv::PCA **returnValue)
+CVAPI(ExceptionStatus) core_PCA_new2(
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    int flags,
+    int maxComponents,
+    cv::PCA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::PCA(*data, *mean, flags, maxComponents);
+    *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, maxComponents);
     });
 }
-CVAPI(ExceptionStatus) core_PCA_new3(cv::_InputArray *data, cv::_InputArray *mean, int flags, double retainedVariance, cv::PCA **returnValue)
+CVAPI(ExceptionStatus) core_PCA_new3(
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    int flags,
+    double retainedVariance,
+    cv::PCA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::PCA(*data, *mean, flags, retainedVariance);
+    *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, retainedVariance);
     });
 }
 
@@ -33,51 +43,73 @@ CVAPI(ExceptionStatus) core_PCA_delete(cv::PCA *obj)
 }
 
 //! operator that performs PCA. The previously stored data, if any, is released
-CVAPI(ExceptionStatus) core_PCA_operatorThis(cv::PCA *obj, cv::_InputArray *data, cv::_InputArray *mean, int flags, int maxComponents)
+CVAPI(ExceptionStatus) core_PCA_operatorThis(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    int flags,
+    int maxComponents)
 {
     return cvTry([&] {
-    (*obj)(*data, *mean, flags, maxComponents);
+    (*obj)(InProxy(*data), InProxy(*mean), flags, maxComponents);
     });
 }
 
-CVAPI(ExceptionStatus) core_PCA_computeVar(cv::PCA *obj, cv::_InputArray *data, cv::_InputArray *mean, int flags, double retainedVariance)
+CVAPI(ExceptionStatus) core_PCA_computeVar(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    int flags,
+    double retainedVariance)
 {
     return cvTry([&] {
-    (*obj)(*data, *mean, flags, retainedVariance);
+    (*obj)(InProxy(*data), InProxy(*mean), flags, retainedVariance);
     });
 }
 
 //! projects vector from the original space to the principal components subspace
-CVAPI(ExceptionStatus) core_PCA_project1(cv::PCA *obj, cv::_InputArray *vec, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_PCA_project1(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* vec,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->project(*vec);
+    const auto ret = obj->project(InProxy(*vec));
     *returnValue = new cv::Mat(ret);
     });
 }
 
 //! projects vector from the original space to the principal components subspace
-CVAPI(ExceptionStatus) core_PCA_project2(cv::PCA *obj, cv::_InputArray *vec, cv::_OutputArray *result)
+CVAPI(ExceptionStatus) core_PCA_project2(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* vec,
+    const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    obj->project(*vec, *result);
+    obj->project(InProxy(*vec), OutProxy(*result));
     });
 }
 
 //! reconstructs the original vector from the projection
-CVAPI(ExceptionStatus) core_PCA_backProject1(cv::PCA *obj, cv::_InputArray *vec, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_PCA_backProject1(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* vec,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->backProject(*vec);
+    const auto ret = obj->backProject(InProxy(*vec));
     *returnValue = new cv::Mat(ret);
     });
 }
 
 //! reconstructs the original vector from the projection
-CVAPI(ExceptionStatus) core_PCA_backProject2(cv::PCA *obj, cv::_InputArray *vec, cv::_OutputArray *result)
+CVAPI(ExceptionStatus) core_PCA_backProject2(
+    cv::PCA *obj,
+    const interop::InputArrayProxy* vec,
+    const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    obj->backProject(*vec, *result);
+    obj->backProject(InProxy(*vec), OutProxy(*result));
     });
 }
 
