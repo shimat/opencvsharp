@@ -26,7 +26,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags));
+            NativeMethods.photo_inpaint(src.ToInputProxy(), inpaintMask.ToInputProxy(), dst.ToOutputProxy(), inpaintRadius, (int)flags));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -58,7 +58,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize));
+            NativeMethods.photo_fastNlMeansDenoising(src.ToInputProxy(), dst.ToOutputProxy(), h, templateWindowSize, searchWindowSize));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -90,7 +90,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize));
+            NativeMethods.photo_fastNlMeansDenoisingColored(src.ToInputProxy(), dst.ToOutputProxy(), h, hColor, templateWindowSize, searchWindowSize));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -126,7 +126,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_fastNlMeansDenoisingMulti(
-                srcImgPtrs, srcImgPtrs.Length, dst.CvPtr,
+                srcImgPtrs, srcImgPtrs.Length, dst.ToOutputProxy(),
                 imgToDenoiseIndex,
                 temporalWindowSize, h, templateWindowSize, searchWindowSize));
 
@@ -163,7 +163,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_fastNlMeansDenoisingColoredMulti(
-                srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
+                srcImgPtrs, srcImgPtrs.Length, dst.ToOutputProxy(), imgToDenoiseIndex,
                 temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize));
 
         dst.Fix();
@@ -225,7 +225,7 @@ static partial class Cv2
         colorBoost.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_decolor(src.CvPtr, grayscale.CvPtr, colorBoost.CvPtr));
+            NativeMethods.photo_decolor(src.ToInputProxy(), grayscale.ToOutputProxy(), colorBoost.ToOutputProxy()));
 
         GC.KeepAlive(src);
         grayscale.Fix();
@@ -263,7 +263,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_seamlessClone(
-                src.CvPtr, dst.CvPtr, ToPtr(mask), p, blend.CvPtr, (int) flags));
+                src.ToInputProxy(), dst.ToInputProxy(), mask?.ToInputProxy() ?? default, p, blend.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -295,7 +295,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_colorChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, redMul, greenMul, blueMul));
+                src.ToInputProxy(), mask?.ToInputProxy() ?? default, dst.ToOutputProxy(), redMul, greenMul, blueMul));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -330,7 +330,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_illuminationChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, alpha, beta));
+                src.ToInputProxy(), mask?.ToInputProxy() ?? default, dst.ToOutputProxy(), alpha, beta));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -364,7 +364,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_textureFlattening(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, lowThreshold, highThreshold, kernelSize));
+                src.ToInputProxy(), mask?.ToInputProxy() ?? default, dst.ToOutputProxy(), lowThreshold, highThreshold, kernelSize));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -395,7 +395,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_edgePreservingFilter(
-                src.CvPtr, dst.CvPtr, (int) flags, sigmaS, sigmaR));
+                src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, sigmaS, sigmaR));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -422,7 +422,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_detailEnhance(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
+                src.ToInputProxy(), dst.ToOutputProxy(), sigmaS, sigmaR));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -454,7 +454,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_pencilSketch(
-                src.CvPtr, dst1.CvPtr, dst2.CvPtr, sigmaS, sigmaR, shadeFactor));
+                src.ToInputProxy(), dst1.ToOutputProxy(), dst2.ToOutputProxy(), sigmaS, sigmaR, shadeFactor));
 
         GC.KeepAlive(src);
         dst1.Fix();
@@ -485,7 +485,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.photo_stylization(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
+                src.ToInputProxy(), dst.ToOutputProxy(), sigmaS, sigmaR));
 
         GC.KeepAlive(src);
         dst.Fix();
