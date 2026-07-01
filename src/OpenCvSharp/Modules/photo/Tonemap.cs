@@ -51,7 +51,7 @@ public class Tonemap : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_Tonemap_process(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.photo_Tonemap_process(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         dst.Fix();

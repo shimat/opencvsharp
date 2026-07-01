@@ -8,32 +8,46 @@
 // GeneralizedHough
 
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate1(
-    cv::GeneralizedHough *obj, cv::_InputArray *templ, interop::Point templCenter)
+    cv::GeneralizedHough *obj,
+    const interop::InputArrayProxy* templ,
+    interop::Point templCenter)
 {
     return cvTry([&] {
-    obj->setTemplate(*templ, cpp(templCenter));
+    obj->setTemplate(InProxy(*templ), cpp(templCenter));
     });
 }
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate2(
-    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, interop::Point templCenter)
+    cv::GeneralizedHough *obj,
+    const interop::InputArrayProxy* edges,
+    const interop::InputArrayProxy* dx,
+    const interop::InputArrayProxy* dy,
+    interop::Point templCenter)
 {
     return cvTry([&] {
-    obj->setTemplate(*edges, *dx, *dy, cpp(templCenter));
+    obj->setTemplate(InProxy(*edges), InProxy(*dx), InProxy(*dy), cpp(templCenter));
     });
 }
 
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_detect1(
-    cv::GeneralizedHough *obj, cv::_InputArray *image, cv::_OutputArray *positions, cv::_OutputArray *votes)
+    cv::GeneralizedHough *obj,
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* positions,
+    const interop::OutputArrayProxy* votes)
 {
     return cvTry([&] {
-    obj->detect(*image, *positions, entity(votes));
+    obj->detect(InProxy(*image), OutProxy(*positions), OutProxy(*votes));
     });
 }
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_detect2(
-    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, cv::_OutputArray *positions, cv::_OutputArray *votes)
+    cv::GeneralizedHough *obj,
+    const interop::InputArrayProxy* edges,
+    const interop::InputArrayProxy* dx,
+    const interop::InputArrayProxy* dy,
+    const interop::OutputArrayProxy* positions,
+    const interop::OutputArrayProxy* votes)
 {
     return cvTry([&] {
-    obj->detect(*edges, *dx, *dy, *positions, entity(votes));
+    obj->detect(InProxy(*edges), InProxy(*dx), InProxy(*dy), OutProxy(*positions), OutProxy(*votes));
     });
 }
 
@@ -112,8 +126,7 @@ CVAPI(ExceptionStatus) imgproc_createGeneralizedHoughBallard(cv::Ptr<cv::General
     *returnValue = new cv::Ptr<cv::GeneralizedHoughBallard>(ptr);
     });
 }
-CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughBallard_get(
-    cv::Ptr<cv::GeneralizedHoughBallard> *obj, cv::GeneralizedHoughBallard **returnValue)
+CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughBallard_get(cv::Ptr<cv::GeneralizedHoughBallard> *obj, cv::GeneralizedHoughBallard **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
@@ -162,8 +175,7 @@ CVAPI(ExceptionStatus) imgproc_createGeneralizedHoughGuil(cv::Ptr<cv::Generalize
     *returnValue = new cv::Ptr<cv::GeneralizedHoughGuil>(ptr);
     });
 }
-CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughGuil_get(
-    cv::Ptr<cv::GeneralizedHoughGuil> *obj, cv::GeneralizedHoughGuil **returnValue)
+CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughGuil_get(cv::Ptr<cv::GeneralizedHoughGuil> *obj, cv::GeneralizedHoughGuil **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();

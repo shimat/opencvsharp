@@ -178,7 +178,7 @@ public class Model : CvObject
 
         using var outsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_predict(Handle, frame.CvPtr, outsVec.CvPtr));
+            NativeMethods.dnn_Model_predict(Handle, frame.ToInputProxy(), outsVec.CvPtr));
         GC.KeepAlive(frame);
         return outsVec.ToArray();
     }

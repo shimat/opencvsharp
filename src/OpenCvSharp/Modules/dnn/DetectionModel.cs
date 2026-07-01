@@ -96,7 +96,7 @@ public class DetectionModel : Model
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_detect(
-                Handle, frame.CvPtr, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
+                Handle, frame.ToInputProxy(), classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
                 confThreshold, nmsThreshold));
         GC.KeepAlive(frame);
 

@@ -11,17 +11,21 @@
 
 #pragma region BackgroundSubtractor
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor *obj, cv::_OutputArray *backgroundImage)
+CVAPI(ExceptionStatus) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor *obj, const interop::OutputArrayProxy* backgroundImage)
 {
     return cvTry([&] {
-    obj->getBackgroundImage(*backgroundImage);
+    obj->getBackgroundImage(OutProxy(*backgroundImage));
     });
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractor_apply(cv::BackgroundSubtractor *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+CVAPI(ExceptionStatus) video_BackgroundSubtractor_apply(
+    cv::BackgroundSubtractor *obj,
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* fgmask,
+    double learningRate)
 {
     return cvTry([&] {
-    obj->apply(*image, *fgmask, learningRate);
+    obj->apply(InProxy(*image), OutProxy(*fgmask), learningRate);
     });
 }
 
@@ -43,7 +47,11 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractor_get(cv::Ptr<cv::Background
 
 #pragma region BackgroundSubtractorMOG2
 
-CVAPI(ExceptionStatus) video_createBackgroundSubtractorMOG2(int history, double varThreshold, int detectShadows, cv::Ptr<cv::BackgroundSubtractorMOG2> **returnValue)
+CVAPI(ExceptionStatus) video_createBackgroundSubtractorMOG2(
+    int history,
+    double varThreshold,
+    int detectShadows,
+    cv::Ptr<cv::BackgroundSubtractorMOG2> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::createBackgroundSubtractorMOG2(history, varThreshold, detectShadows != 0);
@@ -58,8 +66,7 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_delete(cv::Ptr<cv::Bac
     });
 }
 
-CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_get(
-    cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, cv::BackgroundSubtractorMOG2 **returnValue)
+CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_get(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, cv::BackgroundSubtractorMOG2 **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -227,7 +234,10 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowThreshold(cv::Bac
 #pragma region BackgroundSubtractorKNN
 
 CVAPI(ExceptionStatus) video_createBackgroundSubtractorKNN(
-    int history, double dist2Threshold, int detectShadows, cv::Ptr<cv::BackgroundSubtractorKNN> **returnValue)
+    int history,
+    double dist2Threshold,
+    int detectShadows,
+    cv::Ptr<cv::BackgroundSubtractorKNN> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::createBackgroundSubtractorKNN(
@@ -243,8 +253,7 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_delete(cv::Ptr<cv::Back
     });
 }
 
-CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_get(
-    cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, cv::BackgroundSubtractorKNN **returnValue)
+CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_get(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, cv::BackgroundSubtractorKNN **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();

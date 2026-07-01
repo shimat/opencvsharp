@@ -40,7 +40,7 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
         labels.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents, out var p));
+            NativeMethods.core_LDA_new2(src.ToInputProxy(), labels.ToInputProxy(), numComponents, out var p));
         GC.KeepAlive(src);
         GC.KeepAlive(labels);
         InitSafeHandle(p);
@@ -150,7 +150,7 @@ public class LDA : CvObject
         labels.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_compute(Handle, src.CvPtr, labels.CvPtr));
+            NativeMethods.core_LDA_compute(Handle, src.ToInputProxy(), labels.ToInputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(labels);
@@ -170,7 +170,7 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_project(Handle, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_project(Handle, src.ToInputProxy(), out var ret));
 
         GC.KeepAlive(src);
 
@@ -191,7 +191,7 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_reconstruct(Handle, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_reconstruct(Handle, src.ToInputProxy(), out var ret));
 
         GC.KeepAlive(src);
 
@@ -218,7 +218,7 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_subspaceProject(w.ToInputProxy(), mean.ToInputProxy(), src.ToInputProxy(), out var ret));
 
         GC.KeepAlive(w);
         GC.KeepAlive(mean);
@@ -247,7 +247,7 @@ public class LDA : CvObject
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_subspaceReconstruct(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_subspaceReconstruct(w.ToInputProxy(), mean.ToInputProxy(), src.ToInputProxy(), out var ret));
 
         GC.KeepAlive(w);
         GC.KeepAlive(mean);

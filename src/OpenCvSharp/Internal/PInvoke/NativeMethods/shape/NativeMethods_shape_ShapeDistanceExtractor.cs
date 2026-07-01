@@ -12,8 +12,8 @@ static partial class NativeMethods
     // ShapeDistanceExtractor
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeDistanceExtractor_computeDistance(
-        OpenCvSafeHandle obj, IntPtr contour1, IntPtr contour2, out float returnValue);
+    internal static partial ExceptionStatus shape_ShapeDistanceExtractor_computeDistance(
+        OpenCvSafeHandle obj, in InputArrayProxy contour1, in InputArrayProxy contour2, out float returnValue);
 
     // ShapeContextDistanceExtractor
 
@@ -64,9 +64,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(OpenCvSafeHandle obj, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(OpenCvSafeHandle obj, IntPtr image1, IntPtr image2);
+    internal static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setImages(OpenCvSafeHandle obj, in InputArrayProxy image1, in InputArrayProxy image2);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(OpenCvSafeHandle obj, IntPtr image1, IntPtr image2);
+    internal static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getImages(OpenCvSafeHandle obj, in OutputArrayProxy image1, in OutputArrayProxy image2);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setIterations(OpenCvSafeHandle obj, int val);

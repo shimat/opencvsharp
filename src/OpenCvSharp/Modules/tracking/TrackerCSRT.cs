@@ -67,7 +67,7 @@ public class TrackerCSRT : Tracker
         mask.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerCSRT_setInitialMask(RawPtr, mask.CvPtr));
+            NativeMethods.tracking_TrackerCSRT_setInitialMask(RawPtr, mask.ToInputProxy()));
 
         GC.KeepAlive(mask);
     }

@@ -62,7 +62,7 @@ public class SegmentationModel : Model
         mask.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_SegmentationModel_segment(Handle, frame.CvPtr, mask.CvPtr));
+            NativeMethods.dnn_SegmentationModel_segment(Handle, frame.ToInputProxy(), mask.ToOutputProxy()));
         GC.KeepAlive(frame);
         mask.Fix();
     }

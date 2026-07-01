@@ -12,16 +12,16 @@ static partial class NativeMethods
     // ShapeTransformer (base class methods)
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeTransformer_estimateTransformation(
-        OpenCvSafeHandle obj, IntPtr transformingShape, IntPtr targetShape, IntPtr matches);
+    internal static partial ExceptionStatus shape_ShapeTransformer_estimateTransformation(
+        OpenCvSafeHandle obj, in InputArrayProxy transformingShape, in InputArrayProxy targetShape, IntPtr matches);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeTransformer_applyTransformation(
-        OpenCvSafeHandle obj, IntPtr input, IntPtr output, out float returnValue);
+    internal static partial ExceptionStatus shape_ShapeTransformer_applyTransformation(
+        OpenCvSafeHandle obj, in InputArrayProxy input, in OutputArrayProxy output, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus shape_ShapeTransformer_warpImage(
-        OpenCvSafeHandle obj, IntPtr transformingImage, IntPtr output,
+    internal static partial ExceptionStatus shape_ShapeTransformer_warpImage(
+        OpenCvSafeHandle obj, in InputArrayProxy transformingImage, in OutputArrayProxy output,
         int flags, int borderMode, Scalar borderValue);
 
     // ThinPlateSplineShapeTransformer

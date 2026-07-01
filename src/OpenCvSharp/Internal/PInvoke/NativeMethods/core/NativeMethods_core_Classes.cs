@@ -15,32 +15,32 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_PCA_new1(out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_new2(
-        IntPtr data, IntPtr mean, int flags, int maxComponents, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_PCA_new2(
+        in InputArrayProxy data, in InputArrayProxy mean, int flags, int maxComponents, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_new3(
-        IntPtr data, IntPtr mean, int flags, double retainedVariance, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_PCA_new3(
+        in InputArrayProxy data, in InputArrayProxy mean, int flags, double retainedVariance, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_PCA_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_operatorThis(
-        OpenCvSafeHandle obj, IntPtr data, IntPtr mean, int flags, int maxComponents);
+    internal static partial ExceptionStatus core_PCA_operatorThis(
+        OpenCvSafeHandle obj, in InputArrayProxy data, in InputArrayProxy mean, int flags, int maxComponents);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_computeVar(
-        OpenCvSafeHandle obj, IntPtr data, IntPtr mean, int flags, double retainedVariance);
+    internal static partial ExceptionStatus core_PCA_computeVar(
+        OpenCvSafeHandle obj, in InputArrayProxy data, in InputArrayProxy mean, int flags, double retainedVariance);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_project1(OpenCvSafeHandle obj, IntPtr vec, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_PCA_project1(OpenCvSafeHandle obj, in InputArrayProxy vec, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_project2(OpenCvSafeHandle obj, IntPtr vec, IntPtr result);
+    internal static partial ExceptionStatus core_PCA_project2(OpenCvSafeHandle obj, in InputArrayProxy vec, in OutputArrayProxy result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_backProject1(OpenCvSafeHandle obj, IntPtr vec, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_PCA_backProject1(OpenCvSafeHandle obj, in InputArrayProxy vec, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_PCA_backProject2(OpenCvSafeHandle obj, IntPtr vec, IntPtr result);
+    internal static partial ExceptionStatus core_PCA_backProject2(OpenCvSafeHandle obj, in InputArrayProxy vec, in OutputArrayProxy result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_PCA_eigenvectors(OpenCvSafeHandle obj, out IntPtr returnValue);
@@ -71,26 +71,26 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SVD_new1(out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_new2(IntPtr src, int flags, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_SVD_new2(in InputArrayProxy src, int flags, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SVD_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_operatorThis(OpenCvSafeHandle obj, IntPtr src, int flags);
+    internal static partial ExceptionStatus core_SVD_operatorThis(OpenCvSafeHandle obj, in InputArrayProxy src, int flags);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_backSubst(OpenCvSafeHandle obj, IntPtr rhs, IntPtr dst);
+    internal static partial ExceptionStatus core_SVD_backSubst(OpenCvSafeHandle obj, in InputArrayProxy rhs, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_static_compute1(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
+    internal static partial ExceptionStatus core_SVD_static_compute1(in InputArrayProxy src, in OutputArrayProxy w, in OutputArrayProxy u, in OutputArrayProxy vt, int flags);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_static_compute2(IntPtr src, IntPtr w, int flags);
+    internal static partial ExceptionStatus core_SVD_static_compute2(in InputArrayProxy src, in OutputArrayProxy w, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_static_backSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
+    internal static partial ExceptionStatus core_SVD_static_backSubst(in InputArrayProxy w, in InputArrayProxy u, in InputArrayProxy vt, in InputArrayProxy rhs, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_SVD_static_solveZ(IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus core_SVD_static_solveZ(in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_SVD_u(OpenCvSafeHandle obj, out IntPtr returnValue);
@@ -106,7 +106,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_LDA_new1(int numComponents, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_new2(IntPtr src, IntPtr labels, int numComponents, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_LDA_new2(in InputArrayProxy src, in InputArrayProxy labels, int numComponents, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_LDA_delete(IntPtr obj);
@@ -124,13 +124,13 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_LDA_load_FileStorage(OpenCvSafeHandle obj, IntPtr node);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_compute(OpenCvSafeHandle obj, IntPtr src, IntPtr labels);
+    internal static partial ExceptionStatus core_LDA_compute(OpenCvSafeHandle obj, in InputArrayProxy src, in InputArrayProxy labels);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_project(OpenCvSafeHandle obj, IntPtr src, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_LDA_project(OpenCvSafeHandle obj, in InputArrayProxy src, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_reconstruct(OpenCvSafeHandle obj, IntPtr src, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_LDA_reconstruct(OpenCvSafeHandle obj, in InputArrayProxy src, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_LDA_eigenvectors(OpenCvSafeHandle obj, out IntPtr returnValue);
@@ -139,10 +139,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_LDA_eigenvalues(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_subspaceProject(IntPtr w, IntPtr mean, IntPtr src, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_LDA_subspaceProject(in InputArrayProxy w, in InputArrayProxy mean, in InputArrayProxy src, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_LDA_subspaceReconstruct(IntPtr w, IntPtr mean, IntPtr src, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_LDA_subspaceReconstruct(in InputArrayProxy w, in InputArrayProxy mean, in InputArrayProxy src, out IntPtr returnValue);
 
     #endregion
 }

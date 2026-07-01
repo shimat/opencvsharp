@@ -31,7 +31,7 @@ public abstract class ShapeDistanceExtractor : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
-                Handle, contour1.CvPtr, contour2.CvPtr, out var ret));
+                Handle, contour1.ToInputProxy(), contour2.ToInputProxy(), out var ret));
 
         GC.KeepAlive(contour1);
         GC.KeepAlive(contour2);

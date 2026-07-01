@@ -67,7 +67,7 @@ public class QRCodeDetector : CvObject
         using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_detect(Handle, img.CvPtr, pointsVec.CvPtr, out var ret));
+            NativeMethods.objdetect_QRCodeDetector_detect(Handle, img.ToInputProxy(), pointsVec.CvPtr, out var ret));
         points = pointsVec.ToArray();
 
         GC.KeepAlive(img);
@@ -96,7 +96,7 @@ public class QRCodeDetector : CvObject
         using var resultString = new StdString();
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_decode(
-                Handle, img.CvPtr, pointsVec.CvPtr, Cv2.ToPtr(straightQrCode), resultString.CvPtr));
+                Handle, img.ToInputProxy(), pointsVec.CvPtr, straightQrCode?.ToOutputProxy() ?? default, resultString.CvPtr));
 
         GC.KeepAlive(img);
         GC.KeepAlive(points);
@@ -123,7 +123,7 @@ public class QRCodeDetector : CvObject
         using var resultString = new StdString();
         NativeMethods.HandleException(
             NativeMethods.objdetect_QRCodeDetector_detectAndDecode(
-                Handle, img.CvPtr, pointsVec.CvPtr, Cv2.ToPtr(straightQrCode), resultString.CvPtr));
+                Handle, img.ToInputProxy(), pointsVec.CvPtr, straightQrCode?.ToOutputProxy() ?? default, resultString.CvPtr));
         points = pointsVec.ToArray();
 
         GC.KeepAlive(img);
@@ -147,7 +147,7 @@ public class QRCodeDetector : CvObject
         using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_detectMulti(Handle, img.CvPtr, pointsVec.CvPtr, out var ret));
+            NativeMethods.objdetect_QRCodeDetector_detectMulti(Handle, img.ToInputProxy(), pointsVec.CvPtr, out var ret));
         points = pointsVec.ToArray();
 
         GC.KeepAlive(img);
@@ -211,14 +211,14 @@ public class QRCodeDetector : CvObject
             using var straightQrCodeVec = new VectorOfMat();
             NativeMethods.HandleException(
                 NativeMethods.objdetect_QRCodeDetector_decodeMulti(
-                    Handle, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, straightQrCodeVec.CvPtr, out ret));
+                    Handle, img.ToInputProxy(), pointsVec.CvPtr, decodedInfoVec.CvPtr, straightQrCodeVec.CvPtr, out ret));
             straightQrCode = straightQrCodeVec.ToArray();
         }
         else
         {
             NativeMethods.HandleException(
                 NativeMethods.objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
-                    Handle, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, out ret));
+                    Handle, img.ToInputProxy(), pointsVec.CvPtr, decodedInfoVec.CvPtr, out ret));
             straightQrCode = [];
         }
 

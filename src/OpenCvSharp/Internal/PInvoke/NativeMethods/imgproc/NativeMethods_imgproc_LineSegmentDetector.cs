@@ -11,19 +11,19 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_detect_OutputArray(OpenCvSafeHandle obj, IntPtr image, IntPtr lines,
+    internal static partial void imgproc_LineSegmentDetector_detect_OutputArray(OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy lines,
+        in OutputArrayProxy width, in OutputArrayProxy prec, in OutputArrayProxy nfa);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial void imgproc_LineSegmentDetector_detect_vector(OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr lines,
         IntPtr width, IntPtr prec, IntPtr nfa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_detect_vector(OpenCvSafeHandle obj, IntPtr image, IntPtr lines,
-        IntPtr width, IntPtr prec, IntPtr nfa);
+    internal static partial void imgproc_LineSegmentDetector_drawSegments(OpenCvSafeHandle obj, in InputOutputArrayProxy image, in InputArrayProxy lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void imgproc_LineSegmentDetector_drawSegments(OpenCvSafeHandle obj, IntPtr image, IntPtr lines);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int imgproc_LineSegmentDetector_compareSegments(OpenCvSafeHandle obj, Size size,
-        IntPtr lines1, IntPtr lines2, IntPtr image);
+    internal static partial int imgproc_LineSegmentDetector_compareSegments(OpenCvSafeHandle obj, Size size,
+        in InputArrayProxy lines1, in InputArrayProxy lines2, in InputOutputArrayProxy image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial IntPtr imgproc_createLineSegmentDetector(

@@ -15,7 +15,10 @@
 // Model (base class)
 // ----------------------------------------------------------------------------
 
-CVAPI(ExceptionStatus) dnn_Model_new_String(const char *model, const char *config, cv::dnn::Model **returnValue)
+CVAPI(ExceptionStatus) dnn_Model_new_String(
+    const char *model,
+    const char *config,
+    cv::dnn::Model **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -77,14 +80,22 @@ CVAPI(ExceptionStatus) dnn_Model_setInputSwapRB(cv::dnn::Model *model, const int
 }
 
 CVAPI(ExceptionStatus) dnn_Model_setInputParams(
-    cv::dnn::Model *model, const double scale, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop)
+    cv::dnn::Model *model,
+    const double scale,
+    const interop::Size size,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int crop)
 {
     return cvTry([&] {
     model->setInputParams(scale, cpp(size), cpp(mean), swapRB != 0, crop != 0);
     });
 }
 
-CVAPI(ExceptionStatus) dnn_Model_setOutputNames(cv::dnn::Model *model, const char **outNames, const int outNamesLength)
+CVAPI(ExceptionStatus) dnn_Model_setOutputNames(
+    cv::dnn::Model *model,
+    const char **outNames,
+    const int outNamesLength)
 {
     return cvTry([&] {
     std::vector<cv::String> outNamesVec(outNamesLength);
@@ -96,10 +107,13 @@ CVAPI(ExceptionStatus) dnn_Model_setOutputNames(cv::dnn::Model *model, const cha
     });
 }
 
-CVAPI(ExceptionStatus) dnn_Model_predict(cv::dnn::Model *model, cv::_InputArray *frame, std::vector<cv::Mat> *outs)
+CVAPI(ExceptionStatus) dnn_Model_predict(
+    cv::dnn::Model *model,
+    const interop::InputArrayProxy* frame,
+    std::vector<cv::Mat> *outs)
 {
     return cvTry([&] {
-    model->predict(*frame, *outs);
+    model->predict(InProxy(*frame), *outs);
     });
 }
 
@@ -129,7 +143,9 @@ CVAPI(ExceptionStatus) dnn_Model_enableWinograd(cv::dnn::Model *model, const int
 // ----------------------------------------------------------------------------
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_new_String(
-    const char *model, const char *config, cv::dnn::ClassificationModel **returnValue)
+    const char *model,
+    const char *config,
+    cv::dnn::ClassificationModel **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -155,16 +171,14 @@ CVAPI(ExceptionStatus) dnn_ClassificationModel_delete(cv::dnn::ClassificationMod
     });
 }
 
-CVAPI(ExceptionStatus) dnn_ClassificationModel_setEnableSoftmaxPostProcessing(
-    cv::dnn::ClassificationModel *model, const int enable)
+CVAPI(ExceptionStatus) dnn_ClassificationModel_setEnableSoftmaxPostProcessing(cv::dnn::ClassificationModel *model, const int enable)
 {
     return cvTry([&] {
     model->setEnableSoftmaxPostProcessing(enable != 0);
     });
 }
 
-CVAPI(ExceptionStatus) dnn_ClassificationModel_getEnableSoftmaxPostProcessing(
-    cv::dnn::ClassificationModel *model, int *returnValue)
+CVAPI(ExceptionStatus) dnn_ClassificationModel_getEnableSoftmaxPostProcessing(cv::dnn::ClassificationModel *model, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = model->getEnableSoftmaxPostProcessing() ? 1 : 0;
@@ -172,10 +186,13 @@ CVAPI(ExceptionStatus) dnn_ClassificationModel_getEnableSoftmaxPostProcessing(
 }
 
 CVAPI(ExceptionStatus) dnn_ClassificationModel_classify(
-    cv::dnn::ClassificationModel *model, cv::_InputArray *frame, int *classId, float *conf)
+    cv::dnn::ClassificationModel *model,
+    const interop::InputArrayProxy* frame,
+    int *classId,
+    float *conf)
 {
     return cvTry([&] {
-    model->classify(*frame, *classId, *conf);
+    model->classify(InProxy(*frame), *classId, *conf);
     });
 }
 
@@ -184,7 +201,9 @@ CVAPI(ExceptionStatus) dnn_ClassificationModel_classify(
 // ----------------------------------------------------------------------------
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_new_String(
-    const char *model, const char *config, cv::dnn::DetectionModel **returnValue)
+    const char *model,
+    const char *config,
+    cv::dnn::DetectionModel **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -225,12 +244,16 @@ CVAPI(ExceptionStatus) dnn_DetectionModel_getNmsAcrossClasses(cv::dnn::Detection
 }
 
 CVAPI(ExceptionStatus) dnn_DetectionModel_detect(
-    cv::dnn::DetectionModel *model, cv::_InputArray *frame,
-    std::vector<int> *classIds, std::vector<float> *confidences, std::vector<cv::Rect> *boxes,
-    const float confThreshold, const float nmsThreshold)
+    cv::dnn::DetectionModel *model,
+    const interop::InputArrayProxy* frame,
+    std::vector<int> *classIds,
+    std::vector<float> *confidences,
+    std::vector<cv::Rect> *boxes,
+    const float confThreshold,
+    const float nmsThreshold)
 {
     return cvTry([&] {
-    model->detect(*frame, *classIds, *confidences, *boxes, confThreshold, nmsThreshold);
+    model->detect(InProxy(*frame), *classIds, *confidences, *boxes, confThreshold, nmsThreshold);
     });
 }
 
@@ -239,7 +262,9 @@ CVAPI(ExceptionStatus) dnn_DetectionModel_detect(
 // ----------------------------------------------------------------------------
 
 CVAPI(ExceptionStatus) dnn_SegmentationModel_new_String(
-    const char *model, const char *config, cv::dnn::SegmentationModel **returnValue)
+    const char *model,
+    const char *config,
+    cv::dnn::SegmentationModel **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -266,10 +291,12 @@ CVAPI(ExceptionStatus) dnn_SegmentationModel_delete(cv::dnn::SegmentationModel *
 }
 
 CVAPI(ExceptionStatus) dnn_SegmentationModel_segment(
-    cv::dnn::SegmentationModel *model, cv::_InputArray *frame, cv::_OutputArray *mask)
+    cv::dnn::SegmentationModel *model,
+    const interop::InputArrayProxy* frame,
+    const interop::OutputArrayProxy* mask)
 {
     return cvTry([&] {
-    model->segment(*frame, *mask);
+    model->segment(InProxy(*frame), OutProxy(*mask));
     });
 }
 
@@ -278,7 +305,9 @@ CVAPI(ExceptionStatus) dnn_SegmentationModel_segment(
 // ----------------------------------------------------------------------------
 
 CVAPI(ExceptionStatus) dnn_KeypointsModel_new_String(
-    const char *model, const char *config, cv::dnn::KeypointsModel **returnValue)
+    const char *model,
+    const char *config,
+    cv::dnn::KeypointsModel **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -305,10 +334,13 @@ CVAPI(ExceptionStatus) dnn_KeypointsModel_delete(cv::dnn::KeypointsModel *model)
 }
 
 CVAPI(ExceptionStatus) dnn_KeypointsModel_estimate(
-    cv::dnn::KeypointsModel *model, cv::_InputArray *frame, std::vector<cv::Point2f> *keypoints, const float thresh)
+    cv::dnn::KeypointsModel *model,
+    const interop::InputArrayProxy* frame,
+    std::vector<cv::Point2f> *keypoints,
+    const float thresh)
 {
     return cvTry([&] {
-    const auto result = model->estimate(*frame, thresh);
+    const auto result = model->estimate(InProxy(*frame), thresh);
     keypoints->assign(result.begin(), result.end());
     });
 }
