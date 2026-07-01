@@ -13,10 +13,14 @@ CVAPI(ExceptionStatus) core_LDA_new1(int num_components, cv::LDA **returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_LDA_new2(cv::_InputArray *src, cv::_InputArray *labels, int num_components, cv::LDA **returnValue)
+CVAPI(ExceptionStatus) core_LDA_new2(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* labels,
+    int num_components,
+    cv::LDA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::LDA(*src, *labels, num_components);
+    *returnValue = new cv::LDA(InProxy(*src), InProxy(*labels), num_components);
     });
 }
 
@@ -55,25 +59,34 @@ CVAPI(ExceptionStatus) core_LDA_load_FileStorage(cv::LDA *obj, cv::FileStorage *
     });
 }
 
-CVAPI(ExceptionStatus) core_LDA_compute(cv::LDA *obj, cv::_InputArray *src, cv::_InputArray *labels)
+CVAPI(ExceptionStatus) core_LDA_compute(
+    cv::LDA *obj,
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* labels)
 {
     return cvTry([&] {
-    obj->compute(*src, *labels);
+    obj->compute(InProxy(*src), InProxy(*labels));
     });
 }
 
-CVAPI(ExceptionStatus) core_LDA_project(cv::LDA *obj, cv::_InputArray *src, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_LDA_project(
+    cv::LDA *obj,
+    const interop::InputArrayProxy* src,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = obj->project(*src);
+    const auto mat = obj->project(InProxy(*src));
     *returnValue = new cv::Mat(mat);
     });
 }
 
-CVAPI(ExceptionStatus) core_LDA_reconstruct(cv::LDA *obj, cv::_InputArray *src, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_LDA_reconstruct(
+    cv::LDA *obj,
+    const interop::InputArrayProxy* src,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = obj->reconstruct(*src);
+    const auto mat = obj->reconstruct(InProxy(*src));
     *returnValue = new cv::Mat(mat);
     });
 }
@@ -94,17 +107,25 @@ CVAPI(ExceptionStatus) core_LDA_eigenvalues(cv::LDA *obj, cv::Mat **returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_LDA_subspaceProject(cv::_InputArray *W, cv::_InputArray *mean, cv::_InputArray *src, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_LDA_subspaceProject(
+    const interop::InputArrayProxy* W,
+    const interop::InputArrayProxy* mean,
+    const interop::InputArrayProxy* src,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::LDA::subspaceProject(*W, *mean, *src);
+    const auto mat = cv::LDA::subspaceProject(InProxy(*W), InProxy(*mean), InProxy(*src));
     *returnValue = new cv::Mat(mat);
     });
 }
-CVAPI(ExceptionStatus) core_LDA_subspaceReconstruct(cv::_InputArray *W, cv::_InputArray *mean, cv::_InputArray *src, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_LDA_subspaceReconstruct(
+    const interop::InputArrayProxy* W,
+    const interop::InputArrayProxy* mean,
+    const interop::InputArrayProxy* src,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::LDA::subspaceReconstruct(*W, *mean, *src);
+    const auto mat = cv::LDA::subspaceReconstruct(InProxy(*W), InProxy(*mean), InProxy(*src));
     *returnValue = new cv::Mat(mat);
     });
 }

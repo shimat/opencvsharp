@@ -68,17 +68,17 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_UMat_clone(OpenCvSafeHandle self, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo1(OpenCvSafeHandle self, IntPtr m);
+    internal static partial ExceptionStatus core_UMat_copyTo1(OpenCvSafeHandle self, in OutputArrayProxy m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo2(OpenCvSafeHandle self, IntPtr m, IntPtr mask);
+    internal static partial ExceptionStatus core_UMat_copyTo2(OpenCvSafeHandle self, in OutputArrayProxy m, in InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_copyTo_toUMat1(OpenCvSafeHandle self, IntPtr m);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_copyTo_toUMat2(OpenCvSafeHandle self, IntPtr m, IntPtr mask);
+    internal static partial ExceptionStatus core_UMat_copyTo_toUMat2(OpenCvSafeHandle self, IntPtr m, in InputArrayProxy mask);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_convertTo(OpenCvSafeHandle self, IntPtr m, MatType rtype, double alpha, double beta);
+    internal static partial ExceptionStatus core_UMat_convertTo(OpenCvSafeHandle self, in OutputArrayProxy m, MatType rtype, double alpha, double beta);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_assignTo(OpenCvSafeHandle self, IntPtr m, int type);
@@ -86,7 +86,7 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_setTo_Scalar(OpenCvSafeHandle self, Scalar value, IntPtr mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_setTo_InputArray(OpenCvSafeHandle self, IntPtr value, IntPtr mask);
+    internal static partial ExceptionStatus core_UMat_setTo_InputArray(OpenCvSafeHandle self, in InputArrayProxy value, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_reshape1(
@@ -102,10 +102,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_UMat_inv(OpenCvSafeHandle self, int method, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_mul(OpenCvSafeHandle self, IntPtr m, double scale, out IntPtr returnValue);
+    internal static partial ExceptionStatus core_UMat_mul(OpenCvSafeHandle self, in InputArrayProxy m, double scale, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_UMat_dot(OpenCvSafeHandle self, IntPtr m, out double returnValue);
+    internal static partial ExceptionStatus core_UMat_dot(OpenCvSafeHandle self, in InputArrayProxy m, out double returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_UMat_zeros1(
