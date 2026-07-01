@@ -58,11 +58,11 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_projectPoints2(
-                    objectPoints.CvPtr,
-                    imagePoints.CvPtr,
-                    rvec.CvPtr, tvec.CvPtr,
-                    k.CvPtr, d.CvPtr,
-                    alpha, ToPtr(jacobian)));
+                    objectPoints.ToInputProxy(),
+                    imagePoints.ToOutputProxy(),
+                    rvec.ToInputProxy(), tvec.ToInputProxy(),
+                    k.ToInputProxy(), d.ToInputProxy(),
+                    alpha, jacobian?.ToOutputProxy() ?? default));
 
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(rvec);
@@ -100,7 +100,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints(
-                    undistorted.CvPtr, distorted.CvPtr, k.CvPtr, d.CvPtr, alpha));
+                    undistorted.ToInputProxy(), distorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), alpha));
 
             GC.KeepAlive(undistorted);
             GC.KeepAlive(distorted);
@@ -141,7 +141,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints2(
-                    undistorted.CvPtr, distorted.CvPtr, kundistorted.CvPtr, k.CvPtr, d.CvPtr, alpha));
+                    undistorted.ToInputProxy(), distorted.ToOutputProxy(), kundistorted.ToInputProxy(), k.ToInputProxy(), d.ToInputProxy(), alpha));
 
             distorted.Fix();
             GC.KeepAlive(undistorted);
@@ -183,7 +183,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortPoints(
-                    distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(r), ToPtr(p)));
+                    distorted.ToInputProxy(), undistorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default));
 
             GC.KeepAlive(distorted);
             GC.KeepAlive(undistorted);
@@ -230,7 +230,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_initUndistortRectifyMap(
-                    k.CvPtr, d.CvPtr, r.CvPtr, p.CvPtr, size, m1type, map1.CvPtr, map2.CvPtr));
+                    k.ToInputProxy(), d.ToInputProxy(), r.ToInputProxy(), p.ToInputProxy(), size, m1type, map1.ToOutputProxy(), map2.ToOutputProxy()));
                 
             GC.KeepAlive(k);
             GC.KeepAlive(d);
@@ -270,7 +270,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortImage(
-                    distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(knew), newSize));
+                    distorted.ToInputProxy(), undistorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), knew?.ToInputProxy() ?? default, newSize));
 
             GC.KeepAlive(distorted);
             GC.KeepAlive(undistorted);
@@ -311,7 +311,7 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
-                    k.CvPtr, d.CvPtr, imageSize, r.CvPtr, p.CvPtr, balance, newSize, fovScale));
+                    k.ToInputProxy(), d.ToInputProxy(), imageSize, r.ToInputProxy(), p.ToOutputProxy(), balance, newSize, fovScale));
 
             GC.KeepAlive(k);
             GC.KeepAlive(d);
@@ -365,7 +365,7 @@ static partial class Cv2
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_calibrate(
                     objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
-                    k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal, out var result));
+                    k.ToInputOutputProxy(), d.ToInputOutputProxy(), rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal, out var result));
 
             rvecs = rvecsVec.ToArray();
             tvecs = tvecsVec.ToArray();
@@ -447,9 +447,9 @@ static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_stereoRectify(
-                    k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr,
-                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr,
-                    p1.CvPtr, p2.CvPtr, q.CvPtr, (int) flags, newImageSize, balance, fovScale));
+                    k1.ToInputProxy(), d1.ToInputProxy(), k2.ToInputProxy(), d2.ToInputProxy(),
+                    imageSize, r.ToInputProxy(), tvec.ToInputProxy(), r1.ToOutputProxy(), r2.ToOutputProxy(),
+                    p1.ToOutputProxy(), p2.ToOutputProxy(), q.ToOutputProxy(), (int) flags, newImageSize, balance, fovScale));
 
             GC.KeepAlive(k1);
             GC.KeepAlive(d1);
@@ -523,8 +523,8 @@ static partial class Cv2
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_stereoCalibrate(
                     objectPointsVec.CvPtr, imagePoints1Vec.CvPtr, imagePoints2Vec.CvPtr,
-                    k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr, imageSize,
-                    r.CvPtr, t.CvPtr, (int) flags, criteriaVal, out var result));
+                    k1.ToInputOutputProxy(), d1.ToInputOutputProxy(), k2.ToInputOutputProxy(), d2.ToInputOutputProxy(), imageSize,
+                    r.ToOutputProxy(), t.ToOutputProxy(), (int) flags, criteriaVal, out var result));
 
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(imagePoints1);

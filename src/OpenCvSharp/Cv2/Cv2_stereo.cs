@@ -127,10 +127,10 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.stereo_stereoRectify_InputArray(
-                cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
-                cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
-                imageSize, R.CvPtr, T.CvPtr,
-                R1.CvPtr, R2.CvPtr, P1.CvPtr, P2.CvPtr, Q.CvPtr,
+                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(),
+                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(),
+                imageSize, R.ToInputProxy(), T.ToInputProxy(),
+                R1.ToOutputProxy(), R2.ToOutputProxy(), P1.ToOutputProxy(), P2.ToOutputProxy(), Q.ToOutputProxy(),
                 (int) flags, alpha, newImageSize, out validPixROI1, out validPixROI2));
 
         GC.KeepAlive(cameraMatrix1);
@@ -313,7 +313,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.stereo_stereoRectifyUncalibrated_InputArray(
-                points1.CvPtr, points2.CvPtr, F.CvPtr, imgSize, H1.CvPtr, H2.CvPtr, threshold, out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), F.ToInputProxy(), imgSize, H1.ToOutputProxy(), H2.ToOutputProxy(), threshold, out var ret));
 
         GC.KeepAlive(points1);
         GC.KeepAlive(points2);
@@ -481,13 +481,13 @@ static partial class Cv2
         var imgpt3Ptrs = imgpt3.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
             NativeMethods.stereo_rectify3Collinear_InputArray(
-                cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
-                cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
-                cameraMatrix3.CvPtr, distCoeffs3.CvPtr,
+                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(),
+                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(),
+                cameraMatrix3.ToInputProxy(), distCoeffs3.ToInputProxy(),
                 imgpt1Ptrs, imgpt1Ptrs.Length, imgpt3Ptrs, imgpt3Ptrs.Length,
-                imageSize, R12.CvPtr, T12.CvPtr, R13.CvPtr, T13.CvPtr,
-                R1.CvPtr, R2.CvPtr, R3.CvPtr, P1.CvPtr, P2.CvPtr, P3.CvPtr,
-                Q.CvPtr, alpha, newImgSize, out roi1, out roi2, (int) flags, out var ret));
+                imageSize, R12.ToInputProxy(), T12.ToInputProxy(), R13.ToInputProxy(), T13.ToInputProxy(),
+                R1.ToOutputProxy(), R2.ToOutputProxy(), R3.ToOutputProxy(), P1.ToOutputProxy(), P2.ToOutputProxy(), P3.ToOutputProxy(),
+                Q.ToOutputProxy(), alpha, newImgSize, out roi1, out roi2, (int) flags, out var ret));
 
         GC.KeepAlive(cameraMatrix1);
         GC.KeepAlive(distCoeffs1);
@@ -536,7 +536,7 @@ static partial class Cv2
         img.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.stereo_filterSpeckles(img.CvPtr, newVal, maxSpeckleSize, maxDiff, ToPtr(buf)));
+            NativeMethods.stereo_filterSpeckles(img.ToInputOutputProxy(), newVal, maxSpeckleSize, maxDiff, buf?.ToInputOutputProxy() ?? default));
         GC.KeepAlive(img);
         GC.KeepAlive(buf);
         img.Fix();
@@ -580,7 +580,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.stereo_validateDisparity(
-                disparity.CvPtr, cost.CvPtr, minDisparity, numberOfDisparities, disp12MaxDisp));
+                disparity.ToInputOutputProxy(), cost.ToInputProxy(), minDisparity, numberOfDisparities, disp12MaxDisp));
 
         disparity.Fix();
         GC.KeepAlive(disparity);
@@ -615,7 +615,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.stereo_reprojectImageTo3D(
-                disparity.CvPtr, _3dImage.CvPtr, Q.CvPtr, handleMissingValues ? 1 : 0, ddepth));
+                disparity.ToInputProxy(), _3dImage.ToOutputProxy(), Q.ToInputProxy(), handleMissingValues ? 1 : 0, ddepth));
 
         _3dImage.Fix();
         GC.KeepAlive(disparity);

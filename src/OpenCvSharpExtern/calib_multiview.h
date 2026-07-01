@@ -10,16 +10,28 @@
 
 // registerCameras (OpenCV 5): registers a pair of cameras (possibly with different camera models).
 CVAPI(ExceptionStatus) calib_registerCameras(
-    cv::Mat **objectPoints1, int objectPoints1Size,
-    cv::Mat **objectPoints2, int objectPoints2Size,
-    cv::Mat **imagePoints1, int imagePoints1Size,
-    cv::Mat **imagePoints2, int imagePoints2Size,
-    cv::_InputArray *cameraMatrix1, cv::_InputArray *distCoeffs1, int cameraModel1,
-    cv::_InputArray *cameraMatrix2, cv::_InputArray *distCoeffs2, int cameraModel2,
-    cv::_InputOutputArray *R, cv::_InputOutputArray *T,
-    cv::_OutputArray *E, cv::_OutputArray *F,
-    cv::_OutputArray *perViewErrors,
-    int flags, interop::TermCriteria criteria, double *returnValue)
+    cv::Mat **objectPoints1,
+    int objectPoints1Size,
+    cv::Mat **objectPoints2,
+    int objectPoints2Size,
+    cv::Mat **imagePoints1,
+    int imagePoints1Size,
+    cv::Mat **imagePoints2,
+    int imagePoints2Size,
+    const interop::InputArrayProxy* cameraMatrix1,
+    const interop::InputArrayProxy* distCoeffs1,
+    int cameraModel1,
+    const interop::InputArrayProxy* cameraMatrix2,
+    const interop::InputArrayProxy* distCoeffs2,
+    int cameraModel2,
+    const interop::InputOutputArrayProxy* R,
+    const interop::InputOutputArrayProxy* T,
+    const interop::OutputArrayProxy* E,
+    const interop::OutputArrayProxy* F,
+    const interop::OutputArrayProxy* perViewErrors,
+    int flags,
+    interop::TermCriteria criteria,
+    double *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> op1(objectPoints1Size), op2(objectPoints2Size), ip1(imagePoints1Size), ip2(imagePoints2Size);
@@ -30,9 +42,9 @@ CVAPI(ExceptionStatus) calib_registerCameras(
 
     *returnValue = cv::registerCameras(
         op1, op2, ip1, ip2,
-        *cameraMatrix1, *distCoeffs1, static_cast<cv::CameraModel>(cameraModel1),
-        *cameraMatrix2, *distCoeffs2, static_cast<cv::CameraModel>(cameraModel2),
-        *R, *T, *E, *F, *perViewErrors, flags, cpp(criteria));
+        InProxy(*cameraMatrix1), InProxy(*distCoeffs1), static_cast<cv::CameraModel>(cameraModel1),
+        InProxy(*cameraMatrix2), InProxy(*distCoeffs2), static_cast<cv::CameraModel>(cameraModel2),
+        IoProxy(*R), IoProxy(*T), OutProxy(*E), OutProxy(*F), OutProxy(*perViewErrors), flags, cpp(criteria));
     });
 }
 
@@ -40,14 +52,23 @@ CVAPI(ExceptionStatus) calib_registerCameras(
 // imagePoints is a flat array of NUM_CAMERAS x framesPerCamera[i] matrices.
 // Ks / distortions / Rs / Ts are InputOutputArrayOfArrays; pass empty vectors to receive the outputs.
 CVAPI(ExceptionStatus) calib_calibrateMultiview(
-    cv::Mat **objPoints, int objPointsSize,
-    cv::Mat **imagePoints, int numCameras, int *framesPerCamera,
-    interop::Size *imageSize, int imageSizeSize,
-    cv::_InputArray *detectionMask, cv::_InputArray *models,
-    std::vector<cv::Mat> *Ks, std::vector<cv::Mat> *distortions,
-    std::vector<cv::Mat> *Rs, std::vector<cv::Mat> *Ts,
-    cv::_InputArray *flagsForIntrinsics, int flags,
-    interop::TermCriteria criteria, double *returnValue)
+    cv::Mat **objPoints,
+    int objPointsSize,
+    cv::Mat **imagePoints,
+    int numCameras,
+    int *framesPerCamera,
+    interop::Size *imageSize,
+    int imageSizeSize,
+    const interop::InputArrayProxy* detectionMask,
+    const interop::InputArrayProxy* models,
+    std::vector<cv::Mat> *Ks,
+    std::vector<cv::Mat> *distortions,
+    std::vector<cv::Mat> *Rs,
+    std::vector<cv::Mat> *Ts,
+    const interop::InputArrayProxy* flagsForIntrinsics,
+    int flags,
+    interop::TermCriteria criteria,
+    double *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> objPointsVec(objPointsSize);
@@ -69,9 +90,9 @@ CVAPI(ExceptionStatus) calib_calibrateMultiview(
 
     *returnValue = cv::calibrateMultiview(
         objPointsVec, imagePointsVec, imageSizeVec,
-        *detectionMask, *models,
+        InProxy(*detectionMask), InProxy(*models),
         *Ks, *distortions, *Rs, *Ts,
-        entity(flagsForIntrinsics), flags, cpp(criteria));
+        InProxy(*flagsForIntrinsics), flags, cpp(criteria));
     });
 }
 
