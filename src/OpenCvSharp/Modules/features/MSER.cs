@@ -153,8 +153,7 @@ public class MSER : Feature2D
         using (var bboxesVec = new StdVector<Rect>())
         {
             NativeMethods.HandleException(
-                NativeMethods.features_MSER_detectRegions(
-                    Handle, image.CvPtr, msersVec.CvPtr, bboxesVec.CvPtr));
+                NativeMethods.features_MSER_detectRegions(Handle, image.ToInputProxy(), msersVec.CvPtr, bboxesVec.CvPtr));
             msers = msersVec.ToArray();
             bboxes = bboxesVec.ToArray();
         }

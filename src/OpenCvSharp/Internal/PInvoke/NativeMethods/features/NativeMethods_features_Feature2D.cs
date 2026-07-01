@@ -22,20 +22,20 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Feature2D_detect_Mat2(
         OpenCvSafeHandle detector, IntPtr[] images, int imageLength, IntPtr keypoints, IntPtr[]? mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_detect_InputArray(
-        OpenCvSafeHandle detector, IntPtr image, IntPtr keypoints, IntPtr mask);
+    internal static partial ExceptionStatus features_Feature2D_detect_InputArray(
+        OpenCvSafeHandle detector, in InputArrayProxy image, IntPtr keypoints, in InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_compute1(OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, IntPtr descriptors);
+    internal static partial ExceptionStatus features_Feature2D_compute1(OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr keypoints, in OutputArrayProxy descriptors);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_compute2(
         OpenCvSafeHandle detector, IntPtr[] images, int imageLength,
         IntPtr keypoints, IntPtr[] descriptors, int descriptorsLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_Feature2D_detectAndCompute(
-        OpenCvSafeHandle detector, IntPtr image, IntPtr mask,
-        IntPtr keypoints, IntPtr descriptors, int useProvidedKeypoints);
+    internal static partial ExceptionStatus features_Feature2D_detectAndCompute(
+        OpenCvSafeHandle detector, in InputArrayProxy image, in InputArrayProxy mask,
+        IntPtr keypoints, in OutputArrayProxy descriptors, int useProvidedKeypoints);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Feature2D_descriptorSize(OpenCvSafeHandle obj, out int returnValue);
@@ -137,8 +137,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Ptr_MSER_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_MSER_detectRegions(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr msers, IntPtr bboxes);
+    internal static partial ExceptionStatus features_MSER_detectRegions(
+        OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr msers, IntPtr bboxes);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_MSER_setDelta(OpenCvSafeHandle obj, int delta);
@@ -165,9 +165,9 @@ static partial class NativeMethods
     #region FastFeatureDetector
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FAST1(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression);
+    internal static partial ExceptionStatus features_FAST1(in InputArrayProxy image, IntPtr keypoints, int threshold, int nonmaxSupression);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_FAST2(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression, int type);
+    internal static partial ExceptionStatus features_FAST2(in InputArrayProxy image, IntPtr keypoints, int threshold, int nonmaxSupression, int type);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_FastFeatureDetector_create(int threshold, int nonmaxSuppression, out IntPtr returnValue);

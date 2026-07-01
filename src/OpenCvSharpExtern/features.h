@@ -9,21 +9,36 @@
 #include "include_opencv.h"
 
 
-CVAPI(ExceptionStatus) features_drawKeypoints(cv::_InputArray *image, cv::KeyPoint *keypoints, int keypointsLength,
-    cv::_InputOutputArray *outImage, interop::Scalar color, int flags)
+CVAPI(ExceptionStatus) features_drawKeypoints(
+    const interop::InputArrayProxy* image,
+    cv::KeyPoint *keypoints,
+    int keypointsLength,
+    const interop::InputOutputArrayProxy* outImage,
+    interop::Scalar color,
+    int flags)
 {
     return cvTry([&] {
     const std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
-    cv::drawKeypoints(*image, keypointsVec, *outImage, cpp(color), static_cast<cv::DrawMatchesFlags>(flags));
+    cv::drawKeypoints(InProxy(*image), keypointsVec, IoProxy(*outImage), cpp(color), static_cast<cv::DrawMatchesFlags>(flags));
     });
 }
 
 
-CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
-    cv::Mat *img2, cv::KeyPoint *keypoints2, int keypoints2Length,
-    cv::DMatch *matches1to2, int matches1to2Length, cv::Mat *outImg,
-    interop::Scalar matchColor, interop::Scalar singlePointColor,
-    char *matchesMask, int matchesMaskLength, int flags)
+CVAPI(ExceptionStatus) features_drawMatches(
+    cv::Mat *img1,
+    cv::KeyPoint *keypoints1,
+    int keypoints1Length,
+    cv::Mat *img2,
+    cv::KeyPoint *keypoints2,
+    int keypoints2Length,
+    cv::DMatch *matches1to2,
+    int matches1to2Length,
+    cv::Mat *outImg,
+    interop::Scalar matchColor,
+    interop::Scalar singlePointColor,
+    char *matchesMask,
+    int matchesMaskLength,
+    int flags)
 {
     return cvTry([&] {
     const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
@@ -37,11 +52,23 @@ CVAPI(ExceptionStatus) features_drawMatches(cv::Mat *img1, cv::KeyPoint *keypoin
     });
 }
 
-CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
-    cv::Mat *img2, cv::KeyPoint *keypoints2, int keypoints2Length,
-    cv::DMatch **matches1to2, int matches1to2Size1, int *matches1to2Size2,
-    cv::Mat *outImg, interop::Scalar matchColor, interop::Scalar singlePointColor,
-    char **matchesMask, int matchesMaskSize1, int *matchesMaskSize2, int flags)
+CVAPI(ExceptionStatus) features_drawMatchesKnn(
+    cv::Mat *img1,
+    cv::KeyPoint *keypoints1,
+    int keypoints1Length,
+    cv::Mat *img2,
+    cv::KeyPoint *keypoints2,
+    int keypoints2Length,
+    cv::DMatch **matches1to2,
+    int matches1to2Size1,
+    int *matches1to2Size2,
+    cv::Mat *outImg,
+    interop::Scalar matchColor,
+    interop::Scalar singlePointColor,
+    char **matchesMask,
+    int matchesMaskSize1,
+    int *matchesMaskSize2,
+    int flags)
 {
     return cvTry([&] {
     const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
@@ -71,9 +98,13 @@ CVAPI(ExceptionStatus) features_drawMatchesKnn(cv::Mat *img1, cv::KeyPoint *keyp
 
 
 CVAPI(ExceptionStatus) features_evaluateFeatureDetector(
-    cv::Mat *img1, cv::Mat *img2, cv::Mat *H1to2,
-    std::vector<cv::KeyPoint> *keypoints1, std::vector<cv::KeyPoint> *keypoints2,
-    float *repeatability, int *correspCount/*,
+    cv::Mat *img1,
+    cv::Mat *img2,
+    cv::Mat *H1to2,
+    std::vector<cv::KeyPoint> *keypoints1,
+    std::vector<cv::KeyPoint> *keypoints2,
+    float *repeatability,
+    int *correspCount/*,
     const Ptr<FeatureDetector>& fdetector = Ptr<FeatureDetector>()*/)
 {
     return cvTry([&] {
@@ -84,8 +115,12 @@ CVAPI(ExceptionStatus) features_evaluateFeatureDetector(
 }
 
 CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
-    cv::DMatch **matches1to2, int matches1to2Size1, int *matches1to2Size2,
-    uchar **correctMatches1to2Mask, int correctMatches1to2MaskSize1, int *correctMatches1to2MaskSize2,
+    cv::DMatch **matches1to2,
+    int matches1to2Size1,
+    int *matches1to2Size2,
+    uchar **correctMatches1to2Mask,
+    int correctMatches1to2MaskSize1,
+    int *correctMatches1to2MaskSize2,
     std::vector<cv::Point2f> *recallPrecisionCurve)
 {
     return cvTry([&] {
@@ -107,7 +142,10 @@ CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
 }
 
 CVAPI(ExceptionStatus) features_getRecall(
-    cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, float *returnValue)
+    cv::Point2f *recallPrecisionCurve,
+    int recallPrecisionCurveSize,
+    float l_precision,
+    float *returnValue)
 {
     return cvTry([&] {
     const std::vector<cv::Point2f> recallPrecisionCurveVec(
@@ -117,7 +155,10 @@ CVAPI(ExceptionStatus) features_getRecall(
 }
 
 CVAPI(ExceptionStatus) features_getNearestPoint(
-    cv::Point2f *recallPrecisionCurve, int recallPrecisionCurveSize, float l_precision, int *returnValue)
+    cv::Point2f *recallPrecisionCurve,
+    int recallPrecisionCurveSize,
+    float l_precision,
+    int *returnValue)
 {
     return cvTry([&] {
     const std::vector<cv::Point2f> recallPrecisionCurveVec(
@@ -130,7 +171,9 @@ CVAPI(ExceptionStatus) features_getNearestPoint(
 #pragma region KeyPointsFilter
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByImageBorder(
-    std::vector<cv::KeyPoint> *keypoints, interop::Size imageSize, int borderSize)
+    std::vector<cv::KeyPoint> *keypoints,
+    interop::Size imageSize,
+    int borderSize)
 {
     return cvTry([&] {
     cv::KeyPointsFilter::runByImageBorder(*keypoints, cpp(imageSize), borderSize);
@@ -138,7 +181,9 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByImageBorder(
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByKeypointSize(
-    std::vector<cv::KeyPoint> *keypoints, float minSize, float maxSize)
+    std::vector<cv::KeyPoint> *keypoints,
+    float minSize,
+    float maxSize)
 {
     return cvTry([&] {
     cv::KeyPointsFilter::runByKeypointSize(*keypoints, minSize, maxSize);

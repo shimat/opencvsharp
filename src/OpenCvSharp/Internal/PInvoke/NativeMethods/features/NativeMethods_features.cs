@@ -12,9 +12,9 @@ static partial class NativeMethods
     // ReSharper disable InconsistentNaming
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_drawKeypoints(
-        IntPtr image, KeyPoint[] keypoints, int keypointsLength,
-        IntPtr outImage, Scalar color, int flags);
+    internal static partial ExceptionStatus features_drawKeypoints(
+        in InputArrayProxy image, KeyPoint[] keypoints, int keypointsLength,
+        in InputOutputArrayProxy outImage, Scalar color, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_drawMatches(
