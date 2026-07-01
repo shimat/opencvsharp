@@ -146,7 +146,7 @@ public class DnnSuperResImpl : CvObject
         result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(Handle, img.CvPtr, result.CvPtr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(Handle, img.ToInputProxy(), result.ToOutputProxy()));
 
         GC.KeepAlive(img);
         result.Fix();
@@ -176,7 +176,7 @@ public class DnnSuperResImpl : CvObject
         var nodeNamesArray = nodeNames as string[] ?? nodeNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-                Handle, img.CvPtr, imgsNewVec.CvPtr,
+                Handle, img.ToInputProxy(), imgsNewVec.CvPtr,
                 scaleFactorsArray, scaleFactorsArray.Length, 
                 nodeNamesArray, nodeNamesArray.Length));
 

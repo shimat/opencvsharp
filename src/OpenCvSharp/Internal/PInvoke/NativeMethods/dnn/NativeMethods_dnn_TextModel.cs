@@ -46,19 +46,19 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_TextRecognitionModel_getVocabulary(OpenCvSafeHandle model, IntPtr outVec);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextRecognitionModel_recognize(OpenCvSafeHandle model, IntPtr frame, IntPtr outString);
+    internal static partial ExceptionStatus dnn_TextRecognitionModel_recognize(OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr outString);
 
     // ------------------------------------------------------------------------
     // TextDetectionModel (base; shared by EAST and DB)
     // ------------------------------------------------------------------------
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_detect(
-        OpenCvSafeHandle model, IntPtr frame, IntPtr detections, IntPtr confidences);
+    internal static partial ExceptionStatus dnn_TextDetectionModel_detect(
+        OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr detections, IntPtr confidences);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_TextDetectionModel_detectTextRectangles(
-        OpenCvSafeHandle model, IntPtr frame, IntPtr detections, IntPtr confidences);
+    internal static partial ExceptionStatus dnn_TextDetectionModel_detectTextRectangles(
+        OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr detections, IntPtr confidences);
 
     // ------------------------------------------------------------------------
     // TextDetectionModel_EAST

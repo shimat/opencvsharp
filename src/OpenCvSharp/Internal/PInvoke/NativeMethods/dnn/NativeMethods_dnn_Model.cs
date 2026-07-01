@@ -50,7 +50,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_Model_setOutputNames(OpenCvSafeHandle model, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] outNames, int outNamesLength);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_Model_predict(OpenCvSafeHandle model, IntPtr frame, IntPtr outs);
+    internal static partial ExceptionStatus dnn_Model_predict(OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr outs);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Model_setPreferableBackend(OpenCvSafeHandle model, int backendId);
@@ -84,7 +84,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_ClassificationModel_getEnableSoftmaxPostProcessing(OpenCvSafeHandle model, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_ClassificationModel_classify(OpenCvSafeHandle model, IntPtr frame, out int classId, out float conf);
+    internal static partial ExceptionStatus dnn_ClassificationModel_classify(OpenCvSafeHandle model, in InputArrayProxy frame, out int classId, out float conf);
 
     // ------------------------------------------------------------------------
     // DetectionModel
@@ -109,8 +109,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_DetectionModel_getNmsAcrossClasses(OpenCvSafeHandle model, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_DetectionModel_detect(
-        OpenCvSafeHandle model, IntPtr frame, IntPtr classIds, IntPtr confidences, IntPtr boxes,
+    internal static partial ExceptionStatus dnn_DetectionModel_detect(
+        OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr classIds, IntPtr confidences, IntPtr boxes,
         float confThreshold, float nmsThreshold);
 
     // ------------------------------------------------------------------------
@@ -130,7 +130,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_SegmentationModel_delete(IntPtr model);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_SegmentationModel_segment(OpenCvSafeHandle model, IntPtr frame, IntPtr mask);
+    internal static partial ExceptionStatus dnn_SegmentationModel_segment(OpenCvSafeHandle model, in InputArrayProxy frame, in OutputArrayProxy mask);
 
     // ------------------------------------------------------------------------
     // KeypointsModel
@@ -149,5 +149,5 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_KeypointsModel_delete(IntPtr model);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_KeypointsModel_estimate(OpenCvSafeHandle model, IntPtr frame, IntPtr keypoints, float thresh);
+    internal static partial ExceptionStatus dnn_KeypointsModel_estimate(OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr keypoints, float thresh);
 }

@@ -43,6 +43,13 @@ public class TextModelTest : TestBase
         Assert.NotEmpty(detections);
         Assert.Equal(detections.Length, confidences.Length);
         Assert.All(confidences, c => Assert.True(c >= 0.5f, $"confidence {c} below threshold"));
+
+        // TextDetectionModel.Detect (axis-aligned polygon points) is a separate native
+        // function from DetectTextRectangles (rotated rects); exercise it on the same
+        // already-downloaded model to cover its InputArray/vector-out-param wiring too.
+        model.Detect(img, out var polygonDetections, out var polygonConfidences);
+        Assert.NotEmpty(polygonDetections);
+        Assert.Equal(polygonDetections.Length, polygonConfidences.Length);
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
@@ -59,6 +66,12 @@ public class TextModelTest : TestBase
         Assert.Equal(vocabulary, model.GetVocabulary());
 
         model.SetDecodeOptsCTCPrefixBeamSearch(10);
+
+        // Smoke test for the ArrayProxy wiring: an empty Net has no forward pass to run,
+        // so Recognize is expected to fail, but reaching native and failing there still
+        // proves the InputArray (frame) param is marshalled correctly.
+        using var image = LoadImage("lenna.png", ImreadModes.Grayscale);
+        Assert.ThrowsAny<Exception>(() => model.Recognize(image));
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]

@@ -144,8 +144,8 @@ static partial class NativeMethods
     // blobFromImageWithParams
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_blobFromImageWithParams(
-        IntPtr image, Scalar scalefactor, Size size, Scalar mean,
+    internal static partial ExceptionStatus dnn_blobFromImageWithParams(
+        in InputArrayProxy image, Scalar scalefactor, Size size, Scalar mean,
         int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
