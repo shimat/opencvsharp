@@ -14,10 +14,10 @@ static partial class NativeMethods
     #region bm3d_image_denoising.hpp
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_bm3dDenoising1(
-        IntPtr src,
-        IntPtr dstStep1,
-        IntPtr dstStep2,
+    internal static partial ExceptionStatus xphoto_bm3dDenoising1(
+        in InputArrayProxy src,
+        in InputOutputArrayProxy dstStep1,
+        in OutputArrayProxy dstStep2,
         float h,
         int templateWindowSize,
         int searchWindowSize,
@@ -31,9 +31,9 @@ static partial class NativeMethods
         int transformType);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_bm3dDenoising2(
-        IntPtr src,
-        IntPtr dst,
+    internal static partial ExceptionStatus xphoto_bm3dDenoising2(
+        in InputArrayProxy src,
+        in OutputArrayProxy dst,
         float h,
         int templateWindowSize,
         int searchWindowSize,
@@ -65,8 +65,8 @@ static partial class NativeMethods
     #region oilpainting.hpp
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_oilPainting(
-        IntPtr src, IntPtr dst, int size, int dynRatio, int code);
+    internal static partial ExceptionStatus xphoto_oilPainting(
+        in InputArrayProxy src, in OutputArrayProxy dst, int size, int dynRatio, int code);
         
     #endregion
 
@@ -111,8 +111,8 @@ static partial class NativeMethods
     #region white_balance.hpp
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_applyChannelGains(
-        IntPtr src, IntPtr dst, float gainB, float gainG, float gainR);
+    internal static partial ExceptionStatus xphoto_applyChannelGains(
+        in InputArrayProxy src, in OutputArrayProxy dst, float gainB, float gainG, float gainR);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xphoto_createGrayworldWB(out IntPtr returnValue);
@@ -124,7 +124,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_GrayworldWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_GrayworldWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus xphoto_GrayworldWB_balanceWhite(OpenCvSafeHandle prt, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_get(OpenCvSafeHandle ptr, out float returnValue);
@@ -143,10 +143,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_LearningBasedWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus xphoto_LearningBasedWB_balanceWhite(OpenCvSafeHandle prt, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_LearningBasedWB_extractSimpleFeatures(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus xphoto_LearningBasedWB_extractSimpleFeatures(OpenCvSafeHandle prt, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xphoto_LearningBasedWB_HistBinNum_set(OpenCvSafeHandle prt, int value);
@@ -177,7 +177,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus xphoto_Ptr_SimpleWB_get(IntPtr prt, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xphoto_SimpleWB_balanceWhite(OpenCvSafeHandle prt, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus xphoto_SimpleWB_balanceWhite(OpenCvSafeHandle prt, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xphoto_SimpleWB_InputMax_get(OpenCvSafeHandle prt, out float returnValue);

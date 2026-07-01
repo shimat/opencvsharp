@@ -142,7 +142,7 @@ public class SimpleWB : WhiteBalancer
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.xphoto_SimpleWB_balanceWhite(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_SimpleWB_balanceWhite(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);

@@ -69,10 +69,7 @@ public static partial class Cv2
             dstStep2.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising1(
-                    src.CvPtr, dstStep1.CvPtr, dstStep2.CvPtr, h, templateWindowSize,
-                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
-                    (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising1(src.ToInputProxy(), dstStep1.ToInputOutputProxy(), dstStep2.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dstStep1.Fix();
@@ -126,10 +123,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising2(
-                    src.CvPtr, dst.CvPtr, h, templateWindowSize,
-                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
-                    (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising2(src.ToInputProxy(), dst.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -221,9 +215,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting(
-                    src.CvPtr, dst.CvPtr, size, dynRatio,
-                    code.HasValue ? (int)code : -1));
+                NativeMethods.xphoto_oilPainting(src.ToInputProxy(), dst.ToOutputProxy(), size, dynRatio, code.HasValue ? (int)code : -1));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -252,7 +244,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR));
+                NativeMethods.xphoto_applyChannelGains(src.ToInputProxy(), dst.ToOutputProxy(), gainB, gainG, gainR));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
