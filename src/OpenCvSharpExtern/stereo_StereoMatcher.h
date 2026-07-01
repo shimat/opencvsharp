@@ -11,97 +11,88 @@
 #pragma region StereoMatcher
 
 CVAPI(ExceptionStatus) stereo_StereoMatcher_compute(
-    cv::StereoMatcher *obj, cv::_InputArray *left, cv::_InputArray *right, cv::_OutputArray *disparity)
+    cv::StereoMatcher *obj,
+    const interop::InputArrayProxy* left,
+    const interop::InputArrayProxy* right,
+    const interop::OutputArrayProxy* disparity)
 {
     return cvTry([&] {
-    obj->compute(*left, *right, *disparity);
+    obj->compute(InProxy(*left), InProxy(*right), OutProxy(*disparity));
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getMinDisparity(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getMinDisparity(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getMinDisparity();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setMinDisparity(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setMinDisparity(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setMinDisparity(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getNumDisparities(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getNumDisparities(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getNumDisparities();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setNumDisparities(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setNumDisparities(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setNumDisparities(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getBlockSize(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getBlockSize(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getBlockSize();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setBlockSize(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setBlockSize(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setBlockSize(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getSpeckleWindowSize(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getSpeckleWindowSize(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getSpeckleWindowSize();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setSpeckleWindowSize(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setSpeckleWindowSize(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setSpeckleWindowSize(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getSpeckleRange(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getSpeckleRange(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getSpeckleRange();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setSpeckleRange(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setSpeckleRange(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setSpeckleRange(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoMatcher_getDisp12MaxDiff(
-    cv::StereoMatcher *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_getDisp12MaxDiff(cv::StereoMatcher *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getDisp12MaxDiff();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoMatcher_setDisp12MaxDiff(
-    cv::StereoMatcher *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoMatcher_setDisp12MaxDiff(cv::StereoMatcher *obj, int value)
 {
     return cvTry([&] {
     obj->setDisp12MaxDiff(value);
@@ -112,16 +103,14 @@ CVAPI(ExceptionStatus) stereo_StereoMatcher_setDisp12MaxDiff(
 
 #pragma region StereoBM
 
-CVAPI(ExceptionStatus) stereo_Ptr_StereoBM_get(
-    cv::Ptr<cv::StereoBM> *obj, cv::StereoBM **returnValue)
+CVAPI(ExceptionStatus) stereo_Ptr_StereoBM_get(cv::Ptr<cv::StereoBM> *obj, cv::StereoBM **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) stereo_Ptr_StereoBM_delete(
-    cv::Ptr<cv::StereoBM> *obj)
+CVAPI(ExceptionStatus) stereo_Ptr_StereoBM_delete(cv::Ptr<cv::StereoBM> *obj)
 {
     return cvTry([&] {
     delete obj;
@@ -129,7 +118,9 @@ CVAPI(ExceptionStatus) stereo_Ptr_StereoBM_delete(
 }
 
 CVAPI(ExceptionStatus) stereo_StereoBM_create(
-    int numDisparities, int blockSize, cv::Ptr<cv::StereoBM> **returnValue)
+    int numDisparities,
+    int blockSize,
+    cv::Ptr<cv::StereoBM> **returnValue)
 {
     return cvTry([&] {
     const auto obj = cv::StereoBM::create(numDisparities, blockSize);
@@ -137,120 +128,104 @@ CVAPI(ExceptionStatus) stereo_StereoBM_create(
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterType(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterType(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getPreFilterType();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterType(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterType(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setPreFilterType(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterSize(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterSize(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getPreFilterSize();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterSize(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterSize(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setPreFilterSize(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterCap(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getPreFilterCap(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getPreFilterCap();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterCap(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setPreFilterCap(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setPreFilterCap(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getTextureThreshold(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getTextureThreshold(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getTextureThreshold();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setTextureThreshold(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setTextureThreshold(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setTextureThreshold(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getUniquenessRatio(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getUniquenessRatio(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getUniquenessRatio();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setUniquenessRatio(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setUniquenessRatio(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setUniquenessRatio(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getSmallerBlockSize(
-    cv::StereoBM *obj, int *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getSmallerBlockSize(cv::StereoBM *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getSmallerBlockSize();
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setSmallerBlockSize(
-    cv::StereoBM *obj, int value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setSmallerBlockSize(cv::StereoBM *obj, int value)
 {
     return cvTry([&] {
     obj->setSmallerBlockSize(value);
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getROI1(
-    cv::StereoBM *obj, interop::Rect *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getROI1(cv::StereoBM *obj, interop::Rect *returnValue)
 {
     return cvTry([&] {
     *returnValue = c(obj->getROI1());
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setROI1(
-    cv::StereoBM *obj, interop::Rect value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setROI1(cv::StereoBM *obj, interop::Rect value)
 {
     return cvTry([&] {
     obj->setROI1(cpp(value));
     });
 }
 
-CVAPI(ExceptionStatus) stereo_StereoBM_getROI2(
-    cv::StereoBM *obj, interop::Rect *returnValue)
+CVAPI(ExceptionStatus) stereo_StereoBM_getROI2(cv::StereoBM *obj, interop::Rect *returnValue)
 {
     return cvTry([&] {
     *returnValue = c(obj->getROI2());
     });
 }
-CVAPI(ExceptionStatus) stereo_StereoBM_setROI2(
-    cv::StereoBM *obj, interop::Rect value)
+CVAPI(ExceptionStatus) stereo_StereoBM_setROI2(cv::StereoBM *obj, interop::Rect value)
 {
     return cvTry([&] {
     obj->setROI2(cpp(value));
@@ -261,8 +236,7 @@ CVAPI(ExceptionStatus) stereo_StereoBM_setROI2(
 
 #pragma region StereoSGBM
 
-CVAPI(ExceptionStatus) stereo_Ptr_StereoSGBM_get(
-    cv::Ptr<cv::StereoSGBM> *obj, cv::StereoSGBM **returnValue)
+CVAPI(ExceptionStatus) stereo_Ptr_StereoSGBM_get(cv::Ptr<cv::StereoSGBM> *obj, cv::StereoSGBM **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
@@ -277,10 +251,17 @@ CVAPI(ExceptionStatus) stereo_Ptr_StereoSGBM_delete(cv::Ptr<cv::StereoSGBM> *obj
 }
 
 CVAPI(ExceptionStatus) stereo_StereoSGBM_create(
-    int minDisparity, int numDisparities, int blockSize,
-    int P1, int P2, int disp12MaxDiff,
-    int preFilterCap, int uniquenessRatio,
-    int speckleWindowSize, int speckleRange, int mode,
+    int minDisparity,
+    int numDisparities,
+    int blockSize,
+    int P1,
+    int P2,
+    int disp12MaxDiff,
+    int preFilterCap,
+    int uniquenessRatio,
+    int speckleWindowSize,
+    int speckleRange,
+    int mode,
     cv::Ptr<cv::StereoSGBM> **returnValue)
 {
     return cvTry([&] {

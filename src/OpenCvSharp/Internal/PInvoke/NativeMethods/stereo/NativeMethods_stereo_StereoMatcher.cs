@@ -14,8 +14,8 @@ static partial class NativeMethods
     #region StereoMatcher
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stereo_StereoMatcher_compute(
-        OpenCvSafeHandle obj, IntPtr left, IntPtr right, IntPtr disparity);
+    internal static partial ExceptionStatus stereo_StereoMatcher_compute(
+        OpenCvSafeHandle obj, in InputArrayProxy left, in InputArrayProxy right, in OutputArrayProxy disparity);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stereo_StereoMatcher_getMinDisparity(

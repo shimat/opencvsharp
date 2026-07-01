@@ -25,44 +25,59 @@ struct CV_EXPORTS_W_SIMPLE MyUsacParams
     int finalPolisherIterations;
 };
 
-CVAPI(ExceptionStatus) geometry_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_OutputArray *jacobian)
+CVAPI(ExceptionStatus) geometry_Rodrigues(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::Rodrigues(*src, *dst, entity(jacobian));
+    cv::Rodrigues(InProxy(*src), OutProxy(*dst), OutProxy(*jacobian));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_findHomography_InputArray(
-    cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
-    int method, double ransacReprojThreshold, cv::_OutputArray *mask,
-    int maxIters, double confidence,
+    const interop::InputArrayProxy* srcPoints,
+    const interop::InputArrayProxy* dstPoints,
+    int method,
+    double ransacReprojThreshold,
+    const interop::OutputArrayProxy* mask,
+    int maxIters,
+    double confidence,
     cv::Mat** returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask), maxIters, confidence);
+    const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
     *returnValue = new cv::Mat(ret);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findHomography_vector(
-    cv::Point2d *srcPoints, int srcPointsLength,
-    cv::Point2d *dstPoints, int dstPointsLength,
-    int method, double ransacReprojThreshold, cv::_OutputArray *mask,
-    int maxIters, double confidence,
+    cv::Point2d *srcPoints,
+    int srcPointsLength,
+    cv::Point2d *dstPoints,
+    int dstPointsLength,
+    int method,
+    double ransacReprojThreshold,
+    const interop::OutputArrayProxy* mask,
+    int maxIters,
+    double confidence,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
     const cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
 
-    const auto ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, entity(mask), maxIters, confidence);
+    const auto ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
     *returnValue = new cv::Mat(ret);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findHomography_UsacParams(
-    cv::_InputArray* srcPoints, cv::_InputArray* dstPoints, cv::_OutputArray* mask, MyUsacParams *params,
+    const interop::InputArrayProxy* srcPoints,
+    const interop::InputArrayProxy* dstPoints,
+    const interop::OutputArrayProxy* mask,
+    MyUsacParams *params,
     cv::Mat** returnValue)
 {
     return cvTry([&] {
@@ -80,13 +95,16 @@ CVAPI(ExceptionStatus) geometry_findHomography_UsacParams(
     p.threshold = params->threshold;
     p.final_polisher = params->finalPolisher;
     p.final_polisher_iterations = params->finalPolisherIterations;
-    const auto ret = cv::findHomography(*srcPoints, *dstPoints, entity(mask), p);
+    const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), OutProxy(*mask), p);
     *returnValue = new cv::Mat(ret);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findFundamentalMat_UsacParams(
-    cv::_InputArray* points1, cv::_InputArray* points2, cv::_OutputArray* mask, MyUsacParams *params,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::OutputArrayProxy* mask,
+    MyUsacParams *params,
     cv::Mat** returnValue)
 {
     return cvTry([&] {
@@ -104,24 +122,34 @@ CVAPI(ExceptionStatus) geometry_findFundamentalMat_UsacParams(
     p.threshold = params->threshold;
     p.final_polisher = params->finalPolisher;
     p.final_polisher_iterations = params->finalPolisherIterations;
-    const auto ret = cv::findFundamentalMat(*points1, *points2, entity(mask), p);
+    const auto ret = cv::findFundamentalMat(InProxy(*points1), InProxy(*points2), OutProxy(*mask), p);
     *returnValue = new cv::Mat(ret);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_RQDecomp3x3_InputArray(
-    cv::_InputArray *src, cv::_OutputArray *mtxR, cv::_OutputArray *mtxQ,
-    cv::_OutputArray *qx, cv::_OutputArray *qy, cv::_OutputArray *qz, cv::Vec3d *outVec)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* mtxR,
+    const interop::OutputArrayProxy* mtxQ,
+    const interop::OutputArrayProxy* qx,
+    const interop::OutputArrayProxy* qy,
+    const interop::OutputArrayProxy* qz,
+    cv::Vec3d *outVec)
 {
     return cvTry([&] {
-    *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, entity(qx), entity(qy), entity(qz));
+    *outVec = cv::RQDecomp3x3(InProxy(*src), OutProxy(*mtxR), OutProxy(*mtxQ), OutProxy(*qx), OutProxy(*qy), OutProxy(*qz));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RQDecomp3x3_Mat(
-    cv::Mat *src, cv::Mat *mtxR, cv::Mat *mtxQ,
-    cv::Mat *qx, cv::Mat *qy, cv::Mat *qz, cv::Vec3d *outVec)
+    cv::Mat *src,
+    cv::Mat *mtxR,
+    cv::Mat *mtxQ,
+    cv::Mat *qx,
+    cv::Mat *qy,
+    cv::Mat *qz,
+    cv::Vec3d *outVec)
 {
     return cvTry([&] {
     *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, *qx, *qy, *qz);
@@ -130,20 +158,30 @@ CVAPI(ExceptionStatus) geometry_RQDecomp3x3_Mat(
 
 
 CVAPI(ExceptionStatus) geometry_decomposeProjectionMatrix_InputArray(
-    cv::_InputArray *projMatrix, cv::_OutputArray *cameraMatrix,
-    cv::_OutputArray *rotMatrix, cv::_OutputArray *transVect, cv::_OutputArray *rotMatrixX,
-    cv::_OutputArray *rotMatrixY, cv::_OutputArray *rotMatrixZ, cv::_OutputArray *eulerAngles)
+    const interop::InputArrayProxy* projMatrix,
+    const interop::OutputArrayProxy* cameraMatrix,
+    const interop::OutputArrayProxy* rotMatrix,
+    const interop::OutputArrayProxy* transVect,
+    const interop::OutputArrayProxy* rotMatrixX,
+    const interop::OutputArrayProxy* rotMatrixY,
+    const interop::OutputArrayProxy* rotMatrixZ,
+    const interop::OutputArrayProxy* eulerAngles)
 {
     return cvTry([&] {
-    cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
-        *transVect, entity(rotMatrixX), entity(rotMatrixY), entity(rotMatrixZ), entity(eulerAngles));
+    cv::decomposeProjectionMatrix(InProxy(*projMatrix), OutProxy(*cameraMatrix), OutProxy(*rotMatrix),
+        OutProxy(*transVect), OutProxy(*rotMatrixX), OutProxy(*rotMatrixY), OutProxy(*rotMatrixZ), OutProxy(*eulerAngles));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_decomposeProjectionMatrix_Mat(
-    cv::Mat *projMatrix, cv::Mat *cameraMatrix,
-    cv::Mat *rotMatrix, cv::Mat *transVect, cv::Mat *rotMatrixX,
-    cv::Mat *rotMatrixY, cv::Mat *rotMatrixZ, cv::Mat *eulerAngles)
+    cv::Mat *projMatrix,
+    cv::Mat *cameraMatrix,
+    cv::Mat *rotMatrix,
+    cv::Mat *transVect,
+    cv::Mat *rotMatrixX,
+    cv::Mat *rotMatrixY,
+    cv::Mat *rotMatrixZ,
+    cv::Mat *eulerAngles)
 {
     return cvTry([&] {
     cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
@@ -153,40 +191,56 @@ CVAPI(ExceptionStatus) geometry_decomposeProjectionMatrix_Mat(
 
 
 CVAPI(ExceptionStatus) geometry_matMulDeriv(
-    cv::_InputArray *a, cv::_InputArray *b,
-    cv::_OutputArray *dABdA, cv::_OutputArray *dABdB)
+    const interop::InputArrayProxy* a,
+    const interop::InputArrayProxy* b,
+    const interop::OutputArrayProxy* dABdA,
+    const interop::OutputArrayProxy* dABdB)
 {
     return cvTry([&] {
-    cv::matMulDeriv(*a, *b, *dABdA, *dABdB);
+    cv::matMulDeriv(InProxy(*a), InProxy(*b), OutProxy(*dABdA), OutProxy(*dABdB));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_composeRT_InputArray(
-    cv::_InputArray *rvec1, cv::_InputArray *tvec1,
-    cv::_InputArray *rvec2, cv::_InputArray *tvec2,
-    cv::_OutputArray *rvec3, cv::_OutputArray *tvec3,
-    cv::_OutputArray *dr3dr1, cv::_OutputArray *dr3dt1,
-    cv::_OutputArray *dr3dr2, cv::_OutputArray *dr3dt2,
-    cv::_OutputArray *dt3dr1, cv::_OutputArray *dt3dt1,
-    cv::_OutputArray *dt3dr2, cv::_OutputArray *dt3dt2)
+    const interop::InputArrayProxy* rvec1,
+    const interop::InputArrayProxy* tvec1,
+    const interop::InputArrayProxy* rvec2,
+    const interop::InputArrayProxy* tvec2,
+    const interop::OutputArrayProxy* rvec3,
+    const interop::OutputArrayProxy* tvec3,
+    const interop::OutputArrayProxy* dr3dr1,
+    const interop::OutputArrayProxy* dr3dt1,
+    const interop::OutputArrayProxy* dr3dr2,
+    const interop::OutputArrayProxy* dr3dt2,
+    const interop::OutputArrayProxy* dt3dr1,
+    const interop::OutputArrayProxy* dt3dt1,
+    const interop::OutputArrayProxy* dt3dr2,
+    const interop::OutputArrayProxy* dt3dt2)
 {
     return cvTry([&] {
-    cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
-        entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2),
-        entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+    cv::composeRT(InProxy(*rvec1), InProxy(*tvec1), InProxy(*rvec2), InProxy(*tvec2), OutProxy(*rvec3), OutProxy(*tvec3),
+        OutProxy(*dr3dr1), OutProxy(*dr3dt1), OutProxy(*dr3dr2), OutProxy(*dr3dt2),
+        OutProxy(*dt3dr1), OutProxy(*dt3dt1), OutProxy(*dt3dr2), OutProxy(*dt3dt2));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_composeRT_Mat(
-    cv::Mat *rvec1, cv::Mat *tvec1,
-    cv::Mat *rvec2, cv::Mat *tvec2,
-    cv::Mat *rvec3, cv::Mat *tvec3,
-    cv::Mat *dr3dr1, cv::Mat *dr3dt1,
-    cv::Mat *dr3dr2, cv::Mat *dr3dt2,
-    cv::Mat *dt3dr1, cv::Mat *dt3dt1,
-    cv::Mat *dt3dr2, cv::Mat *dt3dt2)
+    cv::Mat *rvec1,
+    cv::Mat *tvec1,
+    cv::Mat *rvec2,
+    cv::Mat *tvec2,
+    cv::Mat *rvec3,
+    cv::Mat *tvec3,
+    cv::Mat *dr3dr1,
+    cv::Mat *dr3dt1,
+    cv::Mat *dr3dr2,
+    cv::Mat *dr3dt2,
+    cv::Mat *dt3dr1,
+    cv::Mat *dt3dt1,
+    cv::Mat *dt3dr2,
+    cv::Mat *dt3dt2)
 {
     return cvTry([&] {
     cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
@@ -197,23 +251,27 @@ CVAPI(ExceptionStatus) geometry_composeRT_Mat(
 
 
 CVAPI(ExceptionStatus) geometry_projectPoints_InputArray(
-    cv::_InputArray *objectPoints,
-    cv::_InputArray *rvec, cv::_InputArray *tvec,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_OutputArray *imagePoints,
-    cv::_OutputArray *jacobian,
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* rvec,
+    const interop::InputArrayProxy* tvec,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::OutputArrayProxy* imagePoints,
+    const interop::OutputArrayProxy* jacobian,
     double aspectRatio)
 {
     return cvTry([&] {
-    cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
-        *imagePoints, entity(jacobian), aspectRatio);
+    cv::projectPoints(InProxy(*objectPoints), InProxy(*rvec), InProxy(*tvec), InProxy(*cameraMatrix), InProxy(*distCoeffs),
+        OutProxy(*imagePoints), OutProxy(*jacobian), aspectRatio);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_projectPoints_Mat(
     cv::Mat *objectPoints,
-    cv::Mat *rvec, cv::Mat *tvec,
-    cv::Mat *cameraMatrix, cv::Mat *distCoeffs,
+    cv::Mat *rvec,
+    cv::Mat *tvec,
+    cv::Mat *cameraMatrix,
+    cv::Mat *distCoeffs,
     cv::Mat *imagePoints,
     cv::Mat *jacobian,
     double aspectRatio)
@@ -226,18 +284,31 @@ CVAPI(ExceptionStatus) geometry_projectPoints_Mat(
 
 
 CVAPI(ExceptionStatus) geometry_solvePnP_InputArray(
-    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_OutputArray *rvec, cv::_OutputArray *tvec, int useExtrinsicGuess, int flags)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::OutputArrayProxy* rvec,
+    const interop::OutputArrayProxy* tvec,
+    int useExtrinsicGuess,
+    int flags)
 {
     return cvTry([&] {
-    cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0, flags);
+    cv::solvePnP(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec), useExtrinsicGuess != 0, flags);
     });
 }
 
-CVAPI(ExceptionStatus) geometry_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
-    cv::Point2f *imagePoints, int imagePointsLength,
-    double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
-    double *rvec, double *tvec, int useExtrinsicGuess,
+CVAPI(ExceptionStatus) geometry_solvePnP_vector(
+    cv::Point3f *objectPoints,
+    int objectPointsLength,
+    cv::Point2f *imagePoints,
+    int imagePointsLength,
+    double *cameraMatrix,
+    double *distCoeffs,
+    int distCoeffsLength,
+    double *rvec,
+    double *tvec,
+    int useExtrinsicGuess,
     int flags)
 {
     return cvTry([&] {
@@ -257,26 +328,42 @@ CVAPI(ExceptionStatus) geometry_solvePnP_vector(cv::Point3f *objectPoints, int o
 
 
 CVAPI(ExceptionStatus) geometry_solvePnPRansac_InputArray(
-    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_OutputArray *rvec, cv::_OutputArray *tvec,
-    bool useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
-    cv::_OutputArray *inliers, int flags)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::OutputArrayProxy* rvec,
+    const interop::OutputArrayProxy* tvec,
+    bool useExtrinsicGuess,
+    int iterationsCount,
+    float reprojectionError,
+    double confidence,
+    const interop::OutputArrayProxy* inliers,
+    int flags)
 {
     return cvTry([&] {
-    cv::solvePnPRansac(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec,
+    cv::solvePnPRansac(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec),
         useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
-        entity(inliers), flags);
+        OutProxy(*inliers), flags);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_solvePnPRansac_vector(
-    cv::Point3f *objectPoints, int objectPointsLength,
-    cv::Point2f *imagePoints, int imagePointsLength,
+    cv::Point3f *objectPoints,
+    int objectPointsLength,
+    cv::Point2f *imagePoints,
+    int imagePointsLength,
     double *cameraMatrix,
-    double *distCoeffs, int distCoeffsLength,
-    double *rvec, double *tvec,
-    int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
-    std::vector<int> *inliers, int flags)
+    double *distCoeffs,
+    int distCoeffsLength,
+    double *rvec,
+    double *tvec,
+    int useExtrinsicGuess,
+    int iterationsCount,
+    float reprojectionError,
+    double confidence,
+    std::vector<int> *inliers,
+    int flags)
 {
     return cvTry([&] {
     const cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
@@ -297,14 +384,21 @@ CVAPI(ExceptionStatus) geometry_solvePnPRansac_vector(
 }
 
 
-CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(cv::_InputArray *cameraMatrix, interop::Size imageSize,
-    double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
-    cv::Point2d *principalPoint, double *aspectRatio)
+CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(
+    const interop::InputArrayProxy* cameraMatrix,
+    interop::Size imageSize,
+    double apertureWidth,
+    double apertureHeight,
+    double *fovx,
+    double *fovy,
+    double *focalLength,
+    cv::Point2d *principalPoint,
+    double *aspectRatio)
 {
     return cvTry([&] {
     double fovx0, fovy0, focalLength0, aspectRatio0;
     cv::Point2d principalPoint0;
-    cv::calibrationMatrixValues(*cameraMatrix, cpp(imageSize), apertureWidth, apertureHeight,
+    cv::calibrationMatrixValues(InProxy(*cameraMatrix), cpp(imageSize), apertureWidth, apertureHeight,
         fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
     *fovx = fovx0;
     *fovy = fovy0;
@@ -314,28 +408,45 @@ CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(cv::_InputArr
     });
 }
 
-CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(double *cameraMatrix, interop::Size imageSize,
-    double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
-    cv::Point2d *principalPoint, double *aspectRatio)
+CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(
+    double *cameraMatrix,
+    interop::Size imageSize,
+    double apertureWidth,
+    double apertureHeight,
+    double *fovx,
+    double *fovy,
+    double *focalLength,
+    cv::Point2d *principalPoint,
+    double *aspectRatio)
 {
     return cvTry([&] {
     const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
-    cv::_InputArray cameraMatrixI(cameraMatrixM);
-    geometry_calibrationMatrixValues_InputArray(&cameraMatrixI, imageSize, apertureWidth, apertureHeight,
-        fovx, fovy, focalLength, principalPoint, aspectRatio);
+    double fovx0, fovy0, focalLength0, aspectRatio0;
+    cv::Point2d principalPoint0;
+    cv::calibrationMatrixValues(cameraMatrixM, cpp(imageSize), apertureWidth, apertureHeight,
+        fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
+    *fovx = fovx0;
+    *fovy = fovy0;
+    *principalPoint = principalPoint0;
+    *focalLength = focalLength0;
+    *aspectRatio = aspectRatio0;
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_InputArray(
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    interop::Size imageSize, double alpha, interop::Size newImgSize,
-    interop::Rect* validPixROI, int centerPrincipalPoint,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    interop::Size imageSize,
+    double alpha,
+    interop::Size newImgSize,
+    interop::Rect* validPixROI,
+    int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     cv::Rect _validPixROI;
-    const auto mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs),
+    const auto mat = cv::getOptimalNewCameraMatrix(InProxy(*cameraMatrix), InProxy(*distCoeffs),
         cpp(imageSize), alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
     *validPixROI = c(_validPixROI);
     *returnValue = new cv::Mat(mat);
@@ -344,9 +455,13 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_InputArray(
 
 CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_array(
     double *cameraMatrix,
-    double *distCoeffs, int distCoeffsSize,
-    interop::Size imageSize, double alpha, interop::Size newImgSize,
-    interop::Rect* validPixROI, int centerPrincipalPoint,
+    double *distCoeffs,
+    int distCoeffsSize,
+    interop::Size imageSize,
+    double alpha,
+    interop::Size newImgSize,
+    interop::Rect* validPixROI,
+    int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
@@ -362,14 +477,17 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_array(
 }
 
 
-CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_InputArray(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_InputArray(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsToHomogeneous(*src, *dst);
+    cv::convertPointsToHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array1(cv::Vec2f *src, cv::Vec3f *dst, int length)
+CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array1(
+    cv::Vec2f *src,
+    cv::Vec3f *dst,
+    int length)
 {
     return cvTry([&] {
     const cv::Mat srcMat(length, 1, CV_64FC2, src);
@@ -378,7 +496,10 @@ CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array1(cv::Vec2f *src
     });
 }
 
-CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array2(cv::Vec3f *src, cv::Vec4f *dst, int length)
+CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array2(
+    cv::Vec3f *src,
+    cv::Vec4f *dst,
+    int length)
 {
     return cvTry([&] {
     const cv::Mat srcMat(length, 1, CV_64FC3, src);
@@ -388,14 +509,17 @@ CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array2(cv::Vec3f *src
 }
 
 
-CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_InputArray(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_InputArray(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsFromHomogeneous(*src, *dst);
+    cv::convertPointsFromHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array1(cv::Vec3f *src, cv::Vec2f *dst, int length)
+CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array1(
+    cv::Vec3f *src,
+    cv::Vec2f *dst,
+    int length)
 {
     return cvTry([&] {
     const cv::Mat srcMat(length, 1, CV_64FC3, src);
@@ -404,7 +528,10 @@ CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array1(cv::Vec3f *s
     });
 }
 
-CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array2(cv::Vec4f *src, cv::Vec3f *dst, int length)
+CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array2(
+    cv::Vec4f *src,
+    cv::Vec3f *dst,
+    int length)
 {
     return cvTry([&] {
     const cv::Mat srcMat(length, 1, CV_64FC4, src);
@@ -414,73 +541,87 @@ CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array2(cv::Vec4f *s
 }
 
 
-CVAPI(ExceptionStatus) geometry_convertPointsHomogeneous(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) geometry_convertPointsHomogeneous(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsHomogeneous(*src, *dst);
+    cv::convertPointsHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_findFundamentalMat_InputArray(
-    cv::_InputArray *points1, cv::_InputArray *points2,
-    int method, double param1, double param2,
-    cv::_OutputArray *mask,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    int method,
+    double param1,
+    double param2,
+    const interop::OutputArrayProxy* mask,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto mat = cv::findFundamentalMat(
-        *points1, *points2, method, param1, param2, entity(mask));
+        InProxy(*points1), InProxy(*points2), method, param1, param2, OutProxy(*mask));
     *returnValue = new cv::Mat(mat);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findFundamentalMat_arrayF64(
-    cv::Point2d *points1, int points1Size,
-    cv::Point2d *points2, int points2Size,
-    int method, double param1, double param2,
-    cv::_OutputArray *mask,
+    cv::Point2d *points1,
+    int points1Size,
+    cv::Point2d *points2,
+    int points2Size,
+    int method,
+    double param1,
+    double param2,
+    const interop::OutputArrayProxy* mask,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
     const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
     const auto mat = cv::findFundamentalMat(
-        points1M, points2M, method, param1, param2, entity(mask));
+        points1M, points2M, method, param1, param2, OutProxy(*mask));
     *returnValue = new cv::Mat(mat);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findFundamentalMat_arrayF32(
-    cv::Point2f *points1, int points1Size,
-    cv::Point2f *points2, int points2Size,
-    int method, double param1, double param2,
-    cv::_OutputArray *mask,
+    cv::Point2f *points1,
+    int points1Size,
+    cv::Point2f *points2,
+    int points2Size,
+    int method,
+    double param1,
+    double param2,
+    const interop::OutputArrayProxy* mask,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const cv::Mat points1M(points1Size, 1, CV_32FC2, points1);
     const cv::Mat points2M(points2Size, 1, CV_32FC2, points2);
     const auto mat = cv::findFundamentalMat(
-        points1M, points2M, method, param1, param2, entity(mask));
+        points1M, points2M, method, param1, param2, OutProxy(*mask));
     *returnValue = new cv::Mat(mat);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_InputArray(
-    cv::_InputArray *points,
-    int whichImage, cv::_InputArray *F,
-    cv::_OutputArray *lines)
+    const interop::InputArrayProxy* points,
+    int whichImage,
+    const interop::InputArrayProxy* F,
+    const interop::OutputArrayProxy* lines)
 {
     return cvTry([&] {
-    cv::computeCorrespondEpilines(*points, whichImage, *F, *lines);
+    cv::computeCorrespondEpilines(InProxy(*points), whichImage, InProxy(*F), OutProxy(*lines));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array2d(
-    cv::Point2d *points, int pointsSize,
-    int whichImage, double *F,
+    cv::Point2d *points,
+    int pointsSize,
+    int whichImage,
+    double *F,
     cv::Point3f *lines)
 {
     return cvTry([&] {
@@ -492,8 +633,10 @@ CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array2d(
 }
 
 CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array3d(
-    cv::Point3d *points, int pointsSize,
-    int whichImage, double *F,
+    cv::Point3d *points,
+    int pointsSize,
+    int whichImage,
+    double *F,
     cv::Point3f *lines)
 {
     return cvTry([&] {
@@ -506,19 +649,24 @@ CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array3d(
 
 
 CVAPI(ExceptionStatus) geometry_triangulatePoints_InputArray(
-    cv::_InputArray *projMatr1, cv::_InputArray *projMatr2,
-    cv::_InputArray *projPoints1, cv::_InputArray *projPoints2,
-    cv::_OutputArray *points4D)
+    const interop::InputArrayProxy* projMatr1,
+    const interop::InputArrayProxy* projMatr2,
+    const interop::InputArrayProxy* projPoints1,
+    const interop::InputArrayProxy* projPoints2,
+    const interop::OutputArrayProxy* points4D)
 {
     return cvTry([&] {
-    cv::triangulatePoints(*projMatr1, *projMatr2, *projPoints1, *projPoints2, *points4D);
+    cv::triangulatePoints(InProxy(*projMatr1), InProxy(*projMatr2), InProxy(*projPoints1), InProxy(*projPoints2), OutProxy(*points4D));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_triangulatePoints_array(
-    double *projMatr1, double *projMatr2,
-    cv::Point2d *projPoints1, int projPoints1Size,
-    cv::Point2d *projPoints2, int projPoints2Size,
+    double *projMatr1,
+    double *projMatr2,
+    cv::Point2d *projPoints1,
+    int projPoints1Size,
+    cv::Point2d *projPoints2,
+    int projPoints2Size,
     cv::Vec4d *points4D)
 {
     return cvTry([&] {
@@ -534,19 +682,25 @@ CVAPI(ExceptionStatus) geometry_triangulatePoints_array(
 
 
 CVAPI(ExceptionStatus) geometry_correctMatches_InputArray(
-    cv::_InputArray *F, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_OutputArray *newPoints1, cv::_OutputArray *newPoints2)
+    const interop::InputArrayProxy* F,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::OutputArrayProxy* newPoints1,
+    const interop::OutputArrayProxy* newPoints2)
 {
     return cvTry([&] {
-    cv::correctMatches(*F, *points1, *points2, *newPoints1, *newPoints2);
+    cv::correctMatches(InProxy(*F), InProxy(*points1), InProxy(*points2), OutProxy(*newPoints1), OutProxy(*newPoints2));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_correctMatches_array(
     double *F,
-    cv::Point2d *points1, int points1Size,
-    cv::Point2d *points2, int points2Size,
-    cv::Point2d *newPoints1, cv::Point2d *newPoints2)
+    cv::Point2d *points1,
+    int points1Size,
+    cv::Point2d *points2,
+    int points2Size,
+    cv::Point2d *newPoints1,
+    cv::Point2d *newPoints2)
 {
     return cvTry([&] {
     cv::Mat_<double> FM(3, 3, F);
@@ -563,29 +717,37 @@ CVAPI(ExceptionStatus) geometry_correctMatches_array(
 }
 
 
-CVAPI(ExceptionStatus) geometry_estimateAffine3D(cv::_InputArray *src, cv::_InputArray *dst,
-    cv::_OutputArray *out, cv::_OutputArray *inliers,
-    double ransacThreshold, double confidence,
+CVAPI(ExceptionStatus) geometry_estimateAffine3D(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* dst,
+    const interop::OutputArrayProxy* out,
+    const interop::OutputArrayProxy* inliers,
+    double ransacThreshold,
+    double confidence,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::estimateAffine3D(*src, *dst, *out, *inliers, ransacThreshold, confidence);
+    *returnValue = cv::estimateAffine3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence);
     });
 }
 
 
 
 CVAPI(ExceptionStatus) geometry_sampsonDistance_InputArray(
-    cv::_InputArray *pt1, cv::_InputArray *pt2, cv::_InputArray *F,
+    const interop::InputArrayProxy* pt1,
+    const interop::InputArrayProxy* pt2,
+    const interop::InputArrayProxy* F,
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::sampsonDistance(*pt1, *pt2, *F);
+    *returnValue = cv::sampsonDistance(InProxy(*pt1), InProxy(*pt2), InProxy(*F));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_sampsonDistance_Point3d(
-    interop::Point3d pt1, interop::Point3d pt2, interop::Point3d *F,
+    interop::Point3d pt1,
+    interop::Point3d pt2,
+    interop::Point3d *F,
     double *returnValue)
 {
     return cvTry([&] {
@@ -600,43 +762,53 @@ CVAPI(ExceptionStatus) geometry_sampsonDistance_Point3d(
 
 
 CVAPI(ExceptionStatus) geometry_estimateAffine2D(
-    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
-    int method, double ransacReprojThreshold,
-    uint64_t maxIters, double confidence, uint64_t refineIters,
+    const interop::InputArrayProxy* from,
+    const interop::InputArrayProxy* to,
+    const interop::OutputArrayProxy* inliers,
+    int method,
+    double ransacReprojThreshold,
+    uint64_t maxIters,
+    double confidence,
+    uint64_t refineIters,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto result = cv::estimateAffine2D(
-        *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     *returnValue = new cv::Mat(result);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_estimateAffinePartial2D(
-    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
-    int method, double ransacReprojThreshold,
-    uint64_t maxIters, double confidence, uint64_t refineIters,
+    const interop::InputArrayProxy* from,
+    const interop::InputArrayProxy* to,
+    const interop::OutputArrayProxy* inliers,
+    int method,
+    double ransacReprojThreshold,
+    uint64_t maxIters,
+    double confidence,
+    uint64_t refineIters,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto result = cv::estimateAffinePartial2D(
-        *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     *returnValue = new cv::Mat(result);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_decomposeHomographyMat(
-    cv::_InputArray *H,
-    cv::_InputArray *K,
+    const interop::InputArrayProxy* H,
+    const interop::InputArrayProxy* K,
     std::vector<cv::Mat> *rotations,
     std::vector<cv::Mat> *translations,
     std::vector<cv::Mat> *normals,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::decomposeHomographyMat(*H, *K, *rotations, *translations, *normals);
+    *returnValue = cv::decomposeHomographyMat(InProxy(*H), InProxy(*K), *rotations, *translations, *normals);
     });
 }
 
@@ -644,157 +816,214 @@ CVAPI(ExceptionStatus) geometry_decomposeHomographyMat(
 CVAPI(ExceptionStatus) geometry_filterHomographyDecompByVisibleRefpoints(
     std::vector<cv::Mat> *rotations,
     std::vector<cv::Mat> *normals,
-    cv::_InputArray *beforePoints,
-    cv::_InputArray *afterPoints,
-    cv::_OutputArray *possibleSolutions,
-    cv::_InputArray *pointsMask)
+    const interop::InputArrayProxy* beforePoints,
+    const interop::InputArrayProxy* afterPoints,
+    const interop::OutputArrayProxy* possibleSolutions,
+    const interop::InputArrayProxy* pointsMask)
 {
     return cvTry([&] {
-    cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, *beforePoints, *afterPoints, *possibleSolutions, entity(pointsMask));
+    cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, InProxy(*beforePoints), InProxy(*afterPoints), OutProxy(*possibleSolutions), InProxy(*pointsMask));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_getDefaultNewCameraMatrix(
-    cv::_InputArray *cameraMatrix, interop::Size imgsize, int centerPrincipalPoint,
+    const interop::InputArrayProxy* cameraMatrix,
+    interop::Size imgsize,
+    int centerPrincipalPoint,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto result = cv::getDefaultNewCameraMatrix(*cameraMatrix, cpp(imgsize), centerPrincipalPoint != 0);
+    const auto result = cv::getDefaultNewCameraMatrix(InProxy(*cameraMatrix), cpp(imgsize), centerPrincipalPoint != 0);
     *returnValue = new cv::Mat(result);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_undistortPoints(
-    cv::_InputArray *src, cv::_OutputArray *dst,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *R, cv::_InputArray *P)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* P)
 {
     return cvTry([&] {
-    cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P));
+    cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_undistortPointsIter(
-    cv::_InputArray *src, cv::_OutputArray *dst,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *R, cv::_InputArray *P, interop::TermCriteria criteria)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* P,
+    interop::TermCriteria criteria)
 {
     return cvTry([&] {
-    cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P), cpp(criteria));
+    cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P), cpp(criteria));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_recoverPose_InputArray1(
-    cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_InputArray *cameraMatrix,
-    cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask,
+    const interop::InputArrayProxy* E,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::OutputArrayProxy* R,
+    const interop::OutputArrayProxy* t,
+    const interop::InputOutputArrayProxy* mask,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, entity(mask));
+    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), IoProxy(*mask));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_recoverPose_InputArray2(
-    cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_OutputArray *R, cv::_OutputArray *t, double focal, interop::Point2d pp,
-    cv::_InputOutputArray *mask,
+    const interop::InputArrayProxy* E,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::OutputArrayProxy* R,
+    const interop::OutputArrayProxy* t,
+    double focal,
+    interop::Point2d pp,
+    const interop::InputOutputArrayProxy* mask,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *R, *t, focal, cpp(pp), entity(mask));
+    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), OutProxy(*R), OutProxy(*t), focal, cpp(pp), IoProxy(*mask));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_recoverPose_InputArray3(
-    cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_InputArray *cameraMatrix,
-    cv::_OutputArray *R, cv::_OutputArray *t, double distanceTresh,
-    cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints,
+    const interop::InputArrayProxy* E,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::OutputArrayProxy* R,
+    const interop::OutputArrayProxy* t,
+    double distanceTresh,
+    const interop::InputOutputArrayProxy* mask,
+    const interop::OutputArrayProxy* triangulatedPoints,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, entity(mask), entity(triangulatedPoints));
+    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), distanceTresh, IoProxy(*mask), OutProxy(*triangulatedPoints));
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray1(
-    cv::_InputArray *points1, cv::_InputArray *points2, cv::_InputArray *cameraMatrix,
-    int method, double prob, double threshold,
-    cv::_OutputArray *mask,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    const interop::InputArrayProxy* cameraMatrix,
+    int method,
+    double prob,
+    double threshold,
+    const interop::OutputArrayProxy* mask,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto mat = cv::findEssentialMat(
-        *points1, *points2, *cameraMatrix, method, prob, threshold, 1000, entity(mask));
+        InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), method, prob, threshold, 1000, OutProxy(*mask));
     *returnValue = new cv::Mat(mat);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray2(
-    cv::_InputArray *points1, cv::_InputArray *points2, double focal, interop::Point2d pp,
-    int method, double prob, double threshold,
-    cv::_OutputArray *mask,
+    const interop::InputArrayProxy* points1,
+    const interop::InputArrayProxy* points2,
+    double focal,
+    interop::Point2d pp,
+    int method,
+    double prob,
+    double threshold,
+    const interop::OutputArrayProxy* mask,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto mat = cv::findEssentialMat(
-        *points1, *points2, focal, cpp(pp), method, prob, threshold, 1000, entity(mask));
+        InProxy(*points1), InProxy(*points2), focal, cpp(pp), method, prob, threshold, 1000, OutProxy(*mask));
     *returnValue = new cv::Mat(mat);
     });
 }
 
 
 CVAPI(ExceptionStatus) geometry_solvePnPRefineLM(
-    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, interop::TermCriteria criteria)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputOutputArrayProxy* rvec,
+    const interop::InputOutputArrayProxy* tvec,
+    interop::TermCriteria criteria)
 {
     return cvTry([&] {
-    cv::solvePnPRefineLM(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria));
+    cv::solvePnPRefineLM(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_solvePnPRefineVVS(
-    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputOutputArray *rvec, cv::_InputOutputArray *tvec, interop::TermCriteria criteria, double vvsLambda)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    const interop::InputOutputArrayProxy* rvec,
+    const interop::InputOutputArrayProxy* tvec,
+    interop::TermCriteria criteria,
+    double vvsLambda)
 {
     return cvTry([&] {
-    cv::solvePnPRefineVVS(*objectPoints, *imagePoints, *cameraMatrix, *distCoeffs, *rvec, *tvec, cpp(criteria), vvsLambda);
+    cv::solvePnPRefineVVS(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria), vvsLambda);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_decomposeEssentialMat(
-    cv::_InputArray *e, cv::_OutputArray *r1, cv::_OutputArray *r2, cv::_OutputArray *t)
+    const interop::InputArrayProxy* e,
+    const interop::OutputArrayProxy* r1,
+    const interop::OutputArrayProxy* r2,
+    const interop::OutputArrayProxy* t)
 {
     return cvTry([&] {
-    cv::decomposeEssentialMat(*e, *r1, *r2, *t);
+    cv::decomposeEssentialMat(InProxy(*e), OutProxy(*r1), OutProxy(*r2), OutProxy(*t));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_estimateTranslation3D(
-    cv::_InputArray *src, cv::_InputArray *dst, cv::_OutputArray *out, cv::_OutputArray *inliers,
-    double ransacThreshold, double confidence, int *returnValue)
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* dst,
+    const interop::OutputArrayProxy* out,
+    const interop::OutputArrayProxy* inliers,
+    double ransacThreshold,
+    double confidence,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::estimateTranslation3D(*src, *dst, *out, *inliers, ransacThreshold, confidence) ? 1 : 0;
+    *returnValue = cv::estimateTranslation3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_estimateTranslation2D(
-    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
-    int method, double ransacReprojThreshold, uint64_t maxIters, double confidence, uint64_t refineIters,
+    const interop::InputArrayProxy* from,
+    const interop::InputArrayProxy* to,
+    const interop::OutputArrayProxy* inliers,
+    int method,
+    double ransacReprojThreshold,
+    uint64_t maxIters,
+    double confidence,
+    uint64_t refineIters,
     cv::Vec2d *returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::estimateTranslation2D(
-        *from, *to, entity(inliers), method, ransacReprojThreshold,
+        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold,
         static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     });
 }

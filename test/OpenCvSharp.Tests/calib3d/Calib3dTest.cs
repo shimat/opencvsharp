@@ -669,6 +669,63 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Assert.False(double.IsInfinity(rms));
     }
 
+    [Fact]
+    public void CalibrateHandEye()
+    {
+        var rGripper2Base = new List<Mat>();
+        var tGripper2Base = new List<Mat>();
+        var rTarget2Cam = new List<Mat>();
+        var tTarget2Cam = new List<Mat>();
+        try
+        {
+            for (var i = 1; i <= 4; i++)
+            {
+                rGripper2Base.Add(RotationMat(0.1 * i, 0.2 * i, 0.3 * i));
+                tGripper2Base.Add(Vec3(i, i * 0.5, i * 0.25));
+                rTarget2Cam.Add(RotationMat(0.3 * i, 0.1 * i, 0.2 * i));
+                tTarget2Cam.Add(Vec3(i * 0.2, i, i * 0.3));
+            }
+
+            using var rCam2Gripper = new Mat();
+            using var tCam2Gripper = new Mat();
+            Cv2.CalibrateHandEye(
+                rGripper2Base, tGripper2Base, rTarget2Cam, tTarget2Cam,
+                rCam2Gripper, tCam2Gripper);
+
+            Assert.Equal(3, rCam2Gripper.Rows);
+            Assert.Equal(3, rCam2Gripper.Cols);
+            Assert.Equal(3, (int) tCam2Gripper.Total());
+        }
+        finally
+        {
+            foreach (var m in rGripper2Base) m.Dispose();
+            foreach (var m in tGripper2Base) m.Dispose();
+            foreach (var m in rTarget2Cam) m.Dispose();
+            foreach (var m in tTarget2Cam) m.Dispose();
+        }
+
+        static Mat Vec3(double x, double y, double z) => Mat.FromArray(new[,] { { x }, { y }, { z } });
+
+        static Mat RotationMat(double rx, double ry, double rz)
+        {
+            using var rvec = Vec3(rx, ry, rz);
+            var rmat = new Mat();
+            Cv2.Rodrigues(rvec, rmat);
+            return rmat;
+        }
+    }
+
+    [Fact]
+    public void FindCirclesGrid()
+    {
+        // Smoke test for the ArrayProxy wiring: lenna.png has no circle grid, so detection
+        // is expected to fail, but the P/Invoke call must complete without throwing.
+        using var image = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var centers = new Mat();
+        var found = Cv2.FindCirclesGrid(image, new Size(4, 3), centers);
+        Assert.False(found);
+    }
+
     private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
     {
         for (var y = 0; y < boardSize.Height; y++)

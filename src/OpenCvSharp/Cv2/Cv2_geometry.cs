@@ -29,7 +29,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.geometry_Rodrigues(src.CvPtr, dst.CvPtr, ToPtr(jacobian)));
+            NativeMethods.geometry_Rodrigues(src.ToInputProxy(), dst.ToOutputProxy(), jacobian?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -115,8 +115,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_findHomography_InputArray(
-                srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
-                ransacReprojThreshold, ToPtr(mask), maxIters, confidence,
+                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), (int)method,
+                ransacReprojThreshold, mask?.ToOutputProxy() ?? default, maxIters, confidence,
                 out var ret));
 
         GC.KeepAlive(srcPoints);
@@ -159,7 +159,7 @@ static partial class Cv2
             NativeMethods.geometry_findHomography_vector(
                 srcPointsArray, srcPointsArray.Length,
                 dstPointsArray, dstPointsArray.Length, 
-                (int)method, ransacReprojThreshold, ToPtr(mask), maxIters, confidence,
+                (int)method, ransacReprojThreshold, mask?.ToOutputProxy() ?? default, maxIters, confidence,
                 out var ret));
 
         GC.KeepAlive(mask);
@@ -195,7 +195,7 @@ static partial class Cv2
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findHomography_UsacParams(
-                srcPoints.CvPtr, dstPoints.CvPtr, ToPtr(mask), ref p,
+                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), mask?.ToOutputProxy() ?? default, ref p,
                 out var ret));
 
         GC.KeepAlive(srcPoints);
@@ -230,8 +230,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_RQDecomp3x3_InputArray(
-                src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr,
-                ToPtr(qx), ToPtr(qy), ToPtr(qz), out var ret));
+                src.ToInputProxy(), mtxR.ToOutputProxy(), mtxQ.ToOutputProxy(),
+                qx?.ToOutputProxy() ?? default, qy?.ToOutputProxy() ?? default, qz?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mtxR);
@@ -326,8 +326,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeProjectionMatrix_InputArray(
-                projMatrix.CvPtr, cameraMatrix.CvPtr, rotMatrix.CvPtr, transVect.CvPtr,
-                ToPtr(rotMatrixX), ToPtr(rotMatrixY), ToPtr(rotMatrixZ), ToPtr(eulerAngles)));
+                projMatrix.ToInputProxy(), cameraMatrix.ToOutputProxy(), rotMatrix.ToOutputProxy(), transVect.ToOutputProxy(),
+                rotMatrixX?.ToOutputProxy() ?? default, rotMatrixY?.ToOutputProxy() ?? default, rotMatrixZ?.ToOutputProxy() ?? default, eulerAngles?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(projMatrix);
         GC.KeepAlive(cameraMatrix);
@@ -439,7 +439,7 @@ static partial class Cv2
         dABdA.ThrowIfNotReady();
         dABdB.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_matMulDeriv(a.CvPtr, b.CvPtr, dABdA.CvPtr, dABdB.CvPtr));
+            NativeMethods.geometry_matMulDeriv(a.ToInputProxy(), b.ToInputProxy(), dABdA.ToOutputProxy(), dABdB.ToOutputProxy()));
         GC.KeepAlive(a);
         GC.KeepAlive(b);
         dABdA.Fix();
@@ -493,9 +493,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_composeRT_InputArray(
-                rvec1.CvPtr, tvec1.CvPtr, rvec2.CvPtr, tvec2.CvPtr, rvec3.CvPtr, tvec3.CvPtr,
-                ToPtr(dr3dr1), ToPtr(dr3dt1), ToPtr(dr3dr2), ToPtr(dr3dt2),
-                ToPtr(dt3dr1), ToPtr(dt3dt1), ToPtr(dt3dr2), ToPtr(dt3dt2)));
+                rvec1.ToInputProxy(), tvec1.ToInputProxy(), rvec2.ToInputProxy(), tvec2.ToInputProxy(), rvec3.ToOutputProxy(), tvec3.ToOutputProxy(),
+                dr3dr1?.ToOutputProxy() ?? default, dr3dt1?.ToOutputProxy() ?? default, dr3dr2?.ToOutputProxy() ?? default, dr3dt2?.ToOutputProxy() ?? default,
+                dt3dr1?.ToOutputProxy() ?? default, dt3dt1?.ToOutputProxy() ?? default, dt3dr2?.ToOutputProxy() ?? default, dt3dt2?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(rvec1);
         GC.KeepAlive(tvec1);
@@ -651,9 +651,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_projectPoints_InputArray(
-                objectPoints.CvPtr,
-                rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
-                imagePoints.CvPtr, ToPtr(jacobian), aspectRatio));
+                objectPoints.ToInputProxy(),
+                rvec.ToInputProxy(), tvec.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs?.ToInputProxy() ?? default,
+                imagePoints.ToOutputProxy(), jacobian?.ToOutputProxy() ?? default, aspectRatio));
 
         GC.KeepAlive(objectPoints);
         GC.KeepAlive(rvec);
@@ -773,11 +773,10 @@ static partial class Cv2
         distCoeffs.ThrowIfDisposed();
         rvec.ThrowIfDisposed();
         tvec.ThrowIfDisposed();
-        var distCoeffsPtr = ToPtr(distCoeffs);
 
         NativeMethods.HandleException(NativeMethods.geometry_solvePnP_InputArray(
-            objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
-            rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, (int) flags));
+            objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
+            rvec.ToOutputProxy(), tvec.ToOutputProxy(), useExtrinsicGuess ? 1 : 0, (int) flags));
 
         rvec.Fix();
         tvec.Fix();
@@ -900,13 +899,12 @@ static partial class Cv2
         distCoeffs.ThrowIfDisposed();
         rvec.ThrowIfDisposed();
         tvec.ThrowIfDisposed();
-        var distCoeffsPtr = ToPtr(distCoeffs);
 
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRansac_InputArray(
-                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffsPtr,
-                rvec.CvPtr, tvec.CvPtr, useExtrinsicGuess ? 1 : 0, iterationsCount,
-                reprojectionError, confidence, ToPtr(inliers), (int) flags));
+                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
+                rvec.ToOutputProxy(), tvec.ToOutputProxy(), useExtrinsicGuess ? 1 : 0, iterationsCount,
+                reprojectionError, confidence, inliers?.ToOutputProxy() ?? default, (int) flags));
 
         GC.KeepAlive(objectPoints);
         GC.KeepAlive(imagePoints);
@@ -1033,7 +1031,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_calibrationMatrixValues_InputArray(
-                cameraMatrix.CvPtr, imageSize, apertureWidth, apertureHeight, 
+                cameraMatrix.ToInputProxy(), imageSize, apertureWidth, apertureHeight, 
                 out fovx, out fovy, out focalLength, out principalPoint, out aspectRatio));
         GC.KeepAlive(cameraMatrix);
     }
@@ -1104,7 +1102,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_getOptimalNewCameraMatrix_InputArray(
-                cameraMatrix.CvPtr, ToPtr(distCoeffs), imageSize, alpha, newImgSize,
+                cameraMatrix.ToInputProxy(), distCoeffs?.ToInputProxy() ?? default, imageSize, alpha, newImgSize,
                 out validPixROI, centerPrincipalPoint ? 1 : 0, out var ret));
         GC.KeepAlive(cameraMatrix);
         GC.KeepAlive(distCoeffs);
@@ -1170,7 +1168,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1227,7 +1225,7 @@ static partial class Cv2
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.ToInputProxy(), dst.ToOutputProxy()));
         GC.KeepAlive(src);
         dst.Fix();
     }
@@ -1282,7 +1280,7 @@ static partial class Cv2
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsHomogeneous(src.CvPtr, dst.CvPtr));
+            NativeMethods.geometry_convertPointsHomogeneous(src.ToInputProxy(), dst.ToOutputProxy()));
         GC.KeepAlive(src);
         dst.Fix();
     }
@@ -1318,8 +1316,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_InputArray(
-                points1.CvPtr, points2.CvPtr, (int) method,
-                param1, param2, ToPtr(mask), out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), (int) method,
+                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
         mask?.Fix();
         GC.KeepAlive(points1);
         GC.KeepAlive(points2);
@@ -1363,7 +1361,7 @@ static partial class Cv2
             NativeMethods.geometry_findFundamentalMat_arrayF32(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
-                param1, param2, ToPtr(mask), out var ret));
+                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
         mask?.Fix();
         return new Mat(ret);
     }
@@ -1405,7 +1403,7 @@ static partial class Cv2
             NativeMethods.geometry_findFundamentalMat_arrayF64(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
-                param1, param2, ToPtr(mask), out var ret));
+                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
         mask?.Fix();
         return new Mat(ret);
     }
@@ -1434,7 +1432,7 @@ static partial class Cv2
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_UsacParams(
-                points1.CvPtr, points2.CvPtr, ToPtr(mask), ref p, out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), mask?.ToOutputProxy() ?? default, ref p, out var ret));
 
         GC.KeepAlive(points1);
         GC.KeepAlive(points2);
@@ -1468,7 +1466,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_computeCorrespondEpilines_InputArray(
-                points.CvPtr, whichImage, F.CvPtr, lines.CvPtr));
+                points.ToInputProxy(), whichImage, F.ToInputProxy(), lines.ToOutputProxy()));
 
         GC.KeepAlive(F);
         GC.KeepAlive(points);
@@ -1579,8 +1577,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_triangulatePoints_InputArray(
-                projMatr1.CvPtr, projMatr2.CvPtr,
-                projPoints1.CvPtr, projPoints2.CvPtr, points4D.CvPtr));
+                projMatr1.ToInputProxy(), projMatr2.ToInputProxy(),
+                projPoints1.ToInputProxy(), projPoints2.ToInputProxy(), points4D.ToOutputProxy()));
 
         GC.KeepAlive(projMatr1);
         GC.KeepAlive(projMatr2);
@@ -1671,8 +1669,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_correctMatches_InputArray(
-                F.CvPtr, points1.CvPtr, points2.CvPtr,
-                newPoints1.CvPtr, newPoints2.CvPtr));
+                F.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(),
+                newPoints1.ToOutputProxy(), newPoints2.ToOutputProxy()));
 
         GC.KeepAlive(F);
         GC.KeepAlive(points1);
@@ -1763,8 +1761,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray1(
-                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
-                R.CvPtr, t.CvPtr, ToPtr(mask), out var ret));
+                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
+                R.ToOutputProxy(), t.ToOutputProxy(), mask?.ToInputOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(E);
         GC.KeepAlive(points1);
@@ -1816,8 +1814,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray2(
-                E.CvPtr, points1.CvPtr, points2.CvPtr,
-                R.CvPtr, t.CvPtr, focal, pp, ToPtr(mask), out var ret));
+                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(),
+                R.ToOutputProxy(), t.ToOutputProxy(), focal, pp, mask?.ToInputOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(E);
         GC.KeepAlive(points1);
@@ -1873,8 +1871,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray3(
-                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
-                R.CvPtr, t.CvPtr, distanceTresh, ToPtr(mask), ToPtr(triangulatedPoints), out var ret));
+                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
+                R.ToOutputProxy(), t.ToOutputProxy(), distanceTresh, mask?.ToInputOutputProxy() ?? default, triangulatedPoints?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(E);
         GC.KeepAlive(points1);
@@ -1923,8 +1921,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray1(
-                points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
-                (int) method, prob, threshold, ToPtr(mask), out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
+                (int) method, prob, threshold, mask?.ToOutputProxy() ?? default, out var ret));
 
         mask?.Fix();
         GC.KeepAlive(points1);
@@ -1966,8 +1964,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray2(
-                points1.CvPtr, points2.CvPtr, focal, pp,
-                (int) method, prob, threshold, ToPtr(mask), out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), focal, pp,
+                (int) method, prob, threshold, mask?.ToOutputProxy() ?? default, out var ret));
 
         mask?.Fix();
         GC.KeepAlive(points1);
@@ -2006,7 +2004,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffine3D(
-                src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence, out var ret));
+                src.ToInputProxy(), dst.ToInputProxy(), outVal.ToOutputProxy(), inliers.ToOutputProxy(), ransacThreshold, confidence, out var ret));
 
         outVal.Fix();
         inliers.Fix();
@@ -2036,7 +2034,7 @@ static partial class Cv2
         f.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.geometry_sampsonDistance_InputArray(pt1.CvPtr, pt2.CvPtr, f.CvPtr, out var ret));
+            NativeMethods.geometry_sampsonDistance_InputArray(pt1.ToInputProxy(), pt2.ToInputProxy(), f.ToInputProxy(), out var ret));
 
         GC.KeepAlive(pt1);
         GC.KeepAlive(pt2);
@@ -2102,7 +2100,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffine2D(
-                from.CvPtr, to.CvPtr, ToPtr(inliers),
+                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
         GC.KeepAlive(from);
@@ -2142,7 +2140,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffinePartial2D(
-                from.CvPtr, to.CvPtr, ToPtr(inliers),
+                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
         GC.KeepAlive(from);
@@ -2182,7 +2180,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeHomographyMat(
-                h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr, out var ret));
+                h.ToInputProxy(), k.ToInputProxy(), rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr, out var ret));
 
         rotations = rotationsVec.ToArray();
         translations = translationsVec.ToArray();
@@ -2233,8 +2231,8 @@ static partial class Cv2
         using var normalsVec = new VectorOfMat(normals);
         NativeMethods.HandleException(
             NativeMethods.geometry_filterHomographyDecompByVisibleRefpoints(
-                rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.CvPtr, afterPoints.CvPtr,
-                possibleSolutions.CvPtr, ToPtr(pointsMask)));
+                rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.ToInputProxy(), afterPoints.ToInputProxy(),
+                possibleSolutions.ToOutputProxy(), pointsMask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(rotations);
         GC.KeepAlive(normals);
@@ -2263,7 +2261,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_getDefaultNewCameraMatrix(
-                cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0, out var matPtr));
+                cameraMatrix.ToInputProxy(), imgSize0, centerPrincipalPoint ? 1 : 0, out var matPtr));
         GC.KeepAlive(cameraMatrix);
         return new Mat(matPtr);
     }
@@ -2303,8 +2301,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_undistortPoints(
-                src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
-                ToPtr(distCoeffs), ToPtr(r), ToPtr(p)));
+                src.ToInputProxy(), dst.ToOutputProxy(), cameraMatrix.ToInputProxy(),
+                distCoeffs?.ToInputProxy() ?? default, r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default));
             
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2352,8 +2350,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_undistortPointsIter(
-                src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
-                ToPtr(distCoeffs), ToPtr(r), ToPtr(p), termCriteria.GetValueOrDefault()));
+                src.ToInputProxy(), dst.ToOutputProxy(), cameraMatrix.ToInputProxy(),
+                distCoeffs?.ToInputProxy() ?? default, r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default, termCriteria.GetValueOrDefault()));
             
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2401,8 +2399,8 @@ static partial class Cv2
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRefineLM(
-                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr,
-                rvec.CvPtr, tvec.CvPtr, c));
+                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
+                rvec.ToInputOutputProxy(), tvec.ToInputOutputProxy(), c));
 
         rvec.Fix();
         tvec.Fix();
@@ -2452,8 +2450,8 @@ static partial class Cv2
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRefineVVS(
-                objectPoints.CvPtr, imagePoints.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr,
-                rvec.CvPtr, tvec.CvPtr, c, vvsLambda));
+                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
+                rvec.ToInputOutputProxy(), tvec.ToInputOutputProxy(), c, vvsLambda));
 
         rvec.Fix();
         tvec.Fix();
@@ -2488,7 +2486,7 @@ static partial class Cv2
         t.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.geometry_decomposeEssentialMat(e.CvPtr, r1.CvPtr, r2.CvPtr, t.CvPtr));
+            NativeMethods.geometry_decomposeEssentialMat(e.ToInputProxy(), r1.ToOutputProxy(), r2.ToOutputProxy(), t.ToOutputProxy()));
 
         r1.Fix();
         r2.Fix();
@@ -2528,7 +2526,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateTranslation3D(
-                src.CvPtr, dst.CvPtr, outVal.CvPtr, inliers.CvPtr, ransacThreshold, confidence, out var ret));
+                src.ToInputProxy(), dst.ToInputProxy(), outVal.ToOutputProxy(), inliers.ToOutputProxy(), ransacThreshold, confidence, out var ret));
 
         outVal.Fix();
         inliers.Fix();
@@ -2564,7 +2562,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateTranslation2D(
-                from.CvPtr, to.CvPtr, ToPtr(inliers),
+                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
                 (int)method, ransacReprojThreshold, maxIters, confidence, refineIters, out var ret));
 
         inliers?.Fix();
