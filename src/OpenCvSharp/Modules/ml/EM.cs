@@ -214,10 +214,10 @@ public class EM : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainEM(
                 Handle,
-                samples.CvPtr,
-                Cv2.ToPtr(logLikelihoods),
-                Cv2.ToPtr(labels),
-                Cv2.ToPtr(probs),
+                samples.ToInputProxy(),
+                logLikelihoods?.ToOutputProxy() ?? default,
+                labels?.ToOutputProxy() ?? default,
+                probs?.ToOutputProxy() ?? default,
                 out var ret));
 
         logLikelihoods?.Fix();
@@ -277,13 +277,13 @@ public class EM : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainE(
                 Handle,
-                samples.CvPtr,
-                means0.CvPtr,
-                Cv2.ToPtr(covs0),
-                Cv2.ToPtr(weights0),
-                Cv2.ToPtr(logLikelihoods),
-                Cv2.ToPtr(labels),
-                Cv2.ToPtr(probs),
+                samples.ToInputProxy(),
+                means0.ToInputProxy(),
+                covs0?.ToInputProxy() ?? default,
+                weights0?.ToInputProxy() ?? default,
+                logLikelihoods?.ToOutputProxy() ?? default,
+                labels?.ToOutputProxy() ?? default,
+                probs?.ToOutputProxy() ?? default,
                 out var ret));
 
         logLikelihoods?.Fix();
@@ -335,11 +335,11 @@ public class EM : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainM(
                 Handle,
-                samples.CvPtr,
-                probs0.CvPtr,
-                Cv2.ToPtr(logLikelihoods),
-                Cv2.ToPtr(labels),
-                Cv2.ToPtr(probs), 
+                samples.ToInputProxy(),
+                probs0.ToInputProxy(),
+                logLikelihoods?.ToOutputProxy() ?? default,
+                labels?.ToOutputProxy() ?? default,
+                probs?.ToOutputProxy() ?? default, 
                 out var ret));
 
         logLikelihoods?.Fix();
@@ -370,7 +370,7 @@ public class EM : Algorithm
         probs?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_predict2(Handle, sample.CvPtr, Cv2.ToPtr(probs), out var ret));
+            NativeMethods.ml_EM_predict2(Handle, sample.ToInputProxy(), probs?.ToOutputProxy() ?? default, out var ret));
         probs?.Fix();
         GC.KeepAlive(sample);
         GC.KeepAlive(probs);

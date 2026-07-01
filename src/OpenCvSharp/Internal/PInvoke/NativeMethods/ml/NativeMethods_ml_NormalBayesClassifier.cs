@@ -11,9 +11,9 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_NormalBayesClassifier_predictProb(
-        OpenCvSafeHandle obj, IntPtr inputs,
-        IntPtr samples, IntPtr outputProbs, int flags, out float returnValue);
+    internal static partial ExceptionStatus ml_NormalBayesClassifier_predictProb(
+        OpenCvSafeHandle obj, in InputArrayProxy inputs,
+        in OutputArrayProxy samples, in OutputArrayProxy outputProbs, int flags, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_NormalBayesClassifier_create(out IntPtr returnValue);

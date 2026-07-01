@@ -87,7 +87,7 @@ public class NormalBayesClassifier : StatModel
 
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_predictProb(
-                Handle, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
+                Handle, inputs.ToInputProxy(), outputs.ToOutputProxy(), outputProbs.ToOutputProxy(), flags, out var ret));
         outputs.Fix();
         outputProbs.Fix();
         GC.KeepAlive(inputs);

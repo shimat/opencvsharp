@@ -65,8 +65,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_SVM_getSupportVectors(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_SVM_getDecisionFunction(
-        OpenCvSafeHandle obj, int i, IntPtr alpha, IntPtr svidx, out double returnValue);
+    internal static partial ExceptionStatus ml_SVM_getDecisionFunction(
+        OpenCvSafeHandle obj, int i, in OutputArrayProxy alpha, in OutputArrayProxy svidx, out double returnValue);
 
     // static
 

@@ -166,8 +166,8 @@ public class KNearest : StatModel
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_findNearest(
                 Handle,
-                samples.CvPtr, k, results.CvPtr,
-                Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist), out var ret));
+                samples.ToInputProxy(), k, results.ToOutputProxy(),
+                neighborResponses?.ToOutputProxy() ?? default, dist?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(samples);
         GC.KeepAlive(results);

@@ -35,21 +35,21 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_EM_getCovs(OpenCvSafeHandle obj, IntPtr covs);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_predict2(OpenCvSafeHandle model, IntPtr sample, IntPtr probs, out Vec2d returnValue);
+    internal static partial ExceptionStatus ml_EM_predict2(OpenCvSafeHandle model, in InputArrayProxy sample, in OutputArrayProxy probs, out Vec2d returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_trainEM(
-        OpenCvSafeHandle obj, IntPtr samples, IntPtr logLikelihoods, IntPtr labels, IntPtr probs, out int returnValue);
+    internal static partial ExceptionStatus ml_EM_trainEM(
+        OpenCvSafeHandle obj, in InputArrayProxy samples, in OutputArrayProxy logLikelihoods, in OutputArrayProxy labels, in OutputArrayProxy probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_trainE(
-        OpenCvSafeHandle model, IntPtr samples, IntPtr means0, IntPtr covs0, IntPtr weights0,
-        IntPtr logLikelihoods, IntPtr labels, IntPtr probs, out int returnValue);
+    internal static partial ExceptionStatus ml_EM_trainE(
+        OpenCvSafeHandle model, in InputArrayProxy samples, in InputArrayProxy means0, in InputArrayProxy covs0, in InputArrayProxy weights0,
+        in OutputArrayProxy logLikelihoods, in OutputArrayProxy labels, in OutputArrayProxy probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_EM_trainM(
-        OpenCvSafeHandle model, IntPtr samples, IntPtr probs0, IntPtr logLikelihoods, 
-        IntPtr labels, IntPtr probs, out int returnValue);
+    internal static partial ExceptionStatus ml_EM_trainM(
+        OpenCvSafeHandle model, in InputArrayProxy samples, in InputArrayProxy probs0, in OutputArrayProxy logLikelihoods, 
+        in OutputArrayProxy labels, in OutputArrayProxy probs, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_EM_create(out IntPtr returnValue);

@@ -31,8 +31,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_KNearest_setAlgorithmType(OpenCvSafeHandle obj, int val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_KNearest_findNearest(OpenCvSafeHandle obj, IntPtr samples, int k,
-        IntPtr results, IntPtr neighborResponses, IntPtr dist, out float returnValue);
+    internal static partial ExceptionStatus ml_KNearest_findNearest(OpenCvSafeHandle obj, in InputArrayProxy samples, int k,
+        in OutputArrayProxy results, in OutputArrayProxy neighborResponses, in OutputArrayProxy dist, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_KNearest_create(out IntPtr returnValue);

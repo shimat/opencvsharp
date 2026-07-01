@@ -147,10 +147,14 @@ CVAPI(ExceptionStatus) ml_SVM_getSupportVectors(cv::ml::SVM *obj, cv::Mat **retu
 }
 
 CVAPI(ExceptionStatus) ml_SVM_getDecisionFunction(
-    cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx, double *returnValue)
+    cv::ml::SVM *obj,
+    int i,
+    const interop::OutputArrayProxy* alpha,
+    const interop::OutputArrayProxy* svidx,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getDecisionFunction(i, entity(alpha), entity(svidx));
+    *returnValue = obj->getDecisionFunction(i, OutProxy(*alpha), OutProxy(*svidx));
     });
 }
 
