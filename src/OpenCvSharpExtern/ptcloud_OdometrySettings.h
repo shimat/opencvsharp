@@ -22,29 +22,29 @@ CVAPI(ExceptionStatus) ptcloud_OdometrySettings_delete(cv::OdometrySettings *obj
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setCameraMatrix(cv::OdometrySettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setCameraMatrix(cv::OdometrySettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setCameraMatrix(entity(val));
+    obj->setCameraMatrix(InProxy(*val));
     });
 }
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getCameraMatrix(cv::OdometrySettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getCameraMatrix(cv::OdometrySettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getCameraMatrix(entity(val));
+    obj->getCameraMatrix(OutProxy(*val));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setIterCounts(cv::OdometrySettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setIterCounts(cv::OdometrySettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setIterCounts(entity(val));
+    obj->setIterCounts(InProxy(*val));
     });
 }
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getIterCounts(cv::OdometrySettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getIterCounts(cv::OdometrySettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getIterCounts(entity(val));
+    obj->getIterCounts(OutProxy(*val));
     });
 }
 
@@ -217,16 +217,16 @@ CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getMinGradientMagnitude(cv::Odom
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setMinGradientMagnitudes(cv::OdometrySettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_setMinGradientMagnitudes(cv::OdometrySettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setMinGradientMagnitudes(entity(val));
+    obj->setMinGradientMagnitudes(InProxy(*val));
     });
 }
-CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getMinGradientMagnitudes(cv::OdometrySettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_OdometrySettings_getMinGradientMagnitudes(cv::OdometrySettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getMinGradientMagnitudes(entity(val));
+    obj->getMinGradientMagnitudes(OutProxy(*val));
     });
 }
 

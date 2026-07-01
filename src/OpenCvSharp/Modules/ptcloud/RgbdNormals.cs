@@ -51,7 +51,7 @@ public class RgbdNormals : CvPtrObject
         K?.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_RgbdNormals_create(
-                rows, cols, depth, K?.CvPtr ?? IntPtr.Zero, windowSize, diffThreshold, (int)method, out var p));
+                rows, cols, depth, K?.ToInputProxy() ?? default, windowSize, diffThreshold, (int)method, out var p));
         GC.KeepAlive(K);
         return new RgbdNormals(p);
     }
@@ -83,7 +83,7 @@ public class RgbdNormals : CvPtrObject
         points.ThrowIfDisposed();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_apply(Handle, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_RgbdNormals_apply(Handle, points.ToInputProxy(), normals.ToOutputProxy()));
         normals.Fix();
         GC.KeepAlive(points);
     }
@@ -184,7 +184,7 @@ public class RgbdNormals : CvPtrObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_getK(Handle, val.CvPtr));
+            NativeMethods.ptcloud_RgbdNormals_getK(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -199,7 +199,7 @@ public class RgbdNormals : CvPtrObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_RgbdNormals_setK(Handle, val.CvPtr));
+            NativeMethods.ptcloud_RgbdNormals_setK(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 

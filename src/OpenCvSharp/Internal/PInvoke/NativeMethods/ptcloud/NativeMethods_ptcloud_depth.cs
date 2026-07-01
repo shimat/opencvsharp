@@ -11,28 +11,28 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_registerDepth(
-        IntPtr unregisteredCameraMatrix, IntPtr registeredCameraMatrix, IntPtr registeredDistCoeffs,
-        IntPtr rt, IntPtr unregisteredDepth, Size outputImagePlaneSize,
-        IntPtr registeredDepth, int depthDilation);
+    internal static partial ExceptionStatus ptcloud_registerDepth(
+        in InputArrayProxy unregisteredCameraMatrix, in InputArrayProxy registeredCameraMatrix, in InputArrayProxy registeredDistCoeffs,
+        in InputArrayProxy rt, in InputArrayProxy unregisteredDepth, Size outputImagePlaneSize,
+        in OutputArrayProxy registeredDepth, int depthDilation);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_depthTo3dSparse(IntPtr depth, IntPtr inK, IntPtr inPoints, IntPtr points3d);
+    internal static partial ExceptionStatus ptcloud_depthTo3dSparse(in InputArrayProxy depth, in InputArrayProxy inK, in InputArrayProxy inPoints, in OutputArrayProxy points3d);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_depthTo3d(IntPtr depth, IntPtr k, IntPtr points3d, IntPtr mask);
+    internal static partial ExceptionStatus ptcloud_depthTo3d(in InputArrayProxy depth, in InputArrayProxy k, in OutputArrayProxy points3d, in InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_rescaleDepth(IntPtr src, int type, IntPtr dst, double depthFactor);
+    internal static partial ExceptionStatus ptcloud_rescaleDepth(in InputArrayProxy src, int type, in OutputArrayProxy dst, double depthFactor);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_warpFrame(
-        IntPtr depth, IntPtr image, IntPtr mask, IntPtr rt, IntPtr cameraMatrix,
-        IntPtr warpedDepth, IntPtr warpedImage, IntPtr warpedMask);
+    internal static partial ExceptionStatus ptcloud_warpFrame(
+        in InputArrayProxy depth, in InputArrayProxy image, in InputArrayProxy mask, in InputArrayProxy rt, in InputArrayProxy cameraMatrix,
+        in OutputArrayProxy warpedDepth, in OutputArrayProxy warpedImage, in OutputArrayProxy warpedMask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_findPlanes(
-        IntPtr points3d, IntPtr normals, IntPtr mask, IntPtr planeCoefficients,
+    internal static partial ExceptionStatus ptcloud_findPlanes(
+        in InputArrayProxy points3d, in InputArrayProxy normals, in OutputArrayProxy mask, in OutputArrayProxy planeCoefficients,
         int blockSize, int minSize, double threshold,
         double sensorErrorA, double sensorErrorB, double sensorErrorC, int method);
 }

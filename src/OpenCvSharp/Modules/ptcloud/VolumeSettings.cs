@@ -258,7 +258,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumePose(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_setVolumePose(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -273,7 +273,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumePose(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumePose(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -288,7 +288,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -303,7 +303,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -318,7 +318,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -333,7 +333,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -348,7 +348,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -363,7 +363,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -378,7 +378,7 @@ public class VolumeSettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(Handle, val.CvPtr));
+            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 

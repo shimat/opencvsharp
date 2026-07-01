@@ -10,12 +10,18 @@
 #include <opencv2/ptcloud/depth.hpp>
 
 CVAPI(ExceptionStatus) ptcloud_RgbdNormals_create(
-    int rows, int cols, int depth, cv::_InputArray *K, int window_size, float diff_threshold, int method,
+    int rows,
+    int cols,
+    int depth,
+    const interop::InputArrayProxy* K,
+    int window_size,
+    float diff_threshold,
+    int method,
     cv::Ptr<cv::RgbdNormals> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::RgbdNormals::create(
-        rows, cols, depth, entity(K), window_size, diff_threshold,
+        rows, cols, depth, InProxy(*K), window_size, diff_threshold,
         static_cast<cv::RgbdNormals::RgbdNormalsMethod>(method));
     *returnValue = clone(ptr);
     });
@@ -35,10 +41,13 @@ CVAPI(ExceptionStatus) ptcloud_Ptr_RgbdNormals_get(cv::Ptr<cv::RgbdNormals> *obj
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_RgbdNormals_apply(cv::RgbdNormals *obj, cv::_InputArray *points, cv::_OutputArray *normals)
+CVAPI(ExceptionStatus) ptcloud_RgbdNormals_apply(
+    cv::RgbdNormals *obj,
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->apply(entity(points), entity(normals));
+    obj->apply(InProxy(*points), OutProxy(*normals));
     });
 }
 
@@ -98,17 +107,17 @@ CVAPI(ExceptionStatus) ptcloud_RgbdNormals_getDepth(cv::RgbdNormals *obj, int *r
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_RgbdNormals_getK(cv::RgbdNormals *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_RgbdNormals_getK(cv::RgbdNormals *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getK(entity(val));
+    obj->getK(OutProxy(*val));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_RgbdNormals_setK(cv::RgbdNormals *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_RgbdNormals_setK(cv::RgbdNormals *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setK(entity(val));
+    obj->setK(InProxy(*val));
     });
 }
 

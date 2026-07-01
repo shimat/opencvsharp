@@ -45,9 +45,9 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.ptcloud_registerDepth(
-                unregisteredCameraMatrix.CvPtr, registeredCameraMatrix.CvPtr, registeredDistCoeffs.CvPtr,
-                Rt.CvPtr, unregisteredDepth.CvPtr, outputImagePlaneSize,
-                registeredDepth.CvPtr, depthDilation ? 1 : 0));
+                unregisteredCameraMatrix.ToInputProxy(), registeredCameraMatrix.ToInputProxy(), registeredDistCoeffs.ToInputProxy(),
+                Rt.ToInputProxy(), unregisteredDepth.ToInputProxy(), outputImagePlaneSize,
+                registeredDepth.ToOutputProxy(), depthDilation ? 1 : 0));
 
         registeredDepth.Fix();
         GC.KeepAlive(unregisteredCameraMatrix);
@@ -80,7 +80,7 @@ static partial class Cv2
         points3d.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_depthTo3dSparse(depth.CvPtr, inK.CvPtr, inPoints.CvPtr, points3d.CvPtr));
+            NativeMethods.ptcloud_depthTo3dSparse(depth.ToInputProxy(), inK.ToInputProxy(), inPoints.ToInputProxy(), points3d.ToOutputProxy()));
 
         points3d.Fix();
         GC.KeepAlive(depth);
@@ -109,7 +109,7 @@ static partial class Cv2
         mask?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_depthTo3d(depth.CvPtr, K.CvPtr, points3d.CvPtr, ToPtr(mask)));
+            NativeMethods.ptcloud_depthTo3d(depth.ToInputProxy(), K.ToInputProxy(), points3d.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         points3d.Fix();
         GC.KeepAlive(depth);
@@ -135,7 +135,7 @@ static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_rescaleDepth(src.CvPtr, type, dst.CvPtr, depthFactor));
+            NativeMethods.ptcloud_rescaleDepth(src.ToInputProxy(), type, dst.ToOutputProxy(), depthFactor));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -174,8 +174,8 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.ptcloud_warpFrame(
-                depth.CvPtr, ToPtr(image), ToPtr(mask), Rt.CvPtr, cameraMatrix.CvPtr,
-                ToPtr(warpedDepth), ToPtr(warpedImage), ToPtr(warpedMask)));
+                depth.ToInputProxy(), image?.ToInputProxy() ?? default, mask?.ToInputProxy() ?? default, Rt.ToInputProxy(), cameraMatrix.ToInputProxy(),
+                warpedDepth?.ToOutputProxy() ?? default, warpedImage?.ToOutputProxy() ?? default, warpedMask?.ToOutputProxy() ?? default));
 
         warpedDepth?.Fix();
         warpedImage?.Fix();
@@ -222,7 +222,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.ptcloud_findPlanes(
-                points3d.CvPtr, normals.CvPtr, mask.CvPtr, planeCoefficients.CvPtr,
+                points3d.ToInputProxy(), normals.ToInputProxy(), mask.ToOutputProxy(), planeCoefficients.ToOutputProxy(),
                 blockSize, minSize, threshold,
                 sensorErrorA, sensorErrorB, sensorErrorC, (int)method));
 
@@ -250,7 +250,7 @@ static partial class Cv2
         rgb?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_loadPointCloud(filename, vertices.CvPtr, ToPtr(normals), ToPtr(rgb)));
+            NativeMethods.ptcloud_loadPointCloud(filename, vertices.ToOutputProxy(), normals?.ToOutputProxy() ?? default, rgb?.ToOutputProxy() ?? default));
 
         vertices.Fix();
         normals?.Fix();
@@ -275,7 +275,7 @@ static partial class Cv2
         rgb?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_savePointCloud(filename, vertices.CvPtr, ToPtr(normals), ToPtr(rgb)));
+            NativeMethods.ptcloud_savePointCloud(filename, vertices.ToInputProxy(), normals?.ToInputProxy() ?? default, rgb?.ToInputProxy() ?? default));
 
         GC.KeepAlive(vertices);
         GC.KeepAlive(normals);
@@ -307,7 +307,7 @@ static partial class Cv2
         using var indicesVec = new VectorOfMat();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_loadMesh(
-                filename, vertices.CvPtr, indicesVec.CvPtr, ToPtr(normals), ToPtr(colors), ToPtr(texCoords)));
+                filename, vertices.ToOutputProxy(), indicesVec.CvPtr, normals?.ToOutputProxy() ?? default, colors?.ToOutputProxy() ?? default, texCoords?.ToOutputProxy() ?? default));
 
         vertices.Fix();
         normals?.Fix();
@@ -344,7 +344,7 @@ static partial class Cv2
         using var indicesVec = new VectorOfMat(indicesArray);
         NativeMethods.HandleException(
             NativeMethods.ptcloud_saveMesh(
-                filename, vertices.CvPtr, indicesVec.CvPtr, ToPtr(normals), ToPtr(colors), ToPtr(texCoords)));
+                filename, vertices.ToInputProxy(), indicesVec.CvPtr, normals?.ToInputProxy() ?? default, colors?.ToInputProxy() ?? default, texCoords?.ToInputProxy() ?? default));
 
         GC.KeepAlive(vertices);
         GC.KeepAlive(normals);

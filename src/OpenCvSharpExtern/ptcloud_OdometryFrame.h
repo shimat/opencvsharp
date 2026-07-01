@@ -9,11 +9,14 @@
 #include <opencv2/ptcloud.hpp>
 
 CVAPI(ExceptionStatus) ptcloud_OdometryFrame_new(
-    cv::_InputArray *depth, cv::_InputArray *image, cv::_InputArray *mask, cv::_InputArray *normals,
+    const interop::InputArrayProxy* depth,
+    const interop::InputArrayProxy* image,
+    const interop::InputArrayProxy* mask,
+    const interop::InputArrayProxy* normals,
     cv::OdometryFrame **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::OdometryFrame(entity(depth), entity(image), entity(mask), entity(normals));
+    *returnValue = new cv::OdometryFrame(InProxy(*depth), InProxy(*image), InProxy(*mask), InProxy(*normals));
     });
 }
 
@@ -24,45 +27,45 @@ CVAPI(ExceptionStatus) ptcloud_OdometryFrame_delete(cv::OdometryFrame *obj)
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getImage(cv::OdometryFrame *obj, cv::_OutputArray *image)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getImage(cv::OdometryFrame *obj, const interop::OutputArrayProxy* image)
 {
     return cvTry([&] {
-    obj->getImage(entity(image));
+    obj->getImage(OutProxy(*image));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getGrayImage(cv::OdometryFrame *obj, cv::_OutputArray *image)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getGrayImage(cv::OdometryFrame *obj, const interop::OutputArrayProxy* image)
 {
     return cvTry([&] {
-    obj->getGrayImage(entity(image));
+    obj->getGrayImage(OutProxy(*image));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getDepth(cv::OdometryFrame *obj, cv::_OutputArray *depth)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getDepth(cv::OdometryFrame *obj, const interop::OutputArrayProxy* depth)
 {
     return cvTry([&] {
-    obj->getDepth(entity(depth));
+    obj->getDepth(OutProxy(*depth));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getProcessedDepth(cv::OdometryFrame *obj, cv::_OutputArray *depth)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getProcessedDepth(cv::OdometryFrame *obj, const interop::OutputArrayProxy* depth)
 {
     return cvTry([&] {
-    obj->getProcessedDepth(entity(depth));
+    obj->getProcessedDepth(OutProxy(*depth));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getMask(cv::OdometryFrame *obj, cv::_OutputArray *mask)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getMask(cv::OdometryFrame *obj, const interop::OutputArrayProxy* mask)
 {
     return cvTry([&] {
-    obj->getMask(entity(mask));
+    obj->getMask(OutProxy(*mask));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getNormals(cv::OdometryFrame *obj, cv::_OutputArray *normals)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getNormals(cv::OdometryFrame *obj, const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->getNormals(entity(normals));
+    obj->getNormals(OutProxy(*normals));
     });
 }
 
@@ -73,10 +76,14 @@ CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getPyramidLevels(cv::OdometryFrame 
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getPyramidAt(cv::OdometryFrame *obj, cv::_OutputArray *img, int pyrType, size_t level)
+CVAPI(ExceptionStatus) ptcloud_OdometryFrame_getPyramidAt(
+    cv::OdometryFrame *obj,
+    const interop::OutputArrayProxy* img,
+    int pyrType,
+    size_t level)
 {
     return cvTry([&] {
-    obj->getPyramidAt(entity(img), static_cast<cv::OdometryFramePyramidType>(pyrType), level);
+    obj->getPyramidAt(OutProxy(*img), static_cast<cv::OdometryFramePyramidType>(pyrType), level);
     });
 }
 

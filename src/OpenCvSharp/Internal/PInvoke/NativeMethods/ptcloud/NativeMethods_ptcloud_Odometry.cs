@@ -25,11 +25,11 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_Odometry_prepareFrames(OpenCvSafeHandle obj, IntPtr srcFrame, IntPtr dstFrame);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Odometry_compute_Frame(OpenCvSafeHandle obj, IntPtr srcFrame, IntPtr dstFrame, IntPtr rt, out int returnValue);
+    internal static partial ExceptionStatus ptcloud_Odometry_compute_Frame(OpenCvSafeHandle obj, IntPtr srcFrame, IntPtr dstFrame, in OutputArrayProxy rt, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Odometry_compute_Depth(OpenCvSafeHandle obj, IntPtr srcDepth, IntPtr dstDepth, IntPtr rt, out int returnValue);
+    internal static partial ExceptionStatus ptcloud_Odometry_compute_Depth(OpenCvSafeHandle obj, in InputArrayProxy srcDepth, in InputArrayProxy dstDepth, in OutputArrayProxy rt, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_Odometry_compute_DepthRGB(OpenCvSafeHandle obj, IntPtr srcDepth, IntPtr srcRGB, IntPtr dstDepth, IntPtr dstRGB, IntPtr rt, out int returnValue);
+    internal static partial ExceptionStatus ptcloud_Odometry_compute_DepthRGB(OpenCvSafeHandle obj, in InputArrayProxy srcDepth, in InputArrayProxy srcRGB, in InputArrayProxy dstDepth, in InputArrayProxy dstRGB, in OutputArrayProxy rt, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_Odometry_getNormalsComputer(OpenCvSafeHandle obj, out IntPtr returnValue);

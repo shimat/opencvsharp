@@ -129,7 +129,7 @@ public class Odometry : CvObject
         dstFrame.ThrowIfDisposed();
         Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_Frame(Handle, srcFrame.CvPtr, dstFrame.CvPtr, Rt.CvPtr, out var ret));
+            NativeMethods.ptcloud_Odometry_compute_Frame(Handle, srcFrame.CvPtr, dstFrame.CvPtr, Rt.ToOutputProxy(), out var ret));
         Rt.Fix();
         GC.KeepAlive(srcFrame);
         GC.KeepAlive(dstFrame);
@@ -156,7 +156,7 @@ public class Odometry : CvObject
         dstDepth.ThrowIfDisposed();
         Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_Depth(Handle, srcDepth.CvPtr, dstDepth.CvPtr, Rt.CvPtr, out var ret));
+            NativeMethods.ptcloud_Odometry_compute_Depth(Handle, srcDepth.ToInputProxy(), dstDepth.ToInputProxy(), Rt.ToOutputProxy(), out var ret));
         Rt.Fix();
         GC.KeepAlive(srcDepth);
         GC.KeepAlive(dstDepth);
@@ -191,7 +191,7 @@ public class Odometry : CvObject
         dstRGB.ThrowIfDisposed();
         Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_DepthRGB(Handle, srcDepth.CvPtr, srcRGB.CvPtr, dstDepth.CvPtr, dstRGB.CvPtr, Rt.CvPtr, out var ret));
+            NativeMethods.ptcloud_Odometry_compute_DepthRGB(Handle, srcDepth.ToInputProxy(), srcRGB.ToInputProxy(), dstDepth.ToInputProxy(), dstRGB.ToInputProxy(), Rt.ToOutputProxy(), out var ret));
         Rt.Fix();
         GC.KeepAlive(srcDepth);
         GC.KeepAlive(srcRGB);
