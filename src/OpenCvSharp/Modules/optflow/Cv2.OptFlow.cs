@@ -31,7 +31,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_updateMotionHistory(
-                    silhouette.CvPtr, mhi.CvPtr, timestamp, duration));
+                    silhouette.ToInputProxy(), mhi.ToInputOutputProxy(), timestamp, duration));
 
             mhi.Fix();
             GC.KeepAlive(silhouette);
@@ -68,7 +68,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcMotionGradient(
-                    mhi.CvPtr, mask.CvPtr, orientation.CvPtr, delta1, delta2, apertureSize));
+                    mhi.ToInputProxy(), mask.ToOutputProxy(), orientation.ToOutputProxy(), delta1, delta2, apertureSize));
 
             mask.Fix();
             orientation.Fix();
@@ -103,7 +103,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcGlobalOrientation(
-                    orientation.CvPtr, mask.CvPtr, mhi.CvPtr, timestamp, duration, out var ret));
+                    orientation.ToInputProxy(), mask.ToInputProxy(), mhi.ToInputProxy(), timestamp, duration, out var ret));
 
             GC.KeepAlive(orientation);
             GC.KeepAlive(mask);
@@ -135,7 +135,7 @@ public static partial class Cv2
             using var br = new StdVector<Rect>();
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_segmentMotion(
-                    mhi.CvPtr, segmask.CvPtr, br.CvPtr, timestamp, segThresh));
+                    mhi.ToInputProxy(), segmask.ToOutputProxy(), br.CvPtr, timestamp, segThresh));
             boundingRects = br.ToArray();
             
             segmask.Fix();
@@ -172,7 +172,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF1(
-                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
                     layers, averagingBlockSize, maxFlow));
 
             GC.KeepAlive(from);
@@ -229,7 +229,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF2(
-                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
                     layers, averagingBlockSize, maxFlow,
                     sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
                     sigmaColorFix, occThr, upscaleAveragingRadius,
@@ -278,7 +278,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSparseToDense(
-                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
                     gridStep, k, sigma, usePostProc ? 1 : 0, fgsLambda, fgsSigma));
 
             GC.KeepAlive(from);

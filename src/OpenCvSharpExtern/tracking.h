@@ -109,10 +109,10 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_get(cv::Ptr<cv::TrackerCSRT>* pt
     });
 }
 
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *tracker, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *tracker, const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    tracker->setInitialMask(*mask);
+    tracker->setInitialMask(InProxy(*mask));
     });
 }
 

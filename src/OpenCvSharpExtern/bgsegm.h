@@ -11,7 +11,11 @@
 #pragma region BackgroundSubtractorMOG
 
 CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorMOG(
-    int history, int nmixtures, double backgroundRatio, double noiseSigma, cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> **returnValue)
+    int history,
+    int nmixtures,
+    double backgroundRatio,
+    double noiseSigma,
+    cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::bgsegm::createBackgroundSubtractorMOG(history, nmixtures, backgroundRatio, noiseSigma);
@@ -85,18 +89,20 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setNoiseSigma(cv::Ptr<cv::
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_apply(
-    cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+    cv::bgsegm::BackgroundSubtractorMOG *obj,
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* fgmask,
+    double learningRate)
 {
     return cvTry([&] {
-    obj->apply(*image, *fgmask, learningRate);
+    obj->apply(InProxy(*image), OutProxy(*fgmask), learningRate);
     });
 }
 
-CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(
-    cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_OutputArray *backgroundImage)
+CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(cv::bgsegm::BackgroundSubtractorMOG *obj, const interop::OutputArrayProxy* backgroundImage)
 {
     return cvTry([&] {
-    obj->getBackgroundImage(*backgroundImage);
+    obj->getBackgroundImage(OutProxy(*backgroundImage));
     });
 }
 
@@ -105,7 +111,9 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(
 #pragma region BackgroundSubtractorGMG
 
 CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorGMG(
-    int initializationFrames, double decisionThreshold, cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> **returnValue)
+    int initializationFrames,
+    double decisionThreshold,
+    cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::bgsegm::createBackgroundSubtractorGMG(initializationFrames, decisionThreshold);
@@ -257,18 +265,20 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<cv::bgse
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_apply(
-    cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+    cv::bgsegm::BackgroundSubtractorGMG *obj,
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* fgmask,
+    double learningRate)
 {
     return cvTry([&] {
-    obj->apply(*image, *fgmask, learningRate);
+    obj->apply(InProxy(*image), OutProxy(*fgmask), learningRate);
     });
 }
 
-CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getBackgroundImage(
-    cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_OutputArray *backgroundImage)
+CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getBackgroundImage(cv::bgsegm::BackgroundSubtractorGMG *obj, const interop::OutputArrayProxy* backgroundImage)
 {
     return cvTry([&] {
-    obj->getBackgroundImage(*backgroundImage);
+    obj->getBackgroundImage(OutProxy(*backgroundImage));
     });
 }
 

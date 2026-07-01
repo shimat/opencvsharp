@@ -46,10 +46,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus bgsegm_BackgroundSubtractorMOG_setNoiseSigma(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus bgsegm_BackgroundSubtractorMOG_apply(OpenCvSafeHandle ptr, IntPtr image, IntPtr fgmask, double learningRate);
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorMOG_apply(OpenCvSafeHandle ptr, in InputArrayProxy image, in OutputArrayProxy fgmask, double learningRate);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus bgsegm_BackgroundSubtractorMOG_getBackgroundImage(OpenCvSafeHandle ptr, IntPtr backgroundImage);
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorMOG_getBackgroundImage(OpenCvSafeHandle ptr, in OutputArrayProxy backgroundImage);
 
     #endregion
 
@@ -126,10 +126,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_setMaxVal(OpenCvSafeHandle ptr, double value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_apply(OpenCvSafeHandle ptr, IntPtr image, IntPtr fgmask, double learningRate);
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_apply(OpenCvSafeHandle ptr, in InputArrayProxy image, in OutputArrayProxy fgmask, double learningRate);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_getBackgroundImage(OpenCvSafeHandle ptr, IntPtr backgroundImage);
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_getBackgroundImage(OpenCvSafeHandle ptr, in OutputArrayProxy backgroundImage);
 
     #endregion
 }
