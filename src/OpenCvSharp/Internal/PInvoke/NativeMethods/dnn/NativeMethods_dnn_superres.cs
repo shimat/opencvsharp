@@ -42,12 +42,12 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, int targetId);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_superres_DnnSuperResImpl_upsample(
-        OpenCvSafeHandle obj, IntPtr img, IntPtr result);
+    internal static partial ExceptionStatus dnn_superres_DnnSuperResImpl_upsample(
+        OpenCvSafeHandle obj, in InputArrayProxy img, in OutputArrayProxy result);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-        OpenCvSafeHandle obj, IntPtr img, IntPtr imgsNew,
+    internal static partial ExceptionStatus dnn_superres_DnnSuperResImpl_upsampleMultioutput(
+        OpenCvSafeHandle obj, in InputArrayProxy img, IntPtr imgsNew,
         int[] scaleFactors, int scaleFactorsSize, 
         [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] nodeNames,  int nodeNamesSize);
 

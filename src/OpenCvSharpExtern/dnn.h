@@ -66,7 +66,11 @@ static cv::dnn::Net dnn_readNetGated(const char *model, const char *config, cons
 #endif
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(
+    const char *model,
+    const char *config,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -95,7 +99,13 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(
+    const char *model,
+    size_t lenModel,
+    const char *config,
+    size_t lenConfig,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
     const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
@@ -103,14 +113,22 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,si
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNet(const char *model, const char *config, const char *framework, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNet(
+    const char *model,
+    const char *config,
+    const char *framework,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::dnn::Net(dnn_readNetGated(model, config, framework, engine));
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char *bin, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(
+    const char *xml,
+    const char *bin,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -134,7 +152,10 @@ CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(const char *xml, const char
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromONNX(
+    const char *onnxFile,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -158,7 +179,11 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, int engine, cv:
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* buffer, size_t sizeBuffer, int engine, cv::dnn::Net** returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(
+    const char* buffer,
+    size_t sizeBuffer,
+    int engine,
+    cv::dnn::Net** returnValue)
 {
     return cvTry([&] {
     const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer, engine);
@@ -176,7 +201,12 @@ CVAPI(ExceptionStatus) dnn_readTensorFromONNX(const char *path, cv::Mat **return
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImage(
-    cv::Mat *image, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
+    cv::Mat *image,
+    const double scalefactor,
+    const interop::Size size,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int crop,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
@@ -186,7 +216,13 @@ CVAPI(ExceptionStatus) dnn_blobFromImage(
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImages(
-    const cv::Mat **images, const int imagesLength, const double scalefactor, const interop::Size size, const interop::Scalar mean, const int swapRB, const int crop, 
+    const cv::Mat **images,
+    const int imagesLength,
+    const double scalefactor,
+    const interop::Size size,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int crop,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
@@ -205,27 +241,42 @@ CVAPI(ExceptionStatus) dnn_writeTextGraph(const char *model, const char *output)
     });
 }
 
-CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect(std::vector<cv::Rect> *bboxes, std::vector<float> *scores,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const float eta, const int top_k)
+CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect(
+    std::vector<cv::Rect> *bboxes,
+    std::vector<float> *scores,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const float eta,
+    const int top_k)
 {
     return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
-CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect2d(std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const float eta, const int top_k)
+CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect2d(
+    std::vector<cv::Rect2d> *bboxes,
+    std::vector<float> *scores,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const float eta,
+    const int top_k)
 {
     return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
-CVAPI(ExceptionStatus) dnn_NMSBoxes_RotatedRect(std::vector<cv::RotatedRect> *bboxes, std::vector<float> *scores,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const float eta, const int top_k)
+CVAPI(ExceptionStatus) dnn_NMSBoxes_RotatedRect(
+    std::vector<cv::RotatedRect> *bboxes,
+    std::vector<float> *scores,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const float eta,
+    const int top_k)
 {
     return cvTry([&] {
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
@@ -270,7 +321,10 @@ CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite(
+    const char *model,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -294,7 +348,11 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite(const char *model, int engine, cv::
     });
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel, size_t lenModel, int engine, cv::dnn::Net **returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(
+    const char *bufferModel,
+    size_t lenModel,
+    int engine,
+    cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
     const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel, engine);
@@ -303,22 +361,37 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(const char *bufferModel,
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
-    cv::_InputArray *image, const interop::Scalar scalefactor, const interop::Size size, const interop::Scalar mean,
-    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
+    const interop::InputArrayProxy* image,
+    const interop::Scalar scalefactor,
+    const interop::Size size,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int ddepth,
+    const int datalayout,
+    const int paddingmode,
+    const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
     const cv::dnn::Image2BlobParams param(
         cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
         static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
-    const auto blob = cv::dnn::blobFromImageWithParams(*image, param);
+    const auto blob = cv::dnn::blobFromImageWithParams(InProxy(*image), param);
     *returnValue = new cv::Mat(blob);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
-    cv::Mat **images, const int imagesLength, const interop::Scalar scalefactor, const interop::Size size, const interop::Scalar mean,
-    const int swapRB, const int ddepth, const int datalayout, const int paddingmode, const interop::Scalar borderValue,
+    cv::Mat **images,
+    const int imagesLength,
+    const interop::Scalar scalefactor,
+    const interop::Size size,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int ddepth,
+    const int datalayout,
+    const int paddingmode,
+    const interop::Scalar borderValue,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
@@ -340,9 +413,14 @@ CVAPI(ExceptionStatus) dnn_imagesFromBlob(cv::Mat *blob, std::vector<cv::Mat> *i
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
-    std::vector<cv::Rect> *bboxes, std::vector<float> *scores, std::vector<int> *classIds,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const float eta, const int top_k)
+    std::vector<cv::Rect> *bboxes,
+    std::vector<float> *scores,
+    std::vector<int> *classIds,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const float eta,
+    const int top_k)
 {
     return cvTry([&] {
     cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
@@ -350,9 +428,14 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
 }
 
 CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
-    std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores, std::vector<int> *classIds,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const float eta, const int top_k)
+    std::vector<cv::Rect2d> *bboxes,
+    std::vector<float> *scores,
+    std::vector<int> *classIds,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const float eta,
+    const int top_k)
 {
     return cvTry([&] {
     cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
@@ -360,9 +443,15 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
 }
 
 CVAPI(ExceptionStatus) dnn_softNMSBoxes_Rect(
-    std::vector<cv::Rect> *bboxes, std::vector<float> *scores, std::vector<float> *updated_scores,
-    const float score_threshold, const float nms_threshold,
-    std::vector<int> *indices, const size_t top_k, const float sigma, const int method)
+    std::vector<cv::Rect> *bboxes,
+    std::vector<float> *scores,
+    std::vector<float> *updated_scores,
+    const float score_threshold,
+    const float nms_threshold,
+    std::vector<int> *indices,
+    const size_t top_k,
+    const float sigma,
+    const int method)
 {
     return cvTry([&] {
     cv::dnn::softNMSBoxes(
