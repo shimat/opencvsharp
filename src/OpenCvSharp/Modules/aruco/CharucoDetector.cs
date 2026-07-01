@@ -41,8 +41,8 @@ public class CharucoDetector : CvObject
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_create(
                 board.CvPtr,
-                cameraMatrix?.CvPtr ?? IntPtr.Zero,
-                distCoeffs?.CvPtr ?? IntPtr.Zero,
+                cameraMatrix?.ToInputProxy() ?? default,
+                distCoeffs?.ToInputProxy() ?? default,
                 minMarkers, tryRefineMarkers, checkMarkers,
                 ref dp, ref rp,
                 out var ptr));
@@ -76,7 +76,7 @@ public class CharucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectBoard(
-                Handle, image.CvPtr,
+                Handle, image.ToInputProxy(),
                 charucoCornersVec.CvPtr, charucoIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 
@@ -109,7 +109,7 @@ public class CharucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectDiamonds(
-                Handle, image.CvPtr,
+                Handle, image.ToInputProxy(),
                 diamondCornersVec.CvPtr, diamondIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 

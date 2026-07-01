@@ -10,16 +10,14 @@
 
 // DTFilter
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_delete(
-    cv::Ptr<cv::ximgproc::DTFilter>* obj)
+CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_delete(cv::Ptr<cv::ximgproc::DTFilter>* obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_get(
-    cv::Ptr<cv::ximgproc::DTFilter>* ptr, cv::ximgproc::DTFilter** returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_get(cv::Ptr<cv::ximgproc::DTFilter>* ptr, cv::ximgproc::DTFilter** returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -28,44 +26,54 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_get(
 
 CVAPI(ExceptionStatus) ximgproc_DTFilter_filter(
     cv::ximgproc::DTFilter* obj,
-    cv::_InputArray *src, cv::_OutputArray *dst, int dDepth)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int dDepth)
 {
     return cvTry([&] {
-    obj->filter(*src, *dst, dDepth);
+    obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_createDTFilter(
-    cv::_InputArray *guide, double sigmaSpatial, double sigmaColor, int mode, int numIters,
+    const interop::InputArrayProxy* guide,
+    double sigmaSpatial,
+    double sigmaColor,
+    int mode,
+    int numIters,
     cv::Ptr<cv::ximgproc::DTFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createDTFilter(*guide, sigmaSpatial, sigmaColor, mode, numIters);
+    const auto ptr = cv::ximgproc::createDTFilter(InProxy(*guide), sigmaSpatial, sigmaColor, mode, numIters);
     *returnValue = new cv::Ptr<cv::ximgproc::DTFilter>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_dtFilter(
-    cv::_InputArray *guide, cv::_InputArray *src, cv::_OutputArray *dst, double sigmaSpatial, double sigmaColor, int mode, int numIters)
+    const interop::InputArrayProxy* guide,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double sigmaSpatial,
+    double sigmaColor,
+    int mode,
+    int numIters)
 {
     return cvTry([&] {
-    cv::ximgproc::dtFilter(*guide, *src, *dst, sigmaSpatial, sigmaColor, mode, numIters);
+    cv::ximgproc::dtFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), sigmaSpatial, sigmaColor, mode, numIters);
     });
 }
 
 //////////////////////////////////////////////////////////////////////////
 // GuidedFilter
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_delete(
-    cv::Ptr<cv::ximgproc::GuidedFilter>* obj)
+CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_delete(cv::Ptr<cv::ximgproc::GuidedFilter>* obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_get(
-    cv::Ptr<cv::ximgproc::GuidedFilter>* ptr, cv::ximgproc::GuidedFilter** returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_get(cv::Ptr<cv::ximgproc::GuidedFilter>* ptr, cv::ximgproc::GuidedFilter** returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -74,44 +82,51 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_get(
 
 CVAPI(ExceptionStatus) ximgproc_GuidedFilter_filter(
     cv::ximgproc::GuidedFilter* obj,
-    cv::_InputArray* src, cv::_OutputArray* dst, int dDepth)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int dDepth)
 {
     return cvTry([&] {
-    obj->filter(*src, *dst, dDepth);
+    obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_createGuidedFilter(
-    cv::_InputArray* guide, int radius, double eps, 
+    const interop::InputArrayProxy* guide,
+    int radius,
+    double eps,
     cv::Ptr<cv::ximgproc::GuidedFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createGuidedFilter(*guide, radius, eps);
+    const auto ptr = cv::ximgproc::createGuidedFilter(InProxy(*guide), radius, eps);
     *returnValue = new cv::Ptr<cv::ximgproc::GuidedFilter>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_guidedFilter(
-    cv::_InputArray *guide, cv::_InputArray *src, cv::_OutputArray *dst, int radius, double eps, int dDepth)
+    const interop::InputArrayProxy* guide,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int radius,
+    double eps,
+    int dDepth)
 {
     return cvTry([&] {
-    cv::ximgproc::guidedFilter(*guide, *src, *dst, radius, eps, dDepth);
+    cv::ximgproc::guidedFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), radius, eps, dDepth);
     });
 }
 
 //////////////////////////////////////////////////////////////////////////
 // AdaptiveManifoldFilter
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_delete(
-    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj)
+CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_delete(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_get(
-    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* ptr, cv::ximgproc::AdaptiveManifoldFilter** returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_get(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* ptr, cv::ximgproc::AdaptiveManifoldFilter** returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -120,15 +135,16 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_get(
 
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_filter(
     cv::ximgproc::AdaptiveManifoldFilter* obj,
-    cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray *joint)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* joint)
 {
     return cvTry([&] {
-    obj->filter(*src, *dst, entity(joint));
+    obj->filter(InProxy(*src), OutProxy(*dst), InProxy(*joint));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_collectGarbage(
-    cv::ximgproc::AdaptiveManifoldFilter* obj)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_collectGarbage(cv::ximgproc::AdaptiveManifoldFilter* obj)
 {
     return cvTry([&] {
     obj->collectGarbage();
@@ -209,7 +225,9 @@ CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setUseRNG(cv::ximgproc::A
 }
 
 CVAPI(ExceptionStatus) ximgproc_createAMFilter(
-    double sigma_s, double sigma_r, int adjust_outliers,
+    double sigma_s,
+    double sigma_r,
+    int adjust_outliers,
     cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>** returnValue)
 {
     return cvTry([&] {
@@ -219,34 +237,59 @@ CVAPI(ExceptionStatus) ximgproc_createAMFilter(
 }
 
 CVAPI(ExceptionStatus) ximgproc_amFilter(
-    cv::_InputArray *joint, cv::_InputArray *src, cv::_OutputArray *dst, double sigma_s, double sigma_r, int adjust_outliers)
+    const interop::InputArrayProxy* joint,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double sigma_s,
+    double sigma_r,
+    int adjust_outliers)
 {
     return cvTry([&] {
-    cv::ximgproc::amFilter(*joint, *src, *dst, sigma_s, sigma_r, adjust_outliers != 0);
+    cv::ximgproc::amFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), sigma_s, sigma_r, adjust_outliers != 0);
     });
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 
-CVAPI(ExceptionStatus) ximgproc_jointBilateralFilter(cv::_InputArray *joint, cv::_InputArray *src, cv::_OutputArray *dst, int d, double sigmaColor, double sigmaSpace, int borderType)
+CVAPI(ExceptionStatus) ximgproc_jointBilateralFilter(
+    const interop::InputArrayProxy* joint,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int d,
+    double sigmaColor,
+    double sigmaSpace,
+    int borderType)
 {
     return cvTry([&] {
-    cv::ximgproc::jointBilateralFilter(*joint, *src, *dst, d, sigmaColor, sigmaSpace, borderType);
+    cv::ximgproc::jointBilateralFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, borderType);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_bilateralTextureFilter(cv::_InputArray *src, cv::_OutputArray *dst, int fr, int numIter, double sigmaAlpha, double sigmaAvg)
+CVAPI(ExceptionStatus) ximgproc_bilateralTextureFilter(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int fr,
+    int numIter,
+    double sigmaAlpha,
+    double sigmaAvg)
 {
     return cvTry([&] {
-    cv::ximgproc::bilateralTextureFilter(*src, *dst, fr, numIter, sigmaAlpha, sigmaAvg);
+    cv::ximgproc::bilateralTextureFilter(InProxy(*src), OutProxy(*dst), fr, numIter, sigmaAlpha, sigmaAvg);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(cv::_InputArray *src, cv::_OutputArray *dst, int d, double sigmaColor, double sigmaSpace, int numOfIter, int borderType)
+CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int d,
+    double sigmaColor,
+    double sigmaSpace,
+    int numOfIter,
+    int borderType)
 {
     return cvTry([&] {
-    cv::ximgproc::rollingGuidanceFilter(*src, *dst, d, sigmaColor, sigmaSpace, numOfIter, borderType);
+    cv::ximgproc::rollingGuidanceFilter(InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, numOfIter, borderType);
     });
 }
 
@@ -254,16 +297,14 @@ CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(cv::_InputArray *src, cv::
 //////////////////////////////////////////////////////////////////////////
 // FastBilateralSolverFilter 
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_delete(
-    cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* obj)
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_delete(cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_get(
-    cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* ptr, cv::ximgproc::FastBilateralSolverFilter** returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_get(cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* ptr, cv::ximgproc::FastBilateralSolverFilter** returnValue)
 {
     return cvTry([&] {
     * returnValue = ptr->get();
@@ -272,29 +313,45 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_get(
 
 CVAPI(ExceptionStatus) ximgproc_FastBilateralSolverFilter_filter(
     cv::ximgproc::FastBilateralSolverFilter* obj,
-    cv::_InputArray* src, cv::_InputArray *confidence, cv::_OutputArray* dst)
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* confidence,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->filter(*src, *confidence , *dst);
+    obj->filter(InProxy(*src), InProxy(*confidence) , OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_createFastBilateralSolverFilter(
-    cv::_InputArray *guide, double sigma_spatial, double sigma_luma, double sigma_chroma, double lambda, int num_iter, double max_tol,
+    const interop::InputArrayProxy* guide,
+    double sigma_spatial,
+    double sigma_luma,
+    double sigma_chroma,
+    double lambda,
+    int num_iter,
+    double max_tol,
     cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createFastBilateralSolverFilter(*guide, sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
+    const auto ptr = cv::ximgproc::createFastBilateralSolverFilter(InProxy(*guide), sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
     *returnValue = new cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_fastBilateralSolverFilter(
-    cv::_InputArray *guide, cv::_InputArray *src, cv::_InputArray *confidence, cv::_OutputArray *dst, 
-    double sigma_spatial, double sigma_luma, double sigma_chroma, double lambda, int num_iter, double max_tol)
+    const interop::InputArrayProxy* guide,
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* confidence,
+    const interop::OutputArrayProxy* dst,
+    double sigma_spatial,
+    double sigma_luma,
+    double sigma_chroma,
+    double lambda,
+    int num_iter,
+    double max_tol)
 {
     return cvTry([&] {
-    cv::ximgproc::fastBilateralSolverFilter(*guide, *src, *confidence, *dst,
+    cv::ximgproc::fastBilateralSolverFilter(InProxy(*guide), InProxy(*src), InProxy(*confidence), OutProxy(*dst),
         sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
     });
 }
@@ -303,16 +360,14 @@ CVAPI(ExceptionStatus) ximgproc_fastBilateralSolverFilter(
 //////////////////////////////////////////////////////////////////////////
 // FastGlobalSmootherFilter 
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_delete(
-    cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* obj)
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_delete(cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_get(
-    cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* ptr, cv::ximgproc::FastGlobalSmootherFilter** returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_get(cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* ptr, cv::ximgproc::FastGlobalSmootherFilter** returnValue)
 {
     return cvTry([&] {
     * returnValue = ptr->get();
@@ -321,36 +376,51 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_get(
 
 CVAPI(ExceptionStatus) ximgproc_FastGlobalSmootherFilter_filter(
     cv::ximgproc::FastGlobalSmootherFilter* obj,
-    cv::_InputArray* src, cv::_OutputArray* dst)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->filter(*src, *dst);
+    obj->filter(InProxy(*src), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_createFastGlobalSmootherFilter(
-    cv::_InputArray *guide, double lambda, double sigma_color, double lambda_attenuation, int num_iter,
+    const interop::InputArrayProxy* guide,
+    double lambda,
+    double sigma_color,
+    double lambda_attenuation,
+    int num_iter,
     cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createFastGlobalSmootherFilter(*guide, lambda, sigma_color, lambda_attenuation, num_iter);
+    const auto ptr = cv::ximgproc::createFastGlobalSmootherFilter(InProxy(*guide), lambda, sigma_color, lambda_attenuation, num_iter);
     *returnValue = new cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_fastGlobalSmootherFilter(
-    cv::_InputArray *guide, cv::_InputArray *src, cv::_OutputArray *dst, double lambda, double sigma_color, double lambda_attenuation, int num_iter)
+    const interop::InputArrayProxy* guide,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double lambda,
+    double sigma_color,
+    double lambda_attenuation,
+    int num_iter)
 {
     return cvTry([&] {
-    cv::ximgproc::fastGlobalSmootherFilter(*guide, *src, *dst,
+    cv::ximgproc::fastGlobalSmootherFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst),
         lambda, sigma_color, lambda_attenuation, num_iter);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_l0Smooth(cv::_InputArray *src, cv::_OutputArray *dst, double lambda, double kappa)
+CVAPI(ExceptionStatus) ximgproc_l0Smooth(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double lambda,
+    double kappa)
 {
     return cvTry([&] {
-    cv::ximgproc::l0Smooth(*src, *dst, lambda, kappa);
+    cv::ximgproc::l0Smooth(InProxy(*src), OutProxy(*dst), lambda, kappa);
     });
 }
 

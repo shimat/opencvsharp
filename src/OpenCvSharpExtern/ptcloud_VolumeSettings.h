@@ -152,62 +152,62 @@ CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getRaycastStepFactor(cv::VolumeSet
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setVolumePose(cv::VolumeSettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setVolumePose(cv::VolumeSettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setVolumePose(entity(val));
+    obj->setVolumePose(InProxy(*val));
     });
 }
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumePose(cv::VolumeSettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumePose(cv::VolumeSettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getVolumePose(entity(val));
-    });
-}
-
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setVolumeResolution(cv::VolumeSettings *obj, cv::_InputArray *val)
-{
-    return cvTry([&] {
-    obj->setVolumeResolution(entity(val));
-    });
-}
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumeResolution(cv::VolumeSettings *obj, cv::_OutputArray *val)
-{
-    return cvTry([&] {
-    obj->getVolumeResolution(entity(val));
+    obj->getVolumePose(OutProxy(*val));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumeStrides(cv::VolumeSettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setVolumeResolution(cv::VolumeSettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getVolumeStrides(entity(val));
+    obj->setVolumeResolution(InProxy(*val));
+    });
+}
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumeResolution(cv::VolumeSettings *obj, const interop::OutputArrayProxy* val)
+{
+    return cvTry([&] {
+    obj->getVolumeResolution(OutProxy(*val));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(cv::VolumeSettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getVolumeStrides(cv::VolumeSettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setCameraIntegrateIntrinsics(entity(val));
-    });
-}
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(cv::VolumeSettings *obj, cv::_OutputArray *val)
-{
-    return cvTry([&] {
-    obj->getCameraIntegrateIntrinsics(entity(val));
+    obj->getVolumeStrides(OutProxy(*val));
     });
 }
 
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setCameraRaycastIntrinsics(cv::VolumeSettings *obj, cv::_InputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(cv::VolumeSettings *obj, const interop::InputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->setCameraRaycastIntrinsics(entity(val));
+    obj->setCameraIntegrateIntrinsics(InProxy(*val));
     });
 }
-CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getCameraRaycastIntrinsics(cv::VolumeSettings *obj, cv::_OutputArray *val)
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(cv::VolumeSettings *obj, const interop::OutputArrayProxy* val)
 {
     return cvTry([&] {
-    obj->getCameraRaycastIntrinsics(entity(val));
+    obj->getCameraIntegrateIntrinsics(OutProxy(*val));
+    });
+}
+
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_setCameraRaycastIntrinsics(cv::VolumeSettings *obj, const interop::InputArrayProxy* val)
+{
+    return cvTry([&] {
+    obj->setCameraRaycastIntrinsics(InProxy(*val));
+    });
+}
+CVAPI(ExceptionStatus) ptcloud_VolumeSettings_getCameraRaycastIntrinsics(cv::VolumeSettings *obj, const interop::OutputArrayProxy* val)
+{
+    return cvTry([&] {
+    obj->getCameraRaycastIntrinsics(OutProxy(*val));
     });
 }
 

@@ -8,7 +8,11 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setTrainMethod(cv::ml::ANN_MLP *obj, int method, double param1, double param2)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setTrainMethod(
+    cv::ml::ANN_MLP *obj,
+    int method,
+    double param1,
+    double param2)
 {
     return cvTry([&] {
     obj->setTrainMethod(method, param1, param2);
@@ -22,17 +26,21 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_getTrainMethod(cv::ml::ANN_MLP *obj, int *retu
     });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setActivationFunction(cv::ml::ANN_MLP *obj, int type, double param1, double param2)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setActivationFunction(
+    cv::ml::ANN_MLP *obj,
+    int type,
+    double param1,
+    double param2)
 {
     return cvTry([&] {
     obj->setActivationFunction(type, param1, param2);
     });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setLayerSizes(cv::ml::ANN_MLP *obj, cv::_InputArray *_layer_sizes)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setLayerSizes(cv::ml::ANN_MLP *obj, const interop::InputArrayProxy* _layer_sizes)
 {
     return cvTry([&] {
-    obj->setLayerSizes(entity(_layer_sizes));
+    obj->setLayerSizes(InProxy(*_layer_sizes));
     });
 }
 
@@ -148,7 +156,10 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWMax(cv::ml::ANN_MLP *obj, double val
     });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_getWeights(cv::ml::ANN_MLP *obj, int layerIdx, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) ml_ANN_MLP_getWeights(
+    cv::ml::ANN_MLP *obj,
+    int layerIdx,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(obj->getWeights(layerIdx));

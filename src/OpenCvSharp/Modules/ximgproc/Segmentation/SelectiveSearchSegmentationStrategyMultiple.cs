@@ -38,7 +38,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                Handle, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
+                Handle, img.ToInputProxy(), regions.ToInputProxy(), sizes.ToInputProxy(), imageId));
 
         GC.KeepAlive(img);
         GC.KeepAlive(regions);

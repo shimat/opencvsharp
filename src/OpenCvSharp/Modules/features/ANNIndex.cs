@@ -41,7 +41,7 @@ public class ANNIndex : CvPtrObject
             throw new ArgumentNullException(nameof(features));
         features.ThrowIfDisposed();
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(Handle, features.CvPtr));
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(Handle, features.ToInputProxy()));
         GC.KeepAlive(features);
     }
 
@@ -77,7 +77,7 @@ public class ANNIndex : CvPtrObject
         dists.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.features_ANNIndex_knnSearch(Handle, query.CvPtr, indices.CvPtr, dists.CvPtr, knn, searchK));
+            NativeMethods.features_ANNIndex_knnSearch(Handle, query.ToInputProxy(), indices.ToOutputProxy(), dists.ToOutputProxy(), knn, searchK));
         GC.KeepAlive(query);
         indices.Fix();
         dists.Fix();

@@ -65,6 +65,6 @@ public class RidgeDetectionFilter : Algorithm
             throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
     }
 }

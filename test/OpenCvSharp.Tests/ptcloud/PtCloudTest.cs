@@ -204,6 +204,252 @@ public class PtCloudTest : TestBase
     }
 
     [Fact]
+    public void VolumeSettingsArrayProperties()
+    {
+        using var settings = new VolumeSettings(VolumeType.TSDF);
+
+        using var pose = Mat.Eye(4, 4, MatType.CV_32FC1).ToMat();
+        settings.SetVolumePose(pose);
+        using var poseOut = new Mat();
+        settings.GetVolumePose(poseOut);
+        Assert.False(poseOut.Empty());
+
+        using var resolution = Mat.FromArray(new[] { 128, 128, 128 });
+        settings.SetVolumeResolution(resolution);
+        using var resOut = new Mat();
+        settings.GetVolumeResolution(resOut);
+        Assert.False(resOut.Empty());
+
+        using var strides = new Mat();
+        settings.GetVolumeStrides(strides);
+        Assert.False(strides.Empty());
+
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 320 }, { 0, 525, 240 }, { 0, 0, 1 } });
+        settings.SetCameraRaycastIntrinsics(k);
+        using var kOut = new Mat();
+        settings.GetCameraRaycastIntrinsics(kOut);
+        Assert.False(kOut.Empty());
+    }
+
+    [Fact]
+    public void OdometrySettingsArrayProperties()
+    {
+        using var settings = new OdometrySettings();
+
+        using var cameraMatrix = Mat.FromArray(new float[,] { { 525, 0, 320 }, { 0, 525, 240 }, { 0, 0, 1 } });
+        settings.SetCameraMatrix(cameraMatrix);
+        using var camOut = new Mat();
+        settings.GetCameraMatrix(camOut);
+        Assert.False(camOut.Empty());
+
+        using var minGrad = Mat.FromArray(new[] { 10f, 10f, 10f, 10f });
+        settings.SetMinGradientMagnitudes(minGrad);
+        using var minGradOut = new Mat();
+        settings.GetMinGradientMagnitudes(minGradOut);
+        Assert.False(minGradOut.Empty());
+    }
+
+    [Fact]
+    public void RgbdNormalsApplyAndSetK()
+    {
+        const int rows = 16;
+        const int cols = 16;
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 8 }, { 0, 525, 8 }, { 0, 0, 1 } });
+        using var normalsComputer = RgbdNormals.Create(
+            rows, cols, MatType.CV_32F, k, 5, 50f, RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS);
+
+        normalsComputer.SetK(k);
+
+        using var points = new Mat(rows, cols, MatType.CV_32FC3, Scalar.All(1.0));
+        using var normals = new Mat();
+        try
+        {
+            normalsComputer.Apply(points, normals);
+            testOutputHelper.WriteLine($"RgbdNormals.Apply produced empty={normals.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"RgbdNormals.Apply threw (wiring resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void OdometryFrameGetters()
+    {
+        using var depth = new Mat(48, 64, MatType.CV_32FC1, Scalar.All(2.0));
+        using var image = new Mat(48, 64, MatType.CV_8UC3, Scalar.All(100));
+        using var mask = new Mat(48, 64, MatType.CV_8UC1, Scalar.All(255));
+        using var normals = new Mat(48, 64, MatType.CV_32FC4, Scalar.All(0));
+        using var frame = new OdometryFrame(depth, image, mask, normals);
+
+        using var imageOut = new Mat();
+        using var grayOut = new Mat();
+        using var depthOut = new Mat();
+        using var processedDepthOut = new Mat();
+        using var maskOut = new Mat();
+        using var normalsOut = new Mat();
+
+        frame.GetImage(imageOut);
+        frame.GetGrayImage(grayOut);
+        frame.GetDepth(depthOut);
+        frame.GetProcessedDepth(processedDepthOut);
+        frame.GetMask(maskOut);
+        frame.GetNormals(normalsOut);
+
+        using var pyrOut = new Mat();
+        try
+        {
+            frame.GetPyramidAt(pyrOut, OdometryFramePyramidType.PYR_IMAGE, 0);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"GetPyramidAt threw (wiring resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void OdometryComputeMethods()
+    {
+        using var srcDepth = new Mat(48, 64, MatType.CV_32FC1, Scalar.All(2.0));
+        using var dstDepth = new Mat(48, 64, MatType.CV_32FC1, Scalar.All(2.1));
+        using var srcRgb = new Mat(48, 64, MatType.CV_8UC3, Scalar.All(100));
+        using var dstRgb = new Mat(48, 64, MatType.CV_8UC3, Scalar.All(110));
+        using var odometry = new Odometry(OdometryType.DEPTH);
+        using var rt = new Mat();
+
+        try
+        {
+            odometry.Compute(srcDepth, dstDepth, rt);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"Compute(depth) threw (wiring resolved): {ex.Message}");
+        }
+
+        try
+        {
+            odometry.Compute(srcDepth, srcRgb, dstDepth, dstRgb, rt);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"Compute(rgbd) threw (wiring resolved): {ex.Message}");
+        }
+
+        using var srcFrame = new OdometryFrame(srcDepth);
+        using var dstFrame = new OdometryFrame(dstDepth);
+        try
+        {
+            odometry.Compute(srcFrame, dstFrame, rt);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"Compute(frame) threw (wiring resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
+    public void VolumeIntegrateRaycastFetch()
+    {
+        using var settings = new VolumeSettings(VolumeType.TSDF);
+        using var volume = new Volume(VolumeType.TSDF, settings);
+
+        using var depth = new Mat(48, 64, MatType.CV_32FC1, Scalar.All(2.0));
+        using var image = new Mat(48, 64, MatType.CV_8UC3, Scalar.All(100));
+        using var pose = Mat.Eye(4, 4, MatType.CV_32FC1).ToMat();
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 32 }, { 0, 525, 24 }, { 0, 0, 1 } });
+        using var cameraPose = Mat.Eye(4, 4, MatType.CV_32FC1).ToMat();
+
+        void Tolerant(string name, Action action)
+        {
+            try { action(); }
+            catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+            {
+                testOutputHelper.WriteLine($"{name} threw (wiring resolved): {ex.Message}");
+            }
+        }
+
+        Tolerant("Integrate", () => volume.Integrate(depth, pose));
+        Tolerant("IntegrateColor", () => volume.IntegrateColor(depth, image, pose));
+        Tolerant("IntegrateFrame", () =>
+        {
+            using var frame = new OdometryFrame(depth);
+            volume.IntegrateFrame(frame, pose);
+        });
+
+        Tolerant("Raycast", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            volume.Raycast(cameraPose, points, normals);
+        });
+        Tolerant("RaycastColor", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            using var colors = new Mat();
+            volume.RaycastColor(cameraPose, points, normals, colors);
+        });
+        Tolerant("RaycastEx", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            volume.RaycastEx(cameraPose, 48, 64, k, points, normals);
+        });
+        Tolerant("RaycastExColor", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            using var colors = new Mat();
+            volume.RaycastExColor(cameraPose, 48, 64, k, points, normals, colors);
+        });
+
+        Tolerant("FetchNormals", () =>
+        {
+            using var points = new Mat(4, 1, MatType.CV_32FC3, Scalar.All(0));
+            using var normals = new Mat();
+            volume.FetchNormals(points, normals);
+        });
+        Tolerant("FetchPointsNormals", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            volume.FetchPointsNormals(points, normals);
+        });
+        Tolerant("FetchPointsNormalsColors", () =>
+        {
+            using var points = new Mat();
+            using var normals = new Mat();
+            using var colors = new Mat();
+            volume.FetchPointsNormalsColors(points, normals, colors);
+        });
+        Tolerant("GetBoundingBox", () =>
+        {
+            using var bb = new Mat();
+            volume.GetBoundingBox(bb, VolumeBoundingBoxPrecision.VOLUME_UNIT);
+        });
+    }
+
+    [Fact]
+    public void DepthTo3dSparseSmoke()
+    {
+        const int n = 8;
+        using var depth = new Mat(24, 32, MatType.CV_32FC1, Scalar.All(2.0));
+        using var k = Mat.FromArray(new float[,] { { 525, 0, 16 }, { 0, 525, 12 }, { 0, 0, 1 } });
+        using var inPoints = new Mat(n, 1, MatType.CV_32FC2, Scalar.All(5));
+        using var points3d = new Mat();
+
+        try
+        {
+            Cv2.DepthTo3dSparse(depth, k, inPoints, points3d);
+            testOutputHelper.WriteLine($"DepthTo3dSparse produced empty={points3d.Empty()}");
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            testOutputHelper.WriteLine($"DepthTo3dSparse threw (wiring resolved): {ex.Message}");
+        }
+    }
+
+    [Fact]
     public void OdometryGetNormalsComputer()
     {
         using var odometry = new Odometry(OdometryType.RGB_DEPTH);

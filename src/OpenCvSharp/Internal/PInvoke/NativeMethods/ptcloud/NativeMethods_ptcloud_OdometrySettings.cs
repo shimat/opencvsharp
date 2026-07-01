@@ -16,14 +16,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_OdometrySettings_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_setCameraMatrix(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_setCameraMatrix(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_getCameraMatrix(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_getCameraMatrix(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_setIterCounts(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_setIterCounts(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_getIterCounts(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_getIterCounts(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_OdometrySettings_setMinDepth(OpenCvSafeHandle obj, float val);
@@ -91,7 +91,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_OdometrySettings_getMinGradientMagnitude(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_setMinGradientMagnitudes(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_setMinGradientMagnitudes(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometrySettings_getMinGradientMagnitudes(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_OdometrySettings_getMinGradientMagnitudes(OpenCvSafeHandle obj, in OutputArrayProxy val);
 }

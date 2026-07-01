@@ -62,12 +62,18 @@ CVAPI(ExceptionStatus) ml_KNearest_setAlgorithmType(cv::ml::KNearest *obj, int v
 }
 
 
-CVAPI(ExceptionStatus) ml_KNearest_findNearest(cv::ml::KNearest *obj, cv::_InputArray *samples, int k,
-    cv::_OutputArray *results, cv::_OutputArray *neighborResponses, cv::_OutputArray *dist, float *returnValue)
+CVAPI(ExceptionStatus) ml_KNearest_findNearest(
+    cv::ml::KNearest *obj,
+    const interop::InputArrayProxy* samples,
+    int k,
+    const interop::OutputArrayProxy* results,
+    const interop::OutputArrayProxy* neighborResponses,
+    const interop::OutputArrayProxy* dist,
+    float *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->findNearest(
-        entity(samples), k, entity(results), entity(neighborResponses), entity(dist));
+        InProxy(*samples), k, OutProxy(*results), OutProxy(*neighborResponses), OutProxy(*dist));
     });
 }
 

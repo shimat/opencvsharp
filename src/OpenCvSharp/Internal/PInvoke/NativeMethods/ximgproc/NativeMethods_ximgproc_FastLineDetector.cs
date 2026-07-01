@@ -19,16 +19,16 @@ static partial class NativeMethods
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastLineDetector_detect_OutputArray(OpenCvSafeHandle obj, IntPtr image, IntPtr lines);
+    internal static partial ExceptionStatus ximgproc_FastLineDetector_detect_OutputArray(OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastLineDetector_detect_vector(OpenCvSafeHandle obj, IntPtr image, IntPtr lines);
+    internal static partial ExceptionStatus ximgproc_FastLineDetector_detect_vector(OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastLineDetector_drawSegments_InputArray(OpenCvSafeHandle obj, IntPtr image, IntPtr lines, int draw_arrow);
+    internal static partial ExceptionStatus ximgproc_FastLineDetector_drawSegments_InputArray(OpenCvSafeHandle obj, in InputOutputArrayProxy image, in InputArrayProxy lines, int draw_arrow);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_FastLineDetector_drawSegments_vector(OpenCvSafeHandle obj, IntPtr image, IntPtr lines, int draw_arrow);
+    internal static partial ExceptionStatus ximgproc_FastLineDetector_drawSegments_vector(OpenCvSafeHandle obj, in InputOutputArrayProxy image, IntPtr lines, int draw_arrow);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_createFastLineDetector(

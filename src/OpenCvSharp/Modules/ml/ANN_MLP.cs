@@ -291,7 +291,7 @@ public class ANN_MLP : StatModel
             throw new ArgumentNullException(nameof(layerSizes));
 
         NativeMethods.HandleException(
-            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.CvPtr));
+            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.ToInputProxy()));
 
         GC.KeepAlive(layerSizes);
     }

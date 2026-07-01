@@ -38,16 +38,14 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeDrawing_delete(cv::Ptr<cv::ximgproc::Edg
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeDrawing_get(
-    cv::Ptr<cv::ximgproc::EdgeDrawing> *ptr, cv::ximgproc::EdgeDrawing **returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeDrawing_get(cv::Ptr<cv::ximgproc::EdgeDrawing> *ptr, cv::ximgproc::EdgeDrawing **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_createEdgeDrawing(
-    cv::Ptr<cv::ximgproc::EdgeDrawing> **returnValue)
+CVAPI(ExceptionStatus) ximgproc_createEdgeDrawing(cv::Ptr<cv::ximgproc::EdgeDrawing> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::ximgproc::createEdgeDrawing();
@@ -56,81 +54,70 @@ CVAPI(ExceptionStatus) ximgproc_createEdgeDrawing(
 }
 
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEdges(
-    cv::ximgproc::EdgeDrawing *obj, cv::_InputArray *src)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEdges(cv::ximgproc::EdgeDrawing *obj, const interop::InputArrayProxy* src)
 {
     return cvTry([&] {
-    obj->detectEdges(*src);
+    obj->detectEdges(InProxy(*src));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getEdgeImage(
-    cv::ximgproc::EdgeDrawing *obj, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getEdgeImage(cv::ximgproc::EdgeDrawing *obj, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->getEdgeImage(*dst);
+    obj->getEdgeImage(OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getGradientImage(
-    cv::ximgproc::EdgeDrawing *obj, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getGradientImage(cv::ximgproc::EdgeDrawing *obj, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->getGradientImage(*dst);
+    obj->getGradientImage(OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getSegments(
-    cv::ximgproc::EdgeDrawing *obj,
-    std::vector<std::vector<cv::Point>> *returnValue)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getSegments(cv::ximgproc::EdgeDrawing *obj, std::vector<std::vector<cv::Point>> *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getSegments();
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getSegmentIndicesOfLines(
-    cv::ximgproc::EdgeDrawing *obj, std::vector<int> *returnValue)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getSegmentIndicesOfLines(cv::ximgproc::EdgeDrawing *obj, std::vector<int> *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getSegmentIndicesOfLines();
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectLines(
-    cv::ximgproc::EdgeDrawing *obj, cv::_OutputArray *lines)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectLines(cv::ximgproc::EdgeDrawing *obj, const interop::OutputArrayProxy* lines)
+{
+    return cvTry([&] {
+    obj->detectLines(OutProxy(*lines));
+    });
+}
+
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectLines_vector(cv::ximgproc::EdgeDrawing *obj, std::vector<cv::Vec4f> *lines)
 {
     return cvTry([&] {
     obj->detectLines(*lines);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectLines_vector(
-    cv::ximgproc::EdgeDrawing *obj, std::vector<cv::Vec4f> *lines)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEllipses(cv::ximgproc::EdgeDrawing *obj, const interop::OutputArrayProxy* ellipses)
 {
     return cvTry([&] {
-    obj->detectLines(*lines);
+    obj->detectEllipses(OutProxy(*ellipses));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEllipses(
-    cv::ximgproc::EdgeDrawing *obj, cv::_OutputArray *ellipses)
-{
-    return cvTry([&] {
-    obj->detectEllipses(*ellipses);
-    });
-}
-
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEllipses_vector(
-    cv::ximgproc::EdgeDrawing *obj, std::vector<cv::Vec6d> *ellipses)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_detectEllipses_vector(cv::ximgproc::EdgeDrawing *obj, std::vector<cv::Vec6d> *ellipses)
 {
     return cvTry([&] {
     obj->detectEllipses(*ellipses);
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getParams(
-    cv::ximgproc::EdgeDrawing *obj, CvEdgeDrawingParams *returnValue)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getParams(cv::ximgproc::EdgeDrawing *obj, CvEdgeDrawingParams *returnValue)
 {
     return cvTry([&] {
     const auto &p = obj->params;
@@ -150,8 +137,7 @@ CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_getParams(
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_setParams(
-    cv::ximgproc::EdgeDrawing *obj, CvEdgeDrawingParams *params)
+CVAPI(ExceptionStatus) ximgproc_EdgeDrawing_setParams(cv::ximgproc::EdgeDrawing *obj, CvEdgeDrawingParams *params)
 {
     return cvTry([&] {
     cv::ximgproc::EdgeDrawing::Params p;

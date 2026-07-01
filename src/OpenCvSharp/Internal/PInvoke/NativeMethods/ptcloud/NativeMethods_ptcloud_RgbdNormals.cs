@@ -11,15 +11,15 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_RgbdNormals_create(
-        int rows, int cols, int depth, IntPtr k, int window_size, float diff_threshold, int method, out IntPtr returnValue);
+    internal static partial ExceptionStatus ptcloud_RgbdNormals_create(
+        int rows, int cols, int depth, in InputArrayProxy k, int window_size, float diff_threshold, int method, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_Ptr_RgbdNormals_delete(IntPtr obj);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_Ptr_RgbdNormals_get(IntPtr obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_RgbdNormals_apply(OpenCvSafeHandle obj, IntPtr points, IntPtr normals);
+    internal static partial ExceptionStatus ptcloud_RgbdNormals_apply(OpenCvSafeHandle obj, in InputArrayProxy points, in OutputArrayProxy normals);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_RgbdNormals_cache(OpenCvSafeHandle obj);
 
@@ -38,9 +38,9 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_RgbdNormals_getDepth(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_RgbdNormals_getK(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_RgbdNormals_getK(OpenCvSafeHandle obj, in OutputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_RgbdNormals_setK(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_RgbdNormals_setK(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_RgbdNormals_getMethod(OpenCvSafeHandle obj, out int returnValue);
 }

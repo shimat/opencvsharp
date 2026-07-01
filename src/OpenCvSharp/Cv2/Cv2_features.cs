@@ -27,7 +27,7 @@ static partial class Cv2
 
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.features_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
+            NativeMethods.features_FAST1(image.ToInputProxy(), kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
         GC.KeepAlive(image);
         return kp.ToArray();
     }
@@ -50,7 +50,7 @@ static partial class Cv2
 
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.features_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
+            NativeMethods.features_FAST2(image.ToInputProxy(), kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
         GC.KeepAlive(image);
         return kp.ToArray();
     }
@@ -105,7 +105,7 @@ static partial class Cv2
         var keypointsArray = keypoints.CastOrToArray();
         var color0 = color.GetValueOrDefault(Scalar.All(-1));
         NativeMethods.HandleException(
-            NativeMethods.features_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length, outImage.CvPtr, color0, (int)flags));
+            NativeMethods.features_drawKeypoints(image.ToInputProxy(), keypointsArray, keypointsArray.Length, outImage.ToInputOutputProxy(), color0, (int)flags));
 
         GC.KeepAlive(image);
         GC.KeepAlive(outImage);

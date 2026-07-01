@@ -10,36 +10,50 @@
 #include <opencv2/ptcloud.hpp>
 
 CVAPI(ExceptionStatus) ptcloud_loadPointCloud(
-    const char *filename, cv::_OutputArray *vertices, cv::_OutputArray *normals, cv::_OutputArray *rgb)
+    const char *filename,
+    const interop::OutputArrayProxy* vertices,
+    const interop::OutputArrayProxy* normals,
+    const interop::OutputArrayProxy* rgb)
 {
     return cvTry([&] {
-    cv::loadPointCloud(filename, *vertices, entity(normals), entity(rgb));
+    cv::loadPointCloud(filename, OutProxy(*vertices), OutProxy(*normals), OutProxy(*rgb));
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_savePointCloud(
-    const char *filename, cv::_InputArray *vertices, cv::_InputArray *normals, cv::_InputArray *rgb)
+    const char *filename,
+    const interop::InputArrayProxy* vertices,
+    const interop::InputArrayProxy* normals,
+    const interop::InputArrayProxy* rgb)
 {
     return cvTry([&] {
-    cv::savePointCloud(filename, *vertices, entity(normals), entity(rgb));
+    cv::savePointCloud(filename, InProxy(*vertices), InProxy(*normals), InProxy(*rgb));
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_loadMesh(
-    const char *filename, cv::_OutputArray *vertices, std::vector<cv::Mat> *indices,
-    cv::_OutputArray *normals, cv::_OutputArray *colors, cv::_OutputArray *texCoords)
+    const char *filename,
+    const interop::OutputArrayProxy* vertices,
+    std::vector<cv::Mat> *indices,
+    const interop::OutputArrayProxy* normals,
+    const interop::OutputArrayProxy* colors,
+    const interop::OutputArrayProxy* texCoords)
 {
     return cvTry([&] {
-    cv::loadMesh(filename, *vertices, *indices, entity(normals), entity(colors), entity(texCoords));
+    cv::loadMesh(filename, OutProxy(*vertices), *indices, OutProxy(*normals), OutProxy(*colors), OutProxy(*texCoords));
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_saveMesh(
-    const char *filename, cv::_InputArray *vertices, std::vector<cv::Mat> *indices,
-    cv::_InputArray *normals, cv::_InputArray *colors, cv::_InputArray *texCoords)
+    const char *filename,
+    const interop::InputArrayProxy* vertices,
+    std::vector<cv::Mat> *indices,
+    const interop::InputArrayProxy* normals,
+    const interop::InputArrayProxy* colors,
+    const interop::InputArrayProxy* texCoords)
 {
     return cvTry([&] {
-    cv::saveMesh(filename, *vertices, *indices, entity(normals), entity(colors), entity(texCoords));
+    cv::saveMesh(filename, InProxy(*vertices), *indices, InProxy(*normals), InProxy(*colors), InProxy(*texCoords));
     });
 }
 

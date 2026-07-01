@@ -193,7 +193,7 @@ public class LogisticRegression : StatModel
         results?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_predict(Handle, samples.CvPtr, Cv2.ToPtr(results), flags, out var ret));
+            NativeMethods.ml_LogisticRegression_predict(Handle, samples.ToInputProxy(), results?.ToOutputProxy() ?? default, flags, out var ret));
         GC.KeepAlive(samples);
         GC.KeepAlive(results);
         results?.Fix();

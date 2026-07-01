@@ -125,7 +125,7 @@ public class Dictionary : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_getDistanceToId(Handle, bits.CvPtr, id, allRotations ? 1 : 0, out var ret));
+            NativeMethods.aruco_Dictionary_getDistanceToId(Handle, bits.ToInputProxy(), id, allRotations ? 1 : 0, out var ret));
         
         return ret;
     }
@@ -145,7 +145,7 @@ public class Dictionary : CvObject
         ThrowIfDisposed();
         
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_generateImageMarker(Handle, id, sidePixels, img.CvPtr, borderBits));
+            NativeMethods.aruco_Dictionary_generateImageMarker(Handle, id, sidePixels, img.ToOutputProxy(), borderBits));
         
     }
     

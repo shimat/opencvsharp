@@ -12,8 +12,8 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ximgproc_EdgeBoxes_getBoundingBoxes(
-        OpenCvSafeHandle obj, IntPtr edgeMap, IntPtr orientationMap, IntPtr boxes);
+    internal static partial ExceptionStatus ximgproc_EdgeBoxes_getBoundingBoxes(
+        OpenCvSafeHandle obj, in InputArrayProxy edgeMap, in InputArrayProxy orientationMap, IntPtr boxes);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ximgproc_EdgeBoxes_getAlpha(OpenCvSafeHandle obj, out float returnValue);

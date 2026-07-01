@@ -64,7 +64,7 @@ public class GrayworldWB : WhiteBalancer
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.xphoto_GrayworldWB_balanceWhite(Handle, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_GrayworldWB_balanceWhite(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);

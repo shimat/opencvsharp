@@ -22,14 +22,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus features_Ptr_ANNIndex_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ANNIndex_addItems(OpenCvSafeHandle obj, IntPtr features);
+    internal static partial ExceptionStatus features_ANNIndex_addItems(OpenCvSafeHandle obj, in InputArrayProxy features);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_ANNIndex_build(OpenCvSafeHandle obj, int trees);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_ANNIndex_knnSearch(
-        OpenCvSafeHandle obj, IntPtr query, IntPtr indices, IntPtr dists, int knn, int search_k);
+    internal static partial ExceptionStatus features_ANNIndex_knnSearch(
+        OpenCvSafeHandle obj, in InputArrayProxy query, in OutputArrayProxy indices, in OutputArrayProxy dists, int knn, int search_k);
 
     [LibraryImport(DllExtern, EntryPoint = "features_ANNIndex_save"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_ANNIndex_save_NotWindows(

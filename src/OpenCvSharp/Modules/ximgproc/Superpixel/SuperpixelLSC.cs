@@ -45,7 +45,7 @@ public class SuperpixelLSC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelLSC(
-                image.CvPtr, regionSize, ratio, out var smartPtr));
+                image.ToInputProxy(), regionSize, ratio, out var smartPtr));
             
         GC.KeepAlive(image); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelLSC_get(smartPtr, out var rawPtr));
@@ -104,7 +104,7 @@ public class SuperpixelLSC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabels(
-                Handle, labelsOut.CvPtr));
+                Handle, labelsOut.ToOutputProxy()));
         labelsOut.Fix();
     }
 
@@ -123,7 +123,7 @@ public class SuperpixelLSC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabelContourMask(
-                Handle, image.CvPtr, thickLine ? 1 : 0));
+                Handle, image.ToOutputProxy(), thickLine ? 1 : 0));
         image.Fix();
     }
 

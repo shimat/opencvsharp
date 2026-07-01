@@ -40,7 +40,7 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createDTFilter(
-                guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
+                guide.ToInputProxy(), sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
             
         GC.KeepAlive(guide); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_get(smartPtr, out var rawPtr));
@@ -66,7 +66,7 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                Handle, src.CvPtr, dst.CvPtr, dDepth));
+                Handle, src.ToInputProxy(), dst.ToOutputProxy(), dDepth));
 
         GC.KeepAlive(src);
         dst.Fix();

@@ -66,25 +66,25 @@ static partial class NativeMethods
     public static partial ExceptionStatus ptcloud_VolumeSettings_getRaycastStepFactor(OpenCvSafeHandle obj, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumePose(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_setVolumePose(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumePose(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_getVolumePose(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setVolumeResolution(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_setVolumeResolution(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeResolution(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeResolution(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeStrides(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_getVolumeStrides(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(OpenCvSafeHandle obj, in OutputArrayProxy val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_setCameraRaycastIntrinsics(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_setCameraRaycastIntrinsics(OpenCvSafeHandle obj, in InputArrayProxy val);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_VolumeSettings_getCameraRaycastIntrinsics(OpenCvSafeHandle obj, IntPtr val);
+    internal static partial ExceptionStatus ptcloud_VolumeSettings_getCameraRaycastIntrinsics(OpenCvSafeHandle obj, in OutputArrayProxy val);
 }

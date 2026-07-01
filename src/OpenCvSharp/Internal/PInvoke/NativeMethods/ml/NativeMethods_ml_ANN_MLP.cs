@@ -20,7 +20,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_ANN_MLP_setActivationFunction(OpenCvSafeHandle obj, int type, double param1, double param2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_ANN_MLP_setLayerSizes(OpenCvSafeHandle obj, IntPtr layerSizes);
+    internal static partial ExceptionStatus ml_ANN_MLP_setLayerSizes(OpenCvSafeHandle obj, in InputArrayProxy layerSizes);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_ANN_MLP_getLayerSizes(OpenCvSafeHandle obj, out IntPtr returnValue);
 

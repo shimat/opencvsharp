@@ -79,10 +79,13 @@ CVAPI(ExceptionStatus) ml_EM_getCovs(cv::ml::EM *obj, std::vector<cv::Mat*> *cov
 
 
 CVAPI(ExceptionStatus) ml_EM_predict2(
-    cv::ml::EM *obj, cv::_InputArray *sample, cv::_OutputArray *probs, interop::Vec2d *returnValue)
+    cv::ml::EM *obj,
+    const interop::InputArrayProxy* sample,
+    const interop::OutputArrayProxy* probs,
+    interop::Vec2d *returnValue)
 {
     return cvTry([&] {
-    auto vec = obj->predict2(*sample, *probs);
+    auto vec = obj->predict2(InProxy(*sample), OutProxy(*probs));
     interop::Vec2d ret;
     ret.val[0] = vec[0];
     ret.val[1] = vec[1];
@@ -92,49 +95,49 @@ CVAPI(ExceptionStatus) ml_EM_predict2(
 
 CVAPI(ExceptionStatus) ml_EM_trainEM(
     cv::ml::EM *obj,
-    cv::_InputArray *samples,
-    cv::_OutputArray *logLikelihoods,
-    cv::_OutputArray *labels,
-    cv::_OutputArray *probs, 
+    const interop::InputArrayProxy* samples,
+    const interop::OutputArrayProxy* logLikelihoods,
+    const interop::OutputArrayProxy* labels,
+    const interop::OutputArrayProxy* probs,
     int *returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->trainEM(*samples, entity(logLikelihoods), entity(labels), entity(probs));
+    const auto ret = obj->trainEM(InProxy(*samples), OutProxy(*logLikelihoods), OutProxy(*labels), OutProxy(*probs));
     *returnValue = ret ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) ml_EM_trainE(
     cv::ml::EM *obj,
-    cv::_InputArray *samples,
-    cv::_InputArray *means0,
-    cv::_InputArray *covs0,
-    cv::_InputArray *weights0,
-    cv::_OutputArray *logLikelihoods,
-    cv::_OutputArray *labels,
-    cv::_OutputArray *probs, 
+    const interop::InputArrayProxy* samples,
+    const interop::InputArrayProxy* means0,
+    const interop::InputArrayProxy* covs0,
+    const interop::InputArrayProxy* weights0,
+    const interop::OutputArrayProxy* logLikelihoods,
+    const interop::OutputArrayProxy* labels,
+    const interop::OutputArrayProxy* probs,
     int *returnValue)
 {
     return cvTry([&] {
     const auto ret = obj->trainE(
-        *samples, *means0, entity(covs0), entity(weights0),
-        entity(logLikelihoods), entity(labels), entity(probs));
+        InProxy(*samples), InProxy(*means0), InProxy(*covs0), InProxy(*weights0),
+        OutProxy(*logLikelihoods), OutProxy(*labels), OutProxy(*probs));
     *returnValue = ret ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) ml_EM_trainM(
     cv::ml::EM *obj,
-    cv::_InputArray *samples,
-    cv::_InputArray *probs0,
-    cv::_OutputArray *logLikelihoods,
-    cv::_OutputArray *labels,
-    cv::_OutputArray *probs, 
+    const interop::InputArrayProxy* samples,
+    const interop::InputArrayProxy* probs0,
+    const interop::OutputArrayProxy* logLikelihoods,
+    const interop::OutputArrayProxy* labels,
+    const interop::OutputArrayProxy* probs,
     int *returnValue)
 {
     return cvTry([&] {
     const auto ret = obj->trainM(
-        *samples, *probs0, entity(logLikelihoods), entity(labels), entity(probs));
+        InProxy(*samples), InProxy(*probs0), OutProxy(*logLikelihoods), OutProxy(*labels), OutProxy(*probs));
     *returnValue = ret ? 1 : 0;
     });
 }

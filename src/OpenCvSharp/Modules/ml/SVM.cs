@@ -349,7 +349,7 @@ public class SVM : StatModel
         svidx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_getDecisionFunction(Handle, i, alpha.CvPtr, svidx.CvPtr, out var ret));
+            NativeMethods.ml_SVM_getDecisionFunction(Handle, i, alpha.ToOutputProxy(), svidx.ToOutputProxy(), out var ret));
 
         alpha.Fix();
         svidx.Fix();
