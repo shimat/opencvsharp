@@ -9,72 +9,112 @@
 #include "include_opencv.h"
 
 /*CVAPI(ExceptionStatus) calib_fisheye_projectPoints1(
-    cv::_InputArray *objectPoints, cv::_OutputArray *imagePoints, const cv::Affine3d& affine,
-    cv::_InputArray *K, cv::_InputArray *D, double alpha, cv::_OutputArray *jacobian)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::OutputArrayProxy* imagePoints,
+    const cv::Affine3d& affine,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    double alpha,
+    const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::fisheye::projectPoints(*objectPoints, *imagePoints, affine, *K, *D, alpha, entity(jacobian));
+    cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), affine, InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
     });
 }*/
 
 CVAPI(ExceptionStatus) calib_fisheye_projectPoints2(
-    cv::_InputArray *objectPoints, cv::_OutputArray *imagePoints, cv::_InputArray *rvec, cv::_InputArray *tvec,
-    cv::_InputArray *K, cv::_InputArray *D, double alpha, cv::_OutputArray *jacobian)
+    const interop::InputArrayProxy* objectPoints,
+    const interop::OutputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* rvec,
+    const interop::InputArrayProxy* tvec,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    double alpha,
+    const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::fisheye::projectPoints(*objectPoints, *imagePoints, *rvec, *tvec, *K, *D, alpha, entity(jacobian));
+    cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), InProxy(*rvec), InProxy(*tvec), InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_distortPoints(
-    cv::_InputArray *undistorted, cv::_OutputArray *distorted, cv::_InputArray *K, cv::_InputArray *D, double alpha)
+    const interop::InputArrayProxy* undistorted,
+    const interop::OutputArrayProxy* distorted,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    double alpha)
 {
     return cvTry([&] {
-    cv::fisheye::distortPoints(*undistorted, *distorted, *K, *D, alpha);
+    cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*K), InProxy(*D), alpha);
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_distortPoints2(
-    cv::_InputArray *undistorted, cv::_OutputArray *distorted, cv::_InputArray *Kundistorted, cv::_InputArray *K, cv::_InputArray *D, double alpha)
+    const interop::InputArrayProxy* undistorted,
+    const interop::OutputArrayProxy* distorted,
+    const interop::InputArrayProxy* Kundistorted,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    double alpha)
 {
     return cvTry([&] {
-    cv::fisheye::distortPoints(*undistorted, *distorted, *Kundistorted, *K, *D, alpha);
+    cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*Kundistorted), InProxy(*K), InProxy(*D), alpha);
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_undistortPoints(
-    cv::_InputArray *distorted, cv::_OutputArray *undistorted,
-    cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P)
+    const interop::InputArrayProxy* distorted,
+    const interop::OutputArrayProxy* undistorted,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* P)
 {
     return cvTry([&] {
-    cv::fisheye::undistortPoints(*distorted, *undistorted, *K, *D, entity(R), entity(P));
+    cv::fisheye::undistortPoints(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P));
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_initUndistortRectifyMap(
-    cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *R, cv::_InputArray *P,
-    interop::Size size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* P,
+    interop::Size size,
+    int m1type,
+    const interop::OutputArrayProxy* map1,
+    const interop::OutputArrayProxy* map2)
 {
     return cvTry([&] {
-    cv::fisheye::initUndistortRectifyMap(*K, *D, *R, *P, cpp(size), m1type, *map1, *map2);
+    cv::fisheye::initUndistortRectifyMap(InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_undistortImage(
-    cv::_InputArray *distorted, cv::_OutputArray *undistorted,
-    cv::_InputArray *K, cv::_InputArray *D, cv::_InputArray *Knew, interop::Size newSize)
+    const interop::InputArrayProxy* distorted,
+    const interop::OutputArrayProxy* undistorted,
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    const interop::InputArrayProxy* Knew,
+    interop::Size newSize)
 {
     return cvTry([&] {
-    cv::fisheye::undistortImage(*distorted, *undistorted, *K, *D, entity(Knew), cpp(newSize));
+    cv::fisheye::undistortImage(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*Knew), cpp(newSize));
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
-    cv::_InputArray *K, cv::_InputArray *D, interop::Size image_size, cv::_InputArray *R,
-    cv::_OutputArray *P, double balance, interop::Size newSize, double fov_scale)
+    const interop::InputArrayProxy* K,
+    const interop::InputArrayProxy* D,
+    interop::Size image_size,
+    const interop::InputArrayProxy* R,
+    const interop::OutputArrayProxy* P,
+    double balance,
+    interop::Size newSize,
+    double fov_scale)
 {
     return cvTry([&] {
-    cv::fisheye::estimateNewCameraMatrixForUndistortRectify(*K, *D, cpp(image_size), *R, *P, balance, cpp(newSize), fov_scale);
+    cv::fisheye::estimateNewCameraMatrixForUndistortRectify(InProxy(*K), InProxy(*D), cpp(image_size), InProxy(*R), OutProxy(*P), balance, cpp(newSize), fov_scale);
     });
 }
 
@@ -82,8 +122,8 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     std::vector<cv::Mat> *objectPoints,
     std::vector<cv::Mat> *imagePoints,
     interop::Size imageSize,
-    cv::_InputOutputArray *K,
-    cv::_InputOutputArray *D,
+    const interop::InputOutputArrayProxy* K,
+    const interop::InputOutputArrayProxy* D,
     std::vector<cv::Mat> *rvecs,
     std::vector<cv::Mat> *tvecs,
     int flags,
@@ -93,31 +133,44 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     return cvTry([&] {
     *returnValue = cv::fisheye::calibrate(
         *objectPoints, *imagePoints, cpp(imageSize),
-        *K, *D, *rvecs, *tvecs, flags, cpp(criteria));
+        IoProxy(*K), IoProxy(*D), *rvecs, *tvecs, flags, cpp(criteria));
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_stereoRectify(
-    cv::_InputArray *K1, cv::_InputArray *D1, cv::_InputArray *K2, cv::_InputArray *D2, interop::Size imageSize, cv::_InputArray *R, cv::_InputArray *tvec,
-    cv::_OutputArray *R1, cv::_OutputArray *R2, cv::_OutputArray *P1, cv::_OutputArray *P2, cv::_OutputArray *Q, int flags, interop::Size newImageSize,
-    double balance, double fov_scale)
+    const interop::InputArrayProxy* K1,
+    const interop::InputArrayProxy* D1,
+    const interop::InputArrayProxy* K2,
+    const interop::InputArrayProxy* D2,
+    interop::Size imageSize,
+    const interop::InputArrayProxy* R,
+    const interop::InputArrayProxy* tvec,
+    const interop::OutputArrayProxy* R1,
+    const interop::OutputArrayProxy* R2,
+    const interop::OutputArrayProxy* P1,
+    const interop::OutputArrayProxy* P2,
+    const interop::OutputArrayProxy* Q,
+    int flags,
+    interop::Size newImageSize,
+    double balance,
+    double fov_scale)
 {
     return cvTry([&] {
-    cv::fisheye::stereoRectify(*K1, *D1, *K2, *D2, cpp(imageSize), *R, *tvec, *R1, *R2, *P1, *P2, *Q, flags, cpp(newImageSize), balance, fov_scale);
+    cv::fisheye::stereoRectify(InProxy(*K1), InProxy(*D1), InProxy(*K2), InProxy(*D2), cpp(imageSize), InProxy(*R), InProxy(*tvec), OutProxy(*R1), OutProxy(*R2), OutProxy(*P1), OutProxy(*P2), OutProxy(*Q), flags, cpp(newImageSize), balance, fov_scale);
     });
 }
 
 CVAPI(ExceptionStatus) calib_fisheye_stereoCalibrate(
     std::vector<cv::Mat> *objectPoints,
-    std::vector<cv::Mat> *imagePoints1, 
-    std::vector<cv::Mat> *imagePoints2, 
-    cv::_InputOutputArray *K1,
-    cv::_InputOutputArray *D1,
-    cv::_InputOutputArray *K2,
-    cv::_InputOutputArray *D2,
+    std::vector<cv::Mat> *imagePoints1,
+    std::vector<cv::Mat> *imagePoints2,
+    const interop::InputOutputArrayProxy* K1,
+    const interop::InputOutputArrayProxy* D1,
+    const interop::InputOutputArrayProxy* K2,
+    const interop::InputOutputArrayProxy* D2,
     interop::Size imageSize,
-    cv::_OutputArray *R,
-    cv::_OutputArray *T,
+    const interop::OutputArrayProxy* R,
+    const interop::OutputArrayProxy* T,
     int flags,
     interop::TermCriteria criteria,
     double *returnValue)
@@ -125,9 +178,9 @@ CVAPI(ExceptionStatus) calib_fisheye_stereoCalibrate(
     return cvTry([&] {
     *returnValue = cv::fisheye::stereoCalibrate(
         *objectPoints, *imagePoints1, *imagePoints2,
-        *K1, *D1,
-        *K2, *D2,
-        cpp(imageSize), entity(R), entity(T), flags, cpp(criteria));
+        IoProxy(*K1), IoProxy(*D1),
+        IoProxy(*K2), IoProxy(*D2),
+        cpp(imageSize), OutProxy(*R), OutProxy(*T), flags, cpp(criteria));
     });
 }
 

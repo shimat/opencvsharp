@@ -98,7 +98,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_InputArray(
-                image.CvPtr, patternSize, corners.CvPtr, (int) flags, out var ret));
+                image.ToInputProxy(), patternSize, corners.ToOutputProxy(), (int) flags, out var ret));
         GC.KeepAlive(image);
         corners.Fix();
         return ret != 0;
@@ -126,7 +126,7 @@ static partial class Cv2
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_vector(
-                image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
+                image.ToInputProxy(), patternSize, cornersVec.CvPtr, (int) flags, out var ret));
         GC.KeepAlive(image);
         corners = cornersVec.ToArray();
         return ret != 0;
@@ -157,7 +157,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_InputArray(
-                image.CvPtr, patternSize, centers.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
+                image.ToInputProxy(), patternSize, centers.ToOutputProxy(), (int) flags, ToPtr(blobDetector), out var ret));
         GC.KeepAlive(image);
         GC.KeepAlive(centers);
         GC.KeepAlive(blobDetector);
@@ -188,7 +188,7 @@ static partial class Cv2
         using var centersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_vector(
-                image.CvPtr, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
+                image.ToInputProxy(), patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
         GC.KeepAlive(image);
         GC.KeepAlive(blobDetector);
         centers = centersVec.ToArray();
@@ -253,7 +253,7 @@ static partial class Cv2
             NativeMethods.calib_calibrateCamera_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, objectPointsPtrs.Length,
-                imageSize, cameraMatrix.CvPtr, distCoeffs.CvPtr,
+                imageSize, cameraMatrix.ToInputOutputProxy(), distCoeffs.ToInputOutputProxy(),
                 rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
         GC.KeepAlive(cameraMatrix);
         GC.KeepAlive(distCoeffs);
@@ -413,9 +413,9 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.calib_registerCameras(
                 op1, op1.Length, op2, op2.Length, ip1, ip1.Length, ip2, ip2.Length,
-                cameraMatrix1.CvPtr, distCoeffs1.CvPtr, (int)cameraModel1,
-                cameraMatrix2.CvPtr, distCoeffs2.CvPtr, (int)cameraModel2,
-                r.CvPtr, t.CvPtr, e.CvPtr, f.CvPtr, perViewErrors.CvPtr, flags, criteria0, out var ret));
+                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(), (int)cameraModel1,
+                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(), (int)cameraModel2,
+                r.ToInputOutputProxy(), t.ToInputOutputProxy(), e.ToOutputProxy(), f.ToOutputProxy(), perViewErrors.ToOutputProxy(), flags, criteria0, out var ret));
 
         r.Fix();
         t.Fix();
@@ -509,9 +509,9 @@ static partial class Cv2
                 objPointsPtrs, objPointsPtrs.Length,
                 flatImagePoints.ToArray(), framesPerCamera.Length, framesPerCamera,
                 imageSizeArray, imageSizeArray.Length,
-                detectionMask.CvPtr, models.CvPtr,
+                detectionMask.ToInputProxy(), models.ToInputProxy(),
                 ksVec.CvPtr, distVec.CvPtr, rsVec.CvPtr, tsVec.CvPtr,
-                ToPtr(flagsForIntrinsics), flags, criteria0, out var ret));
+                flagsForIntrinsics?.ToInputProxy() ?? default, flags, criteria0, out var ret));
 
         ks = ksVec.ToArray();
         distortions = distVec.ToArray();
@@ -590,9 +590,9 @@ static partial class Cv2
             NativeMethods.calib_stereoCalibrate_InputArray(
                 opPtrs, opPtrs.Length,
                 ip1Ptrs, ip1Ptrs.Length, ip2Ptrs, ip2Ptrs.Length,
-                cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
-                cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
-                imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                cameraMatrix1.ToInputOutputProxy(), distCoeffs1.ToInputOutputProxy(),
+                cameraMatrix2.ToInputOutputProxy(), distCoeffs2.ToInputOutputProxy(),
+                imageSize, R?.ToOutputProxy() ?? default, T?.ToOutputProxy() ?? default, E?.ToOutputProxy() ?? default, F?.ToOutputProxy() ?? default,
                 (int) flags, criteria0, out var ret));
 
         GC.KeepAlive(cameraMatrix1);
@@ -765,7 +765,7 @@ static partial class Cv2
                         ip2.GetPointer(), ip2.GetDim1Length(), ip2.GetDim2Lengths(),
                         cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
                         cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
-                        imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                        imageSize, R?.ToOutputProxy() ?? default, T?.ToOutputProxy() ?? default, E?.ToOutputProxy() ?? default, F?.ToOutputProxy() ?? default,
                         (int) flags, criteria0, out var ret));
                 GC.KeepAlive(R);
                 GC.KeepAlive(T);
@@ -858,7 +858,7 @@ static partial class Cv2
                 t_gripper2basePtrArray, t_gripper2basePtrArray.Length,
                 R_target2camPtrArray, R_target2camPtrArray.Length,
                 t_target2camPtrArray, t_target2camPtrArray.Length,
-                R_cam2gripper.CvPtr, t_cam2gripper.CvPtr, (int)method));
+                R_cam2gripper.ToOutputProxy(), t_cam2gripper.ToOutputProxy(), (int)method));
 
         GC.KeepAlive(R_gripper2base);
         GC.KeepAlive(t_gripper2base);
@@ -955,7 +955,7 @@ static partial class Cv2
                 t_world2camPtrArray, t_world2camPtrArray.Length,
                 R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
                 t_base2gripperPtrArray, t_base2gripperPtrArray.Length,
-                R_base2world.CvPtr, t_base2world.CvPtr, R_gripper2cam.CvPtr, t_gripper2cam.CvPtr,
+                R_base2world.ToOutputProxy(), t_base2world.ToOutputProxy(), R_gripper2cam.ToOutputProxy(), t_gripper2cam.ToOutputProxy(),
                 (int)method));
 
         R_base2world.Fix();

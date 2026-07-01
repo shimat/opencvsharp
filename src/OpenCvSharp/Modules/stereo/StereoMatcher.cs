@@ -36,7 +36,7 @@ public class StereoMatcher : Algorithm
         disparity.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.stereo_StereoMatcher_compute(Handle, left.CvPtr, right.CvPtr, disparity.CvPtr));
+            NativeMethods.stereo_StereoMatcher_compute(Handle, left.ToInputProxy(), right.ToInputProxy(), disparity.ToOutputProxy()));
 
         GC.KeepAlive(left);
         GC.KeepAlive(right);

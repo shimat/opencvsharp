@@ -23,56 +23,56 @@ static partial class NativeMethods
         Size imageSize, double aspectRatio, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_findChessboardCorners_InputArray(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
+    internal static partial ExceptionStatus calib_findChessboardCorners_InputArray(
+        in InputArrayProxy image, Size patternSize, in OutputArrayProxy corners, int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_findChessboardCorners_vector(
-        IntPtr image, Size patternSize, IntPtr corners, int flags, out int returnValue);
+    internal static partial ExceptionStatus calib_findChessboardCorners_vector(
+        in InputArrayProxy image, Size patternSize, IntPtr corners, int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_findCirclesGrid_InputArray(
-        IntPtr image, Size patternSize,
+    internal static partial ExceptionStatus calib_findCirclesGrid_InputArray(
+        in InputArrayProxy image, Size patternSize,
+        in OutputArrayProxy centers, int flags, IntPtr blobDetector,
+        out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus calib_findCirclesGrid_vector(
+        in InputArrayProxy image, Size patternSize,
         IntPtr centers, int flags, IntPtr blobDetector,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_findCirclesGrid_vector(
-        IntPtr image, Size patternSize,
-        IntPtr centers, int flags, IntPtr blobDetector,
-        out int returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_calibrateCamera_InputArray(
+    internal static partial ExceptionStatus calib_calibrateCamera_InputArray(
         IntPtr[] objectPoints, int objectPointsSize,
         IntPtr[] imagePoints, int imagePointsSize,
         Size imageSize,
-        IntPtr cameraMatrix,IntPtr distCoeffs,
+        in InputOutputArrayProxy cameraMatrix,in InputOutputArrayProxy distCoeffs,
         IntPtr rvecs, IntPtr tvecs,
         int flags, TermCriteria criteria,
         out double returnValue);
 
     // OpenCV 5 multi-view calibration
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_registerCameras(
+    internal static partial ExceptionStatus calib_registerCameras(
         IntPtr[] objectPoints1, int objectPoints1Size,
         IntPtr[] objectPoints2, int objectPoints2Size,
         IntPtr[] imagePoints1, int imagePoints1Size,
         IntPtr[] imagePoints2, int imagePoints2Size,
-        IntPtr cameraMatrix1, IntPtr distCoeffs1, int cameraModel1,
-        IntPtr cameraMatrix2, IntPtr distCoeffs2, int cameraModel2,
-        IntPtr R, IntPtr T, IntPtr E, IntPtr F,
-        IntPtr perViewErrors,
+        in InputArrayProxy cameraMatrix1, in InputArrayProxy distCoeffs1, int cameraModel1,
+        in InputArrayProxy cameraMatrix2, in InputArrayProxy distCoeffs2, int cameraModel2,
+        in InputOutputArrayProxy R, in InputOutputArrayProxy T, in OutputArrayProxy E, in OutputArrayProxy F,
+        in OutputArrayProxy perViewErrors,
         int flags, TermCriteria criteria, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_calibrateMultiview(
+    internal static partial ExceptionStatus calib_calibrateMultiview(
         IntPtr[] objPoints, int objPointsSize,
         IntPtr[] imagePoints, int numCameras, int[] framesPerCamera,
         Size[] imageSize, int imageSizeSize,
-        IntPtr detectionMask, IntPtr models,
+        in InputArrayProxy detectionMask, in InputArrayProxy models,
         IntPtr ks, IntPtr distortions, IntPtr rs, IntPtr ts,
-        IntPtr flagsForIntrinsics, int flags, TermCriteria criteria, out double returnValue);
+        in InputArrayProxy flagsForIntrinsics, int flags, TermCriteria criteria, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus calib_calibrateCamera_vector(
@@ -86,17 +86,17 @@ static partial class NativeMethods
         out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_stereoCalibrate_InputArray(
+    internal static partial ExceptionStatus calib_stereoCalibrate_InputArray(
         IntPtr[] objectPoints, int opSize,
         IntPtr[] imagePoints1, int ip1Size,
         IntPtr[] imagePoints2, int ip2Size,
-        IntPtr cameraMatrix1,
-        IntPtr distCoeffs1,
-        IntPtr cameraMatrix2,
-        IntPtr distCoeffs2,
+        in InputOutputArrayProxy cameraMatrix1,
+        in InputOutputArrayProxy distCoeffs1,
+        in InputOutputArrayProxy cameraMatrix2,
+        in InputOutputArrayProxy distCoeffs2,
         Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
+        in OutputArrayProxy R, in OutputArrayProxy T,
+        in OutputArrayProxy E, in OutputArrayProxy F,
         int flags, TermCriteria criteria,
         out double returnValue);
 
@@ -116,7 +116,7 @@ static partial class NativeMethods
         out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static unsafe partial ExceptionStatus calib_stereoCalibrate_array(
+    internal static unsafe partial ExceptionStatus calib_stereoCalibrate_array(
         IntPtr[] objectPoints, int opSize1, int[] opSizes2,
         IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
         IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
@@ -125,29 +125,29 @@ static partial class NativeMethods
         double* cameraMatrix2,
         [In, Out] double[] distCoeffs2, int dc2Size,
         Size imageSize,
-        IntPtr R, IntPtr T,
-        IntPtr E, IntPtr F,
+        in OutputArrayProxy R, in OutputArrayProxy T,
+        in OutputArrayProxy E, in OutputArrayProxy F,
         int flags, TermCriteria criteria,
         out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_calibrateHandEye(
+    internal static partial ExceptionStatus calib_calibrateHandEye(
         IntPtr[] R_gripper2baseMats, int R_gripper2baseMatsSize,
         IntPtr[] t_gripper2baseMats, int t_gripper2baseMatsSize,
         IntPtr[] R_target2camMats, int R_target2camMatsSize,
         IntPtr[] t_target2camMats, int t_target2camMatsSize,
-        IntPtr R_cam2gripper,
-        IntPtr t_cam2gripper,
+        in OutputArrayProxy R_cam2gripper,
+        in OutputArrayProxy t_cam2gripper,
         int method);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_calibrateRobotWorldHandEye_OutputArray(
+    internal static partial ExceptionStatus calib_calibrateRobotWorldHandEye_OutputArray(
         IntPtr[] R_world2camMats, int R_world2camMatsSize,
         IntPtr[] t_world2camMats, int t_world2camMatsSize,
         IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
         IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
-        IntPtr R_base2world, IntPtr t_base2world,
-        IntPtr R_gripper2cam, IntPtr t_gripper2cam,
+        in OutputArrayProxy R_base2world, in OutputArrayProxy t_base2world,
+        in OutputArrayProxy R_gripper2cam, in OutputArrayProxy t_gripper2cam,
         int method);
 
     // The 3x3 output matrices are contiguous, blittable double[,]; pass them as (pinned) Span<double>
