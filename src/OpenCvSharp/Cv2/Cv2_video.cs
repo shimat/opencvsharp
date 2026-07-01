@@ -21,8 +21,7 @@ static partial class Cv2
         probImage.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.video_CamShift(
-                probImage.CvPtr, ref window, criteria, out var ret));
+            NativeMethods.video_CamShift(probImage.ToInputProxy(), ref window, criteria, out var ret));
         GC.KeepAlive(probImage);
         return ret;
     }
@@ -42,8 +41,7 @@ static partial class Cv2
         probImage.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.video_meanShift(
-                probImage.CvPtr, ref window, criteria, out var ret));
+            NativeMethods.video_meanShift(probImage.ToInputProxy(), ref window, criteria, out var ret));
         GC.KeepAlive(probImage);
         return ret;
     }
@@ -81,9 +79,7 @@ static partial class Cv2
         pyramid.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_buildOpticalFlowPyramid1(
-                img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
-                (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
+            NativeMethods.video_buildOpticalFlowPyramid1(img.ToInputProxy(), pyramid.ToOutputProxy(), winSize, maxLevel, withDerivatives ? 1 : 0, (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
         pyramid.Fix();
         GC.KeepAlive(img);
         return ret;
@@ -120,9 +116,7 @@ static partial class Cv2
 
         using var pyramidVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.video_buildOpticalFlowPyramid2(
-                img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
-                (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
+            NativeMethods.video_buildOpticalFlowPyramid2(img.ToInputProxy(), pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0, (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
         GC.KeepAlive(img);
         pyramid = pyramidVec.ToArray();
         return ret;
@@ -176,10 +170,7 @@ static partial class Cv2
             TermCriteria.Both(30, 0.01));
 
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
-                prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
-                status.CvPtr, err.CvPtr, winSize0, maxLevel,
-                criteria0, (int) flags, minEigThreshold));
+            NativeMethods.video_calcOpticalFlowPyrLK_InputArray(prevImg.ToInputProxy(), nextImg.ToInputProxy(), prevPts.ToInputProxy(), nextPts.ToInputOutputProxy(), status.ToOutputProxy(), err.ToOutputProxy(), winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
         GC.KeepAlive(prevImg);
         GC.KeepAlive(nextImg);
         GC.KeepAlive(prevPts);
@@ -233,10 +224,7 @@ static partial class Cv2
         using var statusVec = new StdVector<byte>();
         using var errVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowPyrLK_vector(
-                prevImg.CvPtr, nextImg.CvPtr, prevPts, prevPts.Length,
-                nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr,
-                winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
+            NativeMethods.video_calcOpticalFlowPyrLK_vector(prevImg.ToInputProxy(), nextImg.ToInputProxy(), prevPts, prevPts.Length, nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr, winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
         GC.KeepAlive(prevImg);
         GC.KeepAlive(nextImg);
         nextPts = nextPtsVec.ToArray();
@@ -279,9 +267,7 @@ static partial class Cv2
         flow.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowFarneback(
-                prev.CvPtr, next.CvPtr, flow.CvPtr, pyrScale, levels, winsize, 
-                iterations, polyN, polySigma, (int) flags));
+            NativeMethods.video_calcOpticalFlowFarneback(prev.ToInputProxy(), next.ToInputProxy(), flow.ToInputOutputProxy(), pyrScale, levels, winsize, iterations, polyN, polySigma, (int) flags));
         GC.KeepAlive(prev);
         GC.KeepAlive(next);
         flow.Fix();
@@ -305,8 +291,7 @@ static partial class Cv2
         inputMask?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.video_computeECC(
-                templateImage.CvPtr, inputImage.CvPtr, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+            NativeMethods.video_computeECC(templateImage.ToInputProxy(), inputImage.ToInputProxy(), inputMask?.ToInputProxy() ?? default, out var ret));
 
         GC.KeepAlive(templateImage);
         GC.KeepAlive(inputImage);
@@ -350,10 +335,7 @@ static partial class Cv2
         inputMask?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.video_findTransformECC1(
-                templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
-                criteria, inputMask?.CvPtr ?? IntPtr.Zero, gaussFiltSize,
-                out var ret));
+            NativeMethods.video_findTransformECC1(templateImage.ToInputProxy(), inputImage.ToInputProxy(), warpMatrix.ToInputOutputProxy(), (int)motionType, criteria, inputMask?.ToInputProxy() ?? default, gaussFiltSize, out var ret));
 
         GC.KeepAlive(templateImage);
         GC.KeepAlive(inputImage);
@@ -398,9 +380,7 @@ static partial class Cv2
         var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 50, 0.001));
 
         NativeMethods.HandleException(
-            NativeMethods.video_findTransformECC2(
-                templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
-                criteriaValue, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+            NativeMethods.video_findTransformECC2(templateImage.ToInputProxy(), inputImage.ToInputProxy(), warpMatrix.ToInputOutputProxy(), (int)motionType, criteriaValue, inputMask?.ToInputProxy() ?? default, out var ret));
 
         GC.KeepAlive(templateImage);
         GC.KeepAlive(inputImage);
