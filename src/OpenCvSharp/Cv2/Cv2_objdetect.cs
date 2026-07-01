@@ -150,7 +150,7 @@ static partial class Cv2
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_checkChessboard(img.CvPtr, size, out var ret));
+            NativeMethods.objdetect_checkChessboard(img.ToInputProxy(), size, out var ret));
         GC.KeepAlive(img);
         return ret != 0;
     }
@@ -176,7 +176,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_OutputArray(
-                image.CvPtr, patternSize, corners.CvPtr, (int) flags, out var ret));
+                image.ToInputProxy(), patternSize, corners.ToOutputProxy(), (int) flags, out var ret));
 
         GC.KeepAlive(image);
         GC.KeepAlive(corners);
@@ -202,7 +202,7 @@ static partial class Cv2
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_vector(
-                image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
+                image.ToInputProxy(), patternSize, cornersVec.CvPtr, (int) flags, out var ret));
 
         corners = cornersVec.ToArray();
         GC.KeepAlive(image);
@@ -227,7 +227,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_InputArray(
-                img.CvPtr, corners.CvPtr, regionSize, out var ret));
+                img.ToInputProxy(), corners.ToInputOutputProxy(), regionSize, out var ret));
         GC.KeepAlive(img);
         corners.Fix();
         return ret != 0;
@@ -250,7 +250,7 @@ static partial class Cv2
         using var cornersVec = new StdVector<Point2f>(corners);
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_vector(
-                img.CvPtr, cornersVec.CvPtr, regionSize, out var ret));
+                img.ToInputProxy(), cornersVec.CvPtr, regionSize, out var ret));
         GC.KeepAlive(img);
 
         var newCorners = cornersVec.ToArray();
@@ -281,7 +281,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_drawChessboardCorners_InputArray(
-                image.CvPtr, patternSize, corners.CvPtr, patternWasFound ? 1 : 0));
+                image.ToInputOutputProxy(), patternSize, corners.ToInputProxy(), patternWasFound ? 1 : 0));
         GC.KeepAlive(corners);
         image.Fix();
     }
@@ -306,7 +306,7 @@ static partial class Cv2
         var cornersArray = corners as Point2f[] ?? corners.ToArray();
         NativeMethods.HandleException(
             NativeMethods.objdetect_drawChessboardCorners_array(
-                image.CvPtr, patternSize, cornersArray, cornersArray.Length,
+                image.ToInputOutputProxy(), patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0));
         image.Fix();
     }

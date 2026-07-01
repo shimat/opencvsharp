@@ -39,8 +39,7 @@ CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_delete(cv::Ptr<cv::FaceDetec
     });
 }
 
-CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_get(
-    cv::Ptr<cv::FaceDetectorYN>* ptr, cv::FaceDetectorYN** returnValue)
+CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_get(cv::Ptr<cv::FaceDetectorYN>* ptr, cv::FaceDetectorYN** returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
@@ -48,10 +47,13 @@ CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_get(
 }
 
 CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_detect(
-    cv::FaceDetectorYN* obj, cv::_InputArray* image, cv::_OutputArray* faces, int* returnValue)
+    cv::FaceDetectorYN* obj,
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* faces,
+    int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->detect(*image, *faces);
+    *returnValue = obj->detect(InProxy(*image), OutProxy(*faces));
     });
 }
 
