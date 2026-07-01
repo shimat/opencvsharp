@@ -12,38 +12,38 @@ static partial class NativeMethods
     #region motempl
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_motempl_updateMotionHistory(
-        IntPtr silhouette, IntPtr mhi,
+    internal static partial ExceptionStatus optflow_motempl_updateMotionHistory(
+        in InputArrayProxy silhouette, in InputOutputArrayProxy mhi,
         double timestamp, double duration);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_motempl_calcMotionGradient(
-        IntPtr mhi, IntPtr mask, IntPtr orientation,
+    internal static partial ExceptionStatus optflow_motempl_calcMotionGradient(
+        in InputArrayProxy mhi, in OutputArrayProxy mask, in OutputArrayProxy orientation,
         double delta1, double delta2, int apertureSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_motempl_calcGlobalOrientation(
-        IntPtr orientation, IntPtr mask,
-        IntPtr mhi, double timestamp, double duration, out double returnValue);
+    internal static partial ExceptionStatus optflow_motempl_calcGlobalOrientation(
+        in InputArrayProxy orientation, in InputArrayProxy mask,
+        in InputArrayProxy mhi, double timestamp, double duration, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_motempl_segmentMotion(
-        IntPtr mhi, IntPtr segmask, IntPtr boundingRects,
+    internal static partial ExceptionStatus optflow_motempl_segmentMotion(
+        in InputArrayProxy mhi, in OutputArrayProxy segmask, IntPtr boundingRects,
         double timestamp, double segThresh);
 
     #endregion
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_calcOpticalFlowSF1(
-        IntPtr from, IntPtr to, IntPtr flow,
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSF1(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int layers,
         int averagingBlockSize,
         int maxFlow);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_calcOpticalFlowSF2(
-        IntPtr from, IntPtr to, IntPtr flow,
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSF2(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int layers,
         int averagingBlockSize,
         int maxFlow,
@@ -59,7 +59,7 @@ static partial class NativeMethods
         double speedUpThr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus optflow_calcOpticalFlowSparseToDense(
-        IntPtr from, IntPtr to, IntPtr flow,
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSparseToDense(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int gridStep, int k, float sigma, int usePostProc, float fgsLambda, float fgsSigma);
 }

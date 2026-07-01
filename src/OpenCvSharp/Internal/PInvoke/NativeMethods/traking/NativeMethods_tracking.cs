@@ -46,5 +46,5 @@ static partial class NativeMethods
     public static partial ExceptionStatus tracking_Ptr_TrackerCSRT_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus tracking_TrackerCSRT_setInitialMask(IntPtr tracker, IntPtr mask);
+    internal static partial ExceptionStatus tracking_TrackerCSRT_setInitialMask(IntPtr tracker, in InputArrayProxy mask);
 }
