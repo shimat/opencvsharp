@@ -8,7 +8,7 @@ on:
 
   push:
     branches:
-      - 5.x
+      - main
 
 env:
   OPENCV_VERSION: 5.0.0
