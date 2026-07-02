@@ -58,18 +58,18 @@ static partial class NativeMethods
 
     /*
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus text_OCRTesseract_run3(
+    internal static partial ExceptionStatus text_OCRTesseract_run3(
         OpenCvSafeHandle obj,
-        IntPtr image,
+        in InputArrayProxy image,
         int minConfidence,
         int componentLevel,
         IntPtr dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus text_OCRTesseract_run4(
+    internal static partial ExceptionStatus text_OCRTesseract_run4(
         OpenCvSafeHandle obj,
-        IntPtr image,
-        IntPtr mask,
+        in InputArrayProxy image,
+        in InputArrayProxy mask,
         int minConfidence,
         int componentLevel,
         IntPtr dst);*/
@@ -97,6 +97,6 @@ static partial class NativeMethods
     // swt_text_detection.hpp
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus text_detectTextSWT(
-        IntPtr input, IntPtr result, int darkOnLight, IntPtr draw, IntPtr chainBBs);
+    internal static partial ExceptionStatus text_detectTextSWT(
+        in InputArrayProxy input, IntPtr result, int darkOnLight, in OutputArrayProxy draw, in OutputArrayProxy chainBBs);
 }

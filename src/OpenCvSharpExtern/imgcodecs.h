@@ -78,7 +78,10 @@ static bool imgcodecs_withWideFile(const char *utf8, TDecodeGuarded decodeGuarde
 }
 #endif
 
-CVAPI(ExceptionStatus) imgcodecs_imread(const char *filename, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imread(
+    const char *filename,
+    int flags,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -102,7 +105,11 @@ CVAPI(ExceptionStatus) imgcodecs_imread(const char *filename, int flags, cv::Mat
     });
 }
 
-CVAPI(ExceptionStatus) imgcodecs_imreadmulti(const char *filename, std::vector<cv::Mat> *mats, int flags, int *returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imreadmulti(
+    const char *filename,
+    std::vector<cv::Mat> *mats,
+    int flags,
+    int *returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
@@ -124,7 +131,12 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti(const char *filename, std::vector<c
     });
 }
 
-CVAPI(ExceptionStatus) imgcodecs_imwrite(const char *filename, cv::Mat *img, int *params, int paramsLength, int *returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imwrite(
+    const char *filename,
+    cv::Mat *img,
+    int *params,
+    int paramsLength,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<int> paramsVec;
@@ -149,7 +161,12 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite(const char *filename, cv::Mat *img, int
     });
 }
 
-CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(const char *filename, std::vector<cv::Mat> *img, int *params, int paramsLength, int *returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(
+    const char *filename,
+    std::vector<cv::Mat> *img,
+    int *params,
+    int paramsLength,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<int> paramsVec;
@@ -174,14 +191,21 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(const char *filename, std::vector
     });
 }
 
-CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(
+    cv::Mat *buf,
+    int flags,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto ret = cv::imdecode(*buf, flags);
     *returnValue = new cv::Mat(ret);
     });
 }
-CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, int bufLength, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(
+    uchar *buf,
+    int bufLength,
+    int flags,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     //const std::vector<uchar> bufVec(buf, buf + bufLength);
@@ -190,23 +214,30 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, int bufLength, int 
     *returnValue = new cv::Mat(ret);
     });
 }
-CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(cv::_InputArray *buf, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(
+    const interop::InputArrayProxy* buf,
+    int flags,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::imdecode(*buf, flags);
+    const auto ret = cv::imdecode(InProxy(*buf), flags);
     *returnValue = new cv::Mat(ret);
     });
 }
 
 CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
-    const char *ext, cv::_InputArray *img,
-    std::vector<uchar> *buf, int *params, int paramsLength, int *returnValue)
+    const char *ext,
+    const interop::InputArrayProxy* img,
+    std::vector<uchar> *buf,
+    int *params,
+    int paramsLength,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<int> paramsVec;
     if (params != nullptr)
         paramsVec = std::vector<int>(params, params + paramsLength);
-    *returnValue = cv::imencode(ext, *img, *buf, paramsVec) ? 1 : 0;
+    *returnValue = cv::imencode(ext, InProxy(*img), *buf, paramsVec) ? 1 : 0;
     });
 }
 

@@ -14,7 +14,7 @@ static partial class NativeMethods
     #region Index
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus flann_Index_new(IntPtr features, IntPtr @params, int distType, out IntPtr returnValue);
+    internal static partial ExceptionStatus flann_Index_new(in InputArrayProxy features, IntPtr @params, int distType, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_delete(IntPtr obj);

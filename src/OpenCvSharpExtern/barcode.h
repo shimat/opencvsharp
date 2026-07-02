@@ -4,8 +4,7 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(
-    const char *super_resolution_model_path, cv::barcode::BarcodeDetector **returnValue)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(const char *super_resolution_model_path, cv::barcode::BarcodeDetector **returnValue)
 {
     return cvTry([&] {
     // OpenCV 5: BarcodeDetector takes a single ONNX super-resolution model path (Caffe dropped).
@@ -44,19 +43,27 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_setGradientThreshold(cv::barcode:
     });
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
-    std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(
+    cv::barcode::BarcodeDetector *obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Point2f> *points,
+    std::vector<std::string> *detectorInfos,
+    std::vector<std::string> *detectorTypes)
 {
     return cvTry([&] {
-    obj->decodeWithType(*inputImage, *points, *detectorInfos, *detectorTypes);
+    obj->decodeWithType(InProxy(*inputImage), *points, *detectorInfos, *detectorTypes);
     });
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
-    std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(
+    cv::barcode::BarcodeDetector *obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Point2f> *points,
+    std::vector<std::string> *detectorInfos,
+    std::vector<std::string> *detectorTypes)
 {
     return cvTry([&] {
-    obj->detectAndDecodeWithType(*inputImage, *detectorInfos, *detectorTypes, *points);
+    obj->detectAndDecodeWithType(InProxy(*inputImage), *detectorInfos, *detectorTypes, *points);
     });
 }
 

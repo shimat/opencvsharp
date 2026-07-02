@@ -24,7 +24,7 @@ public class Filter2DParams
     /// <summary>
     /// Border value used in case of a constant border.
     /// </summary>
-    public Scalar BorderValue { get; set; } = new Scalar();
+    public Scalar BorderValue { get; set; }
 
     /// <summary>
     /// Desired depth of the destination image. -1 means the same depth as the source.

@@ -11,16 +11,14 @@
 
 #pragma region FrameSource
 
-CVAPI(ExceptionStatus) superres_FrameSource_nextFrame(
-    cv::superres::FrameSource *obj, cv::_OutputArray *frame)
+CVAPI(ExceptionStatus) superres_FrameSource_nextFrame(cv::superres::FrameSource *obj, const interop::OutputArrayProxy* frame)
 {
     return cvTry([&] {
-    obj->nextFrame(*frame);
+    obj->nextFrame(OutProxy(*frame));
     });
 }
 
-CVAPI(ExceptionStatus) superres_FrameSource_reset(
-    cv::superres::FrameSource *obj)
+CVAPI(ExceptionStatus) superres_FrameSource_reset(cv::superres::FrameSource *obj)
 {
     return cvTry([&] {
     obj->reset();
@@ -71,19 +69,17 @@ CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameS
 
 #pragma region SuperResolution
 
-CVAPI(ExceptionStatus) superres_SuperResolution_setInput(
-    cv::superres::SuperResolution *obj, cv::Ptr<cv::superres::FrameSource> *frameSource)
+CVAPI(ExceptionStatus) superres_SuperResolution_setInput(cv::superres::SuperResolution *obj, cv::Ptr<cv::superres::FrameSource> *frameSource)
 {
     return cvTry([&] {
     obj->setInput(*frameSource);
     });
 }
 
-CVAPI(ExceptionStatus) superres_SuperResolution_nextFrame(
-    cv::superres::SuperResolution *obj, cv::_OutputArray *frame)
+CVAPI(ExceptionStatus) superres_SuperResolution_nextFrame(cv::superres::SuperResolution *obj, const interop::OutputArrayProxy* frame)
 {
     return cvTry([&] {
-    obj->nextFrame(*frame);
+    obj->nextFrame(OutProxy(*frame));
     });
 }
 
@@ -163,11 +159,15 @@ CVAPI(ExceptionStatus) superres_SuperResolution_setOpticalFlow(cv::superres::Sup
 
 #pragma endregion
 
-CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpticalFlowExt* obj,
-    cv::_InputArray *frame0, cv::_InputArray *frame1, cv::_OutputArray *flow1, cv::_OutputArray *flow2)
+CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(
+    cv::superres::DenseOpticalFlowExt* obj,
+    const interop::InputArrayProxy* frame0,
+    const interop::InputArrayProxy* frame1,
+    const interop::OutputArrayProxy* flow1,
+    const interop::OutputArrayProxy* flow2)
 {
     return cvTry([&] {
-    obj->calc(*frame0, *frame1, *flow1, entity(flow2));
+    obj->calc(InProxy(*frame0), InProxy(*frame1), OutProxy(*flow1), OutProxy(*flow2));
     });
 }
 
@@ -194,16 +194,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Farneback_CUDA(cv::Ptr<cv::superre
 }
 
 
-CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_get(
-    cv::Ptr<cv::superres::FarnebackOpticalFlow> *obj, cv::superres::FarnebackOpticalFlow **returnValue)
+CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_get(cv::Ptr<cv::superres::FarnebackOpticalFlow> *obj, cv::superres::FarnebackOpticalFlow **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_delete(
-    cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr)
+CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_delete(cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr)
 {
     return cvTry([&] {
     delete ptr;
@@ -243,16 +241,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_DualTVL1_CUDA(cv::Ptr<cv::superres
 }
 
 
-CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_get(
-    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *obj, cv::superres::DualTVL1OpticalFlow **returnValue)
+CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_get(cv::Ptr<cv::superres::DualTVL1OpticalFlow> *obj, cv::superres::DualTVL1OpticalFlow **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_delete(
-    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr)
+CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_delete(cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr)
 {
     return cvTry([&] {
     delete ptr;
@@ -288,16 +284,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Brox_CUDA(cv::Ptr<cv::superres::Br
 }
 
 
-CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_get(
-    cv::Ptr<cv::superres::BroxOpticalFlow> *obj, cv::superres::BroxOpticalFlow **returnValue)
+CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_get(cv::Ptr<cv::superres::BroxOpticalFlow> *obj, cv::superres::BroxOpticalFlow **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_delete(
-    cv::Ptr<cv::superres::BroxOpticalFlow> *ptr)
+CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_delete(cv::Ptr<cv::superres::BroxOpticalFlow> *ptr)
 {
     return cvTry([&] {
     delete ptr;
@@ -329,16 +323,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_PyrLK_CUDA(cv::Ptr<cv::superres::P
 }
 
 
-CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_get(
-    cv::Ptr<cv::superres::PyrLKOpticalFlow> *obj, cv::superres::PyrLKOpticalFlow **returnValue)
+CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_get(cv::Ptr<cv::superres::PyrLKOpticalFlow> *obj, cv::superres::PyrLKOpticalFlow **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_delete(
-    cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr)
+CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_delete(cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr)
 {
     return cvTry([&] {
     delete ptr;

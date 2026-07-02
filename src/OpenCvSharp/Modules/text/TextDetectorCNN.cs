@@ -80,7 +80,7 @@ public class TextDetectorCNN : TextDetector
         using var confidenceVec = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.text_TextDetectorCNN_detect(
-                Handle, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+                Handle, inputImage.ToInputProxy(), bboxVec.CvPtr, confidenceVec.CvPtr));
         bbox = bboxVec.ToArray();
         confidence = confidenceVec.ToArray();
 

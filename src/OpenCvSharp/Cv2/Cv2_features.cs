@@ -73,7 +73,7 @@ static partial class Cv2
 
         using var vector = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_AGAST(image.CvPtr, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
+            NativeMethods.xfeatures2d_AGAST(image.ToInputProxy(), vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
         GC.KeepAlive(image);
         return vector.ToArray();
     }

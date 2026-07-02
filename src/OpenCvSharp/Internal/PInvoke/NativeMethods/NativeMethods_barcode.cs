@@ -40,18 +40,18 @@ static partial class NativeMethods
     public static partial ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus barcode_BarcodeDetector_decodeWithType(
+    internal static partial ExceptionStatus barcode_BarcodeDetector_decodeWithType(
         OpenCvSafeHandle obj,
-        IntPtr inputImage,
+        in InputArrayProxy inputImage,
         IntPtr points,
         IntPtr infos,
         IntPtr types
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
+    internal static partial ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
         OpenCvSafeHandle obj,
-        IntPtr inputImage,
+        in InputArrayProxy inputImage,
         IntPtr points,
         IntPtr infos,
         IntPtr types

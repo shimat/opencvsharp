@@ -51,7 +51,7 @@ public class QualityPSNR : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var smartPtr));
+            NativeMethods.quality_createQualityPSNR(@ref.ToInputProxy(), maxPixelValue, out var smartPtr));
         GC.KeepAlive(@ref);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_get(smartPtr, out var rawPtr));
         return new QualityPSNR(smartPtr, rawPtr);
@@ -77,7 +77,7 @@ public class QualityPSNR : QualityBase
 
         NativeMethods.HandleException(
             NativeMethods.quality_QualityPSNR_staticCompute(
-                @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, maxPixelValue, out var ret));
+                @ref.ToInputProxy(), cmp.ToInputProxy(), qualityMap?.ToOutputProxy() ?? default, maxPixelValue, out var ret));
 
         GC.KeepAlive(@ref);
         GC.KeepAlive(cmp);

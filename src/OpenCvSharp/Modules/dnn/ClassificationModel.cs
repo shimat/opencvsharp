@@ -83,7 +83,7 @@ public class ClassificationModel : Model
         frame.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.CvPtr, out classId, out conf));
+            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.ToInputProxy(), out classId, out conf));
         GC.KeepAlive(frame);
     }
 }

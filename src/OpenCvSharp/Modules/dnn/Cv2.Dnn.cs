@@ -273,7 +273,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImageWithParams(
-                    image.CvPtr, param.ScaleFactor, param.Size, param.Mean,
+                    image.ToInputProxy(), param.ScaleFactor, param.Size, param.Mean,
                     param.SwapRB ? 1 : 0, (int)param.Depth, (int)param.DataLayout, (int)param.PaddingMode, param.BorderValue,
                     out var ret));
             GC.KeepAlive(image);

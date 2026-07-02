@@ -37,7 +37,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents, out var p));
+            NativeMethods.core_PCA_new2(data.ToInputProxy(), mean.ToInputProxy(), (int)flags, maxComponents, out var p));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         InitSafeHandle(p);
@@ -60,7 +60,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance, out var p));
+            NativeMethods.core_PCA_new3(data.ToInputProxy(), mean.ToInputProxy(), (int)flags, retainedVariance, out var p));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         InitSafeHandle(p);
@@ -146,7 +146,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_operatorThis(Handle, data.CvPtr, mean.CvPtr, (int)flags, maxComponents));
+            NativeMethods.core_PCA_operatorThis(Handle, data.ToInputProxy(), mean.ToInputProxy(), (int)flags, maxComponents));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         return this;
@@ -183,7 +183,7 @@ public class PCA : CvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_computeVar(Handle, data.CvPtr, mean.CvPtr, (int)flags, retainedVariance));
+            NativeMethods.core_PCA_computeVar(Handle, data.ToInputProxy(), mean.ToInputProxy(), (int)flags, retainedVariance));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
         return this;
@@ -212,7 +212,7 @@ public class PCA : CvObject
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project1(Handle, vec.CvPtr, out var ret));
+            NativeMethods.core_PCA_project1(Handle, vec.ToInputProxy(), out var ret));
         GC.KeepAlive(vec);
         return Mat.FromNativePointer(ret);
     }
@@ -239,7 +239,7 @@ public class PCA : CvObject
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project2(Handle, vec.CvPtr, result.CvPtr));
+            NativeMethods.core_PCA_project2(Handle, vec.ToInputProxy(), result.ToOutputProxy()));
         result.Fix();
         GC.KeepAlive(vec);
         GC.KeepAlive(result);
@@ -265,7 +265,7 @@ public class PCA : CvObject
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject1(Handle, vec.CvPtr, out var ret));
+            NativeMethods.core_PCA_backProject1(Handle, vec.ToInputProxy(), out var ret));
         GC.KeepAlive(vec);
         return new Mat(ret);
     }
@@ -294,7 +294,7 @@ public class PCA : CvObject
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject2(Handle, vec.CvPtr, result.CvPtr));
+            NativeMethods.core_PCA_backProject2(Handle, vec.ToInputProxy(), result.ToOutputProxy()));
         result.Fix();
         GC.KeepAlive(vec);
         GC.KeepAlive(result);

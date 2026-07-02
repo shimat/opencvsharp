@@ -12,7 +12,7 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_SuperResolution_setInput(OpenCvSafeHandle obj, IntPtr frameSource);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_SuperResolution_nextFrame(OpenCvSafeHandle obj, IntPtr frame);
+    internal static partial ExceptionStatus superres_SuperResolution_nextFrame(OpenCvSafeHandle obj, in OutputArrayProxy frame);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_SuperResolution_reset(OpenCvSafeHandle obj);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -316,7 +316,7 @@ public class VideoWriter : CvObject
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_write(Handle, image.CvPtr));
+            NativeMethods.videoio_VideoWriter_write(Handle, image.ToInputProxy()));
 
         GC.KeepAlive(image);
     }

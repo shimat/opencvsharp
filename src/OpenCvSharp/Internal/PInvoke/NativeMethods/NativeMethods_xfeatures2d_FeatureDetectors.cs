@@ -42,7 +42,7 @@ static partial class NativeMethods
     #region AgastFeatureDetector
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_AGAST(IntPtr image, IntPtr keypoints,
+    internal static partial ExceptionStatus xfeatures2d_AGAST(in InputArrayProxy image, IntPtr keypoints,
         int threshold, int nonmaxSuppression, int type);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

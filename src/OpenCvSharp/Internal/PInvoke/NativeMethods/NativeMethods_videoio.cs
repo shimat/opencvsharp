@@ -49,7 +49,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus videoio_VideoCapture_grab(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus videoio_VideoCapture_retrieve_OutputArray(OpenCvSafeHandle obj, IntPtr image, int flag, out int returnValue);
+    internal static partial ExceptionStatus videoio_VideoCapture_retrieve_OutputArray(OpenCvSafeHandle obj, in OutputArrayProxy image, int flag, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_retrieve_Mat(OpenCvSafeHandle obj, IntPtr image, int flag, out int returnValue);
         
@@ -60,7 +60,7 @@ static partial class NativeMethods
     //public static extern ExceptionStatus videoio_VideoCapture_operatorRightShift_UMat(IntPtr obj, IntPtr image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus videoio_VideoCapture_read_OutputArray(OpenCvSafeHandle obj, IntPtr image, out int returnValue);
+    internal static partial ExceptionStatus videoio_VideoCapture_read_OutputArray(OpenCvSafeHandle obj, in OutputArrayProxy image, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_read_Mat(OpenCvSafeHandle obj, IntPtr image, out int returnValue);
 
@@ -133,7 +133,7 @@ static partial class NativeMethods
     //public static extern ExceptionStatus videoio_VideoWriter_OperatorLeftShift(IntPtr obj, IntPtr image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus videoio_VideoWriter_write(OpenCvSafeHandle obj, IntPtr image);
+    internal static partial ExceptionStatus videoio_VideoWriter_write(OpenCvSafeHandle obj, in InputArrayProxy image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoWriter_set(OpenCvSafeHandle obj, int propId, double value, out int returnValue);

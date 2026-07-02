@@ -19,7 +19,7 @@ public class FlannBasedMatcher : DescriptorMatcher
         searchParams?.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.features_FlannBasedMatcher_new(
-                indexParams?.CvPtr ?? IntPtr.Zero, searchParams?.CvPtr ?? IntPtr.Zero, out var p));
+                indexParams?.SmartPtr ?? IntPtr.Zero, searchParams?.SmartPtr ?? IntPtr.Zero, out var p));
         return p;
     }
 

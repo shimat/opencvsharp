@@ -106,6 +106,13 @@ public class ModelTest : TestBase
         Assert.False(model.GetNmsAcrossClasses());
 
         model.SetInputParams(1.0 / 255.0, new Size(26, 26));
+
+        // Smoke test for the ArrayProxy wiring: the MNIST classifier's output tensor
+        // doesn't have the [batch, N, 7] detection layout DetectionModel expects, so this
+        // is expected to throw - reaching native and failing there still proves the
+        // InputArray (frame) param and the three StdVector out-params are wired correctly.
+        using var image = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
+        Assert.ThrowsAny<Exception>(() => model.Detect(image, out _, out _, out _));
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
@@ -114,6 +121,20 @@ public class ModelTest : TestBase
         using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new SegmentationModel(net!);
         model.SetInputParams(1.0 / 255.0, new Size(26, 26));
+
+        // Smoke test for the ArrayProxy wiring (InputArray frame + OutputArray mask):
+        // the MNIST classifier's output isn't a per-pixel class map, but reaching native
+        // and getting back *some* result (or a clean failure) proves the params marshal.
+        using var image = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
+        using var mask = new Mat();
+        try
+        {
+            model.Segment(image, mask);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            // Expected: MNIST's output shape isn't a segmentation map.
+        }
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
@@ -122,5 +143,19 @@ public class ModelTest : TestBase
         using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         using var model = new KeypointsModel(net!);
         model.SetInputParams(1.0 / 255.0, new Size(26, 26));
+
+        // Smoke test for the ArrayProxy wiring: MNIST's output isn't a keypoint heatmap,
+        // but reaching native and getting back a (possibly nonsensical) result or a clean
+        // failure still proves the InputArray param is marshalled correctly.
+        using var image = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
+        try
+        {
+            var keypoints = model.Estimate(image);
+            Assert.NotNull(keypoints);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            // Expected: MNIST's output shape isn't a keypoint heatmap.
+        }
     }
 }

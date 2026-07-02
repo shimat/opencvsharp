@@ -21,8 +21,8 @@ static partial class NativeMethods
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_computeSaliency(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr saliencyMap, out int returnValue);
+    internal static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_computeSaliency(
+        OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy saliencyMap, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_setImagesize(

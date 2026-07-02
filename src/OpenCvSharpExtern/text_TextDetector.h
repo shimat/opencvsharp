@@ -9,22 +9,33 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) text_TextDetector_detect(cv::Ptr<cv::text::TextDetector>* obj, cv::_InputArray *inputImage, std::vector<cv::Rect> *Bbox, std::vector<float> *confidence)
+CVAPI(ExceptionStatus) text_TextDetector_detect(
+    cv::Ptr<cv::text::TextDetector>* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Rect> *Bbox,
+    std::vector<float> *confidence)
 {
     return cvTry([&] {
-    (*obj)->detect(*inputImage, *Bbox, *confidence);
+    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
     });
 }
 
-CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(cv::Ptr<cv::text::TextDetectorCNN>* obj, cv::_InputArray *inputImage, std::vector<cv::Rect> *Bbox, std::vector<float> *confidence)
+CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(
+    cv::Ptr<cv::text::TextDetectorCNN>* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Rect> *Bbox,
+    std::vector<float> *confidence)
 {
     return cvTry([&] {
-    (*obj)->detect(*inputImage, *Bbox, *confidence);
+    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
     });
 }
 
 CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
-    const char *modelArchFilename, const char *modelWeightsFilename, interop::Size *detectionSizes, int detectionSizesLength,
+    const char *modelArchFilename,
+    const char *modelWeightsFilename,
+    interop::Size *detectionSizes,
+    int detectionSizesLength,
     cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
     return cvTry([&] {
@@ -42,7 +53,9 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
 }
 
 CVAPI(ExceptionStatus) text_TextDetectorCNN_create2(
-    const char *modelArchFilename, const char *modelWeightsFilename, cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
+    const char *modelArchFilename,
+    const char *modelWeightsFilename,
+    cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename);

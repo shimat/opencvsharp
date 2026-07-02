@@ -705,13 +705,12 @@ public class UMat : CvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo1(Handle, m.CvPtr));
+                NativeMethods.core_UMat_copyTo1(Handle, m.ToOutputProxy()));
         }
         else
         {
-            var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo2(Handle, m.CvPtr, maskPtr));
+                NativeMethods.core_UMat_copyTo2(Handle, m.ToOutputProxy(), mask.ToInputProxy()));
         }
 
         m.Fix();
@@ -738,9 +737,8 @@ public class UMat : CvObject
         }
         else
         {
-            var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, maskPtr));
+                NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, mask.ToInputProxy()));
         }
 
         GC.KeepAlive(m);
@@ -763,7 +761,7 @@ public class UMat : CvObject
         m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_convertTo(Handle, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_UMat_convertTo(Handle, m.ToOutputProxy(), rtype, alpha, beta));
 
         m.Fix();
     }
@@ -818,7 +816,7 @@ public class UMat : CvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_InputArray(Handle, value.CvPtr, maskPtr));
+            NativeMethods.core_UMat_setTo_InputArray(Handle, value.ToInputProxy(), maskPtr));
 
         GC.KeepAlive(value);
         GC.KeepAlive(mask);
@@ -907,7 +905,7 @@ public class UMat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_mul(Handle, m.CvPtr, scale, out var ret));
+            NativeMethods.core_UMat_mul(Handle, m.ToInputProxy(), scale, out var ret));
 
         GC.KeepAlive(m);
         var retVal = new UMat(ret);
@@ -927,7 +925,7 @@ public class UMat : CvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_dot(Handle, m.CvPtr, out var ret));
+            NativeMethods.core_UMat_dot(Handle, m.ToInputProxy(), out var ret));
 
         GC.KeepAlive(m);
         return ret;

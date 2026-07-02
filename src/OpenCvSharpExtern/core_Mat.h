@@ -18,61 +18,104 @@ CVAPI(ExceptionStatus) core_Mat_new1(cv::Mat **returnValue)
     *returnValue = new cv::Mat;
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new2(int rows, int cols, int type, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new2(
+    int rows,
+    int cols,
+    int type,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(rows, cols, type); 
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new3(int rows, int cols, int type, interop::Scalar scalar, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new3(
+    int rows,
+    int cols,
+    int type,
+    interop::Scalar scalar,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(rows, cols, type, cpp(scalar));
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new4(cv::Mat *mat, interop::Range rowRange, interop::Range colRange, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new4(
+    cv::Mat *mat,
+    interop::Range rowRange,
+    interop::Range colRange,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(*mat, cpp(rowRange), cpp(colRange));
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new5(cv::Mat *mat, cv::Range rowRange, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new5(
+    cv::Mat *mat,
+    cv::Range rowRange,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(*mat, rowRange);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new6(cv::Mat *mat, cv::Range *ranges, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new6(
+    cv::Mat *mat,
+    cv::Range *ranges,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(*mat, ranges);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new7(cv::Mat *mat, interop::Rect roi, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new7(
+    cv::Mat *mat,
+    interop::Rect roi,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(*mat, cpp(roi));
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new8(int rows, int cols, int type, void* data, size_t step, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new8(
+    int rows,
+    int cols,
+    int type,
+    void* data,
+    size_t step,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(rows, cols, type, data, step);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new9(int ndims, const int* sizes, int type, void* data, const size_t* steps, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new9(
+    int ndims,
+    const int* sizes,
+    int type,
+    void* data,
+    const size_t* steps,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(ndims, sizes, type, data, steps);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new10(int ndims, int* sizes, int type, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new10(
+    int ndims,
+    int* sizes,
+    int type,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(ndims, sizes, type);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_new11(int ndims, int* sizes, int type, interop::Scalar s, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_new11(
+    int ndims,
+    int* sizes,
+    int type,
+    interop::Scalar s,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(ndims, sizes, type, cpp(s));
@@ -102,42 +145,63 @@ CVAPI(ExceptionStatus) core_Mat_delete(cv::Mat *self)
 
 #pragma region Functions
 
-CVAPI(ExceptionStatus) core_Mat_getUMat(cv::Mat* self, cv::AccessFlag accessFlags, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_Mat_getUMat(
+    cv::Mat* self,
+    cv::AccessFlag accessFlags,
+    cv::UMatUsageFlags usageFlags,
+    cv::UMat** returnValue)
 {
     return cvTry([&] {
         * returnValue = new cv::UMat(self->getUMat(accessFlags, usageFlags));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_row(cv::Mat *self, int y, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_row(
+    cv::Mat *self,
+    int y,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(self->row(y));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_col(cv::Mat *self, int x, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_col(
+    cv::Mat *self,
+    int x,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(self->col(x));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_rowRange(cv::Mat *self, int startRow, int endRow, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_rowRange(
+    cv::Mat *self,
+    int startRow,
+    int endRow,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(self->rowRange(startRow, endRow));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_colRange(cv::Mat *self, int startCol, int endCol, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_colRange(
+    cv::Mat *self,
+    int startCol,
+    int endCol,
+    cv::Mat **returnValue)
 { 
     return cvTry([&] {
     *returnValue = new cv::Mat(self->colRange(startCol, endCol));
     });
 }
      
-CVAPI(ExceptionStatus) core_Mat_diag(cv::Mat *self, int d, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_diag(
+    cv::Mat *self,
+    int d,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto ret = self->diag(d);
@@ -160,16 +224,19 @@ CVAPI(ExceptionStatus) core_Mat_clone(cv::Mat *self, cv::Mat **returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_copyTo1(cv::Mat *self, cv::_OutputArray *m)
+CVAPI(ExceptionStatus) core_Mat_copyTo1(cv::Mat *self, const interop::OutputArrayProxy* m)
 {
     return cvTry([&] {
-    self->copyTo(*m);
+    self->copyTo(OutProxy(*m));
     });
 }
-CVAPI(ExceptionStatus) core_Mat_copyTo2(cv::Mat *self, cv::_OutputArray *m, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_Mat_copyTo2(
+    cv::Mat *self,
+    const interop::OutputArrayProxy* m,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    self->copyTo(*m, entity(mask));
+    self->copyTo(OutProxy(*m), InProxy(*mask));
     });
 }
 
@@ -179,28 +246,42 @@ CVAPI(ExceptionStatus) core_Mat_copyTo_toMat1(cv::Mat *self, cv::Mat *m)
     self->copyTo(*m);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_copyTo_toMat2(cv::Mat *self, cv::Mat *m, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_Mat_copyTo_toMat2(
+    cv::Mat *self,
+    cv::Mat *m,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    self->copyTo(*m, entity(mask));
+    self->copyTo(*m, InProxy(*mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_convertTo(cv::Mat *self, cv::_OutputArray *m, int rtype, double alpha, double beta)
+CVAPI(ExceptionStatus) core_Mat_convertTo(
+    cv::Mat *self,
+    const interop::OutputArrayProxy* m,
+    int rtype,
+    double alpha,
+    double beta)
 {
     return cvTry([&] {
-    self->convertTo(*m, rtype, alpha, beta);
+    self->convertTo(OutProxy(*m), rtype, alpha, beta);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_assignTo(cv::Mat *self, cv::Mat *m, int type)
+CVAPI(ExceptionStatus) core_Mat_assignTo(
+    cv::Mat *self,
+    cv::Mat *m,
+    int type)
 {
     return cvTry([&] {
     self->assignTo(*m, type);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_setTo_Scalar(cv::Mat *self, interop::Scalar value, cv::Mat *mask)
+CVAPI(ExceptionStatus) core_Mat_setTo_Scalar(
+    cv::Mat *self,
+    interop::Scalar value,
+    cv::Mat *mask)
 {
     return cvTry([&] {
     if (mask == nullptr)
@@ -209,21 +290,33 @@ CVAPI(ExceptionStatus) core_Mat_setTo_Scalar(cv::Mat *self, interop::Scalar valu
         self->setTo(cpp(value), entity(mask));
     });
 }
-CVAPI(ExceptionStatus) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::Mat *mask)
+CVAPI(ExceptionStatus) core_Mat_setTo_InputArray(
+    cv::Mat *self,
+    const interop::InputArrayProxy* value,
+    cv::Mat *mask)
 {
     return cvTry([&] {
-    self->setTo(*value, entity(mask));
+    self->setTo(InProxy(*value), entity(mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_reshape1(cv::Mat *self, int cn, int rows, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_reshape1(
+    cv::Mat *self,
+    int cn,
+    int rows,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto ret = self->reshape(cn, rows);
     *returnValue = new cv::Mat(ret);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_reshape2(cv::Mat *self, int cn, int newndims, const int* newsz, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_reshape2(
+    cv::Mat *self,
+    int cn,
+    int newndims,
+    const int* newsz,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto ret = self->reshape(cn, newndims, newsz);
@@ -242,7 +335,13 @@ static cv::MatShape buildMatShape(int ndims, const int* sizes, int layout, int C
     return cv::MatShape(static_cast<size_t>(ndims), sizes, static_cast<cv::DataLayout>(layout), C);
 }
 
-CVAPI(ExceptionStatus) core_Mat_shape(cv::Mat *self, int *sizes, int *outNdims, int *outLayout, int *outC, int *outEmpty)
+CVAPI(ExceptionStatus) core_Mat_shape(
+    cv::Mat *self,
+    int *sizes,
+    int *outNdims,
+    int *outLayout,
+    int *outC,
+    int *outEmpty)
 {
     return cvTry([&] {
     const cv::MatShape shape = self->shape();
@@ -262,21 +361,41 @@ CVAPI(ExceptionStatus) core_Mat_shape(cv::Mat *self, int *sizes, int *outNdims, 
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_newFromMatShape(int ndims, const int *sizes, int layout, int C, int type, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_newFromMatShape(
+    int ndims,
+    const int *sizes,
+    int layout,
+    int C,
+    int type,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(buildMatShape(ndims, sizes, layout, C), type);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_newFromMatShapeScalar(int ndims, const int *sizes, int layout, int C, int type, interop::Scalar s, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_newFromMatShapeScalar(
+    int ndims,
+    const int *sizes,
+    int layout,
+    int C,
+    int type,
+    interop::Scalar s,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Mat(buildMatShape(ndims, sizes, layout, C), type, cpp(s));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_reshapeMatShape(cv::Mat *self, int cn, int ndims, const int *sizes, int layout, int C, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_reshapeMatShape(
+    cv::Mat *self,
+    int cn,
+    int ndims,
+    const int *sizes,
+    int layout,
+    int C,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const auto ret = self->reshape(cn, buildMatShape(ndims, sizes, layout, C));
@@ -284,7 +403,13 @@ CVAPI(ExceptionStatus) core_Mat_reshapeMatShape(cv::Mat *self, int cn, int ndims
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_zeros_MatShape(int ndims, const int *sizes, int layout, int C, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_zeros_MatShape(
+    int ndims,
+    const int *sizes,
+    int layout,
+    int C,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = cv::Mat::zeros(buildMatShape(ndims, sizes, layout, C), type);
@@ -292,7 +417,13 @@ CVAPI(ExceptionStatus) core_Mat_zeros_MatShape(int ndims, const int *sizes, int 
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_ones_MatShape(int ndims, const int *sizes, int layout, int C, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ones_MatShape(
+    int ndims,
+    const int *sizes,
+    int layout,
+    int C,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = cv::Mat::ones(buildMatShape(ndims, sizes, layout, C), type);
@@ -308,7 +439,10 @@ CVAPI(ExceptionStatus) core_Mat_t(cv::Mat *self, cv::MatExpr **returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_inv(cv::Mat *self, int method, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_inv(
+    cv::Mat *self,
+    int method,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto ret = self->inv(method);
@@ -316,37 +450,55 @@ CVAPI(ExceptionStatus) core_Mat_inv(cv::Mat *self, int method, cv::MatExpr **ret
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_mul(cv::Mat *self, cv::_InputArray *m, double scale, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_mul(
+    cv::Mat *self,
+    const interop::InputArrayProxy* m,
+    double scale,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
-    const auto ret = self->mul(*m, scale);
+    const auto ret = self->mul(InProxy(*m), scale);
     *returnValue = new cv::MatExpr(ret);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_cross(cv::Mat *self, cv::_InputArray *m, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) core_Mat_cross(
+    cv::Mat *self,
+    const interop::InputArrayProxy* m,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = self->cross(*m);
+    const auto ret = self->cross(InProxy(*m));
     *returnValue = new cv::Mat(ret);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_dot(cv::Mat *self, cv::_InputArray *m, double *returnValue)
+CVAPI(ExceptionStatus) core_Mat_dot(
+    cv::Mat *self,
+    const interop::InputArrayProxy* m,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = self->dot(*m);
+    *returnValue = self->dot(InProxy(*m));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_zeros1(int rows, int cols, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_zeros1(
+    int rows,
+    int cols,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = cv::Mat::zeros(rows, cols, type);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_zeros2(int ndims, const int *sz, int type, cv::MatExpr **returnValue) 
+CVAPI(ExceptionStatus) core_Mat_zeros2(
+    int ndims,
+    const int *sz,
+    int type,
+    cv::MatExpr **returnValue) 
 {
     return cvTry([&] {
     const auto expr = cv::Mat::zeros(ndims, sz, type);
@@ -354,14 +506,22 @@ CVAPI(ExceptionStatus) core_Mat_zeros2(int ndims, const int *sz, int type, cv::M
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_ones1(int rows, int cols, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ones1(
+    int rows,
+    int cols,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto ret = cv::Mat::ones(rows, cols, type);
     *returnValue = new cv::MatExpr(ret);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ones2(
+    int ndims,
+    const int *sz,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     auto ret = cv::Mat::ones(ndims, sz, type);
@@ -369,7 +529,11 @@ CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::Ma
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_eye(int rows, int cols, int type, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_eye(
+    int rows,
+    int cols,
+    int type,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto eye = cv::Mat::eye(rows, cols, type);
@@ -377,13 +541,21 @@ CVAPI(ExceptionStatus) core_Mat_eye(int rows, int cols, int type, cv::MatExpr **
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_create1(cv::Mat *self, int rows, int cols, int type)
+CVAPI(ExceptionStatus) core_Mat_create1(
+    cv::Mat *self,
+    int rows,
+    int cols,
+    int type)
 {
     return cvTry([&] {
     self->create(rows, cols, type);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_create2(cv::Mat *self, int ndims, const int *sizes, int type)
+CVAPI(ExceptionStatus) core_Mat_create2(
+    cv::Mat *self,
+    int ndims,
+    const int *sizes,
+    int type)
 {
     return cvTry([&] {
     self->create(ndims, sizes, type);
@@ -410,7 +582,10 @@ CVAPI(ExceptionStatus) core_Mat_resize1(cv::Mat *obj, size_t sz)
     obj->resize(sz);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_resize2(cv::Mat *obj, size_t sz, interop::Scalar s)
+CVAPI(ExceptionStatus) core_Mat_resize2(
+    cv::Mat *obj,
+    size_t sz,
+    interop::Scalar s)
 {
     return cvTry([&] {
     obj->resize(sz, cpp(s));
@@ -424,7 +599,10 @@ CVAPI(ExceptionStatus) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_locateROI(cv::Mat *self, interop::Size *wholeSize, interop::Point *ofs)
+CVAPI(ExceptionStatus) core_Mat_locateROI(
+    cv::Mat *self,
+    interop::Size *wholeSize,
+    interop::Point *ofs)
 {
     return cvTry([&] {
     cv::Size wholeSize2;
@@ -435,7 +613,13 @@ CVAPI(ExceptionStatus) core_Mat_locateROI(cv::Mat *self, interop::Size *wholeSiz
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright, cv::Mat** returnValue)
+CVAPI(ExceptionStatus) core_Mat_adjustROI(
+    cv::Mat *self,
+    int dtop,
+    int dbottom,
+    int dleft,
+    int dright,
+    cv::Mat** returnValue)
 {
     return cvTry([&] {
     const auto ret = self->adjustROI(dtop, dbottom, dleft, dright);
@@ -443,7 +627,13 @@ CVAPI(ExceptionStatus) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, 
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int colStart, int colEnd, cv::Mat** returnValue)
+CVAPI(ExceptionStatus) core_Mat_subMat1(
+    cv::Mat *self,
+    int rowStart,
+    int rowEnd,
+    int colStart,
+    int colEnd,
+    cv::Mat** returnValue)
 {
     return cvTry([&] {
     const cv::Range rowRange(rowStart, rowEnd);
@@ -452,7 +642,11 @@ CVAPI(ExceptionStatus) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd,
     *returnValue = new cv::Mat(ret);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_subMat2(cv::Mat *self, int nRanges, interop::Range *ranges, cv::Mat** returnValue)
+CVAPI(ExceptionStatus) core_Mat_subMat2(
+    cv::Mat *self,
+    int nRanges,
+    interop::Range *ranges,
+    cv::Mat** returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Range> rangesVec(nRanges);
@@ -513,7 +707,10 @@ CVAPI(ExceptionStatus) core_Mat_channels(cv::Mat *self, int *returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_step1(cv::Mat *self, int i, size_t *returnValue)
+CVAPI(ExceptionStatus) core_Mat_step1(
+    cv::Mat *self,
+    int i,
+    size_t *returnValue)
 {
     return cvTry([&] {
     *returnValue = self->step1(i);
@@ -534,39 +731,63 @@ CVAPI(ExceptionStatus) core_Mat_total1(cv::Mat *self, size_t *returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_total2(cv::Mat *self, int startDim, int endDim, size_t *returnValue)
+CVAPI(ExceptionStatus) core_Mat_total2(
+    cv::Mat *self,
+    int startDim,
+    int endDim,
+    size_t *returnValue)
 {
     return cvTry([&] {
     *returnValue = self->total(startDim, endDim);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_checkVector(cv::Mat *self, int elemChannels, int depth, int requireContinuous, int *returnValue)
+CVAPI(ExceptionStatus) core_Mat_checkVector(
+    cv::Mat *self,
+    int elemChannels,
+    int depth,
+    int requireContinuous,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = self->checkVector(elemChannels, depth, requireContinuous != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_ptr1d(cv::Mat *self, int i0, uchar **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ptr1d(
+    cv::Mat *self,
+    int i0,
+    uchar **returnValue)
 {
     return cvTry([&] {
     *returnValue = self->ptr(i0);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_ptr2d(cv::Mat *self, int i0, int i1, uchar **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ptr2d(
+    cv::Mat *self,
+    int i0,
+    int i1,
+    uchar **returnValue)
 {
     return cvTry([&] {
     *returnValue = self->ptr(i0, i1);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_ptr3d(cv::Mat *self, int i0, int i1, int i2, uchar **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ptr3d(
+    cv::Mat *self,
+    int i0,
+    int i1,
+    int i2,
+    uchar **returnValue)
 {
     return cvTry([&] {
     *returnValue = self->ptr(i0, i1, i2);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_ptrnd(cv::Mat *self, int *idx, uchar **returnValue)
+CVAPI(ExceptionStatus) core_Mat_ptrnd(
+    cv::Mat *self,
+    int *idx,
+    uchar **returnValue)
 {
     return cvTry([&] {
     *returnValue = self->ptr(idx);
@@ -636,7 +857,10 @@ CVAPI(ExceptionStatus) core_Mat_size(cv::Mat *self, interop::Size *returnValue)
         *returnValue = c(self->size());
     });
 }
-CVAPI(ExceptionStatus) core_Mat_sizeAt(cv::Mat *self, int i, int *returnValue)
+CVAPI(ExceptionStatus) core_Mat_sizeAt(
+    cv::Mat *self,
+    int i,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = self->size[i];
@@ -649,7 +873,10 @@ CVAPI(ExceptionStatus) core_Mat_step(cv::Mat *self, size_t *returnValue)
     *returnValue = self->step;
     });
 }
-CVAPI(ExceptionStatus) core_Mat_stepAt(cv::Mat *self, int i, size_t *returnValue)
+CVAPI(ExceptionStatus) core_Mat_stepAt(
+    cv::Mat *self,
+    int i,
+    size_t *returnValue)
 {
     return cvTry([&] {
     *returnValue = self->step[i];
@@ -744,14 +971,20 @@ static void internal_set_item(cv::Mat *mat, int r, int c, double *src, int &coun
         *dst = cv::saturate_cast<T>(*src);
 }
 
-CVAPI(ExceptionStatus) core_Mat_setMatData(cv::Mat *obj, uchar *vals, int *returnValue)
+CVAPI(ExceptionStatus) core_Mat_setMatData(
+    cv::Mat *obj,
+    uchar *vals,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = internal_Mat_set(obj, vals) ? 1 : 0;
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_getMatData(cv::Mat *obj, uchar *vals, int *returnValue)
+CVAPI(ExceptionStatus) core_Mat_getMatData(
+    cv::Mat *obj,
+    uchar *vals,
+    int *returnValue)
 {    
     return cvTry([&] {
     *returnValue = internal_Mat_get(obj, vals) ? 1 : 0;
@@ -1263,21 +1496,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorUnaryMinus(cv::Mat *mat, cv::MatExpr **r
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAdd_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) + (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorAdd_MatScalar(cv::Mat *a, interop::Scalar s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAdd_MatScalar(
+    cv::Mat *a,
+    interop::Scalar s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) + cpp(s);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorAdd_ScalarMat(interop::Scalar s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAdd_ScalarMat(
+    interop::Scalar s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = cpp(s) + (*a); 
@@ -1292,21 +1534,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorMinus_Mat(cv::Mat *a, cv::MatExpr **retu
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorSubtract_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) - (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, interop::Scalar s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorSubtract_MatScalar(
+    cv::Mat *a,
+    interop::Scalar s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) - cpp(s);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorSubtract_ScalarMat(interop::Scalar s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorSubtract_ScalarMat(
+    interop::Scalar s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = cpp(s) - (*a); 
@@ -1314,21 +1565,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorSubtract_ScalarMat(interop::Scalar s, cv
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorMultiply_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorMultiply_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) * (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorMultiply_MatDouble(cv::Mat *a, double s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorMultiply_MatDouble(
+    cv::Mat *a,
+    double s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) * s;
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorMultiply_DoubleMat(double s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorMultiply_DoubleMat(
+    double s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = s * (*a); 
@@ -1336,21 +1596,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorMultiply_DoubleMat(double s, cv::Mat *a,
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorDivide_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorDivide_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) / (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorDivide_MatDouble(cv::Mat *a, double s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorDivide_MatDouble(
+    cv::Mat *a,
+    double s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) / s;
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorDivide_DoubleMat(double s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorDivide_DoubleMat(
+    double s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = s / (*a); 
@@ -1358,21 +1627,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorDivide_DoubleMat(double s, cv::Mat *a, c
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorAnd_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAnd_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) & (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorAnd_MatDouble(cv::Mat *a, double s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAnd_MatDouble(
+    cv::Mat *a,
+    double s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) & s;
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorAnd_DoubleMat(double s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorAnd_DoubleMat(
+    double s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = s & (*a); 
@@ -1380,21 +1658,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorAnd_DoubleMat(double s, cv::Mat *a, cv::
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorOr_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorOr_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) | (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorOr_MatDouble(cv::Mat *a, double s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorOr_MatDouble(
+    cv::Mat *a,
+    double s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) | s;
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorOr_DoubleMat(double s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorOr_DoubleMat(
+    double s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = s | (*a); 
@@ -1402,21 +1689,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorOr_DoubleMat(double s, cv::Mat *a, cv::M
     });
 }
 
-CVAPI(ExceptionStatus) core_Mat_operatorXor_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorXor_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) ^ (*b);
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorXor_MatDouble(cv::Mat *a, double s, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorXor_MatDouble(
+    cv::Mat *a,
+    double s,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) ^ s;
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorXor_DoubleMat(double s, cv::Mat *a, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorXor_DoubleMat(
+    double s,
+    cv::Mat *a,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = s ^ (*a); 
@@ -1436,21 +1732,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorNot(cv::Mat *a, cv::MatExpr **returnValu
 // Comparison Operators
 
 // <
-CVAPI(ExceptionStatus) core_Mat_operatorLT_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLT_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) < (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorLT_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLT_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a < (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorLT_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLT_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) < b; 
@@ -1458,21 +1763,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorLT_MatDouble(cv::Mat *a, double b, cv::M
     });
 }
 // <=
-CVAPI(ExceptionStatus) core_Mat_operatorLE_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLE_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) <= (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorLE_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLE_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a <= (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorLE_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorLE_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) <= b; 
@@ -1480,21 +1794,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorLE_MatDouble(cv::Mat *a, double b, cv::M
     });
 }
 // >
-CVAPI(ExceptionStatus) core_Mat_operatorGT_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGT_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) > (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorGT_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGT_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a > (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorGT_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGT_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) > b; 
@@ -1502,21 +1825,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorGT_MatDouble(cv::Mat *a, double b, cv::M
     });
 }
 // >=
-CVAPI(ExceptionStatus) core_Mat_operatorGE_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGE_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) >= (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorGE_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGE_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a >= (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorGE_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorGE_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) >= b; 
@@ -1524,21 +1856,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorGE_MatDouble(cv::Mat *a, double b, cv::M
     });
 }
 // ==
-CVAPI(ExceptionStatus) core_Mat_operatorEQ_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorEQ_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) == (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorEQ_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorEQ_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a == (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorEQ_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorEQ_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) == b; 
@@ -1546,21 +1887,30 @@ CVAPI(ExceptionStatus) core_Mat_operatorEQ_MatDouble(cv::Mat *a, double b, cv::M
     });
 }
 // !=
-CVAPI(ExceptionStatus) core_Mat_operatorNE_MatMat(cv::Mat *a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorNE_MatMat(
+    cv::Mat *a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) != (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorNE_DoubleMat(double a, cv::Mat *b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorNE_DoubleMat(
+    double a,
+    cv::Mat *b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = a != (*b); 
     *returnValue = new cv::MatExpr(expr);
     });
 }
-CVAPI(ExceptionStatus) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b, cv::MatExpr **returnValue)
+CVAPI(ExceptionStatus) core_Mat_operatorNE_MatDouble(
+    cv::Mat *a,
+    double b,
+    cv::MatExpr **returnValue)
 {
     return cvTry([&] {
     const auto expr = (*a) != b; 

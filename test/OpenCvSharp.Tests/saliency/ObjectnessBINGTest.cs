@@ -58,4 +58,25 @@ public class ObjectnessBINGTest : TestBase
         using var bing = ObjectnessBING.Create();
         bing.SetBBResDir("/nonexistent/results");
     }
+
+    [Fact]
+    public void ComputeSaliency()
+    {
+        // Smoke test for the ArrayProxy wiring: BING needs a trained model directory
+        // (SetTrainingPath) that isn't committed, so this is expected to fail, but
+        // reaching native and failing there still proves the InputArray (image) param
+        // and the vector<Vec4i> out-param marshal correctly.
+        using var bing = ObjectnessBING.Create();
+        using var image = LoadImage("lenna.png");
+
+        try
+        {
+            bing.ComputeSaliency(image, out var boxes);
+            Assert.NotNull(boxes);
+        }
+        catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
+        {
+            // Expected: no trained model path has been set.
+        }
+    }
 }

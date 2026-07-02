@@ -28,7 +28,7 @@ public class QualitySSIM : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var smartPtr));
+            NativeMethods.quality_createQualitySSIM(@ref.ToInputProxy(), out var smartPtr));
         GC.KeepAlive(@ref);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_get(smartPtr, out var rawPtr));
         return new QualitySSIM(smartPtr, rawPtr);
@@ -53,7 +53,7 @@ public class QualitySSIM : QualityBase
 
         NativeMethods.HandleException(
             NativeMethods.quality_QualitySSIM_staticCompute(
-                @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, out var ret));
+                @ref.ToInputProxy(), cmp.ToInputProxy(), qualityMap?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(@ref);
         GC.KeepAlive(cmp);

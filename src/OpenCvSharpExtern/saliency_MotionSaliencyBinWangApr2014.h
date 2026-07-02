@@ -8,25 +8,21 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_delete(
-    cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *obj)
+CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_delete(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_get(
-    cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *ptr,
-    cv::saliency::MotionSaliencyBinWangApr2014 **returnValue)
+CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_get(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *ptr, cv::saliency::MotionSaliencyBinWangApr2014 **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_create(
-    cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> **returnValue)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_create(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> **returnValue)
 {
     return cvTry([&] {
     const auto p = cv::saliency::MotionSaliencyBinWangApr2014::create();
@@ -36,55 +32,54 @@ CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_create(
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_computeSaliency(
     cv::saliency::MotionSaliencyBinWangApr2014 *obj,
-    cv::_InputArray *image, cv::_OutputArray *saliencyMap, int *returnValue)
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* saliencyMap,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeSaliency(*image, *saliencyMap) ? 1 : 0;
+    *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImagesize(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int W, int H)
+    cv::saliency::MotionSaliencyBinWangApr2014 *obj,
+    int W,
+    int H)
 {
     return cvTry([&] {
     obj->setImagesize(W, H);
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_init(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_init(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->init() ? 1 : 0;
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageWidth(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageWidth(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getImageWidth();
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageWidth(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageWidth(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
 {
     return cvTry([&] {
     obj->setImageWidth(val);
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageHeight(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageHeight(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getImageHeight();
     });
 }
 
-CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageHeight(
-    cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
+CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageHeight(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
 {
     return cvTry([&] {
     obj->setImageHeight(val);

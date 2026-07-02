@@ -142,7 +142,7 @@ public class IntelligentScissorsMB : CvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImage(
-                CvPtr, image.CvPtr));
+                CvPtr, image.ToInputProxy()));
 
         return this;
     }
@@ -170,7 +170,7 @@ public class IntelligentScissorsMB : CvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
-                CvPtr, nonEdge.CvPtr, gradientDirection.CvPtr, gradientMagnitude.CvPtr, image?.CvPtr ?? IntPtr.Zero));
+                CvPtr, nonEdge.ToInputProxy(), gradientDirection.ToInputProxy(), gradientMagnitude.ToInputProxy(), image?.ToInputProxy() ?? default));
 
         return this;
     }
@@ -205,6 +205,6 @@ public class IntelligentScissorsMB : CvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_getContour(
-                CvPtr, targetPt, contour.CvPtr, backward ? 1 : 0));
+                CvPtr, targetPt, contour.ToOutputProxy(), backward ? 1 : 0));
     }
 }

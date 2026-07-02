@@ -6,6 +6,8 @@ namespace OpenCvSharp.Tests.Core;
 
 public class MatTest : TestBase
 {
+    private static readonly int[] OneToFour = { 1, 2, 3, 4 };
+
     private readonly ITestOutputHelper testOutputHelper;
 
     public MatTest(ITestOutputHelper testOutputHelper)
@@ -26,7 +28,7 @@ public class MatTest : TestBase
         var collected = new System.Collections.Generic.List<int>();
         foreach (var v in mat)
             collected.Add(v);
-        Assert.Equal(new[] { 1, 2, 3, 4 }, collected);
+        Assert.Equal(OneToFour, collected);
     }
 
     [Fact]
@@ -254,6 +256,35 @@ public class MatTest : TestBase
         ret = resultImage.SetTo(0, null);
         ShowImagesWhenDebugMode(resultImage);
         Assert.True(ReferenceEquals(resultImage, ret));
+    }
+
+    [Fact]
+    public void SetToInputArray()
+    {
+        // Mat::setTo(InputArray value, ...) treats value as a scalar (one element per channel),
+        // not a same-shape fill source - a single-pixel Mat here plays that role.
+        using var mat = Mat.ZerosMat(3, 3, MatType.CV_8UC1);
+        using var value = Mat.FromPixelData(1, 1, MatType.CV_8UC1, new byte[] { 7 });
+
+        var ret = mat.SetTo(value);
+
+        Assert.True(ReferenceEquals(mat, ret));
+        Assert.Equal(7, mat.Get<byte>(0, 0));
+        Assert.Equal(7, mat.Get<byte>(2, 2));
+    }
+
+    [Fact]
+    public void Cross()
+    {
+        using var a = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[] { 1, 0, 0 });
+        using var b = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[] { 0, 1, 0 });
+
+        using var c = a.Cross(b);
+
+        // c is a 1x3 row vector: Get<T>(i0) addresses row i0, so columns need the 2-index accessor.
+        Assert.Equal(0, c.Get<double>(0, 0), 6);
+        Assert.Equal(0, c.Get<double>(0, 1), 6);
+        Assert.Equal(1, c.Get<double>(0, 2), 6);
     }
 
 #if NET5_0_OR_GREATER

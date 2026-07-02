@@ -6,6 +6,8 @@ namespace OpenCvSharp.Tests.ImgProc;
 // filter2D overload, and findContoursLinkRuns.
 public class ImgProcMediumTest : TestBase
 {
+    private static readonly float[] IdentityKernel1X1 = { 1.0f };
+
     [Fact]
     public void NearestExactEnumValue()
     {
@@ -27,7 +29,7 @@ public class ImgProcMediumTest : TestBase
     public void Filter2DWithParams()
     {
         using var src = new Mat(5, 5, MatType.CV_8UC1, Scalar.All(10));
-        using var kernel = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new[] { 1.0f });
+        using var kernel = Mat.FromPixelData(1, 1, MatType.CV_32FC1, IdentityKernel1X1);
         using var dst = new Mat();
 
         // scale = 2 -> each pixel becomes 10 * 1 * 2 = 20.
@@ -41,7 +43,7 @@ public class ImgProcMediumTest : TestBase
     public void Filter2DWithDefaultParams()
     {
         using var src = new Mat(5, 5, MatType.CV_8UC1, Scalar.All(10));
-        using var kernel = Mat.FromPixelData(1, 1, MatType.CV_32FC1, new[] { 1.0f });
+        using var kernel = Mat.FromPixelData(1, 1, MatType.CV_32FC1, IdentityKernel1X1);
         using var dst = new Mat();
 
         Cv2.Filter2D(src, dst, kernel);

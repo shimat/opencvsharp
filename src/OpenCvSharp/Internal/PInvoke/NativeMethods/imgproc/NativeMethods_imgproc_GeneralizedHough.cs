@@ -13,20 +13,20 @@ static partial class NativeMethods
     // GeneralizedHough
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_GeneralizedHough_setTemplate1(
-        OpenCvSafeHandle obj, IntPtr templ, Point templCenter);
+    internal static partial ExceptionStatus imgproc_GeneralizedHough_setTemplate1(
+        OpenCvSafeHandle obj, in InputArrayProxy templ, Point templCenter);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_GeneralizedHough_setTemplate2(
-        OpenCvSafeHandle obj, IntPtr edges, IntPtr dx, IntPtr dy, Point templCenter);
+    internal static partial ExceptionStatus imgproc_GeneralizedHough_setTemplate2(
+        OpenCvSafeHandle obj, in InputArrayProxy edges, in InputArrayProxy dx, in InputArrayProxy dy, Point templCenter);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_GeneralizedHough_detect1(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr positions, IntPtr votes);
+    internal static partial ExceptionStatus imgproc_GeneralizedHough_detect1(
+        OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy positions, in OutputArrayProxy votes);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_GeneralizedHough_detect2(
-        OpenCvSafeHandle obj, IntPtr edges, IntPtr dx, IntPtr dy, IntPtr positions, IntPtr votes);
+    internal static partial ExceptionStatus imgproc_GeneralizedHough_detect2(
+        OpenCvSafeHandle obj, in InputArrayProxy edges, in InputArrayProxy dx, in InputArrayProxy dy, in OutputArrayProxy positions, in OutputArrayProxy votes);
 
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

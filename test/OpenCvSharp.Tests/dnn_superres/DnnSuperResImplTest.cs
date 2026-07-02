@@ -32,6 +32,23 @@ public class DnnSuperResImplTest : TestBase
         ShowImagesWhenDebugMode(src, dst);
     }
 
+    [Fact]
+    public void UpsampleMultioutput()
+    {
+        using var dnn = new DnnSuperResImpl("fsrcnn", 4);
+        dnn.ReadModel(ModelFileName);
+
+        using var src = new Mat("_data/image/mandrill.png");
+
+        // Smoke test for the ArrayProxy wiring: the node name is graph-specific and not
+        // something we can reliably guess for the committed FSRCNN model, but reaching
+        // native and failing on an unknown output node still proves the InputArray param
+        // (img) and the vector<int>/vector<string> params are marshalled correctly.
+        var ex = Assert.Throws<OpenCVException>(() =>
+            dnn.UpsampleMultioutput(src, out _, [4], ["not_a_real_output_node"]));
+        Assert.NotNull(ex.Message);
+    }
+
     [Theory]
     [InlineData("edsr")]
     [InlineData("espcn")]

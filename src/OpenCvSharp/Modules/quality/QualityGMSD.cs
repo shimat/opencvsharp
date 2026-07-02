@@ -29,7 +29,7 @@ public class QualityGMSD : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityGMSD(@ref.CvPtr, out var smartPtr));
+            NativeMethods.quality_createQualityGMSD(@ref.ToInputProxy(), out var smartPtr));
         GC.KeepAlive(@ref);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_get(smartPtr, out var rawPtr));
         return new QualityGMSD(smartPtr, rawPtr);
@@ -54,7 +54,7 @@ public class QualityGMSD : QualityBase
 
         NativeMethods.HandleException(
             NativeMethods.quality_QualityGMSD_staticCompute(
-                @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, out var ret));
+                @ref.ToInputProxy(), cmp.ToInputProxy(), qualityMap?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(@ref);
         GC.KeepAlive(cmp);

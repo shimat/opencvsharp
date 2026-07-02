@@ -53,13 +53,13 @@ static partial class NativeMethods
         byte* buf, int bufLength, int flags, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgcodecs_imdecode_InputArray(
-        IntPtr buf, int flags, out IntPtr returnValue);
+    internal static partial ExceptionStatus imgcodecs_imdecode_InputArray(
+        in InputArrayProxy buf, int flags, out IntPtr returnValue);
 
     // Do not consider that "ext" may not be ASCII characters
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgcodecs_imencode_vector(
-        [MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
+    internal static partial ExceptionStatus imgcodecs_imencode_vector(
+        [MarshalAs(UnmanagedType.LPStr)] string ext, in InputArrayProxy img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
 
     // haveImageReader (UTF-8 everywhere; native probes via a wide path on Windows)
 

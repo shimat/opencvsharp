@@ -28,7 +28,7 @@ public class SVD : CvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out var p));
+            NativeMethods.core_SVD_new2(src.ToInputProxy(), (int)flags, out var p));
         GC.KeepAlive(src);
         InitSafeHandle(p);
     }
@@ -90,7 +90,7 @@ public class SVD : CvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_operatorThis(Handle, src.CvPtr, (int)flags));
+            NativeMethods.core_SVD_operatorThis(Handle, src.ToInputProxy(), (int)flags));
         GC.KeepAlive(src);
         return this;
     }
@@ -111,7 +111,7 @@ public class SVD : CvObject
         rhs.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_backSubst(Handle, rhs.CvPtr, dst.CvPtr));
+            NativeMethods.core_SVD_backSubst(Handle, rhs.ToInputProxy(), dst.ToOutputProxy()));
         GC.KeepAlive(rhs);
         GC.KeepAlive(dst);
     }
@@ -140,7 +140,7 @@ public class SVD : CvObject
         u.ThrowIfNotReady();
         vt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_compute1(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags));
+            NativeMethods.core_SVD_static_compute1(src.ToInputProxy(), w.ToOutputProxy(), u.ToOutputProxy(), vt.ToOutputProxy(), (int)flags));
         w.Fix();
         u.Fix();
         vt.Fix();
@@ -165,7 +165,7 @@ public class SVD : CvObject
         src.ThrowIfDisposed();
         w.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_compute2(src.CvPtr, w.CvPtr, (int)flags));
+            NativeMethods.core_SVD_static_compute2(src.ToInputProxy(), w.ToOutputProxy(), (int)flags));
         w.Fix();
         GC.KeepAlive(src);
         GC.KeepAlive(w);
@@ -198,7 +198,7 @@ public class SVD : CvObject
         rhs.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr));
+            NativeMethods.core_SVD_static_backSubst(w.ToInputProxy(), u.ToInputProxy(), vt.ToInputProxy(), rhs.ToInputProxy(), dst.ToOutputProxy()));
         dst.Fix();
         GC.KeepAlive(w);
         GC.KeepAlive(u);
@@ -221,7 +221,7 @@ public class SVD : CvObject
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_SVD_static_solveZ(src.ToInputProxy(), dst.ToOutputProxy()));
         dst.Fix();
         GC.KeepAlive(src);
         GC.KeepAlive(dst);

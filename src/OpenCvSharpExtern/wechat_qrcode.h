@@ -6,7 +6,8 @@
 
 CVAPI(ExceptionStatus) wechat_qrcode_create1(
     const char *detector_model_path,
-    const char *super_resolution_model_path, cv::wechat_qrcode::WeChatQRCode **returnValue)
+    const char *super_resolution_model_path,
+    cv::wechat_qrcode::WeChatQRCode **returnValue)
 {
     return cvTry([&] {
     // OpenCV 5: WeChatQRCode takes one ONNX detector model path and one ONNX super-resolution
@@ -25,18 +26,26 @@ CVAPI(ExceptionStatus) wechat_qrcode_delete(cv::wechat_qrcode::WeChatQRCode* obj
 }
 
 
-CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
+CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(
+    cv::wechat_qrcode::WeChatQRCode* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Mat>* points,
+    std::vector<std::string>* texts)
 {
     return cvTry([&] {
-    *texts = obj->detectAndDecode(*inputImage, *points);
+    *texts = obj->detectAndDecode(InProxy(*inputImage), *points);
     });
 }
 
-CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode_points(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<std::vector<cv::Point2f> >* points, std::vector<std::string>* texts)
+CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode_points(
+    cv::wechat_qrcode::WeChatQRCode* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<std::vector<cv::Point2f> >* points,
+    std::vector<std::string>* texts)
 {
     return cvTry([&] {
     std::vector<cv::Mat> matPoints;
-    *texts = obj->detectAndDecode(*inputImage, matPoints);
+    *texts = obj->detectAndDecode(InProxy(*inputImage), matPoints);
     points->clear();
     for (const auto& mat : matPoints)
     {

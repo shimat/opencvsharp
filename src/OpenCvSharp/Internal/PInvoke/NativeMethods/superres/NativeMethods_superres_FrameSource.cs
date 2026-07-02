@@ -11,7 +11,7 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_FrameSource_nextFrame(OpenCvSafeHandle obj, IntPtr frame);
+    internal static partial ExceptionStatus superres_FrameSource_nextFrame(OpenCvSafeHandle obj, in OutputArrayProxy frame);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_FrameSource_reset(OpenCvSafeHandle obj);

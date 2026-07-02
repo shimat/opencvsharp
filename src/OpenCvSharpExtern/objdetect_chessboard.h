@@ -10,68 +10,85 @@
 
 
 CVAPI(ExceptionStatus) objdetect_checkChessboard(
-    cv::_InputArray *img, interop::Size size, int *returnValue)
+    const interop::InputArrayProxy* img,
+    interop::Size size,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
+    *returnValue = cv::checkChessboard(InProxy(*img), cpp(size)) ? 1 : 0;
     });
 }
 
 
 CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_OutputArray(
-    cv::_InputArray *image, interop::Size patternSize, cv::_OutputArray *corners, int flags, 
+    const interop::InputArrayProxy* image,
+    interop::Size patternSize,
+    const interop::OutputArrayProxy* corners,
+    int flags,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+    *returnValue = cv::findChessboardCornersSB(InProxy(*image), cpp(patternSize), OutProxy(*corners), flags) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_vector(
-    cv::_InputArray *image, interop::Size patternSize, std::vector<cv::Point2f> *corners, int flags, 
+    const interop::InputArrayProxy* image,
+    interop::Size patternSize,
+    std::vector<cv::Point2f> *corners,
+    int flags,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+    *returnValue = cv::findChessboardCornersSB(InProxy(*image), cpp(patternSize), *corners, flags) ? 1 : 0;
     });
 }
 
 
 CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_InputArray(
-    cv::_InputArray *img, cv::_InputOutputArray *corners, interop::Size regionSize, 
+    const interop::InputArrayProxy* img,
+    const interop::InputOutputArrayProxy* corners,
+    interop::Size regionSize,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
+    *returnValue = cv::find4QuadCornerSubpix(InProxy(*img), IoProxy(*corners), cpp(regionSize)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_find4QuadCornerSubpix_vector(
-    cv::_InputArray *img, std::vector<cv::Point2f> *corners, interop::Size regionSize, 
+    const interop::InputArrayProxy* img,
+    std::vector<cv::Point2f> *corners,
+    interop::Size regionSize,
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
+    *returnValue = cv::find4QuadCornerSubpix(InProxy(*img), *corners, cpp(regionSize)) ? 1 : 0;
     });
 }
 
 
 CVAPI(ExceptionStatus) objdetect_drawChessboardCorners_InputArray(
-    cv::_InputOutputArray *image, interop::Size patternSize,
-    cv::_InputArray *corners, int patternWasFound)
+    const interop::InputOutputArrayProxy* image,
+    interop::Size patternSize,
+    const interop::InputArrayProxy* corners,
+    int patternWasFound)
 {
     return cvTry([&] {
-    cv::drawChessboardCorners(*image, cpp(patternSize), *corners, patternWasFound != 0);
+    cv::drawChessboardCorners(IoProxy(*image), cpp(patternSize), InProxy(*corners), patternWasFound != 0);
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_drawChessboardCorners_array(
-    cv::_InputOutputArray *image, interop::Size patternSize,
-    cv::Point2f *corners, int cornersLength, int patternWasFound)
+    const interop::InputOutputArrayProxy* image,
+    interop::Size patternSize,
+    cv::Point2f *corners,
+    int cornersLength,
+    int patternWasFound)
 {
     return cvTry([&] {
     const std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
-    cv::drawChessboardCorners(*image, cpp(patternSize), cornersVec, patternWasFound != 0);
+    cv::drawChessboardCorners(IoProxy(*image), cpp(patternSize), cornersVec, patternWasFound != 0);
     });
 }
 

@@ -570,6 +570,14 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(cameraMatrix2));
         if (distCoeffs2 is null)
             throw new ArgumentNullException(nameof(distCoeffs2));
+        if (R is null)
+            throw new ArgumentNullException(nameof(R));
+        if (T is null)
+            throw new ArgumentNullException(nameof(T));
+        if (E is null)
+            throw new ArgumentNullException(nameof(E));
+        if (F is null)
+            throw new ArgumentNullException(nameof(F));
         cameraMatrix1.ThrowIfDisposed();
         distCoeffs1.ThrowIfDisposed();
         cameraMatrix2.ThrowIfDisposed();
@@ -592,7 +600,7 @@ static partial class Cv2
                 ip1Ptrs, ip1Ptrs.Length, ip2Ptrs, ip2Ptrs.Length,
                 cameraMatrix1.ToInputOutputProxy(), distCoeffs1.ToInputOutputProxy(),
                 cameraMatrix2.ToInputOutputProxy(), distCoeffs2.ToInputOutputProxy(),
-                imageSize, R?.ToOutputProxy() ?? default, T?.ToOutputProxy() ?? default, E?.ToOutputProxy() ?? default, F?.ToOutputProxy() ?? default,
+                imageSize, R.ToOutputProxy(), T.ToOutputProxy(), E.ToOutputProxy(), F.ToOutputProxy(),
                 (int) flags, criteria0, out var ret));
 
         GC.KeepAlive(cameraMatrix1);

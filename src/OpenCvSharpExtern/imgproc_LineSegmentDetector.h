@@ -6,27 +6,44 @@
 
 #include "include_opencv.h"
 
-CVAPI(void) imgproc_LineSegmentDetector_detect_OutputArray(cv::LineSegmentDetector *obj, cv::_InputArray *image, cv::_OutputArray *lines,
-    cv::_OutputArray *width, cv::_OutputArray *prec, cv::_OutputArray *nfa)
+CVAPI(void) imgproc_LineSegmentDetector_detect_OutputArray(
+    cv::LineSegmentDetector *obj,
+    const interop::InputArrayProxy *image,
+    const interop::OutputArrayProxy *lines,
+    const interop::OutputArrayProxy *width,
+    const interop::OutputArrayProxy *prec,
+    const interop::OutputArrayProxy *nfa)
 {
-    obj->detect(*image, *lines, entity(width), entity(prec), entity(nfa));
+    obj->detect(InProxy(*image), OutProxy(*lines), OutProxy(*width), OutProxy(*prec), OutProxy(*nfa));
 }
 
-CVAPI(void) imgproc_LineSegmentDetector_detect_vector(cv::LineSegmentDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines,
-    std::vector<double> *width, std::vector<double> *prec, std::vector<double> *nfa)
+CVAPI(void) imgproc_LineSegmentDetector_detect_vector(
+    cv::LineSegmentDetector *obj,
+    const interop::InputArrayProxy *image,
+    std::vector<cv::Vec4f> *lines,
+    std::vector<double> *width,
+    std::vector<double> *prec,
+    std::vector<double> *nfa)
 {
-    obj->detect(*image, *lines, *width, *prec, *nfa);
+    obj->detect(InProxy(*image), *lines, *width, *prec, *nfa);
 }
 
-CVAPI(void) imgproc_LineSegmentDetector_drawSegments(cv::LineSegmentDetector *obj, cv::_InputOutputArray *image, cv::_InputArray *lines)
+CVAPI(void) imgproc_LineSegmentDetector_drawSegments(
+    cv::LineSegmentDetector *obj,
+    const interop::InputOutputArrayProxy *image,
+    const interop::InputArrayProxy *lines)
 {
-    obj->drawSegments(*image, *lines);
+    obj->drawSegments(IoProxy(*image), InProxy(*lines));
 }
 
-CVAPI(int) imgproc_LineSegmentDetector_compareSegments(cv::LineSegmentDetector *obj, interop::Size size,
-    cv::_InputArray *lines1, cv::_InputArray *lines2, cv::_InputOutputArray *image)
+CVAPI(int) imgproc_LineSegmentDetector_compareSegments(
+    cv::LineSegmentDetector *obj,
+    interop::Size size,
+    const interop::InputArrayProxy *lines1,
+    const interop::InputArrayProxy *lines2,
+    const interop::InputOutputArrayProxy *image)
 {
-    return obj->compareSegments(cpp(size), *lines1, *lines2, entity(image));
+    return obj->compareSegments(cpp(size), InProxy(*lines1), InProxy(*lines2), IoProxy(*image));
 }
 
 

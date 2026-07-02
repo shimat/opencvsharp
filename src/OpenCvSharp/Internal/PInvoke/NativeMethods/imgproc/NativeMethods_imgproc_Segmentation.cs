@@ -41,17 +41,17 @@ static partial class NativeMethods
         int apertureSize, int L2gradient);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_applyImage(
+    internal static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_applyImage(
         IntPtr obj,
-        IntPtr image);
+        in InputArrayProxy image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
+    internal static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
         IntPtr obj,
-        IntPtr non_edge,
-        IntPtr gradient_direction,
-        IntPtr gradient_magnitude,
-        IntPtr image);
+        in InputArrayProxy non_edge,
+        in InputArrayProxy gradient_direction,
+        in InputArrayProxy gradient_magnitude,
+        in InputArrayProxy image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_buildMap(
@@ -59,7 +59,7 @@ static partial class NativeMethods
         Point sourcePt);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_getContour(
+    internal static partial ExceptionStatus imgproc_segmentation_IntelligentScissorsMB_getContour(
         IntPtr obj,
-        Point targetPt, IntPtr contour, int backward);
+        Point targetPt, in OutputArrayProxy contour, int backward);
 }

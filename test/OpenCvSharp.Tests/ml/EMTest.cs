@@ -1,6 +1,8 @@
 using OpenCvSharp.ML;
 using Xunit;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
 namespace OpenCvSharp.Tests.ML;
 
 public class EMTest : TestBase

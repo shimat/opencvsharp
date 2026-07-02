@@ -12,7 +12,10 @@
 #pragma region BRISK
 
 CVAPI(ExceptionStatus) xfeatures2d_BRISK_create1(
-    int thresh, int octaves, float patternScale, cv::Ptr<cv::xfeatures2d::BRISK> **returnValue)
+    int thresh,
+    int octaves,
+    float patternScale,
+    cv::Ptr<cv::xfeatures2d::BRISK> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::xfeatures2d::BRISK::create(thresh, octaves, patternScale);
@@ -20,10 +23,14 @@ CVAPI(ExceptionStatus) xfeatures2d_BRISK_create1(
     });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BRISK_create2(
-    float *radiusList, int radiusListLength, 
-    int *numberList, int numberListLength,
-    float dMax, float dMin,
-    int *indexChange, int indexChangeLength, 
+    float *radiusList,
+    int radiusListLength,
+    int *numberList,
+    int numberListLength,
+    float dMax,
+    float dMin,
+    int *indexChange,
+    int indexChangeLength,
     cv::Ptr<cv::xfeatures2d::BRISK> **returnValue)
 {
     return cvTry([&] {
@@ -39,11 +46,16 @@ CVAPI(ExceptionStatus) xfeatures2d_BRISK_create2(
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BRISK_create3(
-    int thresh, int octaves, 
-    float *radiusList, int radiusListLength,
-    int *numberList, int numberListLength,
-    float dMax, float dMin,
-    int *indexChange, int indexChangeLength, 
+    int thresh,
+    int octaves,
+    float *radiusList,
+    int radiusListLength,
+    int *numberList,
+    int numberListLength,
+    float dMax,
+    float dMin,
+    int *indexChange,
+    int indexChangeLength,
     cv::Ptr<cv::xfeatures2d::BRISK> **returnValue)
 {
     return cvTry([&] {
@@ -69,12 +81,15 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_BRISK_delete(cv::Ptr<cv::xfeatures2d::BRI
 #pragma region
 
 CVAPI(ExceptionStatus) xfeatures2d_AGAST(
-    cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints,
-    int threshold, int nonmaxSuppression, int type)
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    int threshold,
+    int nonmaxSuppression,
+    int type)
 {
     return cvTry([&] {
     cv::xfeatures2d::AGAST(
-        entity(image),
+        InProxy(*image),
         *keypoints,
         threshold,
         nonmaxSuppression != 0, 
@@ -83,7 +98,10 @@ CVAPI(ExceptionStatus) xfeatures2d_AGAST(
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_AgastFeatureDetector_create(
-    int threshold, int nonmaxSuppression, int type, cv::Ptr<cv::xfeatures2d::AgastFeatureDetector> **returnValue)
+    int threshold,
+    int nonmaxSuppression,
+    int type,
+    cv::Ptr<cv::xfeatures2d::AgastFeatureDetector> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::xfeatures2d::AgastFeatureDetector::create(
@@ -142,8 +160,12 @@ CVAPI(ExceptionStatus) xfeatures2d_AgastFeatureDetector_getType(cv::xfeatures2d:
 #pragma region KAZE
 
 CVAPI(ExceptionStatus) xfeatures2d_KAZE_create(
-    int extended, int upright, float threshold,
-    int nOctaves, int nOctaveLayers, int diffusivity,
+    int extended,
+    int upright,
+    float threshold,
+    int nOctaves,
+    int nOctaveLayers,
+    int diffusivity,
     cv::Ptr<cv::xfeatures2d::KAZE> **returnValue)
 {
     return cvTry([&] {
@@ -243,8 +265,13 @@ CVAPI(ExceptionStatus) xfeatures2d_KAZE_getUpright(cv::xfeatures2d::KAZE *obj, i
 #pragma region AKAZE
 
 CVAPI(ExceptionStatus) xfeatures2d_AKAZE_create(
-    int descriptor_type, int descriptor_size, int descriptor_channels,
-    float threshold, int nOctaves, int nOctaveLayers, int diffusivity,
+    int descriptor_type,
+    int descriptor_size,
+    int descriptor_channels,
+    float threshold,
+    int nOctaves,
+    int nOctaveLayers,
+    int diffusivity,
     cv::Ptr<cv::xfeatures2d::AKAZE> **returnValue)
 {
     return cvTry([&] {

@@ -55,7 +55,7 @@ public abstract class Facemark : Algorithm
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(Handle, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
+                NativeMethods.face_Facemark_fit(Handle, image.ToInputProxy(), faces.ToInputProxy(), landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 

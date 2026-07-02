@@ -195,7 +195,7 @@ static partial class Cv2
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findHomography_UsacParams(
-                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), mask?.ToOutputProxy() ?? default, ref p,
+                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), mask.ToOutputProxy(), ref p,
                 out var ret));
 
         GC.KeepAlive(srcPoints);
@@ -1432,7 +1432,7 @@ static partial class Cv2
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_UsacParams(
-                points1.ToInputProxy(), points2.ToInputProxy(), mask?.ToOutputProxy() ?? default, ref p, out var ret));
+                points1.ToInputProxy(), points2.ToInputProxy(), mask.ToOutputProxy(), ref p, out var ret));
 
         GC.KeepAlive(points1);
         GC.KeepAlive(points2);

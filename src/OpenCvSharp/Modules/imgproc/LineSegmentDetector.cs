@@ -62,8 +62,8 @@ public class LineSegmentDetector : Algorithm
         prec?.ThrowIfNotReady();
         nfa?.ThrowIfNotReady();
 
-        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.CvPtr, lines.CvPtr,
-            Cv2.ToPtr(width), Cv2.ToPtr(prec), Cv2.ToPtr(nfa));
+        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.ToInputProxy(), lines.ToOutputProxy(),
+            width?.ToOutputProxy() ?? default, prec?.ToOutputProxy() ?? default, nfa?.ToOutputProxy() ?? default);
         GC.KeepAlive(image);
         GC.KeepAlive(lines);
         GC.KeepAlive(width);
@@ -98,7 +98,7 @@ public class LineSegmentDetector : Algorithm
         using (var precVec = new StdVector<double>())
         using (var nfaVec = new StdVector<double>())
         {
-            NativeMethods.imgproc_LineSegmentDetector_detect_vector(Handle, image.CvPtr,
+            NativeMethods.imgproc_LineSegmentDetector_detect_vector(Handle, image.ToInputProxy(),
                 linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
 
             lines = linesVec.ToArray();
@@ -124,7 +124,7 @@ public class LineSegmentDetector : Algorithm
         image.ThrowIfNotReady();
         lines.ThrowIfDisposed();
 
-        NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.CvPtr, lines.CvPtr);
+        NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.ToInputOutputProxy(), lines.ToInputProxy());
         GC.KeepAlive(image);
         image.Fix();
         GC.KeepAlive(lines);
@@ -152,7 +152,7 @@ public class LineSegmentDetector : Algorithm
         image?.ThrowIfNotReady();
 
         var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
-            Handle, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
+            Handle, size, lines1.ToInputProxy(), lines2.ToInputProxy(), image?.ToInputOutputProxy() ?? default);
         GC.KeepAlive(lines1);
         GC.KeepAlive(lines2);
         GC.KeepAlive(image);

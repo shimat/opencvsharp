@@ -83,7 +83,7 @@ public class QualityBRISQUE : QualityBase
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBRISQUE_staticCompute(img.CvPtr, modelFilePath, rangeFilePath, out var ret));
+            NativeMethods.quality_QualityBRISQUE_staticCompute(img.ToInputProxy(), modelFilePath, rangeFilePath, out var ret));
 
         GC.KeepAlive(img);
         return ret;
@@ -102,7 +102,7 @@ public class QualityBRISQUE : QualityBase
             throw new ArgumentNullException(nameof(features));
 
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBRISQUE_computeFeatures(img.CvPtr, features.CvPtr));
+            NativeMethods.quality_QualityBRISQUE_computeFeatures(img.ToInputProxy(), features.ToOutputProxy()));
 
         GC.KeepAlive(img);
         GC.KeepAlive(features);

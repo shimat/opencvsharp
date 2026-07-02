@@ -10,8 +10,8 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus superres_DenseOpticalFlowExt_calc(
-        OpenCvSafeHandle obj, IntPtr frame0, IntPtr frame1, IntPtr flow1, IntPtr flow2);
+    internal static partial ExceptionStatus superres_DenseOpticalFlowExt_calc(
+        OpenCvSafeHandle obj, in InputArrayProxy frame0, in InputArrayProxy frame1, in OutputArrayProxy flow1, in OutputArrayProxy flow2);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_DenseOpticalFlowExt_collectGarbage(OpenCvSafeHandle obj);
         

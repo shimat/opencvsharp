@@ -20,8 +20,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus saliency_ObjectnessBING_create(out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus saliency_ObjectnessBING_computeSaliency(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr objectnessBoundingBox, out int returnValue);
+    internal static partial ExceptionStatus saliency_ObjectnessBING_computeSaliency(
+        OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr objectnessBoundingBox, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_getobjectnessValues(

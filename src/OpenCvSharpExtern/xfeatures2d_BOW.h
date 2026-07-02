@@ -48,7 +48,11 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_clear(cv::xfeatures2d::BOWTrainer 
 // BOWKMeansTrainer
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_new(
-    int clusterCount, interop::TermCriteria termcrit, int attempts, int flags, cv::xfeatures2d::BOWKMeansTrainer **returnValue)
+    int clusterCount,
+    interop::TermCriteria termcrit,
+    int attempts,
+    int flags,
+    cv::xfeatures2d::BOWKMeansTrainer **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWKMeansTrainer(clusterCount, cpp(termcrit), attempts, flags);
@@ -69,7 +73,10 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster1(cv::xfeatures2d::BO
     *returnValue = new cv::Mat(m);
     });
 }
-CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster2(cv::xfeatures2d::BOWKMeansTrainer *obj, cv::Mat *descriptors, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster2(
+    cv::xfeatures2d::BOWKMeansTrainer *obj,
+    cv::Mat *descriptors,
+    cv::Mat **returnValue)
 {
     return cvTry([&] {
     const cv::Mat m = obj->cluster(*descriptors);
@@ -83,14 +90,15 @@ static void DescriptorExtractorDeleter(cv::DescriptorExtractor *) { }
 static void DescriptorMatcherDeleter(cv::DescriptorMatcher *) { }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_Ptr(
-    cv::Ptr<cv::DescriptorExtractor> *dextractor, cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
+    cv::Ptr<cv::DescriptorExtractor> *dextractor,
+    cv::Ptr<cv::DescriptorMatcher> *dmatcher,
+    cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dextractor, *dmatcher);
     });
 }
-CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_Ptr(
-    cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
+CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_Ptr(cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dmatcher);
@@ -98,7 +106,9 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_Ptr(
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_RawPtr(
-    cv::DescriptorExtractor *dextractor, cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
+    cv::DescriptorExtractor *dextractor,
+    cv::DescriptorMatcher *dmatcher,
+    cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
     // do not delete dextractor and dmatcher
@@ -108,8 +118,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_RawPtr(
     });
 }
 
-CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_RawPtr(
-    cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
+CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_RawPtr(cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
     // do not delete dmatcher
@@ -140,25 +149,34 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(cv::x
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute11(
-    cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *imgDescriptor, 
-    std::vector<std::vector<int> >* pointIdxsOfClusters, cv::Mat* descriptors)
+    cv::xfeatures2d::BOWImgDescriptorExtractor *obj,
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    const interop::OutputArrayProxy* imgDescriptor,
+    std::vector<std::vector<int> >* pointIdxsOfClusters,
+    cv::Mat* descriptors)
 {
     return cvTry([&] {
-    obj->compute(*image, *keypoints, *imgDescriptor, pointIdxsOfClusters, descriptors);
+    obj->compute(InProxy(*image), *keypoints, OutProxy(*imgDescriptor), pointIdxsOfClusters, descriptors);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute12(
-    cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::_InputArray *keypointDescriptors, 
-    cv::_OutputArray *imgDescriptor,     std::vector<std::vector<int> >* pointIdxsOfClusters)
+    cv::xfeatures2d::BOWImgDescriptorExtractor *obj,
+    const interop::InputArrayProxy* keypointDescriptors,
+    const interop::OutputArrayProxy* imgDescriptor,
+    std::vector<std::vector<int> >* pointIdxsOfClusters)
 {
     return cvTry([&] {
-    obj->compute(*keypointDescriptors, *imgDescriptor, pointIdxsOfClusters);
+    obj->compute(InProxy(*keypointDescriptors), OutProxy(*imgDescriptor), pointIdxsOfClusters);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute2(
-    cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *imgDescriptor)
+    cv::xfeatures2d::BOWImgDescriptorExtractor *obj,
+    cv::Mat *image,
+    std::vector<cv::KeyPoint> *keypoints,
+    cv::Mat *imgDescriptor)
 {
     return cvTry([&] {
     obj->compute2(*image, *keypoints, *imgDescriptor);

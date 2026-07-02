@@ -17,39 +17,39 @@
 
 CVAPI(ExceptionStatus) shape_ShapeTransformer_estimateTransformation(
     cv::ShapeTransformer *obj,
-    cv::_InputArray *transformingShape,
-    cv::_InputArray *targetShape,
+    const interop::InputArrayProxy* transformingShape,
+    const interop::InputArrayProxy* targetShape,
     std::vector<cv::DMatch> *matches)
 {
     return cvTry([&] {
-    obj->estimateTransformation(*transformingShape, *targetShape, *matches);
+    obj->estimateTransformation(InProxy(*transformingShape), InProxy(*targetShape), *matches);
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeTransformer_applyTransformation(
     cv::ShapeTransformer *obj,
-    cv::_InputArray *input,
-    cv::_OutputArray *output,
+    const interop::InputArrayProxy* input,
+    const interop::OutputArrayProxy* output,
     float *returnValue)
 {
     return cvTry([&] {
     if (output == nullptr)
-        *returnValue = obj->applyTransformation(*input);
+        *returnValue = obj->applyTransformation(InProxy(*input));
     else
-        *returnValue = obj->applyTransformation(*input, *output);
+        *returnValue = obj->applyTransformation(InProxy(*input), OutProxy(*output));
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeTransformer_warpImage(
     cv::ShapeTransformer *obj,
-    cv::_InputArray *transformingImage,
-    cv::_OutputArray *output,
+    const interop::InputArrayProxy* transformingImage,
+    const interop::OutputArrayProxy* output,
     int flags,
     int borderMode,
     interop::Scalar borderValue)
 {
     return cvTry([&] {
-    obj->warpImage(*transformingImage, *output, flags, borderMode, cpp(borderValue));
+    obj->warpImage(InProxy(*transformingImage), OutProxy(*output), flags, borderMode, cpp(borderValue));
     });
 }
 
@@ -60,26 +60,21 @@ CVAPI(ExceptionStatus) shape_ShapeTransformer_warpImage(
 
 #pragma region ThinPlateSplineShapeTransformer
 
-CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_delete(
-    cv::Ptr<cv::ThinPlateSplineShapeTransformer> *obj)
+CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_delete(cv::Ptr<cv::ThinPlateSplineShapeTransformer> *obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_get(
-    cv::Ptr<cv::ThinPlateSplineShapeTransformer> *ptr,
-    cv::ThinPlateSplineShapeTransformer **returnValue)
+CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_get(cv::Ptr<cv::ThinPlateSplineShapeTransformer> *ptr, cv::ThinPlateSplineShapeTransformer **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
     });
 }
 
-CVAPI(ExceptionStatus) shape_createThinPlateSplineShapeTransformer(
-    double regularizationParameter,
-    cv::Ptr<cv::ThinPlateSplineShapeTransformer> **returnValue)
+CVAPI(ExceptionStatus) shape_createThinPlateSplineShapeTransformer(double regularizationParameter, cv::Ptr<cv::ThinPlateSplineShapeTransformer> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::createThinPlateSplineShapeTransformer(regularizationParameter);
@@ -87,16 +82,14 @@ CVAPI(ExceptionStatus) shape_createThinPlateSplineShapeTransformer(
     });
 }
 
-CVAPI(ExceptionStatus) shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(
-    cv::ThinPlateSplineShapeTransformer *obj, double beta)
+CVAPI(ExceptionStatus) shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(cv::ThinPlateSplineShapeTransformer *obj, double beta)
 {
     return cvTry([&] {
     obj->setRegularizationParameter(beta);
     });
 }
 
-CVAPI(ExceptionStatus) shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(
-    cv::ThinPlateSplineShapeTransformer *obj, double *returnValue)
+CVAPI(ExceptionStatus) shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(cv::ThinPlateSplineShapeTransformer *obj, double *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getRegularizationParameter();
@@ -112,26 +105,21 @@ CVAPI(ExceptionStatus) shape_ThinPlateSplineShapeTransformer_getRegularizationPa
 
 #pragma region AffineTransformer
 
-CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_delete(
-    cv::Ptr<cv::AffineTransformer> *obj)
+CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_delete(cv::Ptr<cv::AffineTransformer> *obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_get(
-    cv::Ptr<cv::AffineTransformer> *ptr,
-    cv::AffineTransformer **returnValue)
+CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_get(cv::Ptr<cv::AffineTransformer> *ptr, cv::AffineTransformer **returnValue)
 {
     return cvTry([&] {
     *returnValue = ptr->get();
     });
 }
 
-CVAPI(ExceptionStatus) shape_createAffineTransformer(
-    int fullAffine,
-    cv::Ptr<cv::AffineTransformer> **returnValue)
+CVAPI(ExceptionStatus) shape_createAffineTransformer(int fullAffine, cv::Ptr<cv::AffineTransformer> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::createAffineTransformer(fullAffine != 0);
@@ -139,16 +127,14 @@ CVAPI(ExceptionStatus) shape_createAffineTransformer(
     });
 }
 
-CVAPI(ExceptionStatus) shape_AffineTransformer_setFullAffine(
-    cv::AffineTransformer *obj, int value)
+CVAPI(ExceptionStatus) shape_AffineTransformer_setFullAffine(cv::AffineTransformer *obj, int value)
 {
     return cvTry([&] {
     obj->setFullAffine(value != 0);
     });
 }
 
-CVAPI(ExceptionStatus) shape_AffineTransformer_getFullAffine(
-    cv::AffineTransformer *obj, int *returnValue)
+CVAPI(ExceptionStatus) shape_AffineTransformer_getFullAffine(cv::AffineTransformer *obj, int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getFullAffine() ? 1 : 0;
@@ -163,35 +149,28 @@ CVAPI(ExceptionStatus) shape_AffineTransformer_getFullAffine(
 // Used by SetTransformAlgorithm on ShapeContextDistanceExtractor.
 // ============================================================
 
-CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_upcast(
-    cv::Ptr<cv::ThinPlateSplineShapeTransformer> *src,
-    cv::Ptr<cv::ShapeTransformer> **returnValue)
+CVAPI(ExceptionStatus) shape_Ptr_ThinPlateSplineShapeTransformer_upcast(cv::Ptr<cv::ThinPlateSplineShapeTransformer> *src, cv::Ptr<cv::ShapeTransformer> **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Ptr<cv::ShapeTransformer>(*src);
     });
 }
 
-CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_upcast(
-    cv::Ptr<cv::AffineTransformer> *src,
-    cv::Ptr<cv::ShapeTransformer> **returnValue)
+CVAPI(ExceptionStatus) shape_Ptr_AffineTransformer_upcast(cv::Ptr<cv::AffineTransformer> *src, cv::Ptr<cv::ShapeTransformer> **returnValue)
 {
     return cvTry([&] {
     *returnValue = new cv::Ptr<cv::ShapeTransformer>(*src);
     });
 }
 
-CVAPI(ExceptionStatus) shape_Ptr_ShapeTransformer_delete(
-    cv::Ptr<cv::ShapeTransformer> *obj)
+CVAPI(ExceptionStatus) shape_Ptr_ShapeTransformer_delete(cv::Ptr<cv::ShapeTransformer> *obj)
 {
     return cvTry([&] {
     delete obj;
     });
 }
 
-CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
-    cv::ShapeContextDistanceExtractor *obj,
-    cv::Ptr<cv::ShapeTransformer> *transformer)
+CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setTransformAlgorithm(cv::ShapeContextDistanceExtractor *obj, cv::Ptr<cv::ShapeTransformer> *transformer)
 {
     return cvTry([&] {
     obj->setTransformAlgorithm(*transformer);

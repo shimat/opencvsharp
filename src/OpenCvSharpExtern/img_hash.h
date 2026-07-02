@@ -9,17 +9,24 @@
 #include "include_opencv.h"
 
 
-CVAPI(ExceptionStatus) img_hash_ImgHashBase_compute(cv::img_hash::ImgHashBase *obj, cv::_InputArray *inputArr, cv::_OutputArray *outputArr)
+CVAPI(ExceptionStatus) img_hash_ImgHashBase_compute(
+    cv::img_hash::ImgHashBase *obj,
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr)
 {
     return cvTry([&] {
-    obj->compute(*inputArr, *outputArr);
+    obj->compute(InProxy(*inputArr), OutProxy(*outputArr));
     });
 }
 
-CVAPI(ExceptionStatus) img_hash_ImgHashBase_compare(cv::img_hash::ImgHashBase *obj, cv::_InputArray *hashOne, cv::_InputArray *hashTwo, double *returnValue)
+CVAPI(ExceptionStatus) img_hash_ImgHashBase_compare(
+    cv::img_hash::ImgHashBase *obj,
+    const interop::InputArrayProxy* hashOne,
+    const interop::InputArrayProxy* hashTwo,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compare(*hashOne, *hashTwo);
+    *returnValue = obj->compare(InProxy(*hashOne), InProxy(*hashTwo));
     });
 }
 
@@ -117,7 +124,10 @@ CVAPI(ExceptionStatus) img_hash_Ptr_ColorMomentHash_get(cv::Ptr<cv::img_hash::Co
 
 // MarrHildrethHash
 
-CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_create(const float alpha, const float scale, cv::Ptr<cv::img_hash::MarrHildrethHash> **returnValue)
+CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_create(
+    const float alpha,
+    const float scale,
+    cv::Ptr<cv::img_hash::MarrHildrethHash> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::img_hash::MarrHildrethHash::create(alpha, scale);
@@ -139,7 +149,10 @@ CVAPI(ExceptionStatus) img_hash_Ptr_MarrHildrethHash_get(cv::Ptr<cv::img_hash::M
     });
 }
 
-CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_setKernelParam(cv::img_hash::MarrHildrethHash *obj, const float alpha, const float scale)
+CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_setKernelParam(
+    cv::img_hash::MarrHildrethHash *obj,
+    const float alpha,
+    const float scale)
 {
     return cvTry([&] {
     obj->setKernelParam(alpha, scale);
@@ -188,7 +201,10 @@ CVAPI(ExceptionStatus) img_hash_Ptr_PHash_get(cv::Ptr<cv::img_hash::PHash> *ptr,
 
 // RadialVarianceHash
 
-CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_create(const double sigma, const int numOfAngleLine, cv::Ptr<cv::img_hash::RadialVarianceHash> **returnValue)
+CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_create(
+    const double sigma,
+    const int numOfAngleLine,
+    cv::Ptr<cv::img_hash::RadialVarianceHash> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::img_hash::RadialVarianceHash::create(sigma, numOfAngleLine);

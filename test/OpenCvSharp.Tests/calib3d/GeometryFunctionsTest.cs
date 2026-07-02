@@ -1,5 +1,7 @@
 using Xunit;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
 namespace OpenCvSharp.Tests.Calib3D;
 
 // Tests for the OpenCV 5 geometry/calib functions added to OpenCvSharp:
@@ -19,6 +21,11 @@ public class GeometryFunctionsTest : TestBase
         new Point3f(0, 0, 0), new Point3f(1, 0, 0), new Point3f(0, 1, 0), new Point3f(1, 1, 0),
         new Point3f(0, 0, 1), new Point3f(1, 0, 1), new Point3f(0, 1, 1), new Point3f(1, 1, 1)
     };
+
+    private static readonly double[] UnitTranslationX = { 1.0, 0.0, 0.0 };
+    private static readonly double[] UnitTranslationY = { 0.0, 1.0, 0.0 };
+    private static readonly double[] UnitPoint3D = { 1.0, 1.0, 1.0 };
+    private static readonly double[] SmallDistCoeffs = { 0.1, 0.01, 0.0, 0.0 };
 
     [Theory]
     [InlineData(false)]
@@ -165,9 +172,9 @@ public class GeometryFunctionsTest : TestBase
     {
         // Two pure translations (no rotation) compose by simply adding the translations.
         using var rvec1 = Mat.ZerosMat(3, 1, MatType.CV_64FC1);
-        using var tvec1 = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new[] { 1.0, 0.0, 0.0 });
+        using var tvec1 = Mat.FromPixelData(3, 1, MatType.CV_64FC1, UnitTranslationX);
         using var rvec2 = Mat.ZerosMat(3, 1, MatType.CV_64FC1);
-        using var tvec2 = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new[] { 0.0, 1.0, 0.0 });
+        using var tvec2 = Mat.FromPixelData(3, 1, MatType.CV_64FC1, UnitTranslationY);
         using var rvec3 = new Mat();
         using var tvec3 = new Mat();
 
@@ -482,8 +489,8 @@ public class GeometryFunctionsTest : TestBase
     [Fact]
     public void SampsonDistance()
     {
-        using var pt1 = Mat.FromPixelData(1, 1, MatType.CV_64FC3, new[] { 1.0, 1.0, 1.0 });
-        using var pt2 = Mat.FromPixelData(1, 1, MatType.CV_64FC3, new[] { 1.0, 1.0, 1.0 });
+        using var pt1 = Mat.FromPixelData(1, 1, MatType.CV_64FC3, UnitPoint3D);
+        using var pt2 = Mat.FromPixelData(1, 1, MatType.CV_64FC3, UnitPoint3D);
         using var f = Mat.FromPixelData(3, 3, MatType.CV_64FC1, new double[]
         {
             0, 0, 0,
@@ -597,7 +604,7 @@ public class GeometryFunctionsTest : TestBase
             0, 0, 1
         });
         using var kUndistorted = k.Clone();
-        using var d = Mat.FromPixelData(4, 1, MatType.CV_64FC1, new[] { 0.1, 0.01, 0.0, 0.0 });
+        using var d = Mat.FromPixelData(4, 1, MatType.CV_64FC1, SmallDistCoeffs);
 
         Cv2.FishEye.DistortPoints(undistorted, distorted, kUndistorted, k, d);
 

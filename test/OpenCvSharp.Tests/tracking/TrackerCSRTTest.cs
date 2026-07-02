@@ -22,6 +22,20 @@ public class TrackerCSRTTest : TrackerTestBase
     }
 
     [Fact]
+    public void SetInitialMask()
+    {
+        using var tracker = TrackerCSRT.Create();
+        var roi = new Rect(220, 60, 200, 220);
+
+        // The mask must match the initial bounding box's size.
+        using var mask = Mat.OnesMat(roi.Size, MatType.CV_8UC1);
+        tracker.SetInitialMask(mask);
+
+        using var image = LoadImage("lenna.png");
+        tracker.Init(image, roi);
+    }
+
+    [Fact]
     public void CreateWithParams()
     {
         // Exercises the managed Params -> blittable WTrackerCSRTParams conversion,

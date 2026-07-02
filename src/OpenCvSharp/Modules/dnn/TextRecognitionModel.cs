@@ -131,7 +131,7 @@ public class TextRecognitionModel : Model
 
         using var result = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_recognize(Handle, frame.CvPtr, result.CvPtr));
+            NativeMethods.dnn_TextRecognitionModel_recognize(Handle, frame.ToInputProxy(), result.CvPtr));
         GC.KeepAlive(frame);
         return result.ToString();
     }

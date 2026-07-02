@@ -62,7 +62,7 @@ public class KeypointsModel : Model
 
         using var keypointsVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.CvPtr, keypointsVec.CvPtr, thresh));
+            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.ToInputProxy(), keypointsVec.CvPtr, thresh));
         GC.KeepAlive(frame);
         return keypointsVec.ToArray();
     }

@@ -13,7 +13,7 @@ static partial class NativeMethods
     #region Tonemap
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_Tonemap_process(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus photo_Tonemap_process(OpenCvSafeHandle obj, in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_Tonemap_getGamma(OpenCvSafeHandle obj, out float returnValue);

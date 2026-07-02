@@ -33,7 +33,7 @@ public abstract class HistogramCostExtractor : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.shape_HistogramCostExtractor_buildCostMatrix(
-                Handle, descriptors1.CvPtr, descriptors2.CvPtr, costMatrix.CvPtr));
+                Handle, descriptors1.ToInputProxy(), descriptors2.ToInputProxy(), costMatrix.ToOutputProxy()));
 
         GC.KeepAlive(descriptors1);
         GC.KeepAlive(descriptors2);

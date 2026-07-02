@@ -85,7 +85,7 @@ public class SuperResolution : Algorithm
         frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.CvPtr));
+            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.ToOutputProxy()));
         frame.Fix();
         GC.KeepAlive(frame);
     }

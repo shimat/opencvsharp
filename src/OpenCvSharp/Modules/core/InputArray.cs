@@ -16,7 +16,7 @@ public class InputArray : CvObject
 
     // A resource materialized by this InputArray itself (e.g. the Mat produced from a
     // MatExpr). Unlike 'obj', which is merely kept alive, this is disposed with the InputArray.
-    private IDisposable? ownedDisposable;
+    private Mat? ownedDisposable;
 
 #pragma warning disable 1591
     // ReSharper disable InconsistentNaming
@@ -306,7 +306,7 @@ public class InputArray : CvObject
     /// </summary>
     /// <param name="mat"></param>
     /// <returns></returns>
-    public static InputArray Create(Mat mat) => new(mat);
+    public static InputArray Create(Mat? mat) => new(mat);
 
     /// <summary>
     /// Creates a proxy class of the specified Mat
@@ -609,7 +609,7 @@ public class InputArray : CvObject
 #pragma warning disable 1591
 #pragma warning disable CA2225
 
-    public static implicit operator InputArray(Mat mat) => Create(mat);
+    public static implicit operator InputArray(Mat? mat) => Create(mat);
 
     public static implicit operator InputArray(UMat mat) => Create(mat);
 

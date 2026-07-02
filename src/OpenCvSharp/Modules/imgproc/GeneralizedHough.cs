@@ -132,7 +132,7 @@ public abstract class GeneralizedHough : Algorithm
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_GeneralizedHough_setTemplate1(Handle, templ.CvPtr, templCenterValue));
+            NativeMethods.imgproc_GeneralizedHough_setTemplate1(Handle, templ.ToInputProxy(), templCenterValue));
         GC.KeepAlive(templ);
     }
 
@@ -159,7 +159,7 @@ public abstract class GeneralizedHough : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_setTemplate2(
-                Handle, edges.CvPtr, dx.CvPtr, dy.CvPtr, templCenterValue));
+                Handle, edges.ToInputProxy(), dx.ToInputProxy(), dy.ToInputProxy(), templCenterValue));
 
         GC.KeepAlive(edges);
         GC.KeepAlive(dx);
@@ -185,7 +185,7 @@ public abstract class GeneralizedHough : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect1(
-                Handle, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+                Handle, image.ToInputProxy(), positions.ToOutputProxy(), votes?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(image);
         GC.KeepAlive(positions);
@@ -221,7 +221,7 @@ public abstract class GeneralizedHough : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect2(
-                Handle, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+                Handle, edges.ToInputProxy(), dx.ToInputProxy(), dy.ToInputProxy(), positions.ToOutputProxy(), votes?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(edges);
         GC.KeepAlive(dx);

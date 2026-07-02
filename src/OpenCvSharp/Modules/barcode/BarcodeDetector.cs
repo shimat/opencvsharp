@@ -90,7 +90,7 @@ public class BarcodeDetector : CvObject
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_detectAndDecodeWithType(
-                Handle, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
+                Handle, inputImage.ToInputProxy(), pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
 
         points = pointsVec.ToArray();
         results = infos.ToArray();

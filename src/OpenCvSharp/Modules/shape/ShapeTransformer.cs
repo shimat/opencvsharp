@@ -44,7 +44,7 @@ public abstract class ShapeTransformer : Algorithm
         using var matchesVec = new StdVector<DMatch>(matches);
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_estimateTransformation(
-                Handle, transformingShape.CvPtr, targetShape.CvPtr, matchesVec.CvPtr));
+                Handle, transformingShape.ToInputProxy(), targetShape.ToInputProxy(), matchesVec.CvPtr));
 
         GC.KeepAlive(transformingShape);
         GC.KeepAlive(targetShape);
@@ -66,7 +66,7 @@ public abstract class ShapeTransformer : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_applyTransformation(
-                Handle, input.CvPtr, output?.CvPtr ?? IntPtr.Zero, out var ret));
+                Handle, input.ToInputProxy(), output?.ToOutputProxy() ?? default, out var ret));
 
         GC.KeepAlive(input);
         output?.Fix();
@@ -100,8 +100,8 @@ public abstract class ShapeTransformer : Algorithm
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_warpImage(
                 Handle,
-                transformingImage.CvPtr,
-                output.CvPtr,
+                transformingImage.ToInputProxy(),
+                output.ToOutputProxy(),
                 (int)flags,
                 (int)borderMode,
                 borderValue.GetValueOrDefault(Scalar.All(0))));

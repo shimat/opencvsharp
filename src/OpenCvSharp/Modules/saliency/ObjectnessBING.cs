@@ -47,7 +47,7 @@ public class ObjectnessBING : Algorithm
         using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_computeSaliency(
-                Handle, image.CvPtr, vec.CvPtr, out var ret));
+                Handle, image.ToInputProxy(), vec.CvPtr, out var ret));
         GC.KeepAlive(image);
         objectnessBoundingBox = vec.ToArray();
         return ret != 0;

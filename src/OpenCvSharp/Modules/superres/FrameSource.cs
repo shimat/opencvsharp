@@ -96,7 +96,7 @@ public class FrameSource : CvPtrObject
         frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_nextFrame(Handle, frame.CvPtr));
+            NativeMethods.superres_FrameSource_nextFrame(Handle, frame.ToOutputProxy()));
 
         frame.Fix();
         GC.KeepAlive(frame);

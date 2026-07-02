@@ -8,6 +8,9 @@ namespace OpenCvSharp.Tests.Core;
 
 public class CoreTest : TestBase
 {
+    private static readonly float[] KmeansSampleData = { 0f, 0.1f, 0.2f, 10f, 10.1f, 10.2f };
+    private static readonly int[] UnsortedInts = { 3, 1, 4, 2 };
+
     [Fact]
     public void Add()
     {
@@ -654,7 +657,7 @@ public class CoreTest : TestBase
     [Fact]
     public void Kmeans()
     {
-        using var data = Mat.FromPixelData(6, 1, MatType.CV_32FC1, new float[] { 0f, 0.1f, 0.2f, 10f, 10.1f, 10.2f });
+        using var data = Mat.FromPixelData(6, 1, MatType.CV_32FC1, KmeansSampleData);
         using var labels = new Mat();
         using var centers = new Mat();
         var criteria = new TermCriteria(CriteriaTypes.MaxIter | CriteriaTypes.Eps, 10, 1.0);
@@ -955,7 +958,7 @@ public class CoreTest : TestBase
     [Fact]
     public void Sort()
     {
-        using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, new int[] { 3, 1, 4, 2 });
+        using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, UnsortedInts);
         using var dst = new Mat();
         Cv2.Sort(src, dst, SortFlags.EveryRow | SortFlags.Ascending);
 
@@ -968,7 +971,7 @@ public class CoreTest : TestBase
     [Fact]
     public void SortIdx()
     {
-        using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, new int[] { 3, 1, 4, 2 });
+        using var src = Mat.FromPixelData(1, 4, MatType.CV_32SC1, UnsortedInts);
         using var dst = new Mat();
         Cv2.SortIdx(src, dst, SortFlags.EveryRow | SortFlags.Ascending);
 
