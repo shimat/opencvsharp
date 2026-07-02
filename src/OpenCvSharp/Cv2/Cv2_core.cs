@@ -629,7 +629,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minIdx"></param>
     /// <param name="maxIdx"></param>
-    public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
+    public static void MinMaxIdx(InputArrayRef src, int[] minIdx, int[] maxIdx)
     {
         MinMaxIdx(src, out _, out _, minIdx, maxIdx);
     }
@@ -643,50 +643,40 @@ public static partial class Cv2
     /// <param name="minIdx"></param>
     /// <param name="maxIdx"></param>
     /// <param name="mask"></param>
-    public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
-        int[] minIdx, int[] maxIdx, InputArray? mask = null)
+    public static void MinMaxIdx(InputArrayRef src, out double minVal, out double maxVal,
+        int[] minIdx, int[] maxIdx, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (minIdx is null)
             throw new ArgumentNullException(nameof(minIdx));
         if (maxIdx is null)
             throw new ArgumentNullException(nameof(maxIdx));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.core_minMaxIdx2(
-                src.ToInputProxy(), out minVal, out maxVal, minIdx, maxIdx, mask?.ToInputProxy() ?? default));
+                src.Proxy, out minVal, out maxVal, minIdx, maxIdx, mask.Proxy));
 
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
     /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
     /// </summary>
     /// <param name="src">The source 2D matrix</param>
-    /// <param name="dst">The destination vector. 
+    /// <param name="dst">The destination vector.
     /// Its size and type is defined by dim and dtype parameters</param>
-    /// <param name="dim">The dimension index along which the matrix is reduced. 
+    /// <param name="dim">The dimension index along which the matrix is reduced.
     /// 0 means that the matrix is reduced to a single row and 1 means that the matrix is reduced to a single column</param>
     /// <param name="rtype"></param>
-    /// <param name="dtype">When it is negative, the destination vector will have 
+    /// <param name="dtype">When it is negative, the destination vector will have
     /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
-    public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
+    public static void Reduce(InputArrayRef src, OutputArrayRef dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_reduce(src.ToInputProxy(), dst.ToOutputProxy(), (int)dim, (int)rtype, dtype));
+            NativeMethods.core_reduce(src.Proxy, dst.Proxy, (int)dim, (int)rtype, dtype));
 
-        dst.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -801,21 +791,13 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="coi"></param>
-    public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
+    public static void ExtractChannel(InputArrayRef src, OutputArrayRef dst, int coi)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_extractChannel(src.ToInputProxy(), dst.ToOutputProxy(), coi));
+            NativeMethods.core_extractChannel(src.Proxy, dst.Proxy, coi));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -824,21 +806,13 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="coi"></param>
-    public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
+    public static void InsertChannel(InputArrayRef src, InputOutputArrayRef dst, int coi)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_insertChannel(src.ToInputProxy(), dst.ToInputOutputProxy(), coi));
+            NativeMethods.core_insertChannel(src.Proxy, dst.Proxy, coi));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -846,23 +820,16 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
-    /// <param name="flipCode">Specifies how to flip the array: 
-    /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis, 
+    /// <param name="flipCode">Specifies how to flip the array:
+    /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis,
     /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
-    public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
+    public static void Flip(InputArrayRef src, OutputArrayRef dst, FlipMode flipCode)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_flip(src.ToInputProxy(), dst.ToOutputProxy(), (int) flipCode));
+            NativeMethods.core_flip(src.Proxy, dst.Proxy, (int) flipCode));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -873,20 +840,13 @@ public static partial class Cv2
     /// The size is the same with ROTATE_180, and the rows and cols are switched for
     /// ROTATE_90_CLOCKWISE and ROTATE_90_COUNTERCLOCKWISE.</param>
     /// <param name="rotateCode">an enum to specify how to rotate the array.</param>
-    public static void Rotate(InputArray src, OutputArray dst, RotateFlags rotateCode)
+    public static void Rotate(InputArrayRef src, OutputArrayRef dst, RotateFlags rotateCode)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_rotate(src.ToInputProxy(), dst.ToOutputProxy(), (int)rotateCode));
+            NativeMethods.core_rotate(src.Proxy, dst.Proxy, (int)rotateCode));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -896,21 +856,13 @@ public static partial class Cv2
     /// <param name="ny">How many times the src is repeated along the vertical axis</param>
     /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
     /// <param name="dst">The destination array; will have the same type as src</param>
-    public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
+    public static void Repeat(InputArrayRef src, int ny, int nx, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_repeat1(src.ToInputProxy(), ny, nx, dst.ToOutputProxy()));
+            NativeMethods.core_repeat1(src.Proxy, ny, nx, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>

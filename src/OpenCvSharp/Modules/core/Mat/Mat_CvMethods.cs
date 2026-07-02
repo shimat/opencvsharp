@@ -204,7 +204,7 @@ partial class Mat
     /// <param name="maxIdx"></param>
     /// <param name="mask"></param>
     public void MinMaxIdx(out double minVal, out double maxVal,
-        int[] minIdx, int[] maxIdx, InputArray? mask = null)
+        int[] minIdx, int[] maxIdx, InputArrayRef mask = default)
     {
         Cv2.MinMaxIdx(this, out minVal, out maxVal, minIdx, maxIdx, mask);
     }
@@ -252,7 +252,7 @@ partial class Mat
     /// </summary>
     /// <param name="dst"></param>
     /// <param name="coi"></param>
-    public void InsertChannel(InputOutputArray dst, int coi)
+    public void InsertChannel(InputOutputArrayRef dst, int coi)
     {
         Cv2.InsertChannel(this, dst, coi);
     }
