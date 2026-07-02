@@ -28,6 +28,8 @@ dotnet add package OpenCvSharp4.runtime.win                            # Windows
 # dotnet add package OpenCvSharp4.runtime.win.slim                       # Windows slim
 dotnet add package OpenCvSharp4.official.runtime.linux-x64               # Linux x64
 # dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim        # Linux x64 slim
+dotnet add package OpenCvSharp4.runtime.osx.x64                        # macOS x64 (Intel)
+dotnet add package OpenCvSharp4.runtime.osx.arm64                        # macOS arm64 (Apple Silicon)
 ```
 
 ### Quick Example

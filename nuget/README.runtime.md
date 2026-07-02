@@ -16,6 +16,8 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 >
 > For headless servers or minimal containers, use the **slim** package (`OpenCvSharp5.official.runtime.linux-x64.slim`) instead, which disables `highgui` and has no GUI dependencies.
 
+> **macOS:** The `osx.x64` and `osx.arm64` packages include FFmpeg, Tesseract, Freetype, and all standard OpenCV modules, statically linked.
+
 ## Available Runtime Packages
 
 | Package | Platform |
