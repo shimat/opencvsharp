@@ -22,12 +22,6 @@
 
   <ItemGroup>
     <None Include="../src/build_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native/OpenCvSharpExtern.dll" />
-    <None Include="OpenCvSharp5.runtime.win.slim.props" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp5.runtime.win.slim.props" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp5.runtime.win.slim.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="OpenCvSharp5.runtime.win.slim.targets" Pack="true" PackagePath="build/netstandard" />
-    <None Include="OpenCvSharp5.runtime.win.slim.targets" Pack="true" PackagePath="build/netcoreapp" />
-    <None Include="OpenCvSharp5.runtime.win.slim.targets" Pack="true" PackagePath="build/net8.0" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
