@@ -213,6 +213,169 @@ public readonly ref struct InputArrayRef
     public static implicit operator InputArrayRef(Vec4d v) => FromVec(v, DepthF64, 4);
     /// <summary>Wraps a <see cref="Vec6d"/> value (no allocation; travels inline).</summary>
     public static implicit operator InputArrayRef(Vec6d v) => FromVec(v, DepthF64, 6);
+
+    #region Create (explicit-call parity with the implicit operators above)
+
+    /// <summary>Wraps a <see cref="Mat"/> (no allocation).</summary>
+    public static InputArrayRef Create(Mat? mat) => mat!;
+
+    /// <summary>Wraps a <see cref="UMat"/> (no allocation).</summary>
+    public static InputArrayRef Create(UMat mat) => mat;
+
+    /// <summary>Wraps a <see cref="MatExpr"/> (materializes it to a native cv::MatExpr).</summary>
+    public static InputArrayRef Create(MatExpr node) => node;
+
+    /// <summary>Wraps a <see cref="Scalar"/> value (no allocation; travels inline).</summary>
+    public static InputArrayRef Create(Scalar val) => val;
+
+    /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline).</summary>
+    public static InputArrayRef Create(double val) => val;
+
+    /// <summary>Wraps a fixed-length <see cref="IVec"/> value (no allocation; travels inline).</summary>
+    public static InputArrayRef Create(IVec vec)
+    {
+        ArgumentNullException.ThrowIfNull(vec);
+        return vec switch
+        {
+            Vec2b v => (InputArrayRef)v,
+            Vec3b v => (InputArrayRef)v,
+            Vec4b v => (InputArrayRef)v,
+            Vec6b v => (InputArrayRef)v,
+            Vec2s v => (InputArrayRef)v,
+            Vec3s v => (InputArrayRef)v,
+            Vec4s v => (InputArrayRef)v,
+            Vec6s v => (InputArrayRef)v,
+            Vec2w v => (InputArrayRef)v,
+            Vec3w v => (InputArrayRef)v,
+            Vec4w v => (InputArrayRef)v,
+            Vec6w v => (InputArrayRef)v,
+            Vec2i v => (InputArrayRef)v,
+            Vec3i v => (InputArrayRef)v,
+            Vec4i v => (InputArrayRef)v,
+            Vec6i v => (InputArrayRef)v,
+            Vec2f v => (InputArrayRef)v,
+            Vec3f v => (InputArrayRef)v,
+            Vec4f v => (InputArrayRef)v,
+            Vec6f v => (InputArrayRef)v,
+            Vec2d v => (InputArrayRef)v,
+            Vec3d v => (InputArrayRef)v,
+            Vec4d v => (InputArrayRef)v,
+            Vec6d v => (InputArrayRef)v,
+            _ => throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec)),
+        };
+    }
+
+    /// <summary>
+    /// Wraps a 1-D array by copying it into a freshly-created <see cref="Mat"/> of the given
+    /// <paramref name="type"/> (not allocation-free: this materializes a real Mat, same as the
+    /// class-based <c>InputArray.Create&lt;T&gt;</c> it replaces).
+    /// </summary>
+    public static InputArrayRef Create<T>(T[] array, MatType type) where T : unmanaged
+    {
+        ArgumentNullException.ThrowIfNull(array);
+        if (array.Length == 0)
+            throw new ArgumentException("array.Length == 0", nameof(array));
+        return Mat.FromPixelData(array.Length, 1, type, array);
+    }
+
+    /// <summary>Wraps a 1-D array, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
+    public static InputArrayRef Create<T>(T[] array) where T : unmanaged =>
+        Create(array, EstimateType(typeof(T)));
+
+    /// <summary>
+    /// Wraps a 2-D array by copying it into a freshly-created <see cref="Mat"/> of the given
+    /// <paramref name="type"/>.
+    /// </summary>
+    public static InputArrayRef Create<T>(T[,] array, MatType type) where T : unmanaged
+    {
+        ArgumentNullException.ThrowIfNull(array);
+        var rows = array.GetLength(0);
+        var cols = array.GetLength(1);
+        if (rows == 0)
+            throw new ArgumentException("array.GetLength(0) == 0", nameof(array));
+        if (cols == 0)
+            throw new ArgumentException("array.GetLength(1) == 0", nameof(array));
+        return Mat.FromPixelData(rows, cols, type, array);
+    }
+
+    /// <summary>Wraps a 2-D array, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
+    public static InputArrayRef Create<T>(T[,] array) where T : unmanaged =>
+        Create(array, EstimateType(typeof(T)));
+
+    /// <summary>Wraps a sequence, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
+    public static InputArrayRef Create<T>(IEnumerable<T> enumerable) where T : unmanaged
+    {
+        ArgumentNullException.ThrowIfNull(enumerable);
+        return Create(new List<T>(enumerable).ToArray());
+    }
+
+    /// <summary>Wraps a sequence by copying it into a freshly-created <see cref="Mat"/> of the given
+    /// <paramref name="type"/>.</summary>
+    public static InputArrayRef Create<T>(IEnumerable<T> enumerable, MatType type) where T : unmanaged
+    {
+        ArgumentNullException.ThrowIfNull(enumerable);
+        return Create(new List<T>(enumerable).ToArray(), type);
+    }
+
+    // Maps a raw/OpenCV struct element type to the single-column MatType used to host it in the
+    // Mat built by Create<T>(T[]/T[,]) above. Ported unchanged from the class-based InputArray.
+    private static MatType EstimateType(Type t)
+    {
+        var code = Type.GetTypeCode(t);
+        switch (code)
+        {
+            case TypeCode.Byte: return MatType.CV_8UC1;
+            case TypeCode.SByte: return MatType.CV_8SC1;
+            case TypeCode.UInt16: return MatType.CV_16UC1;
+            case TypeCode.Int16:
+            case TypeCode.Char: return MatType.CV_16SC1;
+            case TypeCode.UInt32:
+            case TypeCode.Int32: return MatType.CV_32SC1;
+            case TypeCode.Single: return MatType.CV_32FC1;
+            case TypeCode.Double: return MatType.CV_64FC1;
+        }
+
+        if (t == typeof(Point)) return MatType.CV_32SC2;
+        if (t == typeof(Point2f)) return MatType.CV_32FC2;
+        if (t == typeof(Point2d)) return MatType.CV_64FC2;
+        if (t == typeof(Point3i)) return MatType.CV_32SC3;
+        if (t == typeof(Point3f)) return MatType.CV_32FC3;
+        if (t == typeof(Point3d)) return MatType.CV_64FC3;
+        if (t == typeof(Range)) return MatType.CV_32SC2;
+        if (t == typeof(Rangef)) return MatType.CV_32FC2;
+        if (t == typeof(Rect)) return MatType.CV_32SC4;
+        if (t == typeof(Size)) return MatType.CV_32SC2;
+        if (t == typeof(Size2f)) return MatType.CV_32FC2;
+
+        if (t == typeof(Vec2b)) return MatType.CV_8UC2;
+        if (t == typeof(Vec3b)) return MatType.CV_8UC3;
+        if (t == typeof(Vec4b)) return MatType.CV_8UC4;
+        if (t == typeof(Vec6b)) return MatType.CV_8UC(6);
+        if (t == typeof(Vec2s)) return MatType.CV_16SC2;
+        if (t == typeof(Vec3s)) return MatType.CV_16SC3;
+        if (t == typeof(Vec4s)) return MatType.CV_16SC4;
+        if (t == typeof(Vec6s)) return MatType.CV_16SC(6);
+        if (t == typeof(Vec2w)) return MatType.CV_16UC2;
+        if (t == typeof(Vec3w)) return MatType.CV_16UC3;
+        if (t == typeof(Vec4w)) return MatType.CV_16UC4;
+        if (t == typeof(Vec6w)) return MatType.CV_16UC(6);
+        if (t == typeof(Vec2i)) return MatType.CV_32SC2;
+        if (t == typeof(Vec3i)) return MatType.CV_32SC3;
+        if (t == typeof(Vec4i)) return MatType.CV_32SC4;
+        if (t == typeof(Vec6i)) return MatType.CV_32SC(6);
+        if (t == typeof(Vec2f)) return MatType.CV_32FC2;
+        if (t == typeof(Vec3f)) return MatType.CV_32FC3;
+        if (t == typeof(Vec4f)) return MatType.CV_32FC4;
+        if (t == typeof(Vec6f)) return MatType.CV_32FC(6);
+        if (t == typeof(Vec2d)) return MatType.CV_64FC2;
+        if (t == typeof(Vec3d)) return MatType.CV_64FC3;
+        if (t == typeof(Vec4d)) return MatType.CV_64FC4;
+        if (t == typeof(Vec6d)) return MatType.CV_64FC(6);
+
+        throw new ArgumentException("Not supported value type for InputArrayRef");
+    }
+
+    #endregion
 }
 
 /// <summary>
@@ -245,6 +408,12 @@ public readonly ref struct OutputArrayRef
         mat.ThrowIfDisposed();
         return new OutputArrayRef(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
+
+    /// <summary>Wraps a <see cref="Mat"/> output (no allocation).</summary>
+    public static OutputArrayRef Create(Mat mat) => mat;
+
+    /// <summary>Wraps a <see cref="UMat"/> output (no allocation).</summary>
+    public static OutputArrayRef Create(UMat mat) => mat;
 }
 
 /// <summary>
@@ -277,4 +446,10 @@ public readonly ref struct InputOutputArrayRef
         mat.ThrowIfDisposed();
         return new InputOutputArrayRef(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
+
+    /// <summary>Wraps a <see cref="Mat"/> in/out target (no allocation).</summary>
+    public static InputOutputArrayRef Create(Mat mat) => mat;
+
+    /// <summary>Wraps a <see cref="UMat"/> in/out target (no allocation).</summary>
+    public static InputOutputArrayRef Create(UMat mat) => mat;
 }

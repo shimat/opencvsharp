@@ -201,4 +201,68 @@ public class InputArrayRefTest : TestBase
 
         Assert.Equal(0, after - before);
     }
+
+    [Fact]
+    public void Create_FromVec_MatchesClassBased()
+    {
+        var v = new Vec3d(1, 2, 3);
+
+        using var actual = new Mat();
+        Cv2.TransposeRef(InputArrayRef.Create(v), actual);
+
+        using var expected = new Mat();
+        using var classInputArray = InputArray.Create(v);
+        Cv2.Transpose(classInputArray, expected);
+
+        ImageEquals(expected, actual);
+    }
+
+    [Fact]
+    public void Create_From2DArray_MatchesClassBased()
+    {
+        double[,] a =
+        {
+            { 1, 2, 3 },
+            { 4, 5, 6 },
+            { 7, 8, 9 },
+        };
+
+        using var actual = new Mat();
+        Cv2.TransposeRef(InputArrayRef.Create(a), actual);
+
+        using var expected = new Mat();
+        using var classInputArray = InputArray.Create(a);
+        Cv2.Transpose(classInputArray, expected);
+
+        ImageEquals(expected, actual);
+    }
+
+    [Fact]
+    public void Create_From1DArray_MatchesClassBased()
+    {
+        double[] a = [1, 2, 3, 4, 5, 6];
+
+        using var actual = new Mat();
+        Cv2.TransposeRef(InputArrayRef.Create(a), actual);
+
+        using var expected = new Mat();
+        using var classInputArray = InputArray.Create(a);
+        Cv2.Transpose(classInputArray, expected);
+
+        ImageEquals(expected, actual);
+    }
+
+    [Fact]
+    public void Create_FromMat_MatchesImplicitConversion()
+    {
+        using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+        using var actual = new Mat();
+        Cv2.TransposeRef(InputArrayRef.Create(src), actual);
+
+        using var expected = new Mat();
+        Cv2.TransposeRef(src, expected);
+
+        ImageEquals(expected, actual);
+    }
 }
