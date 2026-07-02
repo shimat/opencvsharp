@@ -1791,21 +1791,13 @@ public static partial class Cv2
     /// <param name="coeffs">The equation coefficients, an array of 3 or 4 elements</param>
     /// <param name="roots">The destination array of real roots which will have 1 or 3 elements</param>
     /// <returns></returns>
-    public static int SolveCubic(InputArray coeffs, OutputArray roots)
+    public static int SolveCubic(InputArrayRef coeffs, OutputArrayRef roots)
     {
-        if (coeffs is null)
-            throw new ArgumentNullException(nameof(coeffs));
-        if (roots is null)
-            throw new ArgumentNullException(nameof(roots));
-        coeffs.ThrowIfDisposed();
-        roots.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_solveCubic(coeffs.ToInputProxy(), roots.ToOutputProxy(), out var ret));
+            NativeMethods.core_solveCubic(coeffs.Proxy, roots.Proxy, out var ret));
 
-        GC.KeepAlive(coeffs);
-        GC.KeepAlive(roots);
-        roots.Fix();
+        GC.KeepAlive(coeffs.Source);
+        GC.KeepAlive(roots.Source);
         return ret;
     }
 
@@ -1816,55 +1808,35 @@ public static partial class Cv2
     /// <param name="roots">The destination (complex) array of roots</param>
     /// <param name="maxIters">The maximum number of iterations the algorithm does</param>
     /// <returns></returns>
-    public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
+    public static double SolvePoly(InputArrayRef coeffs, OutputArrayRef roots, int maxIters = 300)
     {
-        if (coeffs is null)
-            throw new ArgumentNullException(nameof(coeffs));
-        if (roots is null)
-            throw new ArgumentNullException(nameof(roots));
-        coeffs.ThrowIfDisposed();
-        roots.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_solvePoly(coeffs.ToInputProxy(), roots.ToOutputProxy(), maxIters, out var ret));
+            NativeMethods.core_solvePoly(coeffs.Proxy, roots.Proxy, maxIters, out var ret));
 
-        GC.KeepAlive(coeffs);
-        GC.KeepAlive(roots);
-        roots.Fix();
+        GC.KeepAlive(coeffs.Source);
+        GC.KeepAlive(roots.Source);
         return ret;
     }
-        
+
     /// <summary>
     /// Computes eigenvalues and eigenvectors of a symmetric matrix.
     /// </summary>
-    /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
+    /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type,
     /// square size and be symmetric: src^T == src</param>
-    /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
+    /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src;
     /// The eigenvalues are stored in the descending order.</param>
-    /// <param name="eigenvectors">The output matrix of eigenvectors; 
-    /// It will have the same size and the same type as src; The eigenvectors are stored 
+    /// <param name="eigenvectors">The output matrix of eigenvectors;
+    /// It will have the same size and the same type as src; The eigenvectors are stored
     /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
     /// <returns></returns>
-    public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
+    public static bool Eigen(InputArrayRef src, OutputArrayRef eigenvalues, OutputArrayRef eigenvectors)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (eigenvalues is null)
-            throw new ArgumentNullException(nameof(eigenvalues));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        src.ThrowIfDisposed();
-        eigenvalues.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_eigen(src.ToInputProxy(), eigenvalues.ToOutputProxy(), eigenvectors.ToOutputProxy(), out var ret));
+            NativeMethods.core_eigen(src.Proxy, eigenvalues.Proxy, eigenvectors.Proxy, out var ret));
 
-        eigenvalues.Fix();
-        eigenvectors.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(eigenvalues);
-        GC.KeepAlive(eigenvectors);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(eigenvalues.Source);
+        GC.KeepAlive(eigenvectors.Source);
         return ret != 0;
     }
 
@@ -1874,29 +1846,16 @@ public static partial class Cv2
     /// <param name="src">input matrix (CV_32FC1 or CV_64FC1 type).</param>
     /// <param name="eigenvalues">output vector of eigenvalues (type is the same type as src).</param>
     /// <param name="eigenvectors">output matrix of eigenvectors (type is the same type as src). The eigenvectors are stored as subsequent matrix rows, in the same order as the corresponding eigenvalues.</param>
-    public static void EigenNonSymmetric(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
+    public static void EigenNonSymmetric(InputArrayRef src, OutputArrayRef eigenvalues, OutputArrayRef eigenvectors)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (eigenvalues is null)
-            throw new ArgumentNullException(nameof(eigenvalues));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        src.ThrowIfDisposed();
-        eigenvalues.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_eigenNonSymmetric(src.ToInputProxy(), eigenvalues.ToOutputProxy(), eigenvectors.ToOutputProxy()));
+            NativeMethods.core_eigenNonSymmetric(src.Proxy, eigenvalues.Proxy, eigenvectors.Proxy));
 
-        eigenvalues.Fix();
-        eigenvectors.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(eigenvalues);
-        GC.KeepAlive(eigenvectors);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(eigenvalues.Source);
+        GC.KeepAlive(eigenvectors.Source);
     }
 
-       
     /// <summary>
     /// computes covariation matrix of a set of samples
     /// </summary>
@@ -1941,32 +1900,20 @@ public static partial class Cv2
     /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
-        InputArray samples, OutputArray covar,
-        InputOutputArray mean, CovarFlags flags, MatType? ctype = null)
+        InputArrayRef samples, OutputArrayRef covar,
+        InputOutputArrayRef mean, CovarFlags flags, MatType? ctype = null)
     {
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
-        if (covar is null)
-            throw new ArgumentNullException(nameof(covar));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        samples.ThrowIfDisposed();
-        covar.ThrowIfNotReady();
-        mean.ThrowIfNotReady();
-
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
-            NativeMethods.core_calcCovarMatrix_InputArray(samples.ToInputProxy(), covar.ToOutputProxy(), mean.ToInputOutputProxy(), (int) flags, ctypeValue.Value));
+            NativeMethods.core_calcCovarMatrix_InputArray(samples.Proxy, covar.Proxy, mean.Proxy, (int) flags, ctypeValue.Value));
 
-        GC.KeepAlive(samples);
-        GC.KeepAlive(covar);
-        GC.KeepAlive(mean);
-        covar.Fix();
-        mean.Fix();
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(covar.Source);
+        GC.KeepAlive(mean.Source);
     }
-        
+
     /// <summary>
-    /// PCA of the supplied dataset. 
+    /// PCA of the supplied dataset.
     /// </summary>
     /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
@@ -1974,29 +1921,19 @@ public static partial class Cv2
     /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
-        InputArray data, InputOutputArray mean,
-        OutputArray eigenvectors, int maxComponents = 0)
+        InputArrayRef data, InputOutputArrayRef mean,
+        OutputArrayRef eigenvectors, int maxComponents = 0)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        data.ThrowIfDisposed();
-        mean.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCACompute(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), maxComponents));
+            NativeMethods.core_PCACompute(data.Proxy, mean.Proxy, eigenvectors.Proxy, maxComponents));
 
-        GC.KeepAlive(data);
-        mean.Fix();
-        eigenvectors.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
     }
 
     /// <summary>
-    /// PCA of the supplied dataset. 
+    /// PCA of the supplied dataset.
     /// </summary>
     /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
@@ -2005,33 +1942,20 @@ public static partial class Cv2
     /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
-        InputArray data, InputOutputArray mean,
-        OutputArray eigenvectors, OutputArray eigenvalues, int maxComponents = 0)
+        InputArrayRef data, InputOutputArrayRef mean,
+        OutputArrayRef eigenvectors, OutputArrayRef eigenvalues, int maxComponents = 0)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        if (eigenvalues is null)
-            throw new ArgumentNullException(nameof(eigenvalues));
-        data.ThrowIfDisposed();
-        mean.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-        eigenvalues.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCACompute2(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), eigenvalues.ToOutputProxy(), maxComponents));
+            NativeMethods.core_PCACompute2(data.Proxy, mean.Proxy, eigenvectors.Proxy, eigenvalues.Proxy, maxComponents));
 
-        GC.KeepAlive(data);
-        mean.Fix();
-        eigenvectors.Fix();
-        eigenvalues.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
+        GC.KeepAlive(eigenvalues.Source);
     }
 
     /// <summary>
-    /// PCA of the supplied dataset. 
+    /// PCA of the supplied dataset.
     /// </summary>
     /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
@@ -2039,27 +1963,15 @@ public static partial class Cv2
     /// <param name="retainedVariance">Percentage of variance that PCA should retain.
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public static void PCAComputeVar(
-        InputArray data, InputOutputArray mean,
-        OutputArray eigenvectors, double retainedVariance)
+        InputArrayRef data, InputOutputArrayRef mean,
+        OutputArrayRef eigenvectors, double retainedVariance)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        data.ThrowIfDisposed();
-        mean.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCAComputeVar(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), retainedVariance));
+            NativeMethods.core_PCAComputeVar(data.Proxy, mean.Proxy, eigenvectors.Proxy, retainedVariance));
 
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(eigenvectors);
-        mean.Fix();
-        eigenvectors.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
     }
 
     /// <summary>
