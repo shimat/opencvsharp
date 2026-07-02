@@ -298,34 +298,26 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array; must have 1 to 4 channels</param>
     /// <returns></returns>
-    public static Scalar Sum(InputArray src)
+    public static Scalar Sum(InputArrayRef src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_sum(src.ToInputProxy(), out var ret));
+            NativeMethods.core_sum(src.Proxy, out var ret));
 
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
         return ret;
     }
-        
+
     /// <summary>
     /// computes the number of nonzero array elements
     /// </summary>
     /// <param name="mtx">Single-channel array</param>
     /// <returns>number of non-zero elements in mtx</returns>
-    public static int CountNonZero(InputArray mtx)
+    public static int CountNonZero(InputArrayRef mtx)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-        mtx.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_countNonZero(mtx.ToInputProxy(), out var ret));
+            NativeMethods.core_countNonZero(mtx.Proxy, out var ret));
 
-        GC.KeepAlive(mtx);
+        GC.KeepAlive(mtx.Source);
         return ret;
     }
 
@@ -334,21 +326,13 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src"></param>
     /// <param name="idx"></param>
-    public static void FindNonZero(InputArray src, OutputArray idx)
+    public static void FindNonZero(InputArrayRef src, OutputArrayRef idx)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (idx is null)
-            throw new ArgumentNullException(nameof(idx));
-        src.ThrowIfDisposed();
-        idx.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_findNonZero(src.ToInputProxy(), idx.ToOutputProxy()));
+            NativeMethods.core_findNonZero(src.Proxy, idx.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(idx);
-        idx.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(idx.Source);
     }
 
     /// <summary>
@@ -358,17 +342,13 @@ public static partial class Cv2
     ///  (so that the result can be stored in Scalar)</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static Scalar Mean(InputArray src, InputArray? mask = null)
+    public static Scalar Mean(InputArrayRef src, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_mean(src.ToInputProxy(), mask?.ToInputProxy() ?? default, out var ret));
+            NativeMethods.core_mean(src.Proxy, mask.Proxy, out var ret));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
         return ret;
     }
 
@@ -1260,21 +1240,13 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-    public static void Sqrt(InputArray src, OutputArray dst)
+    public static void Sqrt(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_sqrt(src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_sqrt(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1984,29 +1956,16 @@ public static partial class Cv2
     /// <param name="retainedVariance">Percentage of variance that PCA should retain.
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public static void PCAComputeVar(
-        InputArray data, InputOutputArray mean,
-        OutputArray eigenvectors, OutputArray eigenvalues, double retainedVariance)
+        InputArrayRef data, InputOutputArrayRef mean,
+        OutputArrayRef eigenvectors, OutputArrayRef eigenvalues, double retainedVariance)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        if (eigenvalues is null)
-            throw new ArgumentNullException(nameof(eigenvalues));
-        data.ThrowIfDisposed();
-        mean.ThrowIfNotReady();
-        eigenvectors.ThrowIfNotReady();
-        eigenvalues.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCAComputeVar2(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), eigenvalues.ToOutputProxy(), retainedVariance));
+            NativeMethods.core_PCAComputeVar2(data.Proxy, mean.Proxy, eigenvectors.Proxy, eigenvalues.Proxy, retainedVariance));
 
-        GC.KeepAlive(data);
-        mean.Fix();
-        eigenvectors.Fix();
-        eigenvalues.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
+        GC.KeepAlive(eigenvalues.Source);
     }
 
     /// <summary>
@@ -2748,15 +2707,12 @@ public static partial class Cv2
     /// <param name="mtx"></param>
     /// <param name="format"></param>
     /// <returns></returns>
-    public static string Format(InputArray mtx, FormatType format = FormatType.Default)
+    public static string Format(InputArrayRef mtx, FormatType format = FormatType.Default)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-
         using var buf = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.core_format(mtx.ToInputProxy(), (int) format, buf.CvPtr));
-        GC.KeepAlive(mtx);
+            NativeMethods.core_format(mtx.Proxy, (int) format, buf.CvPtr));
+        GC.KeepAlive(mtx.Source);
         return buf.ToString();
     }
 

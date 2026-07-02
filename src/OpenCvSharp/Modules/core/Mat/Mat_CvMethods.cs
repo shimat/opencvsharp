@@ -92,7 +92,7 @@ partial class Mat
     /// </summary>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public Scalar Mean(InputArray? mask = null)
+    public Scalar Mean(InputArrayRef mask = default)
     {
         return Cv2.Mean(this, mask);
     }
