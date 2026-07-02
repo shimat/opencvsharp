@@ -36,7 +36,7 @@ partial class Mat
     /// a single channel (in this case the same table is used for all channels)
     ///  or the same number of channels as in the source array</param>
     /// <returns></returns>
-    public Mat LUT(InputArray lut)
+    public Mat LUT(InputArrayRef lut)
     {
         var dst = new Mat();
         Cv2.LUT(this, lut, dst);

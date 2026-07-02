@@ -43,23 +43,16 @@ public static partial class Cv2
     /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
     /// <param name="borderType">The border type</param>
     /// <param name="value">The border value if borderType == Constant</param>
-    public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
+    public static void CopyMakeBorder(InputArrayRef src, OutputArrayRef dst, int top, int bottom, int left, int right,
         BorderTypes borderType, Scalar? value = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var value0 = value.GetValueOrDefault(new Scalar());
         NativeMethods.HandleException(
             NativeMethods.core_copyMakeBorder(
-                src.ToInputProxy(), dst.ToOutputProxy(), top, bottom, left, right, (int)borderType, value0));
+                src.Proxy, dst.Proxy, top, bottom, left, right, (int)borderType, value0));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -68,30 +61,20 @@ public static partial class Cv2
     /// <param name="src1">The first source array</param>
     /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+    public static void Add(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
         int dtype = -1)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_add(
-                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
-                mask?.ToInputProxy() ?? default, dtype));
+                src1.Proxy, src2.Proxy, dst.Proxy,
+                mask.Proxy, dtype));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -100,30 +83,20 @@ public static partial class Cv2
     /// <param name="src1">The first source array</param>
     /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+    public static void Subtract(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
         int dtype = -1)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArray2(
-                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
-                mask?.ToInputProxy() ?? default, dtype));
+                src1.Proxy, src2.Proxy, dst.Proxy,
+                mask.Proxy, dtype));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        dst.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -132,26 +105,19 @@ public static partial class Cv2
     /// <param name="src1">The first source array</param>
     /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null,
+    public static void Subtract(InputArrayRef src1, Scalar src2, OutputArrayRef dst, InputArrayRef mask = default,
         int dtype = -1)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArrayScalar(
-                src1.ToInputProxy(), src2, dst.ToOutputProxy(),
-                mask?.ToInputProxy() ?? default, dtype));
+                src1.Proxy, src2, dst.Proxy,
+                mask.Proxy, dtype));
 
-        GC.KeepAlive(src1);
-        dst.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -160,28 +126,21 @@ public static partial class Cv2
     /// <param name="src1">The first source array</param>
     /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+    /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+    public static void Subtract(Scalar src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
         int dtype = -1)
     {
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_subtract_ScalarInputArray(
-                src1, src2.ToInputProxy(), dst.ToOutputProxy(),
-                mask?.ToInputProxy() ?? default, dtype));
+                src1, src2.Proxy, dst.Proxy,
+                mask.Proxy, dtype));
 
-        GC.KeepAlive(src2);
-        dst.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
-        
+
     /// <summary>
     /// Calculates the per-element scaled product of two arrays
     /// </summary>
@@ -190,25 +149,15 @@ public static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and the same type as src1</param>
     /// <param name="scale">The optional scale factor. [By default this is 1]</param>
     /// <param name="dtype"></param>
-    public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
+    public static void Multiply(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, double scale = 1, int dtype = -1)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_multiply(
-                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype));
+                src1.Proxy, src2.Proxy, dst.Proxy, scale, dtype));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -219,25 +168,15 @@ public static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and same type as src2</param>
     /// <param name="scale">Scale factor [By default this is 1]</param>
     /// <param name="dtype"></param>
-    public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, MatType? dtype = null)
+    public static void Divide(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, double scale = 1, MatType? dtype = null)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_divide2(
-                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype?.Value ?? -1));
+                src1.Proxy, src2.Proxy, dst.Proxy, scale, dtype?.Value ?? -1));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -247,20 +186,13 @@ public static partial class Cv2
     /// <param name="src2">The first source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src2</param>
     /// <param name="dtype"></param>
-    public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
+    public static void Divide(double scale, InputArrayRef src2, OutputArrayRef dst, int dtype = -1)
     {
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_divide1(scale, src2.ToInputProxy(), dst.ToOutputProxy(), dtype));
+            NativeMethods.core_divide1(scale, src2.Proxy, dst.Proxy, dtype));
 
-        GC.KeepAlive(src2);
-        dst.Fix();
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -270,24 +202,14 @@ public static partial class Cv2
     /// <param name="alpha"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
+    public static void ScaleAdd(InputArrayRef src1, double alpha, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_scaleAdd(src1.ToInputProxy(), alpha, src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_scaleAdd(src1.Proxy, alpha, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -300,26 +222,16 @@ public static partial class Cv2
     /// <param name="gamma"></param>
     /// <param name="dst"></param>
     /// <param name="dtype"></param>
-    public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
-        double beta, double gamma, OutputArray dst, int dtype = -1)
+    public static void AddWeighted(InputArrayRef src1, double alpha, InputArrayRef src2,
+        double beta, double gamma, OutputArrayRef dst, int dtype = -1)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_addWeighted(
-                src1.ToInputProxy(), alpha, src2.ToInputProxy(), beta, gamma, dst.ToOutputProxy(), dtype));
+                src1.Proxy, alpha, src2.Proxy, beta, gamma, dst.Proxy, dtype));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -329,66 +241,48 @@ public static partial class Cv2
     /// <param name="dst">The destination array</param>
     /// <param name="alpha">The optional scale factor. [By default this is 1]</param>
     /// <param name="beta">The optional delta added to the scaled values. [By default this is 0]</param>
-    public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
+    public static void ConvertScaleAbs(InputArrayRef src, OutputArrayRef dst, double alpha = 1, double beta = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_convertScaleAbs(src.ToInputProxy(), dst.ToOutputProxy(), alpha, beta));
+            NativeMethods.core_convertScaleAbs(src.Proxy, dst.Proxy, alpha, beta));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
     /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
     /// </summary>
     /// <param name="src">Source array of 8-bit elements</param>
-    /// <param name="lut">Look-up table of 256 elements. 
-    /// In the case of multi-channel source array, the table should either have 
+    /// <param name="lut">Look-up table of 256 elements.
+    /// In the case of multi-channel source array, the table should either have
     /// a single channel (in this case the same table is used for all channels)
     ///  or the same number of channels as in the source array</param>
-    /// <param name="dst">Destination array; 
-    /// will have the same size and the same number of channels as src, 
+    /// <param name="dst">Destination array;
+    /// will have the same size and the same number of channels as src,
     /// and the same depth as lut</param>
-    public static void LUT(InputArray src, InputArray lut, OutputArray dst)
+    public static void LUT(InputArrayRef src, InputArrayRef lut, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (lut is null)
-            throw new ArgumentNullException(nameof(lut));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        lut.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_LUT(src.ToInputProxy(), lut.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_LUT(src.Proxy, lut.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(lut);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(lut.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
     /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
     /// </summary>
     /// <param name="src">Source array of 8-bit elements</param>
-    /// <param name="lut">Look-up table of 256 elements. 
-    /// In the case of multi-channel source array, the table should either have 
-    /// a single channel (in this case the same table is used for all channels) 
+    /// <param name="lut">Look-up table of 256 elements.
+    /// In the case of multi-channel source array, the table should either have
+    /// a single channel (in this case the same table is used for all channels)
     /// or the same number of channels as in the source array</param>
-    /// <param name="dst">Destination array; 
-    /// will have the same size and the same number of channels as src, 
+    /// <param name="dst">Destination array;
+    /// will have the same size and the same number of channels as src,
     /// and the same depth as lut</param>
-    public static void LUT(InputArray src, byte[] lut, OutputArray dst)
+    public static void LUT(InputArrayRef src, byte[] lut, OutputArrayRef dst)
     {
         if (lut is null)
             throw new ArgumentNullException(nameof(lut));

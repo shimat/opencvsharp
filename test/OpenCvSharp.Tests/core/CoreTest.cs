@@ -51,7 +51,7 @@ public class CoreTest : TestBase
         Assert.Equal(13, dst.At<byte>(1, 0));
         Assert.Equal(14, dst.At<byte>(1, 1));
 
-        using var inputArray = InputArray.Create(10.0);
+        var inputArray = InputArrayRef.Create(10.0);
         Cv2.Add(src, inputArray, dst);
         Assert.Equal(11, dst.At<byte>(0, 0));
         Assert.Equal(12, dst.At<byte>(0, 1));
