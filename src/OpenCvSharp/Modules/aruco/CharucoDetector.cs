@@ -32,7 +32,7 @@ public class CharucoDetector : CvObject
         if (board is null)
             throw new ArgumentNullException(nameof(board));
         board.ThrowIfDisposed();
-        if ((cameraMatrix.Proxy.Kind == (int)ArrayProxyKind.None) != (distCoeffs.Proxy.Kind == (int)ArrayProxyKind.None))
+        if (cameraMatrix.IsEmpty != distCoeffs.IsEmpty)
             throw new ArgumentException("cameraMatrix and distCoeffs must both be omitted or both provided.");
 
         var dp = detectorParams ?? new DetectorParameters();

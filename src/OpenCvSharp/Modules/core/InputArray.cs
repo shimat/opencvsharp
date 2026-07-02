@@ -102,6 +102,9 @@ public readonly ref struct InputArray
         Proxy = proxy;
     }
 
+    /// <summary>True if this proxy carries no array (i.e. wraps <c>cv::noArray()</c>).</summary>
+    internal bool IsEmpty => Proxy.Kind == (int)ArrayProxyKind.None;
+
     /// <summary>Wraps a <see cref="Mat"/> (no allocation).</summary>
     public static implicit operator InputArray(Mat mat)
     {
