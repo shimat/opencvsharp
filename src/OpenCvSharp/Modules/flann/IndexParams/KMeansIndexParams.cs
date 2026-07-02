@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann;
 
@@ -15,16 +15,24 @@ public class KMeansIndexParams : IndexParams
     /// <param name="centersInit">The algorithm to use for selecting the initial centers when performing a k-means clustering step. </param>
     /// <param name="cbIndex">This parameter (cluster boundary index) influences the way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.</param>
     public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
-        : base(Create(branching, iterations, centersInit, cbIndex), static h => NativeMethods.flann_Ptr_KMeansIndexParams_delete(h))
+        : this(Create(branching, iterations, centersInit, cbIndex))
     {
     }
 
-    private static IntPtr Create(int branching, int iterations, FlannCentersInit centersInit, float cbIndex)
+    private KMeansIndexParams((IntPtr smartPtr, IntPtr rawPtr) ptrs)
+        : base(ptrs.smartPtr, ptrs.rawPtr,
+            static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_KMeansIndexParams_delete(h)))
+    {
+    }
+
+    private static (IntPtr smartPtr, IntPtr rawPtr) Create(int branching, int iterations, FlannCentersInit centersInit, float cbIndex)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(KMeansIndexParams)}");
-        return p;
+        NativeMethods.HandleException(
+            NativeMethods.flann_Ptr_KMeansIndexParams_get(smartPtr, out var rawPtr));
+        return (smartPtr, rawPtr);
     }
 }

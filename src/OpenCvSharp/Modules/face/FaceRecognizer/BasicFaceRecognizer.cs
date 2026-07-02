@@ -22,8 +22,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getNumComponents(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getNumComponents(Handle, out var ret));
         return ret;
     }
 
@@ -35,8 +34,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_setNumComponents(RawPtr, val));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_setNumComponents(Handle, val));
     }
 
     /// <summary>
@@ -47,8 +45,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getThreshold(RawPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getThreshold(Handle, out var ret));
         return ret;
     }
 
@@ -60,8 +57,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_setThreshold(RawPtr, val));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_setThreshold(Handle, val));
     }
 
     /// <summary>
@@ -73,8 +69,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         using var resultVector = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getProjections(RawPtr, resultVector.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getProjections(Handle, resultVector.CvPtr));
         return resultVector.ToArray();
     }
 
@@ -87,8 +82,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         var result = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getLabels(RawPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getLabels(Handle, result.CvPtr));
         return result;
     }
 
@@ -101,8 +95,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         var result = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getEigenValues(RawPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getEigenValues(Handle, result.CvPtr));
         return result;
     }
 
@@ -115,8 +108,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         var result = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getEigenVectors(RawPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getEigenVectors(Handle, result.CvPtr));
         return result;
     }
 
@@ -129,8 +121,7 @@ public abstract class BasicFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         var result = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.face_BasicFaceRecognizer_getMean(RawPtr, result.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.face_BasicFaceRecognizer_getMean(Handle, result.CvPtr));
         return result;
     }
 }

@@ -75,8 +75,7 @@ public class DnnSuperResImpl : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_readModel1(CvPtr, path));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_superres_DnnSuperResImpl_readModel1(Handle, path));
     }
 
     /// <summary>
@@ -89,8 +88,7 @@ public class DnnSuperResImpl : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_readModel2(CvPtr, weights, definition));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_superres_DnnSuperResImpl_readModel2(Handle, weights, definition));
     }
 
     /// <summary>
@@ -107,8 +105,7 @@ public class DnnSuperResImpl : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setModel(CvPtr, algo, scale));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_superres_DnnSuperResImpl_setModel(Handle, algo, scale));
     }
 
     /// <summary>
@@ -119,8 +116,7 @@ public class DnnSuperResImpl : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableBackend(CvPtr, (int)backendId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableBackend(Handle, (int)backendId));
     }
 
     /// <summary>
@@ -131,8 +127,7 @@ public class DnnSuperResImpl : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableTarget(CvPtr, (int)targetId));
-        GC.KeepAlive(this);
+            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableTarget(Handle, (int)targetId));
     }
 
     /// <summary>
@@ -143,19 +138,11 @@ public class DnnSuperResImpl : CvObject
     public void Upsample(InputArray img, OutputArray result)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (result is null) 
-            throw new ArgumentNullException(nameof(result));
-        img.ThrowIfDisposed();
-        result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(CvPtr, img.CvPtr, result.CvPtr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(Handle, img.Proxy, result.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(img);
-        result.Fix();
+        GC.KeepAlive(img.Source);
     }
         
     /// <summary>
@@ -170,8 +157,6 @@ public class DnnSuperResImpl : CvObject
         InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
     {
         ThrowIfDisposed();
-        if (img is null) 
-            throw new ArgumentNullException(nameof(img));
         if (scaleFactors is null) 
             throw new ArgumentNullException(nameof(scaleFactors));
         if (nodeNames is null)
@@ -182,11 +167,10 @@ public class DnnSuperResImpl : CvObject
         var nodeNamesArray = nodeNames as string[] ?? nodeNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-                CvPtr, img.CvPtr, imgsNewVec.CvPtr,
+                Handle, img.Proxy, imgsNewVec.CvPtr,
                 scaleFactorsArray, scaleFactorsArray.Length, 
                 nodeNamesArray, nodeNamesArray.Length));
 
-        GC.KeepAlive(this);
         imgsNew = imgsNewVec.ToArray();
     }
         
@@ -199,8 +183,7 @@ public class DnnSuperResImpl : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_getScale(
-                CvPtr, out int ret));
-        GC.KeepAlive(this);
+                Handle, out int ret));
         return ret;
     }
         
@@ -215,8 +198,7 @@ public class DnnSuperResImpl : CvObject
         using var result = new StdString();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_getAlgorithm(
-                CvPtr, result.CvPtr));
-        GC.KeepAlive(this);
+                Handle, result.CvPtr));
         return result.ToString();
     }
 }

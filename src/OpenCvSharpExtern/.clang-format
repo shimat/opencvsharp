@@ -9,9 +9,3 @@ SortIncludes: Never
 AttributeMacros:
   - CVAPI
 BreakAfterAttributes: Never
-
-# Treat BEGIN_WRAP / END_WRAP as self-contained statements so that
-# the formatter does not add an extra indentation level between them.
-StatementMacros:
-  - BEGIN_WRAP
-  - END_WRAP

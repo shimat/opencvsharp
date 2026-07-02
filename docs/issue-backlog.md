@@ -1,4 +1,4 @@
-﻿# Issue Backlog
+# Issue Backlog
 
 > Last updated: 2026-05-30  
 > Scope: issues closed as stale that appear actionable, plus open issues under investigation.

@@ -51,19 +51,11 @@ public class FastLineDetector : Algorithm
     public virtual void Detect(InputArray image, OutputArray lines)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        image.ThrowIfDisposed();
-        lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(RawPtr, image.CvPtr, lines.CvPtr));
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        GC.KeepAlive(lines);
-        lines.Fix();
+            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.Proxy, lines.Proxy));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(lines.Source);
     }
 
     /// <summary>
@@ -80,15 +72,11 @@ public class FastLineDetector : Algorithm
     public virtual Vec4f[] Detect(InputArray image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
-        using var lines = new VectorOfVec4f();
+        using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_vector(RawPtr, image.CvPtr, lines.CvPtr));
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
+            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.Proxy, lines.CvPtr));
+        GC.KeepAlive(image.Source);
         return lines.ToArray();
     }
 
@@ -102,17 +90,11 @@ public class FastLineDetector : Algorithm
         bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(RawPtr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        image.Fix();
-        GC.KeepAlive(lines);
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.Proxy, lines.Proxy, drawArrow ? 1 : 0));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(lines.Source);
     }
 
     /// <summary>
@@ -124,18 +106,14 @@ public class FastLineDetector : Algorithm
     public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
-        using var linesVec = new VectorOfVec4f(lines);
+        using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
-                RawPtr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
+                Handle, image.Proxy, linesVec.CvPtr, drawArrow ? 1 : 0));
             
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        image.Fix();
+        GC.KeepAlive(image.Source);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core;

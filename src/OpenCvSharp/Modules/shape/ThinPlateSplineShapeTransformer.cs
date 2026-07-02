@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -45,8 +45,7 @@ public class ThinPlateSplineShapeTransformer : ShapeTransformer
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.shape_ThinPlateSplineShapeTransformer_getRegularizationParameter(
-                    RawPtr, out var ret));
-            GC.KeepAlive(this);
+                    Handle, out var ret));
             return ret;
         }
         set
@@ -54,8 +53,7 @@ public class ThinPlateSplineShapeTransformer : ShapeTransformer
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.shape_ThinPlateSplineShapeTransformer_setRegularizationParameter(
-                    RawPtr, value));
-            GC.KeepAlive(this);
+                    Handle, value));
         }
     }
 
@@ -67,7 +65,6 @@ public class ThinPlateSplineShapeTransformer : ShapeTransformer
     {
         NativeMethods.HandleException(
             NativeMethods.shape_Ptr_ThinPlateSplineShapeTransformer_upcast(SmartPtr, out var basePtr));
-        GC.KeepAlive(this);
         return basePtr;
     }
 

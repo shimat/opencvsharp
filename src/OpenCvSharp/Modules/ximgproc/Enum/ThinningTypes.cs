@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.XImgProc;
+namespace OpenCvSharp.XImgProc;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo

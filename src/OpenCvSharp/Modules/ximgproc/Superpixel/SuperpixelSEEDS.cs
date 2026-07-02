@@ -77,8 +77,7 @@ public class SuperpixelSEEDS : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
-                RawPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, out var ret));
         return ret;
     }
 
@@ -94,16 +93,12 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void Iterate(InputArray img, int numIterations = 10)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_iterate(
-                RawPtr, img.CvPtr, numIterations));
+                Handle, img.Proxy, numIterations));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -118,15 +113,10 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabels(
-                RawPtr, labelsOut.CvPtr));
-        GC.KeepAlive(this);
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -138,14 +128,9 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabelContourMask(
-                RawPtr, image.CvPtr, thickLine ? 1 : 0));
-        GC.KeepAlive(this);
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 }

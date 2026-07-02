@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -20,25 +20,17 @@ public class BarcodeDetectorTest : TestBase
     }
 
     /// <summary>
-    /// Explicit empty-string paths (equivalent to default constructor) must succeed.
+    /// Explicit empty-string path (equivalent to default constructor) must succeed.
     /// </summary>
     [Fact]
     public void Constructor_EmptyPaths()
     {
-        using var bd = new BarcodeDetector("", "");
+        using var bd = new BarcodeDetector("");
     }
 
     // -----------------------------------------------------------------------
     // Argument validation
     // -----------------------------------------------------------------------
-
-    [Fact]
-    public void DetectAndDecode_NullImage_ThrowsArgumentNullException()
-    {
-        using var bd = new BarcodeDetector();
-        Assert.Throws<ArgumentNullException>(
-            () => bd.DetectAndDecode(null!, out _, out _, out _));
-    }
 
     [Fact]
     public void SetDetectorScales_NullArgument_ThrowsArgumentNullException()

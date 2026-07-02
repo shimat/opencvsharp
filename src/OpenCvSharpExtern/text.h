@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
@@ -20,9 +20,9 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run1(
     std::vector<float> *component_confidences,
     int component_level)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) text_OCRTesseract_run2(
@@ -35,85 +35,85 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
     std::vector<float> *component_confidences,
     int component_level)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
-    END_WRAP
+    });
 }
 
 /*CVAPI(ExceptionStatus) text_OCRTesseract_run3(
-    cv::Ptr<cv::text::OCRTesseract>* obj, 
-    cv::_InputArray *image, 
-    int min_confidence, 
-    int component_level, 
-    std::string *dst)
-{
-    BEGIN_WRAP
-    const auto result = (*obj)->run(*image, min_confidence, component_level);
-    dst->assign(result);
-    END_WRAP
-}*/
-
-/*CVAPI(ExceptionStatus) text_OCRTesseract_run4(
-    cv::Ptr<cv::text::OCRTesseract>* obj, 
-    cv::_InputArray *image,
-    cv::_InputArray *mask, 
-    int min_confidence, 
+    cv::Ptr<cv::text::OCRTesseract>* obj,
+    const interop::InputArrayProxy* image,
+    int min_confidence,
     int component_level,
     std::string *dst)
 {
-    BEGIN_WRAP
-    const auto result = (*obj)->run(*image, *mask, min_confidence, component_level);
+    return cvTry([&] {
+    const auto result = (*obj)->run(InProxy(*image), min_confidence, component_level);
     dst->assign(result);
-    END_WRAP
+    });
 }*/
 
-CVAPI(ExceptionStatus) text_OCRTesseract_setWhiteList(
-    cv::text::OCRTesseract* obj,
-    const char *char_whitelist)
+/*CVAPI(ExceptionStatus) text_OCRTesseract_run4(
+    cv::Ptr<cv::text::OCRTesseract>* obj,
+    const interop::InputArrayProxy* image,
+    const interop::InputArrayProxy* mask,
+    int min_confidence,
+    int component_level,
+    std::string *dst)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
+    const auto result = (*obj)->run(InProxy(*image), InProxy(*mask), min_confidence, component_level);
+    dst->assign(result);
+    });
+}*/
+
+CVAPI(ExceptionStatus) text_OCRTesseract_setWhiteList(cv::text::OCRTesseract* obj, const char *char_whitelist)
+{
+    return cvTry([&] {
     obj->setWhiteList(char_whitelist);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) text_OCRTesseract_create(
     const char* datapath,
     const char* language,
-    const char* char_whitelist, 
-    int oem, 
+    const char* char_whitelist,
+    int oem,
     int psmode,
     cv::Ptr<cv::text::OCRTesseract> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto result = cv::text::OCRTesseract::create(datapath, language, char_whitelist, oem, psmode);
     *returnValue = clone(result);
-    END_WRAP
+    });
 }
 
-CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_get(
-    cv::Ptr<cv::text::OCRTesseract> *ptr, cv::text::OCRTesseract **returnValue)
+CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_get(cv::Ptr<cv::text::OCRTesseract> *ptr, cv::text::OCRTesseract **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = ptr->get();
-    END_WRAP
+    });
 }
 
-CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_delete(
-    cv::Ptr<cv::text::OCRTesseract> *obj)
+CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_delete(cv::Ptr<cv::text::OCRTesseract> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 #pragma region swt_text_detection.hpp
 
 CVAPI(ExceptionStatus) text_detectTextSWT(
-    cv::_InputArray *input, std::vector<cv::Rect> *result, int dark_on_light, cv::_OutputArray *draw, cv::_OutputArray *chainBBs)
+    const interop::InputArrayProxy* input,
+    std::vector<cv::Rect> *result,
+    int dark_on_light,
+    const interop::OutputArrayProxy* draw,
+    const interop::OutputArrayProxy* chainBBs)
 {
-    BEGIN_WRAP
-    cv::text::detectTextSWT(*input, *result, dark_on_light != 0, entity(draw), entity(chainBBs));
-    END_WRAP    
+    return cvTry([&] {
+    cv::text::detectTextSWT(InProxy(*input), *result, dark_on_light != 0, OutProxy(*draw), OutProxy(*chainBBs));
+    });    
 }
 
 #pragma endregion

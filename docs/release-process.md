@@ -1,4 +1,4 @@
-﻿# Release Process
+# Release Process
 
 This document describes the steps required to publish a new version of OpenCvSharp.
 
@@ -6,7 +6,7 @@ This document describes the steps required to publish a new version of OpenCvSha
 
 ## Version numbering
 
-NuGet package versions follow the pattern `{opencv_version}.{YYYYMMDD}`, e.g. `4.13.0.20260530`. The `-beta` suffix is stripped by `OpenCvSharp.NupkgBetaRemover` at publish time.
+NuGet package versions follow the pattern `{opencv_version}.{YYYYMMDD}`, e.g. `4.13.0.20260530`. Every build produced by `windows.yml` / `linux-arm64.yml` / `manylinux.yml` / `macos.yml` / `wasm.yml` carries a `-beta` suffix. By default, `publish_nuget.yml` strips this suffix (from both the package file name and the embedded `.nuspec`) before pushing to NuGet.org. Run the workflow with the `keep_beta` input set to `true` to publish the packages as a pre-release with the `-beta` suffix kept instead (e.g. for the first publish of a new package line).
 
 The version is passed at pack time via `-p:Version=...` in CI. **No source file needs to be edited to change the version number.**
 
@@ -36,7 +36,7 @@ Releases are produced by running the following workflows in order:
 2. **`linux-arm64.yml`** — builds the Linux ARM64 native library.
 3. **`manylinux.yml`** — builds the Linux x64 native library.
 4. **`wasm.yml`** — builds the WASM native library.
-5. **`publish_nuget.yml`** — collects all artifacts, strips the `-beta` suffix via `OpenCvSharp.NupkgBetaRemover`, validates the package set, and pushes to NuGet.org.
+5. **`publish_nuget.yml`** — collects all artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
 
 The `OPENCV_VERSION` environment variable in `windows.yml` controls the OpenCV version embedded in the package version string. Update it there when upgrading OpenCV.
 
@@ -46,6 +46,6 @@ The `OPENCV_VERSION` environment variable in `windows.yml` controls the OpenCV v
 
 1. Update the `opencv` and `opencv_contrib` submodules to the new tag.
 2. Update `OPENCV_VERSION` in `.github/workflows/windows.yml`.
-3. Update the ffmpeg DLL filename references in `nuget/OpenCvSharp4.runtime.win.props` and `nuget/OpenCvSharp4.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg4130_64.dll` → `opencv_videoio_ffmpeg4140_64.dll`).
+3. Update the ffmpeg DLL filename reference in `nuget/OpenCvSharp5.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg500_64.dll` → `opencv_videoio_ffmpeg510_64.dll`).
 4. Run the full CI pipeline and verify all tests pass.
 5. `AssemblyVersion` does **not** need to be changed for a minor/patch OpenCV upgrade.

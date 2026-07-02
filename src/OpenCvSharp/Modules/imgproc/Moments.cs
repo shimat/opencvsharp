@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -67,9 +67,6 @@ public class Moments
     /// <returns></returns>
     public Moments(InputArray array, bool binaryImage = false)
     {
-        if (array is null)
-            throw new ArgumentNullException(nameof(array));
-        array.ThrowIfDisposed();
         InitializeFromInputArray(array, binaryImage);
     }
 
@@ -150,8 +147,8 @@ public class Moments
     private void InitializeFromInputArray(InputArray array, bool binaryImage)
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0, out var m));
-        GC.KeepAlive(array);
+            NativeMethods.imgproc_moments(array.Proxy, binaryImage ? 1 : 0, out var m));
+        GC.KeepAlive(array.Source);
         Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
     }
 

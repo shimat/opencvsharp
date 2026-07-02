@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
 using OpenCvSharp.XPhoto;
 using Xunit;
 
@@ -8,8 +7,6 @@ namespace OpenCvSharp.Tests.XPhoto;
 // ReSharper disable InconsistentNaming
 public class XPhotoTest : TestBase
 {
-    public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
     private readonly ITestOutputHelper testOutputHelper;
 
     public XPhotoTest(ITestOutputHelper testOutputHelper)
@@ -24,9 +21,9 @@ public class XPhotoTest : TestBase
         using var b = new Mat(src.Rows, src.Cols, src.Type());
         using var g = new Mat(src.Rows, src.Cols, src.Type());
         using var r = new Mat(src.Rows, src.Cols, src.Type());
-        CvXPhoto.ApplyChannelGains(src, b, 2, 1, 1);
-        CvXPhoto.ApplyChannelGains(src, g, 1, 2, 1);
-        CvXPhoto.ApplyChannelGains(src, r, 1, 1, 2);
+        Cv2.XPhoto.ApplyChannelGains(src, b, 2, 1, 1);
+        Cv2.XPhoto.ApplyChannelGains(src, g, 1, 2, 1);
+        Cv2.XPhoto.ApplyChannelGains(src, r, 1, 1, 2);
 
         if (Debugger.IsAttached)
         {
@@ -46,7 +43,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void GrayworldWBBalanceWhite()
     {
-        using var wb = CvXPhoto.CreateGrayworldWB();
+        using var wb = Cv2.XPhoto.CreateGrayworldWB();
         using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
@@ -65,7 +62,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void GrayworldWBProperties()
     {
-        using var wb = CvXPhoto.CreateGrayworldWB();
+        using var wb = Cv2.XPhoto.CreateGrayworldWB();
         var saturationThreshold = wb.SaturationThreshold;
 
         const float val = 100f;
@@ -81,7 +78,7 @@ public class XPhotoTest : TestBase
         using var src = LoadImage("building.jpg");
         using var mask = LoadImage("building_mask.bmp", ImreadModes.Grayscale);
         using var dst = new Mat(src.Size(), src.Type());
-        CvXPhoto.Inpaint(src, mask, dst, OpenCvSharp.XPhoto.InpaintTypes.SHIFTMAP);
+        Cv2.XPhoto.Inpaint(src, mask, dst, OpenCvSharp.XPhoto.InpaintTypes.SHIFTMAP);
         ShowImagesWhenDebugMode(src);
         ShowImagesWhenDebugMode(dst);
     }
@@ -89,7 +86,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void LearningBasedWBBalanceWhite()
     {
-        using var wb = CvXPhoto.CreateLearningBasedWB(null);
+        using var wb = Cv2.XPhoto.CreateLearningBasedWB(null);
         using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
@@ -135,7 +132,7 @@ public class XPhotoTest : TestBase
     {
         // About model file
         // http://docs.opencv.org/trunk/dc/dcb/tutorial_xphoto_training_white_balance.html
-        using var wb = CvXPhoto.CreateLearningBasedWB("");
+        using var wb = Cv2.XPhoto.CreateLearningBasedWB("");
         using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
@@ -177,7 +174,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void SimpleWBBalanceWhite()
     {
-        using var wb = CvXPhoto.CreateSimpleWB();
+        using var wb = Cv2.XPhoto.CreateSimpleWB();
         using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
@@ -228,7 +225,7 @@ public class XPhotoTest : TestBase
     {
         using var src = LoadImage("lenna.png");
         using var dst = new Mat();
-        CvXPhoto.DctDenoising(src, dst, 1);
+        Cv2.XPhoto.DctDenoising(src, dst, 1);
 
         if (Debugger.IsAttached)
         {
@@ -236,15 +233,12 @@ public class XPhotoTest : TestBase
         }
     }
 
-    // On Windows, bm3dDenoising corrupts the heap and crashes the whole test
-    // process (BEGIN_WRAP/END_WRAP are no-ops on _WIN32, so it cannot be caught).
-    // It runs fine on Linux/macOS, so only skip on Windows. Upstream bug: #1904.
-    [Fact(Skip = "Crashes the test process on Windows (heap corruption); see https://github.com/shimat/opencvsharp/issues/1904", SkipWhen = nameof(IsWindows))]
+    [Fact(Skip = "OpenCV 5: bm3dDenoising corrupts the heap and crashes the test process. See https://github.com/shimat/opencvsharp/issues/1904")]
     public void Bm3dDenoising()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXPhoto.Bm3dDenoising(src, dst);
+        Cv2.XPhoto.Bm3dDenoising(src, dst);
 
         if (Debugger.IsAttached)
         {
@@ -257,7 +251,7 @@ public class XPhotoTest : TestBase
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        CvXPhoto.OilPainting(src, dst, 5, 10);
+        Cv2.XPhoto.OilPainting(src, dst, 5, 10);
 
         if (Debugger.IsAttached)
         {

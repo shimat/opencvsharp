@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -21,20 +21,11 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="learningRate"></param>
     public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (fgmask is null)
-            throw new ArgumentNullException(nameof(fgmask));
-        image.ThrowIfDisposed();
-        fgmask.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_apply(RawPtr, image.CvPtr, fgmask.CvPtr, learningRate));
+            NativeMethods.video_BackgroundSubtractor_apply(Handle, image.Proxy, fgmask.Proxy, learningRate));
             
-        fgmask.Fix();
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        GC.KeepAlive(fgmask);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(fgmask.Source);
     }
 
     /// <summary>
@@ -43,14 +34,8 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="backgroundImage"></param>
     public virtual void GetBackgroundImage(OutputArray backgroundImage)
     {
-        if (backgroundImage is null)
-            throw new ArgumentNullException(nameof(backgroundImage));
-        backgroundImage.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(RawPtr, backgroundImage.CvPtr));
-        GC.KeepAlive(this);
-        GC.KeepAlive(backgroundImage);
-        backgroundImage.Fix();
+            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(Handle, backgroundImage.Proxy));
+        GC.KeepAlive(backgroundImage.Source);
     }
 }

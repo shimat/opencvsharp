@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.XImgProc;
+using OpenCvSharp.XImgProc;
 using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc;
@@ -15,7 +15,7 @@ public class FastLineDetectorTest : TestBase
     [Fact]
     public void New2()
     {
-        var fld = CvXImgProc.CreateFastLineDetector();
+        var fld = Cv2.XImgProc.CreateFastLineDetector();
         fld.Dispose();
     }
 

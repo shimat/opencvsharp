@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
@@ -47,21 +48,12 @@ static partial class Cv2
         OutputArray kx, OutputArray ky, int dx, int dy, int ksize,
         bool normalize = false, MatType? ktype = null)
     {
-        if (kx is null)
-            throw new ArgumentNullException(nameof(kx));
-        if (ky is null)
-            throw new ArgumentNullException(nameof(ky));
-        kx.ThrowIfNotReady();
-        ky.ThrowIfNotReady();
-
         var ktype0 = ktype.GetValueOrDefault(MatType.CV_32F);
         NativeMethods.HandleException(
             NativeMethods.imgproc_getDerivKernels(
-                kx.CvPtr, ky.CvPtr, dx, dy, ksize, normalize ? 1 : 0, ktype0));
-        GC.KeepAlive(kx);
-        GC.KeepAlive(ky);
-        kx.Fix();
-        ky.Fix();
+                kx.Proxy, ky.Proxy, dx, dy, ksize, normalize ? 1 : 0, ktype0));
+        GC.KeepAlive(kx.Source);
+        GC.KeepAlive(ky.Source);
     }
 
     /// <summary>
@@ -126,19 +118,11 @@ static partial class Cv2
     /// <param name="ksize">The aperture linear size. It must be odd and more than 1, i.e. 3, 5, 7 ...</param>
     public static void MedianBlur(InputArray src, OutputArray dst, int ksize)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize));
+            NativeMethods.imgproc_medianBlur(src.Proxy, dst.Proxy, ksize));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -155,22 +139,15 @@ static partial class Cv2
     /// respectively (see getGaussianKernel() for details); to fully control the result 
     /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
     /// <param name="borderType">pixel extrapolation method</param>
-    public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
-        double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
+    public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX,
+        double sigmaY = 0, BorderTypes borderType = BorderTypes.Default, AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType));
+            NativeMethods.imgproc_GaussianBlur(src.Proxy, dst.Proxy, ksize, sigmaX, sigmaY, borderType, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -191,19 +168,11 @@ static partial class Cv2
     public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor,
         double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, borderType));
+            NativeMethods.imgproc_bilateralFilter(src.Proxy, dst.Proxy, d, sigmaColor, sigmaSpace, borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -221,20 +190,12 @@ static partial class Cv2
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType));
+            NativeMethods.imgproc_boxFilter(src.Proxy, dst.Proxy, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -258,20 +219,12 @@ static partial class Cv2
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_sqrBoxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType));
+            NativeMethods.imgproc_sqrBoxFilter(src.Proxy, dst.Proxy, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -286,20 +239,12 @@ static partial class Cv2
         InputArray src, OutputArray dst, Size ksize, 
         Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType));
+            NativeMethods.imgproc_blur(src.Proxy, dst.Proxy, ksize, anchor0, (int)borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -321,26 +266,35 @@ static partial class Cv2
         InputArray kernel, Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (kernel is null)
-            throw new ArgumentNullException(nameof(kernel));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        kernel.ThrowIfDisposed();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, anchor0, delta, (int)borderType));
+            NativeMethods.imgproc_filter2D(src.Proxy, dst.Proxy, ddepth, kernel.Proxy, anchor0, delta, (int)borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(kernel);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(kernel.Source);
     }
-        
+
+    /// <summary>
+    /// Convolves an image with the kernel (OpenCV 5 parameter-struct overload).
+    /// </summary>
+    /// <param name="src">input image.</param>
+    /// <param name="dst">output image of the same size and the same number of channels as src.</param>
+    /// <param name="kernel">convolution kernel (or rather a correlation kernel), a single-channel floating point matrix.</param>
+    /// <param name="params">filtering parameters (anchor, border, depth, scale, shift). Null uses the defaults.</param>
+    public static void Filter2D(InputArray src, OutputArray dst, InputArray kernel, Filter2DParams? @params = null)
+    {
+        var p = @params ?? new Filter2DParams();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_filter2Dp(
+                src.Proxy, dst.Proxy, kernel.Proxy,
+                p.AnchorX, p.AnchorY, (int)p.BorderType, p.BorderValue, p.Ddepth, p.Scale, p.Shift));
+
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(kernel.Source);
+    }
+
     /// <summary>
     /// Applies separable linear filter to an image
     /// </summary>
@@ -357,29 +311,15 @@ static partial class Cv2
         Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (kernelX is null)
-            throw new ArgumentNullException(nameof(kernelX));
-        if (kernelY is null)
-            throw new ArgumentNullException(nameof(kernelY));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        kernelX.ThrowIfDisposed();
-        kernelY.ThrowIfDisposed();
-            
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth,
-                kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int) borderType));
+            NativeMethods.imgproc_sepFilter2D(src.Proxy, dst.Proxy, ddepth,
+                kernelX.Proxy, kernelY.Proxy, anchor0, delta, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(kernelX);
-        GC.KeepAlive(kernelY);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(kernelX.Source);
+        GC.KeepAlive(kernelY.Source);
     }
 
     /// <summary>
@@ -399,20 +339,12 @@ static partial class Cv2
         int ksize = 3, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)        
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder,
+            NativeMethods.imgproc_Sobel(src.Proxy, dst.Proxy, ddepth, xorder, yorder,
                 ksize, scale, delta, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -426,22 +358,10 @@ static partial class Cv2
     public static void SpatialGradient(
         InputArray src, OutputArray dx, OutputArray dy, int ksize = 3, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        src.ThrowIfDisposed();
-        dx.ThrowIfNotReady();
-        dy.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_spatialGradient(src.CvPtr, dx.CvPtr, dy.CvPtr, ksize, (int)borderType));
+            NativeMethods.imgproc_spatialGradient(src.Proxy, dx.Proxy, dy.Proxy, ksize, (int)borderType));
 
-        GC.KeepAlive(src);
-        dx.Fix();
-        dy.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -459,20 +379,12 @@ static partial class Cv2
         InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
         double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder,
+            NativeMethods.imgproc_Scharr(src.Proxy, dst.Proxy, ddepth, xorder, yorder,
                 scale, delta, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -490,19 +402,11 @@ static partial class Cv2
         int ksize = 1, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int) borderType));
+            NativeMethods.imgproc_Laplacian(src.Proxy, dst.Proxy, ddepth, ksize, scale, delta, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -517,19 +421,11 @@ static partial class Cv2
     public static void Canny(InputArray src, OutputArray edges,
         double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        src.ThrowIfDisposed();
-        edges.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Canny1(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0));
+            NativeMethods.imgproc_Canny1(src.Proxy, edges.Proxy, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(edges);
-        edges.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(edges.Source);
     }
 
     /// <summary>
@@ -546,23 +442,12 @@ static partial class Cv2
         double threshold1, double threshold2,
         bool L2gradient = false)
     {
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        dx.ThrowIfDisposed();
-        dy.ThrowIfDisposed();
-        edges.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_Canny2(
-                dx.CvPtr, dy.CvPtr, edges.CvPtr, threshold1, threshold2, L2gradient ? 1 : 0));
+                dx.Proxy, dy.Proxy, edges.Proxy, threshold1, threshold2, L2gradient ? 1 : 0));
 
-        GC.KeepAlive(dx);
-        GC.KeepAlive(dy);
-        edges.Fix();
+        GC.KeepAlive(dx.Source);
+        GC.KeepAlive(dy.Source);
     }
 
     /// <summary>
@@ -580,19 +465,11 @@ static partial class Cv2
         int ksize = 3,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cornerMinEigenVal(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+            NativeMethods.imgproc_cornerMinEigenVal(src.Proxy, dst.Proxy, blockSize, ksize, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -613,19 +490,11 @@ static partial class Cv2
         double k,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cornerHarris(src.CvPtr, dst.CvPtr, blockSize, ksize, k, (int)borderType));
+            NativeMethods.imgproc_cornerHarris(src.Proxy, dst.Proxy, blockSize, ksize, k, (int)borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -640,19 +509,11 @@ static partial class Cv2
         InputArray src, OutputArray dst, int blockSize, int ksize,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+            NativeMethods.imgproc_cornerEigenValsAndVecs(src.Proxy, dst.Proxy, blockSize, ksize, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -665,19 +526,11 @@ static partial class Cv2
     public static void PreCornerDetect(
         InputArray src, OutputArray dst, int ksize, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int) borderType));
+            NativeMethods.imgproc_preCornerDetect(src.Proxy, dst.Proxy, ksize, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -696,20 +549,17 @@ static partial class Cv2
     public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
         Size winSize, Size zeroZone, TermCriteria criteria)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (inputCorners is null)
             throw new ArgumentNullException(nameof(inputCorners));
-        image.ThrowIfDisposed();
 
         var inputCornersSrc = inputCorners.ToArray();
         var inputCornersCopy = new Point2f[inputCornersSrc.Length];
         Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
 
-        using var vector = new VectorOfPoint2f(inputCornersCopy);
+        using var vector = new StdVector<Point2f>(inputCornersCopy);
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria));
-        GC.KeepAlive(image);
+            NativeMethods.imgproc_cornerSubPix(image.Proxy, vector.CvPtr, winSize, zeroZone, criteria));
+        GC.KeepAlive(image.Source);
         return vector.ToArray();
     }
 
@@ -736,17 +586,13 @@ static partial class Cv2
         int maxCorners, double qualityLevel, double minDistance,
         InputArray mask, int blockSize, bool useHarrisDetector, double k)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
-        using var vector = new VectorOfPoint2f();
-        var maskPtr = ToPtr(mask);
+        using var vector = new StdVector<Point2f>();
+        var maskPtr = mask.Proxy;
         NativeMethods.HandleException(
-            NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
+            NativeMethods.imgproc_goodFeaturesToTrack(src.Proxy, vector.CvPtr, maxCorners, qualityLevel,
                 minDistance, maskPtr, blockSize, useHarrisDetector ? 1 : 0, k));
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
         return vector.ToArray();
     }
 
@@ -765,13 +611,10 @@ static partial class Cv2
         InputArray image, double rho, double theta, int threshold, 
         double srn = 0, double stn = 0)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-
-        using var vec = new VectorOfVec2f();
+        using var vec = new StdVector<Vec2f>();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn));
-        GC.KeepAlive(image);
+            NativeMethods.imgproc_HoughLines(image.Proxy, vec.CvPtr, rho, theta, threshold, srn, stn));
+        GC.KeepAlive(image.Source);
         return vec.ToArray<LineSegmentPolar>();
     }
 
@@ -789,13 +632,10 @@ static partial class Cv2
         InputArray image, double rho, double theta, int threshold, 
         double minLineLength = 0, double maxLineGap = 0)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-        using var vec = new VectorOfVec4i();
+        using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
-        GC.KeepAlive(image);
+            NativeMethods.imgproc_HoughLinesP(image.Proxy, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
+        GC.KeepAlive(image.Source);
         return vec.ToArray<LineSegmentPoint>();
     }
 
@@ -818,19 +658,11 @@ static partial class Cv2
         double minRho, double maxRho, double rhoStep,
         double minTheta, double maxTheta, double thetaStep)
     {
-        if (point is null)
-            throw new ArgumentNullException(nameof(point));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        point.ThrowIfDisposed();
-        lines.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_HoughLinesPointSet(
-                point.CvPtr, lines.CvPtr, linesMax, threshold, minRho, maxRho, rhoStep, minTheta, maxTheta, thetaStep));
+                point.Proxy, lines.Proxy, linesMax, threshold, minRho, maxRho, rhoStep, minTheta, maxTheta, thetaStep));
 
-        GC.KeepAlive(point);
-        lines.Fix();
+        GC.KeepAlive(point.Source);
     }
 
     /// <summary>
@@ -849,14 +681,11 @@ static partial class Cv2
         InputArray image, HoughModes method, double dp, double minDist, 
         double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-        using var vec = new VectorOfVec3f();
+        using var vec = new StdVector<Vec3f>();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int) method, dp, minDist, param1,
+            NativeMethods.imgproc_HoughCircles(image.Proxy, vec.CvPtr, (int) method, dp, minDist, param1,
                 param2, minRadius, maxRadius));
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
         return vec.ToArray<CircleSegment>();
     }
 
@@ -880,27 +709,19 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void Dilate(
-        InputArray src, OutputArray dst, InputArray? element,
+        InputArray src, OutputArray dst, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-        var elementPtr = ToPtr(element);
+        var elementPtr = element.Proxy;
         NativeMethods.HandleException(
-            NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
+            NativeMethods.imgproc_dilate(src.Proxy, dst.Proxy, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(element);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(element.Source);
     }
 
     /// <summary>
@@ -914,27 +735,19 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void Erode(
-        InputArray src, OutputArray dst, InputArray? element,
+        InputArray src, OutputArray dst, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-        var elementPtr = ToPtr(element);
+        var elementPtr = element.Proxy;
         NativeMethods.HandleException(
-            NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
+            NativeMethods.imgproc_erode(src.Proxy, dst.Proxy, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(element);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(element.Source);
     }
 
     /// <summary>
@@ -949,29 +762,20 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void MorphologyEx(
-        InputArray src, OutputArray dst, MorphTypes op, InputArray? element,
+        InputArray src, OutputArray dst, MorphTypes op, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        element?.ThrowIfDisposed();
-
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
         var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-        var elementPtr = ToPtr(element);
+        var elementPtr = element.Proxy;
         NativeMethods.HandleException(
-            NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int) op, elementPtr, anchor0, iterations,
+            NativeMethods.imgproc_morphologyEx(src.Proxy, dst.Proxy, (int) op, elementPtr, anchor0, iterations,
                 (int) borderType, borderValue0));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(element);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(element.Source);
     }
 
     /// <summary>
@@ -991,19 +795,11 @@ static partial class Cv2
     public static void Resize(InputArray src, OutputArray dst, Size dsize,
         double fx = 0, double fy = 0, InterpolationFlags interpolation = InterpolationFlags.Linear)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int) interpolation));
+            NativeMethods.imgproc_resize(src.Proxy, dst.Proxy, dsize, fx, fy, (int) interpolation));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1019,29 +815,20 @@ static partial class Cv2
     /// it means that the pixels in the destination image corresponding to the "outliers" 
     /// in the source image are not modified by the function.</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpAffine(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
+        InterpolationFlags flags = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-        m.ThrowIfDisposed();
-
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+            NativeMethods.imgproc_warpAffine(src.Proxy, dst.Proxy, m.Proxy, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(m);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>
@@ -1055,31 +842,22 @@ static partial class Cv2
     /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
     /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, 
-        Scalar? borderValue = null)
+        InterpolationFlags flags = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant,
+        Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-        m.ThrowIfDisposed();
-
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
             NativeMethods.imgproc_warpPerspective_MisInputArray(
-                src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+                src.Proxy, dst.Proxy, m.Proxy, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(m);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>
@@ -1093,31 +871,27 @@ static partial class Cv2
     /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
     /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, float[,] m, Size dsize,
-        InterpolationFlags flags = InterpolationFlags.Linear, 
+        InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant,
-        Scalar? borderValue = null)
+        Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (m is null)
             throw new ArgumentNullException(nameof(m));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
 
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         var mRow = m.GetLength(0);
         var mCol = m.GetLength(1);
+        var mSpan = MemoryMarshal.CreateReadOnlySpan(ref m[0, 0], m.Length);
         NativeMethods.HandleException(
             NativeMethods.imgproc_warpPerspective_MisArray(
-                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0));
+                src.Proxy, dst.Proxy, mSpan, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1132,34 +906,22 @@ static partial class Cv2
     /// it means that the pixels in the destination image that corresponds to the "outliers" in 
     /// the source image are not modified by the function.</param>
     /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void Remap(
         InputArray src, OutputArray dst, InputArray map1, InputArray map2,
-        InterpolationFlags interpolation = InterpolationFlags.Linear, 
-        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
+        InterpolationFlags interpolation = InterpolationFlags.Linear,
+        BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (map1 is null)
-            throw new ArgumentNullException(nameof(map1));
-        if (map2 is null)
-            throw new ArgumentNullException(nameof(map2));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        map1.ThrowIfDisposed();
-        map2.ThrowIfDisposed();
-
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int) interpolation,
-                (int) borderMode, borderValue0));
+            NativeMethods.imgproc_remap(src.Proxy, dst.Proxy, map1.Proxy, map2.Proxy, (int) interpolation,
+                (int) borderMode, borderValue0, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
-        GC.KeepAlive(map1);
-        GC.KeepAlive(map2);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(map1.Source);
+        GC.KeepAlive(map2.Source);
     }
 
     /// <summary>
@@ -1173,29 +935,14 @@ static partial class Cv2
     /// <param name="nnInterpolation">Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.</param>
     public static void ConvertMaps(InputArray map1, InputArray map2, OutputArray dstmap1, OutputArray dstmap2, MatType dstmap1Type, bool nnInterpolation = false)
     {
-        if (map1 is null)
-            throw new ArgumentNullException(nameof(map1));
-        if (map2 is null)
-            throw new ArgumentNullException(nameof(map2));
-        if (dstmap1 is null)
-            throw new ArgumentNullException(nameof(dstmap1));
-        if (dstmap2 is null)
-            throw new ArgumentNullException(nameof(dstmap2));
-        map1.ThrowIfDisposed();
-        map2.ThrowIfDisposed();
-        dstmap1.ThrowIfDisposed();
-        dstmap2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type,
+            NativeMethods.imgproc_convertMaps(map1.Proxy, map2.Proxy, dstmap1.Proxy, dstmap2.Proxy, dstmap1Type,
                 nnInterpolation ? 1 : 0));
 
-        GC.KeepAlive(map1);
-        GC.KeepAlive(map2);
-        GC.KeepAlive(dstmap1);
-        GC.KeepAlive(dstmap2);
-        dstmap1.Fix();
-        dstmap2.Fix();
+        GC.KeepAlive(map1.Source);
+        GC.KeepAlive(map2.Source);
+        GC.KeepAlive(dstmap1.Source);
+        GC.KeepAlive(dstmap2.Source);
     }
 
     /// <summary>
@@ -1219,17 +966,10 @@ static partial class Cv2
     /// <param name="im">Output reverse affine transformation.</param>
     public static void InvertAffineTransform(InputArray m, OutputArray im)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (im is null)
-            throw new ArgumentNullException(nameof(im));
-        m.ThrowIfDisposed();
-        im.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr));
-        GC.KeepAlive(m);
-        GC.KeepAlive(im);
-        im.Fix();
+            NativeMethods.imgproc_invertAffineTransform(m.Proxy, im.Proxy));
+        GC.KeepAlive(m.Source);
+        GC.KeepAlive(im.Source);
     }
 
     /// <summary>
@@ -1262,18 +1002,10 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetPerspectiveTransform(InputArray src, InputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr, out var retMat));
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+            NativeMethods.imgproc_getPerspectiveTransform2(src.Proxy, dst.Proxy, out var retMat));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return new Mat(retMat);
     }
 
@@ -1307,19 +1039,11 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetAffineTransform(InputArray src, InputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr, out var retMat));
+            NativeMethods.imgproc_getAffineTransform2(src.Proxy, dst.Proxy, out var retMat));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return new Mat(retMat);
     }
 
@@ -1335,73 +1059,11 @@ static partial class Cv2
     public static void GetRectSubPix(InputArray image, Size patchSize, Point2f center, 
         OutputArray patch, int patchType = -1)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (patch is null)
-            throw new ArgumentNullException(nameof(patch));
-        image.ThrowIfDisposed();
-        patch.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType));
+            NativeMethods.imgproc_getRectSubPix(image.Proxy, patchSize, center, patch.Proxy, patchType));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(patch);
-        patch.Fix();
-    }
-
-    /// <summary>
-    /// Remaps an image to log-polar space.
-    /// </summary>
-    /// <param name="src">Source image</param>
-    /// <param name="dst">Destination image</param>
-    /// <param name="center">The transformation center; where the output precision is maximal</param>
-    /// <param name="m">Magnitude scale parameter.</param>
-    /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
-    public static void LogPolar(
-        InputArray src, OutputArray dst,
-        Point2f center, double m, InterpolationFlags flags)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_logPolar(src.CvPtr, dst.CvPtr, center, m, (int) flags));
-
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
-    }
-
-    /// <summary>
-    /// Remaps an image to polar space.
-    /// </summary>
-    /// <param name="src">Source image</param>
-    /// <param name="dst">Destination image</param>
-    /// <param name="center">The transformation center</param>
-    /// <param name="maxRadius">Inverse magnitude scale parameter</param>
-    /// <param name="flags">A combination of interpolation methods, see cv::InterpolationFlags</param>
-    public static void LinearPolar(
-        InputArray src, OutputArray dst,
-        Point2f center, double maxRadius, InterpolationFlags flags)
-    {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_linearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, (int) flags));
-
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(patch.Source);
     }
 
     /// <summary>
@@ -1423,20 +1085,12 @@ static partial class Cv2
         InputArray src, OutputArray dst, Size dsize,
         Point2f center, double maxRadius, InterpolationFlags interpolationFlags, WarpPolarMode warpPolarMode)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         int flags = (int)interpolationFlags | (int)warpPolarMode;
         NativeMethods.HandleException(
-            NativeMethods.imgproc_warpPolar(src.CvPtr, dst.CvPtr, dsize, center, maxRadius, flags));
+            NativeMethods.imgproc_warpPolar(src.Proxy, dst.Proxy, dsize, center, maxRadius, flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1448,20 +1102,11 @@ static partial class Cv2
     /// <param name="sdepth"></param>
     public static void Integral(InputArray src, OutputArray sum, MatType? sdepth = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (sum is null)
-            throw new ArgumentNullException(nameof(sum));
-
-        src.ThrowIfDisposed();
-        sum.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth?.Value ?? -1));
+            NativeMethods.imgproc_integral1(src.Proxy, sum.Proxy, sdepth?.Value ?? -1));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(sum);
-        sum.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(sum.Source);
     }
 
     /// <summary>
@@ -1474,24 +1119,12 @@ static partial class Cv2
     /// <param name="sdepth"></param>
     public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, MatType? sdepth = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (sum is null)
-            throw new ArgumentNullException(nameof(sum));
-        if (sqsum is null)
-            throw new ArgumentNullException(nameof(sqsum));
-        src.ThrowIfDisposed();
-        sum.ThrowIfNotReady();
-        sqsum.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth?.Value ?? -1));
+            NativeMethods.imgproc_integral2(src.Proxy, sum.Proxy, sqsum.Proxy, sdepth?.Value ?? -1));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(sum);
-        GC.KeepAlive(sqsum);
-        sum.Fix();
-        sqsum.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(sum.Source);
+        GC.KeepAlive(sqsum.Source);
     }
 
     /// <summary>
@@ -1508,29 +1141,13 @@ static partial class Cv2
         InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, 
         MatType? sdepth = null, MatType? sqdepth = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (sum is null)
-            throw new ArgumentNullException(nameof(sum));
-        if (sqsum is null)
-            throw new ArgumentNullException(nameof(sqsum));
-        if (tilted is null)
-            throw new ArgumentNullException(nameof(tilted));
-        src.ThrowIfDisposed();
-        sum.ThrowIfNotReady();
-        sqsum.ThrowIfNotReady();
-        tilted.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth?.Value ?? -1, sqdepth?.Value ?? -1));
+            NativeMethods.imgproc_integral3(src.Proxy, sum.Proxy, sqsum.Proxy, tilted.Proxy, sdepth?.Value ?? -1, sqdepth?.Value ?? -1));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(sum);
-        GC.KeepAlive(sqsum);
-        GC.KeepAlive(tilted);
-        sum.Fix();
-        sqsum.Fix();
-        tilted.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(sum.Source);
+        GC.KeepAlive(sqsum.Source);
+        GC.KeepAlive(tilted.Source);
     }
 
     /// <summary>
@@ -1541,20 +1158,12 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.imgproc_accumulate(src.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1565,20 +1174,12 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.imgproc_accumulateSquare(src.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1590,24 +1191,13 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateProduct(InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.imgproc_accumulateProduct(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1619,20 +1209,12 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateWeighted(InputArray src, InputOutputArray dst, double alpha, InputArray mask)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask)));
+            NativeMethods.imgproc_accumulateWeighted(src.Proxy, dst.Proxy, alpha, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
         
     /// <summary>
@@ -1652,22 +1234,12 @@ static partial class Cv2
     public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
         InputArray window, out double response)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (window is null)
-            throw new ArgumentNullException(nameof(window));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        window.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, window.CvPtr, out response, out var ret));
+            NativeMethods.imgproc_phaseCorrelate(src1.Proxy, src2.Proxy, window.Proxy, out response, out var ret));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(window);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(window.Source);
         return ret;
     }
 
@@ -1677,17 +1249,12 @@ static partial class Cv2
     /// <param name="dst">Destination array to place Hann coefficients in</param>
     /// <param name="winSize">The window size specifications</param>
     /// <param name="type">Created array type</param>
-    public static void CreateHanningWindow(InputOutputArray dst, Size winSize, MatType type)
+    public static void CreateHanningWindow(OutputArray dst, Size winSize, MatType type)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_createHanningWindow(dst.CvPtr, winSize, type));
+            NativeMethods.imgproc_createHanningWindow(dst.Proxy, winSize, type));
 
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1701,19 +1268,11 @@ static partial class Cv2
     /// <returns>the computed threshold value when type == OTSU</returns>
     public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdTypes type)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type, out var ret));
+            NativeMethods.imgproc_threshold(src.Proxy, dst.Proxy, thresh, maxval, (int)type, out var ret));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return ret;
     }
 
@@ -1731,19 +1290,11 @@ static partial class Cv2
     public static void AdaptiveThreshold(InputArray src, OutputArray dst,
         double maxValue, AdaptiveThresholdTypes adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int) adaptiveMethod, (int)thresholdType, blockSize, c));
+            NativeMethods.imgproc_adaptiveThreshold(src.Proxy, dst.Proxy, maxValue, (int) adaptiveMethod, (int)thresholdType, blockSize, c));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1756,20 +1307,12 @@ static partial class Cv2
     public static void PyrDown(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var dstSize0 = dstSize.GetValueOrDefault(new Size());
         NativeMethods.HandleException(
-            NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int) borderType));
+            NativeMethods.imgproc_pyrDown(src.Proxy, dst.Proxy, dstSize0, (int) borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary> 
@@ -1782,16 +1325,13 @@ static partial class Cv2
     public static void BuildPyramid(InputArray src, VectorOfMat dst,int maxlevel,
          BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
         dst.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_buildPyramid(src.CvPtr, dst.CvPtr, maxlevel,(int)borderType));
+            NativeMethods.imgproc_buildPyramid(src.Proxy, dst.CvPtr, maxlevel,(int)borderType));
 
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
         GC.KeepAlive(dst);
     }
 
@@ -1805,20 +1345,12 @@ static partial class Cv2
     public static void PyrUp(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var dstSize0 = dstSize.GetValueOrDefault(new Size());
         NativeMethods.HandleException(
-            NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType));
+            NativeMethods.imgproc_pyrUp(src.Proxy, dst.Proxy, dstSize0, (int)borderType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1834,7 +1366,7 @@ static partial class Cv2
     /// <param name="uniform"></param>
     /// <param name="accumulate"></param>
     public static void CalcHist(Mat[] images, 
-        int[] channels, InputArray? mask,
+        int[] channels, InputArray mask,
         OutputArray hist, int dims, int[] histSize,
         Rangef[] ranges, bool uniform = true, bool accumulate = false)
     {
@@ -1858,7 +1390,7 @@ static partial class Cv2
     /// <param name="uniform"></param>
     /// <param name="accumulate"></param>
     public static void CalcHist(Mat[] images,
-        int[] channels, InputArray? mask,
+        int[] channels, InputArray mask,
         OutputArray hist, int dims, int[] histSize,
         float[][] ranges, bool uniform = true, bool accumulate = false)
     {
@@ -1866,26 +1398,22 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(images));
         if (channels is null)
             throw new ArgumentNullException(nameof(channels));
-        if (hist is null)
-            throw new ArgumentNullException(nameof(hist));
         if (histSize is null)
             throw new ArgumentNullException(nameof(histSize));
         if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
-        hist.ThrowIfNotReady();
 
         var imagesPtr = images.Select(x => x.CvPtr).ToArray();
         using (var rangesPtr = new ArrayAddress2<float>(ranges))
         {
             NativeMethods.HandleException(
                 NativeMethods.imgproc_calcHist(
-                    imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
+                    imagesPtr, images.Length, channels, mask.Proxy, hist.Proxy,
                     dims, histSize, rangesPtr.GetPointer(), uniform ? 1 : 0, accumulate ? 1 : 0));
         }
         GC.KeepAlive(images);
-        GC.KeepAlive(mask);
-        GC.KeepAlive(hist);
-        hist.Fix();
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(hist.Source);
     }
 
     /// <summary>
@@ -1905,27 +1433,20 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(images));
         if (channels is null)
             throw new ArgumentNullException(nameof(channels));
-        if (hist is null)
-            throw new ArgumentNullException(nameof(hist));
-        if (backProject is null)
-            throw new ArgumentNullException(nameof(backProject));
         if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
-        hist.ThrowIfDisposed();
-        backProject.ThrowIfNotReady();
 
         var imagesPtr =images.Select(x => x.CvPtr).ToArray();
         var rangesFloat = ranges.Select(r => new [] {r.Start, r.End}).ToArray();
         using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
         {
             NativeMethods.HandleException(
-                NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
-                    backProject.CvPtr, rangesPtr.GetPointer(), uniform ? 1 : 0));
+                NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.Proxy,
+                    backProject.Proxy, rangesPtr.GetPointer(), uniform ? 1 : 0));
         }
         GC.KeepAlive(images);
-        GC.KeepAlive(hist);
-        GC.KeepAlive(backProject);
-        backProject.Fix();
+        GC.KeepAlive(hist.Source);
+        GC.KeepAlive(backProject.Source);
     }
 
     /// <summary>
@@ -1937,18 +1458,11 @@ static partial class Cv2
     /// <returns></returns>
     public static double CompareHist(InputArray h1, InputArray h2, HistCompMethods method)
     {
-        if (h1 is null)
-            throw new ArgumentNullException(nameof(h1));
-        if (h2 is null)
-            throw new ArgumentNullException(nameof(h2));
-        h1.ThrowIfDisposed();
-        h2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_compareHist(h1.CvPtr, h2.CvPtr, (int)method, out var ret));
+            NativeMethods.imgproc_compareHist(h1.Proxy, h2.Proxy, (int)method, out var ret));
 
-        GC.KeepAlive(h1);
-        GC.KeepAlive(h2);
+        GC.KeepAlive(h1.Source);
+        GC.KeepAlive(h2.Source);
         return ret;
     }
 
@@ -1959,19 +1473,11 @@ static partial class Cv2
     /// <param name="dst">The destination image; will have the same size and the same type as src</param>
     public static void EqualizeHist(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr));
+            NativeMethods.imgproc_equalizeHist(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2007,7 +1513,7 @@ static partial class Cv2
     /// <returns></returns>
     public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
     {
-        return EMD(signature1, signature2, distType, null, out _);
+        return EMD(signature1, signature2, distType, default, out _);
     }
 
     /// <summary>
@@ -2033,7 +1539,7 @@ static partial class Cv2
     /// is used, lower boundary lowerBound cannot be calculated because it needs a metric function.</param>
     /// <returns></returns>
     public static float EMD(InputArray signature1, InputArray signature2,
-        DistanceTypes distType, InputArray? cost)
+        DistanceTypes distType, InputArray cost)
     {
         return EMD(signature1, signature2, distType, cost, out _);
     }
@@ -2071,25 +1577,17 @@ static partial class Cv2
     /// to j-th point of signature2.</param>
     /// <returns></returns>
     public static float EMD(InputArray signature1, InputArray signature2,
-        DistanceTypes distType, InputArray? cost, out float lowerBound, OutputArray? flow = null)
+        DistanceTypes distType, InputArray cost, out float lowerBound, OutputArray flow = default)
     {
-        if (signature1 is null)
-            throw new ArgumentNullException(nameof(signature1));
-        if (signature2 is null)
-            throw new ArgumentNullException(nameof(signature2));
-        signature1.ThrowIfDisposed();
-        signature2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_EMD(
-                signature1.CvPtr, signature2.CvPtr, (int) distType, ToPtr(cost),
-                out lowerBound, ToPtr(flow), out var ret));
+                signature1.Proxy, signature2.Proxy, (int) distType, cost.Proxy,
+                out lowerBound, flow.Proxy, out var ret));
 
-        GC.KeepAlive(signature1);
-        GC.KeepAlive(signature2);
-        GC.KeepAlive(cost);
-        GC.KeepAlive(flow);
-        flow?.Fix();
+        GC.KeepAlive(signature1.Source);
+        GC.KeepAlive(signature2.Source);
+        GC.KeepAlive(cost.Source);
+        GC.KeepAlive(flow.Source);
         return ret;
     }
 
@@ -2101,19 +1599,11 @@ static partial class Cv2
     /// It should have the same size as image.</param>
     public static void Watershed(InputArray image, InputOutputArray markers)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (markers is null)
-            throw new ArgumentNullException(nameof(markers));
-        image.ThrowIfDisposed();
-        markers.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr));
+            NativeMethods.imgproc_watershed(image.Proxy, markers.Proxy));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(markers);
-        markers.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(markers.Source);
     }
 
     /// <summary>
@@ -2128,21 +1618,13 @@ static partial class Cv2
     public static void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
         double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         var termcrit0 = termcrit.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 5, 1));
         NativeMethods.HandleException(
-            NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0));
+            NativeMethods.imgproc_pyrMeanShiftFiltering(src.Proxy, dst.Proxy, sp, sr, maxLevel, termcrit0));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2163,31 +1645,15 @@ static partial class Cv2
         InputOutputArray bgdModel, InputOutputArray fgdModel,
         int iterCount, GrabCutModes mode)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        if (bgdModel is null)
-            throw new ArgumentNullException(nameof(bgdModel));
-        if (fgdModel is null)
-            throw new ArgumentNullException(nameof(fgdModel));
-        img.ThrowIfDisposed();
-        mask.ThrowIfNotReady();
-        bgdModel.ThrowIfNotReady();
-        fgdModel.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_grabCut(
-                img.CvPtr, mask.CvPtr, rect,
-                bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int) mode));
+                img.Proxy, mask.Proxy, rect,
+                bgdModel.Proxy, fgdModel.Proxy, iterCount, (int) mode));
 
-        GC.KeepAlive(img);
-        GC.KeepAlive(mask);
-        GC.KeepAlive(bgdModel);
-        GC.KeepAlive(fgdModel);
-        mask.Fix();
-        bgdModel.Fix();
-        fgdModel.Fix();
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(bgdModel.Source);
+        GC.KeepAlive(fgdModel.Source);
     }
 
     /// <summary>
@@ -2210,25 +1676,13 @@ static partial class Cv2
         DistanceTransformMasks maskSize,
         DistanceTransformLabelTypes labelType = DistanceTransformLabelTypes.CComp)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        labels.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_distanceTransformWithLabels(
-                src.CvPtr, dst.CvPtr, labels.CvPtr, (int) distanceType, (int) maskSize, (int) labelType));
+                src.Proxy, dst.Proxy, labels.Proxy, (int) distanceType, (int) maskSize, (int) labelType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(labels);
-        dst.Fix();
-        labels.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(labels.Source);
     }
 
     /// <summary>
@@ -2249,19 +1703,11 @@ static partial class Cv2
         DistanceTransformMasks maskSize,
         int dstType = MatType.CV_32S)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_distanceTransform(src.CvPtr, dst.CvPtr, (int) distanceType, (int) maskSize, dstType));
+            NativeMethods.imgproc_distanceTransform(src.Proxy, dst.Proxy, (int) distanceType, (int) maskSize, dstType));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2304,9 +1750,6 @@ static partial class Cv2
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
         var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
         var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
 
@@ -2317,11 +1760,10 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_floodFill1(
-                image.CvPtr, seedPoint, newVal, out rect,
+                image.Proxy, seedPoint, newVal, out rect,
                 loDiff0, upDiff0, (int)flags, out var ret));
 
-        GC.KeepAlive(image);
-        image.Fix();
+        GC.KeepAlive(image.Source);
         return ret;
     }
 
@@ -2376,12 +1818,6 @@ static partial class Cv2
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        image.ThrowIfNotReady();
-        mask.ThrowIfNotReady();
         var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
         var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
 
@@ -2392,13 +1828,11 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_floodFill2(
-                image.CvPtr, mask.CvPtr, seedPoint,
+                image.Proxy, mask.Proxy, seedPoint,
                 newVal, out rect, loDiff0, upDiff0, (int)flags, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(mask);
-        image.Fix();
-        mask.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(mask.Source);
         return ret;
     }
 
@@ -2414,30 +1848,13 @@ static partial class Cv2
     public static void BlendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2,
         OutputArray dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (weights1 is null)
-            throw new ArgumentNullException(nameof(weights1));
-        if (weights2 is null)
-            throw new ArgumentNullException(nameof(weights2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        weights1.ThrowIfDisposed();
-        weights2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_blendLinear(src1.CvPtr, src2.CvPtr, weights1.CvPtr, weights2.CvPtr, dst.CvPtr));
+            NativeMethods.imgproc_blendLinear(src1.Proxy, src2.Proxy, weights1.Proxy, weights2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(weights1);
-        GC.KeepAlive(weights2);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(weights1.Source);
+        GC.KeepAlive(weights2.Source);
     }
         
     /// <summary>
@@ -2447,21 +1864,15 @@ static partial class Cv2
     /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
     /// <param name="code">The color space conversion code</param>
     /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
-    public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
+    public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int) code, dstCn));
+            NativeMethods.imgproc_cvtColor(src.Proxy, dst.Proxy, (int) code, dstCn, (int)hint));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2480,25 +1891,16 @@ static partial class Cv2
     /// - #COLOR_YUV2RGB_NV21
     /// - #COLOR_YUV2BGRA_NV21
     /// - #COLOR_YUV2RGBA_NV21</param>
-    public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code)
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
+    public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code,
+        AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1)); 
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_cvtColorTwoPlane(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)code));
+            NativeMethods.imgproc_cvtColorTwoPlane(src1.Proxy, src2.Proxy, dst.Proxy, (int)code, (int)hint));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2531,19 +1933,11 @@ static partial class Cv2
     /// </remarks>
     public static void Demosaicing(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_demosaicing(src.CvPtr, dst.CvPtr, (int)code, dstCn));
+            NativeMethods.imgproc_demosaicing(src.Proxy, dst.Proxy, (int)code, dstCn));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2621,27 +2015,15 @@ static partial class Cv2
         InputArray templ,
         OutputArray result,
         TemplateMatchModes method, 
-        InputArray? mask = null)
+        InputArray mask = default)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (templ is null)
-            throw new ArgumentNullException(nameof(templ));
-        if (result is null)
-            throw new ArgumentNullException(nameof(result));
-        image.ThrowIfDisposed();
-        templ.ThrowIfDisposed();
-        result.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int) method, ToPtr(mask)));
+            NativeMethods.imgproc_matchTemplate(image.Proxy, templ.Proxy, result.Proxy, (int) method, mask.Proxy));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(templ);
-        GC.KeepAlive(result);
-        result.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(templ.Source);
+        GC.KeepAlive(result.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -2665,20 +2047,12 @@ static partial class Cv2
     public static int ConnectedComponentsWithAlgorithm(
         InputArray image, OutputArray labels, PixelConnectivity connectivity, MatType ltype, ConnectedComponentsAlgorithmsTypes ccltype)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        image.ThrowIfDisposed();
-        labels.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponentsWithAlgorithm(
-                image.CvPtr, labels.CvPtr, (int)connectivity, ltype, (int)ccltype, out var ret));
+                image.Proxy, labels.Proxy, (int)connectivity, ltype, (int)ccltype, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(labels);
-        labels.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(labels.Source);
         return ret;
     }
 
@@ -2714,20 +2088,13 @@ static partial class Cv2
     public static int ConnectedComponents(InputArray image, OutputArray labels,
         PixelConnectivity connectivity, MatType ltype)
     {
-        if (image is null) 
-            throw new ArgumentNullException(nameof(image));
-        if (labels is null) 
-            throw new ArgumentNullException(nameof(labels));
-        image.ThrowIfDisposed();
-        labels.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponents(
-                image.CvPtr, labels.CvPtr, (int)connectivity, ltype, out var ret));
+                image.Proxy, labels.Proxy, (int)connectivity, ltype, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(labels);
-        labels.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(labels.Source);
         return ret;
     }
 
@@ -2781,30 +2148,14 @@ static partial class Cv2
         MatType ltype, 
         ConnectedComponentsAlgorithmsTypes ccltype)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        if (stats is null)
-            throw new ArgumentNullException(nameof(stats));
-        if (centroids is null)
-            throw new ArgumentNullException(nameof(centroids));
-        image.ThrowIfDisposed();
-        labels.ThrowIfNotReady();
-        stats.ThrowIfNotReady();
-        centroids.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponentsWithStatsWithAlgorithm(
-                image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int)connectivity, ltype, (int)ccltype, out var ret));
+                image.Proxy, labels.Proxy, stats.Proxy, centroids.Proxy, (int)connectivity, ltype, (int)ccltype, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(labels);
-        GC.KeepAlive(stats);
-        GC.KeepAlive(centroids);
-        labels.Fix();
-        stats.Fix();
-        centroids.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(labels.Source);
+        GC.KeepAlive(stats.Source);
+        GC.KeepAlive(centroids.Source);
         return ret;
     }
 
@@ -2855,30 +2206,14 @@ static partial class Cv2
         PixelConnectivity connectivity,
         MatType ltype)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        if (stats is null)
-            throw new ArgumentNullException(nameof(stats));
-        if (centroids is null)
-            throw new ArgumentNullException(nameof(centroids));
-        image.ThrowIfDisposed();
-        labels.ThrowIfNotReady();
-        stats.ThrowIfNotReady();
-        centroids.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponentsWithStats(
-                image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int) connectivity, ltype, out var ret));
+                image.Proxy, labels.Proxy, stats.Proxy, centroids.Proxy, (int) connectivity, ltype, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(labels);
-        GC.KeepAlive(stats);
-        GC.KeepAlive(centroids);
-        labels.Fix();
-        stats.Fix();
-        centroids.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(labels.Source);
+        GC.KeepAlive(stats.Source);
+        GC.KeepAlive(centroids.Source);
         return ret;
     }
 
@@ -2943,22 +2278,18 @@ static partial class Cv2
     public static void FindContours(InputArray image, out Point[][] contours,
         out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfVectorPoint();
-        using var hierarchyVec = new VectorOfVec4i();
+        using var hierarchyVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_findContours1_vector(
-                image.CvPtr, contoursVec.CvPtr, hierarchyVec.CvPtr, (int) mode, (int) method, offset0));
+                image.Proxy, contoursVec.CvPtr, hierarchyVec.CvPtr, (int) mode, (int) method, offset0));
 
         contours = contoursVec.ToArray();
         var hierarchyOrg = hierarchyVec.ToArray();
         hierarchy = hierarchyOrg.Select(HierarchyIndex.FromVec4i).ToArray();
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>
@@ -2980,23 +2311,15 @@ static partial class Cv2
     public static void FindContours(InputArray image, out Mat[] contours,
         OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (hierarchy is null)
-            throw new ArgumentNullException(nameof(hierarchy));
-        image.ThrowIfDisposed();
-        hierarchy.ThrowIfNotReady();
-
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, contoursVec.CvPtr, hierarchy.CvPtr, (int) mode, (int) method, offset0));
+            NativeMethods.imgproc_findContours1_OutputArray(image.Proxy, contoursVec.CvPtr, hierarchy.Proxy, (int) mode, (int) method, offset0));
 
         contours = contoursVec.ToArray();
 
-        hierarchy.Fix();
-        GC.KeepAlive(image);
-        GC.KeepAlive(hierarchy);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(hierarchy.Source);
     }
 
     /// <summary>
@@ -3013,17 +2336,49 @@ static partial class Cv2
     public static Point[][] FindContoursAsArray(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfVectorPoint();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_findContours2_vector(image.CvPtr, contoursVec.CvPtr, (int) mode, (int) method, offset0));
-        GC.KeepAlive(image);
+            NativeMethods.imgproc_findContours2_vector(image.Proxy, contoursVec.CvPtr, (int) mode, (int) method, offset0));
+        GC.KeepAlive(image.Source);
 
         return contoursVec.ToArray();
+    }
+
+    /// <summary>
+    /// Finds contours in a binary image using the link-runs algorithm (OpenCV 5). This is an
+    /// alternative to <see cref="FindContours(InputArray, out Point[][], out HierarchyIndex[], RetrievalModes, ContourApproximationModes, Point?)"/>
+    /// with reduced memory consumption; it always uses the equivalent of RETR_CCOMP retrieval.
+    /// </summary>
+    /// <param name="image">Source, an 8-bit single-channel binary image.</param>
+    /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+    /// <param name="hierarchy">Output vector containing information about the image topology
+    /// (next/previous/first-child/parent indices for each contour).</param>
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours, out HierarchyIndex[] hierarchy)
+    {
+        using var contoursVec = new VectorOfVectorPoint();
+        using var hierarchyVec = new StdVector<Vec4i>();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_findContoursLinkRuns1(image.Proxy, contoursVec.CvPtr, hierarchyVec.CvPtr));
+
+        contours = contoursVec.ToArray();
+        hierarchy = hierarchyVec.ToArray().Select(HierarchyIndex.FromVec4i).ToArray();
+        GC.KeepAlive(image.Source);
+    }
+
+    /// <summary>
+    /// Finds contours in a binary image using the link-runs algorithm (OpenCV 5), without hierarchy output.
+    /// </summary>
+    /// <param name="image">Source, an 8-bit single-channel binary image.</param>
+    /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours)
+    {
+        using var contoursVec = new VectorOfVectorPoint();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_findContoursLinkRuns2(image.Proxy, contoursVec.CvPtr));
+
+        contours = contoursVec.ToArray();
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>
@@ -3040,15 +2395,11 @@ static partial class Cv2
     public static Mat<Point>[] FindContoursAsMat(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, contoursVec.CvPtr, (int)mode, (int)method, offset0));
-        GC.KeepAlive(image);
+            NativeMethods.imgproc_findContours2_OutputArray(image.Proxy, contoursVec.CvPtr, (int)mode, (int)method, offset0));
+        GC.KeepAlive(image.Source);
 
         return contoursVec.ToArray<Mat<Point>>();
     }
@@ -3066,19 +2417,11 @@ static partial class Cv2
     /// The type should match the type of the input curve</param>
     public static void ApproxPolyDP(InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
-        if (approxCurve is null)
-            throw new ArgumentNullException(nameof(approxCurve));
-        curve.ThrowIfDisposed();
-        approxCurve.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0));
+            NativeMethods.imgproc_approxPolyDP_InputArray(curve.Proxy, approxCurve.Proxy, epsilon, closed ? 1 : 0));
 
-        GC.KeepAlive(curve);
-        GC.KeepAlive(approxCurve);
-        approxCurve.Fix();
+        GC.KeepAlive(curve.Source);
+        GC.KeepAlive(approxCurve.Source);
     }
 
     /// <summary>
@@ -3097,7 +2440,7 @@ static partial class Cv2
         if(curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve as Point[] ?? curve.ToArray();
-        using var approxCurveVec = new VectorOfPoint();
+        using var approxCurveVec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_approxPolyDP_Point(
                 curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
@@ -3120,7 +2463,7 @@ static partial class Cv2
         if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve as Point2f[] ?? curve.ToArray();
-        using var approxCurveVec = new VectorOfPoint2f();
+        using var approxCurveVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_approxPolyDP_Point2f(
                 curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
@@ -3135,13 +2478,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(InputArray curve, bool closed)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
-        curve.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0, out var ret));
-        GC.KeepAlive(curve);
+            NativeMethods.imgproc_arcLength_InputArray(curve.Proxy, closed ? 1 : 0, out var ret));
+        GC.KeepAlive(curve.Source);
         return ret;
     }
 
@@ -3186,13 +2525,9 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(InputArray curve)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
-        curve.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr, out var ret));
-        GC.KeepAlive(curve);
+            NativeMethods.imgproc_boundingRect_InputArray(curve.Proxy, out var ret));
+        GC.KeepAlive(curve.Source);
         return ret;
     }
 
@@ -3236,13 +2571,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(InputArray contour, bool oriented = false)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        contour.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0, out var ret));
-        GC.KeepAlive(contour);
+            NativeMethods.imgproc_contourArea_InputArray(contour.Proxy, oriented ? 1 : 0, out var ret));
+        GC.KeepAlive(contour.Source);
         return ret;
     }
 
@@ -3287,13 +2618,9 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(InputArray points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr, out var ret));
-        GC.KeepAlive(points);
+            NativeMethods.imgproc_minAreaRect_InputArray(points.Proxy, out var ret));
+        GC.KeepAlive(points.Source);
         return ret;
     }
 
@@ -3341,13 +2668,8 @@ static partial class Cv2
     /// <returns></returns>
     public static void BoxPoints(RotatedRect box, OutputArray points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_boxPoints_OutputArray(box, points.CvPtr));
-        points.Fix();
+            NativeMethods.imgproc_boxPoints_OutputArray(box, points.Proxy));
     }
 
     /// <summary>
@@ -3375,12 +2697,9 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(InputArray points, out Point2f center, out float radius)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius));
-        GC.KeepAlive(points);
+            NativeMethods.imgproc_minEnclosingCircle_InputArray(points.Proxy, out center, out radius));
+        GC.KeepAlive(points.Source);
     }
 
     /// <summary>
@@ -3421,18 +2740,10 @@ static partial class Cv2
     /// <returns>Triangle area</returns>
     public static double MinEnclosingTriangle(InputArray points, OutputArray triangle)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (triangle is null)
-            throw new ArgumentNullException(nameof(triangle));
-        points.ThrowIfDisposed();
-        triangle.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_minEnclosingTriangle_InputOutputArray(points.CvPtr, triangle.CvPtr, out var ret));
+            NativeMethods.imgproc_minEnclosingTriangle_InputOutputArray(points.Proxy, triangle.Proxy, out var ret));
 
-        GC.KeepAlive(points);
-        triangle.Fix();
+        GC.KeepAlive(points.Source);
         return ret;
     }
 
@@ -3448,7 +2759,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
 
         var pointsArray = points.ToArray();
-        using var triangleVec = new VectorOfPoint2f();
+        using var triangleVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingTriangle_Point(
                 pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3470,7 +2781,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
 
         var pointsArray = points.ToArray();
-        using var triangleVec = new VectorOfPoint2f();
+        using var triangleVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingTriangle_Point2f(
                 pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3490,16 +2801,11 @@ static partial class Cv2
     /// <returns></returns>
     public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
     {
-        if (contour1 is null)
-            throw new ArgumentNullException(nameof(contour1));
-        if (contour2 is null)
-            throw new ArgumentNullException(nameof(contour2));
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter, out var ret));
+            NativeMethods.imgproc_matchShapes_InputArray(contour1.Proxy, contour2.Proxy, (int)method, parameter, out var ret));
 
-        GC.KeepAlive(contour1);
-        GC.KeepAlive(contour2);
+        GC.KeepAlive(contour1.Source);
+        GC.KeepAlive(contour2.Source);
         return ret;
     }
 
@@ -3544,19 +2850,11 @@ static partial class Cv2
     /// <param name="returnPoints"></param>
     public static void ConvexHull(InputArray points, OutputArray hull, bool clockwise = false, bool returnPoints = true)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (hull is null)
-            throw new ArgumentNullException(nameof(hull));
-        points.ThrowIfDisposed();
-        hull.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0));
+            NativeMethods.imgproc_convexHull_InputArray(points.Proxy, hull.Proxy, clockwise ? 1 : 0, returnPoints ? 1 : 0));
 
-        GC.KeepAlive(points);
-        GC.KeepAlive(hull);
-        hull.Fix();
+        GC.KeepAlive(points.Source);
+        GC.KeepAlive(hull.Source);
     }
 
     /// <summary>
@@ -3575,7 +2873,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfPoint();
+        using var hullVec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point_ReturnsPoints(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3599,7 +2897,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfPoint2f();
+        using var hullVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3622,7 +2920,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfInt32();
+        using var hullVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point_ReturnsIndices(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3645,7 +2943,7 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
-        using var hullVec = new VectorOfInt32();
+        using var hullVec = new StdVector<int>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(
                 pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
@@ -3669,23 +2967,12 @@ static partial class Cv2
     /// </param>
     public static void ConvexityDefects(InputArray contour, InputArray convexHull, OutputArray convexityDefects)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        if (convexHull is null)
-            throw new ArgumentNullException(nameof(convexHull));
-        if (convexityDefects is null)
-            throw new ArgumentNullException(nameof(convexityDefects));
-        contour.ThrowIfDisposed();
-        convexHull.ThrowIfDisposed();
-        convexityDefects.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr));
+            NativeMethods.imgproc_convexityDefects_InputArray(contour.Proxy, convexHull.Proxy, convexityDefects.Proxy));
 
-        GC.KeepAlive(contour);
-        GC.KeepAlive(convexHull);
-        GC.KeepAlive(convexityDefects);
-        convexityDefects.Fix();
+        GC.KeepAlive(contour.Source);
+        GC.KeepAlive(convexHull.Source);
+        GC.KeepAlive(convexityDefects.Source);
     }
 
     /// <summary>
@@ -3710,7 +2997,7 @@ static partial class Cv2
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
-        using var convexityDefectsVec = new VectorOfVec4i();
+        using var convexityDefectsVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexityDefects_Point(
                 contourArray, contourArray.Length,
@@ -3741,7 +3028,7 @@ static partial class Cv2
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
-        using var convexityDefectsVec = new VectorOfVec4i();
+        using var convexityDefectsVec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexityDefects_Point2f(
                 contourArray, contourArray.Length,
@@ -3757,14 +3044,10 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(InputArray contour)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        contour.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr, out var ret));
+            NativeMethods.imgproc_isContourConvex_InputArray(contour.Proxy, out var ret));
 
-        GC.KeepAlive(contour);
+        GC.KeepAlive(contour.Source);
         return ret != 0;
     }
 
@@ -3812,24 +3095,13 @@ static partial class Cv2
     /// <returns></returns>
     public static float IntersectConvexConvex(InputArray p1, InputArray p2, OutputArray p12, bool handleNested = true)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p2));
-        if (p12 is null)
-            throw new ArgumentNullException(nameof(p12));
-        p1.ThrowIfDisposed();
-        p2.ThrowIfDisposed();
-        p12.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_InputArray(
-                p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0, out var ret));
+                p1.Proxy, p2.Proxy, p12.Proxy, handleNested ? 1 : 0, out var ret));
 
-        GC.KeepAlive(p1);
-        GC.KeepAlive(p2);
-        GC.KeepAlive(p12);
-        p12.Fix();
+        GC.KeepAlive(p1.Source);
+        GC.KeepAlive(p2.Source);
+        GC.KeepAlive(p12.Source);
         return ret;
     }
 
@@ -3851,7 +3123,7 @@ static partial class Cv2
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
-        using var p12Vec = new VectorOfPoint();
+        using var p12Vec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_Point(
                 p1Array, p1Array.Length, p2Array, p2Array.Length, p12Vec.CvPtr, handleNested ? 1 : 0, out var ret));
@@ -3879,7 +3151,7 @@ static partial class Cv2
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
-        using var p12Vec = new VectorOfPoint2f();
+        using var p12Vec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_Point2f(
                 p1Array, p1Array.Length, p2Array, p2Array.Length,
@@ -3897,14 +3169,10 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(InputArray points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr, out var ret));
+            NativeMethods.imgproc_fitEllipse_InputArray(points.Proxy, out var ret));
 
-        GC.KeepAlive(points);
+        GC.KeepAlive(points.Source);
         return ret;
     }
 
@@ -3951,14 +3219,10 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(InputArray points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_fitEllipseAMS_InputArray(points.CvPtr, out var ret));
+            NativeMethods.imgproc_fitEllipseAMS_InputArray(points.Proxy, out var ret));
 
-        GC.KeepAlive(points);
+        GC.KeepAlive(points.Source);
         return ret;
     }
 
@@ -4013,14 +3277,10 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(InputArray points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        points.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_fitEllipseDirect_InputArray(points.CvPtr, out var ret));
+            NativeMethods.imgproc_fitEllipseDirect_InputArray(points.Proxy, out var ret));
 
-        GC.KeepAlive(points);
+        GC.KeepAlive(points.Source);
         return ret;
     }
 
@@ -4085,20 +3345,12 @@ static partial class Cv2
     public static void FitLine(InputArray points, OutputArray line, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (line is null)
-            throw new ArgumentNullException(nameof(line));
-        points.ThrowIfDisposed();
-        line.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_fitLine_InputArray(
-                points.CvPtr, line.CvPtr, (int) distType, param, reps, aeps));
+                points.Proxy, line.Proxy, (int) distType, param, reps, aeps));
 
-        GC.KeepAlive(points);
-        GC.KeepAlive(line);
-        line.Fix();
+        GC.KeepAlive(points.Source);
+        GC.KeepAlive(line.Source);
     }
 
     /// <summary>
@@ -4210,13 +3462,10 @@ static partial class Cv2
     /// <returns></returns>
     public static double PointPolygonTest(InputArray contour, Point2f pt, bool measureDist)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        contour.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.imgproc_pointPolygonTest_InputArray(
-                contour.CvPtr, pt, measureDist ? 1 : 0, out var ret));
-        GC.KeepAlive(contour);
+                contour.Proxy, pt, measureDist ? 1 : 0, out var ret));
+        GC.KeepAlive(contour.Source);
         return ret;
     }
 
@@ -4276,16 +3525,11 @@ static partial class Cv2
     public static RectanglesIntersectTypes RotatedRectangleIntersection(
         RotatedRect rect1, RotatedRect rect2, OutputArray intersectingRegion)
     {
-        if (intersectingRegion is null)
-            throw new ArgumentNullException(nameof(intersectingRegion));
-        intersectingRegion.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
-                rect1, rect2, intersectingRegion.CvPtr, out var ret));
+                rect1, rect2, intersectingRegion.Proxy, out var ret));
 
-        GC.KeepAlive(intersectingRegion);
-        intersectingRegion.Fix();
+        GC.KeepAlive(intersectingRegion.Source);
 
         return (RectanglesIntersectTypes)ret;
     }
@@ -4306,7 +3550,7 @@ static partial class Cv2
     public static RectanglesIntersectTypes RotatedRectangleIntersection(
         RotatedRect rect1, RotatedRect rect2, out Point2f[] intersectingRegion)
     {
-        using var intersectingRegionVec = new VectorOfPoint2f();
+        using var intersectingRegionVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_rotatedRectangleIntersection_vector(
                 rect1, rect2, intersectingRegionVec.CvPtr, out var ret));
@@ -4323,19 +3567,11 @@ static partial class Cv2
     /// <param name="colormap">colormap The colormap to apply</param>
     public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_applyColorMap1(src.CvPtr, dst.CvPtr, (int) colormap));
+            NativeMethods.imgproc_applyColorMap1(src.Proxy, dst.Proxy, (int) colormap));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
         
     /// <summary>
@@ -4346,22 +3582,11 @@ static partial class Cv2
     /// <param name="userColor">The colormap to apply of type CV_8UC1 or CV_8UC3 and size 256</param>
     public static void ApplyColorMap(InputArray src, OutputArray dst, InputArray userColor)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (userColor is null)
-            throw new ArgumentNullException(nameof(userColor));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        userColor.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_applyColorMap2(src.CvPtr, dst.CvPtr, userColor.CvPtr));
+            NativeMethods.imgproc_applyColorMap2(src.Proxy, dst.Proxy, userColor.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
-        GC.KeepAlive(userColor);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(userColor.Source);
     }
 
     #region Drawing
@@ -4398,15 +3623,10 @@ static partial class Cv2
         InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_line(img.CvPtr, pt1, pt2, color, thickness, (int) lineType, shift));
+            NativeMethods.imgproc_line(img.Proxy, pt1, pt2, color, thickness, (int) lineType, shift));
 
-        img.Fix();
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4431,16 +3651,11 @@ static partial class Cv2
         int shift = 0, 
         double tipLength = 0.1)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_arrowedLine(
-                img.CvPtr, pt1, pt2, color, thickness, (int) lineType, shift, tipLength));
+                img.Proxy, pt1, pt2, color, thickness, (int) lineType, shift, tipLength));
 
-        GC.KeepAlive(img);
-        img.Fix();
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4457,15 +3672,11 @@ static partial class Cv2
         InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_rectangle_InputOutputArray_Point(
-                img.CvPtr, pt1, pt2, color, thickness, (int) lineType, shift));
+                img.Proxy, pt1, pt2, color, thickness, (int) lineType, shift));
 
-        img.Fix();
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4482,14 +3693,10 @@ static partial class Cv2
         InputOutputArray img, Rect rect, Scalar color, int thickness = 1,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_rectangle_InputOutputArray_Rect(
-                img.CvPtr, rect, color, thickness, (int) lineType, shift));
-        img.Fix();
-        GC.KeepAlive(img);
+                img.Proxy, rect, color, thickness, (int) lineType, shift));
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4566,14 +3773,9 @@ static partial class Cv2
     public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_circle(img.CvPtr, center, radius, color, thickness, (int) lineType, shift));
-        img.Fix();
-        GC.KeepAlive(img);
+            NativeMethods.imgproc_circle(img.Proxy, center, radius, color, thickness, (int) lineType, shift));
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4593,16 +3795,11 @@ static partial class Cv2
         InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_ellipse1(
-                img.CvPtr, center, axes, angle, startAngle, endAngle, color, thickness, (int) lineType, shift));
+                img.Proxy, center, axes, angle, startAngle, endAngle, color, thickness, (int) lineType, shift));
 
-        img.Fix();
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4616,14 +3813,9 @@ static partial class Cv2
     public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgproc_ellipse2(img.CvPtr, box, color, thickness, (int) lineType));
-        img.Fix();
-        GC.KeepAlive(img);
+            NativeMethods.imgproc_ellipse2(img.Proxy, box, color, thickness, (int) lineType));
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4643,16 +3835,11 @@ static partial class Cv2
         InputOutputArray img, Point position, Scalar color,
         MarkerTypes markerType = MarkerTypes.Cross, int markerSize = 20, int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_drawMarker(
-                img.CvPtr, position, color, (int)markerType, markerSize, thickness, (int)lineType));
+                img.Proxy, position, color, (int)markerType, markerSize, thickness, (int)lineType));
 
-        img.Fix();
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -4688,18 +3875,12 @@ static partial class Cv2
     public static void FillConvexPoly(InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (pts is null) 
-            throw new ArgumentNullException(nameof(pts));
-        img.ThrowIfDisposed();
-        pts.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_fillConvexPoly_InputOutputArray(
-                img.CvPtr, pts.CvPtr, color, (int) lineType, shift));
-        GC.KeepAlive(img);
-        GC.KeepAlive(pts);
+                img.Proxy, pts.Proxy, color, (int) lineType, shift));
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(pts.Source);
     }
 
     /// <summary>
@@ -4717,8 +3898,6 @@ static partial class Cv2
     {
         if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts is null)
-            throw new ArgumentNullException(nameof(pts));
 
         img.ThrowIfDisposed();
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -4756,20 +3935,13 @@ static partial class Cv2
         InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (pts is null) 
-            throw new ArgumentNullException(nameof(pts));
-        img.ThrowIfDisposed();
-        pts.ThrowIfDisposed();
         var offset0 = offset.GetValueOrDefault(new Point());
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_fillPoly_InputOutputArray(
-                img.CvPtr, pts.CvPtr, color, (int) lineType, shift, offset0));
-        GC.KeepAlive(img);
-        GC.KeepAlive(pts);
-        img.Fix();
+                img.Proxy, pts.Proxy, color, (int) lineType, shift, offset0));
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(pts.Source);
     }
 
     /// <summary>
@@ -4793,8 +3965,6 @@ static partial class Cv2
     {
         if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts is null)
-            throw new ArgumentNullException(nameof(pts));
         img.ThrowIfDisposed();
 
         var ptsList = new List<Point[]>();
@@ -4830,19 +4000,11 @@ static partial class Cv2
         InputOutputArray img, InputArray pts, bool isClosed, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (pts is null)
-            throw new ArgumentNullException(nameof(pts));
-        img.ThrowIfDisposed();
-        pts.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_polylines_InputOutputArray(
-                img.CvPtr, pts.CvPtr, isClosed ? 1 : 0, color, thickness, (int) lineType, shift));
-        GC.KeepAlive(img);
-        img.Fix();
-        GC.KeepAlive(pts);
+                img.Proxy, pts.Proxy, isClosed ? 1 : 0, color, thickness, (int) lineType, shift));
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(pts.Source);
     }
 
     /// <summary>
@@ -4872,11 +4034,8 @@ static partial class Cv2
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (contours is null)
             throw new ArgumentNullException(nameof(contours));
-        image.ThrowIfNotReady();
 
         var offset0 = offset.GetValueOrDefault(new Point());
         var contoursArray = contours.Select(c => c.ToArray()).ToArray();
@@ -4887,7 +4046,7 @@ static partial class Cv2
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_drawContours_vector(
-                        image.CvPtr, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
+                        image.Proxy, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int) lineType, IntPtr.Zero, 0, maxLevel, offset0));
             }
             else
@@ -4895,12 +4054,11 @@ static partial class Cv2
                 var hierarchyVecs = hierarchy.Select(hi => hi.ToVec4i()).ToArray();
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_drawContours_vector(
-                        image.CvPtr, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
+                        image.Proxy, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int) lineType, hierarchyVecs, hierarchyVecs.Length, maxLevel, offset0));
             }
         }
-        GC.KeepAlive(image);
-        image.Fix();
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>
@@ -4926,27 +4084,23 @@ static partial class Cv2
         Scalar color,
         int thickness = 1,
         LineTypes lineType = LineTypes.Link8,
-        Mat? hierarchy = null,
+        InputArray hierarchy = default,
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (contours is null)
             throw new ArgumentNullException(nameof(contours));
-        image.ThrowIfNotReady();
 
         var offset0 = offset.GetValueOrDefault(new Point());
         var contoursPtr = contours.Select(x => x.CvPtr).ToArray();
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_drawContours_InputArray(
-                image.CvPtr, contoursPtr, contoursPtr.Length,
-                contourIdx, color, thickness, (int) lineType, ToPtr(hierarchy), maxLevel, offset0));
-        image.Fix();
-        GC.KeepAlive(image);
+                image.Proxy, contoursPtr, contoursPtr.Length,
+                contourIdx, color, thickness, (int) lineType, hierarchy.Proxy, maxLevel, offset0));
+        GC.KeepAlive(image.Source);
         GC.KeepAlive(contours);
-        GC.KeepAlive(hierarchy);
+        GC.KeepAlive(hierarchy.Source);
     }
 
     /// <summary>
@@ -4992,7 +4146,7 @@ static partial class Cv2
     public static Point[] Ellipse2Poly(Point center, Size axes, int angle,
         int arcStart, int arcEnd, int delta)
     {
-        using var vec = new VectorOfPoint();
+        using var vec = new StdVector<Point>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_ellipse2Poly_int(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr));
         return vec.ToArray();
@@ -5013,7 +4167,7 @@ static partial class Cv2
     public static Point2d[] Ellipse2Poly(Point2d center, Size2d axes, int angle,
         int arcStart, int arcEnd, int delta)
     {
-        using var vec = new VectorOfPoint2d();
+        using var vec = new StdVector<Point2d>();
         NativeMethods.HandleException(
             NativeMethods.imgproc_ellipse2Poly_double(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr));
         return vec.ToArray();
@@ -5036,18 +4190,14 @@ static partial class Cv2
         HersheyFonts fontFace, double fontScale, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
         if (string.IsNullOrEmpty(text))
             throw new ArgumentNullException(text);
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_putText(img.CvPtr, text, org, (int) fontFace, fontScale, color,
+            NativeMethods.imgproc_putText(img.Proxy, text, org, (int) fontFace, fontScale, color,
                 thickness, (int) lineType, bottomLeftOrigin ? 1 : 0));
 
-        img.Fix();
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -5084,5 +4234,186 @@ static partial class Cv2
         return ret;
     }
 
+    /// <summary>
+    /// Draws a text string using the specified TrueType font (OpenCV 5). Symbols that cannot be
+    /// rendered using the specified font are replaced by question marks.
+    /// </summary>
+    /// <param name="img">Image.</param>
+    /// <param name="text">Text string to be drawn (UTF-8 / Unicode is supported).</param>
+    /// <param name="org">Bottom-left corner of the first character of the printed text (see <see cref="PutTextFlags"/>).</param>
+    /// <param name="color">Text color.</param>
+    /// <param name="fontFace">The font to use for the text.</param>
+    /// <param name="size">Font size in pixels (by default) or pts.</param>
+    /// <param name="weight">Font weight, 100..1000 (400 is "regular", 700 is "bold"). 0 uses the weight set via <see cref="FontFace.SetInstance"/>.</param>
+    /// <param name="flags">Various flags, see <see cref="PutTextFlags"/>.</param>
+    /// <param name="wrap">Optional text wrapping range. Null uses the default behavior.</param>
+    /// <returns>The coordinates in pixels from where the text can be continued.</returns>
+    public static Point PutText(
+        InputOutputArray img, string text, Point org, Scalar color, FontFace fontFace, int size,
+        int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
+    {
+        if (text is null)
+            throw new ArgumentNullException(nameof(text));
+        if (fontFace is null)
+            throw new ArgumentNullException(nameof(fontFace));
+        fontFace.ThrowIfDisposed();
+
+        var w = wrap ?? new Range(0, 0);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_putText_FontFace(
+                img.Proxy, text, org, color, fontFace.CvPtr, size, weight, (int)flags, w.Start, w.End, out var ret));
+
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(fontFace);
+        return ret;
+    }
+
+    /// <summary>
+    /// Calculates the bounding rect for the text rendered with the specified TrueType font (OpenCV 5).
+    /// </summary>
+    /// <param name="imgsize">Size of the target image; can be empty.</param>
+    /// <param name="text">Text string to be measured (UTF-8 / Unicode is supported).</param>
+    /// <param name="org">Bottom-left corner of the first character (see <see cref="PutTextFlags"/>).</param>
+    /// <param name="fontFace">The font to use for the text.</param>
+    /// <param name="size">Font size in pixels (by default) or pts.</param>
+    /// <param name="weight">Font weight, 100..1000. 0 uses the default/instance weight.</param>
+    /// <param name="flags">Various flags, see <see cref="PutTextFlags"/>.</param>
+    /// <param name="wrap">Optional text wrapping range. Null uses the default behavior.</param>
+    /// <returns>The bounding rectangle of the text.</returns>
+    public static Rect GetTextSize(
+        Size imgsize, string text, Point org, FontFace fontFace, int size,
+        int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
+    {
+        if (text is null)
+            throw new ArgumentNullException(nameof(text));
+        if (fontFace is null)
+            throw new ArgumentNullException(nameof(fontFace));
+        fontFace.ThrowIfDisposed();
+
+        var w = wrap ?? new Range(0, 0);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_getTextSize_FontFace(
+                imgsize, text, org, fontFace.CvPtr, size, weight, (int)flags, w.Start, w.End, out var ret));
+
+        GC.KeepAlive(fontFace);
+        return ret;
+    }
+
     #endregion
+
+    /// <summary>
+    /// Draw axes of the world/object coordinate system from pose estimation.
+    /// </summary>
+    /// <param name="image">Input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+    /// <param name="cameraMatrix">Input 3x3 floating-point matrix of camera intrinsic parameters.</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients
+    /// \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$ of
+    /// 4, 5, 8, 12 or 14 elements.If the vector is empty, the zero distortion coefficients are assumed.</param>
+    /// <param name="rvec">Rotation vector (see @ref Rodrigues ) that, together with tvec , brings points from
+    /// the model coordinate system to the camera coordinate system.</param>
+    /// <param name="tvec">Translation vector.</param>
+    /// <param name="length">Length of the painted axes in the same unit than tvec (usually in meters).</param>
+    /// <param name="thickness">Line thickness of the painted axes.</param>
+    /// <remarks>This function draws the axes of the world/object coordinate system w.r.t. to the camera frame.
+    /// OX is drawn in red, OY in green and OZ in blue.</remarks>
+    public static void DrawFrameAxes(
+        InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray rvec, InputArray tvec, float length, int thickness = 3)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_drawFrameAxes(
+                image.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy, rvec.Proxy, tvec.Proxy, length, thickness));
+
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(rvec.Source);
+        GC.KeepAlive(tvec.Source);
+    }
+
+    /// <summary>
+    /// corrects lens distortion for the given camera matrix and distortion coefficients
+    /// </summary>
+    /// <param name="src">Input (distorted) image.</param>
+    /// <param name="dst">Output (corrected) image that has the same size and type as src .</param>
+    /// <param name="cameraMatrix"> Input camera matrix</param>
+    /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+    /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+    /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+    /// By default, it is the same as cameraMatrix but you may additionally scale 
+    /// and shift the result by using a different matrix.</param>
+    public static void Undistort(InputArray src, OutputArray dst,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        InputArray newCameraMatrix = default)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_undistort(src.Proxy, dst.Proxy, cameraMatrix.Proxy,
+                distCoeffs.Proxy, newCameraMatrix.Proxy));
+
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(newCameraMatrix.Source);
+    }
+
+    /// <summary>
+    /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
+    /// </summary>
+    /// <param name="cameraMatrix"></param>
+    /// <param name="distCoeffs"></param>
+    /// <param name="r"></param>
+    /// <param name="newCameraMatrix"></param>
+    /// <param name="size"></param>
+    /// <param name="m1Type"></param>
+    /// <param name="map1"></param>
+    /// <param name="map2"></param>
+    public static void InitUndistortRectifyMap(
+        InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray r, InputArray newCameraMatrix,
+        Size size, MatType m1Type, OutputArray map1, OutputArray map2)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_initUndistortRectifyMap(
+                cameraMatrix.Proxy, distCoeffs.Proxy, r.Proxy, newCameraMatrix.Proxy, size, m1Type, map1.Proxy, map2.Proxy));
+
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(r.Source);
+        GC.KeepAlive(newCameraMatrix.Source);
+        GC.KeepAlive(map1.Source);
+        GC.KeepAlive(map2.Source);
+    }
+
+    /// <summary>
+    /// initializes maps for cv::remap() for wide-angle
+    /// </summary>
+    /// <param name="cameraMatrix"></param>
+    /// <param name="distCoeffs"></param>
+    /// <param name="imageSize"></param>
+    /// <param name="destImageWidth"></param>
+    /// <param name="m1Type"></param>
+    /// <param name="map1"></param>
+    /// <param name="map2"></param>
+    /// <param name="projType"></param>
+    /// <param name="alpha"></param>
+    /// <returns></returns>
+    public static float InitWideAngleProjMap(
+        InputArray cameraMatrix, InputArray distCoeffs,
+        Size imageSize, int destImageWidth, MatType m1Type,
+        OutputArray map1, OutputArray map2,
+        ProjectionType projType, double alpha = 0)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_initWideAngleProjMap(
+                cameraMatrix.Proxy, distCoeffs.Proxy, imageSize,
+                destImageWidth, m1Type, map1.Proxy, map2.Proxy, (int) projType, alpha, out var ret));
+
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(map1.Source);
+        GC.KeepAlive(map2.Source);
+        return ret;
+    }
 }

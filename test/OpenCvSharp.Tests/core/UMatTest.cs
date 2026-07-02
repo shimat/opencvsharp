@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 #pragma warning disable CA1861
 
@@ -185,6 +185,38 @@ public class UMatTest
         mat2.CopyTo(umat2);
 
         Assert.Equal(1 * 3 + 2 * 4, umat1.Dot(umat2), 6);
+    }
+
+    [Fact]
+    public void SetToInputArray()
+    {
+        // UMat::setTo(InputArray value, ...) treats value as a scalar (one element per channel),
+        // not a same-shape fill source - a single-pixel Mat here plays that role.
+        using var value = Mat.FromPixelData(1, 1, MatType.CV_8UC1, new byte[] { 7 });
+
+        using var umat = UMat.Zeros(2, 2, MatType.CV_8UC1);
+        var ret = umat.SetTo(value);
+
+        Assert.True(ReferenceEquals(umat, ret));
+        AssertEquals(umat, MatType.CV_8UC1, new byte[,] { { 7, 7 }, { 7, 7 } });
+    }
+
+    [Fact]
+    public void Mul()
+    {
+        using var mat1 = Mat.FromPixelData(2, 1, MatType.CV_32FC1, new[] { 2f, 3f });
+        using var umat1 = new UMat(2, 1, MatType.CV_32FC1);
+        mat1.CopyTo(umat1);
+        using var mat2 = Mat.FromPixelData(2, 1, MatType.CV_32FC1, new[] { 4f, 5f });
+        using var umat2 = new UMat(2, 1, MatType.CV_32FC1);
+        mat2.CopyTo(umat2);
+
+        using var result = umat1.Mul(umat2, 2.0);
+
+        using var resultMat = new Mat();
+        result.CopyTo(resultMat);
+        Assert.Equal(16.0, resultMat.Get<float>(0), 3);
+        Assert.Equal(30.0, resultMat.Get<float>(1), 3);
     }
 
     [Fact]

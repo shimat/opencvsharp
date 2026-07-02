@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
 #pragma warning disable CA1707 // Underscore
@@ -11,47 +12,46 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_create(
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_prototxt_path,
-        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_caffe_model_path,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_create(
+        [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path,
         out IntPtr ptr
     );
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_setDownsamplingThreshold(
-        IntPtr obj,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_setDownsamplingThreshold(
+        OpenCvSafeHandle obj,
         double thresh
     );
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_setDetectorScales(
-        IntPtr obj,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_setDetectorScales(
+        OpenCvSafeHandle obj,
         IntPtr sizes
     );
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_setGradientThreshold(
-        IntPtr obj,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_setGradientThreshold(
+        OpenCvSafeHandle obj,
         double thresh
     );
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_decodeWithType(
-        IntPtr obj,
-        IntPtr inputImage,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus barcode_BarcodeDetector_decodeWithType(
+        OpenCvSafeHandle obj,
+        in InputArrayProxy inputImage,
         IntPtr points,
         IntPtr infos,
         IntPtr types
     );
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
-        IntPtr obj,
-        IntPtr inputImage,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus barcode_BarcodeDetector_detectAndDecodeWithType(
+        OpenCvSafeHandle obj,
+        in InputArrayProxy inputImage,
         IntPtr points,
         IntPtr infos,
         IntPtr types

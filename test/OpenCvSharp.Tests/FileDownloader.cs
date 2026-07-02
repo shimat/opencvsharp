@@ -1,4 +1,4 @@
-﻿#if NET48
+#if NET48
 using System.Net;
 #else
 using System.Net.Http;

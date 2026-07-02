@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -35,19 +35,11 @@ public class StaticSaliencySpectralResidual : Algorithm
     public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        image.ThrowIfDisposed();
-        saliencyMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeSaliency(
-                RawPtr, image.CvPtr, saliencyMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        saliencyMap.Fix();
+                Handle, image.Proxy, saliencyMap.Proxy, out var ret));
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
 
@@ -60,19 +52,11 @@ public class StaticSaliencySpectralResidual : Algorithm
     public virtual bool ComputeBinaryMap(InputArray saliencyMap, OutputArray binaryMap)
     {
         ThrowIfDisposed();
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        if (binaryMap is null)
-            throw new ArgumentNullException(nameof(binaryMap));
-        saliencyMap.ThrowIfDisposed();
-        binaryMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeBinaryMap(
-                RawPtr, saliencyMap.CvPtr, binaryMap.CvPtr, out var ret));
-        GC.KeepAlive(this);
-        GC.KeepAlive(saliencyMap);
-        binaryMap.Fix();
+                Handle, saliencyMap.Proxy, binaryMap.Proxy, out var ret));
+        GC.KeepAlive(saliencyMap.Source);
         return ret != 0;
     }
 
@@ -85,16 +69,14 @@ public class StaticSaliencySpectralResidual : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageWidth(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageWidth(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageWidth(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageWidth(Handle, value));
         }
     }
 
@@ -107,16 +89,14 @@ public class StaticSaliencySpectralResidual : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageHeight(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_getImageHeight(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageHeight(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_StaticSaliencySpectralResidual_setImageHeight(Handle, value));
         }
     }
 }

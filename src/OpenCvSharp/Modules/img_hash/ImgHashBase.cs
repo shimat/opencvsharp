@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ImgHash;
 
@@ -22,20 +22,10 @@ public abstract class ImgHashBase : Algorithm
     {
         ThrowIfDisposed();
 
-        if (inputArr is null)
-            throw new ArgumentNullException(nameof(inputArr));
-        if (outputArr is null)
-            throw new ArgumentNullException(nameof(outputArr));
-
-        inputArr.ThrowIfDisposed();
-        outputArr.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compute(RawPtr, inputArr.CvPtr, outputArr.CvPtr));
+            NativeMethods.img_hash_ImgHashBase_compute(Handle, inputArr.Proxy, outputArr.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(inputArr);
-        outputArr.Fix();
+        GC.KeepAlive(inputArr.Source);
     }
 
     /// <summary>
@@ -48,19 +38,10 @@ public abstract class ImgHashBase : Algorithm
     {
         ThrowIfDisposed();
 
-        if (hashOne is null)
-            throw new ArgumentNullException(nameof(hashOne));
-        if (hashTwo is null)
-            throw new ArgumentNullException(nameof(hashTwo));
-
-        hashOne.ThrowIfDisposed();
-        hashTwo.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compare(RawPtr, hashOne.CvPtr, hashTwo.CvPtr, out var ret));
-        GC.KeepAlive(this);
-        GC.KeepAlive(hashOne);
-        GC.KeepAlive(hashOne);
+            NativeMethods.img_hash_ImgHashBase_compare(Handle, hashOne.Proxy, hashTwo.Proxy, out var ret));
+        GC.KeepAlive(hashOne.Source);
+        GC.KeepAlive(hashOne.Source);
         return ret;
     }
 }

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -22,20 +22,13 @@ public abstract class ShapeDistanceExtractor : Algorithm
     public virtual float ComputeDistance(InputArray contour1, InputArray contour2)
     {
         ThrowIfDisposed();
-        if (contour1 is null)
-            throw new ArgumentNullException(nameof(contour1));
-        if (contour2 is null)
-            throw new ArgumentNullException(nameof(contour2));
-        contour1.ThrowIfDisposed();
-        contour2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
-                RawPtr, contour1.CvPtr, contour2.CvPtr, out var ret));
+                Handle, contour1.Proxy, contour2.Proxy, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(contour1);
-        GC.KeepAlive(contour2);
+        GC.KeepAlive(contour1.Source);
+        GC.KeepAlive(contour2.Source);
 
         return ret;
     }

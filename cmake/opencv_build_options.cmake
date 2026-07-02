@@ -1,4 +1,4 @@
-﻿# CMake initial cache for OpenCV full build.
+# CMake initial cache for OpenCV full build.
 # Used via: cmake -C cmake/opencv_build_options.cmake -S opencv ...
 # Platform-specific settings (CMAKE_INSTALL_PREFIX, OPENCV_EXTRA_MODULES_PATH,
 # CMAKE_PREFIX_PATH, generator) are passed directly by each build script/workflow.
@@ -35,7 +35,9 @@ set(BUILD_opencv_mcc                       OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_objc_bindings_generator   OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_rapid                     OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_reg                       OFF CACHE BOOL "" FORCE)
-set(BUILD_opencv_stereo                    OFF CACHE BOOL "" FORCE)
+# OpenCV 5: calib3d was split and StereoMatcher/StereoBM/StereoSGBM now live in
+# the main "stereo" module, so it must be built (ximgproc/disparity_filter needs it).
+set(BUILD_opencv_stereo                    ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_structured_light          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_surface_matching          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_videostab                 OFF CACHE BOOL "" FORCE)

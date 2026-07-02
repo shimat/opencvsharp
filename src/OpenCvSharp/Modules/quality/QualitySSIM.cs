@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -23,13 +23,9 @@ public class QualitySSIM : QualityBase
     /// <returns></returns>
     public static QualitySSIM Create(InputArray @ref)
     {
-        if (@ref is null)
-            throw new ArgumentNullException(nameof(@ref));
-        @ref.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var smartPtr));
-        GC.KeepAlive(@ref);
+            NativeMethods.quality_createQualitySSIM(@ref.Proxy, out var smartPtr));
+        GC.KeepAlive(@ref.Source);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_get(smartPtr, out var rawPtr));
         return new QualitySSIM(smartPtr, rawPtr);
     }
@@ -39,25 +35,17 @@ public class QualitySSIM : QualityBase
     /// </summary>
     /// <param name="ref"></param>
     /// <param name="cmp"></param>
-    /// <param name="qualityMap">output quality map, or null</param>
+    /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
-    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default)
     {
-        if (@ref is null)
-            throw new ArgumentNullException(nameof(@ref));
-        if (cmp is null)
-            throw new ArgumentNullException(nameof(cmp));
-        @ref.ThrowIfDisposed();
-        cmp.ThrowIfDisposed();
-        qualityMap?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.quality_QualitySSIM_staticCompute(
-                @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, out var ret));
+                @ref.Proxy, cmp.Proxy, qualityMap.Proxy, out var ret));
 
-        GC.KeepAlive(@ref);
-        GC.KeepAlive(cmp);
-        qualityMap?.Fix();
+        GC.KeepAlive(@ref.Source);
+        GC.KeepAlive(cmp.Source);
+        GC.KeepAlive(qualityMap.Source);
         return ret;
     }
 }

@@ -39,15 +39,11 @@ public class SuperpixelSLIC : Algorithm
         int regionSize = 10, 
         float ruler = 10.0f)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelSLIC(
-                image.CvPtr, (int)algorithm, regionSize, ruler, out var smartPtr));
+                image.Proxy, (int)algorithm, regionSize, ruler, out var smartPtr));
             
-        GC.KeepAlive(image); 
+        GC.KeepAlive(image.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_get(smartPtr, out var rawPtr));
         return new SuperpixelSLIC(smartPtr, rawPtr);
     }
@@ -62,8 +58,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-                RawPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, out var ret));
         return ret;
     }
 
@@ -85,8 +80,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_iterate(
-                RawPtr, numIterations));
-        GC.KeepAlive(this);
+                Handle, numIterations));
     }
 
     /// <summary>
@@ -100,15 +94,10 @@ public class SuperpixelSLIC : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabels(
-                RawPtr, labelsOut.CvPtr));
-        GC.KeepAlive(this);
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -120,15 +109,10 @@ public class SuperpixelSLIC : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabelContourMask(
-                RawPtr, image.CvPtr, thickLine ? 1 : 0));
-        GC.KeepAlive(this);
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 
     /// <summary>
@@ -145,8 +129,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-                RawPtr, minElementSize));
-        GC.KeepAlive(this);
+                Handle, minElementSize));
     }
 
     }

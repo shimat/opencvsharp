@@ -1,12 +1,13 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
-/// Class to get address of specified jagged array 
+/// Pins each row of a jagged array for the duration of a single native call and exposes the
+/// row addresses. Scoped, stack-only helper (use with <c>using</c>): no finalizer.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ArrayAddress2<T> : DisposableObject
+public ref struct ArrayAddress2<T>
     where T : unmanaged
 {
     private readonly T[][] array;
@@ -14,14 +15,14 @@ public class ArrayAddress2<T> : DisposableObject
     private readonly IntPtr[] ptr;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="array"></param>
     public ArrayAddress2(T[][] array)
     {
         this.array = array ?? throw new ArgumentNullException(nameof(array));
 
-        // T[][]をIntPtr[]に変換する
+        // Convert T[][] into an array of pinned-row pointers (IntPtr[]).
         ptr = new IntPtr[array.Length];
         gch = new GCHandle[array.Length];
         for (var i = 0; i < array.Length; i++)
@@ -29,15 +30,14 @@ public class ArrayAddress2<T> : DisposableObject
             var elem = array[i];
             if (elem is null/* || elem.Length == 0*/)
                 throw new ArgumentException($"array[{i}] is not valid array object.");
-                
-            // メモリ確保
+
             gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
             ptr[i] = gch[i].AddrOfPinnedObject();
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="enumerable"></param>
     public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
@@ -46,9 +46,9 @@ public class ArrayAddress2<T> : DisposableObject
     }
 
     /// <summary>
-    /// Releases unmanaged resources
+    /// Releases the pins.
     /// </summary>
-    protected override void DisposeUnmanaged()
+    public void Dispose()
     {
         foreach (var h in gch)
         {
@@ -57,25 +57,24 @@ public class ArrayAddress2<T> : DisposableObject
                 h.Free();
             }
         }
-        base.DisposeUnmanaged();
     }
 
     /// <summary>
     /// </summary>
-    public IntPtr[] GetPointer()
+    public readonly IntPtr[] GetPointer()
     {
         return ptr;
     }
 
-    /// <summary> 
+    /// <summary>
     /// </summary>
 #pragma warning disable CA1024 // Use properties where appropriate
-    public int GetDim1Length() => array.Length;
+    public readonly int GetDim1Length() => array.Length;
 #pragma warning restore CA1024 // Use properties where appropriate
 
-    /// <summary> 
+    /// <summary>
     /// </summary>
-    public int[] GetDim2Lengths()
+    public readonly int[] GetDim2Lengths()
     {
         var lengths = new int[array.Length];
         for (var i = 0; i < array.Length; i++)

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.XPhoto;
+using OpenCvSharp.XPhoto;
 using Xunit;
 
 namespace OpenCvSharp.Tests.XPhoto;

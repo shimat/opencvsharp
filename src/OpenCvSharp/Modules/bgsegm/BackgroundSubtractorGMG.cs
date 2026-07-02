@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -40,16 +40,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMaxFeatures(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMaxFeatures(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMaxFeatures(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMaxFeatures(Handle, value));
         }
     }
 
@@ -62,16 +60,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getDefaultLearningRate(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getDefaultLearningRate(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate(Handle, value));
         }
     }
 
@@ -84,16 +80,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getNumFrames(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getNumFrames(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setNumFrames(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setNumFrames(Handle, value));
         }
     }
 
@@ -106,16 +100,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getQuantizationLevels(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getQuantizationLevels(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setQuantizationLevels(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setQuantizationLevels(Handle, value));
         }
     }
 
@@ -128,16 +120,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getBackgroundPrior(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getBackgroundPrior(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setBackgroundPrior(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setBackgroundPrior(Handle, value));
         }
     }
 
@@ -150,16 +140,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getSmoothingRadius(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getSmoothingRadius(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setSmoothingRadius(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setSmoothingRadius(Handle, value));
         }
     }
 
@@ -172,16 +160,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getDecisionThreshold(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getDecisionThreshold(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setDecisionThreshold(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setDecisionThreshold(Handle, value));
         }
     }
 
@@ -194,16 +180,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getUpdateBackgroundModel(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getUpdateBackgroundModel(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel(Handle, value ? 1 : 0));
         }
     }
 
@@ -216,16 +200,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMinVal(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMinVal(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMinVal(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMinVal(Handle, value));
         }
     }
 
@@ -238,16 +220,14 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMaxVal(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_getMaxVal(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMaxVal(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.bgsegm_BackgroundSubtractorGMG_setMaxVal(Handle, value));
         }
     }
 

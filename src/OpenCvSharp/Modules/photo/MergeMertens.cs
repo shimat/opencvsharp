@@ -41,19 +41,13 @@ public sealed class MergeMertens : MergeExposures
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        dst.ThrowIfNotReady();
 
         var srcArray = src.Select(s => s.CvPtr).ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_MergeMertens_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr));
+            NativeMethods.photo_MergeMertens_process(Handle, srcArray, srcArray.Length, dst.Proxy));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(srcArray);
-        dst.Fix();
     }
 }

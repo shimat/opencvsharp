@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
@@ -18,7 +18,7 @@ public class EdgeFilterTest : TestBase
 
         if (Debugger.IsAttached)
         {
-            using var view = (image - dst) * 5 + dst;
+            using Mat view = (image - dst) * 5 + dst;
             Window.ShowImages(image, dst, view);
         }
     }

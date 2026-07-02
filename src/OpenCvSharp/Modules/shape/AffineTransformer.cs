@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -43,16 +43,14 @@ public class AffineTransformer : ShapeTransformer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_AffineTransformer_getFullAffine(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.shape_AffineTransformer_getFullAffine(Handle, out var ret));
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_AffineTransformer_setFullAffine(RawPtr, value ? 1 : 0));
-            GC.KeepAlive(this);
+                NativeMethods.shape_AffineTransformer_setFullAffine(Handle, value ? 1 : 0));
         }
     }
 
@@ -64,7 +62,6 @@ public class AffineTransformer : ShapeTransformer
     {
         NativeMethods.HandleException(
             NativeMethods.shape_Ptr_AffineTransformer_upcast(SmartPtr, out var basePtr));
-        GC.KeepAlive(this);
         return basePtr;
     }
 

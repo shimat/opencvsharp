@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.XImgProc;
+namespace OpenCvSharp.XImgProc;
 
 /// <summary>
 /// Gradient operators for EdgeDrawing.

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Dnn;
+using OpenCvSharp.Dnn;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn;
@@ -17,7 +17,7 @@ public class DnnTest : TestBase
         float scoreThreshold = 0.5f;
         float nmsThreshold = 0.4f;
 
-        CvDnn.NMSBoxes(bboxes, scores, scoreThreshold, nmsThreshold, out var indices);
+        Cv2.Dnn.NMSBoxes(bboxes, scores, scoreThreshold, nmsThreshold, out var indices);
 
         Assert.Equal(2, indices.Length);
         Assert.Equal(0, indices[0]);

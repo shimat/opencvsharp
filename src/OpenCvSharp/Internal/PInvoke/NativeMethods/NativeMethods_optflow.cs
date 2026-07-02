@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,39 +11,39 @@ static partial class NativeMethods
 {
     #region motempl
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_updateMotionHistory(
-        IntPtr silhouette, IntPtr mhi,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_motempl_updateMotionHistory(
+        in InputArrayProxy silhouette, in InputOutputArrayProxy mhi,
         double timestamp, double duration);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_calcMotionGradient(
-        IntPtr mhi, IntPtr mask, IntPtr orientation,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_motempl_calcMotionGradient(
+        in InputArrayProxy mhi, in OutputArrayProxy mask, in OutputArrayProxy orientation,
         double delta1, double delta2, int apertureSize);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_calcGlobalOrientation(
-        IntPtr orientation, IntPtr mask,
-        IntPtr mhi, double timestamp, double duration, out double returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_motempl_calcGlobalOrientation(
+        in InputArrayProxy orientation, in InputArrayProxy mask,
+        in InputArrayProxy mhi, double timestamp, double duration, out double returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_motempl_segmentMotion(
-        IntPtr mhi, IntPtr segmask, IntPtr boundingRects,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_motempl_segmentMotion(
+        in InputArrayProxy mhi, in OutputArrayProxy segmask, IntPtr boundingRects,
         double timestamp, double segThresh);
 
     #endregion
 
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSF1(
-        IntPtr from, IntPtr to, IntPtr flow,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSF1(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int layers,
         int averagingBlockSize,
         int maxFlow);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSF2(
-        IntPtr from, IntPtr to, IntPtr flow,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSF2(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int layers,
         int averagingBlockSize,
         int maxFlow,
@@ -57,8 +58,8 @@ static partial class NativeMethods
         double upscaleSigmaColor,
         double speedUpThr);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus optflow_calcOpticalFlowSparseToDense(
-        IntPtr from, IntPtr to, IntPtr flow,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus optflow_calcOpticalFlowSparseToDense(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy flow,
         int gridStep, int k, float sigma, int usePostProc, float fgsLambda, float fgsSigma);
 }

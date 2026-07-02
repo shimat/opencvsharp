@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XImgProc.Segmentation;
@@ -34,24 +34,14 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (regions is null)
-            throw new ArgumentNullException(nameof(regions));
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
-        img.ThrowIfDisposed();
-        regions.ThrowIfDisposed();
-        sizes.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                RawPtr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
+                Handle, img.Proxy, regions.Proxy, sizes.Proxy, imageId));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(img);
-        GC.KeepAlive(regions);
-        GC.KeepAlive(sizes);
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(regions.Source);
+        GC.KeepAlive(sizes.Source);
     }
 
     /// <summary>
@@ -64,8 +54,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(RawPtr, r1, r2, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(Handle, r1, r2, out var ret));
         return ret;
     }
 
@@ -78,8 +67,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(RawPtr, r1, r2));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(Handle, r1, r2));
     }
 }
 

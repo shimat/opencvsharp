@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -16,14 +16,9 @@ static partial class Cv2
     public static RotatedRect CamShift(
         InputArray probImage, ref Rect window, TermCriteria criteria)
     {
-        if (probImage is null)
-            throw new ArgumentNullException(nameof(probImage));
-        probImage.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.video_CamShift(
-                probImage.CvPtr, ref window, criteria, out var ret));
-        GC.KeepAlive(probImage);
+            NativeMethods.video_CamShift(probImage.Proxy, ref window, criteria, out var ret));
+        GC.KeepAlive(probImage.Source);
         return ret;
     }
 
@@ -37,14 +32,9 @@ static partial class Cv2
     public static int MeanShift(
         InputArray probImage, ref Rect window, TermCriteria criteria)
     {
-        if (probImage is null)
-            throw new ArgumentNullException(nameof(probImage));
-        probImage.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.video_meanShift(
-                probImage.CvPtr, ref window, criteria, out var ret));
-        GC.KeepAlive(probImage);
+            NativeMethods.video_meanShift(probImage.Proxy, ref window, criteria, out var ret));
+        GC.KeepAlive(probImage.Source);
         return ret;
     }
 
@@ -73,19 +63,9 @@ static partial class Cv2
         BorderTypes derivBorder = BorderTypes.Constant,
         bool tryReuseInputImage = true)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (pyramid is null)
-            throw new ArgumentNullException(nameof(pyramid));
-        img.ThrowIfDisposed();
-        pyramid.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_buildOpticalFlowPyramid1(
-                img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
-                (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
-        pyramid.Fix();
-        GC.KeepAlive(img);
+            NativeMethods.video_buildOpticalFlowPyramid1(img.Proxy, pyramid.Proxy, winSize, maxLevel, withDerivatives ? 1 : 0, (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -114,16 +94,10 @@ static partial class Cv2
         BorderTypes derivBorder = BorderTypes.Constant,
         bool tryReuseInputImage = true)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         using var pyramidVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.video_buildOpticalFlowPyramid2(
-                img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
-                (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
-        GC.KeepAlive(img);
+            NativeMethods.video_buildOpticalFlowPyramid2(img.Proxy, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0, (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
+        GC.KeepAlive(img.Source);
         pyramid = pyramidVec.ToArray();
         return ret;
     }
@@ -152,40 +126,15 @@ static partial class Cv2
         OpticalFlowFlags flags = OpticalFlowFlags.None,
         double minEigThreshold = 1e-4)
     {
-        if (prevImg is null)
-            throw new ArgumentNullException(nameof(prevImg));
-        if (nextImg is null)
-            throw new ArgumentNullException(nameof(nextImg));
-        if (prevPts is null)
-            throw new ArgumentNullException(nameof(prevPts));
-        if (nextPts is null)
-            throw new ArgumentNullException(nameof(nextPts));
-        if (status is null)
-            throw new ArgumentNullException(nameof(status));
-        if (err is null)
-            throw new ArgumentNullException(nameof(err));
-        prevImg.ThrowIfDisposed();
-        nextImg.ThrowIfDisposed();
-        prevPts.ThrowIfDisposed();
-        nextPts.ThrowIfNotReady();
-        status.ThrowIfNotReady();
-        err.ThrowIfNotReady();
-
         var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
         var criteria0 = criteria.GetValueOrDefault(
             TermCriteria.Both(30, 0.01));
 
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
-                prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
-                status.CvPtr, err.CvPtr, winSize0, maxLevel,
-                criteria0, (int) flags, minEigThreshold));
-        GC.KeepAlive(prevImg);
-        GC.KeepAlive(nextImg);
-        GC.KeepAlive(prevPts);
-        nextPts.Fix();
-        status.Fix();
-        err.Fix();
+            NativeMethods.video_calcOpticalFlowPyrLK_InputArray(prevImg.Proxy, nextImg.Proxy, prevPts.Proxy, nextPts.Proxy, status.Proxy, err.Proxy, winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
+        GC.KeepAlive(prevImg.Source);
+        GC.KeepAlive(nextImg.Source);
+        GC.KeepAlive(prevPts.Source);
     }
     /// <summary>
     /// computes sparse optical flow using multi-scale Lucas-Kanade algorithm
@@ -214,31 +163,22 @@ static partial class Cv2
         OpticalFlowFlags flags = OpticalFlowFlags.None,
         double minEigThreshold = 1e-4)
     {
-        if (prevImg is null)
-            throw new ArgumentNullException(nameof(prevImg));
-        if (nextImg is null)
-            throw new ArgumentNullException(nameof(nextImg));
         if (prevPts is null)
             throw new ArgumentNullException(nameof(prevPts));
         if (nextPts is null)
             throw new ArgumentNullException(nameof(nextPts));
-        prevImg.ThrowIfDisposed();
-        nextImg.ThrowIfDisposed();
 
         var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
         var criteria0 = criteria.GetValueOrDefault(
             TermCriteria.Both(30, 0.01));
 
-        using var nextPtsVec = new VectorOfPoint2f(nextPts);
-        using var statusVec = new VectorOfByte();
-        using var errVec = new VectorOfFloat();
+        using var nextPtsVec = new StdVector<Point2f>(nextPts);
+        using var statusVec = new StdVector<byte>();
+        using var errVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowPyrLK_vector(
-                prevImg.CvPtr, nextImg.CvPtr, prevPts, prevPts.Length,
-                nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr,
-                winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
-        GC.KeepAlive(prevImg);
-        GC.KeepAlive(nextImg);
+            NativeMethods.video_calcOpticalFlowPyrLK_vector(prevImg.Proxy, nextImg.Proxy, prevPts, prevPts.Length, nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr, winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
+        GC.KeepAlive(prevImg.Source);
+        GC.KeepAlive(nextImg.Source);
         nextPts = nextPtsVec.ToArray();
         status = statusVec.ToArray();
         err = errVec.ToArray();
@@ -268,23 +208,10 @@ static partial class Cv2
         InputOutputArray flow, double pyrScale, int levels, int winsize,
         int iterations, int polyN, double polySigma, OpticalFlowFlags flags)
     {
-        if (prev is null)
-            throw new ArgumentNullException(nameof(prev));
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
-        if (flow is null)
-            throw new ArgumentNullException(nameof(flow));
-        prev.ThrowIfDisposed();
-        next.ThrowIfDisposed();
-        flow.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_calcOpticalFlowFarneback(
-                prev.CvPtr, next.CvPtr, flow.CvPtr, pyrScale, levels, winsize, 
-                iterations, polyN, polySigma, (int) flags));
-        GC.KeepAlive(prev);
-        GC.KeepAlive(next);
-        flow.Fix();
+            NativeMethods.video_calcOpticalFlowFarneback(prev.Proxy, next.Proxy, flow.Proxy, pyrScale, levels, winsize, iterations, polyN, polySigma, (int) flags));
+        GC.KeepAlive(prev.Source);
+        GC.KeepAlive(next.Source);
     }
 
     /// <summary>
@@ -294,23 +221,14 @@ static partial class Cv2
     /// <param name="inputImage">single-channel input image to be warped to provide an image similar to templateImage, same type as templateImage.</param>
     /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
     /// <returns></returns>
-    public static double ComputeECC(InputArray templateImage, InputArray inputImage, InputArray? inputMask = null)
+    public static double ComputeECC(InputArray templateImage, InputArray inputImage, InputArray inputMask = default)
     {
-        if (templateImage is null)
-            throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        templateImage.ThrowIfDisposed();
-        inputImage.ThrowIfDisposed();
-        inputMask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.video_computeECC(
-                templateImage.CvPtr, inputImage.CvPtr, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+            NativeMethods.video_computeECC(templateImage.Proxy, inputImage.Proxy, inputMask.Proxy, out var ret));
 
-        GC.KeepAlive(templateImage);
-        GC.KeepAlive(inputImage);
-        GC.KeepAlive(inputMask);
+        GC.KeepAlive(templateImage.Source);
+        GC.KeepAlive(inputImage.Source);
+        GC.KeepAlive(inputMask.Source);
         return ret;
     }
 
@@ -335,30 +253,16 @@ static partial class Cv2
         InputOutputArray warpMatrix,
         MotionTypes motionType,
         TermCriteria criteria,
-        InputArray? inputMask = null, 
+        InputArray inputMask = default, 
         int gaussFiltSize = 5)
     {
-        if (templateImage is null)
-            throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        if (warpMatrix is null)
-            throw new ArgumentNullException(nameof(warpMatrix));
-        templateImage.ThrowIfDisposed();
-        inputImage.ThrowIfDisposed();
-        warpMatrix.ThrowIfDisposed();
-        inputMask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.video_findTransformECC1(
-                templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
-                criteria, inputMask?.CvPtr ?? IntPtr.Zero, gaussFiltSize,
-                out var ret));
+            NativeMethods.video_findTransformECC1(templateImage.Proxy, inputImage.Proxy, warpMatrix.Proxy, (int)motionType, criteria, inputMask.Proxy, gaussFiltSize, out var ret));
 
-        GC.KeepAlive(templateImage);
-        GC.KeepAlive(inputImage);
-        GC.KeepAlive(warpMatrix);
-        GC.KeepAlive(inputMask);
+        GC.KeepAlive(templateImage.Source);
+        GC.KeepAlive(inputImage.Source);
+        GC.KeepAlive(warpMatrix.Source);
+        GC.KeepAlive(inputMask.Source);
         return ret;
     }
 
@@ -382,30 +286,17 @@ static partial class Cv2
         InputOutputArray warpMatrix, 
         MotionTypes motionType = MotionTypes.Affine,
         TermCriteria? criteria = null,
-        InputArray? inputMask = null)
+        InputArray inputMask = default)
     {
-        if (templateImage is null)
-            throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        if (warpMatrix is null)
-            throw new ArgumentNullException(nameof(warpMatrix));
-        templateImage.ThrowIfDisposed();
-        inputImage.ThrowIfDisposed();
-        warpMatrix.ThrowIfDisposed();
-        inputMask?.ThrowIfDisposed();
-
         var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 50, 0.001));
 
         NativeMethods.HandleException(
-            NativeMethods.video_findTransformECC2(
-                templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
-                criteriaValue, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+            NativeMethods.video_findTransformECC2(templateImage.Proxy, inputImage.Proxy, warpMatrix.Proxy, (int)motionType, criteriaValue, inputMask.Proxy, out var ret));
 
-        GC.KeepAlive(templateImage);
-        GC.KeepAlive(inputImage);
-        GC.KeepAlive(warpMatrix);
-        GC.KeepAlive(inputMask);
+        GC.KeepAlive(templateImage.Source);
+        GC.KeepAlive(inputImage.Source);
+        GC.KeepAlive(warpMatrix.Source);
+        GC.KeepAlive(inputMask.Source);
         return ret;
     }
 }

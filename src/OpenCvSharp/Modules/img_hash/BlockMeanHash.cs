@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.ImgHash;
@@ -39,8 +39,7 @@ public class BlockMeanHash : ImgHashBase
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_BlockMeanHash_setMode(RawPtr, (int)mode));
-        GC.KeepAlive(this);
+            NativeMethods.img_hash_BlockMeanHash_setMode(Handle, (int)mode));
     }
 
     /// <summary>
@@ -50,10 +49,9 @@ public class BlockMeanHash : ImgHashBase
     public double[] GetMean()
     {
         ThrowIfDisposed();
-        using var meanVec = new VectorOfDouble();
+        using var meanVec = new StdVector<double>();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_BlockMeanHash_getMean(RawPtr, meanVec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.img_hash_BlockMeanHash_getMean(Handle, meanVec.CvPtr));
         return meanVec.ToArray();
     }
         

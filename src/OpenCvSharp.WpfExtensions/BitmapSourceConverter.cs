@@ -1,4 +1,4 @@
-﻿#if WINDOWS && (NET48 || NETCOREAPP3_1_OR_GREATER)
+#if WINDOWS && (NET48 || NETCOREAPP3_1_OR_GREATER)
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 // ReSharper disable RedundantArgumentDefaultValue
 
@@ -48,15 +48,15 @@ public class SolveEquationTest : TestBase
             {2, 3}};
         double[] y = [10, 26];
 
-        var x = new List<double>();
+        using var x = new Mat();
 
-        using var ia = InputArray.Create(a);
-        using var iy = InputArray.Create(y);
-        using var ox = OutputArray.Create(x);
+        var ia = InputArray.Create(a);
+        var iy = InputArray.Create(y);
+        var ox = OutputArray.Create(x);
         Cv2.Solve(ia, iy, ox, DecompTypes.LU);
 
-        testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);
-        Assert.Equal(4, x[0], 6);
-        Assert.Equal(6, x[1], 6);
+        testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));
+        Assert.Equal(4, x.At<double>(0), 6);
+        Assert.Equal(6, x.At<double>(1), 6);
     }
 }

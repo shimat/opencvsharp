@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1008 // Enums should have zero value
+#pragma warning disable CA1008 // Enums should have zero value
 
 namespace OpenCvSharp;
 
@@ -37,6 +37,12 @@ public enum InterpolationFlags
     /// Bit exact bilinear interpolation
     /// </summary>
     LinearExact = 5,
+
+    /// <summary>
+    /// Bit exact nearest neighbor interpolation. This will produce same results as
+    /// the nearest neighbor method in PIL, scikit-image or Matlab.
+    /// </summary>
+    NearestExact = 6,
 
     /// <summary>
     /// mask for interpolation codes

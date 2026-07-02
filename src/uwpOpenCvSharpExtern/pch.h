@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // MP! Force: Use of correct export declaration. Disable stl related export warnings (not sure how serious this is, ignoring for now).
 #define CV_EXPORTS __declspec(dllexport)

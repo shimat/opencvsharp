@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Quality;
+using OpenCvSharp.Quality;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Quality;
@@ -29,7 +29,7 @@ public class QualityGMSDTest : TestBase
         {
             Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
-            var value = QualityGMSD.Compute(refImage, targetImage, null);
+            var value = QualityGMSD.Compute(refImage, targetImage);
             Assert.Equal(0.0616, value[0], 4);
             Assert.Equal(0.0711, value[1], 4);
             Assert.Equal(0.05983, value[2], 5);

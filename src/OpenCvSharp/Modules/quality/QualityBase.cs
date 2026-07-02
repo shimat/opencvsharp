@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Quality;
 
@@ -22,8 +22,7 @@ public abstract class QualityBase : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityBase_empty(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.quality_QualityBase_empty(Handle, out var ret));
             return ret != 0;
         }
     }
@@ -34,12 +33,9 @@ public abstract class QualityBase : Algorithm
     /// <param name="dst"></param>
     public virtual void GetQualityMap(OutputArray dst)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_getQualityMap(RawPtr, dst.CvPtr));
-        dst.Fix();
+            NativeMethods.quality_QualityBase_getQualityMap(Handle, dst.Proxy));
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -49,14 +45,9 @@ public abstract class QualityBase : Algorithm
     /// <param name="img">comparison image, or image to evaluate for no-reference quality algorithms</param>
     public virtual Scalar Compute(InputArray img)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_compute(RawPtr, img.CvPtr, out var ret));
-        GC.KeepAlive(this);
-        GC.KeepAlive(img);
+            NativeMethods.quality_QualityBase_compute(Handle, img.Proxy, out var ret));
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -67,7 +58,6 @@ public abstract class QualityBase : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_clear(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.quality_QualityBase_clear(Handle));
     }
 }

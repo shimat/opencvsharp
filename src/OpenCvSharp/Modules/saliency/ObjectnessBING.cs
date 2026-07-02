@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -40,16 +40,12 @@ public class ObjectnessBING : Algorithm
     public virtual bool ComputeSaliency(InputArray image, out Vec4i[] objectnessBoundingBox)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
-        using var vec = new VectorOfVec4i();
+        using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_computeSaliency(
-                RawPtr, image.CvPtr, vec.CvPtr, out var ret));
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
+                Handle, image.Proxy, vec.CvPtr, out var ret));
+        GC.KeepAlive(image.Source);
         objectnessBoundingBox = vec.ToArray();
         return ret != 0;
     }
@@ -61,10 +57,9 @@ public class ObjectnessBING : Algorithm
     public float[] GetObjectnessValues()
     {
         ThrowIfDisposed();
-        using var vec = new VectorOfFloat();
+        using var vec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.saliency_ObjectnessBING_getobjectnessValues(RawPtr, vec.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.saliency_ObjectnessBING_getobjectnessValues(Handle, vec.CvPtr));
         return vec.ToArray();
     }
 
@@ -77,8 +72,7 @@ public class ObjectnessBING : Algorithm
         if (trainingPath is null)
             throw new ArgumentNullException(nameof(trainingPath));
         NativeMethods.HandleException(
-            NativeMethods.saliency_ObjectnessBING_setTrainingPath(RawPtr, trainingPath));
-        GC.KeepAlive(this);
+            NativeMethods.saliency_ObjectnessBING_setTrainingPath(Handle, trainingPath));
     }
 
     /// <summary>
@@ -90,8 +84,7 @@ public class ObjectnessBING : Algorithm
         if (resultsDir is null)
             throw new ArgumentNullException(nameof(resultsDir));
         NativeMethods.HandleException(
-            NativeMethods.saliency_ObjectnessBING_setBBResDir(RawPtr, resultsDir));
-        GC.KeepAlive(this);
+            NativeMethods.saliency_ObjectnessBING_setBBResDir(Handle, resultsDir));
     }
 
     /// <summary>
@@ -103,16 +96,14 @@ public class ObjectnessBING : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_getBase(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_getBase(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_setBase(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_setBase(Handle, value));
         }
     }
 
@@ -125,16 +116,14 @@ public class ObjectnessBING : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_getNSS(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_getNSS(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_setNSS(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_setNSS(Handle, value));
         }
     }
 
@@ -147,16 +136,14 @@ public class ObjectnessBING : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_getW(RawPtr, out var val));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_getW(Handle, out var val));
             return val;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.saliency_ObjectnessBING_setW(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.saliency_ObjectnessBING_setW(Handle, value));
         }
     }
 }

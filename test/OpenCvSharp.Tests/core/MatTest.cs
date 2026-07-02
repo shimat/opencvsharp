@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 
@@ -6,11 +6,36 @@ namespace OpenCvSharp.Tests.Core;
 
 public class MatTest : TestBase
 {
+    private static readonly int[] OneToFour = { 1, 2, 3, 4 };
+
     private readonly ITestOutputHelper testOutputHelper;
 
     public MatTest(ITestOutputHelper testOutputHelper)
     {
         this.testOutputHelper = testOutputHelper;
+    }
+
+    [Fact]
+    public void MatOfTElementIndexerAndEnumerable()
+    {
+        using var mat = new Mat<int>(2, 2);
+        mat[0, 0] = 1;
+        mat[0, 1] = 2;
+        mat[1, 0] = 3;
+        mat[1, 1] = 4;
+        Assert.Equal(4, mat[1, 1]);
+
+        var collected = new System.Collections.Generic.List<int>();
+        foreach (var v in mat)
+            collected.Add(v);
+        Assert.Equal(OneToFour, collected);
+    }
+
+    [Fact]
+    public void MatOfTTypeMismatchThrows()
+    {
+        using var byteMat = new Mat(3, 3, MatType.CV_8UC1, Scalar.All(0));
+        Assert.Throws<OpenCvSharpException>(() => new Mat<float>(byteMat));
     }
 
     [Fact]
@@ -211,10 +236,10 @@ public class MatTest : TestBase
     {
         using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
-        using var mask = src.GreaterThan(128);
+        using Mat mask = src.GreaterThan(128);
         src.CopyTo(dst, mask);
         ShowImagesWhenDebugMode(dst);
-        src.CopyTo(dst, null);
+        src.CopyTo(dst, default);
         ShowImagesWhenDebugMode(dst);
     }
 
@@ -223,7 +248,8 @@ public class MatTest : TestBase
     {
         using var graySrc = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var resultImage = graySrc.Clone();
-        using var mask = graySrc.InRange(100, 200);
+        using var mask = new Mat();
+        Cv2.InRange(graySrc, new Scalar(100), new Scalar(200), mask);
         var ret = resultImage.SetTo(0, mask);
         ShowImagesWhenDebugMode(resultImage);
         Assert.True(ReferenceEquals(resultImage, ret));
@@ -231,6 +257,35 @@ public class MatTest : TestBase
         ret = resultImage.SetTo(0, null);
         ShowImagesWhenDebugMode(resultImage);
         Assert.True(ReferenceEquals(resultImage, ret));
+    }
+
+    [Fact]
+    public void SetToInputArray()
+    {
+        // Mat::setTo(InputArray value, ...) treats value as a scalar (one element per channel),
+        // not a same-shape fill source - a single-pixel Mat here plays that role.
+        using var mat = Mat.ZerosMat(3, 3, MatType.CV_8UC1);
+        using var value = Mat.FromPixelData(1, 1, MatType.CV_8UC1, new byte[] { 7 });
+
+        var ret = mat.SetTo(value);
+
+        Assert.True(ReferenceEquals(mat, ret));
+        Assert.Equal(7, mat.Get<byte>(0, 0));
+        Assert.Equal(7, mat.Get<byte>(2, 2));
+    }
+
+    [Fact]
+    public void Cross()
+    {
+        using var a = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[] { 1, 0, 0 });
+        using var b = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[] { 0, 1, 0 });
+
+        using var c = a.Cross(b);
+
+        // c is a 1x3 row vector: Get<T>(i0) addresses row i0, so columns need the 2-index accessor.
+        Assert.Equal(0, c.Get<double>(0, 0), 6);
+        Assert.Equal(0, c.Get<double>(0, 1), 6);
+        Assert.Equal(1, c.Get<double>(0, 2), 6);
     }
 
 #if NET5_0_OR_GREATER
@@ -334,8 +389,7 @@ public class MatTest : TestBase
     {
         var data = new byte[] { 1, 10, 100 };
         using var mat = Mat.FromPixelData(3, 1, MatType.CV_8UC1, data);
-        using var tExpr = mat.T();
-        using var t = tExpr.ToMat();
+        using Mat t = mat.T();
 
         Assert.Equal(1, t.Rows);
         Assert.Equal(3, t.Cols);
@@ -351,8 +405,7 @@ public class MatTest : TestBase
     {
         var data = new double[] { 1, 2, 3, 4 };
         using var mat = Mat.FromPixelData(2, 2, MatType.CV_64FC1, data);
-        using var invExpr = mat.Inv();
-        using var inv = invExpr.ToMat();
+        using Mat inv = mat.Inv();
 
         Assert.Equal(2, inv.Rows);
         Assert.Equal(2, inv.Cols);
@@ -1033,7 +1086,7 @@ public class MatTest : TestBase
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
         var rect = new Rect(2, 2, 7, 5);
-        mat.Rectangle(rect, new Scalar(expectedValue), -1);
+        Cv2.Rectangle(mat, rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat.SubMat(rect);
         Assert.Equal(rect.Width, subMat.Cols);
@@ -1056,7 +1109,7 @@ public class MatTest : TestBase
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
         var rect = new Rect(2, 2, 7, 5);
-        mat.Rectangle(rect, new Scalar(expectedValue), -1);
+        Cv2.Rectangle(mat, rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat[rect];
         Assert.Equal(rect.Width, subMat.Cols);
@@ -1146,7 +1199,8 @@ public class MatTest : TestBase
         using var mat1 = Mat.FromPixelData(8, 8, MatType.CV_32FC1, ptr);
         for (long i = 0; i < 1000000; i++)
         {
-            using var mat2 = mat1.Idct();
+            using var mat2 = new Mat();
+            Cv2.Idct(mat1, mat2);
             GC.KeepAlive(mat2);
         }
 
@@ -1160,7 +1214,7 @@ public class MatTest : TestBase
     public void TestStreamWriting()
     {
         using var m = new Mat(new Size(87, 92), MatType.CV_8UC1);
-        m.Randn(Scalar.RandomColor(), new Scalar(7));
+        Cv2.Randn(m, Scalar.RandomColor(), new Scalar(7));
 
         using var stream = new System.IO.MemoryStream();
         stream.Write([1, 2, 3, 4], 0, 4);

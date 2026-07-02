@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
@@ -19,19 +19,12 @@ public static partial class NativeMethods
 {
     public const string DllExtern = "OpenCvSharpExtern";
 
-    //public const string DllFfmpegX86 = "opencv_videoio_ffmpeg430";
-    //public const string DllFfmpegX64 = "opencv_videoio_ffmpeg430_64";
-
     //private const UnmanagedType StringUnmanagedType = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeNotWindows =
-#if NETSTANDARD2_0
-        UnmanagedType.LPStr;
-#else
         UnmanagedType.LPUTF8Str;
-#endif
 
     /// <summary>
     /// Is tried P/Invoke once
@@ -43,56 +36,45 @@ public static partial class NativeMethods
     /// </summary>
     static NativeMethods()
     {
-        LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
+        LoadLibraries();
     }
 
-#pragma warning disable CA1801
     public static void HandleException(ExceptionStatus status)
     {
-#if DOTNETCORE
-        // Check if there has been an exception
-        if (status == ExceptionStatus.Occurred /*&& IsUnix()*/) // thrown can be 1 when unix 
+        // The native wrapper caught an exception and reported it through the status
+        // return value (on every platform). Surface the recorded details as a managed exception.
+        if (status == ExceptionStatus.Occurred)
         {
             ExceptionHandler.ThrowPossibleException();
         }
-#else
-#endif
     }
-#pragma warning restore CA1801
 
     /// <summary>
-    /// Load DLL files dynamically using Win32 LoadLibrary
+    /// Triggers native library resolution and installs the default error handler.
     /// </summary>
-    /// <param name="additionalPaths"></param>
-    public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
+    public static void LoadLibraries()
     {
         if (IsWasm())
         {
             return;
         }
 
-        if (IsUnix())
-        {
-#if DOTNETCORE
-            ExceptionHandler.RegisterExceptionCallback();
-#endif
-            return;
-        }
+        // On both Windows and *nix, the native library is resolved by the .NET runtime's
+        // default probing (the runtimes/{rid}/native/ layout produced by the
+        // OpenCvSharp5.runtime.* packages). The P/Invoke below triggers the load and installs
+        // the default error handler.
+        InstallDefaultErrorHandler();
+    }
 
-        var ap = (additionalPaths is null) ? [] : additionalPaths.ToArray();
-
-        /*
-        if (Environment.Is64BitProcess)
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64, ap);
-        else
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
-        //*/
-        WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
-
-        // Redirection of error occurred in native library 
-        var zero = IntPtr.Zero;
-        var current = redirectError(ErrorHandlerThrowException, zero, ref zero);
-        GC.KeepAlive(current);
+    /// <summary>
+    /// Installs the default native (managed-free) OpenCV error handler. It only mutes
+    /// OpenCV's stderr dump; error details are captured natively and surfaced as a managed
+    /// exception via <see cref="HandleException"/> on each call's returned status.
+    /// Use <see cref="OpenCvSharp.Cv2.SetErrorHandler"/> to override it.
+    /// </summary>
+    private static void InstallDefaultErrorHandler()
+    {
+        HandleException(core_setSilentErrorHandler());
     }
 
     /// <summary>
@@ -114,7 +96,7 @@ public static partial class NativeMethods
         }
         catch (DllNotFoundException e)
         {
-            var exception = PInvokeHelper.CreateException(e);
+            var exception = new OpenCvSharpException(e.Message, e);
             try{Console.WriteLine(exception.Message); }
             // ReSharper disable once EmptyGeneralCatchClause
             catch { }
@@ -125,7 +107,7 @@ public static partial class NativeMethods
         }
         catch (BadImageFormatException e)
         {
-            var exception = PInvokeHelper.CreateException(e);
+            var exception = new OpenCvSharpException(e.Message, e);
             try { Console.WriteLine(exception.Message); }
             // ReSharper disable once EmptyGeneralCatchClause
             catch { }
@@ -163,14 +145,9 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsUnix()
     {
-#if NETCOREAPP3_1_OR_GREATER
         return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
+               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
-#else
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-#endif
     }
 
     /// <summary>
@@ -188,19 +165,8 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsWasm()
     {
-#if NET5_0_OR_GREATER
         return RuntimeInformation.OSArchitecture == Architecture.Wasm;
-#else
-        return false;
-#endif
     }
-
-    /// <summary>
-    /// Custom error handler to be thrown by OpenCV
-    /// </summary>
-    public static readonly CvErrorCallback ErrorHandlerThrowException =
-        // ReSharper disable once UnusedParameter.Local
-        (status, funcName, errMsg, fileName, line, userData) => throw new OpenCVException(status, funcName, errMsg, fileName, line);
 
     /// <summary>
     /// Custom error handler to ignore all OpenCV errors

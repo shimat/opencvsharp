@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Aruco;
@@ -12,7 +12,7 @@ public class CharucoDetector : CvObject
     /// Creates CharucoDetector with default parameters.
     /// </summary>
     public CharucoDetector(CharucoBoard board)
-        : this(board, null, null, 2, false, true, new DetectorParameters(), new RefineParameters())
+        : this(board, default, default, 2, false, true, new DetectorParameters(), new RefineParameters())
     {
     }
 
@@ -21,8 +21,8 @@ public class CharucoDetector : CvObject
     /// </summary>
     public CharucoDetector(
         CharucoBoard board,
-        InputArray? cameraMatrix,
-        InputArray? distCoeffs,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
         int minMarkers = 2,
         bool tryRefineMarkers = false,
         bool checkMarkers = true,
@@ -32,8 +32,8 @@ public class CharucoDetector : CvObject
         if (board is null)
             throw new ArgumentNullException(nameof(board));
         board.ThrowIfDisposed();
-        if (cameraMatrix is null != distCoeffs is null)
-            throw new ArgumentException("cameraMatrix and distCoeffs must both be null or both non-null.");
+        if (cameraMatrix.IsEmpty != distCoeffs.IsEmpty)
+            throw new ArgumentException("cameraMatrix and distCoeffs must both be omitted or both provided.");
 
         var dp = detectorParams ?? new DetectorParameters();
         var rp = refineParams ?? new RefineParameters();
@@ -41,8 +41,8 @@ public class CharucoDetector : CvObject
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_create(
                 board.CvPtr,
-                cameraMatrix?.CvPtr ?? IntPtr.Zero,
-                distCoeffs?.CvPtr ?? IntPtr.Zero,
+                cameraMatrix.Proxy,
+                distCoeffs.Proxy,
                 minMarkers, tryRefineMarkers, checkMarkers,
                 ref dp, ref rp,
                 out var ptr));
@@ -51,8 +51,8 @@ public class CharucoDetector : CvObject
             static h => NativeMethods.HandleException(NativeMethods.aruco_CharucoDetector_delete(h))));
 
         GC.KeepAlive(board);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
     }
 
     /// <summary>
@@ -65,18 +65,16 @@ public class CharucoDetector : CvObject
         out Point2f[][] markerCorners,
         out int[] markerIds)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
-        using var charucoCornersVec = new VectorOfPoint2f();
-        using var charucoIdsVec = new VectorOfInt32();
+        using var charucoCornersVec = new StdVector<Point2f>();
+        using var charucoIdsVec = new StdVector<int>();
         using var markerCornersVec = new VectorOfVectorPoint2f();
-        using var markerIdsVec = new VectorOfInt32();
+        using var markerIdsVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectBoard(
-                CvPtr, image.CvPtr,
+                Handle, image.Proxy,
                 charucoCornersVec.CvPtr, charucoIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 
@@ -85,8 +83,7 @@ public class CharucoDetector : CvObject
         markerCorners = markerCornersVec.ToArray();
         markerIds = markerIdsVec.ToArray();
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>
@@ -99,18 +96,16 @@ public class CharucoDetector : CvObject
         out Point2f[][] markerCorners,
         out int[] markerIds)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
         using var diamondCornersVec = new VectorOfVectorPoint2f();
-        using var diamondIdsVec = new VectorOfVec4i();
+        using var diamondIdsVec = new StdVector<Vec4i>();
         using var markerCornersVec = new VectorOfVectorPoint2f();
-        using var markerIdsVec = new VectorOfInt32();
+        using var markerIdsVec = new StdVector<int>();
 
         NativeMethods.HandleException(
             NativeMethods.aruco_CharucoDetector_detectDiamonds(
-                CvPtr, image.CvPtr,
+                Handle, image.Proxy,
                 diamondCornersVec.CvPtr, diamondIdsVec.CvPtr,
                 markerCornersVec.CvPtr, markerIdsVec.CvPtr));
 
@@ -119,7 +114,6 @@ public class CharucoDetector : CvObject
         markerCorners = markerCornersVec.ToArray();
         markerIds = markerIdsVec.ToArray();
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 }

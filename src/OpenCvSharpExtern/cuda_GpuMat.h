@@ -246,7 +246,7 @@ CVAPI(uint64) cuda_GpuMat_step1(GpuMat *obj)
 {
     return static_cast<uint64>(obj->step1());
 }
-CVAPI(MyCvSize) cuda_GpuMat_size(GpuMat *obj)
+CVAPI(interop::Size) cuda_GpuMat_size(GpuMat *obj)
 {
     return c(obj->size());
 }

@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.XImgProc;
+namespace OpenCvSharp.XImgProc;
 
 /// <summary>
 /// Specifies the binarization method to use in cv::ximgproc::niBlackThreshold

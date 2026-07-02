@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -10,132 +11,132 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_new1(out IntPtr returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_new2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_new1(out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_new2(
         Size winSize, Size blockSize, Size blockStride, Size cellSize,
-        int nbins, int derivAperture, double winSigma, [MarshalAs(UnmanagedType.I4)] HistogramNormType histogramNormType,
+        int nbins, int derivAperture, double winSigma, HistogramNormType histogramNormType,
         double l2HysThreshold, int gammaCorrection, int nlevels, out IntPtr returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_new3(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_new3(
         [MarshalAs(UnmanagedType.LPStr)] string fileName, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_delete(IntPtr self);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_delete(IntPtr self);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_getDescriptorSize(IntPtr self, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_getDescriptorSize(OpenCvSafeHandle self, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_checkDetectorSize(IntPtr self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_checkDetectorSize(OpenCvSafeHandle self, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_getWinSigma(IntPtr self, out double returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_getWinSigma(OpenCvSafeHandle self, out double returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_setSVMDetector(IntPtr self, IntPtr svmDetector);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_setSVMDetector(OpenCvSafeHandle self, IntPtr svmDetector);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_load(
-        IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objName, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_load(
+        OpenCvSafeHandle self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objName, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_save(
-        IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objName);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_save(
+        OpenCvSafeHandle self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objName);
         
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_compute(
-        IntPtr self, IntPtr img, IntPtr descriptors,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_compute(
+        OpenCvSafeHandle self, IntPtr img, IntPtr descriptors,
         Size winStride, Size padding, [In] Point[]? locations, int locationsLength);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detect1(
-        IntPtr self, IntPtr img, IntPtr foundLocations,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detect1(
+        OpenCvSafeHandle self, IntPtr img, IntPtr foundLocations,
         double hitThreshold, Size winStride, Size padding, [In] Point[]? searchLocations, int searchLocationsLength);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detect2(
-        IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detect2(
+        OpenCvSafeHandle self, IntPtr img, IntPtr foundLocations, IntPtr weights,
         double hitThreshold, Size winStride, Size padding, [In] Point[]? searchLocations, int searchLocationsLength);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detectMultiScale1(
-        IntPtr self, IntPtr img, IntPtr foundLocations,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detectMultiScale1(
+        OpenCvSafeHandle self, IntPtr img, IntPtr foundLocations,
         double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detectMultiScale2(
-        IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detectMultiScale2(
+        OpenCvSafeHandle self, IntPtr img, IntPtr foundLocations, IntPtr foundWeights,
         double hitThreshold, Size winStride, Size padding, double scale, int groupThreshold);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_computeGradient(
-        IntPtr self, IntPtr img, IntPtr grad, IntPtr angleOfs, Size paddingTL, Size paddingBR);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_computeGradient(
+        OpenCvSafeHandle self, IntPtr img, IntPtr grad, IntPtr angleOfs, Size paddingTL, Size paddingBR);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detectROI(
-        IntPtr obj, IntPtr img,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detectROI(
+        OpenCvSafeHandle obj, IntPtr img,
         Point[] locations, int locationsLength,
         IntPtr foundLocations, IntPtr confidences,
         double hitThreshold, Size winStride, Size padding);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_detectMultiScaleROI(
-        IntPtr obj, IntPtr img, IntPtr foundLocations,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_detectMultiScaleROI(
+        OpenCvSafeHandle obj, IntPtr img, IntPtr foundLocations,
         IntPtr roiScales, IntPtr roiLocations, IntPtr roiConfidences,
         double hitThreshold, int groupThreshold);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_groupRectangles(IntPtr obj,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_groupRectangles(OpenCvSafeHandle obj,
         IntPtr rectList, IntPtr weights, int groupThreshold, double eps);
 
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_winSize_get(IntPtr self, out Size returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_blockSize_get(IntPtr self, out Size returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_blockStride_get(IntPtr self, out Size returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_cellSize_get(IntPtr self, out Size returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_nbins_get(IntPtr self, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_derivAperture_get(IntPtr self, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_winSigma_get(IntPtr self, out double returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_histogramNormType_get(IntPtr self, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_L2HysThreshold_get(IntPtr self, out double returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_gammaCorrection_get(IntPtr self, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_nlevels_get(IntPtr self, out int returnValue);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_signedGradient_get(IntPtr self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_winSize_get(OpenCvSafeHandle self, out Size returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_blockSize_get(OpenCvSafeHandle self, out Size returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_blockStride_get(OpenCvSafeHandle self, out Size returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_cellSize_get(OpenCvSafeHandle self, out Size returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_nbins_get(OpenCvSafeHandle self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_derivAperture_get(OpenCvSafeHandle self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_winSigma_get(OpenCvSafeHandle self, out double returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_histogramNormType_get(OpenCvSafeHandle self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_L2HysThreshold_get(OpenCvSafeHandle self, out double returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_gammaCorrection_get(OpenCvSafeHandle self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_nlevels_get(OpenCvSafeHandle self, out int returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_signedGradient_get(OpenCvSafeHandle self, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_winSize_set(IntPtr self, Size value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_blockSize_set(IntPtr self, Size value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_blockStride_set(IntPtr self, Size value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_cellSize_set(IntPtr self, Size value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_nbins_set(IntPtr self, int value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_derivAperture_set(IntPtr self, int value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_winSigma_set(IntPtr self, double value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_histogramNormType_set(IntPtr self, int value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_L2HysThreshold_set(IntPtr self, double value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_gammaCorrection_set(IntPtr self, int value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_nlevels_set(IntPtr self, int value);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus objdetect_HOGDescriptor_signedGradient_set(IntPtr self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_winSize_set(OpenCvSafeHandle self, Size value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_blockSize_set(OpenCvSafeHandle self, Size value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_blockStride_set(OpenCvSafeHandle self, Size value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_cellSize_set(OpenCvSafeHandle self, Size value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_nbins_set(OpenCvSafeHandle self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_derivAperture_set(OpenCvSafeHandle self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_winSigma_set(OpenCvSafeHandle self, double value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_histogramNormType_set(OpenCvSafeHandle self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_L2HysThreshold_set(OpenCvSafeHandle self, double value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_gammaCorrection_set(OpenCvSafeHandle self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_nlevels_set(OpenCvSafeHandle self, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus objdetect_HOGDescriptor_signedGradient_set(OpenCvSafeHandle self, int value);
 }

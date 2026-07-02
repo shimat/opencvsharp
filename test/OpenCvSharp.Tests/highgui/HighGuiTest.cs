@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace OpenCvSharp.Tests.HighGui;
 
@@ -26,7 +26,6 @@ public class HighGuiTest : TestBase
         using (var window = new Window("window01"))
         {
             window.ShowImage(img);
-            Assert.NotEqual(IntPtr.Zero, window.GetHandle());
             Cv2.WaitKey();
         }
         using (var window = new Window("window02"))
@@ -35,5 +34,25 @@ public class HighGuiTest : TestBase
             window.ShowImage(img);
             Cv2.WaitKey();
         }
+    }
+
+    // ArrayProxy migration coverage (issue #1976): SelectROI/SelectROIs need interactive
+    // mouse input (space/enter to confirm, esc/c to cancel), so they can only run manually.
+    // ReSharper disable once InconsistentNaming
+    [ExplicitFact]
+    public void SelectROI()
+    {
+        using var img = new Mat("_data/image/mandrill.png");
+        var roi = Cv2.SelectROI("Select a ROI and press space/enter", img);
+        Console.WriteLine(roi);
+    }
+
+    // ReSharper disable once InconsistentNaming
+    [ExplicitFact]
+    public void SelectROIs()
+    {
+        using var img = new Mat("_data/image/mandrill.png");
+        var rois = Cv2.SelectROIs("Select ROIs, space/enter for each, esc to finish", img);
+        Console.WriteLine(string.Join(", ", rois));
     }
 }

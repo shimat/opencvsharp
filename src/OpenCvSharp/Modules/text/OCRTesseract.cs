@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Text;
@@ -72,12 +72,12 @@ public sealed class OCRTesseract : BaseOCR
         image.ThrowIfDisposed();
 
         using var outputTextString = new StdString();
-        using var componentRectsVector = new VectorOfRect();
+        using var componentRectsVector = new StdVector<Rect>();
         using var componentTextsVector = new VectorOfString();
-        using var componentConfidencesVector = new VectorOfFloat();
+        using var componentConfidencesVector = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run1(
-                RawPtr,
+                Handle,
                 image.CvPtr,
                 outputTextString.CvPtr,
                 componentRectsVector.CvPtr,
@@ -89,7 +89,6 @@ public sealed class OCRTesseract : BaseOCR
         componentTexts = componentTextsVector.ToArray();
         componentConfidences = componentConfidencesVector.ToArray();
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 
@@ -126,12 +125,12 @@ public sealed class OCRTesseract : BaseOCR
         mask.ThrowIfDisposed();
 
         using var outputTextString = new StdString();
-        using var componentRectsVector = new VectorOfRect();
+        using var componentRectsVector = new StdVector<Rect>();
         using var componentTextsVector = new VectorOfString();
-        using var componentConfidencesVector = new VectorOfFloat();
+        using var componentConfidencesVector = new StdVector<float>();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run2(
-                RawPtr,
+                Handle,
                 image.CvPtr,
                 mask.CvPtr,
                 outputTextString.CvPtr,
@@ -144,7 +143,6 @@ public sealed class OCRTesseract : BaseOCR
         componentTexts = componentTextsVector.ToArray();
         componentConfidences = componentConfidencesVector.ToArray();
 
-        GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
 
@@ -158,9 +156,8 @@ public sealed class OCRTesseract : BaseOCR
             throw new ArgumentNullException(nameof(charWhitelist));
 
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_setWhiteList(RawPtr, charWhitelist));
+            NativeMethods.text_OCRTesseract_setWhiteList(Handle, charWhitelist));
 
-        GC.KeepAlive(this);
     }
 
     #endregion

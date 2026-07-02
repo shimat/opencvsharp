@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Tests.Dnn;
+namespace OpenCvSharp.Tests.Dnn;
 
 internal static class ModelDownloader
 {

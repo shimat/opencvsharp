@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp;
@@ -13,65 +13,7 @@ public class UMat : CvObject
     /// <summary>
     /// typeof(T) -> MatType
     /// </summary>
-    protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = new Dictionary<Type, MatType>
-    {
-        [typeof(byte)] = MatType.CV_8UC1,
-        [typeof(sbyte)] = MatType.CV_8SC1,
-        [typeof(short)] = MatType.CV_16SC1,
-        [typeof(char)] = MatType.CV_16UC1,
-        [typeof(ushort)] = MatType.CV_16UC1,
-        [typeof(int)] = MatType.CV_32SC1,
-        [typeof(float)] = MatType.CV_32FC1,
-        [typeof(double)] = MatType.CV_64FC1,
-
-        [typeof(Vec2b)] = MatType.CV_8UC2,
-        [typeof(Vec3b)] = MatType.CV_8UC3,
-        [typeof(Vec4b)] = MatType.CV_8UC4,
-        [typeof(Vec6b)] = MatType.CV_8UC(6),
-
-        [typeof(Vec2s)] = MatType.CV_16SC2,
-        [typeof(Vec3s)] = MatType.CV_16SC3,
-        [typeof(Vec4s)] = MatType.CV_16SC4,
-        [typeof(Vec6s)] = MatType.CV_16SC(6),
-
-        [typeof(Vec2w)] = MatType.CV_16UC2,
-        [typeof(Vec3w)] = MatType.CV_16UC3,
-        [typeof(Vec4w)] = MatType.CV_16UC4,
-        [typeof(Vec6w)] = MatType.CV_16UC(6),
-
-        [typeof(Vec2i)] = MatType.CV_32SC2,
-        [typeof(Vec3i)] = MatType.CV_32SC3,
-        [typeof(Vec4i)] = MatType.CV_32SC4,
-        [typeof(Vec6i)] = MatType.CV_32SC(6),
-
-        [typeof(Vec2f)] = MatType.CV_32FC2,
-        [typeof(Vec3f)] = MatType.CV_32FC3,
-        [typeof(Vec4f)] = MatType.CV_32FC4,
-        [typeof(Vec6f)] = MatType.CV_32FC(6),
-
-        [typeof(Vec2d)] = MatType.CV_64FC2,
-        [typeof(Vec3d)] = MatType.CV_64FC3,
-        [typeof(Vec4d)] = MatType.CV_64FC4,
-        [typeof(Vec6d)] = MatType.CV_64FC(6),
-
-        [typeof(Point)] = MatType.CV_32SC2,
-        [typeof(Point2f)] = MatType.CV_32FC2,
-        [typeof(Point2d)] = MatType.CV_64FC2,
-
-        [typeof(Point3i)] = MatType.CV_32SC3,
-        [typeof(Point3f)] = MatType.CV_32FC3,
-        [typeof(Point3d)] = MatType.CV_64FC3,
-
-        [typeof(Size)] = MatType.CV_32SC2,
-        [typeof(Size2f)] = MatType.CV_32FC2,
-        [typeof(Size2d)] = MatType.CV_64FC2,
-
-        [typeof(Rect)] = MatType.CV_32SC4,
-        [typeof(Rect2f)] = MatType.CV_32FC4,
-        [typeof(Rect2d)] = MatType.CV_64FC4,
-
-        [typeof(DMatch)] = MatType.CV_32FC4,
-    };
+    protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = Internal.Util.MatTypeMap.Map;
 
     /// <summary>
     /// Creates from native cv::Mat* pointer
@@ -484,13 +426,12 @@ public class UMat : CvObject
         }
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
-    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
     /// To select all the rows, use Range.All().</param>
-    /// <param name="colRange">Start and end column of the extracted submatrix. 
+    /// <param name="colRange">Start and end column of the extracted submatrix.
     /// The upper boundary is not included. To select all the columns, use Range.All().</param>
     /// <returns></returns>
     public UMat this[System.Range rowRange, System.Range colRange]
@@ -512,14 +453,13 @@ public class UMat : CvObject
             value.CopyTo(sub);
         }
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
-    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
+    /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
     /// To select all the rows, use Range.All().</param>
-    /// <param name="colRange">Start and end column of the extracted submatrix. 
+    /// <param name="colRange">Start and end column of the extracted submatrix.
     /// The upper boundary is not included. To select all the columns, use Range.All().</param>
     /// <returns></returns>
     public UMat this[Range rowRange, Range colRange]
@@ -611,7 +551,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_getMat(CvPtr, (int)accessFlags, out var matPtr));
+            NativeMethods.core_UMat_getMat(Handle, (int)accessFlags, out var matPtr));
         return new Mat(matPtr);
     }
 
@@ -624,7 +564,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_col(CvPtr, x, out var matPtr));
+            NativeMethods.core_UMat_col(Handle, x, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -638,8 +578,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_colRange(CvPtr, startCol, endCol, out var matPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_colRange(Handle, startCol, endCol, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -653,7 +592,6 @@ public class UMat : CvObject
         return ColRange(range.Start, range.End);
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Creates a matrix header for the specified column span.
     /// </summary>
@@ -664,7 +602,6 @@ public class UMat : CvObject
         var (colStart, colLength) = range.GetOffsetAndLength(Cols);
         return ColRange(colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Creates a matrix header for the specified matrix row.
@@ -675,7 +612,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_row(CvPtr, y, out var matPtr));
+            NativeMethods.core_UMat_row(Handle, y, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -689,8 +626,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_rowRange(CvPtr, startRow, endRow, out var matPtr));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_rowRange(Handle, startRow, endRow, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -704,7 +640,6 @@ public class UMat : CvObject
         return RowRange(range.Start, range.End);
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     ///  Creates a matrix header for the specified row span.
     /// </summary>
@@ -715,7 +650,6 @@ public class UMat : CvObject
         var (rowStart, rowLength) = range.GetOffsetAndLength(Rows);
         return RowRange(rowStart, rowStart + rowLength);
     }
-#endif
 
     /// <summary>
     /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
@@ -726,8 +660,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_diag(CvPtr, (int)d, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_diag(Handle, (int)d, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -740,8 +673,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_clone(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_clone(Handle, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -762,29 +694,15 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(OutputArray m, InputArray? mask = null)
+    public void CopyTo(OutputArray m, InputArray mask = default)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo1(CvPtr, m.CvPtr));
-        }
-        else
-        {
-            var maskPtr = Cv2.ToPtr(mask);
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo2(CvPtr, m.CvPtr, maskPtr));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_UMat_copyTo2(Handle, m.Proxy, mask.Proxy));
 
-        GC.KeepAlive(this);
-        m.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(m.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -792,29 +710,18 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(UMat m, InputArray? mask = null)
+    public void CopyTo(UMat m, InputArray mask = default)
     {
         ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat1(CvPtr, m.CvPtr));
-        }
-        else
-        {
-            var maskPtr = Cv2.ToPtr(mask);
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat2(CvPtr, m.CvPtr, maskPtr));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, mask.Proxy));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -828,15 +735,11 @@ public class UMat : CvObject
     public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_convertTo(CvPtr, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_UMat_convertTo(Handle, m.Proxy, rtype, alpha, beta));
 
-        GC.KeepAlive(this);
-        m.Fix();
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>
@@ -851,9 +754,8 @@ public class UMat : CvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_assignTo(CvPtr, m.CvPtr, type?.Value ?? -1));
+            NativeMethods.core_UMat_assignTo(Handle, m.CvPtr, type?.Value ?? -1));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(m);
     }
 
@@ -869,9 +771,8 @@ public class UMat : CvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_Scalar(CvPtr, value, maskPtr));
+            NativeMethods.core_UMat_setTo_Scalar(Handle, value, maskPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(mask);
         return this;
     }
@@ -885,16 +786,12 @@ public class UMat : CvObject
     public UMat SetTo(InputArray value, UMat? mask = null)
     {
         ThrowIfDisposed();
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
-        value.ThrowIfDisposed();
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_InputArray(CvPtr, value.CvPtr, maskPtr));
+            NativeMethods.core_UMat_setTo_InputArray(Handle, value.Proxy, maskPtr));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(value);
+        GC.KeepAlive(value.Source);
         GC.KeepAlive(mask);
         return this;
     }
@@ -910,9 +807,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_reshape1(CvPtr, cn, rows, out var ret));
+            NativeMethods.core_UMat_reshape1(Handle, cn, rows, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -931,9 +827,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_reshape2(CvPtr, cn, newDims.Length, newDims, out var ret));
+            NativeMethods.core_UMat_reshape2(Handle, cn, newDims.Length, newDims, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -947,9 +842,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_t(CvPtr, out var ret));
+            NativeMethods.core_UMat_t(Handle, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -964,9 +858,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_inv(CvPtr, (int)method, out var ret));
+            NativeMethods.core_UMat_inv(Handle, (int)method, out var ret));
 
-        GC.KeepAlive(this);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -980,15 +873,11 @@ public class UMat : CvObject
     public UMat Mul(InputArray m, double scale = 1)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_mul(CvPtr, m.CvPtr, scale, out var ret));
+            NativeMethods.core_UMat_mul(Handle, m.Proxy, scale, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -1001,15 +890,11 @@ public class UMat : CvObject
     public double Dot(InputArray m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_dot(CvPtr, m.CvPtr, out var ret));
+            NativeMethods.core_UMat_dot(Handle, m.Proxy, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         return ret;
     }
 
@@ -1023,8 +908,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_create1(CvPtr, rows, cols, type));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_create1(Handle, rows, cols, type));
     }
 
     /// <summary>
@@ -1049,8 +933,7 @@ public class UMat : CvObject
         if (sizes.Length < 2)
             throw new ArgumentException("sizes.Length < 2");
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_create2(CvPtr, sizes.Length, sizes, type));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_create2(Handle, sizes.Length, sizes, type));
     }
 
     /// <summary>
@@ -1063,8 +946,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_locateROI(CvPtr, out wholeSize, out ofs));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_locateROI(Handle, out wholeSize, out ofs));
     }
 
     /// <summary>
@@ -1081,8 +963,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_adjustROI(CvPtr, dtop, dbottom, dleft, dright, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_adjustROI(Handle, dtop, dbottom, dleft, dright, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -1105,8 +986,7 @@ public class UMat : CvObject
 
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_subMat1(CvPtr, rowStart, rowEnd, colStart, colEnd, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_subMat1(Handle, rowStart, rowEnd, colStart, colEnd, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -1124,7 +1004,6 @@ public class UMat : CvObject
         return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
     }
 
-#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Extracts a rectangular submatrix.
     /// </summary>
@@ -1139,7 +1018,6 @@ public class UMat : CvObject
         var (colStart, colLength) = colRange.GetOffsetAndLength(Cols);
         return SubMat(rowStart, rowStart + rowLength, colStart, colStart + colLength);
     }
-#endif
 
     /// <summary>
     /// Extracts a rectangular submatrix.
@@ -1164,9 +1042,8 @@ public class UMat : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_subMat2(CvPtr, ranges.Length, ranges, out var ret));
+            NativeMethods.core_UMat_subMat2(Handle, ranges.Length, ranges, out var ret));
         var retVal = new UMat(ret);
-        GC.KeepAlive(this);
         return retVal;
     }
 
@@ -1178,8 +1055,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_isContinuous(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_isContinuous(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1191,8 +1067,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_isSubmatrix(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_isSubmatrix(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1204,8 +1079,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_elemSize(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_elemSize(Handle, out var ret));
         return ret.ToInt32();
     }
 
@@ -1217,8 +1091,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_elemSize1(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_elemSize1(Handle, out var ret));
         return ret.ToInt32();
     }
 
@@ -1230,8 +1103,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_type(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_type(Handle, out var ret));
         return ret;
     }
 
@@ -1243,8 +1115,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_depth(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_depth(Handle, out var ret));
         return ret;
     }
 
@@ -1256,8 +1127,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_channels(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_channels(Handle, out var ret));
         return ret;
     }
 
@@ -1270,8 +1140,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_step1(CvPtr, i, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_step1(Handle, i, out var ret));
         return ret.ToInt64();
     }
 
@@ -1283,8 +1152,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_empty(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_empty(Handle, out var ret));
         return ret != 0;
     }
 
@@ -1296,8 +1164,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_total(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_total(Handle, out var ret));
         return ret.ToInt64();
     }
 
@@ -1320,8 +1187,7 @@ public class UMat : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_UMat_checkVector(
-                CvPtr, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
-        GC.KeepAlive(this);
+                Handle, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
         return ret;
     }
 
@@ -1340,8 +1206,7 @@ public class UMat : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_flags(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_flags(Handle, out var ret));
             return ret;
         }
     }
@@ -1355,8 +1220,7 @@ public class UMat : CvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_dims(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_dims(Handle, out var ret));
             return ret;
         }
     }
@@ -1369,8 +1233,7 @@ public class UMat : CvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_rows(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_rows(Handle, out var ret));
             return ret;
         }
     }
@@ -1390,8 +1253,7 @@ public class UMat : CvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_cols(CvPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.core_UMat_cols(Handle, out var ret));
             return ret;
         }
     }
@@ -1410,8 +1272,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_size(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_size(Handle, out var ret));
         return ret;
     }
 
@@ -1424,8 +1285,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_sizeAt(CvPtr, dim, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_sizeAt(Handle, dim, out var ret));
         return ret;
     }
 
@@ -1437,8 +1297,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_step(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_step(Handle, out var ret));
         return ret.ToInt64();
     }
 
@@ -1451,8 +1310,7 @@ public class UMat : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_stepAt(CvPtr, i, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_UMat_stepAt(Handle, i, out var ret));
         return ret.ToInt64();
     }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -32,23 +32,16 @@ public abstract class ShapeTransformer : Algorithm
         IEnumerable<DMatch> matches)
     {
         ThrowIfDisposed();
-        if (transformingShape is null)
-            throw new ArgumentNullException(nameof(transformingShape));
-        if (targetShape is null)
-            throw new ArgumentNullException(nameof(targetShape));
         if (matches is null)
             throw new ArgumentNullException(nameof(matches));
-        transformingShape.ThrowIfDisposed();
-        targetShape.ThrowIfDisposed();
 
-        using var matchesVec = new VectorOfDMatch(matches);
+        using var matchesVec = new StdVector<DMatch>(matches);
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_estimateTransformation(
-                RawPtr, transformingShape.CvPtr, targetShape.CvPtr, matchesVec.CvPtr));
+                Handle, transformingShape.Proxy, targetShape.Proxy, matchesVec.CvPtr));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(transformingShape);
-        GC.KeepAlive(targetShape);
+        GC.KeepAlive(transformingShape.Source);
+        GC.KeepAlive(targetShape.Source);
     }
 
     /// <summary>
@@ -57,21 +50,15 @@ public abstract class ShapeTransformer : Algorithm
     /// <param name="input">Contour (set of points) to apply the transformation to.</param>
     /// <param name="output">Output contour. If null, only the cost is returned without writing the output.</param>
     /// <returns>The transformation cost.</returns>
-    public virtual float ApplyTransformation(InputArray input, OutputArray? output = null)
+    public virtual float ApplyTransformation(InputArray input, OutputArray output = default)
     {
         ThrowIfDisposed();
-        if (input is null)
-            throw new ArgumentNullException(nameof(input));
-        input.ThrowIfDisposed();
-        output?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_applyTransformation(
-                RawPtr, input.CvPtr, output?.CvPtr ?? IntPtr.Zero, out var ret));
+                Handle, input.Proxy, output.Proxy, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(input);
-        output?.Fix();
+        GC.KeepAlive(input.Source);
 
         return ret;
     }
@@ -92,24 +79,16 @@ public abstract class ShapeTransformer : Algorithm
         Scalar? borderValue = null)
     {
         ThrowIfDisposed();
-        if (transformingImage is null)
-            throw new ArgumentNullException(nameof(transformingImage));
-        if (output is null)
-            throw new ArgumentNullException(nameof(output));
-        transformingImage.ThrowIfDisposed();
-        output.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeTransformer_warpImage(
-                RawPtr,
-                transformingImage.CvPtr,
-                output.CvPtr,
+                Handle,
+                transformingImage.Proxy,
+                output.Proxy,
                 (int)flags,
                 (int)borderMode,
                 borderValue.GetValueOrDefault(Scalar.All(0))));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(transformingImage);
-        output.Fix();
+        GC.KeepAlive(transformingImage.Source);
     }
 }

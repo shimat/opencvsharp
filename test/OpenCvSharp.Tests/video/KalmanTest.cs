@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Video;
 
@@ -178,9 +178,9 @@ public class KalmanTest : TestBase
     {
         Assert.Equal(lhs.Size(), rhs.Size());
         Assert.Equal(lhs.Type(), rhs.Type());
-        Assert.Equal(lhs.Sum(), rhs.Sum());
+        Assert.Equal(Cv2.Sum(lhs), Cv2.Sum(rhs));
 
-        using var diff = lhs - rhs;
+        using Mat diff = lhs - rhs;
         Assert.Equal(Scalar.Black, Cv2.Sum(diff));
     }
 }

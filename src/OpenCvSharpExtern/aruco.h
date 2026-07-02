@@ -97,14 +97,14 @@ static cv::aruco::DetectorParameters cpp(const aruco_DetectorParameters& p)
 }
 
 CVAPI(ExceptionStatus) aruco_drawDetectedMarkers(
-	cv::_InputOutputArray* image,
+	const interop::InputOutputArrayProxy* image,
 	cv::Point2f** corners,
 	int cornerSize1,
 	int* cornerSize2,
 	int* idx, int idxCount,
-	MyCvScalar borderColor)
+	interop::Scalar borderColor)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
 	std::vector<int> idxVec;
 
@@ -113,21 +113,21 @@ CVAPI(ExceptionStatus) aruco_drawDetectedMarkers(
 	if (idx != nullptr)
 		idxVec = std::vector<int>(idx, idx + idxCount);
 
-	cv::aruco::drawDetectedMarkers(*image, cornerVec, idxVec, cpp(borderColor));
-	END_WRAP
+	cv::aruco::drawDetectedMarkers(IoProxy(*image), cornerVec, idxVec, cpp(borderColor));
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_getPredefinedDictionary(int name, cv::aruco::Dictionary** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	const auto dictionary = cv::aruco::getPredefinedDictionary(name);
 	*returnValue = new cv::aruco::Dictionary(dictionary);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_readDictionary(const char* dictionaryFile, cv::aruco::Dictionary** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 
 	auto readMode = cv::FileStorage::READ | cv::FileStorage::FORMAT_YAML;
 	cv::FileStorage storeage(dictionaryFile, readMode);
@@ -140,45 +140,45 @@ CVAPI(ExceptionStatus) aruco_readDictionary(const char* dictionaryFile, cv::aruc
 
 	*returnValue = new cv::aruco::Dictionary(dictionary);
 
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_delete(cv::aruco::Dictionary* ptr)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	delete ptr;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_setMarkerSize(cv::aruco::Dictionary* obj, int value)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	obj->markerSize = value;
-	END_WRAP
+	});
 }
 CVAPI(ExceptionStatus) aruco_Dictionary_setMaxCorrectionBits(cv::aruco::Dictionary* obj, int value)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	obj->maxCorrectionBits = value;
-	END_WRAP
+	});
 }
 CVAPI(ExceptionStatus) aruco_Dictionary_getBytesList(cv::aruco::Dictionary* obj, cv::Mat** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	* returnValue = new cv::Mat(obj->bytesList);
-	END_WRAP
+	});
 }
 CVAPI(ExceptionStatus) aruco_Dictionary_getMarkerSize(cv::aruco::Dictionary* obj, int* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = obj->markerSize;
-	END_WRAP
+	});
 }
 CVAPI(ExceptionStatus) aruco_Dictionary_getMaxCorrectionBits(cv::aruco::Dictionary* obj, int* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = obj->maxCorrectionBits;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_identify(
@@ -189,43 +189,43 @@ CVAPI(ExceptionStatus) aruco_Dictionary_identify(
 	double maxCorrectionRate,
 	int* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = obj->identify(*onlyBits, *idx, *rotation, maxCorrectionRate) != 0;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_getDistanceToId(
 	cv::aruco::Dictionary* obj,
-	cv::_InputArray *bits,
+	const interop::InputArrayProxy* bits,
 	int id,
 	int allRotations,
 	int* returnValue)
 {
-	BEGIN_WRAP
-	*returnValue = obj->getDistanceToId(*bits, id, allRotations != 0);
-	END_WRAP
+	return cvTry([&] {
+	*returnValue = obj->getDistanceToId(InProxy(*bits), id, allRotations != 0);
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_generateImageMarker(
 	cv::aruco::Dictionary* obj,
 	int id,
 	int sidePixels,
-	cv::_OutputArray *img,
+	const interop::OutputArrayProxy* img,
 	int borderBits)
 {
-	BEGIN_WRAP
-	obj->generateImageMarker(id, sidePixels, *img, borderBits);
-	END_WRAP
+	return cvTry([&] {
+	obj->generateImageMarker(id, sidePixels, OutProxy(*img), borderBits);
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_getByteListFromBits(
 	cv::Mat *bits,
 	cv::Mat* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	const auto result = cv::aruco::Dictionary::getByteListFromBits(*bits);
 	result.copyTo(*returnValue);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_Dictionary_getBitsFromByteList(
@@ -233,21 +233,21 @@ CVAPI(ExceptionStatus) aruco_Dictionary_getBitsFromByteList(
 	int markerSize,
 	cv::Mat* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	const auto result = cv::aruco::Dictionary::getBitsFromByteList(*byteList, markerSize);
 	result.copyTo(*returnValue);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
-	cv::_InputOutputArray* image,
+	const interop::InputOutputArrayProxy* image,
 	cv::Point2f** corners,
 	int cornerSize1,
 	int* cornerSize2,
 	std::vector<cv::Vec4i>* ids,
-	MyCvScalar borderColor)
+	interop::Scalar borderColor)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 		std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
 
 	for (int i = 0; i < cornerSize1; i++)
@@ -255,21 +255,21 @@ CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
 
 	const cv::_InputArray idArray = (ids != nullptr) ? *ids : static_cast<cv::_InputArray>(cv::noArray());
 
-	cv::aruco::drawDetectedDiamonds(*image, cornerVec, idArray, cpp(borderColor));
-	END_WRAP
+	cv::aruco::drawDetectedDiamonds(IoProxy(*image), cornerVec, idArray, cpp(borderColor));
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_drawDetectedCornersCharuco(
-	cv::_InputOutputArray* image,
+	const interop::InputOutputArrayProxy* image,
 	std::vector<cv::Point2f>* corners,
 	std::vector<int>* ids,
-	MyCvScalar cornerColor)
+	interop::Scalar cornerColor)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	cv::_InputArray idArray = cv::noArray();
 	if (ids != nullptr) idArray = *ids;
-	cv::aruco::drawDetectedCornersCharuco(*image, *corners, idArray, cpp(cornerColor));
-	END_WRAP
+	cv::aruco::drawDetectedCornersCharuco(IoProxy(*image), *corners, idArray, cpp(cornerColor));
+	});
 }
 
 // ==================== ArucoDetector ====================
@@ -280,49 +280,49 @@ CVAPI(ExceptionStatus) aruco_ArucoDetector_create(
 	aruco_RefineParameters* refineParams,
 	cv::aruco::ArucoDetector** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	const auto dp = cpp(*detectorParams);
 	const auto rp = cv::aruco::RefineParameters(refineParams->minRepDistance, refineParams->errorCorrectionRate, refineParams->checkAllOrders);
 	*returnValue = new cv::aruco::ArucoDetector(*dictionary, dp, rp);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_ArucoDetector_delete(cv::aruco::ArucoDetector* ptr)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	delete ptr;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_ArucoDetector_detectMarkers(
 	cv::aruco::ArucoDetector* detector,
-	cv::_InputArray* image,
+	const interop::InputArrayProxy* image,
 	std::vector<std::vector<cv::Point2f>>* corners,
 	std::vector<int>* ids,
 	std::vector<std::vector<cv::Point2f>>* rejectedImgPoints)
 {
-	BEGIN_WRAP
-	detector->detectMarkers(*image, *corners, *ids, *rejectedImgPoints);
-	END_WRAP
+	return cvTry([&] {
+	detector->detectMarkers(InProxy(*image), *corners, *ids, *rejectedImgPoints);
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_ArucoDetector_refineDetectedMarkers(
 	cv::aruco::ArucoDetector* detector,
-	cv::_InputArray* image,
+	const interop::InputArrayProxy* image,
 	cv::aruco::Board* board,
 	std::vector<std::vector<cv::Point2f>>* detectedCorners,
 	std::vector<int>* detectedIds,
 	std::vector<std::vector<cv::Point2f>>* rejectedCorners,
-	cv::_InputArray* cameraMatrix,
-	cv::_InputArray* distCoeffs,
+	const interop::InputArrayProxy* cameraMatrix,
+	const interop::InputArrayProxy* distCoeffs,
 	std::vector<int>* recoveredIdxs)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	cv::_OutputArray recoveredIdxsArr = cv::noArray();
 	if (recoveredIdxs != nullptr) recoveredIdxsArr = *recoveredIdxs;
-	detector->refineDetectedMarkers(*image, *board, *detectedCorners, *detectedIds, *rejectedCorners,
-		entity(cameraMatrix), entity(distCoeffs), recoveredIdxsArr);
-	END_WRAP
+	detector->refineDetectedMarkers(InProxy(*image), *board, *detectedCorners, *detectedIds, *rejectedCorners,
+		InProxy(*cameraMatrix), InProxy(*distCoeffs), recoveredIdxsArr);
+	});
 }
 
 // ==================== CharucoBoard ====================
@@ -333,83 +333,83 @@ CVAPI(ExceptionStatus) aruco_CharucoBoard_create(
 	cv::aruco::Dictionary* dictionary,
 	cv::aruco::CharucoBoard** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = new cv::aruco::CharucoBoard(cv::Size(squaresX, squaresY), squareLength, markerLength, *dictionary);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_delete(cv::aruco::CharucoBoard* ptr)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	delete ptr;
-	END_WRAP
+	});
 }
 
-CVAPI(ExceptionStatus) aruco_CharucoBoard_getChessboardSize(cv::aruco::CharucoBoard* ptr, MyCvSize* returnValue)
+CVAPI(ExceptionStatus) aruco_CharucoBoard_getChessboardSize(cv::aruco::CharucoBoard* ptr, interop::Size* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	const auto s = ptr->getChessboardSize();
 	returnValue->width = s.width;
 	returnValue->height = s.height;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_getSquareLength(cv::aruco::CharucoBoard* ptr, float* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = ptr->getSquareLength();
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_getMarkerLength(cv::aruco::CharucoBoard* ptr, float* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = ptr->getMarkerLength();
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_setLegacyPattern(cv::aruco::CharucoBoard* ptr, int value)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	ptr->setLegacyPattern(value != 0);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_getLegacyPattern(cv::aruco::CharucoBoard* ptr, int* returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	*returnValue = ptr->getLegacyPattern() ? 1 : 0;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_generateImage(
 	cv::aruco::CharucoBoard* ptr,
-	MyCvSize outSize,
-	cv::_OutputArray* img,
+	interop::Size outSize,
+	const interop::OutputArrayProxy* img,
 	int marginSize,
 	int borderBits)
 {
-	BEGIN_WRAP
-	ptr->generateImage(cpp(outSize), *img, marginSize, borderBits);
-	END_WRAP
+	return cvTry([&] {
+	ptr->generateImage(cpp(outSize), OutProxy(*img), marginSize, borderBits);
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoBoard_checkCharucoCornersCollinear(
 	cv::aruco::CharucoBoard* ptr,
-	cv::_InputArray* charucoIds,
+	const interop::InputArrayProxy* charucoIds,
 	int* returnValue)
 {
-	BEGIN_WRAP
-	*returnValue = ptr->checkCharucoCornersCollinear(*charucoIds) ? 1 : 0;
-	END_WRAP
+	return cvTry([&] {
+	*returnValue = ptr->checkCharucoCornersCollinear(InProxy(*charucoIds)) ? 1 : 0;
+	});
 }
 
 // ==================== CharucoDetector ====================
 
 CVAPI(ExceptionStatus) aruco_CharucoDetector_create(
 	cv::aruco::CharucoBoard* board,
-	cv::_InputArray* cameraMatrix,
-	cv::_InputArray* distCoeffs,
+	const interop::InputArrayProxy* cameraMatrix,
+	const interop::InputArrayProxy* distCoeffs,
 	int minMarkers,
 	bool tryRefineMarkers,
 	bool checkMarkers,
@@ -417,58 +417,61 @@ CVAPI(ExceptionStatus) aruco_CharucoDetector_create(
 	aruco_RefineParameters* refineParams,
 	cv::aruco::CharucoDetector** returnValue)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	cv::aruco::CharucoParameters cp;
-	if (cameraMatrix != nullptr)
-		cp.cameraMatrix = cameraMatrix->getMat();
-	if (distCoeffs != nullptr)
-		cp.distCoeffs = distCoeffs->getMat();
+	cv::Scalar cameraMatrixScratch, distCoeffsScratch;
+	const cv::_InputArray cameraMatrixArr = fromInputProxy(*cameraMatrix, cameraMatrixScratch);
+	const cv::_InputArray distCoeffsArr = fromInputProxy(*distCoeffs, distCoeffsScratch);
+	if (!cameraMatrixArr.empty())
+		cp.cameraMatrix = cameraMatrixArr.getMat();
+	if (!distCoeffsArr.empty())
+		cp.distCoeffs = distCoeffsArr.getMat();
 	cp.minMarkers = minMarkers;
 	cp.tryRefineMarkers = tryRefineMarkers;
 	cp.checkMarkers = checkMarkers;
 	const auto dp = cpp(*detectorParams);
 	const auto rp = cv::aruco::RefineParameters(refineParams->minRepDistance, refineParams->errorCorrectionRate, refineParams->checkAllOrders);
 	*returnValue = new cv::aruco::CharucoDetector(*board, cp, dp, rp);
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoDetector_delete(cv::aruco::CharucoDetector* ptr)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	delete ptr;
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoDetector_detectBoard(
 	cv::aruco::CharucoDetector* detector,
-	cv::_InputArray* image,
+	const interop::InputArrayProxy* image,
 	std::vector<cv::Point2f>* charucoCorners,
 	std::vector<int>* charucoIds,
 	std::vector<std::vector<cv::Point2f>>* markerCorners,
 	std::vector<int>* markerIds)
 {
-	BEGIN_WRAP
+	return cvTry([&] {
 	cv::Mat charucoCorners_mat, charucoIds_mat;
-	detector->detectBoard(*image, charucoCorners_mat, charucoIds_mat, *markerCorners, *markerIds);
+	detector->detectBoard(InProxy(*image), charucoCorners_mat, charucoIds_mat, *markerCorners, *markerIds);
 	for (int i = 0; i < charucoCorners_mat.rows; ++i)
 	{
 		charucoCorners->push_back(charucoCorners_mat.at<cv::Point2f>(i, 0));
 		charucoIds->push_back(charucoIds_mat.at<int>(i, 0));
 	}
-	END_WRAP
+	});
 }
 
 CVAPI(ExceptionStatus) aruco_CharucoDetector_detectDiamonds(
 	cv::aruco::CharucoDetector* detector,
-	cv::_InputArray* image,
+	const interop::InputArrayProxy* image,
 	std::vector<std::vector<cv::Point2f>>* diamondCorners,
 	std::vector<cv::Vec4i>* diamondIds,
 	std::vector<std::vector<cv::Point2f>>* markerCorners,
 	std::vector<int>* markerIds)
 {
-	BEGIN_WRAP
-	detector->detectDiamonds(*image, *diamondCorners, *diamondIds, *markerCorners, *markerIds);
-	END_WRAP
+	return cvTry([&] {
+	detector->detectDiamonds(InProxy(*image), *diamondCorners, *diamondIds, *markerCorners, *markerIds);
+	});
 }
 
 #endif // NO_CONTRIB

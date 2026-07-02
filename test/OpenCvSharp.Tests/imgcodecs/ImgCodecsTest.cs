@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats;
@@ -98,8 +98,8 @@ public class ImgCodecsTest : TestBase
         Assert.False(mat.Empty());
     }
 
-    // TODO Windows not supported?
-    // https://github.com/opencv/opencv/issues/4242
+    // Unicode (incl. non-ANSI) paths now work on every platform: the native side reads via a wide
+    // path on Windows. (Formerly unsupported on Windows; opencv #4242.)
     [Fact]
     public void ImReadUnicodeFileName()
     {
@@ -107,23 +107,82 @@ public class ImgCodecsTest : TestBase
 
         CreateDummyImageFile(fileName);
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        using var image = Cv2.ImRead(fileName);
+        Assert.NotNull(image);
+        Assert.False(image.Empty());
+    }
+
+    // --- Edge cases for the Windows non-ANSI (wide-path) route: gating, mmap decode and its fallbacks ---
+
+    [Fact]
+    public void ImReadWriteUnicodeRoundTripPixels()
+    {
+        // The wide-path encode/write and mmap decode must produce byte-identical pixels (PNG is lossless).
+        const string fileName = "_data/image/roundtrip♥😀.png";
+        try
         {
-            // TODO
-            // Cannot marshal: Encountered unmappable character.
-            // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-            Assert.Throws<ArgumentException>(() =>
-            {
-                using var image = Cv2.ImRead(fileName);
-                //Assert.NotNull(image);
-                //Assert.False(image.Empty());
-            });
+            using var src = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+            src.Set(3, 5, new Vec3b(10, 20, 30));
+            src.Set(9, 19, new Vec3b(200, 100, 50));
+
+            Assert.True(Cv2.ImWrite(fileName, src));
+            Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
+
+            using var dst = Cv2.ImRead(fileName, ImreadModes.Color);
+            Assert.False(dst.Empty());
+            Assert.Equal(src.Rows, dst.Rows);
+            Assert.Equal(src.Cols, dst.Cols);
+            Assert.Equal(src.At<Vec3b>(0, 0), dst.At<Vec3b>(0, 0));
+            Assert.Equal(src.At<Vec3b>(3, 5), dst.At<Vec3b>(3, 5));
+            Assert.Equal(src.At<Vec3b>(9, 19), dst.At<Vec3b>(9, 19));
         }
-        else
+        finally
         {
+            if (File.Exists(fileName)) File.Delete(fileName);
+        }
+    }
+
+    [Fact]
+    public void ImReadUnicodeEmptyFileReturnsEmpty()
+    {
+        // 0-byte file with a non-ANSI name: mapping is skipped and the fallback yields an empty Mat (no crash).
+        const string fileName = "_data/image/empty♡😄.png";
+        try
+        {
+            File.WriteAllBytes(fileName, Array.Empty<byte>());
             using var image = Cv2.ImRead(fileName);
             Assert.NotNull(image);
-            Assert.False(image.Empty());
+            Assert.True(image.Empty());
+        }
+        finally
+        {
+            if (File.Exists(fileName)) File.Delete(fileName);
+        }
+    }
+
+    [Fact]
+    public void ImReadUnicodeMissingFileReturnsEmpty()
+    {
+        using var image = Cv2.ImRead("_data/image/does_not_exist♥😀.png");
+        Assert.NotNull(image);
+        Assert.True(image.Empty());
+    }
+
+    [Fact]
+    public void HaveImageReaderUnicodeNonImageIsFalse()
+    {
+        // Non-ANSI name with a .png extension but non-image content -> not decodable.
+        const string fileName = "_data/image/notimage♥😀.png";
+        try
+        {
+            File.WriteAllText(fileName, "this is not an image");
+            Assert.False(Cv2.HaveImageReader(fileName));
+            using var image = Cv2.ImRead(fileName);
+            Assert.True(image.Empty());
+        }
+        finally
+        {
+            if (File.Exists(fileName)) File.Delete(fileName);
         }
     }
 
@@ -173,9 +232,8 @@ public class ImgCodecsTest : TestBase
         Assert.Equal(20, imageInfo.Width);
     }
 
-    // TODO
-    // https://github.com/opencv/opencv/issues/4242
-    //[PlatformSpecificFact("Linux")]
+    // Unicode (incl. non-ANSI) paths now work on every platform: the native side writes via a wide
+    // path on Windows. (Formerly unsupported on Windows; opencv #4242.)
     [Fact]
     public void ImWriteUnicodeFileName()
     {
@@ -187,20 +245,9 @@ public class ImgCodecsTest : TestBase
 
         using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                // TODO
-                // Cannot marshal: Encountered unmappable character.
-                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-                Assert.Throws<ArgumentException>(() => { Cv2.ImWrite(fileName, mat); });
-                return;
-            }
-            else
-            {
-                Cv2.ImWrite(fileName, mat);
-            }
+            Cv2.ImWrite(fileName, mat);
         }
-        
+
         var file = new FileInfo(fileName);
         Assert.True(file.Exists, $"File '{fileName}' not found");
         Assert.True(file.Length > 0, $"File size of '{fileName}' == 0");
@@ -290,17 +337,9 @@ public class ImgCodecsTest : TestBase
         {
             CreateDummyImageFile(path);
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                // TODO
-                // Cannot marshal: Encountered unmappable character.
-                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-                Assert.Throws<ArgumentException>(() => { Cv2.HaveImageReader(path); });
-            }
-            else
-            {
-                Assert.True(Cv2.HaveImageReader(path));
-            }
+            // Unicode (incl. non-ANSI) paths now work on every platform (native probes via a wide
+            // path on Windows; formerly unsupported there, opencv #4242).
+            Assert.True(Cv2.HaveImageReader(path));
         }
         finally
         {
@@ -348,20 +387,9 @@ public class ImgCodecsTest : TestBase
         // This file does not have to exist
         const string fileName = "♥♡😀😄.png";
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            // TODO
-            // Cannot marshal: Encountered unmappable character.
-            // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
-            Assert.Throws<ArgumentException>(() =>
-            {
-                Cv2.HaveImageWriter(fileName);
-            });
-        }
-        else
-        {
-            Assert.True(Cv2.HaveImageWriter(fileName));
-        }
+        // HaveImageWriter only inspects the file extension, which survives ANSI marshalling intact,
+        // so it reports the writer as available even though the Unicode base name is mangled.
+        Assert.True(Cv2.HaveImageWriter(fileName));
     }
 
     [Theory]

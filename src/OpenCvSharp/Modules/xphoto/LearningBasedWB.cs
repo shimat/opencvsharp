@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XPhoto;
 
@@ -36,16 +36,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(Handle, value));
         }
     }
 
@@ -58,16 +56,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(Handle, value));
         }
     }
 
@@ -80,16 +76,14 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(Handle, value));
         }
     }
 
@@ -100,20 +94,11 @@ public class LearningBasedWB : WhiteBalancer
     /// <param name="dst">White balancing result</param>
     public override void BalanceWhite(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_balanceWhite(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_balanceWhite(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -123,19 +108,10 @@ public class LearningBasedWB : WhiteBalancer
     /// <param name="dst">An array of four (r,g) chromaticity tuples corresponding to the features listed above.</param>
     public void ExtractSimpleFeatures(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(RawPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
 
@@ -53,7 +53,38 @@ public class LDATest : TestBase
                 Assert.Equal(-7.02807, project.Get<double>(4), 5);
                 Assert.Equal(-7.52409, project.Get<double>(5), 5);
                 Assert.Equal(-7.50061, project.Get<double>(6), 5);
+
+                using var reconstructed = lda.Reconstruct(project);
+                Assert.Equal(d.GetLength(0), reconstructed.Rows);
+                Assert.Equal(d.GetLength(1), reconstructed.Cols);
             }
         }
+    }
+
+    [Fact]
+    public void SubspaceProjectAndReconstruct()
+    {
+        // With an identity basis and a zero mean, subspaceProject/subspaceReconstruct
+        // reduce to the identity transform (src*W and src*W^T respectively), giving an
+        // exact round trip that is easy to verify without depending on LDA's own numerics.
+        using var w = Mat.EyeMat(2, 2, MatType.CV_64FC1);
+        using var mean = Mat.ZerosMat(1, 2, MatType.CV_64FC1);
+        using var src = Mat.FromPixelData(2, 2, MatType.CV_64FC1, new double[] { 1, 2, 3, 4 });
+
+        using var projected = LDA.SubspaceProject(w, mean, src);
+        Assert.Equal(2, projected.Rows);
+        Assert.Equal(2, projected.Cols);
+        Assert.Equal(1.0, projected.Get<double>(0, 0), 6);
+        Assert.Equal(2.0, projected.Get<double>(0, 1), 6);
+        Assert.Equal(3.0, projected.Get<double>(1, 0), 6);
+        Assert.Equal(4.0, projected.Get<double>(1, 1), 6);
+
+        using var reconstructed = LDA.SubspaceReconstruct(w, mean, projected);
+        Assert.Equal(2, reconstructed.Rows);
+        Assert.Equal(2, reconstructed.Cols);
+        Assert.Equal(1.0, reconstructed.Get<double>(0, 0), 6);
+        Assert.Equal(2.0, reconstructed.Get<double>(0, 1), 6);
+        Assert.Equal(3.0, reconstructed.Get<double>(1, 0), 6);
+        Assert.Equal(4.0, reconstructed.Get<double>(1, 1), 6);
     }
 }

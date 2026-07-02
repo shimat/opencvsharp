@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp;
+namespace OpenCvSharp;
 
 /// <summary>
 /// A delegate-based <see cref="OpenCvSafeHandle"/> that releases a native pointer

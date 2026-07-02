@@ -8,191 +8,202 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setTrainMethod(cv::ml::ANN_MLP *obj, int method, double param1, double param2)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setTrainMethod(
+    cv::ml::ANN_MLP *obj,
+    int method,
+    double param1,
+    double param2)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setTrainMethod(method, param1, param2);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getTrainMethod(cv::ml::ANN_MLP *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getTrainMethod();
-    END_WRAP
+    });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setActivationFunction(cv::ml::ANN_MLP *obj, int type, double param1, double param2)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setActivationFunction(
+    cv::ml::ANN_MLP *obj,
+    int type,
+    double param1,
+    double param2)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setActivationFunction(type, param1, param2);
-    END_WRAP
+    });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_setLayerSizes(cv::ml::ANN_MLP *obj, cv::_InputArray *_layer_sizes)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setLayerSizes(cv::ml::ANN_MLP *obj, const interop::InputArrayProxy* _layer_sizes)
 {
-    BEGIN_WRAP
-    obj->setLayerSizes(entity(_layer_sizes));
-    END_WRAP
+    return cvTry([&] {
+    obj->setLayerSizes(InProxy(*_layer_sizes));
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getLayerSizes(cv::ml::ANN_MLP *obj, cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::Mat(obj->getLayerSizes());
-    END_WRAP
+    });
 }
 
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_getTermCriteria(cv::ml::ANN_MLP *obj, MyCvTermCriteria *returnValue)
+CVAPI(ExceptionStatus) ml_ANN_MLP_getTermCriteria(cv::ml::ANN_MLP *obj, interop::TermCriteria *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = c(obj->getTermCriteria());
-    END_WRAP
+    });
 }
-CVAPI(ExceptionStatus) ml_ANN_MLP_setTermCriteria(cv::ml::ANN_MLP *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_ANN_MLP_setTermCriteria(cv::ml::ANN_MLP *obj, interop::TermCriteria val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setTermCriteria(cpp(val));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getBackpropWeightScale(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getBackpropWeightScale();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setBackpropWeightScale(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setBackpropWeightScale(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getBackpropMomentumScale(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getBackpropMomentumScale();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setBackpropMomentumScale(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setBackpropMomentumScale(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getRpropDW0(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRpropDW0();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDW0(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRpropDW0(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getRpropDWPlus(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRpropDWPlus();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWPlus(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRpropDWPlus(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getRpropDWMinus(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRpropDWMinus();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWMinus(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRpropDWMinus(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getRpropDWMin(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRpropDWMin();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWMin(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRpropDWMin(val);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_getRpropDWMax(cv::ml::ANN_MLP *obj, double *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getRpropDWMax();
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWMax(cv::ml::ANN_MLP *obj, double val)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->setRpropDWMax(val);
-    END_WRAP
+    });
 }
 
-CVAPI(ExceptionStatus) ml_ANN_MLP_getWeights(cv::ml::ANN_MLP *obj, int layerIdx, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) ml_ANN_MLP_getWeights(
+    cv::ml::ANN_MLP *obj,
+    int layerIdx,
+    cv::Mat **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::Mat(obj->getWeights(layerIdx));
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_create(cv::Ptr<cv::ml::ANN_MLP> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::ml::ANN_MLP::create();
     *returnValue = new cv::Ptr<cv::ml::ANN_MLP>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_delete(cv::Ptr<cv::ml::ANN_MLP> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_get(cv::Ptr<cv::ml::ANN_MLP> *obj, cv::ml::ANN_MLP **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->get();
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_load(const char *filePath, cv::Ptr<cv::ml::ANN_MLP> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::ml::ANN_MLP::load(filePath);
     *returnValue = new cv::Ptr<cv::ml::ANN_MLP>(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_loadFromString(const char *strModel, cv::Ptr<cv::ml::ANN_MLP> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto objName = cv::ml::ANN_MLP::create()->getDefaultName();
     const auto ptr = cv::Algorithm::loadFromString<cv::ml::ANN_MLP>(strModel, objName);
     *returnValue = new cv::Ptr<cv::ml::ANN_MLP>(ptr);
-    END_WRAP
+    });
 }
 
 #endif // NO_ML

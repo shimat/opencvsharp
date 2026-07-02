@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace OpenCvSharp.Internal;
 
@@ -48,9 +48,10 @@ public class StdString : CvObject
     {
         get
         {
-            var ret = NativeMethods.string_size(CvPtr); 
-            GC.KeepAlive(this);
-            return ret;
+            // Passing the SafeHandle keeps this instance alive for the duration of the
+            // call, so no explicit GC.KeepAlive is needed (the result is a value, not an
+            // interior pointer).
+            return NativeMethods.string_size(Handle);
         }
     }
 
@@ -62,7 +63,10 @@ public class StdString : CvObject
     {
         unsafe
         {
-            var stringPointer = NativeMethods.string_c_str(CvPtr);
+            // c_str() returns an interior pointer into the std::string buffer that is
+            // dereferenced by GetString below, so this instance must stay alive past the
+            // call: the SafeHandle parameter alone is not enough, keep GC.KeepAlive(this).
+            var stringPointer = NativeMethods.string_c_str(Handle);
             var ret = Encoding.UTF8.GetString((byte*) stringPointer, (int)Size);
             GC.KeepAlive(this);
             return ret;

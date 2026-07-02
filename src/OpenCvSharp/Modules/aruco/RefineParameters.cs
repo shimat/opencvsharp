@@ -22,11 +22,18 @@ public struct RefineParameters
     /// </summary>
     public float ErrorCorrectionRate = 3f;
 
+    // Stored as a byte (native bool is a single byte) so the struct stays blittable for
+    // source-generated marshalling; exposed as a bool for ergonomics. Default true.
+    private byte checkAllOrders = 1;
+
     /// <summary>
     /// Consider the four possible corner orders in the rejectedCorners array (default true).
     /// </summary>
-    [MarshalAs(UnmanagedType.U1)]
-    public bool CheckAllOrders = true;
+    public bool CheckAllOrders
+    {
+        readonly get => checkAllOrders != 0;
+        set => checkAllOrders = value ? (byte)1 : (byte)0;
+    }
 
     /// <summary>
     /// Constructor

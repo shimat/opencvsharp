@@ -9,12 +9,13 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.13.0
-  DOCKER_BUILD_CONTEXT_FULL: ./docker/ubuntu24-dotnet10-opencv4.13.0
-  DOCKER_BUILD_CONTEXT_SLIM: ./docker/ubuntu24-dotnet10-opencv4.13.0-slim
+  OPENCV_VERSION: 5.0.0
+  DOCKER_BUILD_CONTEXT_FULL: ./docker/ubuntu24-dotnet10-opencv5.0.0
+  DOCKER_BUILD_CONTEXT_SLIM: ./docker/ubuntu24-dotnet10-opencv5.0.0-slim
 
 jobs:
   build_full:
+    name: Docker (full)
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -30,13 +31,14 @@ jobs:
           file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-          outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv4.13.0:latest
+          outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv5.0.0:latest
           cache-from: |
             type=gha,scope=full-${{ github.ref_name }}
             type=gha,scope=full-main
           cache-to: type=gha,mode=min,scope=full-${{ github.ref_name }}
 
   build_slim:
+    name: Docker (slim)
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -52,7 +54,7 @@ jobs:
           file: ${{ env.DOCKER_BUILD_CONTEXT_SLIM }}/Dockerfile
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-          outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv4.13.0-slim:latest
+          outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv5.0.0-slim:latest
           cache-from: |
             type=gha,scope=slim-${{ github.ref_name }}
             type=gha,scope=slim-main

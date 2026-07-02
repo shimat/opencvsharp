@@ -23,16 +23,14 @@ public abstract class GeneralizedHough : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_getCannyLowThresh(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_getCannyLowThresh(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_setCannyLowThresh(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_setCannyLowThresh(Handle, value));
         }
     }
 
@@ -46,16 +44,14 @@ public abstract class GeneralizedHough : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_getCannyHighThresh(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_getCannyHighThresh(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_setCannyHighThresh(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_setCannyHighThresh(Handle, value));
         }
     }
 
@@ -69,16 +65,14 @@ public abstract class GeneralizedHough : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_getMinDist(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_getMinDist(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_setMinDist(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_setMinDist(Handle, value));
         }
     }
 
@@ -92,16 +86,14 @@ public abstract class GeneralizedHough : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_getDp(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_getDp(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_setDp(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_setDp(Handle, value));
         }
     }
 
@@ -115,16 +107,14 @@ public abstract class GeneralizedHough : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_getMaxBufferSize(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_getMaxBufferSize(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHough_setMaxBufferSize(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.imgproc_GeneralizedHough_setMaxBufferSize(Handle, value));
         }
     }
 
@@ -136,15 +126,11 @@ public abstract class GeneralizedHough : Algorithm
     public void SetTemplate(InputArray templ, Point? templCenter = null)
     {
         ThrowIfDisposed();
-        if (templ is null)
-            throw new ArgumentNullException(nameof(templ));
-        templ.ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_GeneralizedHough_setTemplate1(RawPtr, templ.CvPtr, templCenterValue));
-        GC.KeepAlive(this);
-        GC.KeepAlive(templ);
+            NativeMethods.imgproc_GeneralizedHough_setTemplate1(Handle, templ.Proxy, templCenterValue));
+        GC.KeepAlive(templ.Source);
     }
 
     /// <summary>
@@ -157,25 +143,15 @@ public abstract class GeneralizedHough : Algorithm
     public virtual void SetTemplate(InputArray edges, InputArray dx, InputArray dy, Point? templCenter = null)
     {
         ThrowIfDisposed();
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        edges.ThrowIfDisposed();
-        dx.ThrowIfDisposed();
-        dy.ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_setTemplate2(
-                RawPtr, edges.CvPtr, dx.CvPtr, dy.CvPtr, templCenterValue));
+                Handle, edges.Proxy, dx.Proxy, dy.Proxy, templCenterValue));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(edges);
-        GC.KeepAlive(dx);
-        GC.KeepAlive(dy);
+        GC.KeepAlive(edges.Source);
+        GC.KeepAlive(dx.Source);
+        GC.KeepAlive(dy.Source);
     }
 
     /// <summary>
@@ -185,26 +161,15 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArray image, OutputArray positions, OutputArray? votes = null)
+        InputArray image, OutputArray positions, OutputArray votes = default)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (positions is null)
-            throw new ArgumentNullException(nameof(positions));
-        image.ThrowIfDisposed();
-        positions.ThrowIfNotReady();
-        votes?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect1(
-                RawPtr, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+                Handle, image.Proxy, positions.Proxy, votes.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        GC.KeepAlive(positions);
-        GC.KeepAlive(votes);
-        positions.Fix();
-        votes?.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(positions.Source);
+        GC.KeepAlive(votes.Source);
     }
 
     /// <summary>
@@ -216,33 +181,16 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray? votes = null)
+        InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray votes = default)
     {
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        if (positions is null)
-            throw new ArgumentNullException(nameof(positions));
-        edges.ThrowIfDisposed();
-        dx.ThrowIfDisposed();
-        dy.ThrowIfDisposed();
-        positions.ThrowIfNotReady();
-        votes?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect2(
-                RawPtr, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+                Handle, edges.Proxy, dx.Proxy, dy.Proxy, positions.Proxy, votes.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(edges);
-        GC.KeepAlive(dx);
-        GC.KeepAlive(dy);
-        GC.KeepAlive(positions);
-        GC.KeepAlive(votes);
-        positions.Fix();
-        votes?.Fix();
+        GC.KeepAlive(edges.Source);
+        GC.KeepAlive(dx.Source);
+        GC.KeepAlive(dy.Source);
+        GC.KeepAlive(positions.Source);
+        GC.KeepAlive(votes.Source);
     }
 }

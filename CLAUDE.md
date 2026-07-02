@@ -1,1 +1,1 @@
-﻿See `.github/copilot-instructions.md` for development instructions.
+See `.github/copilot-instructions.md` for development instructions.

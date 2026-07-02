@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -91,16 +91,11 @@ public class FrameSource : CvPtrObject
     public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_nextFrame(RawPtr, frame.CvPtr));
+            NativeMethods.superres_FrameSource_nextFrame(Handle, frame.Proxy));
 
-        frame.Fix();
-        GC.KeepAlive(this);
-        GC.KeepAlive(frame);
+        GC.KeepAlive(frame.Source);
     }
 
     /// <summary>
@@ -110,8 +105,7 @@ public class FrameSource : CvPtrObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_reset(RawPtr));
-        GC.KeepAlive(this);
+            NativeMethods.superres_FrameSource_reset(Handle));
     }
 
     #endregion

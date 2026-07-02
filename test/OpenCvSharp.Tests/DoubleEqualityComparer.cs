@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Tests;
+namespace OpenCvSharp.Tests;
 
 public class DoubleEqualityComparer : IEqualityComparer<double>
 {

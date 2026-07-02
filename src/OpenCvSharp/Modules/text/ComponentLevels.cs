@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Text;
+namespace OpenCvSharp.Text;
 
 /// <summary>
 /// 

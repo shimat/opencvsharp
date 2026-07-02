@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 
@@ -27,16 +27,14 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_getMaxPixelValue(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.quality_QualityPSNR_getMaxPixelValue(Handle, out var ret));
             return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(RawPtr, value));
-            GC.KeepAlive(this);
+                NativeMethods.quality_QualityPSNR_setMaxPixelValue(Handle, value));
         }
     }
 
@@ -48,42 +46,30 @@ public class QualityPSNR : QualityBase
     /// <returns></returns>
     public static QualityPSNR Create(InputArray @ref, double maxPixelValue = MaxPixelValueDefault)
     {
-        if (@ref is null)
-            throw new ArgumentNullException(nameof(@ref));
-        @ref.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var smartPtr));
-        GC.KeepAlive(@ref);
+            NativeMethods.quality_createQualityPSNR(@ref.Proxy, maxPixelValue, out var smartPtr));
+        GC.KeepAlive(@ref.Source);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_get(smartPtr, out var rawPtr));
         return new QualityPSNR(smartPtr, rawPtr);
     }
-        
+
     /// <summary>
     /// static method for computing quality
     /// </summary>
     /// <param name="ref"></param>
     /// <param name="cmp"></param>
-    /// <param name="qualityMap">output quality map, or null</param>
+    /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <param name="maxPixelValue">maximum per-channel value for any individual pixel; eg 255 for uint8 image</param>
     /// <returns>PSNR value, or double.PositiveInfinity if the MSE between the two images == 0</returns>
-    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap, double maxPixelValue = MaxPixelValueDefault)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default, double maxPixelValue = MaxPixelValueDefault)
     {
-        if (@ref is null)
-            throw new ArgumentNullException(nameof(@ref));
-        if (cmp is null)
-            throw new ArgumentNullException(nameof(cmp));
-        @ref.ThrowIfDisposed();
-        cmp.ThrowIfDisposed();
-        qualityMap?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.quality_QualityPSNR_staticCompute(
-                @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, maxPixelValue, out var ret));
+                @ref.Proxy, cmp.Proxy, qualityMap.Proxy, maxPixelValue, out var ret));
 
-        GC.KeepAlive(@ref);
-        GC.KeepAlive(cmp);
-        qualityMap?.Fix();
+        GC.KeepAlive(@ref.Source);
+        GC.KeepAlive(cmp.Source);
+        GC.KeepAlive(qualityMap.Source);
         return ret;
     }
 }

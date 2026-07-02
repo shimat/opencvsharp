@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -8,12 +9,12 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus line_descriptor_LSDDetector_new1(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus line_descriptor_LSDDetector_new1(
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus line_descriptor_LSDDetector_new2(
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus line_descriptor_LSDDetector_new2(
         double scale,
         double sigmaScale,
         double quant,
@@ -23,16 +24,16 @@ static partial class NativeMethods
         int nBins,
         out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus line_descriptor_LSDDetector_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus line_descriptor_LSDDetector_delete(IntPtr obj);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus line_descriptor_LSDDetector_detect1(
-        IntPtr obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, IntPtr mask);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus line_descriptor_LSDDetector_detect1(
+        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, IntPtr mask);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus line_descriptor_LSDDetector_detect2(
-        IntPtr obj,
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus line_descriptor_LSDDetector_detect2(
+        OpenCvSafeHandle obj,
         IntPtr[] images, int imagesSize,
         IntPtr keyLines, int scale, int numOctaves,
         IntPtr[] masks, int masksSize);

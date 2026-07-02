@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
@@ -9,25 +9,36 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) text_TextDetector_detect(cv::Ptr<cv::text::TextDetector>* obj, cv::_InputArray *inputImage, std::vector<cv::Rect> *Bbox, std::vector<float> *confidence)
+CVAPI(ExceptionStatus) text_TextDetector_detect(
+    cv::Ptr<cv::text::TextDetector>* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Rect> *Bbox,
+    std::vector<float> *confidence)
 {
-    BEGIN_WRAP
-    (*obj)->detect(*inputImage, *Bbox, *confidence);
-    END_WRAP
+    return cvTry([&] {
+    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
+    });
 }
 
-CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(cv::Ptr<cv::text::TextDetectorCNN>* obj, cv::_InputArray *inputImage, std::vector<cv::Rect> *Bbox, std::vector<float> *confidence)
+CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(
+    cv::Ptr<cv::text::TextDetectorCNN>* obj,
+    const interop::InputArrayProxy* inputImage,
+    std::vector<cv::Rect> *Bbox,
+    std::vector<float> *confidence)
 {
-    BEGIN_WRAP
-    (*obj)->detect(*inputImage, *Bbox, *confidence);
-    END_WRAP
+    return cvTry([&] {
+    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
+    });
 }
 
 CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
-    const char *modelArchFilename, const char *modelWeightsFilename, MyCvSize *detectionSizes, int detectionSizesLength,
+    const char *modelArchFilename,
+    const char *modelWeightsFilename,
+    interop::Size *detectionSizes,
+    int detectionSizesLength,
     cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Size> detectionSizesVec;
     if (detectionSizes != nullptr)
     {
@@ -38,23 +49,25 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
 
     const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename, detectionSizesVec);
     *returnValue = clone(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) text_TextDetectorCNN_create2(
-    const char *modelArchFilename, const char *modelWeightsFilename, cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
+    const char *modelArchFilename,
+    const char *modelWeightsFilename,
+    cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename);
     *returnValue = clone(ptr);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) text_Ptr_TextDetectorCNN_delete(cv::Ptr<cv::text::TextDetectorCNN> *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 

@@ -10,58 +10,61 @@
 
 #ifndef _WINRT_DLL
 
+// NOTE: OpenCV 5 relocated CascadeClassifier / groupRectangles into the contrib
+// xobjdetect module (see include_opencv.h); they remain in the cv:: namespace and
+// are kept available in all profiles (xobjdetect is lightweight).
 #pragma region CascadeClassifier
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_new(cv::CascadeClassifier **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::CascadeClassifier;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_newFromFile(const char *fileName, cv::CascadeClassifier **returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::CascadeClassifier(fileName);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_delete(cv::CascadeClassifier *obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_empty(cv::CascadeClassifier *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->empty() ? 1 : 0;
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_load(
     cv::CascadeClassifier *obj, const char *fileName, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->load(fileName) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_read(
     cv::CascadeClassifier* obj, cv::FileNode* fn, int* returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
         * returnValue = obj->read(*fn) ? 1 : 0;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale1(
     cv::CascadeClassifier *obj,
     cv::Mat *image, std::vector<cv::Rect> *objects,
-    double scaleFactor, int minNeighbors, int flags, MyCvSize minSize, MyCvSize maxSize)
+    double scaleFactor, int minNeighbors, int flags, interop::Size minSize, interop::Size maxSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->detectMultiScale(*image, *objects,
         scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize));
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale2(
@@ -71,32 +74,32 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale2(
     std::vector<int> *rejectLevels,
     std::vector<double> *levelWeights,
     double scaleFactor, int minNeighbors, int flags,
-    MyCvSize minSize, MyCvSize maxSize, int outputRejectLevels)
+    interop::Size minSize, interop::Size maxSize, int outputRejectLevels)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
         scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize), outputRejectLevels != 0);
-    END_WRAP
+    });
 }
 
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_isOldFormatCascade(cv::CascadeClassifier *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->isOldFormatCascade() ? 1 : 0;
-    END_WRAP
+    });
 }
-CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj, interop::Size *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = c(obj->getOriginalWindowSize());
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getFeatureType(cv::CascadeClassifier *obj, int *returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = obj->getFeatureType();
-    END_WRAP
+    });
 }
 
 #pragma endregion
@@ -104,37 +107,37 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getFeatureType(cv::CascadeCla
 CVAPI(ExceptionStatus) objdetect_groupRectangles1(
     std::vector<cv::Rect> *rectList, int groupThreshold, double eps)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::groupRectangles(*rectList, groupThreshold, eps);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles2(
     std::vector<cv::Rect> *rectList, std::vector<int> *weights, int groupThreshold, double eps)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::groupRectangles(*rectList, *weights, groupThreshold, eps);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles3(
     std::vector<cv::Rect> *rectList, int groupThreshold, double eps, std::vector<int> *weights, std::vector<double> *levelWeights)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::groupRectangles(*rectList, groupThreshold, eps, weights, levelWeights);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles4(
     std::vector<cv::Rect> *rectList, std::vector<int> *rejectLevels, std::vector<double> *levelWeights, int groupThreshold, double eps)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::groupRectangles(*rectList, *rejectLevels, *levelWeights, groupThreshold, eps);
-    END_WRAP
+    });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles_meanshift(
-    std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, MyCvSize winDetSize)
+    std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, interop::Size winDetSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));
-    END_WRAP
+    });
 }
 
 #endif

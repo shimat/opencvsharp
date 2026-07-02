@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace OpenCvSharp.Tests.Tracking;
 
@@ -47,7 +47,8 @@ public abstract class TrackerTestBase : TestBase
             if (Debugger.IsAttached)
             {
                 Directory.CreateDirectory(path);
-                mat.Rectangle(
+                Cv2.Rectangle(
+                    mat,
                     new Point(bb.X, bb.Y),
                     new Point(bb.X + bb.Width, bb.Y + bb.Height),
                     new Scalar(0, 0, 255));

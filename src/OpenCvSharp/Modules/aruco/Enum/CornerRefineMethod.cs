@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Aruco;
+namespace OpenCvSharp.Aruco;
 
 /// <summary>
 /// corner refinement method

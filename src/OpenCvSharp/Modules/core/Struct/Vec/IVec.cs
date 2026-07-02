@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1040 // Avoid empty interfaces
+#pragma warning disable CA1040 // Avoid empty interfaces
 
 namespace OpenCvSharp;
 

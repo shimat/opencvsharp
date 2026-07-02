@@ -12,9 +12,9 @@
 CVAPI(ExceptionStatus) line_descriptor_LSDDetector_new1(
     cv::line_descriptor::LSDDetector** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     *returnValue = new cv::line_descriptor::LSDDetector;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) line_descriptor_LSDDetector_new2(
@@ -27,7 +27,7 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_new2(
     const int n_bins,
     cv::line_descriptor::LSDDetector** returnValue)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     cv::line_descriptor::LSDParam param;
     param.scale = scale;
     param.sigma_scale = sigma_scale;
@@ -37,23 +37,23 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_new2(
     param.density_th = density_th;
     param.n_bins = n_bins;
     *returnValue = new cv::line_descriptor::LSDDetector(param);
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) line_descriptor_LSDDetector_delete(cv::line_descriptor::LSDDetector* obj)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     delete obj;
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect1(
     cv::line_descriptor::LSDDetector* obj,
     cv::Mat* image, std::vector<cv::line_descriptor::KeyLine> *keypoints, int scale, int numOctaves, cv::Mat* mask)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     obj->detect(*image, *keypoints, scale, numOctaves, entity(mask));    
-    END_WRAP
+    });
 }
 
 CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
@@ -62,7 +62,7 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
     std::vector<std::vector<cv::line_descriptor::KeyLine> > *keylines, int scale, int numOctaves,
     cv::Mat** masks, int32_t masksSize)
 {
-    BEGIN_WRAP
+    return cvTry([&] {
     std::vector<cv::Mat> imagesVec(imagesSize);
     std::vector<cv::Mat> masksVec(masksSize);
     for (int i = 0; i < imagesSize; i++)
@@ -76,7 +76,7 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
     
     obj->detect(imagesVec, *keylines, scale, numOctaves, masksVec);
 
-    END_WRAP
+    });
 }
 
 #endif // NO_CONTRIB

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Quality;
+using OpenCvSharp.Quality;
 using Xunit;
 
 #pragma warning disable 162
@@ -32,7 +32,7 @@ public class QualityPSNRTest : TestBase
         {
             Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
-            var value = QualityPSNR.Compute(refImage, targetImage, null);
+            var value = QualityPSNR.Compute(refImage, targetImage);
             Assert.Equal(28.893586, value[0], 6);
             Assert.Equal(28.26987, value[1], 6);
             Assert.Equal(31.088282, value[2], 6);

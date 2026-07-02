@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -15,22 +15,11 @@ static partial class Cv2
     public static void Inpaint(InputArray src, InputArray inpaintMask,
         OutputArray dst, double inpaintRadius, InpaintTypes flags)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (inpaintMask is null)
-            throw new ArgumentNullException(nameof(inpaintMask));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        inpaintMask.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags));
+            NativeMethods.photo_inpaint(src.Proxy, inpaintMask.Proxy, dst.Proxy, inpaintRadius, (int)flags));
 
-        dst.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(inpaintMask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(inpaintMask.Source);
     }
 
     /// <summary>
@@ -50,18 +39,10 @@ static partial class Cv2
     public static void FastNlMeansDenoising(InputArray src, OutputArray dst, float h = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize));
+            NativeMethods.photo_fastNlMeansDenoising(src.Proxy, dst.Proxy, h, templateWindowSize, searchWindowSize));
 
-        dst.Fix();
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -82,18 +63,10 @@ static partial class Cv2
         float h = 3, float hColor = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize));
+            NativeMethods.photo_fastNlMeansDenoisingColored(src.Proxy, dst.Proxy, h, hColor, templateWindowSize, searchWindowSize));
 
-        dst.Fix();
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -118,19 +91,15 @@ static partial class Cv2
     {
         if (srcImgs is null)
             throw new ArgumentNullException(nameof(srcImgs));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
 
-        dst.ThrowIfNotReady();
         var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
         NativeMethods.HandleException(
             NativeMethods.photo_fastNlMeansDenoisingMulti(
-                srcImgPtrs, srcImgPtrs.Length, dst.CvPtr,
+                srcImgPtrs, srcImgPtrs.Length, dst.Proxy,
                 imgToDenoiseIndex,
                 temporalWindowSize, h, templateWindowSize, searchWindowSize));
 
-        dst.Fix();
         GC.KeepAlive(srcImgs);
     }
 
@@ -156,17 +125,13 @@ static partial class Cv2
     {
         if (srcImgs is null)
             throw new ArgumentNullException(nameof(srcImgs));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
         var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
         NativeMethods.HandleException(
             NativeMethods.photo_fastNlMeansDenoisingColoredMulti(
-                srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
+                srcImgPtrs, srcImgPtrs.Length, dst.Proxy, imgToDenoiseIndex,
                 temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize));
 
-        dst.Fix();
         GC.KeepAlive(srcImgs);
     }
 
@@ -214,22 +179,10 @@ static partial class Cv2
     public static void Decolor(
         InputArray src, OutputArray grayscale, OutputArray colorBoost)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (grayscale is null) 
-            throw new ArgumentNullException(nameof(grayscale));
-        if (colorBoost is null)
-            throw new ArgumentNullException(nameof(colorBoost));
-        src.ThrowIfDisposed();
-        grayscale.ThrowIfNotReady();
-        colorBoost.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.photo_decolor(src.CvPtr, grayscale.CvPtr, colorBoost.CvPtr));
+            NativeMethods.photo_decolor(src.Proxy, grayscale.Proxy, colorBoost.Proxy));
 
-        GC.KeepAlive(src);
-        grayscale.Fix();
-        colorBoost.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -247,28 +200,16 @@ static partial class Cv2
     /// <param name="blend">Output image with the same size and type as dst.</param>
     /// <param name="flags">Cloning method</param>
     public static void SeamlessClone(
-        InputArray src, InputArray dst, InputArray? mask, Point p,
+        InputArray src, InputArray dst, InputArray mask, Point p,
         OutputArray blend, SeamlessCloneFlags flags)
     {
-        if (src is null) 
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (blend is null)
-            throw new ArgumentNullException(nameof(blend));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
-        blend.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.photo_seamlessClone(
-                src.CvPtr, dst.CvPtr, ToPtr(mask), p, blend.CvPtr, (int) flags));
+                src.Proxy, dst.Proxy, mask.Proxy, p, blend.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        blend.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -282,24 +223,15 @@ static partial class Cv2
     /// <param name="greenMul">G-channel multiply factor.</param>
     /// <param name="blueMul">B-channel multiply factor.</param>
     public static void ColorChange(
-        InputArray src, InputArray? mask, OutputArray dst, 
+        InputArray src, InputArray mask, OutputArray dst, 
         float redMul = 1.0f, float greenMul = 1.0f, float blueMul = 1.0f)
     {
-        if (src is null) 
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.photo_colorChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, redMul, greenMul, blueMul));
+                src.Proxy, mask.Proxy, dst.Proxy, redMul, greenMul, blueMul));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -316,25 +248,15 @@ static partial class Cv2
     /// This is useful to highlight under-exposed foreground objects or to reduce specular reflections.
     /// </remarks>
     public static void IlluminationChange(
-        InputArray src, InputArray? mask, OutputArray dst,
+        InputArray src, InputArray mask, OutputArray dst,
         float alpha = 0.2f, float beta = 0.4f)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.photo_illuminationChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, alpha, beta));
+                src.Proxy, mask.Proxy, dst.Proxy, alpha, beta));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -349,26 +271,16 @@ static partial class Cv2
     /// <param name="highThreshold">Value &gt; 100.</param>
     /// <param name="kernelSize">The size of the Sobel kernel to be used.</param>
     public static void TextureFlattening(
-        InputArray src, InputArray? mask, OutputArray dst,
+        InputArray src, InputArray mask, OutputArray dst,
         float lowThreshold = 30, float highThreshold = 45,
         int kernelSize = 3)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null) 
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.photo_textureFlattening(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, lowThreshold, highThreshold, kernelSize));
+                src.Proxy, mask.Proxy, dst.Proxy, lowThreshold, highThreshold, kernelSize));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -385,20 +297,11 @@ static partial class Cv2
         EdgePreservingMethods flags = EdgePreservingMethods.RecursFilter,
         float sigmaS = 60, float sigmaR = 0.4f)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null) 
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.photo_edgePreservingFilter(
-                src.CvPtr, dst.CvPtr, (int) flags, sigmaS, sigmaR));
+                src.Proxy, dst.Proxy, (int) flags, sigmaS, sigmaR));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -412,20 +315,11 @@ static partial class Cv2
         InputArray src, OutputArray dst, 
         float sigmaS = 10, float sigmaR = 0.15f)
     {
-        if (src is null) 
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null) 
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.photo_detailEnhance(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
+                src.Proxy, dst.Proxy, sigmaS, sigmaR));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -441,24 +335,11 @@ static partial class Cv2
         InputArray src, OutputArray dst1, OutputArray dst2,
         float sigmaS = 60, float sigmaR = 0.07f, float shadeFactor = 0.02f)
     {
-        if (src is null) 
-            throw new ArgumentNullException(nameof(src));
-        if (dst1 is null)
-            throw new ArgumentNullException(nameof(dst1));
-        if (dst2 is null)
-            throw new ArgumentNullException(nameof(dst2));
-
-        src.ThrowIfDisposed();
-        dst1.ThrowIfNotReady();
-        dst2.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.photo_pencilSketch(
-                src.CvPtr, dst1.CvPtr, dst2.CvPtr, sigmaS, sigmaR, shadeFactor));
+                src.Proxy, dst1.Proxy, dst2.Proxy, sigmaS, sigmaR, shadeFactor));
 
-        GC.KeepAlive(src);
-        dst1.Fix();
-        dst2.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -475,19 +356,10 @@ static partial class Cv2
         InputArray src, OutputArray dst,
         float sigmaS = 60, float sigmaR = 0.45f)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null) 
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.photo_stylization(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
+                src.Proxy, dst.Proxy, sigmaS, sigmaR));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 }

@@ -39,15 +39,11 @@ public class SuperpixelLSC : Algorithm
     public static SuperpixelLSC Create(
         InputArray image, int regionSize = 10, float ratio = 0.075f)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelLSC(
-                image.CvPtr, regionSize, ratio, out var smartPtr));
+                image.Proxy, regionSize, ratio, out var smartPtr));
             
-        GC.KeepAlive(image); 
+        GC.KeepAlive(image.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelLSC_get(smartPtr, out var rawPtr));
         return new SuperpixelLSC(smartPtr, rawPtr);
     }
@@ -61,8 +57,7 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
-                RawPtr, out var ret));
-        GC.KeepAlive(this);
+                Handle, out var ret));
         return ret;
     }
 
@@ -84,8 +79,7 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_iterate(
-                RawPtr, numIterations));
-        GC.KeepAlive(this);
+                Handle, numIterations));
     }
 
     /// <summary>
@@ -100,15 +94,10 @@ public class SuperpixelLSC : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabels(
-                RawPtr, labelsOut.CvPtr));
-        GC.KeepAlive(this);
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -120,15 +109,10 @@ public class SuperpixelLSC : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabelContourMask(
-                RawPtr, image.CvPtr, thickLine ? 1 : 0));
-        GC.KeepAlive(this);
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 
     /// <summary>
@@ -144,7 +128,6 @@ public class SuperpixelLSC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_enforceLabelConnectivity(
-                RawPtr, minElementSize));
-        GC.KeepAlive(this);
+                Handle, minElementSize));
     }
 }

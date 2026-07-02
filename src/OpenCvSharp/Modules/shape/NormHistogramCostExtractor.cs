@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -37,16 +37,14 @@ public class NormHistogramCostExtractor : HistogramCostExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_NormHistogramCostExtractor_getNormFlag(RawPtr, out var ret));
-            GC.KeepAlive(this);
+                NativeMethods.shape_NormHistogramCostExtractor_getNormFlag(Handle, out var ret));
             return (DistanceTypes)ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_NormHistogramCostExtractor_setNormFlag(RawPtr, (int)value));
-            GC.KeepAlive(this);
+                NativeMethods.shape_NormHistogramCostExtractor_setNormFlag(Handle, (int)value));
         }
     }
 }

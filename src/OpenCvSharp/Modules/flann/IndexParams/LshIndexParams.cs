@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann;
 
@@ -14,16 +14,24 @@ public class LshIndexParams : IndexParams
     /// <param name="keySize">The size of the hash key in bits (between 10 and 20 usually).</param>
     /// <param name="multiProbeLevel">The number of bits to shift to check for neighboring buckets (0 is regular LSH, 2 is recommended).</param>
     public LshIndexParams(int tableNumber, int keySize, int multiProbeLevel)
-        : base(Create(tableNumber, keySize, multiProbeLevel), static h => NativeMethods.flann_Ptr_LshIndexParams_delete(h))
+        : this(Create(tableNumber, keySize, multiProbeLevel))
     {
     }
 
-    private static IntPtr Create(int tableNumber, int keySize, int multiProbeLevel)
+    private LshIndexParams((IntPtr smartPtr, IntPtr rawPtr) ptrs)
+        : base(ptrs.smartPtr, ptrs.rawPtr,
+            static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_LshIndexParams_delete(h)))
+    {
+    }
+
+    private static (IntPtr smartPtr, IntPtr rawPtr) Create(int tableNumber, int keySize, int multiProbeLevel)
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(LshIndexParams)}");
-        return p;
+        NativeMethods.HandleException(
+            NativeMethods.flann_Ptr_LshIndexParams_get(smartPtr, out var rawPtr));
+        return (smartPtr, rawPtr);
     }
 }

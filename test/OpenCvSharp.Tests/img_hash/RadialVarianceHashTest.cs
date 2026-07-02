@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.ImgHash;
+using OpenCvSharp.ImgHash;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgHash;
@@ -41,12 +41,13 @@ public class RadialVarianceHashTest : TestBase
         using (var img1 = LoadImage("lenna.png", ImreadModes.Grayscale))
         {
             var size = new Size(40, 40);
-            using (var scaledImg1 = img1.Resize(size))
-            using (var scaledImg2 = img1.Resize(size))
-            {
-                double hash = model.Compare(scaledImg1, scaledImg2);
-                Assert.Equal(1, hash, 6);
-            }
+            using var scaledImg1 = new Mat();
+            Cv2.Resize(img1, scaledImg1, size);
+            using var scaledImg2 = new Mat();
+            Cv2.Resize(img1, scaledImg2, size);
+
+            double hash = model.Compare(scaledImg1, scaledImg2);
+            Assert.Equal(1, hash, 6);
         }
     }
 
@@ -58,12 +59,13 @@ public class RadialVarianceHashTest : TestBase
         using (var img2 = LoadImage("building.jpg", ImreadModes.Grayscale))
         {
             var size = new Size(40, 40);
-            using (var scaledImg1 = img1.Resize(size))
-            using (var scaledImg2 = img2.Resize(size))
-            {
-                double hash = model.Compare(scaledImg1, scaledImg2);
-                Assert.Equal(0.085777, hash, tolerance: 0.001);
-            }
+            using var scaledImg1 = new Mat();
+            Cv2.Resize(img1, scaledImg1, size);
+            using var scaledImg2 = new Mat();
+            Cv2.Resize(img2, scaledImg2, size);
+
+            double hash = model.Compare(scaledImg1, scaledImg2);
+            Assert.Equal(0.085777, hash, tolerance: 0.001);
         }
     }
 }

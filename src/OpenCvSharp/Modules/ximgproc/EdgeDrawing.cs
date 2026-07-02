@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -130,14 +130,10 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectEdges(InputArray src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEdges(RawPtr, src.CvPtr));
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
+            NativeMethods.ximgproc_EdgeDrawing_detectEdges(Handle, src.Proxy));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -147,14 +143,9 @@ public class EdgeDrawing : Algorithm
     public virtual void GetEdgeImage(OutputArray dst)
     {
         ThrowIfDisposed();
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(RawPtr, dst.CvPtr));
-        GC.KeepAlive(this);
-        dst.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(Handle, dst.Proxy));
     }
 
     /// <summary>
@@ -164,14 +155,9 @@ public class EdgeDrawing : Algorithm
     public virtual void GetGradientImage(OutputArray dst)
     {
         ThrowIfDisposed();
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(RawPtr, dst.CvPtr));
-        GC.KeepAlive(this);
-        dst.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(Handle, dst.Proxy));
     }
 
     /// <summary>
@@ -184,8 +170,7 @@ public class EdgeDrawing : Algorithm
 
         using var segments = new VectorOfVectorPoint();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getSegments(RawPtr, segments.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_getSegments(Handle, segments.CvPtr));
         return segments.ToArray();
     }
 
@@ -198,10 +183,9 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var indices = new VectorOfInt32();
+        using var indices = new StdVector<int>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getSegmentIndicesOfLines(RawPtr, indices.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_getSegmentIndicesOfLines(Handle, indices.CvPtr));
         return indices.ToArray();
     }
 
@@ -213,14 +197,9 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectLines(OutputArray lines)
     {
         ThrowIfDisposed();
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectLines(RawPtr, lines.CvPtr));
-        GC.KeepAlive(this);
-        lines.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_detectLines(Handle, lines.Proxy));
     }
 
     /// <summary>
@@ -232,10 +211,9 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var lines = new VectorOfVec4f();
+        using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectLines_vector(RawPtr, lines.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_detectLines_vector(Handle, lines.CvPtr));
         return lines.ToArray();
     }
 
@@ -250,14 +228,9 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectEllipses(OutputArray ellipses)
     {
         ThrowIfDisposed();
-        if (ellipses is null)
-            throw new ArgumentNullException(nameof(ellipses));
-        ellipses.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(RawPtr, ellipses.CvPtr));
-        GC.KeepAlive(this);
-        ellipses.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(Handle, ellipses.Proxy));
     }
 
     /// <summary>
@@ -272,10 +245,9 @@ public class EdgeDrawing : Algorithm
     {
         ThrowIfDisposed();
 
-        using var ellipses = new VectorOfVec6d();
+        using var ellipses = new StdVector<Vec6d>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEllipses_vector(RawPtr, ellipses.CvPtr));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_detectEllipses_vector(Handle, ellipses.CvPtr));
         return ellipses.ToArray();
     }
 
@@ -287,8 +259,7 @@ public class EdgeDrawing : Algorithm
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getParams(RawPtr, out var p));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_getParams(Handle, out var p));
         return new EdgeDrawingParams(p);
     }
 
@@ -304,7 +275,6 @@ public class EdgeDrawing : Algorithm
 
         var native = parameters.ToNative();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_setParams(RawPtr, ref native));
-        GC.KeepAlive(this);
+            NativeMethods.ximgproc_EdgeDrawing_setParams(Handle, ref native));
     }
 }

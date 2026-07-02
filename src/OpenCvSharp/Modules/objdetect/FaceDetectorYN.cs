@@ -65,11 +65,10 @@ public class FaceDetectorYN : Algorithm
     public int Detect(Mat image, Mat faces)
     {
         ThrowIfDisposed();
-        using InputArray iaImage = new(image);
-        using OutputArray oaFaces = new(faces);
+        InputArray iaImage = image;
+        OutputArray oaFaces = faces;
         NativeMethods.HandleException(
-            NativeMethods.objdetect_FaceDetectorYN_detect(RawPtr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
-        GC.KeepAlive(this);
+            NativeMethods.objdetect_FaceDetectorYN_detect(Handle, iaImage.Proxy, oaFaces.Proxy, out var result));
         return result;
     }
 }

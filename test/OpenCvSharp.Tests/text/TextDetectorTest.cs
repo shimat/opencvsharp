@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Net.Http;
 using Xunit;
 
@@ -24,7 +24,7 @@ public class TextDetectorTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "OpenCV 5: DNN removed the Caffe importer, so TextDetectorCNN can no longer load its Caffe model. See https://github.com/shimat/opencvsharp/issues/1905")]
     public void Create()
     {
         Assert.True(File.Exists(ModelArch), $"modelArch '{ModelArch}' not found");
@@ -39,7 +39,7 @@ public class TextDetectorTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "OpenCV 5: DNN removed the Caffe importer, so TextDetectorCNN can no longer load its Caffe model. See https://github.com/shimat/opencvsharp/issues/1905")]
     public void Detect()
     {
         using var detector = TextDetectorCNN.Create(ModelArch, ModelWeights);
@@ -54,7 +54,7 @@ public class TextDetectorTest : TestBase
         {
             foreach (var box in boxes)
             {
-                image.Rectangle(box, Scalar.Red, 2);
+                Cv2.Rectangle(image, box, Scalar.Red, 2);
             }
             Window.ShowImages(image);
         }

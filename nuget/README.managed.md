@@ -1,32 +1,31 @@
-﻿# OpenCvSharp
+# OpenCvSharp
 
 A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image processing and computer vision functionality.
+
+> This is the **OpenCvSharp5** family (OpenCV 5.x, .NET 8+). If you need .NET Framework, Unity, or another pre-.NET 8 runtime, use the **OpenCvSharp4** family (OpenCV 4.13.0) instead.
 
 ## Supported Platforms
 
 | Platform | Target Framework |
 |---|---|
 | .NET 8.0 or later | `net8.0` |
-| .NET Standard 2.1 | `netstandard2.1` |
-| .NET Standard 2.0 | `netstandard2.0` |
-| .NET Framework 4.6.1+ | via `netstandard2.0` |
-| .NET Framework 4.8 | direct target (WpfExtensions only) |
+| Windows desktop (.NET 8+) | `net8.0-windows` (WpfExtensions) |
 
-Target OpenCV version: **4.13.0** (with opencv_contrib)
+Target OpenCV version: **5.0.x** (with opencv_contrib)
 
 ## Quick Start
 
 ### Windows
 
 ```bash
-dotnet add package OpenCvSharp4.Windows
+dotnet add package OpenCvSharp5.Windows
 ```
 
 ### Linux / Ubuntu
 
 ```bash
-dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4.official.runtime.linux-x64
+dotnet add package OpenCvSharp5
+dotnet add package OpenCvSharp5.official.runtime.linux-x64
 ```
 
 ### macOS
@@ -50,17 +49,17 @@ For more installation options, see [Installation on GitHub](https://github.com/s
   ```
 
 ### Linux (Ubuntu and other distributions)
-The official `OpenCvSharp4.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions.
+The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions.
 
 - **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **slim** package which has no GUI dependencies.
-- **Slim package** (`OpenCvSharp4.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
+- **Slim package** (`OpenCvSharp5.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
 
 ### macOS (Intel and Apple Silicon)
 The `OpenCvSharp4.runtime.osx.x64` and `OpenCvSharp4.runtime.osx.arm64` packages provide native bindings for macOS. FFmpeg, Tesseract, Freetype, and all standard OpenCV modules are statically linked.
 
 ## Slim Profile
 
-The `slim` runtime packages (`OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.official.runtime.linux-x64.slim`, etc.) bundle a smaller native library:
+The `slim` runtime packages (`OpenCvSharp5.Windows.Slim`, `OpenCvSharp5.official.runtime.linux-x64.slim`, etc.) bundle a smaller native library:
 
 | | Modules |
 |---|---|
@@ -86,18 +85,15 @@ using (new Window("dst image", dst))
 }
 ```
 
-For complex pipelines, use `ResourcesTracker` to manage multiple resources automatically:
+`Mat` arithmetic operators (`+`, `-`, `*`, `/`, comparisons, bitwise, `T()`, `Inv()`, ...) return a
+lazily-evaluated managed expression tree that holds no unmanaged resources, so chained expressions
+never leak. Just receive the result in a `using Mat`:
 
 ```csharp
-using var t = new ResourcesTracker();
+using var src = new Mat("lenna.png", ImreadModes.Grayscale);
 
-var src = t.T(new Mat("lenna.png", ImreadModes.Grayscale));
-var dst = t.NewMat();
-Cv2.Canny(src, dst, 50, 200);
-var blurred = t.T(dst.Blur(new Size(3, 3)));
-t.T(new Window("src image", src));
-t.T(new Window("dst image", blurred));
-Cv2.WaitKey();
+// The intermediate (src * 0.8) holds no native resource; nothing leaks.
+using Mat dst = 255 - src * 0.8;
 ```
 
 > **Note:** OpenCvSharp does not support Unity, Xamarin, CUDA or UWP.

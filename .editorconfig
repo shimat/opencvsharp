@@ -1,4 +1,4 @@
-﻿# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Projects\randd\randd_address_separator\dotnet\Sansan.RD.AddressSeparator.Tests\ codebase based on best match to current usage at 2022/08/18
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Projects\randd\randd_address_separator\dotnet\Sansan.RD.AddressSeparator.Tests\ codebase based on best match to current usage at 2022/08/18
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -80,4 +80,5 @@ dotnet_diagnostic.IDE0079.severity = none
 dotnet_style_allow_statement_immediately_after_block_experimental=false:silent
 
 [*]
+charset = utf-8
 insert_final_newline = true

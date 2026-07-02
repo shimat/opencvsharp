@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -33,16 +33,10 @@ public class LDA : CvObject
     /// <param name="numComponents"></param>
     public LDA(InputArray src, InputArray labels, int numComponents = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        src.ThrowIfDisposed();
-        labels.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents, out var p));
-        GC.KeepAlive(src);
-        GC.KeepAlive(labels);
+            NativeMethods.core_LDA_new2(src.Proxy, labels.Proxy, numComponents, out var p));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(labels.Source);
         InitSafeHandle(p);
     }
 
@@ -59,8 +53,7 @@ public class LDA : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_eigenvectors(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_eigenvectors(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -71,8 +64,7 @@ public class LDA : CvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_eigenvalues(CvPtr, out var ret));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_eigenvalues(Handle, out var ret));
         return new Mat(ret);
     }
 
@@ -86,8 +78,7 @@ public class LDA : CvObject
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_save_String(CvPtr, fileName));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_save_String(Handle, fileName));
     }
 
     /// <summary>
@@ -100,8 +91,7 @@ public class LDA : CvObject
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_load_String(CvPtr, fileName));
-        GC.KeepAlive(this);
+            NativeMethods.core_LDA_load_String(Handle, fileName));
     }
 
     /// <summary>
@@ -116,9 +106,8 @@ public class LDA : CvObject
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_save_FileStorage(CvPtr, fs.CvPtr));
+            NativeMethods.core_LDA_save_FileStorage(Handle, fs.CvPtr));
             
-        GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
 
@@ -134,9 +123,8 @@ public class LDA : CvObject
         node.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_load_FileStorage(CvPtr, node.CvPtr));
+            NativeMethods.core_LDA_load_FileStorage(Handle, node.CvPtr));
 
-        GC.KeepAlive(this);
         GC.KeepAlive(node);
     }
 
@@ -148,19 +136,12 @@ public class LDA : CvObject
     public void Compute(InputArray src, InputArray labels)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (labels is null)
-            throw new ArgumentNullException(nameof(labels));
-        src.ThrowIfDisposed();
-        labels.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_compute(CvPtr, src.CvPtr, labels.CvPtr));
+            NativeMethods.core_LDA_compute(Handle, src.Proxy, labels.Proxy));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
-        GC.KeepAlive(labels);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(labels.Source);
     }
 
     /// <summary>
@@ -172,15 +153,11 @@ public class LDA : CvObject
     public Mat Project(InputArray src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_project(CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_project(Handle, src.Proxy, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
 
         return new Mat(ret);
     }
@@ -194,15 +171,11 @@ public class LDA : CvObject
     public Mat Reconstruct(InputArray src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_reconstruct(CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_reconstruct(Handle, src.Proxy, out var ret));
 
-        GC.KeepAlive(this);
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
 
         return new Mat(ret);
     }
@@ -216,22 +189,12 @@ public class LDA : CvObject
     /// <returns></returns>
     public static Mat SubspaceProject(InputArray w, InputArray mean, InputArray src)
     {
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        w.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_subspaceProject(w.Proxy, mean.Proxy, src.Proxy, out var ret));
 
-        GC.KeepAlive(w);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(src);
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(src.Source);
 
         return new Mat(ret);
     }
@@ -245,22 +208,12 @@ public class LDA : CvObject
     /// <returns></returns>
     public static Mat SubspaceReconstruct(InputArray w, InputArray mean, InputArray src)
     {
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        w.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_subspaceReconstruct(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
+            NativeMethods.core_LDA_subspaceReconstruct(w.Proxy, mean.Proxy, src.Proxy, out var ret));
 
-        GC.KeepAlive(w);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(src);
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(src.Source);
 
         return new Mat(ret);
     }

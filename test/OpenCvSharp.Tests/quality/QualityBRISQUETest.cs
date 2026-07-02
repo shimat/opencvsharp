@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Quality;
+using OpenCvSharp.Quality;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Quality;
