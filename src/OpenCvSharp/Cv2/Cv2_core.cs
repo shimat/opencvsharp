@@ -890,10 +890,8 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
-    public static void HConcat(ReadOnlySpan<Mat> src, OutputArray dst)
+    public static void HConcat(ReadOnlySpan<Mat> src, OutputArrayRef dst)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (src.Length == 0)
             throw new ArgumentException("src is empty", nameof(src));
 
@@ -907,12 +905,11 @@ public static partial class Cv2
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.ToOutputProxy()));
+            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.Proxy));
 
         foreach (var m in src)
             GC.KeepAlive(m);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -921,25 +918,14 @@ public static partial class Cv2
     /// <param name="src1">first input array to be considered for horizontal concatenation.</param>
     /// <param name="src2">second input array to be considered for horizontal concatenation.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src1 and src2, and the sum of cols of the src1 and src2.</param>
-    public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
+    public static void HConcat(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat2(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_hconcat2(src1.Proxy, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -947,10 +933,8 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
-    public static void VConcat(ReadOnlySpan<Mat> src, OutputArray dst)
+    public static void VConcat(ReadOnlySpan<Mat> src, OutputArrayRef dst)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (src.Length == 0)
             throw new ArgumentException("src.Count == 0", nameof(src));
 
@@ -964,12 +948,11 @@ public static partial class Cv2
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.ToOutputProxy()));
+            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.Proxy));
 
         foreach (var m in src)
             GC.KeepAlive(m);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -978,25 +961,14 @@ public static partial class Cv2
     /// <param name="src1">first input array to be considered for vertical concatenation.</param>
     /// <param name="src2">second input array to be considered for vertical concatenation.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src1 and src2, and the sum of rows of the src1 and src2.</param>
-    public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
+    public static void VConcat(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat2(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_vconcat2(src1.Proxy, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1006,25 +978,15 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+    public static void BitwiseAnd(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_and(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.core_bitwise_and(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1034,26 +996,15 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+    public static void BitwiseOr(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_or(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.core_bitwise_or(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1063,26 +1014,15 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+    public static void BitwiseXor(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_xor(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.core_bitwise_xor(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1091,22 +1031,14 @@ public static partial class Cv2
     /// <param name="src">input array.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseNot(InputArray src, OutputArray dst, InputArray? mask = null)
+    public static void BitwiseNot(InputArrayRef src, OutputArrayRef dst, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_not(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.core_bitwise_not(src.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1115,25 +1047,14 @@ public static partial class Cv2
     /// <param name="src1">first input array or a scalar.</param>
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as input arrays.</param>
-    public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
+    public static void Absdiff(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_absdiff(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_absdiff(src1.Proxy, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1144,22 +1065,14 @@ public static partial class Cv2
     /// <param name="dst">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask of the same size as \*this. Its non-zero elements indicate which matrix
     /// elements need to be copied.The mask has to be of type CV_8U and can have 1 or multiple channels.</param>
-    public static void CopyTo(InputArray src, OutputArray dst, InputArray? mask = null)
+    public static void CopyTo(InputArrayRef src, OutputArrayRef dst, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_copyTo(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.core_copyTo(src.Proxy, dst.Proxy, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mask);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1169,29 +1082,15 @@ public static partial class Cv2
     /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
     /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
-    public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
+    public static void InRange(InputArrayRef src, InputArrayRef lowerb, InputArrayRef upperb, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (lowerb is null)
-            throw new ArgumentNullException(nameof(lowerb));
-        if (upperb is null)
-            throw new ArgumentNullException(nameof(upperb));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        lowerb.ThrowIfDisposed();
-        upperb.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_InputArray(src.ToInputProxy(), lowerb.ToInputProxy(), upperb.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_inRange_InputArray(src.Proxy, lowerb.Proxy, upperb.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(lowerb);
-        GC.KeepAlive(upperb);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(lowerb.Source);
+        GC.KeepAlive(upperb.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1201,21 +1100,13 @@ public static partial class Cv2
     /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
     /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
-    public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
+    public static void InRange(InputArrayRef src, Scalar lowerb, Scalar upperb, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_Scalar(src.ToInputProxy(), lowerb, upperb, dst.ToOutputProxy()));
+            NativeMethods.core_inRange_Scalar(src.Proxy, lowerb, upperb, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1226,25 +1117,14 @@ public static partial class Cv2
     /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
     /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
     // ReSharper disable once IdentifierTypo
-    public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
+    public static void Compare(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, CmpTypes cmpop)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_compare(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), (int) cmpop));
+            NativeMethods.core_compare(src1.Proxy, src2.Proxy, dst.Proxy, (int) cmpop));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1253,25 +1133,14 @@ public static partial class Cv2
     /// <param name="src1"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void Min(InputArray src1, InputArray src2, OutputArray dst)
+    public static void Min(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_min1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_min1(src1.Proxy, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1328,25 +1197,14 @@ public static partial class Cv2
     /// <param name="src1"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void Max(InputArray src1, InputArray src2, OutputArray dst)
+    public static void Max(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_max1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_max1(src1.Proxy, src2.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>

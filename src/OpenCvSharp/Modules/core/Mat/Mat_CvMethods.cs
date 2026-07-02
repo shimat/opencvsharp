@@ -290,7 +290,7 @@ partial class Mat
     /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
     /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
     /// <returns>The destination array, will have the same size as src and CV_8U type</returns>
-    public Mat InRange(InputArray lowerb, InputArray upperb)
+    public Mat InRange(InputArrayRef lowerb, InputArrayRef upperb)
     {
         var dst = new Mat();
         Cv2.InRange(this, lowerb, upperb, dst);
