@@ -21,7 +21,7 @@ public class Index : CvObject
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out var p));
+            NativeMethods.flann_Index_new(features.ToInputProxy(), @params.CvPtr, (int)distType, out var p));
 
         GC.KeepAlive(features);
         GC.KeepAlive(@params);

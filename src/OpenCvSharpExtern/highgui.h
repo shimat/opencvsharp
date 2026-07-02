@@ -65,21 +65,30 @@ CVAPI(ExceptionStatus) highgui_imshow_umat(const char* winname, cv::UMat* mat)
     });
 }
 
-CVAPI(ExceptionStatus) highgui_resizeWindow(const char *winName, int width, int height)
+CVAPI(ExceptionStatus) highgui_resizeWindow(
+    const char *winName,
+    int width,
+    int height)
 {
     return cvTry([&] {
     cv::resizeWindow(winName, width, height);
     });
 }
 
-CVAPI(ExceptionStatus) highgui_moveWindow(const char *winName, int x, int y)
+CVAPI(ExceptionStatus) highgui_moveWindow(
+    const char *winName,
+    int x,
+    int y)
 {
     return cvTry([&] {
     cv::moveWindow(winName, x, y);
     });
 }
 
-CVAPI(ExceptionStatus) highgui_setWindowProperty(const char *winName, int propId, double propValue)
+CVAPI(ExceptionStatus) highgui_setWindowProperty(
+    const char *winName,
+    int propId,
+    double propValue)
 {
     return cvTry([&] {
     cv::setWindowProperty(winName, propId, propValue);
@@ -96,7 +105,10 @@ CVAPI(ExceptionStatus) highgui_setWindowTitle(const char *winname, const char *t
     });
 }
 
-CVAPI(ExceptionStatus) highgui_getWindowProperty(const char *winName, int propId, double *returnValue)
+CVAPI(ExceptionStatus) highgui_getWindowProperty(
+    const char *winName,
+    int propId,
+    double *returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::getWindowProperty(winName, propId);
@@ -110,7 +122,10 @@ CVAPI(ExceptionStatus) highgui_getWindowImageRect(const char *winName, interop::
     });
 }
 
-CVAPI(ExceptionStatus) highgui_setMouseCallback(const char *winName, cv::MouseCallback onMouse, void* userData)
+CVAPI(ExceptionStatus) highgui_setMouseCallback(
+    const char *winName,
+    cv::MouseCallback onMouse,
+    void* userData)
 {
     return cvTry([&] {
     cv::setMouseCallback(winName, onMouse, userData);
@@ -124,63 +139,99 @@ CVAPI(ExceptionStatus) highgui_getMouseWheelDelta(int flags, int *returnValue)
     });
 }
 
-CVAPI(ExceptionStatus) highgui_selectROI1(const char *windowName, cv::_InputArray *img, int showCrosshair, int fromCenter, interop::Rect *returnValue)
+CVAPI(ExceptionStatus) highgui_selectROI1(
+    const char *windowName,
+    const interop::InputArrayProxy* img,
+    int showCrosshair,
+    int fromCenter,
+    interop::Rect *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::selectROI(windowName, *img, showCrosshair != 0, fromCenter != 0));
+    *returnValue = c(cv::selectROI(windowName, InProxy(*img), showCrosshair != 0, fromCenter != 0));
     });
 }
 
-CVAPI(ExceptionStatus) highgui_selectROI2(cv::_InputArray *img, int showCrosshair, int fromCenter, interop::Rect *returnValue)
+CVAPI(ExceptionStatus) highgui_selectROI2(
+    const interop::InputArrayProxy* img,
+    int showCrosshair,
+    int fromCenter,
+    interop::Rect *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::selectROI(*img, showCrosshair != 0, fromCenter != 0));
+    *returnValue = c(cv::selectROI(InProxy(*img), showCrosshair != 0, fromCenter != 0));
     });
 }
 
-CVAPI(ExceptionStatus) highgui_selectROIs(const char * windowName, cv::_InputArray *img,
-                             std::vector<cv::Rect> *boundingBoxes, int showCrosshair, int fromCenter)
+CVAPI(ExceptionStatus) highgui_selectROIs(
+    const char * windowName,
+    const interop::InputArrayProxy* img,
+    std::vector<cv::Rect> *boundingBoxes,
+    int showCrosshair,
+    int fromCenter)
 {
     return cvTry([&] {
-    cv::selectROIs(windowName, *img, *boundingBoxes, showCrosshair != 0, fromCenter != 0);
+    cv::selectROIs(windowName, InProxy(*img), *boundingBoxes, showCrosshair != 0, fromCenter != 0);
     });
 }
 
-CVAPI(ExceptionStatus) highgui_createTrackbar(const char *trackbarName, const char *winName,
-    int* value, int count, cv::TrackbarCallback onChange, void* userData, int *returnValue)
+CVAPI(ExceptionStatus) highgui_createTrackbar(
+    const char *trackbarName,
+    const char *winName,
+    int* value,
+    int count,
+    cv::TrackbarCallback onChange,
+    void* userData,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::createTrackbar(trackbarName, winName, value, count, onChange, userData);
     });
 }
-CVAPI(ExceptionStatus) highgui_getTrackbarPos(const char *trackbarName, const char *winName, int *returnValue)
+CVAPI(ExceptionStatus) highgui_getTrackbarPos(
+    const char *trackbarName,
+    const char *winName,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::getTrackbarPos(trackbarName, winName);
     });  
 }
-CVAPI(ExceptionStatus) highgui_setTrackbarPos(const char *trackbarName, const char *winName, int pos)
+CVAPI(ExceptionStatus) highgui_setTrackbarPos(
+    const char *trackbarName,
+    const char *winName,
+    int pos)
 {
     return cvTry([&] {
     cv::setTrackbarPos(trackbarName, winName, pos);
     });
 }
 
-CVAPI(ExceptionStatus) highgui_setTrackbarMax(const char *trackbarName, const char *winName, int maxVal)
+CVAPI(ExceptionStatus) highgui_setTrackbarMax(
+    const char *trackbarName,
+    const char *winName,
+    int maxVal)
 {
     return cvTry([&] {
     cv::setTrackbarMax(trackbarName, winName, maxVal);
     });
 }
-CVAPI(ExceptionStatus) highgui_setTrackbarMin(const char *trackbarName, const char *winName, int minVal)
+CVAPI(ExceptionStatus) highgui_setTrackbarMin(
+    const char *trackbarName,
+    const char *winName,
+    int minVal)
 {
     return cvTry([&] {
     cv::setTrackbarMin(trackbarName, winName, minVal);
     });
 }
 
-/*CVAPI(ExceptionStatus) highgui_createButton(const char *bar_name, cv::ButtonCallback on_change,
-    void* user_data, int type, int initial_button_state, int *returnValue)
+/*CVAPI(ExceptionStatus) highgui_createButton(
+    const char *bar_name,
+    cv::ButtonCallback on_change,
+    void* user_data,
+    int type,
+    int initial_button_state,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = cv::createButton(bar_name, on_change, user_data, type, initial_button_state != 0);

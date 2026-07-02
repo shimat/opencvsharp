@@ -10,10 +10,10 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_ImgHashBase_compute(OpenCvSafeHandle obj, IntPtr inputArr, IntPtr outputArr);
+    internal static partial ExceptionStatus img_hash_ImgHashBase_compute(OpenCvSafeHandle obj, in InputArrayProxy inputArr, in OutputArrayProxy outputArr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus img_hash_ImgHashBase_compare(OpenCvSafeHandle obj, IntPtr hashOne, IntPtr hashTwo, out double returnValue);
+    internal static partial ExceptionStatus img_hash_ImgHashBase_compare(OpenCvSafeHandle obj, in InputArrayProxy hashOne, in InputArrayProxy hashTwo, out double returnValue);
 
 
     // AverageHash

@@ -57,7 +57,7 @@ public class WeChatQRCode : CvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode_points(
-                Handle, inputImage.CvPtr, pointsVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.ToInputProxy(), pointsVec.CvPtr, texts.CvPtr));
 
         points = pointsVec.ToArray();
         GC.KeepAlive(inputImage);
@@ -85,7 +85,7 @@ public class WeChatQRCode : CvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
-                Handle, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.ToInputProxy(), bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
         GC.KeepAlive(inputImage);

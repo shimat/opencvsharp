@@ -44,7 +44,7 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.saliency_MotionSaliencyBinWangApr2014_computeSaliency(
-                Handle, image.CvPtr, saliencyMap.CvPtr, out var ret));
+                Handle, image.ToInputProxy(), saliencyMap.ToOutputProxy(), out var ret));
         GC.KeepAlive(image);
         saliencyMap.Fix();
         return ret != 0;

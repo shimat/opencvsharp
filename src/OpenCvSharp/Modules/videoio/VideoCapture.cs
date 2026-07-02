@@ -1154,7 +1154,7 @@ public class VideoCapture : CvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.CvPtr, flag, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), flag, out var ret));
 
         image.Fix();
         return ret != 0;
@@ -1178,7 +1178,7 @@ public class VideoCapture : CvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.CvPtr, (int)streamIdx, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), (int)streamIdx, out var ret));
 
         image.Fix();
         return ret != 0;
@@ -1267,7 +1267,7 @@ public class VideoCapture : CvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.CvPtr, out var ret));
+            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.ToOutputProxy(), out var ret));
 
         image.Fix();
         return ret != 0;

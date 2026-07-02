@@ -68,14 +68,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(OpenCvSafeHandle obj, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute11(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor,
+    internal static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute11(
+        OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr keypoints, in OutputArrayProxy imgDescriptor,
         IntPtr pointIdxsOfClusters, IntPtr descriptors);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute12(
-        OpenCvSafeHandle obj, IntPtr keypointDescriptors,
-        IntPtr imgDescriptor, IntPtr pointIdxsOfClusters);
+    internal static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute12(
+        OpenCvSafeHandle obj, in InputArrayProxy keypointDescriptors,
+        in OutputArrayProxy imgDescriptor, IntPtr pointIdxsOfClusters);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_BOWImgDescriptorExtractor_compute2(

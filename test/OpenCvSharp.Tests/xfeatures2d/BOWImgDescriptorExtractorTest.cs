@@ -99,12 +99,23 @@ public class BOWImgDescriptorExtractorTest : TestBase
 
             try
             {
-                using var descriptors = new Mat();
-                descriptorExtractor.Compute(img, ref keypoints, descriptors);
-                descriptors.ConvertTo(descriptors, MatType.CV_32F);
-                bowDe.Compute(img, ref keypoints, descriptors, out var arr);
+                using var rawDescriptors = new Mat();
+                descriptorExtractor.Compute(img, ref keypoints, rawDescriptors);
+                rawDescriptors.ConvertTo(rawDescriptors, MatType.CV_32F);
+
+                using var imgDescriptor1 = new Mat();
+                bowDe.Compute(img, ref keypoints, imgDescriptor1, out var arr);
                 testOutputHelper.WriteLine(arr.Length.ToString(CultureInfo.InvariantCulture));
                 testOutputHelper.WriteLine(arr[0].Length.ToString(CultureInfo.InvariantCulture));
+
+                // Compute(InputArray keypointDescriptors, ...) overload: matches raw
+                // descriptors against the vocabulary directly, without a source image.
+                // Must use the raw (128-dim) descriptors here, not imgDescriptor1
+                // (the 200-dim BOW histogram), since the vocabulary column count must match.
+                using var imgDescriptor2 = new Mat();
+                bowDe.Compute(rawDescriptors, imgDescriptor2, out var arr2);
+                Assert.False(imgDescriptor2.Empty());
+                Assert.NotEmpty(arr2);
             }
             catch (OpenCVException ex)
             {

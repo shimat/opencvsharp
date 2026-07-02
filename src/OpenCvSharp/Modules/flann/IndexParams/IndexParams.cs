@@ -5,29 +5,39 @@ namespace OpenCvSharp.Flann;
 /// <summary>
 /// 
 /// </summary>
-public class IndexParams : CvObject
+public class IndexParams : CvPtrObject
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public IndexParams()
+        : this(Create())
+    {
+    }
+
+    private IndexParams((IntPtr smartPtr, IntPtr rawPtr) ptrs)
+        : base(ptrs.smartPtr, ptrs.rawPtr,
+            static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_IndexParams_delete(h)))
+    {
+    }
+
+    private static (IntPtr smartPtr, IntPtr rawPtr) Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.flann_Ptr_IndexParams_new(out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.flann_Ptr_IndexParams_new(out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
-
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.flann_Ptr_IndexParams_delete(p))));
+        NativeMethods.HandleException(
+            NativeMethods.flann_Ptr_IndexParams_get(smartPtr, out var rawPtr));
+        return (smartPtr, rawPtr);
     }
 
     /// <summary>
-    /// 
+    /// Creates an instance that owns a <c>cv::Ptr&lt;T&gt;</c> smart pointer (used by subclasses).
     /// </summary>
-    protected IndexParams(IntPtr p, Func<IntPtr, ExceptionStatus> deleteAction)
+    protected IndexParams(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> deleteAction)
+        : base(smartPtr, rawPtr, deleteAction)
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(deleteAction(p))));
     }
 
     #region Methods

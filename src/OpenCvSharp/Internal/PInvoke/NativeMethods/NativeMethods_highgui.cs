@@ -59,15 +59,15 @@ static partial class NativeMethods
     public static partial ExceptionStatus highgui_getMouseWheelDelta(int flags, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus highgui_selectROI1(
-        [MarshalAs(UnmanagedType.LPStr)] string windowName, IntPtr img, int showCrosshair, int fromCenter, out Rect returnValue);
+    internal static partial ExceptionStatus highgui_selectROI1(
+        [MarshalAs(UnmanagedType.LPStr)] string windowName, in InputArrayProxy img, int showCrosshair, int fromCenter, out Rect returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus highgui_selectROI2(IntPtr img, int showCrosshair, int fromCenter, out Rect returnValue);
+    internal static partial ExceptionStatus highgui_selectROI2(in InputArrayProxy img, int showCrosshair, int fromCenter, out Rect returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus highgui_selectROIs(
-        [MarshalAs(UnmanagedType.LPStr)] string windowName, IntPtr img, IntPtr boundingBoxes, int showCrosshair, int fromCenter);
+    internal static partial ExceptionStatus highgui_selectROIs(
+        [MarshalAs(UnmanagedType.LPStr)] string windowName, in InputArrayProxy img, IntPtr boundingBoxes, int showCrosshair, int fromCenter);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus highgui_createTrackbar(

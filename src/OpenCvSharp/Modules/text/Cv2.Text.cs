@@ -38,11 +38,11 @@ public static partial class Cv2
             using var result = new StdVector<Rect>();
             NativeMethods.HandleException(
                 NativeMethods.text_detectTextSWT(
-                    input.CvPtr, 
+                    input.ToInputProxy(), 
                     result.CvPtr, 
                     darkOnLight ? 1 : 0,
-                    draw?.CvPtr ?? IntPtr.Zero,
-                    chainBBs?.CvPtr ?? IntPtr.Zero));
+                    draw?.ToOutputProxy() ?? default,
+                    chainBBs?.ToOutputProxy() ?? default));
             
             GC.KeepAlive(input);
             draw?.Fix();

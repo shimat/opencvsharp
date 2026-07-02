@@ -22,6 +22,23 @@ public class QualitySSIMTest : TestBase
     }
 
     [Fact]
+    public void GetQualityMap()
+    {
+        using var refImage = LoadImage("lenna.png");
+        using var targetImage = new Mat();
+        using var psnr = QualitySSIM.Create(refImage);
+
+        Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
+        psnr.Compute(targetImage);
+
+        using var qualityMap = new Mat();
+        psnr.GetQualityMap(qualityMap);
+
+        Assert.False(qualityMap.Empty());
+        Assert.Equal(refImage.Size(), qualityMap.Size());
+    }
+
+    [Fact]
     public void StaticCompute()
     {
         using (var refImage = LoadImage("lenna.png"))

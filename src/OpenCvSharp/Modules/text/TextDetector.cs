@@ -24,7 +24,7 @@ public abstract class TextDetector : CvObject
         using (var confidenceVec = new StdVector<float>())
         {
             NativeMethods.HandleException(
-                NativeMethods.text_TextDetector_detect(Handle, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+                NativeMethods.text_TextDetector_detect(Handle, inputImage.ToInputProxy(), bboxVec.CvPtr, confidenceVec.CvPtr));
             bbox = bboxVec.ToArray();
             confidence = confidenceVec.ToArray();
         }

@@ -115,7 +115,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(
-                Handle, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+                Handle, frame0.ToInputProxy(), frame1.ToInputProxy(), flow1.ToOutputProxy(), flow2?.ToOutputProxy() ?? default));
 
         GC.KeepAlive(frame0);
         GC.KeepAlive(frame1);

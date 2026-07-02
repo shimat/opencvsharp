@@ -162,7 +162,7 @@ static partial class Cv2
         buf.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imdecode_InputArray(buf.CvPtr, (int) flags, out var ret));
+            NativeMethods.imgcodecs_imdecode_InputArray(buf.ToInputProxy(), (int) flags, out var ret));
         GC.KeepAlive(buf);
         return new Mat(ret);
     }
@@ -222,7 +222,7 @@ static partial class Cv2
 
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
+            NativeMethods.imgcodecs_imencode_vector(ext, img.ToInputProxy(), bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(img);
         buf = bufVec.ToArray();
         return ret != 0;

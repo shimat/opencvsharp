@@ -311,7 +311,7 @@ static partial class Cv2
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI1(windowName, img.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI1(windowName, img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
         GC.KeepAlive(img);
         return ret;
@@ -335,7 +335,7 @@ static partial class Cv2
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI2(img.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI2(img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
         GC.KeepAlive(img);
         return ret;
@@ -364,7 +364,7 @@ static partial class Cv2
 
         using var boundingBoxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROIs(windowName, img.CvPtr, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
+            NativeMethods.highgui_selectROIs(windowName, img.ToInputProxy(), boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
 
         GC.KeepAlive(img);
         return boundingBoxesVec.ToArray();
