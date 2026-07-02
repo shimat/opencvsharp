@@ -66,7 +66,7 @@ public class EMTest : TestBase
         using var means0 = Mat.FromPixelData(2, 2, MatType.CV_32F, means0Data);
 
         using var labels = new Mat();
-        var ok = em.TrainE(samples, means0, null, null, null, labels);
+        var ok = em.TrainE(samples, means0, default, default, default, labels);
         Assert.True(ok);
         Assert.Equal(40, labels.Rows);
     }
@@ -88,7 +88,7 @@ public class EMTest : TestBase
         using var probs0 = Mat.FromPixelData(40, 2, MatType.CV_32F, probs0Data);
 
         using var labels = new Mat();
-        var ok = em.TrainM(samples, probs0, null, labels);
+        var ok = em.TrainM(samples, probs0, default, labels);
         Assert.True(ok);
         Assert.Equal(40, labels.Rows);
     }

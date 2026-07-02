@@ -330,7 +330,7 @@ public class ArucoTest : TestBase
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         var dp = new DetectorParameters();
         var rp = new RefineParameters();
-        using var detector = new CharucoDetector(board, null, null, 2, false, true, dp, rp);
+        using var detector = new CharucoDetector(board, default, default, 2, false, true, dp, rp);
         Assert.NotNull(detector);
     }
 

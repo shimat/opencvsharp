@@ -14,8 +14,8 @@ public class FlannBasedMatcherTest : TestBase
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();
-        orb.DetectAndCompute(img1, null, out _, descriptor1);
-        orb.DetectAndCompute(img2, null, out _, descriptor2);
+        orb.DetectAndCompute(img1, default, out _, descriptor1);
+        orb.DetectAndCompute(img2, default, out _, descriptor2);
 
         // Flann needs the descriptors to be of type CV_32F
         Assert.Equal(MatType.CV_8UC1, descriptor1.Type());
@@ -46,8 +46,8 @@ public class FlannBasedMatcherTest : TestBase
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();
-        orb.DetectAndCompute(img1, null, out _, descriptor1);
-        orb.DetectAndCompute(img2, null, out _, descriptor2);
+        orb.DetectAndCompute(img1, default, out _, descriptor1);
+        orb.DetectAndCompute(img2, default, out _, descriptor2);
 
         using var indexParams = new KDTreeIndexParams();
 
@@ -80,8 +80,8 @@ public class FlannBasedMatcherTest : TestBase
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();
-        orb.DetectAndCompute(img1, null, out _, descriptor1);
-        orb.DetectAndCompute(img2, null, out _, descriptor2);
+        orb.DetectAndCompute(img1, default, out _, descriptor1);
+        orb.DetectAndCompute(img2, default, out _, descriptor2);
 
         using var indexParams = new LshIndexParams(12, 20, 2);
 
