@@ -1,13 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
-using OpenCvSharp.Internal.Vectors;
-
-#pragma warning disable CA1002 // Do not expose generic lists
 
 namespace OpenCvSharp;
 
 /// <summary>
-/// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
+/// Proxy datatype for passing Mat's as output parameters
 /// </summary>
 public class OutputArray : CvObject
 {
@@ -46,24 +43,6 @@ public class OutputArray : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out var p));
         GC.KeepAlive(mat);
-        obj = mat;
-        InitSafeHandle(p);
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="mat"></param>
-    internal OutputArray(IEnumerable<Mat> mat)
-    {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
-        IntPtr p;
-        using (var matVector = new VectorOfMat(mat))
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out p));
-        }
         obj = mat;
         InitSafeHandle(p);
     }
@@ -136,25 +115,7 @@ public class OutputArray : CvObject
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public bool IsVectorOfMat()
-    {
-        return obj is IEnumerable<Mat>;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public virtual IEnumerable<Mat>? GetVectorOfMat()
-    {
-        return obj as IEnumerable<Mat>;
-    }
-
-    /// <summary>
-    /// 
+    ///
     /// </summary>
     public virtual void AssignResult()
     {
@@ -210,32 +171,6 @@ public class OutputArray : CvObject
     public static OutputArray Create(UMat mat)
     {
         return new (mat);
-    }
-
-    /// <summary>
-    /// Creates a proxy class of the specified list
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="list"></param>
-    /// <returns></returns>
-    public static OutputArrayOfStructList<T> Create<T>(List<T> list)
-        where T : unmanaged
-    {
-        if (list is null)
-            throw new ArgumentNullException(nameof(list));
-        return new OutputArrayOfStructList<T>(list);
-    }
-
-    /// <summary>
-    /// Creates a proxy class of the specified list
-    /// </summary>
-    /// <param name="list"></param>
-    /// <returns></returns>
-    public static OutputArrayOfMatList Create(List<Mat> list)
-    {
-        if (list is null)
-            throw new ArgumentNullException(nameof(list));
-        return new OutputArrayOfMatList(list);
     }
 
     #endregion

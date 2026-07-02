@@ -37,14 +37,6 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byScalar(interop::Scalar scalar, cv:
     });
 }
 
-CVAPI(ExceptionStatus) core_OutputArray_new_byVectorOfMat(std::vector<cv::Mat> *vector, cv::_OutputArray **returnValue)
-{
-    return cvTry([&] {
-    const cv::_OutputArray ia(*vector);
-    *returnValue = new cv::_OutputArray(ia);
-    });
-}
-
 CVAPI(ExceptionStatus) core_OutputArray_delete(cv::_OutputArray *oa)
 {
     return cvTry([&] {
@@ -69,16 +61,3 @@ CVAPI(ExceptionStatus) core_OutputArray_getScalar(cv::_OutputArray *oa, interop:
     });
 }
 
-CVAPI(ExceptionStatus) core_OutputArray_getVectorOfMat(cv::_OutputArray *oa, std::vector<cv::Mat*> *vector)
-{
-    return cvTry([&] {
-    std::vector<cv::Mat> temp;
-    oa->getMatVector(temp);
-
-    vector->resize(temp.size());
-    for (size_t i = 0; i < temp.size(); i++)
-    {
-        (*vector)[i] = new cv::Mat(temp[i]);
-    }
-    });
-}
