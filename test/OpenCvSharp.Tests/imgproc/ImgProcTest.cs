@@ -26,7 +26,7 @@ public class ImgProcTest : TestBase
         using var src = new Mat(100, 100, MatType.CV_8UC1, Scalar.All(255));
         using var dst = new Mat();
         Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
-        Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
+        Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, default);
 
         ShowImagesWhenDebugMode(src, dst);
 
@@ -39,7 +39,7 @@ public class ImgProcTest : TestBase
         using var src = Mat.ZerosMat(100, 100, MatType.CV_8UC1);
         using var dst = new Mat();
         Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.White, 1);
-        Cv2.MorphologyEx(src, dst, MorphTypes.Erode, null);
+        Cv2.MorphologyEx(src, dst, MorphTypes.Erode, default);
 
         ShowImagesWhenDebugMode(src, dst);
 
@@ -468,13 +468,11 @@ public class ImgProcTest : TestBase
         using Mat img2 = img1.Clone();
         using Mat img3 = img1.Clone();
         using Mat img4 = img1.Clone();
-        using InputOutputArray ioa3 = InputOutputArray.Create(img3);
-        using InputOutputArray ioa4 = InputOutputArray.Create(img4);
 
         Cv2.Rectangle(img1, new Rect(10, 10, 80, 80), color, 1);
         Cv2.Rectangle(img2, new Point(10, 10), new Point(89, 89), color, 1);
-        Cv2.Rectangle(ioa3, new Rect(10, 10, 80, 80), color, 1);
-        Cv2.Rectangle(ioa4, new Point(10, 10), new Point(89, 89), color, 1);
+        Cv2.Rectangle(InputOutputArrayRef.Create(img3), new Rect(10, 10, 80, 80), color, 1);
+        Cv2.Rectangle(InputOutputArrayRef.Create(img4), new Point(10, 10), new Point(89, 89), color, 1);
 
         ShowImagesWhenDebugMode(img1, img2);
 
@@ -653,7 +651,7 @@ public class ImgProcTest : TestBase
         Cv2.CalcHist(
             images: [src],
             channels: [0],
-            mask: null,
+            mask: default,
             hist: hist,
             dims: 1,
             histSize: [256],
@@ -1223,7 +1221,7 @@ public class ImgProcTest : TestBase
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var hist = new Mat();
         var ranges = new[] { new Rangef(0, 256) };
-        Cv2.CalcHist(new[] { src }, SingleChannelIndex, null, hist, 1, GrayscaleHistSize, ranges);
+        Cv2.CalcHist(new[] { src }, SingleChannelIndex, default, hist, 1, GrayscaleHistSize, ranges);
 
         using var backProject = new Mat();
         Cv2.CalcBackProject(new[] { src }, SingleChannelIndex, hist, backProject, ranges);

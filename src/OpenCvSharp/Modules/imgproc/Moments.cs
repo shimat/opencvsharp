@@ -65,11 +65,8 @@ public class Moments
     /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
     /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
     /// <returns></returns>
-    public Moments(InputArray array, bool binaryImage = false)
+    public Moments(InputArrayRef array, bool binaryImage = false)
     {
-        if (array is null)
-            throw new ArgumentNullException(nameof(array));
-        array.ThrowIfDisposed();
         InitializeFromInputArray(array, binaryImage);
     }
 
@@ -147,11 +144,11 @@ public class Moments
     /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
     /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
     /// <returns></returns>
-    private void InitializeFromInputArray(InputArray array, bool binaryImage)
+    private void InitializeFromInputArray(InputArrayRef array, bool binaryImage)
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_moments(array.ToInputProxy(), binaryImage ? 1 : 0, out var m));
-        GC.KeepAlive(array);
+            NativeMethods.imgproc_moments(array.Proxy, binaryImage ? 1 : 0, out var m));
+        GC.KeepAlive(array.Source);
         Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
     }
 
