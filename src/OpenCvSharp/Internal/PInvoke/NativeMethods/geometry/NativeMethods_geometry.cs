@@ -11,32 +11,32 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_Rodrigues(
-        IntPtr src, IntPtr dst, IntPtr jacobian);
+    internal static partial ExceptionStatus geometry_Rodrigues(
+        in InputArrayProxy src, in OutputArrayProxy dst, in OutputArrayProxy jacobian);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findHomography_InputArray(
-        IntPtr srcPoints, IntPtr dstPoints,
-        int method, double ransacReprojThreshold, IntPtr mask,
+    internal static partial ExceptionStatus geometry_findHomography_InputArray(
+        in InputArrayProxy srcPoints, in InputArrayProxy dstPoints,
+        int method, double ransacReprojThreshold, in OutputArrayProxy mask,
         int maxIters, double confidence,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findHomography_vector(
+    internal static partial ExceptionStatus geometry_findHomography_vector(
         Point2d[] srcPoints, int srcPointsLength,
-        Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask,
+        Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, in OutputArrayProxy mask,
         int maxIters, double confidence,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findHomography_UsacParams(
-        IntPtr srcPoints, IntPtr dstPoints, IntPtr mask, ref WUsacParams @params,
+    internal static partial ExceptionStatus geometry_findHomography_UsacParams(
+        in InputArrayProxy srcPoints, in InputArrayProxy dstPoints, in OutputArrayProxy mask, ref WUsacParams @params,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_RQDecomp3x3_InputArray(
-        IntPtr src, IntPtr mtxR,
-        IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
+    internal static partial ExceptionStatus geometry_RQDecomp3x3_InputArray(
+        in InputArrayProxy src, in OutputArrayProxy mtxR,
+        in OutputArrayProxy mtxQ, in OutputArrayProxy qx, in OutputArrayProxy qy, in OutputArrayProxy qz, out Vec3d outVal);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_RQDecomp3x3_Mat(
@@ -44,9 +44,9 @@ static partial class NativeMethods
         IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_decomposeProjectionMatrix_InputArray(
-        IntPtr projMatrix, IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, 
-        IntPtr rotMatrixX, IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
+    internal static partial ExceptionStatus geometry_decomposeProjectionMatrix_InputArray(
+        in InputArrayProxy projMatrix, in OutputArrayProxy cameraMatrix, in OutputArrayProxy rotMatrix, in OutputArrayProxy transVect, 
+        in OutputArrayProxy rotMatrixX, in OutputArrayProxy rotMatrixY, in OutputArrayProxy rotMatrixZ, in OutputArrayProxy eulerAngles);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_decomposeProjectionMatrix_Mat(
@@ -54,14 +54,14 @@ static partial class NativeMethods
         IntPtr rotMatrixX, IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_matMulDeriv(
-        IntPtr a, IntPtr b, IntPtr dABdA, IntPtr dABdB);
+    internal static partial ExceptionStatus geometry_matMulDeriv(
+        in InputArrayProxy a, in InputArrayProxy b, in OutputArrayProxy dABdA, in OutputArrayProxy dABdB);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_composeRT_InputArray(
-        IntPtr rvec1, IntPtr tvec1, IntPtr rvec2, IntPtr tvec2, IntPtr rvec3, IntPtr tvec3,
-        IntPtr dr3dr1, IntPtr dr3dt1, IntPtr dr3dr2, IntPtr dr3dt2, 
-        IntPtr dt3dr1, IntPtr dt3dt1, IntPtr dt3dr2, IntPtr dt3dt2);
+    internal static partial ExceptionStatus geometry_composeRT_InputArray(
+        in InputArrayProxy rvec1, in InputArrayProxy tvec1, in InputArrayProxy rvec2, in InputArrayProxy tvec2, in OutputArrayProxy rvec3, in OutputArrayProxy tvec3,
+        in OutputArrayProxy dr3dr1, in OutputArrayProxy dr3dt1, in OutputArrayProxy dr3dr2, in OutputArrayProxy dr3dt2, 
+        in OutputArrayProxy dt3dr1, in OutputArrayProxy dt3dt1, in OutputArrayProxy dt3dr2, in OutputArrayProxy dt3dt2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_composeRT_Mat(
@@ -70,9 +70,9 @@ static partial class NativeMethods
         IntPtr dt3dr1, IntPtr dt3dt1, IntPtr dt3dr2, IntPtr dt3dt2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_projectPoints_InputArray(
-        IntPtr objectPoints, IntPtr rvec, IntPtr tvec, IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr imagePoints, IntPtr jacobian, double aspectRatio);
+    internal static partial ExceptionStatus geometry_projectPoints_InputArray(
+        in InputArrayProxy objectPoints, in InputArrayProxy rvec, in InputArrayProxy tvec, in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in OutputArrayProxy imagePoints, in OutputArrayProxy jacobian, double aspectRatio);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_projectPoints_Mat(
@@ -80,9 +80,9 @@ static partial class NativeMethods
         IntPtr imagePoints, IntPtr jacobian, double aspectRatio);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_solvePnP_InputArray(
-        IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
-        IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
+    internal static partial ExceptionStatus geometry_solvePnP_InputArray(
+        in InputArrayProxy selfectPoints, in InputArrayProxy imagePoints, in InputArrayProxy cameraMatrix, 
+        in InputArrayProxy distCoeffs, in OutputArrayProxy rvec, in OutputArrayProxy tvec, int useExtrinsicGuess, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_solvePnP_vector(
@@ -92,11 +92,11 @@ static partial class NativeMethods
         [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_solvePnPRansac_InputArray(
-        IntPtr objectPoints, IntPtr imagePoints,
-        IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
+    internal static partial ExceptionStatus geometry_solvePnPRansac_InputArray(
+        in InputArrayProxy objectPoints, in InputArrayProxy imagePoints,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs, in OutputArrayProxy rvec, in OutputArrayProxy tvec,
         int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
-        IntPtr inliers, int flags);
+        in OutputArrayProxy inliers, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_solvePnPRansac_vector(
@@ -107,8 +107,8 @@ static partial class NativeMethods
         double confidence, IntPtr inliers, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_calibrationMatrixValues_InputArray(
-        IntPtr cameraMatrix,
+    internal static partial ExceptionStatus geometry_calibrationMatrixValues_InputArray(
+        in InputArrayProxy cameraMatrix,
         Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
         out double focalLength, out Point2d principalPoint, out double aspectRatio);
 
@@ -119,8 +119,8 @@ static partial class NativeMethods
         out Point2d principalPoint, out double aspectRatio);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_getOptimalNewCameraMatrix_InputArray(
-        IntPtr cameraMatrix, IntPtr distCoeffs,
+    internal static partial ExceptionStatus geometry_getOptimalNewCameraMatrix_InputArray(
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
         Size imageSize, double alpha, Size newImgSize,
         out Rect validPixROI, int centerPrincipalPoint,
         out IntPtr returnValue);
@@ -134,8 +134,8 @@ static partial class NativeMethods
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_convertPointsToHomogeneous_InputArray(
-        IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus geometry_convertPointsToHomogeneous_InputArray(
+        in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_convertPointsToHomogeneous_array1(
@@ -146,8 +146,8 @@ static partial class NativeMethods
         [In] Vec3f[] src, [In, Out] Vec4f[] dst, int length);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_convertPointsFromHomogeneous_InputArray(
-        IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus geometry_convertPointsFromHomogeneous_InputArray(
+        in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_convertPointsFromHomogeneous_array1(
@@ -158,37 +158,37 @@ static partial class NativeMethods
         [In] Vec4f[] src, [In, Out] Vec3f[] dst, int length);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_convertPointsHomogeneous(
-        IntPtr src, IntPtr dst);
+    internal static partial ExceptionStatus geometry_convertPointsHomogeneous(
+        in InputArrayProxy src, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findFundamentalMat_InputArray(
-        IntPtr points1, IntPtr points2,
-        int method, double param1, double param2, IntPtr mask,
+    internal static partial ExceptionStatus geometry_findFundamentalMat_InputArray(
+        in InputArrayProxy points1, in InputArrayProxy points2,
+        int method, double param1, double param2, in OutputArrayProxy mask,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findFundamentalMat_UsacParams(
-        IntPtr points1, IntPtr points2, IntPtr mask, ref WUsacParams @params,
+    internal static partial ExceptionStatus geometry_findFundamentalMat_UsacParams(
+        in InputArrayProxy points1, in InputArrayProxy points2, in OutputArrayProxy mask, ref WUsacParams @params,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findFundamentalMat_arrayF64(
+    internal static partial ExceptionStatus geometry_findFundamentalMat_arrayF64(
         Point2d[] points1, int points1Size,
         Point2d[] points2, int points2Size,
-        int method, double param1, double param2, IntPtr mask,
+        int method, double param1, double param2, in OutputArrayProxy mask,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findFundamentalMat_arrayF32(
+    internal static partial ExceptionStatus geometry_findFundamentalMat_arrayF32(
         Point2f[] points1, int points1Size,
         Point2f[] points2, int points2Size,
-        int method, double param1, double param2, IntPtr mask,
+        int method, double param1, double param2, in OutputArrayProxy mask,
         out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_computeCorrespondEpilines_InputArray(
-        IntPtr points, int whichImage, IntPtr F, IntPtr lines);
+    internal static partial ExceptionStatus geometry_computeCorrespondEpilines_InputArray(
+        in InputArrayProxy points, int whichImage, in InputArrayProxy F, in OutputArrayProxy lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_computeCorrespondEpilines_array2d(
@@ -201,10 +201,10 @@ static partial class NativeMethods
         int whichImage, double* F, [In, Out] Point3f[] lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_triangulatePoints_InputArray(
-        IntPtr projMatr1, IntPtr projMatr2,
-        IntPtr projPoints1, IntPtr projPoints2,
-        IntPtr points4D);
+    internal static partial ExceptionStatus geometry_triangulatePoints_InputArray(
+        in InputArrayProxy projMatr1, in InputArrayProxy projMatr2,
+        in InputArrayProxy projPoints1, in InputArrayProxy projPoints2,
+        in OutputArrayProxy points4D);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_triangulatePoints_array(
@@ -214,9 +214,9 @@ static partial class NativeMethods
         [In, Out] Vec4d[] points4D);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_correctMatches_InputArray(
-        IntPtr F, IntPtr points1, IntPtr points2,
-        IntPtr newPoints1, IntPtr newPoints2);
+    internal static partial ExceptionStatus geometry_correctMatches_InputArray(
+        in InputArrayProxy F, in InputArrayProxy points1, in InputArrayProxy points2,
+        in OutputArrayProxy newPoints1, in OutputArrayProxy newPoints2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_correctMatches_array(
@@ -225,117 +225,117 @@ static partial class NativeMethods
         Point2d[] newPoints1, Point2d[] newPoints2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_estimateAffine3D(
-        IntPtr src, IntPtr dst,
-        IntPtr outVal, IntPtr inliers, double ransacThreshold, double confidence,
+    internal static partial ExceptionStatus geometry_estimateAffine3D(
+        in InputArrayProxy src, in InputArrayProxy dst,
+        in OutputArrayProxy outVal, in OutputArrayProxy inliers, double ransacThreshold, double confidence,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_sampsonDistance_InputArray(
-        IntPtr pt1, IntPtr pt2, IntPtr F, out double returnValue);
+    internal static partial ExceptionStatus geometry_sampsonDistance_InputArray(
+        in InputArrayProxy pt1, in InputArrayProxy pt2, in InputArrayProxy F, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_sampsonDistance_Point3d(
         Point3d pt1, Point3d pt2, double* F, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_estimateAffine2D(
-        IntPtr from, IntPtr to, IntPtr inliers,
+    internal static partial ExceptionStatus geometry_estimateAffine2D(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy inliers,
         int method, double ransacReprojThreshold,
         ulong maxIters, double confidence, ulong refineIters, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_estimateAffinePartial2D(
-        IntPtr from, IntPtr to, IntPtr inliers,
+    internal static partial ExceptionStatus geometry_estimateAffinePartial2D(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy inliers,
         int method, double ransacReprojThreshold,
         ulong maxIters, double confidence, ulong refineIters, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_decomposeHomographyMat(
-        IntPtr H,
-        IntPtr K,
+    internal static partial ExceptionStatus geometry_decomposeHomographyMat(
+        in InputArrayProxy H,
+        in InputArrayProxy K,
         IntPtr rotations,
         IntPtr translations,
         IntPtr normals,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_filterHomographyDecompByVisibleRefpoints(
+    internal static partial ExceptionStatus geometry_filterHomographyDecompByVisibleRefpoints(
         IntPtr rotations,
         IntPtr normals,
-        IntPtr beforePoints,
-        IntPtr afterPoints,
-        IntPtr possibleSolutions,
-        IntPtr pointsMask);
+        in InputArrayProxy beforePoints,
+        in InputArrayProxy afterPoints,
+        in OutputArrayProxy possibleSolutions,
+        in InputArrayProxy pointsMask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_getDefaultNewCameraMatrix(
-        IntPtr cameraMatrix, Size imgsize, int centerPrincipalPoint, out IntPtr returnValue);
+    internal static partial ExceptionStatus geometry_getDefaultNewCameraMatrix(
+        in InputArrayProxy cameraMatrix, Size imgsize, int centerPrincipalPoint, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_undistortPoints(
-        IntPtr src, IntPtr dst,
-        IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr R, IntPtr P);
+    internal static partial ExceptionStatus geometry_undistortPoints(
+        in InputArrayProxy src, in OutputArrayProxy dst,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputArrayProxy R, in InputArrayProxy P);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_undistortPointsIter(
-        IntPtr src, IntPtr dst,
-        IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr R, IntPtr P, TermCriteria criteria);
+    internal static partial ExceptionStatus geometry_undistortPointsIter(
+        in InputArrayProxy src, in OutputArrayProxy dst,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputArrayProxy R, in InputArrayProxy P, TermCriteria criteria);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_recoverPose_InputArray1(
-        IntPtr E, IntPtr points1, IntPtr points2,
-        IntPtr cameraMatrix, 
-        IntPtr R, IntPtr P, IntPtr mask,
+    internal static partial ExceptionStatus geometry_recoverPose_InputArray1(
+        in InputArrayProxy E, in InputArrayProxy points1, in InputArrayProxy points2,
+        in InputArrayProxy cameraMatrix, 
+        in OutputArrayProxy R, in OutputArrayProxy P, in InputOutputArrayProxy mask,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_recoverPose_InputArray2(
-        IntPtr E, IntPtr points1, IntPtr points2,
-        IntPtr R, IntPtr P, double focal, Point2d pp, IntPtr mask,
+    internal static partial ExceptionStatus geometry_recoverPose_InputArray2(
+        in InputArrayProxy E, in InputArrayProxy points1, in InputArrayProxy points2,
+        in OutputArrayProxy R, in OutputArrayProxy P, double focal, Point2d pp, in InputOutputArrayProxy mask,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_recoverPose_InputArray3(
-        IntPtr E, IntPtr points1, IntPtr points2,
-        IntPtr cameraMatrix,
-        IntPtr R, IntPtr P, double distanceTresh, IntPtr mask, IntPtr triangulatedPoints,
+    internal static partial ExceptionStatus geometry_recoverPose_InputArray3(
+        in InputArrayProxy E, in InputArrayProxy points1, in InputArrayProxy points2,
+        in InputArrayProxy cameraMatrix,
+        in OutputArrayProxy R, in OutputArrayProxy P, double distanceTresh, in InputOutputArrayProxy mask, in OutputArrayProxy triangulatedPoints,
         out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findEssentialMat_InputArray1(
-        IntPtr points1, IntPtr points2, IntPtr cameraMatrix,
-        int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
+    internal static partial ExceptionStatus geometry_findEssentialMat_InputArray1(
+        in InputArrayProxy points1, in InputArrayProxy points2, in InputArrayProxy cameraMatrix,
+        int method, double prob, double threshold, in OutputArrayProxy mask, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_findEssentialMat_InputArray2(
-        IntPtr points1, IntPtr points2, double focal, Point2d pp,
-        int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
+    internal static partial ExceptionStatus geometry_findEssentialMat_InputArray2(
+        in InputArrayProxy points1, in InputArrayProxy points2, double focal, Point2d pp,
+        int method, double prob, double threshold, in OutputArrayProxy mask, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_solvePnPRefineLM(
-        IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr rvec, IntPtr tvec, TermCriteria criteria);
+    internal static partial ExceptionStatus geometry_solvePnPRefineLM(
+        in InputArrayProxy objectPoints, in InputArrayProxy imagePoints, in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputOutputArrayProxy rvec, in InputOutputArrayProxy tvec, TermCriteria criteria);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_solvePnPRefineVVS(
-        IntPtr objectPoints, IntPtr imagePoints, IntPtr cameraMatrix, IntPtr distCoeffs,
-        IntPtr rvec, IntPtr tvec, TermCriteria criteria, double vvsLambda);
+    internal static partial ExceptionStatus geometry_solvePnPRefineVVS(
+        in InputArrayProxy objectPoints, in InputArrayProxy imagePoints, in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        in InputOutputArrayProxy rvec, in InputOutputArrayProxy tvec, TermCriteria criteria, double vvsLambda);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_decomposeEssentialMat(
-        IntPtr e, IntPtr r1, IntPtr r2, IntPtr t);
+    internal static partial ExceptionStatus geometry_decomposeEssentialMat(
+        in InputArrayProxy e, in OutputArrayProxy r1, in OutputArrayProxy r2, in OutputArrayProxy t);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_estimateTranslation3D(
-        IntPtr src, IntPtr dst, IntPtr outVal, IntPtr inliers,
+    internal static partial ExceptionStatus geometry_estimateTranslation3D(
+        in InputArrayProxy src, in InputArrayProxy dst, in OutputArrayProxy outVal, in OutputArrayProxy inliers,
         double ransacThreshold, double confidence, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus geometry_estimateTranslation2D(
-        IntPtr from, IntPtr to, IntPtr inliers,
+    internal static partial ExceptionStatus geometry_estimateTranslation2D(
+        in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy inliers,
         int method, double ransacReprojThreshold, ulong maxIters, double confidence, ulong refineIters,
         out Vec2d returnValue);
 }

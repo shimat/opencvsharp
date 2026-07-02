@@ -11,44 +11,44 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_projectPoints2(
-        IntPtr objectPoints, IntPtr imagePoints, IntPtr rvec, IntPtr tvec,
-        IntPtr K, IntPtr D, double alpha, IntPtr jacobian);
+    internal static partial ExceptionStatus calib_fisheye_projectPoints2(
+        in InputArrayProxy objectPoints, in OutputArrayProxy imagePoints, in InputArrayProxy rvec, in InputArrayProxy tvec,
+        in InputArrayProxy K, in InputArrayProxy D, double alpha, in OutputArrayProxy jacobian);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_distortPoints(
-        IntPtr undistorted, IntPtr distorted, IntPtr K, IntPtr D, double alpha);
+    internal static partial ExceptionStatus calib_fisheye_distortPoints(
+        in InputArrayProxy undistorted, in OutputArrayProxy distorted, in InputArrayProxy K, in InputArrayProxy D, double alpha);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_distortPoints2(
-        IntPtr undistorted, IntPtr distorted, IntPtr Kundistorted, IntPtr K, IntPtr D, double alpha);
+    internal static partial ExceptionStatus calib_fisheye_distortPoints2(
+        in InputArrayProxy undistorted, in OutputArrayProxy distorted, in InputArrayProxy Kundistorted, in InputArrayProxy K, in InputArrayProxy D, double alpha);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_undistortPoints(
-        IntPtr distorted, IntPtr undistorted,
-        IntPtr K, IntPtr D, IntPtr R, IntPtr P);
+    internal static partial ExceptionStatus calib_fisheye_undistortPoints(
+        in InputArrayProxy distorted, in OutputArrayProxy undistorted,
+        in InputArrayProxy K, in InputArrayProxy D, in InputArrayProxy R, in InputArrayProxy P);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_initUndistortRectifyMap(
-        IntPtr K, IntPtr D, IntPtr R, IntPtr P,
-        Size size, int m1type, IntPtr map1, IntPtr map2);
+    internal static partial ExceptionStatus calib_fisheye_initUndistortRectifyMap(
+        in InputArrayProxy K, in InputArrayProxy D, in InputArrayProxy R, in InputArrayProxy P,
+        Size size, int m1type, in OutputArrayProxy map1, in OutputArrayProxy map2);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_undistortImage(
-        IntPtr distorted, IntPtr undistorted,
-        IntPtr K, IntPtr D, IntPtr Knew, Size newSize);
+    internal static partial ExceptionStatus calib_fisheye_undistortImage(
+        in InputArrayProxy distorted, in OutputArrayProxy undistorted,
+        in InputArrayProxy K, in InputArrayProxy D, in InputArrayProxy Knew, Size newSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
-        IntPtr K, IntPtr D, Size image_size, IntPtr R,
-        IntPtr P, double balance, Size newSize, double fov_scale);
+    internal static partial ExceptionStatus calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
+        in InputArrayProxy K, in InputArrayProxy D, Size image_size, in InputArrayProxy R,
+        in OutputArrayProxy P, double balance, Size newSize, double fov_scale);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_calibrate(
+    internal static partial ExceptionStatus calib_fisheye_calibrate(
         IntPtr objectPoints, IntPtr imagePoints, 
         Size imageSize,
-        IntPtr K,
-        IntPtr D,
+        in InputOutputArrayProxy K,
+        in InputOutputArrayProxy D,
         IntPtr rvecs,
         IntPtr tvecs,
         int flags,
@@ -56,23 +56,23 @@ static partial class NativeMethods
         out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_stereoRectify(
-        IntPtr K1, IntPtr D1, IntPtr K2, IntPtr D2, Size imageSize, IntPtr R, IntPtr tvec,
-        IntPtr R1, IntPtr R2, IntPtr P1, IntPtr P2, IntPtr Q, int flags, Size newImageSize,
+    internal static partial ExceptionStatus calib_fisheye_stereoRectify(
+        in InputArrayProxy K1, in InputArrayProxy D1, in InputArrayProxy K2, in InputArrayProxy D2, Size imageSize, in InputArrayProxy R, in InputArrayProxy tvec,
+        in OutputArrayProxy R1, in OutputArrayProxy R2, in OutputArrayProxy P1, in OutputArrayProxy P2, in OutputArrayProxy Q, int flags, Size newImageSize,
         double balance, double fov_scale);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus calib_fisheye_stereoCalibrate(
+    internal static partial ExceptionStatus calib_fisheye_stereoCalibrate(
         IntPtr objectPoints,
         IntPtr imagePoints1, 
         IntPtr imagePoints2, 
-        IntPtr K1,
-        IntPtr D1,
-        IntPtr K2,
-        IntPtr D2,
+        in InputOutputArrayProxy K1,
+        in InputOutputArrayProxy D1,
+        in InputOutputArrayProxy K2,
+        in InputOutputArrayProxy D2,
         Size imageSize,
-        IntPtr R,
-        IntPtr T,
+        in OutputArrayProxy R,
+        in OutputArrayProxy T,
         int flags,
         TermCriteria criteria,
         out double returnValue);
