@@ -50,9 +50,9 @@ public class SolveEquationTest : TestBase
 
         using var x = new Mat();
 
-        using var ia = InputArray.Create(a);
-        using var iy = InputArray.Create(y);
-        using var ox = OutputArray.Create(x);
+        var ia = InputArrayRef.Create(a);
+        var iy = InputArrayRef.Create(y);
+        var ox = OutputArrayRef.Create(x);
         Cv2.Solve(ia, iy, ox, DecompTypes.LU);
 
         testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));

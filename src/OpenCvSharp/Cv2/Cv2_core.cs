@@ -1643,71 +1643,53 @@ public static partial class Cv2
     /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
     /// otherwise the upper half is copied to the lower half</param>
     // ReSharper disable once IdentifierTypo
-    public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
+    public static void CompleteSymm(InputOutputArrayRef mtx, bool lowerToUpper = false)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-        mtx.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_completeSymm(mtx.ToInputOutputProxy(), lowerToUpper ? 1 : 0));
+            NativeMethods.core_completeSymm(mtx.Proxy, lowerToUpper ? 1 : 0));
 
-        GC.KeepAlive(mtx);
-        mtx.Fix();
+        GC.KeepAlive(mtx.Source);
     }
-        
+
     /// <summary>
     /// initializes scaled identity matrix
     /// </summary>
     /// <param name="mtx">The matrix to initialize (not necessarily square)</param>
     /// <param name="s">The value to assign to the diagonal elements</param>
-    public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
+    public static void SetIdentity(InputOutputArrayRef mtx, Scalar? s = null)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-        mtx.ThrowIfNotReady();
-
         var s0 = s.GetValueOrDefault(new Scalar(1));
         NativeMethods.HandleException(
-            NativeMethods.core_setIdentity(mtx.ToInputOutputProxy(), s0));
+            NativeMethods.core_setIdentity(mtx.Proxy, s0));
 
-        GC.KeepAlive(mtx);
-        mtx.Fix();
+        GC.KeepAlive(mtx.Source);
     }
-        
+
     /// <summary>
     /// computes determinant of a square matrix
     /// </summary>
     /// <param name="mtx">The input matrix; must have CV_32FC1 or CV_64FC1 type and square size</param>
     /// <returns>determinant of the specified matrix.</returns>
-    public static double Determinant(InputArray mtx)
+    public static double Determinant(InputArrayRef mtx)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-        mtx.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_determinant(mtx.ToInputProxy(), out var ret));
+            NativeMethods.core_determinant(mtx.Proxy, out var ret));
 
-        GC.KeepAlive(mtx);
+        GC.KeepAlive(mtx.Source);
         return ret;
     }
-        
+
     /// <summary>
     /// computes trace of a matrix
     /// </summary>
     /// <param name="mtx">The source matrix</param>
     /// <returns></returns>
-    public static Scalar Trace(InputArray mtx)
+    public static Scalar Trace(InputArrayRef mtx)
     {
-        if (mtx is null)
-            throw new ArgumentNullException(nameof(mtx));
-        mtx.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_trace(mtx.ToInputProxy(), out var ret));
+            NativeMethods.core_trace(mtx.Proxy, out var ret));
 
-        GC.KeepAlive(mtx);
+        GC.KeepAlive(mtx.Source);
         return ret;
     }
 
@@ -1718,25 +1700,17 @@ public static partial class Cv2
     /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
     /// <param name="flags">The inversion method</param>
     /// <returns></returns>
-    public static double Invert(InputArray src, OutputArray dst,
+    public static double Invert(InputArrayRef src, OutputArrayRef dst,
         DecompTypes flags = DecompTypes.LU)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_invert(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, out var ret));
+            NativeMethods.core_invert(src.Proxy, dst.Proxy, (int) flags, out var ret));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return ret;
     }
-        
+
     /// <summary>
     /// solves linear system or a least-square problem
     /// </summary>
@@ -1745,84 +1719,55 @@ public static partial class Cv2
     /// <param name="dst"></param>
     /// <param name="flags"></param>
     /// <returns></returns>
-    public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
+    public static bool Solve(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst,
         DecompTypes flags = DecompTypes.LU)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_solve(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), (int) flags, out var ret));
+            NativeMethods.core_solve(src1.Proxy, src2.Proxy, dst.Proxy, (int) flags, out var ret));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dst.Source);
         return ret != 0;
     }
-        
+
     /// <summary>
     /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
     /// </summary>
-    /// <param name="func">This row-vector corresponds to \f$c\f$ in the LP problem formulation (see above). 
+    /// <param name="func">This row-vector corresponds to \f$c\f$ in the LP problem formulation (see above).
     /// It should contain 32- or 64-bit floating point numbers.As a convenience, column-vector may be also submitted,
     /// in the latter case it is understood to correspond to \f$c^T\f$.</param>
-    /// <param name="constr">`m`-by-`n+1` matrix, whose rightmost column corresponds to \f$b\f$ in formulation above 
+    /// <param name="constr">`m`-by-`n+1` matrix, whose rightmost column corresponds to \f$b\f$ in formulation above
     /// and the remaining to \f$A\f$. It should containt 32- or 64-bit floating point numbers.</param>
-    /// <param name="z">The solution will be returned here as a column-vector - it corresponds to \f$c\f$ in the 
+    /// <param name="z">The solution will be returned here as a column-vector - it corresponds to \f$c\f$ in the
     /// formulation above.It will contain 64-bit floating point numbers.</param>
     /// <returns></returns>
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
-    public static SolveLPResult SolveLP(InputArray func, InputArray constr, OutputArray z)
+    public static SolveLPResult SolveLP(InputArrayRef func, InputArrayRef constr, OutputArrayRef z)
     {
-        if (func is null)
-            throw new ArgumentNullException(nameof(func));
-        if (constr is null)
-            throw new ArgumentNullException(nameof(constr));
-        if (z is null)
-            throw new ArgumentNullException(nameof(z));
-        func.ThrowIfDisposed();
-        constr.ThrowIfDisposed();
-        z.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_solveLP(func.ToInputProxy(), constr.ToInputProxy(), z.ToOutputProxy(), out var ret));
+            NativeMethods.core_solveLP(func.Proxy, constr.Proxy, z.Proxy, out var ret));
 
-        GC.KeepAlive(func);
-        GC.KeepAlive(constr);
-        z.Fix();
+        GC.KeepAlive(func.Source);
+        GC.KeepAlive(constr.Source);
+        GC.KeepAlive(z.Source);
         return (SolveLPResult) ret;
     }
-        
+
     /// <summary>
     /// sorts independently each matrix row or each matrix column
     /// </summary>
     /// <param name="src">The source single-channel array</param>
     /// <param name="dst">The destination array of the same size and the same type as src</param>
     /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
-    public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
+    public static void Sort(InputArrayRef src, OutputArrayRef dst, SortFlags flags)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_sort(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
+            NativeMethods.core_sort(src.Proxy, dst.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1831,21 +1776,13 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="dst">The destination integer array of the same size as src</param>
     /// <param name="flags">The operation flags, a combination of SortFlag values</param>
-    public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
+    public static void SortIdx(InputArrayRef src, OutputArrayRef dst, SortFlags flags)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_sortIdx(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
+            NativeMethods.core_sortIdx(src.Proxy, dst.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
         
     /// <summary>
