@@ -6,6 +6,8 @@ namespace OpenCvSharp.Tests.Face;
 // ReSharper disable once InconsistentNaming
 public class FacemarkLBFTest : TestBase
 {
+    private static readonly int[] FaceRect = { 100, 100, 200, 200 };
+
     [Fact]
     public void CreateAndDispose()
     {
@@ -245,7 +247,7 @@ public class FacemarkLBFTest : TestBase
         // and failing there still proves the InputArray (image/faces) params marshal correctly.
         using var facemark = FacemarkLBF.Create();
         using var image = LoadImage("lenna.png", ImreadModes.Grayscale);
-        using var faces = Mat.FromPixelData(1, 1, MatType.CV_32SC4, new[] { 100, 100, 200, 200 });
+        using var faces = Mat.FromPixelData(1, 1, MatType.CV_32SC4, FaceRect);
 
         try
         {

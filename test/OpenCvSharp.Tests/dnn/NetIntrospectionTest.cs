@@ -13,6 +13,8 @@ public class NetIntrospectionTest : TestBase
 
     private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
 
+    private static readonly int[] UnknownInputShape = { 1, 1, 1, 1 };
+
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetModelFormatReturnsTensorflow()
     {
@@ -64,7 +66,7 @@ public class NetIntrospectionTest : TestBase
         // not asserted here.
         using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
         Assert.NotNull(net);
-        Assert.ThrowsAny<OpenCVException>(() => net!.SetInputShape("___no_such_input___", new[] { 1, 1, 1, 1 }));
+        Assert.ThrowsAny<OpenCVException>(() => net!.SetInputShape("___no_such_input___", UnknownInputShape));
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]

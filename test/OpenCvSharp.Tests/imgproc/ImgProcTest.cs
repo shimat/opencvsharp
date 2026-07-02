@@ -7,6 +7,10 @@ namespace OpenCvSharp.Tests.ImgProc;
 
 public class ImgProcTest : TestBase
 {
+    private static readonly int[] SingleChannelIndex = { 0 };
+    private static readonly int[] GrayscaleHistSize = { 256 };
+    private static readonly int[] SquareContourPoints = { 0, 0, 10, 0, 10, 10, 0, 10 };
+
     [Fact]
     public void BuildPyramidTest()
     {
@@ -1218,10 +1222,10 @@ public class ImgProcTest : TestBase
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var hist = new Mat();
         var ranges = new[] { new Rangef(0, 256) };
-        Cv2.CalcHist(new[] { src }, new[] { 0 }, null, hist, 1, new[] { 256 }, ranges);
+        Cv2.CalcHist(new[] { src }, SingleChannelIndex, null, hist, 1, GrayscaleHistSize, ranges);
 
         using var backProject = new Mat();
-        Cv2.CalcBackProject(new[] { src }, new[] { 0 }, hist, backProject, ranges);
+        Cv2.CalcBackProject(new[] { src }, SingleChannelIndex, hist, backProject, ranges);
 
         Assert.Equal(src.Size(), backProject.Size());
     }
@@ -1444,8 +1448,8 @@ public class ImgProcTest : TestBase
     [Fact]
     public void MatchShapes()
     {
-        using var c1 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, new int[] { 0, 0, 10, 0, 10, 10, 0, 10 });
-        using var c2 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, new int[] { 0, 0, 10, 0, 10, 10, 0, 10 });
+        using var c1 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, SquareContourPoints);
+        using var c2 = Mat.FromPixelData(4, 1, MatType.CV_32SC2, SquareContourPoints);
         var d = Cv2.MatchShapes(c1, c2, ShapeMatchModes.I1);
 
         Assert.Equal(0.0, d, 3); // identical contours

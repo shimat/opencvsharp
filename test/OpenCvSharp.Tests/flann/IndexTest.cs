@@ -17,11 +17,13 @@ public class IndexTest : TestBase
             { 10, 10 },
         };
         using var featuresMat = Mat.FromPixelData(4, 2, MatType.CV_32FC1, features);
+        using var indexParams = new LinearIndexParams();
 
-        using var index = new global::OpenCvSharp.Flann.Index(featuresMat, new LinearIndexParams());
+        using var index = new global::OpenCvSharp.Flann.Index(featuresMat, indexParams);
 
         // The nearest point to (1, 1) is (0, 0) at index 0.
-        index.KnnSearch([1f, 1f], out var indices, out var dists, 1, new SearchParams());
+        using var searchParams = new SearchParams();
+        index.KnnSearch([1f, 1f], out var indices, out var dists, 1, searchParams);
 
         Assert.Equal(0, indices[0]);
         Assert.True(dists[0] > 0);

@@ -43,8 +43,9 @@ public class OptFlowTest : TestBase
     [Fact]
     public void CalcOpticalFlowSF()
     {
-        using var from = LoadImage("lenna.png")[new Rect(0, 0, 48, 48)];
-        using var to = LoadImage("lenna.png")[new Rect(2, 0, 48, 48)];
+        using var src = LoadImage("lenna.png");
+        using var from = src[new Rect(0, 0, 48, 48)];
+        using var to = src[new Rect(2, 0, 48, 48)];
         using var flow = new Mat();
 
         Cv2.OptFlow.CalcOpticalFlowSF(from, to, flow, 3, 2, 4);
@@ -56,8 +57,9 @@ public class OptFlowTest : TestBase
     [Fact]
     public void CalcOpticalFlowSFWithAllParams()
     {
-        using var from = LoadImage("lenna.png")[new Rect(0, 0, 48, 48)];
-        using var to = LoadImage("lenna.png")[new Rect(2, 0, 48, 48)];
+        using var src = LoadImage("lenna.png");
+        using var from = src[new Rect(0, 0, 48, 48)];
+        using var to = src[new Rect(2, 0, 48, 48)];
         using var flow = new Mat();
 
         Cv2.OptFlow.CalcOpticalFlowSF(
@@ -74,8 +76,9 @@ public class OptFlowTest : TestBase
     [Fact]
     public void CalcOpticalFlowSparseToDense()
     {
-        using var from = LoadImage("lenna.png")[new Rect(0, 0, 64, 64)];
-        using var to = LoadImage("lenna.png")[new Rect(2, 0, 64, 64)];
+        using var src = LoadImage("lenna.png");
+        using var from = src[new Rect(0, 0, 64, 64)];
+        using var to = src[new Rect(2, 0, 64, 64)];
         using var flow = new Mat();
 
         Cv2.OptFlow.CalcOpticalFlowSparseToDense(from, to, flow, gridStep: 4);

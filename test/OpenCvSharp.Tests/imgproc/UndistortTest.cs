@@ -14,7 +14,10 @@ public class UndistortTest : TestBase
         0, 0, 1
     });
 
-    private static Mat DistCoeffs() => Mat.FromPixelData(5, 1, MatType.CV_64FC1, new[] { 0.1, 0.01, 0.0, 0.0, 0.0 });
+    private static readonly double[] DistCoeffsValues = { 0.1, 0.01, 0.0, 0.0, 0.0 };
+    private static readonly double[] UnitZTranslation = { 0.0, 0.0, 1.0 };
+
+    private static Mat DistCoeffs() => Mat.FromPixelData(5, 1, MatType.CV_64FC1, DistCoeffsValues);
 
     [Fact]
     public void Undistort()
@@ -72,7 +75,7 @@ public class UndistortTest : TestBase
         using var k = CameraMatrix();
         using var d = DistCoeffs();
         using var rvec = Mat.ZerosMat(3, 1, MatType.CV_64FC1);
-        using var tvec = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new[] { 0.0, 0.0, 1.0 });
+        using var tvec = Mat.FromPixelData(3, 1, MatType.CV_64FC1, UnitZTranslation);
 
         Cv2.DrawFrameAxes(image, k, d, rvec, tvec, 1.0f);
 

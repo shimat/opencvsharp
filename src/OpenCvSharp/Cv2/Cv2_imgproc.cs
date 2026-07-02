@@ -156,6 +156,7 @@ static partial class Cv2
     /// respectively (see getGaussianKernel() for details); to fully control the result 
     /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
     /// <param name="borderType">pixel extrapolation method</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX,
         double sigmaY = 0, BorderTypes borderType = BorderTypes.Default, AlgorithmHint hint = AlgorithmHint.Default)
     {
@@ -1051,6 +1052,7 @@ static partial class Cv2
     /// it means that the pixels in the destination image corresponding to the "outliers" 
     /// in the source image are not modified by the function.</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpAffine(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
@@ -1088,6 +1090,7 @@ static partial class Cv2
     /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
     /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, InputArray m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
@@ -1127,6 +1130,7 @@ static partial class Cv2
     /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
     /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
         InputArray src, OutputArray dst, float[,] m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
@@ -1168,6 +1172,7 @@ static partial class Cv2
     /// it means that the pixels in the destination image that corresponds to the "outliers" in 
     /// the source image are not modified by the function.</param>
     /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void Remap(
         InputArray src, OutputArray dst, InputArray map1, InputArray map2,
         InterpolationFlags interpolation = InterpolationFlags.Linear,
@@ -2430,6 +2435,7 @@ static partial class Cv2
     /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
     /// <param name="code">The color space conversion code</param>
     /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0,
         AlgorithmHint hint = AlgorithmHint.Default)
     {
@@ -2464,6 +2470,7 @@ static partial class Cv2
     /// - #COLOR_YUV2RGB_NV21
     /// - #COLOR_YUV2BGRA_NV21
     /// - #COLOR_YUV2RGBA_NV21</param>
+    /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code,
         AlgorithmHint hint = AlgorithmHint.Default)
     {

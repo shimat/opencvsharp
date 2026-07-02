@@ -11,6 +11,8 @@ namespace OpenCvSharp.Tests;
 /// </summary>
 public class StdVectorTest : TestBase
 {
+    private static readonly int[] FourZeros = { 0, 0, 0, 0 };
+
     [Fact]
     public void Byte_RoundTrip()
     {
@@ -51,7 +53,7 @@ public class StdVectorTest : TestBase
     {
         using var vec = new StdVector<int>((nuint)4);
         Assert.Equal(4, vec.Size);
-        Assert.Equal(new[] { 0, 0, 0, 0 }, vec.ToArray());
+        Assert.Equal(FourZeros, vec.ToArray());
     }
 
     [Fact]

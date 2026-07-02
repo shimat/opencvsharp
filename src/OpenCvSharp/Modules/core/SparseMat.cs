@@ -469,7 +469,9 @@ public sealed class SparseMat<T> : SparseMat
     /// Creates a typed sparse matrix from a dense <see cref="Mat"/>. The Mat type must match
     /// <typeparamref name="T"/>.
     /// </summary>
+#pragma warning disable CA1000 // Do not declare static members on generic types
     public static new SparseMat<T> FromMat(Mat mat)
+#pragma warning restore CA1000
     {
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));

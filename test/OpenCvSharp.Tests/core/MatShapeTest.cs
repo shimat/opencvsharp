@@ -5,6 +5,10 @@ namespace OpenCvSharp.Tests.Core;
 // Tests for the OpenCV 5 MatShape value type and its Mat integration.
 public class MatShapeTest : TestBase
 {
+    private static readonly int[] Dims234 = { 2, 3, 4 };
+    private static readonly int[] Dims23 = { 2, 3 };
+    private static readonly int[] Dims1_8_16_16 = { 1, 8, 16, 16 };
+
     [Fact]
     public void NdShapeBasics()
     {
@@ -16,7 +20,7 @@ public class MatShapeTest : TestBase
         Assert.Equal(2, shape[0]);
         Assert.Equal(3, shape[1]);
         Assert.Equal(4, shape[2]);
-        Assert.Equal(new[] { 2, 3, 4 }, shape.ToArray());
+        Assert.Equal(Dims234, shape.ToArray());
     }
 
     [Fact]
@@ -57,13 +61,13 @@ public class MatShapeTest : TestBase
     {
         Assert.Equal(new MatShape(2, 3), new MatShape(2, 3));
         Assert.NotEqual(new MatShape(2, 3), new MatShape(3, 2));
-        Assert.NotEqual(new MatShape(new[] { 2, 3 }, DataLayout.NCHW), new MatShape(new[] { 2, 3 }, DataLayout.NHWC));
+        Assert.NotEqual(new MatShape(Dims23, DataLayout.NCHW), new MatShape(Dims23, DataLayout.NHWC));
     }
 
     [Fact]
     public void LayoutAndChannels()
     {
-        var shape = new MatShape(new[] { 1, 8, 16, 16 }, DataLayout.NCHW, 8);
+        var shape = new MatShape(Dims1_8_16_16, DataLayout.NCHW, 8);
         Assert.Equal(DataLayout.NCHW, shape.Layout);
         Assert.Equal(8, shape.Channels);
     }
@@ -85,7 +89,7 @@ public class MatShapeTest : TestBase
         Assert.Equal(3, mat.Dims);
 
         var shape = mat.Shape();
-        Assert.Equal(new[] { 2, 3, 4 }, shape.ToArray());
+        Assert.Equal(Dims234, shape.ToArray());
     }
 
     [Fact]
@@ -102,7 +106,7 @@ public class MatShapeTest : TestBase
         using var mat = new Mat(new MatShape(4, 6), MatType.CV_8UC1);
         using var reshaped = mat.Reshape(0, new MatShape(2, 3, 4));
         Assert.Equal(3, reshaped.Dims);
-        Assert.Equal(new[] { 2, 3, 4 }, reshaped.Shape().ToArray());
+        Assert.Equal(Dims234, reshaped.Shape().ToArray());
     }
 
     [Fact]
@@ -110,7 +114,7 @@ public class MatShapeTest : TestBase
     {
         using var zeros = Mat.Zeros(new MatShape(2, 3), MatType.CV_8UC1).ToMat();
         Assert.Equal(0, zeros.At<byte>(0, 0));
-        Assert.Equal(new[] { 2, 3 }, zeros.Shape().ToArray());
+        Assert.Equal(Dims23, zeros.Shape().ToArray());
 
         using var ones = Mat.Ones(new MatShape(2, 3), MatType.CV_8UC1).ToMat();
         Assert.Equal(1, ones.At<byte>(0, 0));

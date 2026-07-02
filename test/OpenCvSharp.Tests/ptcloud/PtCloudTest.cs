@@ -5,6 +5,10 @@ namespace OpenCvSharp.Tests.PtCloud;
 // ReSharper disable once UnusedMember.Global
 public class PtCloudTest : TestBase
 {
+    private static readonly int[] IterCounts777 = { 7, 7, 7 };
+    private static readonly int[] VolumeResolution128 = { 128, 128, 128 };
+    private static readonly float[] MinGradientMagnitudes = { 10f, 10f, 10f, 10f };
+
     private readonly ITestOutputHelper testOutputHelper;
 
     public PtCloudTest(ITestOutputHelper testOutputHelper)
@@ -67,7 +71,7 @@ public class PtCloudTest : TestBase
         settings.NormalMethod = RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS;
         Assert.Equal(RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS, settings.NormalMethod);
 
-        using var iterCounts = Mat.FromArray(new[] { 7, 7, 7 });
+        using var iterCounts = Mat.FromArray(IterCounts777);
         settings.SetIterCounts(iterCounts);
         using var iterOut = new Mat();
         settings.GetIterCounts(iterOut);
@@ -214,7 +218,7 @@ public class PtCloudTest : TestBase
         settings.GetVolumePose(poseOut);
         Assert.False(poseOut.Empty());
 
-        using var resolution = Mat.FromArray(new[] { 128, 128, 128 });
+        using var resolution = Mat.FromArray(VolumeResolution128);
         settings.SetVolumeResolution(resolution);
         using var resOut = new Mat();
         settings.GetVolumeResolution(resOut);
@@ -242,7 +246,7 @@ public class PtCloudTest : TestBase
         settings.GetCameraMatrix(camOut);
         Assert.False(camOut.Empty());
 
-        using var minGrad = Mat.FromArray(new[] { 10f, 10f, 10f, 10f });
+        using var minGrad = Mat.FromArray(MinGradientMagnitudes);
         settings.SetMinGradientMagnitudes(minGrad);
         using var minGradOut = new Mat();
         settings.GetMinGradientMagnitudes(minGradOut);

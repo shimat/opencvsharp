@@ -6,6 +6,8 @@ namespace OpenCvSharp.Tests.Core;
 
 public class MatTest : TestBase
 {
+    private static readonly int[] OneToFour = { 1, 2, 3, 4 };
+
     private readonly ITestOutputHelper testOutputHelper;
 
     public MatTest(ITestOutputHelper testOutputHelper)
@@ -26,7 +28,7 @@ public class MatTest : TestBase
         var collected = new System.Collections.Generic.List<int>();
         foreach (var v in mat)
             collected.Add(v);
-        Assert.Equal(new[] { 1, 2, 3, 4 }, collected);
+        Assert.Equal(OneToFour, collected);
     }
 
     [Fact]

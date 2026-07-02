@@ -6,14 +6,18 @@ namespace OpenCvSharp.Tests.Calib3D;
 // otherwise exercised (issue #1976 follow-up: every migrated method needs >=1 test).
 public class FishEyeTest : TestBase
 {
-    private static Mat CameraMatrix() => Mat.FromPixelData(3, 3, MatType.CV_64FC1, new double[]
+    private static readonly double[] CameraMatrixValues =
     {
         300, 0, 160,
         0, 300, 120,
         0, 0, 1
-    });
+    };
 
-    private static Mat DistCoeffs() => Mat.FromPixelData(4, 1, MatType.CV_64FC1, new[] { 0.1, 0.01, 0.0, 0.0 });
+    private static readonly double[] DistCoeffsValues = { 0.1, 0.01, 0.0, 0.0 };
+
+    private static Mat CameraMatrix() => Mat.FromPixelData(3, 3, MatType.CV_64FC1, CameraMatrixValues);
+
+    private static Mat DistCoeffs() => Mat.FromPixelData(4, 1, MatType.CV_64FC1, DistCoeffsValues);
 
     [Fact]
     public void UndistortPoints()

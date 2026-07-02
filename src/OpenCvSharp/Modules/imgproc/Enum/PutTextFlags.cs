@@ -30,7 +30,9 @@ public enum PutTextFlags
     /// <summary>
     /// Treat the target image as having a top-left origin (default).
     /// </summary>
+#pragma warning disable CA1069 // Intentional: shares 0 with AlignLeft, an independent bitfield (alignment vs. origin), mirroring cv::PutTextFlags.
     OriginTL = 0,
+#pragma warning restore CA1069
 
     /// <summary>
     /// Treat the target image as having a bottom-left origin.
