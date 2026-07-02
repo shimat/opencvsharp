@@ -694,27 +694,15 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(OutputArray m, InputArray? mask = null)
+    public void CopyTo(OutputArrayRef m, InputArrayRef mask = default)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo1(Handle, m.ToOutputProxy()));
-        }
-        else
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo2(Handle, m.ToOutputProxy(), mask.ToInputProxy()));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_UMat_copyTo2(Handle, m.Proxy, mask.Proxy));
 
-        m.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(m.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -722,27 +710,18 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(UMat m, InputArray? mask = null)
+    public void CopyTo(UMat m, InputArrayRef mask = default)
     {
         ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat1(Handle, m.CvPtr));
-        }
-        else
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, mask.ToInputProxy()));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_UMat_copyTo_toUMat2(Handle, m.CvPtr, mask.Proxy));
 
         GC.KeepAlive(m);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -753,17 +732,14 @@ public class UMat : CvObject
     /// if rtype is negative, the output matrix will have the same type as the input.</param>
     /// <param name="alpha">optional scale factor.</param>
     /// <param name="beta">optional delta added to the scaled values.</param>
-    public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
+    public void ConvertTo(OutputArrayRef m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_convertTo(Handle, m.ToOutputProxy(), rtype, alpha, beta));
+            NativeMethods.core_UMat_convertTo(Handle, m.Proxy, rtype, alpha, beta));
 
-        m.Fix();
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>
@@ -807,18 +783,15 @@ public class UMat : CvObject
     /// <param name="value"></param>
     /// <param name="mask"></param>
     /// <returns></returns>
-    public UMat SetTo(InputArray value, UMat? mask = null)
+    public UMat SetTo(InputArrayRef value, UMat? mask = null)
     {
         ThrowIfDisposed();
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
-        value.ThrowIfDisposed();
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_setTo_InputArray(Handle, value.ToInputProxy(), maskPtr));
+            NativeMethods.core_UMat_setTo_InputArray(Handle, value.Proxy, maskPtr));
 
-        GC.KeepAlive(value);
+        GC.KeepAlive(value.Source);
         GC.KeepAlive(mask);
         return this;
     }
@@ -897,17 +870,14 @@ public class UMat : CvObject
     /// <param name="m"></param>
     /// <param name="scale"></param>
     /// <returns></returns>
-    public UMat Mul(InputArray m, double scale = 1)
+    public UMat Mul(InputArrayRef m, double scale = 1)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_mul(Handle, m.ToInputProxy(), scale, out var ret));
+            NativeMethods.core_UMat_mul(Handle, m.Proxy, scale, out var ret));
 
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -917,17 +887,14 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">another dot-product operand.</param>
     /// <returns></returns>
-    public double Dot(InputArray m)
+    public double Dot(InputArrayRef m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_dot(Handle, m.ToInputProxy(), out var ret));
+            NativeMethods.core_UMat_dot(Handle, m.Proxy, out var ret));
 
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         return ret;
     }
 
