@@ -239,7 +239,7 @@ public class MatTest : TestBase
         using Mat mask = src.GreaterThan(128);
         src.CopyTo(dst, mask);
         ShowImagesWhenDebugMode(dst);
-        src.CopyTo(dst, null);
+        src.CopyTo(dst, default);
         ShowImagesWhenDebugMode(dst);
     }
 
