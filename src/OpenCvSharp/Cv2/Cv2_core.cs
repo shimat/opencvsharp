@@ -2016,30 +2016,16 @@ public static partial class Cv2
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
     /// <param name="result">output vectors</param>
-    public static void PCAProject(InputArray data, InputArray mean,
-        InputArray eigenvectors, OutputArray result)
+    public static void PCAProject(InputArrayRef data, InputArrayRef mean,
+        InputArrayRef eigenvectors, OutputArrayRef result)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        if (result is null)
-            throw new ArgumentNullException(nameof(result));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
-        eigenvectors.ThrowIfDisposed();
-        result.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCAProject(data.ToInputProxy(), mean.ToInputProxy(), eigenvectors.ToInputProxy(), result.ToOutputProxy()));
+            NativeMethods.core_PCAProject(data.Proxy, mean.Proxy, eigenvectors.Proxy, result.Proxy));
 
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(eigenvectors);
-        GC.KeepAlive(result);
-        result.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
+        GC.KeepAlive(result.Source);
     }
 
     /// <summary>
@@ -2049,30 +2035,16 @@ public static partial class Cv2
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
     /// <param name="result">output vectors</param>
-    public static void PCABackProject(InputArray data, InputArray mean,
-        InputArray eigenvectors, OutputArray result)
+    public static void PCABackProject(InputArrayRef data, InputArrayRef mean,
+        InputArrayRef eigenvectors, OutputArrayRef result)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors is null)
-            throw new ArgumentNullException(nameof(eigenvectors));
-        if (result is null)
-            throw new ArgumentNullException(nameof(result));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
-        eigenvectors.ThrowIfDisposed();
-        result.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PCABackProject(data.ToInputProxy(), mean.ToInputProxy(), eigenvectors.ToInputProxy(), result.ToOutputProxy()));
+            NativeMethods.core_PCABackProject(data.Proxy, mean.Proxy, eigenvectors.Proxy, result.Proxy));
 
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(eigenvectors);
-        GC.KeepAlive(result);
-        result.Fix();
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(eigenvectors.Source);
+        GC.KeepAlive(result.Source);
     }
 
     /// <summary>
@@ -2086,32 +2058,16 @@ public static partial class Cv2
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
     public static void SVDecomp(
-        InputArray src, OutputArray w,
-        OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
+        InputArrayRef src, OutputArrayRef w,
+        OutputArrayRef u, OutputArrayRef vt, SVD.Flags flags = SVD.Flags.None)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (u is null)
-            throw new ArgumentNullException(nameof(u));
-        if (vt is null)
-            throw new ArgumentNullException(nameof(vt));
-        src.ThrowIfDisposed();
-        w.ThrowIfNotReady();
-        u.ThrowIfNotReady();
-        vt.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_SVDecomp(src.ToInputProxy(), w.ToOutputProxy(), u.ToOutputProxy(), vt.ToOutputProxy(), (int) flags));
+            NativeMethods.core_SVDecomp(src.Proxy, w.Proxy, u.Proxy, vt.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(w);
-        GC.KeepAlive(u);
-        GC.KeepAlive(vt);
-        w.Fix();
-        u.Fix();
-        vt.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(u.Source);
+        GC.KeepAlive(vt.Source);
     }
 
     /// <summary>
@@ -2124,36 +2080,19 @@ public static partial class Cv2
     /// <param name="dst">output</param>
     // ReSharper disable once InconsistentNaming
     public static void SVBackSubst(
-        InputArray w, InputArray u, InputArray vt,
-        InputArray rhs, OutputArray dst)
+        InputArrayRef w, InputArrayRef u, InputArrayRef vt,
+        InputArrayRef rhs, OutputArrayRef dst)
     {
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (u is null)
-            throw new ArgumentNullException(nameof(u));
-        if (vt is null)
-            throw new ArgumentNullException(nameof(vt));
-        if (rhs is null)
-            throw new ArgumentNullException(nameof(rhs));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        w.ThrowIfDisposed();
-        u.ThrowIfDisposed();
-        vt.ThrowIfDisposed();
-        rhs.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_SVBackSubst(w.ToInputProxy(), u.ToInputProxy(), vt.ToInputProxy(), rhs.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_SVBackSubst(w.Proxy, u.Proxy, vt.Proxy, rhs.Proxy, dst.Proxy));
 
-        GC.KeepAlive(w);
-        GC.KeepAlive(u);
-        GC.KeepAlive(vt);
-        GC.KeepAlive(rhs);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(u.Source);
+        GC.KeepAlive(vt.Source);
+        GC.KeepAlive(rhs.Source);
+        GC.KeepAlive(dst.Source);
     }
-        
+
     /// <summary>
     /// Calculates the Mahalanobis distance between two vectors.
     /// </summary>
@@ -2161,54 +2100,36 @@ public static partial class Cv2
     /// <param name="v2">second 1D input vector.</param>
     /// <param name="icovar">inverse covariance matrix.</param>
     /// <returns></returns>
-    public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
+    public static double Mahalanobis(InputArrayRef v1, InputArrayRef v2, InputArrayRef icovar)
     {
-        if (v1 is null)
-            throw new ArgumentNullException(nameof(v1));
-        if (v2 is null)
-            throw new ArgumentNullException(nameof(v2));
-        if (icovar is null)
-            throw new ArgumentNullException(nameof(icovar));
-        v1.ThrowIfDisposed();
-        v2.ThrowIfDisposed();
-        icovar.ThrowIfDisposed();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_Mahalanobis(v1.ToInputProxy(), v2.ToInputProxy(), icovar.ToInputProxy(), out var ret));
+            NativeMethods.core_Mahalanobis(v1.Proxy, v2.Proxy, icovar.Proxy, out var ret));
 
-        GC.KeepAlive(v1);
-        GC.KeepAlive(v2);
-        GC.KeepAlive(icovar);
+        GC.KeepAlive(v1.Source);
+        GC.KeepAlive(v2.Source);
+        GC.KeepAlive(icovar.Source);
         return ret;
     }
-        
+
     /// <summary>
     /// Performs a forward Discrete Fourier transform of 1D or 2D floating-point array.
     /// </summary>
     /// <param name="src">The source array, real or complex</param>
     /// <param name="dst">The destination array, which size and type depends on the flags</param>
     /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
-    /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
-    /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
-    /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
-    /// thus the function can handle the rest of the rows more efficiently and 
-    /// thus save some time. This technique is very useful for computing array cross-correlation 
+    /// <param name="nonzeroRows">When the parameter != 0, the function assumes that
+    /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set)
+    /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros,
+    /// thus the function can handle the rest of the rows more efficiently and
+    /// thus save some time. This technique is very useful for computing array cross-correlation
     /// or convolution using DFT</param>
-    public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+    public static void Dft(InputArrayRef src, OutputArrayRef dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_dft(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, nonzeroRows));
+            NativeMethods.core_dft(src.Proxy, dst.Proxy, (int) flags, nonzeroRows));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2217,27 +2138,19 @@ public static partial class Cv2
     /// <param name="src">The source array, real or complex</param>
     /// <param name="dst">The destination array, which size and type depends on the flags</param>
     /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
-    /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
-    /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
-    /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
-    /// thus the function can handle the rest of the rows more efficiently and 
-    /// thus save some time. This technique is very useful for computing array cross-correlation 
+    /// <param name="nonzeroRows">When the parameter != 0, the function assumes that
+    /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set)
+    /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros,
+    /// thus the function can handle the rest of the rows more efficiently and
+    /// thus save some time. This technique is very useful for computing array cross-correlation
     /// or convolution using DFT</param>
-    public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+    public static void Idft(InputArrayRef src, OutputArrayRef dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_idft(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, nonzeroRows));
+            NativeMethods.core_idft(src.Proxy, dst.Proxy, (int) flags, nonzeroRows));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2246,21 +2159,13 @@ public static partial class Cv2
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-    public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
+    public static void Dct(InputArrayRef src, OutputArrayRef dst, DctFlags flags = DctFlags.None)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_dct(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
+            NativeMethods.core_dct(src.Proxy, dst.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2269,21 +2174,13 @@ public static partial class Cv2
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-    public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
+    public static void Idct(InputArrayRef src, OutputArrayRef dst, DctFlags flags = DctFlags.None)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_idct(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
+            NativeMethods.core_idct(src.Proxy, dst.Proxy, (int) flags));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
