@@ -2193,26 +2193,15 @@ public static partial class Cv2
     /// each row of src1 and src2 is an independent 1D Fourier spectrum. If you do not want to use this flag, then simply add a `0` as value.</param>
     /// <param name="conjB">optional flag that conjugates the second input array before the multiplication (true) or not (false).</param>
     public static void MulSpectrums(
-        InputArray a, InputArray b, OutputArray c,
+        InputArrayRef a, InputArrayRef b, OutputArrayRef c,
         DftFlags flags, bool conjB = false)
     {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        if (c is null)
-            throw new ArgumentNullException(nameof(c));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        c.ThrowIfNotReady();
+        NativeMethods.HandleException(
+            NativeMethods.core_mulSpectrums(a.Proxy, b.Proxy, c.Proxy, (int) flags, conjB ? 1 : 0));
 
-        NativeMethods.HandleException( 
-            NativeMethods.core_mulSpectrums(a.ToInputProxy(), b.ToInputProxy(), c.ToOutputProxy(), (int) flags, conjB ? 1 : 0));
-
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        GC.KeepAlive(c);
-        c.Fix();
+        GC.KeepAlive(a.Source);
+        GC.KeepAlive(b.Source);
+        GC.KeepAlive(c.Source);
     }
 
     /// <summary>
@@ -2257,114 +2246,63 @@ public static partial class Cv2
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
-    public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
+    public static void Randu(InputOutputArrayRef dst, InputArrayRef low, InputArrayRef high)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (low is null)
-            throw new ArgumentNullException(nameof(low));
-        if (high is null)
-            throw new ArgumentNullException(nameof(high));
-        dst.ThrowIfNotReady();
-        low.ThrowIfDisposed();
-        high.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_randu_InputArray(dst.ToInputOutputProxy(), low.ToInputProxy(), high.ToInputProxy()));
+            NativeMethods.core_randu_InputArray(dst.Proxy, low.Proxy, high.Proxy));
 
-        GC.KeepAlive(dst);
-        GC.KeepAlive(low);
-        GC.KeepAlive(high);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(low.Source);
+        GC.KeepAlive(high.Source);
     }
 
     /// <summary>
     /// fills array with uniformly-distributed random numbers from the range [low, high)
     /// </summary>
-    /// <param name="dst">The output array of random numbers. 
+    /// <param name="dst">The output array of random numbers.
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
     // ReSharper disable once IdentifierTypo
-    public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
+    public static void Randu(InputOutputArrayRef dst, Scalar low, Scalar high)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_randu_Scalar(dst.ToInputOutputProxy(), low, high));
+            NativeMethods.core_randu_Scalar(dst.Proxy, low, high));
 
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
     /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
     /// </summary>
-    /// <param name="dst">The output array of random numbers. 
+    /// <param name="dst">The output array of random numbers.
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
     // ReSharper disable once IdentifierTypo
-    public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
+    public static void Randn(InputOutputArrayRef dst, InputArrayRef mean, InputArrayRef stddev)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (stddev is null)
-            throw new ArgumentNullException(nameof(stddev));
-        dst.ThrowIfNotReady();
-        mean.ThrowIfDisposed();
-        stddev.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_randn_InputArray(dst.ToInputOutputProxy(), mean.ToInputProxy(), stddev.ToInputProxy()));
+            NativeMethods.core_randn_InputArray(dst.Proxy, mean.Proxy, stddev.Proxy));
 
-        GC.KeepAlive(dst);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(stddev);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(stddev.Source);
     }
 
     /// <summary>
     /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
     /// </summary>
-    /// <param name="dst">The output array of random numbers. 
+    /// <param name="dst">The output array of random numbers.
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
-    public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
+    public static void Randn(InputOutputArrayRef dst, Scalar mean, Scalar stddev)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_randn_Scalar(dst.ToInputOutputProxy(), mean, stddev));
+            NativeMethods.core_randn_Scalar(dst.Proxy, mean, stddev));
 
-        GC.KeepAlive(dst);
-        dst.Fix();
-    }
-        
-    /// <summary>
-    /// shuffles the input array elements
-    /// </summary>
-    /// <param name="dst">The input/output numerical 1D array</param>
-    /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
-    // ReSharper disable once IdentifierTypo
-    public static void RandShuffle(InputOutputArray dst, double iterFactor)
-    {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.core_randShuffle(dst.ToInputOutputProxy(), iterFactor, IntPtr.Zero));
-
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2372,22 +2310,31 @@ public static partial class Cv2
     /// </summary>
     /// <param name="dst">The input/output numerical 1D array</param>
     /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
-    /// <param name="rng">The optional random number generator used for shuffling. 
+    // ReSharper disable once IdentifierTypo
+    public static void RandShuffle(InputOutputArrayRef dst, double iterFactor)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_randShuffle(dst.Proxy, iterFactor, IntPtr.Zero));
+
+        GC.KeepAlive(dst.Source);
+    }
+
+    /// <summary>
+    /// shuffles the input array elements
+    /// </summary>
+    /// <param name="dst">The input/output numerical 1D array</param>
+    /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+    /// <param name="rng">The optional random number generator used for shuffling.
     /// If it is null, theRng() is used instead.</param>
     // ReSharper disable once IdentifierTypo
-    public static void RandShuffle(InputOutputArray dst, double iterFactor, ref RNG rng)
+    public static void RandShuffle(InputOutputArrayRef dst, double iterFactor, ref RNG rng)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
-
         var state = rng.State;
         NativeMethods.HandleException(
-            NativeMethods.core_randShuffle(dst.ToInputOutputProxy(), iterFactor, ref state));
+            NativeMethods.core_randShuffle(dst.Proxy, iterFactor, ref state));
         rng = new RNG(state);
 
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -2409,25 +2356,16 @@ public static partial class Cv2
     /// value are returned by the function. Basically, you can use only the core of the function,
     /// set the number of attempts to 1, initialize labels each time using a custom algorithm,
     /// pass them with the ( flags = #KMEANS_USE_INITIAL_LABELS ) flag, and then choose the best (most-compact) clustering.</returns>
-    public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
-        TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray? centers = null)
+    public static double Kmeans(InputArrayRef data, int k, InputOutputArrayRef bestLabels,
+        TermCriteria criteria, int attempts, KMeansFlags flags, OutputArrayRef centers = default)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (bestLabels is null)
-            throw new ArgumentNullException(nameof(bestLabels));
-        data.ThrowIfDisposed();
-        bestLabels.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_kmeans(
-                data.ToInputProxy(), k, bestLabels.ToInputOutputProxy(), criteria, attempts, (int) flags, centers?.ToOutputProxy() ?? default, out var ret));
+                data.Proxy, k, bestLabels.Proxy, criteria, attempts, (int) flags, centers.Proxy, out var ret));
 
-        bestLabels.Fix();
-        centers?.Fix();
-        GC.KeepAlive(data);
-        GC.KeepAlive(bestLabels);
-        GC.KeepAlive(centers);
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(bestLabels.Source);
+        GC.KeepAlive(centers.Source);
         return ret;
     }
 

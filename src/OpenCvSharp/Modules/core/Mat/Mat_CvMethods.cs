@@ -577,7 +577,7 @@ partial class Mat
     /// </summary>
     /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
-    public void Randu(InputArray low, InputArray high)
+    public void Randu(InputArrayRef low, InputArrayRef high)
     {
         Cv2.Randu(this, low, high);
     }
@@ -597,7 +597,7 @@ partial class Mat
     /// </summary>
     /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
-    public void Randn(InputArray mean, InputArray stddev)
+    public void Randn(InputArrayRef mean, InputArrayRef stddev)
     {
         Cv2.Randn(this, mean, stddev);
     }
