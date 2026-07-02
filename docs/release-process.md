@@ -46,6 +46,6 @@ The `OPENCV_VERSION` environment variable in `windows.yml` controls the OpenCV v
 
 1. Update the `opencv` and `opencv_contrib` submodules to the new tag.
 2. Update `OPENCV_VERSION` in `.github/workflows/windows.yml`.
-3. Update the ffmpeg DLL filename references in `nuget/OpenCvSharp4.runtime.win.props` and `nuget/OpenCvSharp4.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg4130_64.dll` → `opencv_videoio_ffmpeg4140_64.dll`).
+3. Update the ffmpeg DLL filename reference in `nuget/OpenCvSharp5.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg500_64.dll` → `opencv_videoio_ffmpeg510_64.dll`).
 4. Run the full CI pipeline and verify all tests pass.
 5. `AssemblyVersion` does **not** need to be changed for a minor/patch OpenCV upgrade.
