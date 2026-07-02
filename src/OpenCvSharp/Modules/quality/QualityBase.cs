@@ -31,14 +31,11 @@ public abstract class QualityBase : Algorithm
     /// Returns output quality map that was generated during computation, if supported by the algorithm
     /// </summary>
     /// <param name="dst"></param>
-    public virtual void GetQualityMap(OutputArray dst)
+    public virtual void GetQualityMap(OutputArrayRef dst)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_getQualityMap(Handle, dst.ToOutputProxy()));
-        dst.Fix();
+            NativeMethods.quality_QualityBase_getQualityMap(Handle, dst.Proxy));
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -46,15 +43,11 @@ public abstract class QualityBase : Algorithm
     /// See specific algorithm for interpreting result scores
     /// </summary>
     /// <param name="img">comparison image, or image to evaluate for no-reference quality algorithms</param>
-    public virtual Scalar Compute(InputArray img)
+    public virtual Scalar Compute(InputArrayRef img)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_compute(Handle, img.ToInputProxy(), out var ret));
-        GC.KeepAlive(img);
+            NativeMethods.quality_QualityBase_compute(Handle, img.Proxy, out var ret));
+        GC.KeepAlive(img.Source);
         return ret;
     }
 

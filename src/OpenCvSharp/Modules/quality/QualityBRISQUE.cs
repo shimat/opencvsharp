@@ -72,20 +72,17 @@ public class QualityBRISQUE : QualityBase
     /// <param name="modelFilePath">String which contains a path to the BRISQUE model data, eg. /path/to/brisque_model_live.yml</param>
     /// <param name="rangeFilePath">cv::String which contains a path to the BRISQUE range data, eg. /path/to/brisque_range_live.yml</param>
     /// <returns>cv::Scalar with the score in the first element.  The score ranges from 0 (best quality) to 100 (worst quality)</returns>
-    public static Scalar Compute(InputArray img, string modelFilePath, string rangeFilePath)
+    public static Scalar Compute(InputArrayRef img, string modelFilePath, string rangeFilePath)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
         if (string.IsNullOrEmpty(modelFilePath))
             throw new ArgumentNullException(nameof(modelFilePath));
         if (string.IsNullOrEmpty(rangeFilePath))
             throw new ArgumentNullException(nameof(rangeFilePath));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBRISQUE_staticCompute(img.ToInputProxy(), modelFilePath, rangeFilePath, out var ret));
+            NativeMethods.quality_QualityBRISQUE_staticCompute(img.Proxy, modelFilePath, rangeFilePath, out var ret));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -94,18 +91,12 @@ public class QualityBRISQUE : QualityBase
     /// </summary>
     /// <param name="img">image (BGR(A) or grayscale) for which to compute features</param>
     /// <param name="features">output row vector of features to cv::Mat or cv::UMat</param>
-    public static void ComputeFeatures(InputArray img, OutputArray features)
+    public static void ComputeFeatures(InputArrayRef img, OutputArrayRef features)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (features is null)
-            throw new ArgumentNullException(nameof(features));
-
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBRISQUE_computeFeatures(img.ToInputProxy(), features.ToOutputProxy()));
+            NativeMethods.quality_QualityBRISQUE_computeFeatures(img.Proxy, features.Proxy));
 
-        GC.KeepAlive(img);
-        GC.KeepAlive(features);
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(features.Source);
     }
-
-    }
+}

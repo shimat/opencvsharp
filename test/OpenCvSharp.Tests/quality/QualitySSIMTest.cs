@@ -46,7 +46,7 @@ public class QualitySSIMTest : TestBase
         {
             Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
-            var value = QualitySSIM.Compute(refImage, targetImage, null);
+            var value = QualitySSIM.Compute(refImage, targetImage);
             Assert.Equal(0.72, value[0], 3);
             Assert.Equal(0.793, value[1], 3);
             Assert.Equal(0.863, value[2], 3);
