@@ -56,7 +56,7 @@ public class ModelTest : TestBase
             using var strip = outputs[0].Reshape(1, (int)outputs[0].Total());
             var minIdx = new[] { -1 };
             var maxIdx = new[] { -1 };
-            strip.MinMaxIdx(minIdx, maxIdx);
+            Cv2.MinMaxIdx(strip, minIdx, maxIdx);
             Assert.Equal(9, maxIdx[0]);
         }
         finally

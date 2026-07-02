@@ -103,10 +103,10 @@ public class XImgProcTest : TestBase
         Assert.False(dst.Empty());
         Assert.Equal(MatType.CV_64FC1, dst.Type());
             
-        dst.MinMaxLoc(out var minVal, out var maxVal, out var minLoc, out var maxLoc);
+        Cv2.MinMaxLoc(dst, out var minVal, out var maxVal, out var minLoc, out var maxLoc);
 
         using var view = src.Clone();
-        view.Rectangle(maxLoc, new Point(maxLoc.X + template.Width, maxLoc.Y + template.Height), Scalar.Red, 3);
+        Cv2.Rectangle(view, maxLoc, new Point(maxLoc.X + template.Width, maxLoc.Y + template.Height), Scalar.Red, 3);
         ShowImagesWhenDebugMode(view, template);
     }
 
@@ -364,7 +364,7 @@ public class XImgProcTest : TestBase
 
         using var canvas = Mat.ZerosMat(10, 10, MatType.CV_8UC1);
         Cv2.XImgProc.RL.Paint(canvas, rle, Scalar.All(255));
-        Assert.True(canvas.CountNonZero() > 0);
+        Assert.True(Cv2.CountNonZero(canvas) > 0);
     }
 
     // peilin.hpp

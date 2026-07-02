@@ -388,7 +388,7 @@ public class MatExprParityTest : TestBase
     {
         using var a = FloatNeg();
 
-        using Mat actual = a.Abs();
+        using Mat actual = Cv2.Abs(a).ToMat();
         using var zeros = Mat.ZerosMat(3, 3, MatType.CV_32FC1);
         using var expected = new Mat();
         Cv2.Absdiff(a, zeros, expected);

@@ -12,7 +12,7 @@ public class PhotoTest
         using var dst = new Mat();
         using var mask = new Mat(src.Size(), MatType.CV_8UC1, Scalar.All(0));
 
-        mask.Rectangle(new Rect(65, 15, 130, 30), Scalar.All(255), -1);
+        Cv2.Rectangle(mask, new Rect(65, 15, 130, 30), Scalar.All(255), -1);
 
         Cv2.Inpaint(src, mask, dst, 2, InpaintTypes.Telea);
 
@@ -101,7 +101,7 @@ public class PhotoTest
     {
         using var src = new Mat("_data/image/mandrill.png", ImreadModes.Color);
         using var mask = new Mat(src.Size(), MatType.CV_8UC1, Scalar.All(0));
-        mask.Rectangle(new Rect(50, 50, 200, 200), Scalar.All(255), -1);
+        Cv2.Rectangle(mask, new Rect(50, 50, 200, 200), Scalar.All(255), -1);
         using var dst = new Mat();
         Cv2.ColorChange(src, mask, dst, 1.5f, 0.5f, 1.0f);
 
@@ -113,7 +113,7 @@ public class PhotoTest
     {
         using var src = new Mat("_data/image/mandrill.png", ImreadModes.Color);
         using var mask = new Mat(src.Size(), MatType.CV_8UC1, Scalar.All(0));
-        mask.Rectangle(new Rect(50, 50, 200, 200), Scalar.All(255), -1);
+        Cv2.Rectangle(mask, new Rect(50, 50, 200, 200), Scalar.All(255), -1);
         using var dst = new Mat();
         Cv2.IlluminationChange(src, mask, dst, 0.2f, 0.4f);
 
@@ -125,7 +125,7 @@ public class PhotoTest
     {
         using var src = new Mat("_data/image/mandrill.png", ImreadModes.Color);
         using var mask = new Mat(src.Size(), MatType.CV_8UC1, Scalar.All(0));
-        mask.Rectangle(new Rect(50, 50, 200, 200), Scalar.All(255), -1);
+        Cv2.Rectangle(mask, new Rect(50, 50, 200, 200), Scalar.All(255), -1);
         using var dst = new Mat();
         Cv2.TextureFlattening(src, mask, dst, 30, 45, 3);
 

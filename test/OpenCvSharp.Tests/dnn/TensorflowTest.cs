@@ -67,7 +67,7 @@ public class TensorflowTest : TestBase
 
         var minIdx = new[] {-1};
         var maxIdx = new[] { -1 };
-        strip.MinMaxIdx(minIdx,maxIdx); 
+        Cv2.MinMaxIdx(strip, minIdx, maxIdx);
 
         return maxIdx[0];
     }

@@ -451,9 +451,9 @@ public class ImgProcTest : TestBase
             }
 
             using var img = new Mat(200, 200, MatType.CV_8UC3, new Scalar(0));
-            img.Polylines([ToPoints(rr1.Points())], true, Scalar.Red);
-            img.Polylines([ToPoints(rr2.Points())], true, Scalar.Green);
-            img.Polylines([ToPoints(intersectingRegion)], true, Scalar.White);
+            Cv2.Polylines(img, [ToPoints(rr1.Points())], true, Scalar.Red);
+            Cv2.Polylines(img, [ToPoints(rr2.Points())], true, Scalar.Green);
+            Cv2.Polylines(img, [ToPoints(intersectingRegion)], true, Scalar.White);
 
             Window.ShowImages(img);
         }
@@ -514,7 +514,7 @@ public class ImgProcTest : TestBase
         var color = Scalar.Red;
 
         using Mat img = Mat.Zeros(100, 100, MatType.CV_8UC3);
-        img.Rectangle(new Rect(10, 10, 80, 80), color, Cv2.FILLED/*-1*/);
+        Cv2.Rectangle(img, new Rect(10, 10, 80, 80), color, Cv2.FILLED/*-1*/);
 
         if (Debugger.IsAttached)
         {
@@ -858,7 +858,8 @@ public class ImgProcTest : TestBase
         where T : unmanaged
     {
         using var src = new Mat<T>(10, 10);
-        using var dst = src.Resize(default, 0.5, 0.5, flags);
+        using var dst = new Mat();
+        Cv2.Resize(src, dst, default, 0.5, 0.5, flags);
         Assert.Equal(new Size(5, 5), dst.Size());
     }
 
@@ -1393,7 +1394,8 @@ public class ImgProcTest : TestBase
     public void GrabCut()
     {
         using var color = LoadImage("lenna.png", ImreadModes.Color);
-        using var img = color.Resize(new Size(64, 64));
+        using var img = new Mat();
+        Cv2.Resize(color, img, new Size(64, 64));
         using var mask = new Mat();
         using var bgdModel = new Mat();
         using var fgdModel = new Mat();
@@ -1468,7 +1470,8 @@ public class ImgProcTest : TestBase
     public void PhaseCorrelate()
     {
         using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
-        using var small = gray.Resize(new Size(64, 64));
+        using var small = new Mat();
+        Cv2.Resize(gray, small, new Size(64, 64));
         using var src = new Mat();
         small.ConvertTo(src, MatType.CV_32F);
         using var window = new Mat();
@@ -1483,7 +1486,8 @@ public class ImgProcTest : TestBase
     public void Watershed()
     {
         using var color = LoadImage("lenna.png", ImreadModes.Color);
-        using var img = color.Resize(new Size(64, 64));
+        using var img = new Mat();
+        Cv2.Resize(color, img, new Size(64, 64));
         using var markers = new Mat(img.Size(), MatType.CV_32SC1, Scalar.All(0));
         markers.Set(8, 8, 1);
         markers.Set(56, 56, 2);
