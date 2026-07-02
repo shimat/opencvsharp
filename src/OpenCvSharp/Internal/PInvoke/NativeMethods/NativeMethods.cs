@@ -19,9 +19,6 @@ public static partial class NativeMethods
 {
     public const string DllExtern = "OpenCvSharpExtern";
 
-    //public const string DllFfmpegX86 = "opencv_videoio_ffmpeg430";
-    //public const string DllFfmpegX64 = "opencv_videoio_ffmpeg430_64";
-
     //private const UnmanagedType StringUnmanagedType = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
@@ -39,7 +36,7 @@ public static partial class NativeMethods
     /// </summary>
     static NativeMethods()
     {
-        LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
+        LoadLibraries();
     }
 
     public static void HandleException(ExceptionStatus status)
@@ -53,34 +50,19 @@ public static partial class NativeMethods
     }
 
     /// <summary>
-    /// Load DLL files dynamically using Win32 LoadLibrary
+    /// Triggers native library resolution and installs the default error handler.
     /// </summary>
-    /// <param name="additionalPaths"></param>
-    public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
+    public static void LoadLibraries()
     {
         if (IsWasm())
         {
             return;
         }
 
-        if (IsUnix())
-        {
-            // On *nix the native library is resolved by the OS loader; the P/Invoke below
-            // triggers the load and installs the default error handler.
-            InstallDefaultErrorHandler();
-            return;
-        }
-
-        var ap = (additionalPaths is null) ? [] : additionalPaths.ToArray();
-
-        /*
-        if (Environment.Is64BitProcess)
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64, ap);
-        else
-            WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
-        //*/
-        WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
-
+        // On both Windows and *nix, the native library is resolved by the .NET runtime's
+        // default probing (the runtimes/{rid}/native/ layout produced by the
+        // OpenCvSharp5.runtime.* packages). The P/Invoke below triggers the load and installs
+        // the default error handler.
         InstallDefaultErrorHandler();
     }
 

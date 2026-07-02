@@ -170,7 +170,7 @@ See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/xim
 
 OpenCvSharp has three layers:
 
-- **`src/OpenCvSharp/`** — managed C# wrapper (P/Invoke, types, extension methods). Target frameworks: `netstandard2.0`, `netstandard2.1`, `net8.0`. Always verify that any change is consistent across all three.
+- **`src/OpenCvSharp/`** — managed C# wrapper (P/Invoke, types, extension methods). Target framework: `net8.0` only (`netstandard2.0`/`netstandard2.1`/`net4x` support was dropped).
 - **`src/OpenCvSharpExtern/`** — thin C++ bridge called by the C# side via P/Invoke.
 - **`nuget/`** — NuGet packaging projects (runtime packages that bundle the native DLLs).
 
@@ -182,15 +182,9 @@ See `docs/release-process.md` for the full release workflow.
 
 > **Branch note:** `main`/`5.x` targets OpenCV 5.x and publishes the `OpenCvSharp5` package family. The `4.x` branch is frozen on OpenCV 4.13.0 (`OpenCvSharp4` family, `AssemblyVersion 4.0.0.0`); cut 4.x patches from there.
 
-## Native DLL loading (Windows)
+## Native DLL loading
 
-`WindowsLibraryLoader` (`src/OpenCvSharp/Internal/PInvoke/WindowsLibraryLoader.cs`) handles native DLL loading on Windows for .NET Framework targets:
-
-- Uses `AppContext.BaseDirectory` (not `Assembly.Location`) to avoid IL3000 warnings in AoT/single-file apps.
-- For .NET Framework (net4x), looks for DLLs under `dll/x64/` relative to the base directory. The NuGet `.props` file copies DLLs there at build time.
-- For .NET 5+, returns early — the .NET runtime handles native loading via the `runtimes/` folder layout.
-
-The NuGet runtime packages (`nuget/OpenCvSharp4.runtime.win.*`) include a `.targets` file that suppresses the redundant copy NuGet's PackageReference pipeline would otherwise make to the output root for net4x consumers.
+There is no custom native-library loader. Since `src/OpenCvSharp/` targets `net8.0` only, a consumer can never be a .NET Framework (net4x) project (net8.0 assemblies aren't referenceable from net4x), so the old `WindowsLibraryLoader`/`Win32Api` classes and their `dll/x64`-folder probing were unreachable and were removed. Native library resolution is handled entirely by the .NET runtime's default probing via the `runtimes/{rid}/native/` layout that the `OpenCvSharp5.runtime.*` NuGet packages provide. If an app needs to load the native DLL from a nonstandard location (e.g. a plugin host that doesn't process `deps.json`), it can call `System.Runtime.InteropServices.NativeLibrary.Load(path)` (or `NativeLibrary.SetDllImportResolver`) itself before the first OpenCvSharp call — no OpenCvSharp-side API is needed for this.
 
 ## Issue backlog
 
