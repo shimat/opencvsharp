@@ -4,11 +4,9 @@ using Xunit;
 namespace OpenCvSharp.Tests.Core;
 
 /// <summary>
-/// PROTOTYPE proof for the ref-struct InputArray/OutputArray redesign: one function
-/// (<see cref="Cv2.TransposeRef"/>) wired through the handle+kind proxy path. Verifies numeric
-/// correctness against the existing class-based path and, crucially, that repeated calls allocate
-/// nothing on the managed heap (the implicit-conversion temporaries live on the stack and the
-/// native _InputArray is built extern-side).
+/// Verifies the ref-struct InputArray/OutputArray design (issue #1976): implicit conversions from
+/// Mat/UMat/MatExpr/Scalar/double/Vec are allocation-free, and the explicit Create(...) factory
+/// methods behave the same as their implicit-conversion equivalents.
 /// </summary>
 public class InputArrayRefTest : TestBase
 {
@@ -20,137 +18,49 @@ public class InputArrayRefTest : TestBase
     }
 
     [Fact]
-    public void TransposeRef_MatchesClassBasedTranspose()
-    {
-        using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
-        using var actual = new Mat();
-        Cv2.TransposeRef(src, actual);   // Mat -> InputArrayRef/OutputArrayRef (ref struct)
-
-        using var expected = new Mat();
-        Cv2.Transpose(src, expected);    // existing class-based InputArray/OutputArray path
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void TransposeRef_IsAllocationFree()
+    public void Transpose_IsAllocationFree()
     {
         using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
         using var dst = new Mat();
 
-        // Warm up JIT / one-time setup.
-        Cv2.TransposeRef(src, dst);
+        Cv2.Transpose(src, dst); // warmup
 
         var before = GC.GetAllocatedBytesForCurrentThread();
         for (var i = 0; i < 1000; i++)
-            Cv2.TransposeRef(src, dst);
+            Cv2.Transpose(src, dst);
         var after = GC.GetAllocatedBytesForCurrentThread();
 
         Assert.Equal(0, after - before);
     }
 
     [Fact]
-    public void AddRef_MatPlusMat_Matches()
-    {
-        using var a = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        using var b = Float3x3(9, 8, 7, 6, 5, 4, 3, 2, 1);
-
-        using var actual = new Mat();
-        Cv2.AddRef(a, b, actual);
-
-        using var expected = new Mat();
-        Cv2.Add(a, b, expected);
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void AddRef_MatPlusScalar_Matches()
-    {
-        using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        var s = new Scalar(10);
-
-        using var actual = new Mat();
-        Cv2.AddRef(src, s, actual);   // InputArrayRef(Scalar) — scalar travels inline
-
-        using var expected = new Mat();
-        Cv2.Add(src, s, expected);    // class path (Scalar -> InputArray)
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void AddRef_MatPlusDouble_Matches()
-    {
-        using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
-        using var actual = new Mat();
-        Cv2.AddRef(src, 5.0, actual); // InputArrayRef(double)
-
-        using var expected = new Mat();
-        Cv2.Add(src, new Scalar(5.0), expected);
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void AddRef_MatPlusScalar_IsAllocationFree()
+    public void Add_MatPlusScalar_IsAllocationFree()
     {
         using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
         var s = new Scalar(10);
         using var dst = new Mat();
 
-        Cv2.AddRef(src, s, dst); // warmup
+        Cv2.Add(src, s, dst); // warmup
 
         var before = GC.GetAllocatedBytesForCurrentThread();
         for (var i = 0; i < 1000; i++)
-            Cv2.AddRef(src, s, dst);
+            Cv2.Add(src, s, dst);
         var after = GC.GetAllocatedBytesForCurrentThread();
 
         Assert.Equal(0, after - before);
     }
 
     [Fact]
-    public void AddRef_MatPlusMatExpr_Matches()
-    {
-        using var a = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        using var b = Float3x3(9, 8, 7, 6, 5, 4, 3, 2, 1);
-
-        using var actual = new Mat();
-        Cv2.AddRef(a, a + b, actual);   // (a + b) is a MatExpr -> InputArrayRef(MatExpr)
-
-        using var expected = new Mat();
-        Cv2.Add(a, a + b, expected);    // class path (MatExpr -> InputArray)
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void TransposeRef_Vec_Matches()
-    {
-        var v = new Vec3d(1, 2, 3);
-
-        using var actual = new Mat();
-        Cv2.TransposeRef(v, actual);   // Vec3d -> InputArrayRef(Vec), travels inline
-
-        using var expected = new Mat();
-        Cv2.Transpose(v, expected);    // Vec3d -> class InputArray(Vec)
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void TransposeRef_Vec_IsAllocationFree()
+    public void Transpose_Vec_IsAllocationFree()
     {
         var v = new Vec3d(1, 2, 3);
         using var dst = new Mat();
 
-        Cv2.TransposeRef(v, dst); // warmup
+        Cv2.Transpose(v, dst); // warmup
 
         var before = GC.GetAllocatedBytesForCurrentThread();
         for (var i = 0; i < 1000; i++)
-            Cv2.TransposeRef(v, dst);
+            Cv2.Transpose(v, dst);
         var after = GC.GetAllocatedBytesForCurrentThread();
 
         Assert.Equal(0, after - before);
@@ -176,42 +86,15 @@ public class InputArrayRefTest : TestBase
     }
 
     [Fact]
-    public void CompleteSymmRef_Matches()
-    {
-        using var actual = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Cv2.CompleteSymmRef(actual);    // InputOutputArrayRef (in-place)
-
-        using var expected = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Cv2.CompleteSymm(expected);     // class InputOutputArray path
-
-        ImageEquals(expected, actual);
-    }
-
-    [Fact]
-    public void CompleteSymmRef_IsAllocationFree()
-    {
-        using var m = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
-        Cv2.CompleteSymmRef(m); // warmup
-
-        var before = GC.GetAllocatedBytesForCurrentThread();
-        for (var i = 0; i < 1000; i++)
-            Cv2.CompleteSymmRef(m);
-        var after = GC.GetAllocatedBytesForCurrentThread();
-
-        Assert.Equal(0, after - before);
-    }
-
-    [Fact]
     public void Create_FromVec_MatchesImplicitConversion()
     {
         var v = new Vec3d(1, 2, 3);
 
         using var actual = new Mat();
-        Cv2.TransposeRef(InputArrayRef.Create(v), actual);
+        Cv2.Transpose(InputArrayRef.Create(v), actual);
 
         using var expected = new Mat();
-        Cv2.TransposeRef(v, expected);
+        Cv2.Transpose(v, expected);
 
         ImageEquals(expected, actual);
     }
@@ -227,11 +110,11 @@ public class InputArrayRefTest : TestBase
         };
 
         using var actual = new Mat();
-        Cv2.TransposeRef(InputArrayRef.Create(a), actual);
+        Cv2.Transpose(InputArrayRef.Create(a), actual);
 
         using var src = Mat.FromPixelData(3, 3, MatType.CV_64FC1, a);
         using var expected = new Mat();
-        Cv2.TransposeRef(src, expected);
+        Cv2.Transpose(src, expected);
 
         ImageEquals(expected, actual);
     }
@@ -242,11 +125,11 @@ public class InputArrayRefTest : TestBase
         double[] a = [1, 2, 3, 4, 5, 6];
 
         using var actual = new Mat();
-        Cv2.TransposeRef(InputArrayRef.Create(a), actual);
+        Cv2.Transpose(InputArrayRef.Create(a), actual);
 
         using var src = Mat.FromPixelData(6, 1, MatType.CV_64FC1, a);
         using var expected = new Mat();
-        Cv2.TransposeRef(src, expected);
+        Cv2.Transpose(src, expected);
 
         ImageEquals(expected, actual);
     }
@@ -257,10 +140,10 @@ public class InputArrayRefTest : TestBase
         using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
         using var actual = new Mat();
-        Cv2.TransposeRef(InputArrayRef.Create(src), actual);
+        Cv2.Transpose(InputArrayRef.Create(src), actual);
 
         using var expected = new Mat();
-        Cv2.TransposeRef(src, expected);
+        Cv2.Transpose(src, expected);
 
         ImageEquals(expected, actual);
     }
