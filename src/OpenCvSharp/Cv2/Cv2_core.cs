@@ -381,52 +381,35 @@ public static partial class Cv2
     /// <param name="stddev">The output parameter: computed standard deviation</param>
     /// <param name="mask">The optional operation mask</param>
     public static void MeanStdDev(
-        InputArray src, OutputArray mean, OutputArray stddev, InputArray? mask = null)
+        InputArrayRef src, OutputArrayRef mean, OutputArrayRef stddev, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        if (stddev is null)
-            throw new ArgumentNullException(nameof(stddev));
-        src.ThrowIfDisposed();
-        mean.ThrowIfNotReady();
-        stddev.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_OutputArray(
-                src.ToInputProxy(), mean.ToOutputProxy(), stddev.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+                src.Proxy, mean.Proxy, stddev.Proxy, mask.Proxy));
 
-        mean.Fix();
-        stddev.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(mean);
-        GC.KeepAlive(stddev);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mean.Source);
+        GC.KeepAlive(stddev.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
     /// computes mean value and standard deviation of all or selected array elements
     /// </summary>
-    /// <param name="src">The source array; it should have 1 to 4 channels 
+    /// <param name="src">The source array; it should have 1 to 4 channels
     /// (so that the results can be stored in Scalar's)</param>
     /// <param name="mean">The output parameter: computed mean value</param>
     /// <param name="stddev">The output parameter: computed standard deviation</param>
     /// <param name="mask">The optional operation mask</param>
     public static void MeanStdDev(
-        InputArray src, out Scalar mean, out Scalar stddev, InputArray? mask = null)
+        InputArrayRef src, out Scalar mean, out Scalar stddev, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_Scalar(
-                src.ToInputProxy(), out mean, out stddev, mask?.ToInputProxy() ?? default));
+                src.Proxy, out mean, out stddev, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -436,18 +419,14 @@ public static partial class Cv2
     /// <param name="normType">Type of the norm</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static double Norm(InputArray src1,
-        NormTypes normType = NormTypes.L2, InputArray? mask = null)
+    public static double Norm(InputArrayRef src1,
+        NormTypes normType = NormTypes.L2, InputArrayRef mask = default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        src1.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_norm1(src1.ToInputProxy(), (int)normType, mask?.ToInputProxy() ?? default, out var ret));
+            NativeMethods.core_norm1(src1.Proxy, (int)normType, mask.Proxy, out var ret));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(mask.Source);
         return ret;
     }
 
@@ -459,29 +438,22 @@ public static partial class Cv2
     /// <param name="normType">Type of the norm</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static double Norm(InputArray src1, InputArray src2,
-        NormTypes normType = NormTypes.L2, InputArray? mask = null)
+    public static double Norm(InputArrayRef src1, InputArrayRef src2,
+        NormTypes normType = NormTypes.L2, InputArrayRef mask = default)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_norm2(src1.ToInputProxy(), src2.ToInputProxy(), (int)normType, mask?.ToInputProxy() ?? default, out var ret));
+            NativeMethods.core_norm2(src1.Proxy, src2.Proxy, (int)normType, mask.Proxy, out var ret));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(mask.Source);
         return ret;
     }
 
     /// <summary>
     /// Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
-    /// 
-    /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB), 
+    ///
+    /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB),
     /// between two input arrays src1 and src2.The arrays must have the same type.
     /// </summary>
     /// <param name="src1">first input array.</param>
@@ -489,20 +461,13 @@ public static partial class Cv2
     /// <param name="r">the maximum pixel value (255 by default)</param>
     /// <returns></returns>
     // ReSharper disable once InconsistentNaming
-    public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
+    public static double PSNR(InputArrayRef src1, InputArrayRef src2, double r = 255.0)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_PSNR(src1.ToInputProxy(), src2.ToInputProxy(), r, out var ret));
+            NativeMethods.core_PSNR(src1.Proxy, src2.Proxy, r, out var ret));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
         return ret;
     }
 
@@ -519,73 +484,50 @@ public static partial class Cv2
     /// <param name="mask"></param>
     /// <param name="update"></param>
     /// <param name="crosscheck"></param>
-    public static void BatchDistance(InputArray src1, InputArray src2,
+    public static void BatchDistance(InputArrayRef src1, InputArrayRef src2,
         // ReSharper disable once IdentifierTypo
-        OutputArray dist, int dtype, OutputArray nidx,
+        OutputArrayRef dist, int dtype, OutputArrayRef nidx,
         NormTypes normType = NormTypes.L2,
-        int k = 0, InputArray? mask = null,
+        int k = 0, InputArrayRef mask = default,
         int update = 0, bool crosscheck = false)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dist is null)
-            throw new ArgumentNullException(nameof(dist));
-        if (nidx is null)
-            throw new ArgumentNullException(nameof(nidx));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        dist.ThrowIfNotReady();
-        nidx.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_batchDistance(
-                src1.ToInputProxy(), src2.ToInputProxy(), dist.ToOutputProxy(), dtype, nidx.ToOutputProxy(),
-                (int) normType, k, mask?.ToInputProxy() ?? default, update, crosscheck ? 1 : 0));
+                src1.Proxy, src2.Proxy, dist.Proxy, dtype, nidx.Proxy,
+                (int) normType, k, mask.Proxy, update, crosscheck ? 1 : 0));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(dist);
-        GC.KeepAlive(nidx);
-        dist.Fix();
-        nidx.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(dist.Source);
+        GC.KeepAlive(nidx.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
-    /// scales and shifts array elements so that either the specified norm (alpha) 
+    /// scales and shifts array elements so that either the specified norm (alpha)
     /// or the minimum (alpha) and maximum (beta) array values get the specified values
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size as src</param>
-    /// <param name="alpha">The norm value to normalize to or the lower range boundary 
+    /// <param name="alpha">The norm value to normalize to or the lower range boundary
     /// in the case of range normalization</param>
-    /// <param name="beta">The upper range boundary in the case of range normalization; 
+    /// <param name="beta">The upper range boundary in the case of range normalization;
     /// not used for norm normalization</param>
     /// <param name="normType">The normalization type</param>
-    /// <param name="dtype">When the parameter is negative, 
-    /// the destination array will have the same type as src, 
+    /// <param name="dtype">When the parameter is negative,
+    /// the destination array will have the same type as src,
     /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
     /// <param name="mask">The optional operation mask</param>
-    public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
-        NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
+    public static void Normalize(InputArrayRef src, InputOutputArrayRef dst, double alpha = 1, double beta = 0,
+        NormTypes normType = NormTypes.L2, int dtype = -1, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.core_normalize(
-                src.ToInputProxy(), dst.ToInputOutputProxy(), alpha, beta, (int)normType, dtype, mask?.ToInputProxy() ?? default));
+                src.Proxy, dst.Proxy, alpha, beta, (int)normType, dtype, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -596,21 +538,13 @@ public static partial class Cv2
     /// except for axis being reduced - it should be set to 1.</param>
     /// <param name="axis">Axis to reduce along</param>
     /// <param name="lastIndex">Whether to get the index of first or last occurrence of max</param>
-    public static void ReduceArgMax(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
+    public static void ReduceArgMax(InputArrayRef src, OutputArrayRef dst, int axis, bool lastIndex = false)
     {
-        if (src == null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst == null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_reduceArgMax(src.ToInputProxy(), dst.ToOutputProxy(), axis, lastIndex));
+            NativeMethods.core_reduceArgMax(src.Proxy, dst.Proxy, axis, lastIndex));
 
-        dst.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -621,21 +555,13 @@ public static partial class Cv2
     /// except for axis being reduced - it should be set to 1.</param>
     /// <param name="axis">Axis to reduce along</param>
     /// <param name="lastIndex">Whether to get the index of first or last occurrence of min</param>
-    public static void ReduceArgMin(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
+    public static void ReduceArgMin(InputArrayRef src, OutputArrayRef dst, int axis, bool lastIndex = false)
     {
-        if (src == null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst == null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_reduceArgMin(src.ToInputProxy(), dst.ToOutputProxy(), axis, lastIndex));
+            NativeMethods.core_reduceArgMin(src.Proxy, dst.Proxy, axis, lastIndex));
 
-        dst.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -644,16 +570,12 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minVal">Pointer to returned minimum value</param>
     /// <param name="maxVal">Pointer to returned maximum value</param>
-    public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
+    public static void MinMaxLoc(InputArrayRef src, out double minVal, out double maxVal)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_minMaxLoc1(src.ToInputProxy(), out minVal, out maxVal));
+            NativeMethods.core_minMaxLoc1(src.Proxy, out minVal, out maxVal));
 
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -662,7 +584,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minLoc">Pointer to returned minimum location</param>
     /// <param name="maxLoc">Pointer to returned maximum location</param>
-    public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
+    public static void MinMaxLoc(InputArrayRef src, out Point minLoc, out Point maxLoc)
     {
         MinMaxLoc(src, out _, out _, out minLoc, out maxLoc);
     }
@@ -676,19 +598,15 @@ public static partial class Cv2
     /// <param name="minLoc">Pointer to returned minimum location</param>
     /// <param name="maxLoc">Pointer to returned maximum location</param>
     /// <param name="mask">The optional mask used to select a sub-array</param>
-    public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
-        out Point minLoc, out Point maxLoc, InputArray? mask = null)
+    public static void MinMaxLoc(InputArrayRef src, out double minVal, out double maxVal,
+        out Point minLoc, out Point maxLoc, InputArrayRef mask = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.core_minMaxLoc2(
-                src.ToInputProxy(), out minVal, out maxVal, out minLoc, out maxLoc, mask?.ToInputProxy() ?? default));
+                src.Proxy, out minVal, out maxVal, out minLoc, out maxLoc, mask.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -697,16 +615,12 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minVal">Pointer to returned minimum value</param>
     /// <param name="maxVal">Pointer to returned maximum value</param>
-    public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
+    public static void MinMaxIdx(InputArrayRef src, out double minVal, out double maxVal)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_minMaxIdx1(src.ToInputProxy(), out minVal, out maxVal));
+            NativeMethods.core_minMaxIdx1(src.Proxy, out minVal, out maxVal));
 
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>

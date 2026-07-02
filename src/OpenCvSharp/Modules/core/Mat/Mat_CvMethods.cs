@@ -103,7 +103,7 @@ partial class Mat
     /// <param name="mean">The output parameter: computed mean value</param>
     /// <param name="stddev">The output parameter: computed standard deviation</param>
     /// <param name="mask">The optional operation mask</param>
-    public void MeanStdDev(OutputArray mean, OutputArray stddev, InputArray? mask = null)
+    public void MeanStdDev(OutputArrayRef mean, OutputArrayRef stddev, InputArrayRef mask = default)
     {
         Cv2.MeanStdDev(this, mean, stddev, mask);
     }
@@ -114,7 +114,7 @@ partial class Mat
     /// <param name="normType">Type of the norm</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public double Norm(NormTypes normType = NormTypes.L2, InputArray? mask = null)
+    public double Norm(NormTypes normType = NormTypes.L2, InputArrayRef mask = default)
     {
         return Cv2.Norm(this, normType, mask);
     }
@@ -134,7 +134,7 @@ partial class Mat
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
     public Mat Normalize(double alpha = 1, double beta = 0,
-        NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
+        NormTypes normType = NormTypes.L2, int dtype = -1, InputArrayRef mask = default)
     {
         var dst = new Mat();
         Cv2.Normalize(this, dst, alpha, beta, normType, dtype, mask);
@@ -170,7 +170,7 @@ partial class Mat
     /// <param name="maxLoc">Pointer to returned maximum location</param>
     /// <param name="mask">The optional mask used to select a sub-array</param>
     public void MinMaxLoc(out double minVal, out double maxVal,
-        out Point minLoc, out Point maxLoc, InputArray? mask = null)
+        out Point minLoc, out Point maxLoc, InputArrayRef mask = default)
     {
         Cv2.MinMaxLoc(this, out minVal, out maxVal, out minLoc, out maxLoc, mask);
     }

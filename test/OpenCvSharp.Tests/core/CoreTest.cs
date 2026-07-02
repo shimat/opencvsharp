@@ -414,7 +414,7 @@ public class CoreTest : TestBase
     public void NormVecb()
     {
         var vec = new Vec3b(10, 20, 30);
-        using var ia = InputArray.Create(vec);
+        var ia = InputArrayRef.Create(vec);
         var norm = Cv2.Norm(ia, NormTypes.L1);
         Assert.Equal(60, norm);
     }
