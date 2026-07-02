@@ -269,23 +269,6 @@ public class InputArray : CvObject
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mat"></param>
-    internal InputArray(IEnumerable<Mat> mat)
-    {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
-        using var matVector = new VectorOfMat(mat);
-        NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
-        obj = mat;
-        if (p != IntPtr.Zero)
-            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-                releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
-    }
-
-    /// <summary>
     /// Releases managed resources
     /// </summary>
     protected override void DisposeManaged()
@@ -335,13 +318,6 @@ public class InputArray : CvObject
     /// <param name="val"></param>
     /// <returns></returns>
     public static InputArray Create(double val) => new(val);
-
-    /// <summary>
-    /// Creates a proxy class of the specified array of Mat 
-    /// </summary>
-    /// <param name="matVector"></param>
-    /// <returns></returns>
-    public static InputArray Create(IEnumerable<Mat> matVector) => new(matVector);
 
     /// <summary>
     /// Creates a proxy class of the specified list
@@ -618,10 +594,6 @@ public class InputArray : CvObject
     public static implicit operator InputArray(Scalar val) => Create(val);
 
     public static implicit operator InputArray(double val) => Create(val);
-        
-    public static explicit operator InputArray(List<Mat> mats) => Create(mats);
-
-    public static explicit operator InputArray(Mat[] mats) => Create(mats);
 
     public static implicit operator InputArray(Vec2b vec) => Create(vec);
     public static implicit operator InputArray(Vec3b vec) => Create(vec);
