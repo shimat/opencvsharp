@@ -64,6 +64,28 @@ public class StitchingTest : TestBase
         return mats.ToArray();
     }
 
+    // ArrayProxy migration coverage (issue #1976): two-step estimate + compose.
+    [Fact]
+    public void ComposePanorama()
+    {
+        Mat[] images = SelectStitchingImages(200, 200, 12);
+        try
+        {
+            using var stitcher = Stitcher.Create(Stitcher.Mode.Scans);
+            using var pano = new Mat();
+            var est = stitcher.EstimateTransform(images);
+            Assert.Equal(Stitcher.Status.OK, est);
+            var status = stitcher.ComposePanorama(pano);
+            Assert.Equal(Stitcher.Status.OK, status);
+            ShowImagesWhenDebugMode(pano);
+        }
+        finally
+        {
+            foreach (Mat image in images)
+                image.Dispose();
+        }
+    }
+
     [Fact]
     public void PropertyRegistrationResol()
     {

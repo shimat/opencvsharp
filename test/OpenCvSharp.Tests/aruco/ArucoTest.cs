@@ -125,6 +125,39 @@ public class ArucoTest : TestBase
         Assert.Equal(50, dict.MaxCorrectionBits);
     }
 
+    [Fact]
+    public void Dictionary_GenerateImageMarker()
+    {
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        using var img = new Mat();
+
+        dict.GenerateImageMarker(0, 120, img, 1);
+
+        Assert.False(img.Empty());
+        Assert.Equal(120, img.Rows);
+        Assert.Equal(120, img.Cols);
+    }
+
+    [Fact]
+    public void Dictionary_GetDistanceToId()
+    {
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
+        var markerSize = dict.MarkerSize; // 6
+
+        // Render marker 0 at one pixel per cell (markerSize + 2*borderBits cells),
+        // crop the 1px border away, and normalize 0/255 -> 0/1 to recover the bit matrix.
+        using var marker = new Mat();
+        dict.GenerateImageMarker(0, markerSize + 2, marker, 1);
+        using var cropped = new Mat(marker, new Rect(1, 1, markerSize, markerSize));
+        using var bits = new Mat();
+        Cv2.Threshold(cropped, bits, 127, 1, ThresholdTypes.Binary);
+
+        // The exact bits of marker 0 are at distance 0 from id 0 ...
+        Assert.Equal(0, dict.GetDistanceToId(bits, 0));
+        // ... and at a positive Hamming distance from a different id.
+        Assert.True(dict.GetDistanceToId(bits, 1) > 0);
+    }
+
     // ==================== ArucoDetector ====================
 
     [Fact]
@@ -301,6 +334,39 @@ public class ArucoTest : TestBase
     }
 
     [Fact]
+    public void CharucoDetector_CreateWithCameraMatrix()
+    {
+        // Exercises the cameraMatrix/distCoeffs getMat() path in the native create.
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
+        using var cameraMatrix = Mat.Eye(3, 3, MatType.CV_64FC1).ToMat();
+        using var distCoeffs = Mat.Zeros(1, 5, MatType.CV_64FC1).ToMat();
+
+        using var detector = new CharucoDetector(board, cameraMatrix, distCoeffs);
+        Assert.NotNull(detector);
+    }
+
+    [Fact]
+    public void CharucoDetector_DetectDiamonds()
+    {
+        // Smoke test: a blank image detects no diamonds but must return valid (empty) arrays.
+        // Diamond detection requires the detector's board to be a 3x3 ChArUco board.
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        using var board = new CharucoBoard(3, 3, 0.04f, 0.02f, dict);
+        using var image = Mat.ZerosMat(300, 300, MatType.CV_8UC1);
+
+        using var detector = new CharucoDetector(board);
+        detector.DetectDiamonds(image, out var diamondCorners, out var diamondIds,
+            out var markerCorners, out var markerIds);
+
+        Assert.NotNull(diamondCorners);
+        Assert.NotNull(diamondIds);
+        Assert.NotNull(markerCorners);
+        Assert.NotNull(markerIds);
+        Assert.Empty(diamondIds);
+    }
+
+    [Fact]
     public void CharucoDetector_DetectBoard()
     {
         // Generate a synthetic charuco board image and detect from it
@@ -366,5 +432,27 @@ public class ArucoTest : TestBase
         Cv2.Aruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, charucoIds, new Scalar(0, 255, 0));
         // Without ids (null path)
         Cv2.Aruco.DrawDetectedCornersCharuco(outputImage, charucoCorners, null);
+    }
+
+    [Fact]
+    public void DrawDetectedDiamonds()
+    {
+        using var image = Mat.ZerosMat(200, 200, MatType.CV_8UC3);
+
+        // Synthetic diamond so the drawing path is exercised regardless of detection.
+        var diamondCorners = new[]
+        {
+            new[]
+            {
+                new Point2f(20, 20), new Point2f(80, 20),
+                new Point2f(80, 80), new Point2f(20, 80),
+            },
+        };
+        var diamondIds = new[] { new Vec4i(0, 1, 2, 3) };
+
+        // With ids
+        Cv2.Aruco.DrawDetectedDiamonds(image, diamondCorners, diamondIds, new Scalar(0, 0, 255));
+        // Without ids (null path)
+        Cv2.Aruco.DrawDetectedDiamonds(image, diamondCorners, null);
     }
 }

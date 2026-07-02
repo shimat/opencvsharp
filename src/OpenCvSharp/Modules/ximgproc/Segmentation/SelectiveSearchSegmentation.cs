@@ -41,7 +41,7 @@ public class SelectiveSearchSegmentation : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.ToInputProxy()));
 
         GC.KeepAlive(img);
     }
@@ -96,7 +96,7 @@ public class SelectiveSearchSegmentation : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.ToInputProxy()));
 
         GC.KeepAlive(img);
     }

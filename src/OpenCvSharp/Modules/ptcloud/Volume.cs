@@ -76,7 +76,7 @@ public class Volume : CvObject
         frame.ThrowIfDisposed();
         pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrateFrame(Handle, frame.CvPtr, pose.CvPtr));
+            NativeMethods.ptcloud_Volume_integrateFrame(Handle, frame.CvPtr, pose.ToInputProxy()));
         GC.KeepAlive(frame);
         GC.KeepAlive(pose);
     }
@@ -96,7 +96,7 @@ public class Volume : CvObject
         depth.ThrowIfDisposed();
         pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrate(Handle, depth.CvPtr, pose.CvPtr));
+            NativeMethods.ptcloud_Volume_integrate(Handle, depth.ToInputProxy(), pose.ToInputProxy()));
         GC.KeepAlive(depth);
         GC.KeepAlive(pose);
     }
@@ -120,7 +120,7 @@ public class Volume : CvObject
         image.ThrowIfDisposed();
         pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrateColor(Handle, depth.CvPtr, image.CvPtr, pose.CvPtr));
+            NativeMethods.ptcloud_Volume_integrateColor(Handle, depth.ToInputProxy(), image.ToInputProxy(), pose.ToInputProxy()));
         GC.KeepAlive(depth);
         GC.KeepAlive(image);
         GC.KeepAlive(pose);
@@ -149,7 +149,7 @@ public class Volume : CvObject
         points.ThrowIfNotReady();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycast(Handle, cameraPose.CvPtr, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_Volume_raycast(Handle, cameraPose.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy()));
         points.Fix();
         normals.Fix();
         GC.KeepAlive(cameraPose);
@@ -178,7 +178,7 @@ public class Volume : CvObject
         normals.ThrowIfNotReady();
         colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastColor(Handle, cameraPose.CvPtr, points.CvPtr, normals.CvPtr, colors.CvPtr));
+            NativeMethods.ptcloud_Volume_raycastColor(Handle, cameraPose.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
         points.Fix();
         normals.Fix();
         colors.Fix();
@@ -210,7 +210,7 @@ public class Volume : CvObject
         points.ThrowIfNotReady();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastEx(Handle, cameraPose.CvPtr, height, width, K.CvPtr, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_Volume_raycastEx(Handle, cameraPose.ToInputProxy(), height, width, K.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy()));
         points.Fix();
         normals.Fix();
         GC.KeepAlive(cameraPose);
@@ -246,7 +246,7 @@ public class Volume : CvObject
         normals.ThrowIfNotReady();
         colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastExColor(Handle, cameraPose.CvPtr, height, width, K.CvPtr, points.CvPtr, normals.CvPtr, colors.CvPtr));
+            NativeMethods.ptcloud_Volume_raycastExColor(Handle, cameraPose.ToInputProxy(), height, width, K.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
         points.Fix();
         normals.Fix();
         colors.Fix();
@@ -273,7 +273,7 @@ public class Volume : CvObject
         points.ThrowIfDisposed();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchNormals(Handle, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_Volume_fetchNormals(Handle, points.ToInputProxy(), normals.ToOutputProxy()));
         normals.Fix();
         GC.KeepAlive(points);
     }
@@ -293,7 +293,7 @@ public class Volume : CvObject
         points.ThrowIfNotReady();
         normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchPointsNormals(Handle, points.CvPtr, normals.CvPtr));
+            NativeMethods.ptcloud_Volume_fetchPointsNormals(Handle, points.ToOutputProxy(), normals.ToOutputProxy()));
         points.Fix();
         normals.Fix();
     }
@@ -317,7 +317,7 @@ public class Volume : CvObject
         normals.ThrowIfNotReady();
         colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchPointsNormalsColors(Handle, points.CvPtr, normals.CvPtr, colors.CvPtr));
+            NativeMethods.ptcloud_Volume_fetchPointsNormalsColors(Handle, points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
         points.Fix();
         normals.Fix();
         colors.Fix();
@@ -371,7 +371,7 @@ public class Volume : CvObject
             throw new ArgumentNullException(nameof(bb));
         bb.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_getBoundingBox(Handle, bb.CvPtr, (int)precision));
+            NativeMethods.ptcloud_Volume_getBoundingBox(Handle, bb.ToOutputProxy(), (int)precision));
         bb.Fix();
     }
 

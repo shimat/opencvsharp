@@ -41,8 +41,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_LogisticRegression_setTermCriteria(OpenCvSafeHandle obj, TermCriteria val);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ml_LogisticRegression_predict(
-        OpenCvSafeHandle obj, IntPtr samples, IntPtr results, int flags, out float returnValue);
+    internal static partial ExceptionStatus ml_LogisticRegression_predict(
+        OpenCvSafeHandle obj, in InputArrayProxy samples, in OutputArrayProxy results, int flags, out float returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_LogisticRegression_get_learnt_thetas(OpenCvSafeHandle obj, out IntPtr returnValue);

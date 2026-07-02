@@ -116,7 +116,7 @@ public class Feature2D : Algorithm
     /// <param name="mask">Mask specifying where to look for keypoints (optional). 
     /// Must be a char matrix with non-zero values in the region of interest.</param>
     /// <returns>The detected keypoints.</returns>
-    public KeyPoint[] Detect(InputArray image, Mat? mask = null)
+    public KeyPoint[] Detect(InputArray image, InputArray? mask = null)
     {
         if (image is null)
             throw new ArgumentNullException(nameof(image));
@@ -127,7 +127,7 @@ public class Feature2D : Algorithm
         {
             using var keypoints = new StdVector<KeyPoint>();
             NativeMethods.HandleException(
-                NativeMethods.features_Feature2D_detect_InputArray(Handle, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask)));
+                NativeMethods.features_Feature2D_detect_InputArray(Handle, image.ToInputProxy(), keypoints.CvPtr, mask?.ToInputProxy() ?? default));
             return keypoints.ToArray();
         }
         finally
@@ -188,7 +188,7 @@ public class Feature2D : Algorithm
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
-        NativeMethods.features_Feature2D_compute1(Handle, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr));
+        NativeMethods.features_Feature2D_compute1(Handle, image.ToInputProxy(), keypointsVec.CvPtr, descriptors.ToOutputProxy()));
         keypoints = keypointsVec.ToArray();
 
         GC.KeepAlive(image);
@@ -251,9 +251,7 @@ public class Feature2D : Algorithm
         using var keypointsVec = new StdVector<KeyPoint>();
 
         NativeMethods.HandleException(
-            NativeMethods.features_Feature2D_detectAndCompute(
-                Handle, image.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr, descriptors.CvPtr,
-                useProvidedKeypoints ? 1 : 0));
+            NativeMethods.features_Feature2D_detectAndCompute(Handle, image.ToInputProxy(), mask?.ToInputProxy() ?? default, keypointsVec.CvPtr, descriptors.ToOutputProxy(), useProvidedKeypoints ? 1 : 0));
         keypoints = keypointsVec.ToArray();
 
         GC.KeepAlive(image);

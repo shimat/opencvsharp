@@ -44,11 +44,11 @@ static partial class NativeMethods
     public static partial ExceptionStatus stitching_Stitcher_setWaveCorrectKind(OpenCvSafeHandle obj, int kind);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_estimateTransform_InputArray1(
-        OpenCvSafeHandle obj, IntPtr images, out int returnValue);
+    internal static partial ExceptionStatus stitching_Stitcher_estimateTransform_InputArray1(
+        OpenCvSafeHandle obj, in InputArrayProxy images, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_estimateTransform_InputArray2(
-        OpenCvSafeHandle obj, IntPtr images,
+    internal static partial ExceptionStatus stitching_Stitcher_estimateTransform_InputArray2(
+        OpenCvSafeHandle obj, in InputArrayProxy images,
         IntPtr[] rois, int roisSize1, int[] roisSize2, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -60,34 +60,34 @@ static partial class NativeMethods
         IntPtr[] rois, int roisSize1, int[] roisSize2, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_composePanorama1(
-        OpenCvSafeHandle obj, IntPtr pano, out int returnValue);
+    internal static partial ExceptionStatus stitching_Stitcher_composePanorama1(
+        OpenCvSafeHandle obj, in OutputArrayProxy pano, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_composePanorama2_InputArray(
-        OpenCvSafeHandle obj, IntPtr images, IntPtr pano, out int returnValue);
+    internal static partial ExceptionStatus stitching_Stitcher_composePanorama2_InputArray(
+        OpenCvSafeHandle obj, in InputArrayProxy images, in OutputArrayProxy pano, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_composePanorama2_MatArray(
-        OpenCvSafeHandle obj, IntPtr[] images, int imagesSize, IntPtr pano, out int returnValue);
+    internal static partial ExceptionStatus stitching_Stitcher_composePanorama2_MatArray(
+        OpenCvSafeHandle obj, IntPtr[] images, int imagesSize, in OutputArrayProxy pano, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_stitch1_InputArray(
-        OpenCvSafeHandle obj, IntPtr images, IntPtr pano, out int returnValue);
+    internal static partial ExceptionStatus stitching_Stitcher_stitch1_InputArray(
+        OpenCvSafeHandle obj, in InputArrayProxy images, in OutputArrayProxy pano, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_stitch1_MatArray(
+    internal static partial ExceptionStatus stitching_Stitcher_stitch1_MatArray(
         OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] images, int imagesSize, 
-        IntPtr pano, out int returnValue);
+        in OutputArrayProxy pano, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_stitch2_InputArray(
-        OpenCvSafeHandle obj, IntPtr images,
+    internal static partial ExceptionStatus stitching_Stitcher_stitch2_InputArray(
+        OpenCvSafeHandle obj, in InputArrayProxy images,
         IntPtr[] rois, int roisSize1, int[] roisSize2,
-        IntPtr pano, out int returnValue);
+        in OutputArrayProxy pano, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus stitching_Stitcher_stitch2_MatArray(
+    internal static partial ExceptionStatus stitching_Stitcher_stitch2_MatArray(
         OpenCvSafeHandle obj, IntPtr[] images, int imagesSize,
         IntPtr[] rois, int roisSize1, int[] roisSize2,
-        IntPtr pano, out int returnValue);
+        in OutputArrayProxy pano, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_Stitcher_component(OpenCvSafeHandle obj, IntPtr returnValue);

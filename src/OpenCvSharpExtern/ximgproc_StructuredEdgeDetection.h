@@ -32,8 +32,14 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_RFFeatureGetter_get(cv::Ptr<cv::ximgproc::RF
 }
 
 CVAPI(ExceptionStatus) ximgproc_RFFeatureGetter_getFeatures(
-    cv::ximgproc::RFFeatureGetter *obj, cv::Mat *src, cv::Mat *features,
-    const int gnrmRad, const int gsmthRad, const int shrink, const int outNum, const int gradNum)
+    cv::ximgproc::RFFeatureGetter *obj,
+    cv::Mat *src,
+    cv::Mat *features,
+    const int gnrmRad,
+    const int gsmthRad,
+    const int shrink,
+    const int outNum,
+    const int gradNum)
 {
     return cvTry([&] {
     obj->getFeatures(*src, *features, gnrmRad, gsmthRad, shrink, outNum, gradNum);
@@ -44,7 +50,9 @@ CVAPI(ExceptionStatus) ximgproc_RFFeatureGetter_getFeatures(
 // StructuredEdgeDetection
 
 CVAPI(ExceptionStatus) ximgproc_createStructuredEdgeDetection(
-    const char *model, cv::Ptr<cv::ximgproc::RFFeatureGetter> *howToGetFeatures, cv::Ptr<cv::ximgproc::StructuredEdgeDetection> **returnValue)
+    const char *model,
+    cv::Ptr<cv::ximgproc::RFFeatureGetter> *howToGetFeatures,
+    cv::Ptr<cv::ximgproc::StructuredEdgeDetection> **returnValue)
 {
     return cvTry([&] {
     if (howToGetFeatures == nullptr)
@@ -68,26 +76,38 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_StructuredEdgeDetection_get(cv::Ptr<cv::ximg
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_detectEdges(cv::ximgproc::StructuredEdgeDetection *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_detectEdges(
+    cv::ximgproc::StructuredEdgeDetection *obj,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->detectEdges(*src, *dst);
+    obj->detectEdges(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_computeOrientation(cv::ximgproc::StructuredEdgeDetection *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_computeOrientation(
+    cv::ximgproc::StructuredEdgeDetection *obj,
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->computeOrientation(*src, *dst);
+    obj->computeOrientation(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(cv::ximgproc::StructuredEdgeDetection *obj,
-    cv::_InputArray *edge_image, cv::_InputArray *orientation_image, cv::_OutputArray *dst,
-    int r, int s, float m, int isParallel)
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(
+    cv::ximgproc::StructuredEdgeDetection *obj,
+    const interop::InputArrayProxy* edge_image,
+    const interop::InputArrayProxy* orientation_image,
+    const interop::OutputArrayProxy* dst,
+    int r,
+    int s,
+    float m,
+    int isParallel)
 {
     return cvTry([&] {
-    obj->edgesNms(*edge_image, *orientation_image, *dst, r, s, m, isParallel != 0);
+    obj->edgesNms(InProxy(*edge_image), InProxy(*orientation_image), OutProxy(*dst), r, s, m, isParallel != 0);
     });
 }
 

@@ -52,7 +52,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -66,7 +66,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -80,7 +80,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setIterCounts(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_setIterCounts(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -94,7 +94,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getIterCounts(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getIterCounts(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 
@@ -108,7 +108,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(Handle, val.ToInputProxy()));
         GC.KeepAlive(val);
     }
 
@@ -122,7 +122,7 @@ public class OdometrySettings : CvObject
             throw new ArgumentNullException(nameof(val));
         val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(Handle, val.CvPtr));
+            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(Handle, val.ToOutputProxy()));
         val.Fix();
     }
 

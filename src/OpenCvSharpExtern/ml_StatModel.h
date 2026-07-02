@@ -43,7 +43,10 @@ CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *re
 }
 
 /*CVAPI(ExceptionStatus) ml_StatModel_train1(
-    cv::ml::StatModel *obj, cv::Ptr<cv::ml::TrainData> *trainData, int flags, int *returnValue)
+    cv::ml::StatModel *obj,
+    cv::Ptr<cv::ml::TrainData> *trainData,
+    int flags,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->train(*trainData, flags) ? 1 : 0;
@@ -51,26 +54,38 @@ CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *re
 }*/
 
 CVAPI(ExceptionStatus) ml_StatModel_train2(
-    cv::ml::StatModel *obj, cv::_InputArray *samples, int layout, cv::_InputArray *responses, int *returnValue)
+    cv::ml::StatModel *obj,
+    const interop::InputArrayProxy* samples,
+    int layout,
+    const interop::InputArrayProxy* responses,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->train(*samples, layout, *responses) ? 1 : 0;
+    *returnValue = obj->train(InProxy(*samples), layout, InProxy(*responses)) ? 1 : 0;
     });
 }
 
 /*CVAPI(ExceptionStatus) ml_StatModel_calcError(
-    cv::ml::StatModel *obj, cv::Ptr<cv::ml::TrainData> *data, int test, cv::_OutputArray *resp, float *returnValue)
+    cv::ml::StatModel *obj,
+    cv::Ptr<cv::ml::TrainData> *data,
+    int test,
+    const interop::OutputArrayProxy* resp,
+    float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->calcError(*data, test != 0, *resp);
+    *returnValue = obj->calcError(*data, test != 0, OutProxy(*resp));
     });
 }*/
 
 CVAPI(ExceptionStatus) ml_StatModel_predict(
-    cv::ml::StatModel *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags, float *returnValue)
+    cv::ml::StatModel *obj,
+    const interop::InputArrayProxy* samples,
+    const interop::OutputArrayProxy* results,
+    int flags,
+    float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->predict(entity(samples), entity(results), flags);
+    *returnValue = obj->predict(InProxy(*samples), OutProxy(*results), flags);
     });
 }
 

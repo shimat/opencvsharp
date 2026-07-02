@@ -113,26 +113,35 @@ CVAPI(ExceptionStatus) stitching_Stitcher_setWaveCorrectKind(cv::Stitcher *obj, 
 #pragma endregion
 
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray1(
-    cv::Stitcher *obj, cv::_InputArray *images, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::InputArrayProxy* images,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->estimateTransform(*images));
+    *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray2(
-    cv::Stitcher *obj, cv::_InputArray *images,
-    const interop::Rect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::InputArrayProxy* images,
+    const interop::Rect **rois,
+    const int roisSize1,
+    const int *roisSize2,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<std::vector<cv::Rect> > roisVec;
     toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->estimateTransform(*images, roisVec));
+    *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images), roisVec));
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray1(
-    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize, int *returnValue)
+    cv::Stitcher *obj,
+    const cv::Mat **images,
+    const int imagesSize,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
@@ -142,8 +151,13 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray1(
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray2(
-    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
-    const interop::Rect **rois, const int roisSize1, const int *roisSize2, int *returnValue)
+    cv::Stitcher *obj,
+    const cv::Mat **images,
+    const int imagesSize,
+    const interop::Rect **rois,
+    const int roisSize1,
+    const int *roisSize2,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
@@ -157,69 +171,91 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray2(
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama1(
-    cv::Stitcher *obj, cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->composePanorama(*pano));
+    *returnValue = static_cast<int>(obj->composePanorama(OutProxy(*pano)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_InputArray(
-    cv::Stitcher *obj, cv::_InputArray *images, cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::InputArrayProxy* images,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->composePanorama(*images, *pano));
+    *returnValue = static_cast<int>(obj->composePanorama(InProxy(*images), OutProxy(*pano)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_MatArray(
-    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize, 
-    cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const cv::Mat **images,
+    const int imagesSize,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
-    *returnValue = static_cast<int>(obj->composePanorama(imagesVec, *pano));
+    *returnValue = static_cast<int>(obj->composePanorama(imagesVec, OutProxy(*pano)));
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_InputArray(
-    cv::Stitcher *obj, cv::_InputArray *images, 
-    cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::InputArrayProxy* images,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->stitch(*images, *pano));
+    *returnValue = static_cast<int>(obj->stitch(InProxy(*images), OutProxy(*pano)));
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_MatArray(
-    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize, 
-    cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const cv::Mat **images,
+    const int imagesSize,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
     toVec(images, imagesSize, imagesVec);
 
-    *returnValue = static_cast<int>(obj->stitch(imagesVec, *pano));
+    *returnValue = static_cast<int>(obj->stitch(imagesVec, OutProxy(*pano)));
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_InputArray(
-    cv::Stitcher *obj, cv::_InputArray *images,
-    const interop::Rect **rois, const int roisSize1, int *roisSize2,
-    cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const interop::InputArrayProxy* images,
+    const interop::Rect **rois,
+    const int roisSize1,
+    int *roisSize2,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<std::vector<cv::Rect> > roisVec;
     toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->stitch(*images, roisVec, *pano));
+    *returnValue = static_cast<int>(obj->stitch(InProxy(*images), roisVec, OutProxy(*pano)));
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
-    cv::Stitcher *obj, const cv::Mat **images, const int imagesSize,
-    const interop::Rect **rois, const int roisSize1, int *roisSize2,
-    cv::_OutputArray *pano, int *returnValue)
+    cv::Stitcher *obj,
+    const cv::Mat **images,
+    const int imagesSize,
+    const interop::Rect **rois,
+    const int roisSize1,
+    int *roisSize2,
+    const interop::OutputArrayProxy* pano,
+    int *returnValue)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imagesVec;
@@ -228,7 +264,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
     std::vector<std::vector<cv::Rect> > roisVec;
     toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->stitch(imagesVec, roisVec, *pano));
+    *returnValue = static_cast<int>(obj->stitch(imagesVec, roisVec, OutProxy(*pano)));
     });
 }
 

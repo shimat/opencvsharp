@@ -5,7 +5,14 @@
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_create(
-    int ddepth, int dx, int dy, int ksize, int out_dtype, double scale, double delta, int borderType,
+    int ddepth,
+    int dx,
+    int dy,
+    int ksize,
+    int out_dtype,
+    double scale,
+    double delta,
+    int borderType,
     cv::Ptr<cv::ximgproc::RidgeDetectionFilter> **returnValue)
 {
     return cvTry([&] {
@@ -17,10 +24,11 @@ CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_create(
 
 CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
     cv::ximgproc::RidgeDetectionFilter *obj,
-    cv::_InputArray *_img, cv::_OutputArray *out)
+    const interop::InputArrayProxy* _img,
+    const interop::OutputArrayProxy* out)
 {
     return cvTry([&] {
-    obj->getRidgeFilteredImage(*_img, *out);
+    obj->getRidgeFilteredImage(InProxy(*_img), OutProxy(*out));
     });
 }
 

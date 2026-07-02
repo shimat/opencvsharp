@@ -138,8 +138,8 @@ static partial class NativeMethods
         byte[] modelData, IntPtr modelDataLength, float scoreThreshold, int backend, int target, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_LightGlueMatcher_setPairInfo(
-        OpenCvSafeHandle obj, IntPtr queryKpts, IntPtr trainKpts, Size queryImageSize, Size trainImageSize);
+    internal static partial ExceptionStatus features_LightGlueMatcher_setPairInfo(
+        OpenCvSafeHandle obj, in InputArrayProxy queryKpts, in InputArrayProxy trainKpts, Size queryImageSize, Size trainImageSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_LightGlueMatcher_clearPairInfo(OpenCvSafeHandle obj);

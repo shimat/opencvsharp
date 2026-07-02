@@ -142,7 +142,7 @@ public static partial class Cv2
                 rlDest.ThrowIfNotReady();
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_threshold(src.CvPtr, rlDest.CvPtr, thresh, (int)type));
+                    NativeMethods.ximgproc_rl_threshold(src.ToInputProxy(), rlDest.ToOutputProxy(), thresh, (int)type));
 
                 GC.KeepAlive(src);
                 rlDest.Fix();
@@ -171,7 +171,7 @@ public static partial class Cv2
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_dilate(rlSrc.CvPtr, rlDest.CvPtr, rlKernel.CvPtr, anchorValue));
+                    NativeMethods.ximgproc_rl_dilate(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), rlKernel.ToInputProxy(), anchorValue));
 
                 GC.KeepAlive(rlSrc);
                 rlDest.Fix();
@@ -204,7 +204,7 @@ public static partial class Cv2
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_erode(rlSrc.CvPtr, rlDest.CvPtr, rlKernel.CvPtr, bBoundaryOn ? 1 : 0, anchorValue));
+                    NativeMethods.ximgproc_rl_erode(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), rlKernel.ToInputProxy(), bBoundaryOn ? 1 : 0, anchorValue));
 
                 GC.KeepAlive(rlSrc);
                 rlDest.Fix();
@@ -241,7 +241,7 @@ public static partial class Cv2
                 rlSrc.ThrowIfDisposed();
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_paint(image.CvPtr, rlSrc.CvPtr, value));
+                    NativeMethods.ximgproc_rl_paint(image.ToInputOutputProxy(), rlSrc.ToInputProxy(), value));
                 
                 image.Fix();
                 GC.KeepAlive(rlSrc);
@@ -259,7 +259,7 @@ public static partial class Cv2
                     throw new ArgumentNullException(nameof(rlStructuringElement));
                 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.CvPtr, out var ret));
+                    NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.ToInputProxy(), out var ret));
 
                 GC.KeepAlive(rlStructuringElement);
 
@@ -283,7 +283,7 @@ public static partial class Cv2
                 var sizeValue = size.GetValueOrDefault(new Size(0, 0));
                                 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_createRLEImage(runsArray, runsArray.Length, res.CvPtr, sizeValue));
+                    NativeMethods.ximgproc_rl_createRLEImage(runsArray, runsArray.Length, res.ToOutputProxy(), sizeValue));
 
                 res.Fix();
             }
@@ -315,7 +315,7 @@ public static partial class Cv2
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_morphologyEx(rlSrc.CvPtr, rlDest.CvPtr, (int)op, rlKernel.CvPtr, bBoundaryOnForErosion ? 1 : 0, anchorValue));
+                    NativeMethods.ximgproc_rl_morphologyEx(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), (int)op, rlKernel.ToInputProxy(), bBoundaryOnForErosion ? 1 : 0, anchorValue));
 
                 GC.KeepAlive(rlSrc);
                 rlDest.Fix();
@@ -367,7 +367,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod, r));
+                NativeMethods.ximgproc_niBlackThreshold(src.ToInputProxy(), dst.ToOutputProxy(), maxValue, (int)type, blockSize, k, (int)binarizationMethod, r));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -393,7 +393,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType));
+                NativeMethods.ximgproc_thinning(src.ToInputProxy(), dst.ToOutputProxy(), (int)thinningType));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -418,7 +418,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_anisotropicDiffusion(src.CvPtr, dst.CvPtr, alpha, k, niters));
+                NativeMethods.ximgproc_anisotropicDiffusion(src.ToInputProxy(), dst.ToOutputProxy(), alpha, k, niters));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -469,7 +469,7 @@ public static partial class Cv2
             qimg.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_createQuaternionImage(img.CvPtr, qimg.CvPtr));
+                NativeMethods.ximgproc_createQuaternionImage(img.ToInputProxy(), qimg.ToOutputProxy()));
 
             GC.KeepAlive(img);
             qimg.Fix();
@@ -490,7 +490,7 @@ public static partial class Cv2
             qcimg.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qconj(qimg.CvPtr, qcimg.CvPtr));
+                NativeMethods.ximgproc_qconj(qimg.ToInputProxy(), qcimg.ToOutputProxy()));
 
             GC.KeepAlive(qimg);
             qcimg.Fix();
@@ -511,7 +511,7 @@ public static partial class Cv2
             qnimg.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qunitary(qimg.CvPtr, qnimg.CvPtr));
+                NativeMethods.ximgproc_qunitary(qimg.ToInputProxy(), qnimg.ToOutputProxy()));
 
             GC.KeepAlive(qimg);
             qnimg.Fix();
@@ -536,7 +536,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qmultiply(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+                NativeMethods.ximgproc_qmultiply(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
@@ -560,7 +560,7 @@ public static partial class Cv2
             qimg.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qdft(img.CvPtr, qimg.CvPtr, (int)flags, sideLeft ? 1 : 0));
+                NativeMethods.ximgproc_qdft(img.ToInputProxy(), qimg.ToOutputProxy(), (int)flags, sideLeft ? 1 : 0));
 
             GC.KeepAlive(img);
             qimg.Fix();
@@ -585,7 +585,7 @@ public static partial class Cv2
             result.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_colorMatchTemplate(img.CvPtr, templ.CvPtr, result.CvPtr));
+                NativeMethods.ximgproc_colorMatchTemplate(img.ToInputProxy(), templ.ToInputProxy(), result.ToOutputProxy()));
 
             GC.KeepAlive(img);
             GC.KeepAlive(templ);
@@ -613,7 +613,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheY(op.CvPtr, dst.CvPtr, alpha, omega));
+                NativeMethods.ximgproc_GradientDericheY(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
 
             GC.KeepAlive(op);
             dst.Fix();
@@ -636,7 +636,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheX(op.CvPtr, dst.CvPtr, alpha, omega));
+                NativeMethods.ximgproc_GradientDericheX(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
 
             GC.KeepAlive(op);
             dst.Fix();
@@ -749,7 +749,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_dtFilter(guide.CvPtr, src.CvPtr, dst.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters));
+                NativeMethods.ximgproc_dtFilter(guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), sigmaSpatial, sigmaColor, (int)mode, numIters));
 
             GC.KeepAlive(guide);
             GC.KeepAlive(src);
@@ -800,7 +800,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_guidedFilter(guide.CvPtr, src.CvPtr, dst.CvPtr, radius, eps, dDepth));
+                NativeMethods.ximgproc_guidedFilter(guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), radius, eps, dDepth));
 
             GC.KeepAlive(guide);
             GC.KeepAlive(src);
@@ -850,7 +850,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_amFilter(joint.CvPtr, src.CvPtr, dst.CvPtr, sigmaS, sigmaR, adjustOutliers ? 1 : 0));
+                NativeMethods.ximgproc_amFilter(joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), sigmaS, sigmaR, adjustOutliers ? 1 : 0));
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);
@@ -889,7 +889,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_jointBilateralFilter(
-                    joint.CvPtr, src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType));
+                    joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), d, sigmaColor, sigmaSpace, (int)borderType));
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);
@@ -920,7 +920,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_bilateralTextureFilter(
-                    src.CvPtr, dst.CvPtr, fr, numIter, sigmaAlpha, sigmaAvg));
+                    src.ToInputProxy(), dst.ToOutputProxy(), fr, numIter, sigmaAlpha, sigmaAvg));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -955,7 +955,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_rollingGuidanceFilter(
-                    src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, numOfIter, (int)borderType));
+                    src.ToInputProxy(), dst.ToOutputProxy(), d, sigmaColor, sigmaSpace, numOfIter, (int)borderType));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -995,7 +995,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_fastBilateralSolverFilter(
-                    guide.CvPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol));
+                    guide.ToInputProxy(), src.ToInputProxy(), confidence.ToInputProxy(), dst.ToOutputProxy(), sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol));
 
             GC.KeepAlive(guide);
             GC.KeepAlive(src);
@@ -1047,7 +1047,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_fastGlobalSmootherFilter(
-                    guide.CvPtr, src.CvPtr, dst.CvPtr, lambda, sigmaColor, lambdaAttenuation, numIter));
+                    guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), lambda, sigmaColor, lambdaAttenuation, numIter));
 
             GC.KeepAlive(guide);
             GC.KeepAlive(src);
@@ -1072,7 +1072,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_l0Smooth(
-                    src.CvPtr, dst.CvPtr, lambda, kappa));
+                    src.ToInputProxy(), dst.ToOutputProxy(), lambda, kappa));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -1099,7 +1099,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_edgePreservingFilter(src.CvPtr, dst.CvPtr, d, threshold));
+                NativeMethods.ximgproc_edgePreservingFilter(src.ToInputProxy(), dst.ToOutputProxy(), d, threshold));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -1134,7 +1134,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols));
+                NativeMethods.ximgproc_covarianceEstimation(src.ToInputProxy(), dst.ToOutputProxy(), windowRows, windowCols));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1170,7 +1170,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_FastHoughTransform(src.CvPtr, dst.CvPtr, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew));
+                NativeMethods.ximgproc_FastHoughTransform(src.ToInputProxy(), dst.ToOutputProxy(), dstMatDepth, (int)angleRange, (int)op, (int)makeSkew));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1203,7 +1203,7 @@ public static partial class Cv2
             srcImgInfo.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int)angleRange, (int)makeSkew, (int)rules, out Vec4i ret));
+                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.ToInputProxy(), (int)angleRange, (int)makeSkew, (int)rules, out Vec4i ret));
             GC.KeepAlive(srcImgInfo);
             return ret;
         }
@@ -1275,7 +1275,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientPaillouY(op.CvPtr, dst.CvPtr, alpha, omega));
+                NativeMethods.ximgproc_GradientPaillouY(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
 
             GC.KeepAlive(op);
             GC.KeepAlive(dst);
@@ -1299,7 +1299,7 @@ public static partial class Cv2
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientPaillouX(op.CvPtr, dst.CvPtr, alpha, omega));
+                NativeMethods.ximgproc_GradientPaillouX(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
 
             GC.KeepAlive(op);
             GC.KeepAlive(dst);
@@ -1327,7 +1327,7 @@ public static partial class Cv2
                 fixed (double* retPointer = ret)
                 {
                     NativeMethods.HandleException(
-                        NativeMethods.ximgproc_PeiLinNormalization_Mat23d(i.CvPtr, retPointer));
+                        NativeMethods.ximgproc_PeiLinNormalization_Mat23d(i.ToInputProxy(), retPointer));
                 }
             }
 
@@ -1350,7 +1350,7 @@ public static partial class Cv2
             t.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.CvPtr, t.CvPtr));
+                NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.ToInputProxy(), t.ToOutputProxy()));
 
             GC.KeepAlive(i);
             t.Fix();
@@ -1444,7 +1444,7 @@ public static partial class Cv2
         /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
         public static void WeightedMedianFilter(
             InputArray joint, InputArray src, OutputArray dst, int r,
-            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat? mask = null)
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, InputArray? mask = null)
         {
             if (joint is null)
                 throw new ArgumentNullException(nameof(joint));
@@ -1458,7 +1458,7 @@ public static partial class Cv2
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_weightedMedianFilter(
-                    joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero));
+                    joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), r, sigma, (int)weightType, mask?.ToInputProxy() ?? default));
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);

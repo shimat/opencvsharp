@@ -276,8 +276,7 @@ namespace OpenCvSharp
             images.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(
-                    Handle, images.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(Handle, images.ToInputProxy(), out var ret));
 
             GC.KeepAlive(images);
             return (Status)ret;
@@ -293,10 +292,7 @@ namespace OpenCvSharp
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(
-                    Handle, images.CvPtr,
-                    roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
-                    out var ret));
+                NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(Handle, images.ToInputProxy(), roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), out var ret));
 
             GC.KeepAlive(images);
             return (Status)ret;
@@ -343,8 +339,7 @@ namespace OpenCvSharp
             pano.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama1(
-                    Handle, pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama1(Handle, pano.ToOutputProxy(), out var ret));
 
             pano.Fix();
             GC.KeepAlive(pano);
@@ -361,8 +356,7 @@ namespace OpenCvSharp
             pano.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama2_InputArray(
-                    Handle, images.CvPtr, pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama2_InputArray(Handle, images.ToInputProxy(), pano.ToOutputProxy(), out var ret));
 
             pano.Fix();
             GC.KeepAlive(images);
@@ -380,8 +374,7 @@ namespace OpenCvSharp
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama2_MatArray(
-                    Handle, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.ToOutputProxy(), out var ret));
 
             pano.Fix();
             GC.KeepAlive(images);
@@ -405,8 +398,7 @@ namespace OpenCvSharp
             pano.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch1_InputArray(
-                    Handle, images.CvPtr, pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_stitch1_InputArray(Handle, images.ToInputProxy(), pano.ToOutputProxy(), out var ret));
 
             GC.KeepAlive(images);
             GC.KeepAlive(pano);
@@ -432,8 +424,7 @@ namespace OpenCvSharp
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch1_MatArray(
-                    Handle, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_stitch1_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.ToOutputProxy(), out var ret));
 
             GC.KeepAlive(images);
             GC.KeepAlive(pano);
@@ -462,10 +453,7 @@ namespace OpenCvSharp
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch2_InputArray(
-                    Handle, images.CvPtr,
-                    roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
-                    pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_stitch2_InputArray(Handle, images.ToInputProxy(), roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.ToOutputProxy(), out var ret));
 
             pano.Fix();
             GC.KeepAlive(images);
@@ -494,10 +482,7 @@ namespace OpenCvSharp
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch2_MatArray(
-                    Handle, imagesPtrs, imagesPtrs.Length,
-                    roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
-                    pano.CvPtr, out var ret));
+                NativeMethods.stitching_Stitcher_stitch2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.ToOutputProxy(), out var ret));
 
             pano.Fix();
             GC.KeepAlive(images);

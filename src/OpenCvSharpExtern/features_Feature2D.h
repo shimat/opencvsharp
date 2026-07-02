@@ -23,8 +23,9 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_Mat1(
 
 CVAPI(ExceptionStatus) features_Feature2D_detect_Mat2(
     cv::Feature2D *detector,
-    cv::Mat **images, int imageLength,
-    std::vector<std::vector<cv::KeyPoint> > *keypoints, 
+    cv::Mat **images,
+    int imageLength,
+    std::vector<std::vector<cv::KeyPoint> > *keypoints,
     cv::Mat **mask)
 {
     return cvTry([&] {
@@ -46,25 +47,34 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_Mat2(
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_detect_InputArray(
-    cv::Feature2D *obj, cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
+    cv::Feature2D *obj,
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    obj->detect(*image, *keypoints, entity(mask));
+    obj->detect(InProxy(*image), *keypoints, InProxy(*mask));
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_compute1(
     cv::Feature2D *obj,
-    cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors)
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    const interop::OutputArrayProxy* descriptors)
 {
     return cvTry([&] {
-    obj->compute(*image, *keypoints, *descriptors);
+    obj->compute(InProxy(*image), *keypoints, OutProxy(*descriptors));
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_compute2(
-    cv::Feature2D *detector, cv::Mat **images, int imageLength,
-    std::vector<std::vector<cv::KeyPoint> > *keypoints, cv::Mat **descriptors, int descriptorsLength)
+    cv::Feature2D *detector,
+    cv::Mat **images,
+    int imageLength,
+    std::vector<std::vector<cv::KeyPoint> > *keypoints,
+    cv::Mat **descriptors,
+    int descriptorsLength)
 {
     return cvTry([&] {
     std::vector<cv::Mat> imageVec(imageLength);
@@ -80,11 +90,15 @@ CVAPI(ExceptionStatus) features_Feature2D_compute2(
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_detectAndCompute(
-    cv::Feature2D *detector, cv::_InputArray *image, cv::_InputArray *mask, 
-    std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
+    cv::Feature2D *detector,
+    const interop::InputArrayProxy* image,
+    const interop::InputArrayProxy* mask,
+    std::vector<cv::KeyPoint> *keypoints,
+    const interop::OutputArrayProxy* descriptors,
+    int useProvidedKeypoints)
 {
     return cvTry([&] {
-    detector->detectAndCompute(entity(image), entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+    detector->detectAndCompute(InProxy(*image), InProxy(*mask), *keypoints, OutProxy(*descriptors), useProvidedKeypoints != 0);
     });
 }
 
@@ -140,8 +154,11 @@ CVAPI(ExceptionStatus) features_Feature2D_getDefaultName(cv::Feature2D *obj, std
 #pragma region SIFT
 
 CVAPI(ExceptionStatus) features_SIFT_create(
-    int nfeatures, int nOctaveLayers,
-    double contrastThreshold, double edgeThreshold, double sigma, 
+    int nfeatures,
+    int nOctaveLayers,
+    double contrastThreshold,
+    double edgeThreshold,
+    double sigma,
     cv::Ptr<cv::SIFT> **returnValue)
 {
     return cvTry([&] {
@@ -164,8 +181,15 @@ CVAPI(ExceptionStatus) features_Ptr_SIFT_delete(cv::Ptr<cv::SIFT> *ptr)
 #pragma region ORB
 
 CVAPI(ExceptionStatus) features_ORB_create(
-    int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
-    int firstLevel, int wtaK, int scoreType, int patchSize, int fastThreshold,
+    int nFeatures,
+    float scaleFactor,
+    int nlevels,
+    int edgeThreshold,
+    int firstLevel,
+    int wtaK,
+    int scoreType,
+    int patchSize,
+    int fastThreshold,
     cv::Ptr<cv::ORB> **returnValue)
 {
     return cvTry([&] {
@@ -302,9 +326,16 @@ CVAPI(ExceptionStatus) features_ORB_getFastThreshold(cv::ORB *obj, int *returnVa
 
 #pragma region MSER
 
-CVAPI(ExceptionStatus) features_MSER_create(int delta, int minArea, int maxArea,
-    double maxVariation, double minDiversity, int maxEvolution,
-    double areaThreshold, double minMargin, int edgeBlurSize,
+CVAPI(ExceptionStatus) features_MSER_create(
+    int delta,
+    int minArea,
+    int maxArea,
+    double maxVariation,
+    double minDiversity,
+    int maxEvolution,
+    double areaThreshold,
+    double minMargin,
+    int edgeBlurSize,
     cv::Ptr<cv::MSER> **returnValue)
 {
     return cvTry([&] {
@@ -322,12 +353,12 @@ CVAPI(ExceptionStatus) features_Ptr_MSER_delete(cv::Ptr<cv::MSER> *ptr)
 
 CVAPI(ExceptionStatus) features_MSER_detectRegions(
     cv::MSER *obj,
-    cv::_InputArray *image,
+    const interop::InputArrayProxy* image,
     std::vector<std::vector<cv::Point> > *msers,
     std::vector<cv::Rect> *bboxes)
 {
     return cvTry([&] {
-    obj->detectRegions(*image, *msers, *bboxes);
+    obj->detectRegions(InProxy(*image), *msers, *bboxes);
     });
 }
 
@@ -387,23 +418,34 @@ CVAPI(ExceptionStatus) features_MSER_getPass2Only(cv::MSER *obj, int *returnValu
 
 #pragma region FastFeatureDetector
 
-CVAPI(ExceptionStatus) features_FAST1(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression)
+CVAPI(ExceptionStatus) features_FAST1(
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    int threshold,
+    int nonmaxSupression)
 {
     return cvTry([&] {
-    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);
+    cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0);
     });
 }
 
-CVAPI(ExceptionStatus) features_FAST2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
+CVAPI(ExceptionStatus) features_FAST2(
+    const interop::InputArrayProxy* image,
+    std::vector<cv::KeyPoint> *keypoints,
+    int threshold,
+    int nonmaxSupression,
+    int type)
 {
     return cvTry([&] {
-    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
+    cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
     });
 }
 
 
 CVAPI(ExceptionStatus) features_FastFeatureDetector_create(
-    int threshold, int nonmaxSuppression, cv::Ptr<cv::FastFeatureDetector> **returnValue)
+    int threshold,
+    int nonmaxSuppression,
+    cv::Ptr<cv::FastFeatureDetector> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
@@ -462,8 +504,12 @@ CVAPI(ExceptionStatus) features_FastFeatureDetector_getType(cv::FastFeatureDetec
 #pragma region GFTTDetector
 
 CVAPI(ExceptionStatus) features_GFTTDetector_create(
-    int maxCorners, double qualityLevel, double minDistance,
-    int blockSize, int useHarrisDetector, double k,
+    int maxCorners,
+    double qualityLevel,
+    double minDistance,
+    int blockSize,
+    int useHarrisDetector,
+    double k,
     cv::Ptr<cv::GFTTDetector> **returnValue)
 {
     return cvTry([&] {
@@ -640,7 +686,11 @@ CVAPI(ExceptionStatus) features_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D> *obj, c
 #pragma region AffineFeature
 
 CVAPI(ExceptionStatus) features_AffineFeature_create(
-    cv::Ptr<cv::Feature2D> *backend, int maxTilt, int minTilt, float tiltStep, float rotateStepBase,
+    cv::Ptr<cv::Feature2D> *backend,
+    int maxTilt,
+    int minTilt,
+    float tiltStep,
+    float rotateStepBase,
     cv::Ptr<cv::AffineFeature> **returnValue)
 {
     return cvTry([&] {
@@ -650,7 +700,11 @@ CVAPI(ExceptionStatus) features_AffineFeature_create(
 }
 
 CVAPI(ExceptionStatus) features_AffineFeature_setViewParams(
-    cv::AffineFeature *obj, float *tilts, int tiltsLength, float *rolls, int rollsLength)
+    cv::AffineFeature *obj,
+    float *tilts,
+    int tiltsLength,
+    float *rolls,
+    int rollsLength)
 {
     return cvTry([&] {
     const std::vector<float> tiltsVec(tilts, tilts + tiltsLength);
@@ -660,7 +714,9 @@ CVAPI(ExceptionStatus) features_AffineFeature_setViewParams(
 }
 
 CVAPI(ExceptionStatus) features_AffineFeature_getViewParams(
-    cv::AffineFeature *obj, std::vector<float> *tilts, std::vector<float> *rolls)
+    cv::AffineFeature *obj,
+    std::vector<float> *tilts,
+    std::vector<float> *rolls)
 {
     return cvTry([&] {
     obj->getViewParams(*tilts, *rolls);
@@ -682,7 +738,12 @@ CVAPI(ExceptionStatus) features_Ptr_AffineFeature_delete(cv::Ptr<cv::AffineFeatu
 #pragma region DISK
 
 CVAPI(ExceptionStatus) features_DISK_create(
-    const char *modelPath, int maxKeypoints, float scoreThreshold, interop::Size imageSize, int backendId, int targetId,
+    const char *modelPath,
+    int maxKeypoints,
+    float scoreThreshold,
+    interop::Size imageSize,
+    int backendId,
+    int targetId,
     cv::Ptr<cv::DISK> **returnValue)
 {
     return cvTry([&] {
@@ -692,7 +753,13 @@ CVAPI(ExceptionStatus) features_DISK_create(
 }
 
 CVAPI(ExceptionStatus) features_DISK_create_buffer(
-    const uchar *bufferModel, size_t bufferModelLength, int maxKeypoints, float scoreThreshold, interop::Size imageSize, int backendId, int targetId,
+    const uchar *bufferModel,
+    size_t bufferModelLength,
+    int maxKeypoints,
+    float scoreThreshold,
+    interop::Size imageSize,
+    int backendId,
+    int targetId,
     cv::Ptr<cv::DISK> **returnValue)
 {
     return cvTry([&] {
@@ -752,7 +819,12 @@ CVAPI(ExceptionStatus) features_Ptr_DISK_delete(cv::Ptr<cv::DISK> *ptr)
 #pragma region ALIKED
 
 CVAPI(ExceptionStatus) features_ALIKED_create(
-    const char *modelPath, interop::Size inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    const char *modelPath,
+    interop::Size inputSize,
+    int normalizeDescriptors,
+    int engine,
+    int backend,
+    int target,
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     return cvTry([&] {
@@ -768,7 +840,13 @@ CVAPI(ExceptionStatus) features_ALIKED_create(
 }
 
 CVAPI(ExceptionStatus) features_ALIKED_create_buffer(
-    const uchar *modelData, size_t modelDataLength, interop::Size inputSize, int normalizeDescriptors, int engine, int backend, int target,
+    const uchar *modelData,
+    size_t modelDataLength,
+    interop::Size inputSize,
+    int normalizeDescriptors,
+    int engine,
+    int backend,
+    int target,
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     return cvTry([&] {

@@ -313,7 +313,7 @@ public class EdgeBoxes : Algorithm
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(
-                Handle, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+                Handle, edgeMap.ToInputProxy(), orientationMap.ToInputProxy(), boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
         GC.KeepAlive(edgeMap);

@@ -51,7 +51,7 @@ public class ArucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_ArucoDetector_detectMarkers(
-                Handle, image.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
+                Handle, image.ToInputProxy(), cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
 
         corners = cornersVec.ToArray();
         ids = idsVec.ToArray();

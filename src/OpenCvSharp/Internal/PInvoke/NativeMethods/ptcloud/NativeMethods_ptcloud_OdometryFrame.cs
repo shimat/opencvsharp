@@ -11,26 +11,26 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_new(
-        IntPtr depth, IntPtr image, IntPtr mask, IntPtr normals, out IntPtr returnValue);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_new(
+        in InputArrayProxy depth, in InputArrayProxy image, in InputArrayProxy mask, in InputArrayProxy normals, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_OdometryFrame_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getImage(OpenCvSafeHandle obj, IntPtr image);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getImage(OpenCvSafeHandle obj, in OutputArrayProxy image);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getGrayImage(OpenCvSafeHandle obj, IntPtr image);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getGrayImage(OpenCvSafeHandle obj, in OutputArrayProxy image);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getDepth(OpenCvSafeHandle obj, IntPtr depth);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getDepth(OpenCvSafeHandle obj, in OutputArrayProxy depth);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getProcessedDepth(OpenCvSafeHandle obj, IntPtr depth);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getProcessedDepth(OpenCvSafeHandle obj, in OutputArrayProxy depth);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getMask(OpenCvSafeHandle obj, IntPtr mask);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getMask(OpenCvSafeHandle obj, in OutputArrayProxy mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getNormals(OpenCvSafeHandle obj, IntPtr normals);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getNormals(OpenCvSafeHandle obj, in OutputArrayProxy normals);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ptcloud_OdometryFrame_getPyramidLevels(OpenCvSafeHandle obj, out int returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus ptcloud_OdometryFrame_getPyramidAt(OpenCvSafeHandle obj, IntPtr img, int pyrType, IntPtr level);
+    internal static partial ExceptionStatus ptcloud_OdometryFrame_getPyramidAt(OpenCvSafeHandle obj, in OutputArrayProxy img, int pyrType, IntPtr level);
 }

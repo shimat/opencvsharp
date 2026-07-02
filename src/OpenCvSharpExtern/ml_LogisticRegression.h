@@ -87,10 +87,14 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticReg
 
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_predict(
-    cv::ml::LogisticRegression *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags, float *returnValue)
+    cv::ml::LogisticRegression *obj,
+    const interop::InputArrayProxy* samples,
+    const interop::OutputArrayProxy* results,
+    int flags,
+    float *returnValue)
 { 
     return cvTry([&] {
-    *returnValue = obj->predict(entity(samples), entity(results), flags);
+    *returnValue = obj->predict(InProxy(*samples), OutProxy(*results), flags);
     });
 }
 
@@ -117,16 +121,14 @@ CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::Logistic
     });
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(
-    cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
+CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->get();
     });
 }
 
-CVAPI(ExceptionStatus) ml_LogisticRegression_load(
-    const char *filePath, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
+CVAPI(ExceptionStatus) ml_LogisticRegression_load(const char *filePath, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
     return cvTry([&] {
     const auto ptr = cv::Algorithm::load<cv::ml::LogisticRegression>(filePath);
@@ -134,8 +136,7 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_load(
     });
 }
 
-CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(
-    const char *strModel, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
+CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(const char *strModel, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
     return cvTry([&] {
     const auto objName = cv::ml::LogisticRegression::create()->getDefaultName();

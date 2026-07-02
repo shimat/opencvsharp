@@ -35,7 +35,7 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createGuidedFilter(
-                guide.CvPtr, radius, eps, out var smartPtr));
+                guide.ToInputProxy(), radius, eps, out var smartPtr));
             
         GC.KeepAlive(guide); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_get(smartPtr, out var rawPtr));
@@ -60,7 +60,7 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_GuidedFilter_filter(
-                Handle, src.CvPtr, dst.CvPtr, dDepth));
+                Handle, src.ToInputProxy(), dst.ToOutputProxy(), dDepth));
 
         GC.KeepAlive(src);
         dst.Fix();
