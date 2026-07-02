@@ -270,29 +270,18 @@ public struct RNG : IEquatable<RNG>
     /// theRNG().fill(mat_8u, RNG::UNIFORM, -DBL_MAX, DBL_MAX) will likely produce array mostly filled
     /// with 0's and 255's, since the range (0, 255) is significantly smaller than [-DBL_MAX, DBL_MAX).</param>
     public void Fill(
-        InputOutputArray mat,
-        DistributionType distType, 
-        InputArray a, 
-        InputArray b,
+        InputOutputArrayRef mat,
+        DistributionType distType,
+        InputArrayRef a,
+        InputArrayRef b,
         bool saturateRange = false)
     {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        mat.ThrowIfNotReady();
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_RNG_fill(ref state, mat.ToInputOutputProxy(), (int) distType, a.ToInputProxy(), b.ToInputProxy(), saturateRange ? 1 : 0));
+            NativeMethods.core_RNG_fill(ref state, mat.Proxy, (int) distType, a.Proxy, b.Proxy, saturateRange ? 1 : 0));
 
-        mat.Fix();
-        GC.KeepAlive(mat);
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
+        GC.KeepAlive(mat.Source);
+        GC.KeepAlive(a.Source);
+        GC.KeepAlive(b.Source);
     }
 
     /// <summary>
