@@ -33,14 +33,27 @@ public enum ArrayProxyKind
     Double = 5,
     /// <summary>A small fixed-length vector value (inline).</summary>
     Vec = 6,
+
+    // Migration scaffold: a proxy that wraps an existing native cv::_InputArray*/_OutputArray*/
+    // _InputOutputArray* (the handle of a class-based InputArray/OutputArray/InputOutputArray).
+    // Lets externs move to the ArrayProxy ABI one module at a time while the class types still
+    // exist; the native side just dereferences the handle. Removed once the type flip is complete.
+
+    /// <summary>An existing native cv::_InputArray* (class-based <see cref="InputArray"/>).</summary>
+    RawInputArray = 7,
+    /// <summary>An existing native cv::_OutputArray* (class-based <see cref="OutputArray"/>).</summary>
+    RawOutputArray = 8,
+    /// <summary>An existing native cv::_InputOutputArray* (class-based <see cref="InputOutputArray"/>).</summary>
+    RawInputOutputArray = 9,
 }
 
 /// <summary>
-/// Blittable plain-old-data mirror of <c>interop::ArrayProxy</c> (my_types.h). Passed BY VALUE
-/// across the P/Invoke boundary; no field is a managed reference, so it marshals 1:1.
+/// Blittable plain-old-data mirror of <c>interop::InputArrayProxy</c> (my_types.h). Passed BY VALUE
+/// across the P/Invoke boundary; no field is a managed reference, so it marshals 1:1. Only inputs
+/// can be a Scalar/Vec value, so this is the only proxy that carries the inline payload.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal struct ArrayProxy
+internal struct InputArrayProxy
 {
     public IntPtr Handle;     // Mat/UMat/NativeMatExpr CvPtr for handle kinds; zero otherwise
     public int Kind;          // ArrayProxyKind
@@ -54,7 +67,7 @@ internal struct ArrayProxy
     public double Payload4;
     public double Payload5;
 
-    public static ArrayProxy FromScalar(in Scalar s) => new()
+    public static InputArrayProxy FromScalar(in Scalar s) => new()
     {
         Handle = IntPtr.Zero,
         Kind = (int)ArrayProxyKind.Scalar,
@@ -66,6 +79,27 @@ internal struct ArrayProxy
 }
 
 /// <summary>
+/// Blittable mirror of <c>interop::OutputArrayProxy</c> (my_types.h). An output is always a
+/// Mat/UMat (or a raw native handle), so it only needs a handle + kind — no inline payload.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+internal struct OutputArrayProxy
+{
+    public IntPtr Handle;     // Mat/UMat CvPtr, or a cv::_OutputArray* for the Raw kind
+    public int Kind;          // ArrayProxyKind
+}
+
+/// <summary>
+/// Blittable mirror of <c>interop::InputOutputArrayProxy</c> (my_types.h). Handle + kind only.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+internal struct InputOutputArrayProxy
+{
+    public IntPtr Handle;     // Mat/UMat CvPtr, or a cv::_InputOutputArray* for the Raw kind
+    public int Kind;          // ArrayProxyKind
+}
+
+/// <summary>
 /// Stack-only input proxy (see file header). Carries a native handle or an inline value; building
 /// one allocates nothing on the managed heap.
 /// </summary>
@@ -74,9 +108,9 @@ public readonly ref struct InputArrayRef
     // Keeps the source Mat/UMat/NativeMatExpr alive across the native call (the proxy stores only
     // its raw handle).
     internal readonly object? Source;
-    internal readonly ArrayProxy Proxy;
+    internal readonly InputArrayProxy Proxy;
 
-    private InputArrayRef(object? source, ArrayProxy proxy)
+    private InputArrayRef(object? source, InputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
@@ -87,7 +121,7 @@ public readonly ref struct InputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new InputArrayRef(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> (no allocation).</summary>
@@ -95,7 +129,7 @@ public readonly ref struct InputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new InputArrayRef(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 
     /// <summary>
@@ -107,16 +141,16 @@ public readonly ref struct InputArrayRef
     {
         ArgumentNullException.ThrowIfNull(expr);
         var native = expr.Eval();
-        return new InputArrayRef(native, new ArrayProxy { Handle = native.CvPtr, Kind = (int)ArrayProxyKind.MatExpr });
+        return new InputArrayRef(native, new InputArrayProxy { Handle = native.CvPtr, Kind = (int)ArrayProxyKind.MatExpr });
     }
 
     /// <summary>Wraps a <see cref="Scalar"/> value (no allocation; travels inline).</summary>
     public static implicit operator InputArrayRef(Scalar s) =>
-        new(null, ArrayProxy.FromScalar(s));
+        new(null, InputArrayProxy.FromScalar(s));
 
     /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline as Scalar(d,0,0,0)).</summary>
     public static implicit operator InputArrayRef(double d) =>
-        new(null, new ArrayProxy { Kind = (int)ArrayProxyKind.Double, Payload0 = d });
+        new(null, new InputArrayProxy { Kind = (int)ArrayProxyKind.Double, Payload0 = d });
 
     // cv depth constants for the inline Vec payload (cv::CV_8U .. CV_64F).
     private const int DepthU8 = 0, DepthU16 = 2, DepthS16 = 3, DepthS32 = 4, DepthF32 = 5, DepthF64 = 6;
@@ -125,7 +159,7 @@ public readonly ref struct InputArrayRef
     // reads it back as (const T*)payload with VecLength elements; see fromInputProxy in my_types.h.
     private static InputArrayRef FromVec<T>(T vec, int depth, int length) where T : unmanaged
     {
-        var proxy = new ArrayProxy { Kind = (int)ArrayProxyKind.Vec, VecDepth = depth, VecLength = length };
+        var proxy = new InputArrayProxy { Kind = (int)ArrayProxyKind.Vec, VecDepth = depth, VecLength = length };
         var payload = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref proxy.Payload0, 6));
         MemoryMarshal.Write(payload, in vec);
         return new InputArrayRef(null, proxy);
@@ -188,9 +222,9 @@ public readonly ref struct InputArrayRef
 public readonly ref struct OutputArrayRef
 {
     internal readonly object? Source;
-    internal readonly ArrayProxy Proxy;
+    internal readonly OutputArrayProxy Proxy;
 
-    private OutputArrayRef(object? source, ArrayProxy proxy)
+    private OutputArrayRef(object? source, OutputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
@@ -201,7 +235,7 @@ public readonly ref struct OutputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new OutputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new OutputArrayRef(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> output (no allocation).</summary>
@@ -209,7 +243,7 @@ public readonly ref struct OutputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new OutputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new OutputArrayRef(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 }
 
@@ -220,9 +254,9 @@ public readonly ref struct OutputArrayRef
 public readonly ref struct InputOutputArrayRef
 {
     internal readonly object? Source;
-    internal readonly ArrayProxy Proxy;
+    internal readonly InputOutputArrayProxy Proxy;
 
-    private InputOutputArrayRef(object? source, ArrayProxy proxy)
+    private InputOutputArrayRef(object? source, InputOutputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
@@ -233,7 +267,7 @@ public readonly ref struct InputOutputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputOutputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new InputOutputArrayRef(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> in/out target (no allocation).</summary>
@@ -241,6 +275,6 @@ public readonly ref struct InputOutputArrayRef
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputOutputArrayRef(mat, new ArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new InputOutputArrayRef(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 }

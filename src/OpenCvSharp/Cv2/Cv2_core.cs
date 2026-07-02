@@ -10,6 +10,10 @@ namespace OpenCvSharp;
 
 public static partial class Cv2
 {
+    // Above this count, collect Mat handles into a heap IntPtr[] instead of stackalloc, to bound
+    // stack usage when passing a variable-length vector-of-Mat to the native cv::Mat** ABI.
+    private const int MaxStackAllocHandles = 32;
+
     #region core.hpp
 
     /// <summary>
@@ -52,7 +56,7 @@ public static partial class Cv2
         var value0 = value.GetValueOrDefault(new Scalar());
         NativeMethods.HandleException(
             NativeMethods.core_copyMakeBorder(
-                src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0));
+                src.ToInputProxy(), dst.ToOutputProxy(), top, bottom, left, right, (int)borderType, value0));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -81,7 +85,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_add(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -112,7 +117,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArray2(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -140,7 +146,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_InputArrayScalar(
-                src1.CvPtr, src2, dst.CvPtr, ToPtr(mask), dtype));
+                src1.ToInputProxy(), src2, dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src1);
         dst.Fix();
@@ -167,7 +174,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_subtract_ScalarInputArray(
-                src1, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+                src1, src2.ToInputProxy(), dst.ToOutputProxy(),
+                mask?.ToInputProxy() ?? default, dtype));
 
         GC.KeepAlive(src2);
         dst.Fix();
@@ -196,7 +204,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_multiply(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -225,7 +233,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_divide2(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype?.Value ?? -1));
+                src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), scale, dtype?.Value ?? -1));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -249,7 +257,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_divide1(scale, src2.CvPtr, dst.CvPtr, dtype));
+            NativeMethods.core_divide1(scale, src2.ToInputProxy(), dst.ToOutputProxy(), dtype));
 
         GC.KeepAlive(src2);
         dst.Fix();
@@ -275,7 +283,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_scaleAdd(src1.ToInputProxy(), alpha, src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -307,7 +315,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_addWeighted(
-                src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype));
+                src1.ToInputProxy(), alpha, src2.ToInputProxy(), beta, gamma, dst.ToOutputProxy(), dtype));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -331,7 +339,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta));
+            NativeMethods.core_convertScaleAbs(src.ToInputProxy(), dst.ToOutputProxy(), alpha, beta));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -361,7 +369,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr));
+            NativeMethods.core_LUT(src.ToInputProxy(), lut.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(lut);
@@ -403,7 +411,7 @@ public static partial class Cv2
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_sum(src.CvPtr, out var ret));
+            NativeMethods.core_sum(src.ToInputProxy(), out var ret));
 
         GC.KeepAlive(src);
         return ret;
@@ -421,7 +429,7 @@ public static partial class Cv2
         mtx.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_countNonZero(mtx.CvPtr, out var ret));
+            NativeMethods.core_countNonZero(mtx.ToInputProxy(), out var ret));
 
         GC.KeepAlive(mtx);
         return ret;
@@ -442,7 +450,7 @@ public static partial class Cv2
         idx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_findNonZero(src.CvPtr, idx.CvPtr));
+            NativeMethods.core_findNonZero(src.ToInputProxy(), idx.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(idx);
@@ -463,7 +471,7 @@ public static partial class Cv2
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_mean(src.CvPtr, ToPtr(mask), out var ret));
+            NativeMethods.core_mean(src.ToInputProxy(), mask?.ToInputProxy() ?? default, out var ret));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -493,7 +501,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_OutputArray(
-                src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask)));
+                src.ToInputProxy(), mean.ToOutputProxy(), stddev.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         mean.Fix();
         stddev.Fix();
@@ -521,7 +529,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_Scalar(
-                src.CvPtr, out mean, out stddev, ToPtr(mask)));
+                src.ToInputProxy(), out mean, out stddev, mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -542,7 +550,7 @@ public static partial class Cv2
         src1.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_norm1(src1.CvPtr, (int)normType, ToPtr(mask), out var ret));
+            NativeMethods.core_norm1(src1.ToInputProxy(), (int)normType, mask?.ToInputProxy() ?? default, out var ret));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(mask);
@@ -568,7 +576,7 @@ public static partial class Cv2
         src2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask), out var ret));
+            NativeMethods.core_norm2(src1.ToInputProxy(), src2.ToInputProxy(), (int)normType, mask?.ToInputProxy() ?? default, out var ret));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -597,7 +605,7 @@ public static partial class Cv2
         src2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PSNR(src1.CvPtr, src2.CvPtr, r, out var ret));
+            NativeMethods.core_PSNR(src1.ToInputProxy(), src2.ToInputProxy(), r, out var ret));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -639,8 +647,8 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_batchDistance(
-                src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
-                (int) normType, k, ToPtr(mask), update, crosscheck ? 1 : 0));
+                src1.ToInputProxy(), src2.ToInputProxy(), dist.ToOutputProxy(), dtype, nidx.ToOutputProxy(),
+                (int) normType, k, mask?.ToInputProxy() ?? default, update, crosscheck ? 1 : 0));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -678,7 +686,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_normalize(
-                src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask)));
+                src.ToInputProxy(), dst.ToInputOutputProxy(), alpha, beta, (int)normType, dtype, mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -704,7 +712,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_reduceArgMax(src.CvPtr, dst.CvPtr, axis, lastIndex));
+            NativeMethods.core_reduceArgMax(src.ToInputProxy(), dst.ToOutputProxy(), axis, lastIndex));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -729,7 +737,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_reduceArgMin(src.CvPtr, dst.CvPtr, axis, lastIndex));
+            NativeMethods.core_reduceArgMin(src.ToInputProxy(), dst.ToOutputProxy(), axis, lastIndex));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -749,7 +757,7 @@ public static partial class Cv2
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_minMaxLoc1(src.CvPtr, out minVal, out maxVal));
+            NativeMethods.core_minMaxLoc1(src.ToInputProxy(), out minVal, out maxVal));
 
         GC.KeepAlive(src);
     }
@@ -783,7 +791,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_minMaxLoc2(
-                src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask)));
+                src.ToInputProxy(), out minVal, out maxVal, out minLoc, out maxLoc, mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
@@ -802,7 +810,7 @@ public static partial class Cv2
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_minMaxIdx1(src.CvPtr, out minVal, out maxVal));
+            NativeMethods.core_minMaxIdx1(src.ToInputProxy(), out minVal, out maxVal));
 
         GC.KeepAlive(src);
     }
@@ -840,7 +848,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_minMaxIdx2(
-                src.CvPtr, out minVal, out maxVal, minIdx, maxIdx, ToPtr(mask)));
+                src.ToInputProxy(), out minVal, out maxVal, minIdx, maxIdx, mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
     }
@@ -866,7 +874,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype));
+            NativeMethods.core_reduce(src.ToInputProxy(), dst.ToOutputProxy(), (int)dim, (int)rtype, dtype));
 
         dst.Fix();
         GC.KeepAlive(src);
@@ -878,33 +886,30 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mv"></param>
     /// <param name="dst"></param>
-    public static void Merge(Mat[] mv, Mat dst)
+    public static void Merge(ReadOnlySpan<Mat> mv, Mat dst)
     {
-        if (mv is null)
-            throw new ArgumentNullException(nameof(mv));
         if (mv.Length == 0)
             throw new ArgumentException("mv is empty", nameof(mv));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        foreach (var m in mv)
+
+        Span<IntPtr> handles = mv.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[mv.Length]
+            : new IntPtr[mv.Length];
+        for (var i = 0; i < mv.Length; i++)
         {
-            if (m is null)
-                throw new ArgumentException("mv contains null element");
+            var m = mv[i] ?? throw new ArgumentException("mv contains null element");
             m.ThrowIfDisposed();
+            handles[i] = m.CvPtr;
         }
 
         dst.ThrowIfDisposed();
 
-        var mvPtr = new IntPtr[mv.Length];
-        for (var i = 0; i < mv.Length; i++)
-        {
-            mvPtr[i] = mv[i].CvPtr;
-        }
-
         NativeMethods.HandleException(
-            NativeMethods.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr));
+            NativeMethods.core_merge(handles, (uint)mv.Length, dst.CvPtr));
 
-        GC.KeepAlive(mv);
+        foreach (var m in mv)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
     }
 
@@ -947,12 +952,8 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="fromTo"></param>
-    public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
+    public static void MixChannels(ReadOnlySpan<Mat> src, ReadOnlySpan<Mat> dst, int[] fromTo)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (fromTo is null)
             throw new ArgumentNullException(nameof(fromTo));
         if (src.Length == 0)
@@ -961,8 +962,9 @@ public static partial class Cv2
             throw new ArgumentException("Length == 0", nameof(dst));
         if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
             throw new ArgumentException("Invalid length", nameof(fromTo));
-        var srcPtr = new IntPtr[src.Length];
-        var dstPtr = new IntPtr[dst.Length];
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles ? stackalloc IntPtr[src.Length] : new IntPtr[src.Length];
+        Span<IntPtr> dstPtr = dst.Length <= MaxStackAllocHandles ? stackalloc IntPtr[dst.Length] : new IntPtr[dst.Length];
         for (var i = 0; i < src.Length; i++)
         {
             src[i].ThrowIfDisposed();
@@ -979,8 +981,10 @@ public static partial class Cv2
                 srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length,
                 fromTo, (uint)(fromTo.Length / 2)));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        foreach (var m in src)
+            GC.KeepAlive(m);
+        foreach (var m in dst)
+            GC.KeepAlive(m);
     }
 
     /// <summary>
@@ -999,7 +1003,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_extractChannel(src.CvPtr, dst.CvPtr, coi));
+            NativeMethods.core_extractChannel(src.ToInputProxy(), dst.ToOutputProxy(), coi));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1022,7 +1026,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_insertChannel(src.CvPtr, dst.CvPtr, coi));
+            NativeMethods.core_insertChannel(src.ToInputProxy(), dst.ToInputOutputProxy(), coi));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1047,7 +1051,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int) flipCode));
+            NativeMethods.core_flip(src.ToInputProxy(), dst.ToOutputProxy(), (int) flipCode));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -1071,7 +1075,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_rotate(src.CvPtr, dst.CvPtr, (int)rotateCode));
+            NativeMethods.core_rotate(src.ToInputProxy(), dst.ToOutputProxy(), (int)rotateCode));
 
         GC.KeepAlive(src);
         dst.Fix();
@@ -1094,7 +1098,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_repeat1(src.CvPtr, ny, nx, dst.CvPtr));
+            NativeMethods.core_repeat1(src.ToInputProxy(), ny, nx, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1126,28 +1130,27 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void HConcat(IEnumerable<Mat> src, OutputArray dst)
+    public static void HConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-
-        var srcArray = src as Mat[] ?? src.ToArray();
-        if (srcArray.Length == 0)
+        if (src.Length == 0)
             throw new ArgumentException("src is empty", nameof(src));
-        var srcPtr = new IntPtr[srcArray.Length];
-        for (var i = 0; i < srcArray.Length; i++)
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[src.Length]
+            : new IntPtr[src.Length];
+        for (var i = 0; i < src.Length; i++)
         {
-            srcArray[i].ThrowIfDisposed();
-            srcPtr[i] = srcArray[i].CvPtr;
+            src[i].ThrowIfDisposed();
+            srcPtr[i] = src[i].CvPtr;
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat1(srcPtr, (uint) srcArray.Length, dst.CvPtr));
+            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.ToOutputProxy()));
 
-        GC.KeepAlive(srcArray);
+        foreach (var m in src)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
         dst.Fix();
     }
@@ -1171,7 +1174,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_hconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_hconcat2(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1184,28 +1187,27 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
-    [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void VConcat(IEnumerable<Mat> src, OutputArray dst)
+    public static void VConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-
-        var srcArray = src as Mat[] ?? src.ToArray();
-        if (srcArray.Length == 0)
+        if (src.Length == 0)
             throw new ArgumentException("src.Count == 0", nameof(src));
-        var srcPtr = new IntPtr[srcArray.Length];
-        for (var i = 0; i < srcArray.Length; i++)
+
+        Span<IntPtr> srcPtr = src.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[src.Length]
+            : new IntPtr[src.Length];
+        for (var i = 0; i < src.Length; i++)
         {
-            srcArray[i].ThrowIfDisposed();
-            srcPtr[i] = srcArray[i].CvPtr;
+            src[i].ThrowIfDisposed();
+            srcPtr[i] = src[i].CvPtr;
         }
 
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat1(srcPtr, (uint)srcArray.Length, dst.CvPtr));
+            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.ToOutputProxy()));
 
-        GC.KeepAlive(src);
+        foreach (var m in src)
+            GC.KeepAlive(m);
         GC.KeepAlive(dst);
         dst.Fix();
     }
@@ -1229,7 +1231,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_vconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_vconcat2(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1257,7 +1259,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_and(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1285,7 +1287,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_or(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1314,7 +1316,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_xor(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1339,7 +1341,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_bitwise_not(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1366,7 +1368,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_absdiff(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1392,7 +1394,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_copyTo(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+            NativeMethods.core_copyTo(src.ToInputProxy(), dst.ToOutputProxy(), mask?.ToInputProxy() ?? default));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1423,7 +1425,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_InputArray(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr));
+            NativeMethods.core_inRange_InputArray(src.ToInputProxy(), lowerb.ToInputProxy(), upperb.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(lowerb);
@@ -1449,7 +1451,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_inRange_Scalar(src.CvPtr, lowerb, upperb, dst.CvPtr));
+            NativeMethods.core_inRange_Scalar(src.ToInputProxy(), lowerb, upperb, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1477,7 +1479,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) cmpop));
+            NativeMethods.core_compare(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), (int) cmpop));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1504,7 +1506,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_min1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1579,7 +1581,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+            NativeMethods.core_max1(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1650,7 +1652,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_sqrt(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1673,7 +1675,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr));
+            NativeMethods.core_pow_Mat(src.ToInputProxy(), power, dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1695,7 +1697,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_exp_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1717,7 +1719,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_log_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1751,7 +1753,7 @@ public static partial class Cv2
         y.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_polarToCart(magnitude.ToInputProxy(), angle.ToInputProxy(), x.ToOutputProxy(), y.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(magnitude);
         GC.KeepAlive(angle);
@@ -1787,7 +1789,7 @@ public static partial class Cv2
         angle.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_cartToPolar(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
@@ -1817,7 +1819,7 @@ public static partial class Cv2
         angle.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+            NativeMethods.core_phase(x.ToInputProxy(), y.ToInputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
@@ -1844,7 +1846,7 @@ public static partial class Cv2
         magnitude.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr));
+            NativeMethods.core_magnitude_Mat(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy()));
 
         GC.KeepAlive(x);
         GC.KeepAlive(y);
@@ -1885,7 +1887,7 @@ public static partial class Cv2
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal, out var ret));
+            NativeMethods.core_checkRange(src.ToInputProxy(), quiet ? 1 : 0, out pos, minVal, maxVal, out var ret));
         GC.KeepAlive(src);
         return ret != 0;
     }
@@ -1902,7 +1904,7 @@ public static partial class Cv2
         a.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_patchNaNs(a.CvPtr, val));
+            NativeMethods.core_patchNaNs(a.ToInputOutputProxy(), val));
 
         GC.KeepAlive(a);
     }
@@ -1935,7 +1937,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int) flags));
+            NativeMethods.core_gemm(src1.ToInputProxy(), src2.ToInputProxy(), alpha, src3.ToInputProxy(), gamma, dst.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -1971,7 +1973,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
             
         NativeMethods.HandleException(
-            NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0, ToPtr(delta), scale, dtype));
+            NativeMethods.core_mulTransposed(src.ToInputProxy(), dst.ToOutputProxy(), aTa ? 1 : 0, delta?.ToInputProxy() ?? default, scale, dtype));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -1995,7 +1997,7 @@ public static partial class Cv2
             
 
         NativeMethods.HandleException(
-            NativeMethods.core_transpose(src.CvPtr, dst.CvPtr));
+            NativeMethods.core_transpose(src.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2021,7 +2023,7 @@ public static partial class Cv2
         m.ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr));
+            NativeMethods.core_transform(src.ToInputProxy(), dst.ToOutputProxy(), m.ToInputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2049,7 +2051,7 @@ public static partial class Cv2
         m.ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr));
+            NativeMethods.core_perspectiveTransform(src.ToInputProxy(), dst.ToOutputProxy(), m.ToInputProxy()));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2167,7 +2169,7 @@ public static partial class Cv2
         mtx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0));
+            NativeMethods.core_completeSymm(mtx.ToInputOutputProxy(), lowerToUpper ? 1 : 0));
 
         GC.KeepAlive(mtx);
         mtx.Fix();
@@ -2186,7 +2188,7 @@ public static partial class Cv2
 
         var s0 = s.GetValueOrDefault(new Scalar(1));
         NativeMethods.HandleException(
-            NativeMethods.core_setIdentity(mtx.CvPtr, s0));
+            NativeMethods.core_setIdentity(mtx.ToInputOutputProxy(), s0));
 
         GC.KeepAlive(mtx);
         mtx.Fix();
@@ -2204,7 +2206,7 @@ public static partial class Cv2
         mtx.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_determinant(mtx.CvPtr, out var ret));
+            NativeMethods.core_determinant(mtx.ToInputProxy(), out var ret));
 
         GC.KeepAlive(mtx);
         return ret;
@@ -2222,7 +2224,7 @@ public static partial class Cv2
         mtx.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_trace(mtx.CvPtr, out var ret));
+            NativeMethods.core_trace(mtx.ToInputProxy(), out var ret));
 
         GC.KeepAlive(mtx);
         return ret;
@@ -2246,7 +2248,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int) flags, out var ret));
+            NativeMethods.core_invert(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, out var ret));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2276,7 +2278,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) flags, out var ret));
+            NativeMethods.core_solve(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy(), (int) flags, out var ret));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -2311,7 +2313,7 @@ public static partial class Cv2
         z.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_solveLP(func.CvPtr, constr.CvPtr, z.CvPtr, out var ret));
+            NativeMethods.core_solveLP(func.ToInputProxy(), constr.ToInputProxy(), z.ToOutputProxy(), out var ret));
 
         GC.KeepAlive(func);
         GC.KeepAlive(constr);
@@ -2335,7 +2337,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int) flags));
+            NativeMethods.core_sort(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2358,7 +2360,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int) flags));
+            NativeMethods.core_sortIdx(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2381,7 +2383,7 @@ public static partial class Cv2
         roots.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr, out var ret));
+            NativeMethods.core_solveCubic(coeffs.ToInputProxy(), roots.ToOutputProxy(), out var ret));
 
         GC.KeepAlive(coeffs);
         GC.KeepAlive(roots);
@@ -2406,7 +2408,7 @@ public static partial class Cv2
         roots.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters, out var ret));
+            NativeMethods.core_solvePoly(coeffs.ToInputProxy(), roots.ToOutputProxy(), maxIters, out var ret));
 
         GC.KeepAlive(coeffs);
         GC.KeepAlive(roots);
@@ -2438,7 +2440,7 @@ public static partial class Cv2
         eigenvectors.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, out var ret));
+            NativeMethods.core_eigen(src.ToInputProxy(), eigenvalues.ToOutputProxy(), eigenvectors.ToOutputProxy(), out var ret));
 
         eigenvalues.Fix();
         eigenvectors.Fix();
@@ -2467,7 +2469,7 @@ public static partial class Cv2
         eigenvectors.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_eigenNonSymmetric(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr));
+            NativeMethods.core_eigenNonSymmetric(src.ToInputProxy(), eigenvalues.ToOutputProxy(), eigenvectors.ToOutputProxy()));
 
         eigenvalues.Fix();
         eigenvectors.Fix();
@@ -2486,24 +2488,28 @@ public static partial class Cv2
     /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
-        Mat[] samples, Mat covar, Mat mean,
+        ReadOnlySpan<Mat> samples, Mat covar, Mat mean,
         CovarFlags flags, MatType? ctype = null)
     {
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
         if (covar is null)
             throw new ArgumentNullException(nameof(covar));
         if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         covar.ThrowIfDisposed();
         mean.ThrowIfDisposed();
-        var samplesPtr = samples.Select(x => x.CvPtr).ToArray();
+
+        Span<IntPtr> samplesPtr = samples.Length <= MaxStackAllocHandles
+            ? stackalloc IntPtr[samples.Length]
+            : new IntPtr[samples.Length];
+        for (var i = 0; i < samples.Length; i++)
+            samplesPtr[i] = samples[i].CvPtr;
 
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
             NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue.Value));
 
-        GC.KeepAlive(samples);
+        foreach (var m in samples)
+            GC.KeepAlive(m);
         GC.KeepAlive(covar);
         GC.KeepAlive(mean);
     }
@@ -2532,7 +2538,7 @@ public static partial class Cv2
 
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
-            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue.Value));
+            NativeMethods.core_calcCovarMatrix_InputArray(samples.ToInputProxy(), covar.ToOutputProxy(), mean.ToInputOutputProxy(), (int) flags, ctypeValue.Value));
 
         GC.KeepAlive(samples);
         GC.KeepAlive(covar);
@@ -2564,7 +2570,7 @@ public static partial class Cv2
         eigenvectors.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents));
+            NativeMethods.core_PCACompute(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), maxComponents));
 
         GC.KeepAlive(data);
         mean.Fix();
@@ -2598,7 +2604,7 @@ public static partial class Cv2
         eigenvalues.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCACompute2(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, eigenvalues.CvPtr, maxComponents));
+            NativeMethods.core_PCACompute2(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), eigenvalues.ToOutputProxy(), maxComponents));
 
         GC.KeepAlive(data);
         mean.Fix();
@@ -2629,7 +2635,7 @@ public static partial class Cv2
         eigenvectors.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance));
+            NativeMethods.core_PCAComputeVar(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), retainedVariance));
 
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
@@ -2665,7 +2671,7 @@ public static partial class Cv2
         eigenvalues.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCAComputeVar2(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, eigenvalues.CvPtr, retainedVariance));
+            NativeMethods.core_PCAComputeVar2(data.ToInputProxy(), mean.ToInputOutputProxy(), eigenvectors.ToOutputProxy(), eigenvalues.ToOutputProxy(), retainedVariance));
 
         GC.KeepAlive(data);
         mean.Fix();
@@ -2697,7 +2703,7 @@ public static partial class Cv2
         result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr));
+            NativeMethods.core_PCAProject(data.ToInputProxy(), mean.ToInputProxy(), eigenvectors.ToInputProxy(), result.ToOutputProxy()));
 
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
@@ -2730,7 +2736,7 @@ public static partial class Cv2
         result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr));
+            NativeMethods.core_PCABackProject(data.ToInputProxy(), mean.ToInputProxy(), eigenvectors.ToInputProxy(), result.ToOutputProxy()));
 
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
@@ -2767,7 +2773,7 @@ public static partial class Cv2
         vt.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int) flags));
+            NativeMethods.core_SVDecomp(src.ToInputProxy(), w.ToOutputProxy(), u.ToOutputProxy(), vt.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(w);
@@ -2808,7 +2814,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr));
+            NativeMethods.core_SVBackSubst(w.ToInputProxy(), u.ToInputProxy(), vt.ToInputProxy(), rhs.ToInputProxy(), dst.ToOutputProxy()));
 
         GC.KeepAlive(w);
         GC.KeepAlive(u);
@@ -2838,7 +2844,7 @@ public static partial class Cv2
         icovar.ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr, out var ret));
+            NativeMethods.core_Mahalanobis(v1.ToInputProxy(), v2.ToInputProxy(), icovar.ToInputProxy(), out var ret));
 
         GC.KeepAlive(v1);
         GC.KeepAlive(v2);
@@ -2868,7 +2874,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows));
+            NativeMethods.core_dft(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, nonzeroRows));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2897,7 +2903,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows));
+            NativeMethods.core_idft(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags, nonzeroRows));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2920,7 +2926,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int) flags));
+            NativeMethods.core_dct(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2943,7 +2949,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int) flags));
+            NativeMethods.core_idct(src.ToInputProxy(), dst.ToOutputProxy(), (int) flags));
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
@@ -2974,7 +2980,7 @@ public static partial class Cv2
         c.ThrowIfNotReady();
 
         NativeMethods.HandleException( 
-            NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int) flags, conjB ? 1 : 0));
+            NativeMethods.core_mulSpectrums(a.ToInputProxy(), b.ToInputProxy(), c.ToOutputProxy(), (int) flags, conjB ? 1 : 0));
 
         GC.KeepAlive(a);
         GC.KeepAlive(b);
@@ -3037,7 +3043,7 @@ public static partial class Cv2
         high.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_randu_InputArray(dst.CvPtr, low.CvPtr, high.CvPtr));
+            NativeMethods.core_randu_InputArray(dst.ToInputOutputProxy(), low.ToInputProxy(), high.ToInputProxy()));
 
         GC.KeepAlive(dst);
         GC.KeepAlive(low);
@@ -3060,7 +3066,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_randu_Scalar(dst.CvPtr, low, high));
+            NativeMethods.core_randu_Scalar(dst.ToInputOutputProxy(), low, high));
 
         GC.KeepAlive(dst);
         dst.Fix();
@@ -3087,7 +3093,7 @@ public static partial class Cv2
         stddev.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_randn_InputArray(dst.CvPtr, mean.CvPtr, stddev.CvPtr));
+            NativeMethods.core_randn_InputArray(dst.ToInputOutputProxy(), mean.ToInputProxy(), stddev.ToInputProxy()));
 
         GC.KeepAlive(dst);
         GC.KeepAlive(mean);
@@ -3109,7 +3115,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_randn_Scalar(dst.CvPtr, mean, stddev));
+            NativeMethods.core_randn_Scalar(dst.ToInputOutputProxy(), mean, stddev));
 
         GC.KeepAlive(dst);
         dst.Fix();
@@ -3128,7 +3134,7 @@ public static partial class Cv2
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
+            NativeMethods.core_randShuffle(dst.ToInputOutputProxy(), iterFactor, IntPtr.Zero));
 
         GC.KeepAlive(dst);
         dst.Fix();
@@ -3150,7 +3156,7 @@ public static partial class Cv2
 
         var state = rng.State;
         NativeMethods.HandleException(
-            NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
+            NativeMethods.core_randShuffle(dst.ToInputOutputProxy(), iterFactor, ref state));
         rng = new RNG(state);
 
         GC.KeepAlive(dst);
@@ -3188,7 +3194,7 @@ public static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_kmeans(
-                data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int) flags, ToPtr(centers), out var ret));
+                data.ToInputProxy(), k, bestLabels.ToInputOutputProxy(), criteria, attempts, (int) flags, centers?.ToOutputProxy() ?? default, out var ret));
 
         bestLabels.Fix();
         centers?.Fix();
@@ -3584,7 +3590,7 @@ public static partial class Cv2
 
         using var buf = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.core_format(mtx.CvPtr, (int) format, buf.CvPtr));
+            NativeMethods.core_format(mtx.ToInputProxy(), (int) format, buf.CvPtr));
         GC.KeepAlive(mtx);
         return buf.ToString();
     }

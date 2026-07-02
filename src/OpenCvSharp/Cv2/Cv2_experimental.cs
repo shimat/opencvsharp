@@ -15,7 +15,7 @@ static partial class Cv2
     public static void TransposeRef(InputArrayRef src, OutputArrayRef dst)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_transpose_io(src.Proxy, dst.Proxy));
+            NativeMethods.core_transpose(src.Proxy, dst.Proxy));
         GC.KeepAlive(src.Source);
         GC.KeepAlive(dst.Source);
     }
@@ -27,7 +27,7 @@ static partial class Cv2
     public static void AddRef(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_add_io(src1.Proxy, src2.Proxy, dst.Proxy));
+            NativeMethods.core_add(src1.Proxy, src2.Proxy, dst.Proxy, default, -1));
         GC.KeepAlive(src1.Source);
         GC.KeepAlive(src2.Source);
         GC.KeepAlive(dst.Source);
@@ -40,7 +40,7 @@ static partial class Cv2
     public static void CompleteSymmRef(InputOutputArrayRef mtx, bool lowerToUpper = false)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_completeSymm_io(mtx.Proxy, lowerToUpper ? 1 : 0));
+            NativeMethods.core_completeSymm(mtx.Proxy, lowerToUpper ? 1 : 0));
         GC.KeepAlive(mtx.Source);
     }
 }

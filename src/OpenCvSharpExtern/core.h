@@ -19,719 +19,905 @@ CVAPI(interop::RotatedRect) core_RotatedRect_byThreeVertexPoints(
 CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::borderInterpolate(p, len, borderType);
+        *returnValue = cv::borderInterpolate(p, len, borderType);
     });
 }
 
 CVAPI(ExceptionStatus) core_copyMakeBorder(
-    cv::_InputArray* src, cv::_OutputArray* dst, int top, int bottom, int left, int right, int borderType, interop::Scalar value)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int top, int bottom, int left, int right,
+    int borderType,
+    interop::Scalar value)
 {
     return cvTry([&] {
-    cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
+        cv::copyMakeBorder(InProxy(*src), OutProxy(*dst), top, bottom, left, right, borderType, cpp(value));
     });
 }
 
 CVAPI(ExceptionStatus) core_add(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask,
+    int dtype)
 {
     return cvTry([&] {
-    cv::add(*src1, *src2, *dst, entity(mask), dtype);
+        cv::add(InProxy(*src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask), dtype);
     });
 }
 
 CVAPI(ExceptionStatus) core_subtract_InputArray2(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask,
+    int dtype)
 {
     return cvTry([&] {
-    cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
+        cv::subtract(InProxy(*src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_InputArrayScalar(
-    cv::_InputArray *src1, interop::Scalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    const interop::InputArrayProxy* src1,
+    interop::Scalar src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask,
+    int dtype)
 {
     return cvTry([&] {
-    cv::subtract(*src1, cpp(src2), *dst, entity(mask), dtype);
+        cv::subtract(InProxy(*src1), cpp(src2), OutProxy(*dst), InProxy(*mask), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
-    interop::Scalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+    interop::Scalar src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask,
+    int dtype)
 {
     return cvTry([&] {
-    cv::subtract(cpp(src1), *src2, *dst, entity(mask), dtype);
+        cv::subtract(cpp(src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask), dtype);
     });
 }
 
 CVAPI(ExceptionStatus) core_multiply(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    double scale,
+    int dtype)
 {
     return cvTry([&] {
-    cv::multiply(*src1, *src2, *dst, scale, dtype);
+        cv::multiply(InProxy(*src1), InProxy(*src2), OutProxy(*dst), scale, dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide1(
-    double scale, cv::_InputArray *src2, cv::_OutputArray *dst, int dtype)
+    double scale,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    int dtype)
 {
     return cvTry([&] {
-    cv::divide(scale, *src2, *dst, dtype);
+        cv::divide(scale, InProxy(*src2), OutProxy(*dst), dtype);
     });
 }
 CVAPI(ExceptionStatus) core_divide2(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    double scale,
+    int dtype)
 {
     return cvTry([&] {
-    cv::divide(*src1, *src2, *dst, scale, dtype);
+        cv::divide(InProxy(*src1), InProxy(*src2), OutProxy(*dst), scale, dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_scaleAdd(
+    const interop::InputArrayProxy* src1,
+    double alpha,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::scaleAdd(*src1, alpha, *src2, *dst);
+        cv::scaleAdd(InProxy(*src1), alpha, InProxy(*src2), OutProxy(*dst));
     });
 }
-CVAPI(ExceptionStatus) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArray *src2,
-                             double beta, double gamma, cv::_OutputArray *dst, int dtype)
+CVAPI(ExceptionStatus) core_addWeighted(
+    const interop::InputArrayProxy* src1,
+    double alpha,
+    const interop::InputArrayProxy* src2,
+    double beta,
+    double gamma,
+    const interop::OutputArrayProxy* dst,
+    int dtype)
 {
     return cvTry([&] {
-    cv::addWeighted(*src1, alpha, *src2, beta, gamma, *dst, dtype);
-    });
-}
-
-CVAPI(ExceptionStatus) core_convertScaleAbs(cv::_InputArray* src, cv::_OutputArray* dst, double alpha, double beta)
-{
-    return cvTry([&] {
-    cv::convertScaleAbs(*src, *dst, alpha, beta);
-    });
-}
-
-CVAPI(ExceptionStatus) core_LUT(cv::_InputArray* src, cv::_InputArray* lut, cv::_OutputArray* dst)
-{
-    return cvTry([&] {
-    cv::LUT(*src, *lut, *dst);
+        cv::addWeighted(InProxy(*src1), alpha, InProxy(*src2), beta, gamma, OutProxy(*dst), dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_sum(cv::_InputArray* src, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_convertScaleAbs(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double alpha,
+    double beta)
 {
     return cvTry([&] {
-    *returnValue = c(cv::sum(*src));
+        cv::convertScaleAbs(InProxy(*src), OutProxy(*dst), alpha, beta);
     });
 }
 
-CVAPI(ExceptionStatus) core_countNonZero(cv::_InputArray* src, int* returnValue)
+CVAPI(ExceptionStatus) core_LUT(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* lut,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    *returnValue = cv::countNonZero(*src);
+        cv::LUT(InProxy(*src), InProxy(*lut), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_findNonZero(cv::_InputArray* src, cv::_OutputArray* idx)
+CVAPI(ExceptionStatus) core_sum(const interop::InputArrayProxy* src, interop::Scalar* returnValue)
 {
     return cvTry([&] {
-    cv::findNonZero(*src, *idx);
+        *returnValue = c(cv::sum(InProxy(*src)));
     });
 }
 
-CVAPI(ExceptionStatus) core_mean(cv::_InputArray* src, cv::_InputArray* mask, interop::Scalar* returnValue)
+CVAPI(ExceptionStatus) core_countNonZero(const interop::InputArrayProxy* src, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::mean(*src, entity(mask)));
+        *returnValue = cv::countNonZero(InProxy(*src));
+    });
+}
+
+CVAPI(ExceptionStatus) core_findNonZero(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* idx)
+{
+    return cvTry([&] {
+        cv::findNonZero(InProxy(*src), OutProxy(*idx));
+    });
+}
+
+CVAPI(ExceptionStatus) core_mean(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* mask,
+    interop::Scalar* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::mean(InProxy(*src), InProxy(*mask)));
     });
 }
 
 CVAPI(ExceptionStatus) core_meanStdDev_OutputArray(
-    cv::_InputArray* src, cv::_OutputArray* mean, cv::_OutputArray* stddev, cv::_InputArray* mask)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* mean,
+    const interop::OutputArrayProxy* stddev,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+        cv::meanStdDev(InProxy(*src), OutProxy(*mean), OutProxy(*stddev), InProxy(*mask));
     });
 }
 CVAPI(ExceptionStatus) core_meanStdDev_Scalar(
-    cv::_InputArray* src, interop::Scalar* mean, interop::Scalar* stddev, cv::_InputArray* mask)
+    const interop::InputArrayProxy* src,
+    interop::Scalar* mean,
+    interop::Scalar* stddev,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::Scalar mean0, stddev0;
-    cv::meanStdDev(*src, mean0, stddev0, entity(mask));
-    *mean = c(mean0);
-    *stddev = c(stddev0);
+        cv::Scalar mean0, stddev0;
+        cv::meanStdDev(InProxy(*src), mean0, stddev0, InProxy(*mask));
+        *mean = c(mean0);
+        *stddev = c(stddev0);
     });
 }
 
 CVAPI(ExceptionStatus) core_norm1(
-    cv::_InputArray* src1, int normType, cv::_InputArray* mask, double *returnValue)
+    const interop::InputArrayProxy* src1,
+    int normType,
+    const interop::InputArrayProxy* mask,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::norm(*src1, normType, entity(mask));
+        *returnValue = cv::norm(InProxy(*src1), normType, InProxy(*mask));
     });
 }
 CVAPI(ExceptionStatus) core_norm2(
-    cv::_InputArray* src1, cv::_InputArray* src2,
-    int normType, cv::_InputArray* mask, double* returnValue)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    int normType,
+    const interop::InputArrayProxy* mask,
+    double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::norm(*src1, *src2, normType, entity(mask));
+        *returnValue = cv::norm(InProxy(*src1), InProxy(*src2), normType, InProxy(*mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
+CVAPI(ExceptionStatus) core_PSNR(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    double R,
+    double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::PSNR(*src1, *src2, R);
+        *returnValue = cv::PSNR(InProxy(*src1), InProxy(*src2), R);
     });
 }
 
 CVAPI(ExceptionStatus) core_batchDistance(
-    cv::_InputArray* src1, cv::_InputArray* src2,
-    cv::_OutputArray* dist, int dtype, cv::_OutputArray* nidx,
-    int normType, int K, cv::_InputArray* mask,
-    int update, int crosscheck)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dist,
+    int dtype,
+    const interop::OutputArrayProxy* nidx,
+    int normType,
+    int K,
+    const interop::InputArrayProxy* mask,
+    int update,
+    int crosscheck)
 {
     return cvTry([&] {
-    cv::batchDistance(
-        *src1, *src2, *dist, dtype, *nidx, normType, K, entity(mask), update, crosscheck != 0);
+        cv::batchDistance(
+            InProxy(*src1), InProxy(*src2), OutProxy(*dist), dtype, OutProxy(*nidx), normType, K, InProxy(*mask), update, crosscheck != 0);
     });
 }
 
 CVAPI(ExceptionStatus) core_normalize(
-    cv::_InputArray* src, cv::_InputOutputArray* dst, double alpha, double beta, int normType, int dtype, cv::_InputArray* mask)
+    const interop::InputArrayProxy* src,
+    const interop::InputOutputArrayProxy* dst,
+    double alpha,
+    double beta,
+    int normType,
+    int dtype,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
-    cv::normalize(*src, *dst, alpha, beta, normType, dtype, maskVal);
+        cv::normalize(InProxy(*src), IoProxy(*dst), alpha, beta, normType, dtype, InProxy(*mask));
     });
 }
 
-CVAPI(ExceptionStatus) core_reduceArgMax(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+CVAPI(ExceptionStatus) core_reduceArgMax(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int axis,
+    bool lastIndex)
 {
     return cvTry([&] {
-    cv::reduceArgMax(*src, *dst, axis, lastIndex);
+        cv::reduceArgMax(InProxy(*src), OutProxy(*dst), axis, lastIndex);
     });
 }
 
-CVAPI(ExceptionStatus) core_reduceArgMin(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+CVAPI(ExceptionStatus) core_reduceArgMin(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int axis,
+    bool lastIndex)
 {
     return cvTry([&] {
-    cv::reduceArgMin(*src, *dst, axis, lastIndex);
+        cv::reduceArgMin(InProxy(*src), OutProxy(*dst), axis, lastIndex);
     });
 }
 
-CVAPI(ExceptionStatus) core_minMaxLoc1(cv::_InputArray* src, double* minVal, double* maxVal)
+CVAPI(ExceptionStatus) core_minMaxLoc1(const interop::InputArrayProxy* src, double* minVal, double* maxVal)
 {
     return cvTry([&] {
-    cv::minMaxLoc(*src, minVal, maxVal);
+        cv::minMaxLoc(InProxy(*src), minVal, maxVal);
     });
 }
-CVAPI(ExceptionStatus) core_minMaxLoc2(cv::_InputArray* src, double* minVal, double* maxVal,
-    interop::Point* minLoc, interop::Point* maxLoc, cv::_InputArray* mask)
+CVAPI(ExceptionStatus) core_minMaxLoc2(
+    const interop::InputArrayProxy* src,
+    double* minVal,
+    double* maxVal,
+    interop::Point* minLoc,
+    interop::Point* maxLoc,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
-    cv::Point minLoc0, maxLoc0;
-    cv::minMaxLoc(*src, minVal, maxVal, &minLoc0, &maxLoc0, maskVal);
-    *minLoc = c(minLoc0);
-    *maxLoc = c(maxLoc0);
-    });
-}
-
-CVAPI(ExceptionStatus) core_minMaxIdx1(cv::_InputArray* src, double* minVal, double* maxVal)
-{
-    return cvTry([&] {
-    cv::minMaxIdx(*src, minVal, maxVal);
-    });
-}
-CVAPI(ExceptionStatus) core_minMaxIdx2(cv::_InputArray* src, double* minVal, double* maxVal,
-    int* minIdx, int* maxIdx, cv::_InputArray* mask)
-{
-    return cvTry([&] {
-    cv::InputArray maskVal = entity(mask);
-    cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
+        cv::Point minLoc0, maxLoc0;
+        cv::minMaxLoc(InProxy(*src), minVal, maxVal, &minLoc0, &maxLoc0, InProxy(*mask));
+        *minLoc = c(minLoc0);
+        *maxLoc = c(maxLoc0);
     });
 }
 
-CVAPI(ExceptionStatus) core_reduce(cv::_InputArray* src, cv::_OutputArray* dst, int dim, int rtype, int dtype)
+CVAPI(ExceptionStatus) core_minMaxIdx1(const interop::InputArrayProxy* src, double* minVal, double* maxVal)
 {
     return cvTry([&] {
-    cv::reduce(*src, *dst, dim, rtype, dtype);
+        cv::minMaxIdx(InProxy(*src), minVal, maxVal);
+    });
+}
+CVAPI(ExceptionStatus) core_minMaxIdx2(
+    const interop::InputArrayProxy* src,
+    double* minVal,
+    double* maxVal,
+    int* minIdx,
+    int* maxIdx,
+    const interop::InputArrayProxy* mask)
+{
+    return cvTry([&] {
+        cv::minMaxIdx(InProxy(*src), minVal, maxVal, minIdx, maxIdx, InProxy(*mask));
+    });
+}
+
+CVAPI(ExceptionStatus) core_reduce(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int dim,
+    int rtype,
+    int dtype)
+{
+    return cvTry([&] {
+        cv::reduce(InProxy(*src), OutProxy(*dst), dim, rtype, dtype);
     });
 }
 
 CVAPI(ExceptionStatus) core_merge(cv::Mat** mv, uint32_t count, cv::Mat* dst)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> vec(static_cast<size_t>(count));
-    for (uint32_t i = 0; i < count; i++)
-        vec[i] = *mv[i];
+        std::vector<cv::Mat> vec(static_cast<size_t>(count));
+        for (uint32_t i = 0; i < count; i++)
+            vec[i] = *mv[i];
 
-    cv::merge(vec, *dst);
+        cv::merge(vec, *dst);
     });
 }
 
 CVAPI(ExceptionStatus) core_split(cv::Mat* src, std::vector<cv::Mat>* mv)
 {
     return cvTry([&] {
-    cv::split(*src, *mv);
+        cv::split(*src, *mv);
     });
 }
 
 CVAPI(ExceptionStatus) core_mixChannels(cv::Mat** src, uint32_t nsrcs, cv::Mat** dst, uint32_t ndsts, int* fromTo, uint32_t npairs)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrcs));
-    std::vector<cv::Mat> dstVec(static_cast<size_t>(ndsts));
-    for (uint32_t i = 0; i < nsrcs; i++)
-        srcVec[i] = *(src[i]);
-    for (uint32_t i = 0; i < ndsts; i++)
-        dstVec[i] = *(dst[i]);
+        std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrcs));
+        std::vector<cv::Mat> dstVec(static_cast<size_t>(ndsts));
+        for (uint32_t i = 0; i < nsrcs; i++)
+            srcVec[i] = *(src[i]);
+        for (uint32_t i = 0; i < ndsts; i++)
+            dstVec[i] = *(dst[i]);
 
-    cv::mixChannels(srcVec, dstVec, fromTo, npairs);
+        cv::mixChannels(srcVec, dstVec, fromTo, npairs);
     });
 }
 
-CVAPI(ExceptionStatus) core_extractChannel(cv::_InputArray* src, cv::_OutputArray* dst, int coi)
+CVAPI(ExceptionStatus) core_extractChannel(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int coi)
 {
     return cvTry([&] {
-    cv::extractChannel(*src, *dst, coi);
+        cv::extractChannel(InProxy(*src), OutProxy(*dst), coi);
     });
 }
 
-CVAPI(ExceptionStatus) core_insertChannel(cv::_InputArray* src, cv::_InputOutputArray* dst, int coi)
+CVAPI(ExceptionStatus) core_insertChannel(const interop::InputArrayProxy* src, const interop::InputOutputArrayProxy* dst, int coi)
 {
     return cvTry([&] {
-    cv::insertChannel(*src, *dst, coi);
+        cv::insertChannel(InProxy(*src), IoProxy(*dst), coi);
     });
 }
 
-CVAPI(ExceptionStatus) core_flip(cv::_InputArray* src, cv::_OutputArray* dst, int flipCode)
+CVAPI(ExceptionStatus) core_flip(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flipCode)
 {
     return cvTry([&] {
-    cv::flip(*src, *dst, flipCode);
+        cv::flip(InProxy(*src), OutProxy(*dst), flipCode);
     });
 }
 
-CVAPI(ExceptionStatus) core_rotate(cv::_InputArray *src, cv::_OutputArray *dst, int rotateCode)
+CVAPI(ExceptionStatus) core_rotate(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int rotateCode)
 {
     return cvTry([&] {
-    cv::rotate(*src, *dst, rotateCode);
+        cv::rotate(InProxy(*src), OutProxy(*dst), rotateCode);
     });
 }
 
-CVAPI(ExceptionStatus) core_repeat1(cv::_InputArray* src, int ny, int nx, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_repeat1(
+    const interop::InputArrayProxy* src,
+    int ny,
+    int nx,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::repeat(*src, ny, nx, *dst);
+        cv::repeat(InProxy(*src), ny, nx, OutProxy(*dst));
     });
 }
 CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** returnValue)
 {
     return cvTry([&] {
-    const cv::Mat ret = cv::repeat(*src, ny, nx);
-    *returnValue = new cv::Mat(ret);
+        const cv::Mat ret = cv::repeat(*src, ny, nx);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
-CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
-    for (uint32_t i = 0; i < nsrc; i++)
-        srcVec[i] = *(src[i]);
-    cv::hconcat(&srcVec[0], nsrc, *dst);
+        std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
+        for (uint32_t i = 0; i < nsrc; i++)
+            srcVec[i] = *(src[i]);
+        cv::hconcat(&srcVec[0], nsrc, OutProxy(*dst));
     });
 }
-CVAPI(ExceptionStatus) core_hconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_hconcat2(const interop::InputArrayProxy* src1, const interop::InputArrayProxy* src2, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::hconcat(*src1, *src2, *dst);
+        cv::hconcat(InProxy(*src1), InProxy(*src2), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
-    for (uint32_t i = 0; i < nsrc; i++)
-        srcVec[i] = *(src[i]);
-    cv::vconcat(&srcVec[0], nsrc, *dst);
+        std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
+        for (uint32_t i = 0; i < nsrc; i++)
+            srcVec[i] = *(src[i]);
+        cv::vconcat(&srcVec[0], nsrc, OutProxy(*dst));
     });
 }
-CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_vconcat2(const interop::InputArrayProxy* src1, const interop::InputArrayProxy* src2, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::vconcat(*src1, *src2, *dst);
+        cv::vconcat(InProxy(*src1), InProxy(*src2), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) core_bitwise_and(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::bitwise_and(*src1, *src2, *dst, entity(mask));
+        cv::bitwise_and(InProxy(*src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_or(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::bitwise_or(*src1, *src2, *dst, entity(mask));
+        cv::bitwise_or(InProxy(*src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_xor(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::bitwise_xor(*src1, *src2, *dst, entity(mask));
+        cv::bitwise_xor(InProxy(*src1), InProxy(*src2), OutProxy(*dst), InProxy(*mask));
     });
 }
 CVAPI(ExceptionStatus) core_bitwise_not(
-    cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *mask)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::bitwise_not(*src, *dst, entity(mask));
+        cv::bitwise_not(InProxy(*src), OutProxy(*dst), InProxy(*mask));
     });
 }
 
 CVAPI(ExceptionStatus) core_absdiff(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::absdiff(*src1, *src2, *dst);
+        cv::absdiff(InProxy(*src1), InProxy(*src2), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_copyTo(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_copyTo(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    cv::copyTo(*src, *dst, entity(mask));
+        cv::copyTo(InProxy(*src), OutProxy(*dst), InProxy(*mask));
     });
 }
 
 CVAPI(ExceptionStatus) core_inRange_InputArray(
-    cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* lowerb,
+    const interop::InputArrayProxy* upperb,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::inRange(*src, *lowerb, *upperb, *dst);
+        cv::inRange(InProxy(*src), InProxy(*lowerb), InProxy(*upperb), OutProxy(*dst));
     });
 }
 CVAPI(ExceptionStatus) core_inRange_Scalar(
-    cv::_InputArray *src, interop::Scalar lowerb, interop::Scalar upperb, cv::_OutputArray *dst)
+    const interop::InputArrayProxy* src,
+    interop::Scalar lowerb,
+    interop::Scalar upperb,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::inRange(*src, cpp(lowerb), cpp(upperb), *dst);
+        cv::inRange(InProxy(*src), cpp(lowerb), cpp(upperb), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) core_compare(
-    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int cmpop)
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    int cmpop)
 {
     return cvTry([&] {
-    cv::compare(*src1, *src2, *dst, cmpop);
+        cv::compare(InProxy(*src1), InProxy(*src2), OutProxy(*dst), cmpop);
     });
 }
 
-CVAPI(ExceptionStatus) core_min1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_min1(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::min(*src1, *src2, *dst);
+        // Named lvalues (not InProxy temporaries): cv::min/max also have a [[nodiscard]] MatExpr(Mat,Mat)
+        // overload, and passing InProxy temporaries makes overload resolution pick it (it builds a MatExpr
+        // over dangling temporaries -> heap corruption, plus C4834). Binding to named cv::_InputArray
+        // lvalues forces the void min(InputArray,InputArray,OutputArray) overload.
+        cv::Scalar s1, s2;
+        const cv::_InputArray a = fromInputProxy(*src1, s1);
+        const cv::_InputArray b = fromInputProxy(*src2, s2);
+        cv::_OutputArray d = fromOutputProxy(*dst);
+        cv::min(a, b, d);
     });
 }
 CVAPI(ExceptionStatus) core_min_MatMat(cv::Mat* src1, cv::Mat* src2, cv::Mat* dst)
 {
     return cvTry([&] {
-    cv::min(*src1, *src2, *dst);
+        cv::min(*src1, *src2, *dst);
     });
 }
 CVAPI(ExceptionStatus) core_min_MatDouble(cv::Mat* src1, double src2, cv::Mat* dst)
 {
     return cvTry([&] {
-    cv::min(*src1, src2, *dst);
+        cv::min(*src1, src2, *dst);
     });
 }
 
-CVAPI(ExceptionStatus) core_max1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_max1(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::max(*src1, *src2, *dst);
+        // See core_min1: named lvalues force the void max(InputArray,InputArray,OutputArray) overload
+        // instead of the [[nodiscard]] MatExpr max(Mat,Mat).
+        cv::Scalar s1, s2;
+        const cv::_InputArray a = fromInputProxy(*src1, s1);
+        const cv::_InputArray b = fromInputProxy(*src2, s2);
+        cv::_OutputArray d = fromOutputProxy(*dst);
+        cv::max(a, b, d);
     });
 }
 CVAPI(ExceptionStatus) core_max_MatMat(cv::Mat *src1, const cv::Mat *src2, cv::Mat *dst)
 {
     return cvTry([&] {
-    cv::max(*src1, *src2, *dst);
+        cv::max(*src1, *src2, *dst);
     });
 }
 CVAPI(ExceptionStatus) core_max_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
 {
     return cvTry([&] {
-    cv::max(*src1, src2, *dst);
+        cv::max(*src1, src2, *dst);
     });
 }
 
-CVAPI(ExceptionStatus) core_sqrt(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_sqrt(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::sqrt(*src, *dst);
+        cv::sqrt(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_pow_Mat(cv::_InputArray *src, double power, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_pow_Mat(const interop::InputArrayProxy* src, double power, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::pow(*src, power, *dst);
+        cv::pow(InProxy(*src), power, OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_exp_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_exp_Mat(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::exp(*src, *dst);
+        cv::exp(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_log_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_log_Mat(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::log(*src, *dst);
+        cv::log(InProxy(*src), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_polarToCart(cv::_InputArray* magnitude, cv::_InputArray* angle,
-    cv::_OutputArray* x, cv::_OutputArray* y, int angleInDegrees)
+CVAPI(ExceptionStatus) core_polarToCart(
+    const interop::InputArrayProxy* magnitude,
+    const interop::InputArrayProxy* angle,
+    const interop::OutputArrayProxy* x,
+    const interop::OutputArrayProxy* y,
+    int angleInDegrees)
 {
     return cvTry([&] {
-    cv::polarToCart(*magnitude, *angle, *x, *y, angleInDegrees != 0);
+        cv::polarToCart(InProxy(*magnitude), InProxy(*angle), OutProxy(*x), OutProxy(*y), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_cartToPolar(cv::_InputArray* x, cv::_InputArray* y,
-    cv::_OutputArray* magnitude, cv::_OutputArray* angle, int angleInDegrees)
+CVAPI(ExceptionStatus) core_cartToPolar(
+    const interop::InputArrayProxy* x,
+    const interop::InputArrayProxy* y,
+    const interop::OutputArrayProxy* magnitude,
+    const interop::OutputArrayProxy* angle,
+    int angleInDegrees)
 {
     return cvTry([&] {
-    cv::cartToPolar(*x, *y, *magnitude, *angle, angleInDegrees != 0);
+        cv::cartToPolar(InProxy(*x), InProxy(*y), OutProxy(*magnitude), OutProxy(*angle), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_phase(cv::_InputArray* x, cv::_InputArray* y, cv::_OutputArray* angle, int angleInDegrees)
+CVAPI(ExceptionStatus) core_phase(
+    const interop::InputArrayProxy* x,
+    const interop::InputArrayProxy* y,
+    const interop::OutputArrayProxy* angle,
+    int angleInDegrees)
 {
     return cvTry([&] {
-    cv::phase(*x, *y, *angle, angleInDegrees != 0);
+        cv::phase(InProxy(*x), InProxy(*y), OutProxy(*angle), angleInDegrees != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_magnitude_Mat(cv::_InputArray* x, cv::_InputArray* y, cv::_OutputArray* magnitude)
+CVAPI(ExceptionStatus) core_magnitude_Mat(
+    const interop::InputArrayProxy* x,
+    const interop::InputArrayProxy* y,
+    const interop::OutputArrayProxy* magnitude)
 {
     return cvTry([&] {
-    cv::magnitude(*x, *y, *magnitude);
+        cv::magnitude(InProxy(*x), InProxy(*y), OutProxy(*magnitude));
     });
 }
 
-CVAPI(ExceptionStatus) core_checkRange(cv::_InputArray* a, int quiet, interop::Point* pos, double minVal, double maxVal, int* returnValue)
+CVAPI(ExceptionStatus) core_checkRange(
+    const interop::InputArrayProxy* a,
+    int quiet,
+    interop::Point* pos,
+    double minVal,
+    double maxVal,
+    int* returnValue)
 {
     return cvTry([&] {
-    cv::Point pos0;
-    *returnValue = cv::checkRange(*a, quiet != 0, &pos0, minVal, maxVal);
-    *pos = c(pos0);
+        cv::Point pos0;
+        *returnValue = cv::checkRange(InProxy(*a), quiet != 0, &pos0, minVal, maxVal);
+        *pos = c(pos0);
     });
 }
 
-CVAPI(ExceptionStatus) core_patchNaNs(cv::_InputOutputArray *a, double val)
+CVAPI(ExceptionStatus) core_patchNaNs(const interop::InputOutputArrayProxy* a, double val)
 {
     return cvTry([&] {
-    cv::patchNaNs(*a, val);
+        cv::patchNaNs(IoProxy(*a), val);
     });
 }
 
-CVAPI(ExceptionStatus) core_gemm(cv::_InputArray *src1, cv::_InputArray *src2, double alpha,
-                      cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_gemm(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    double alpha,
+    const interop::InputArrayProxy* src3,
+    double gamma,
+    const interop::OutputArrayProxy* dst,
+    int flags)
 {
     return cvTry([&] {
-    cv::gemm(*src1, *src2, alpha, *src3, gamma, *dst, flags);
+        cv::gemm(InProxy(*src1), InProxy(*src2), alpha, InProxy(*src3), gamma, OutProxy(*dst), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray *dst, int aTa,
-                               cv::_InputArray *delta, double scale, int dtype)
+CVAPI(ExceptionStatus) core_mulTransposed(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int aTa,
+    const interop::InputArrayProxy* delta,
+    double scale,
+    int dtype)
 {
     return cvTry([&] {
-    cv::mulTransposed(*src, *dst, aTa != 0, entity(delta), scale, dtype);
+        cv::mulTransposed(InProxy(*src), OutProxy(*dst), aTa != 0, InProxy(*delta), scale, dtype);
     });
 }
 
-CVAPI(ExceptionStatus) core_transpose(cv::_InputArray *src, cv::_OutputArray *dst)
+// MIGRATION (issue #1976, strategy 3): array arguments arrive as interop::{Input,Output,InputOutput}
+// ArrayProxy passed BY VALUE (the type names keep the signature self-documenting about in/out).
+// The InProxy/OutProxy/IoProxy views (my_types.h) rebuild cv::_InputArray/_OutputArray on this stack
+// frame. The same signature serves both the ref-struct path (optimized kinds, zero managed alloc) and
+// the still-class path (Raw kinds that wrap an existing cv::_InputArray*).
+CVAPI(ExceptionStatus) core_transpose(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::transpose(*src, *dst);
+        cv::transpose(InProxy(*src), OutProxy(*dst));
     });
 }
 
-// FOUNDATION: ref-struct proxy path. Each array argument arrives as an interop::ArrayProxy passed
-// BY VALUE; fromInputProxy()/fromOutputProxy() (in my_types.h) rebuild a cv::_InputArray /
-// _OutputArray on this stack frame, so the managed side never allocates a heap _InputArray per call.
-// Scalar-kind inputs reference a stack-local cv::Scalar scratch that must outlive the OpenCV call.
-CVAPI(ExceptionStatus) core_transpose_io(interop::ArrayProxy src, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_transform(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    cv::Scalar s;
-    cv::transpose(fromInputProxy(src, s), fromOutputProxy(dst));
+        cv::transform(InProxy(*src), OutProxy(*dst), InProxy(*m));
     });
 }
 
-CVAPI(ExceptionStatus) core_add_io(interop::ArrayProxy src1, interop::ArrayProxy src2, interop::ArrayProxy dst)
+CVAPI(ExceptionStatus) core_perspectiveTransform(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    cv::Scalar s1, s2;
-    cv::add(fromInputProxy(src1, s1), fromInputProxy(src2, s2), fromOutputProxy(dst));
-    });
-}
-
-CVAPI(ExceptionStatus) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
-{
-    return cvTry([&] {
-    cv::transform(*src, *dst, *m);
-    });
-}
-
-CVAPI(ExceptionStatus) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
-{
-    return cvTry([&] {
-    cv::perspectiveTransform(*src, *dst, *m);
+        cv::perspectiveTransform(InProxy(*src), OutProxy(*dst), InProxy(*m));
     });
 }
 CVAPI(ExceptionStatus) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst, cv::Mat *m)
 {
     return cvTry([&] {
-    cv::perspectiveTransform(*src, *dst, *m);
+        cv::perspectiveTransform(*src, *dst, *m);
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    const std::vector<cv::Point2f> srcVector(src, src + srcLength);
-    std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
+        const std::vector<cv::Point2f> srcVector(src, src + srcLength);
+        std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(*m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    const std::vector<cv::Point2d> srcVector(src, src + srcLength);
-    std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
+        const std::vector<cv::Point2d> srcVector(src, src + srcLength);
+        std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(*m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    const std::vector<cv::Point3f> srcVector(src, src + srcLength);
-    std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
+        const std::vector<cv::Point3f> srcVector(src, src + srcLength);
+        std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(*m));
     });
 }
-CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, const interop::InputArrayProxy* m)
 {
     return cvTry([&] {
-    const std::vector<cv::Point3d> srcVector(src, src + srcLength);
-    std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
-    });
-}
-
-CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerToUpper)
-{
-    return cvTry([&] {
-    cv::completeSymm(*mtx, lowerToUpper != 0);
+        const std::vector<cv::Point3d> srcVector(src, src + srcLength);
+        std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
+        cv::perspectiveTransform(srcVector, dstVector, InProxy(*m));
     });
 }
 
-// FOUNDATION: ref-struct proxy path for an _InputOutputArray argument (see core_transpose_io).
-CVAPI(ExceptionStatus) core_completeSymm_io(interop::ArrayProxy mtx, int lowerToUpper)
+CVAPI(ExceptionStatus) core_completeSymm(const interop::InputOutputArrayProxy* mtx, int lowerToUpper)
 {
     return cvTry([&] {
-    cv::completeSymm(fromInputOutputProxy(mtx), lowerToUpper != 0);
+        cv::completeSymm(IoProxy(*mtx), lowerToUpper != 0);
     });
 }
 
-CVAPI(ExceptionStatus) core_setIdentity(cv::_InputOutputArray *mtx, interop::Scalar s)
+CVAPI(ExceptionStatus) core_setIdentity(const interop::InputOutputArrayProxy* mtx, interop::Scalar s)
 {
     return cvTry([&] {
-    cv::setIdentity(*mtx, cpp(s));
+        cv::setIdentity(IoProxy(*mtx), cpp(s));
     });
 }
 
-CVAPI(ExceptionStatus) core_determinant(cv::_InputArray *mtx, double *returnValue)
+CVAPI(ExceptionStatus) core_determinant(const interop::InputArrayProxy* mtx, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::determinant(*mtx);
+        *returnValue = cv::determinant(InProxy(*mtx));
     });
 }
 
-CVAPI(ExceptionStatus) core_trace(cv::_InputArray *mtx, interop::Scalar *returnValue)
+CVAPI(ExceptionStatus) core_trace(const interop::InputArrayProxy* mtx, interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::trace(*mtx));
+        *returnValue = c(cv::trace(InProxy(*mtx)));
     });
 }
 
-CVAPI(ExceptionStatus) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, int flags, double *returnValue)
+CVAPI(ExceptionStatus) core_invert(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    int flags,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::invert(*src, *dst, flags);
+        *returnValue = cv::invert(InProxy(*src), OutProxy(*dst), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags, int *returnValue)
+CVAPI(ExceptionStatus) core_solve(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    const interop::OutputArrayProxy* dst,
+    int flags,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::solve(*src1, *src2, *dst, flags);
+        *returnValue = cv::solve(InProxy(*src1), InProxy(*src2), OutProxy(*dst), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_solveLP(cv::_InputArray *Func, cv::_InputArray *Constr, cv::_OutputArray *z, int *returnValue)
+CVAPI(ExceptionStatus) core_solveLP(
+    const interop::InputArrayProxy* Func,
+    const interop::InputArrayProxy* Constr,
+    const interop::OutputArrayProxy* z,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::solveLP(*Func, *Constr, *z);
+        *returnValue = cv::solveLP(InProxy(*Func), InProxy(*Constr), OutProxy(*z));
     });
 }
 
-CVAPI(ExceptionStatus) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_sort(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags)
 {
     return cvTry([&] {
-    cv::sort(*src, *dst, flags);
+        cv::sort(InProxy(*src), OutProxy(*dst), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_sortIdx(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_sortIdx(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags)
 {
     return cvTry([&] {
-    cv::sortIdx(*src, *dst, flags);
+        cv::sortIdx(InProxy(*src), OutProxy(*dst), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_solveCubic(cv::_InputArray *coeffs, cv::_OutputArray *roots, int *returnValue)
+CVAPI(ExceptionStatus) core_solveCubic(const interop::InputArrayProxy* coeffs, const interop::OutputArrayProxy* roots, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue =  cv::solveCubic(*coeffs, *roots);
+        *returnValue =  cv::solveCubic(InProxy(*coeffs), OutProxy(*roots));
     });
 }
 
-CVAPI(ExceptionStatus) core_solvePoly(cv::_InputArray *coeffs, cv::_OutputArray *roots, int maxIters, double *returnValue)
+CVAPI(ExceptionStatus) core_solvePoly(
+    const interop::InputArrayProxy* coeffs,
+    const interop::OutputArrayProxy* roots,
+    int maxIters,
+    double *returnValue)
 {
     return cvTry([&] {
-    *returnValue =  cv::solvePoly(*coeffs, *roots, maxIters);
+        *returnValue =  cv::solvePoly(InProxy(*coeffs), OutProxy(*roots), maxIters);
     });
 }
 
-CVAPI(ExceptionStatus) core_eigen(cv::_InputArray *src, cv::_OutputArray *eigenvalues,    cv::_OutputArray *eigenvectors, int *returnValue)
+CVAPI(ExceptionStatus) core_eigen(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* eigenvalues,
+    const interop::OutputArrayProxy* eigenvectors,
+    int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::eigen(*src, *eigenvalues, *eigenvectors) ? 1 : 0;
+        *returnValue = cv::eigen(InProxy(*src), OutProxy(*eigenvalues), OutProxy(*eigenvectors)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) core_eigenNonSymmetric(
-    cv::_InputArray *src,  cv::_OutputArray *eigenvalues, cv::_OutputArray *eigenvectors)
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* eigenvalues,
+    const interop::OutputArrayProxy* eigenvectors)
 {
     return cvTry([&] {
-    cv::eigenNonSymmetric(*src, *eigenvalues, *eigenvectors);
+        cv::eigenNonSymmetric(InProxy(*src), OutProxy(*eigenvalues), OutProxy(*eigenvectors));
     });
 }
 
@@ -739,188 +925,237 @@ CVAPI(ExceptionStatus) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples,
                                      cv::Mat *mean, int flags, int ctype)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> samplesVec(nsamples);
-    for (int i = 0; i < nsamples; i++)    
-        samplesVec[i] = *samples[i];
+        std::vector<cv::Mat> samplesVec(nsamples);
+        for (int i = 0; i < nsamples; i++)    
+            samplesVec[i] = *samples[i];
     
-    cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
+        cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
     });
 }
-CVAPI(ExceptionStatus) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
-                                            cv::_InputOutputArray *mean, int flags, int ctype)
+CVAPI(ExceptionStatus) core_calcCovarMatrix_InputArray(
+    const interop::InputArrayProxy* samples,
+    const interop::OutputArrayProxy* covar,
+    const interop::InputOutputArrayProxy* mean,
+    int flags,
+    int ctype)
 {
     return cvTry([&] {
-    cv::calcCovarMatrix(*samples, *covar, *mean, flags, ctype);
-    });
-}
-
-CVAPI(ExceptionStatus) core_PCACompute(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                            cv::_OutputArray *eigenvectors, int maxComponents)
-{
-    return cvTry([&] {
-    cv::PCACompute(*data, *mean, *eigenvectors, maxComponents);
-    });
-}
-CVAPI(ExceptionStatus) core_PCACompute2(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                            cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, int maxComponents)
-{
-    return cvTry([&] {
-    cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, maxComponents);
+        cv::calcCovarMatrix(InProxy(*samples), OutProxy(*covar), IoProxy(*mean), flags, ctype);
     });
 }
 
-CVAPI(ExceptionStatus) core_PCAComputeVar(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                               cv::_OutputArray *eigenvectors, double retainedVariance)
+CVAPI(ExceptionStatus) core_PCACompute(
+    const interop::InputArrayProxy* data,
+    const interop::InputOutputArrayProxy* mean,
+    const interop::OutputArrayProxy* eigenvectors,
+    int maxComponents)
 {
     return cvTry([&] {
-    cv::PCACompute(*data, *mean, *eigenvectors, retainedVariance);
+        cv::PCACompute(InProxy(*data), IoProxy(*mean), OutProxy(*eigenvectors), maxComponents);
     });
 }
-CVAPI(ExceptionStatus) core_PCAComputeVar2(cv::_InputArray *data, cv::_InputOutputArray *mean,
-                               cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, double retainedVariance)
+CVAPI(ExceptionStatus) core_PCACompute2(
+    const interop::InputArrayProxy* data,
+    const interop::InputOutputArrayProxy* mean,
+    const interop::OutputArrayProxy* eigenvectors,
+    const interop::OutputArrayProxy* eigenvalues,
+    int maxComponents)
 {
     return cvTry([&] {
-    cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, retainedVariance);
-    });
-}
-
-CVAPI(ExceptionStatus) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
-                            cv::_InputArray *eigenvectors, cv::_OutputArray *result)
-{
-    return cvTry([&] {
-    cv::PCAProject(*data, *mean, *eigenvectors, *result);
-    });
-}
-CVAPI(ExceptionStatus) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
-                                cv::_InputArray *eigenvectors, cv::_OutputArray *result)
-{
-    return cvTry([&] {
-    cv::PCABackProject(*data, *mean, *eigenvectors, *result);
+        cv::PCACompute(InProxy(*data), IoProxy(*mean), OutProxy(*eigenvectors), OutProxy(*eigenvalues), maxComponents);
     });
 }
 
-CVAPI(ExceptionStatus) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
-                          cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
+CVAPI(ExceptionStatus) core_PCAComputeVar(
+    const interop::InputArrayProxy* data,
+    const interop::InputOutputArrayProxy* mean,
+    const interop::OutputArrayProxy* eigenvectors,
+    double retainedVariance)
 {
     return cvTry([&] {
-    cv::SVDecomp(*src, *w, *u, *vt, flags);
+        cv::PCACompute(InProxy(*data), IoProxy(*mean), OutProxy(*eigenvectors), retainedVariance);
+    });
+}
+CVAPI(ExceptionStatus) core_PCAComputeVar2(
+    const interop::InputArrayProxy* data,
+    const interop::InputOutputArrayProxy* mean,
+    const interop::OutputArrayProxy* eigenvectors,
+    const interop::OutputArrayProxy* eigenvalues,
+    double retainedVariance)
+{
+    return cvTry([&] {
+        cv::PCACompute(InProxy(*data), IoProxy(*mean), OutProxy(*eigenvectors), OutProxy(*eigenvalues), retainedVariance);
     });
 }
 
-CVAPI(ExceptionStatus) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
-                             cv::_InputArray *rhs, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_PCAProject(
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    const interop::InputArrayProxy* eigenvectors,
+    const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
+        cv::PCAProject(InProxy(*data), InProxy(*mean), InProxy(*eigenvectors), OutProxy(*result));
+    });
+}
+CVAPI(ExceptionStatus) core_PCABackProject(
+    const interop::InputArrayProxy* data,
+    const interop::InputArrayProxy* mean,
+    const interop::InputArrayProxy* eigenvectors,
+    const interop::OutputArrayProxy* result)
+{
+    return cvTry([&] {
+        cv::PCABackProject(InProxy(*data), InProxy(*mean), InProxy(*eigenvectors), OutProxy(*result));
     });
 }
 
-CVAPI(ExceptionStatus) core_Mahalanobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar, double *returnValue)
+CVAPI(ExceptionStatus) core_SVDecomp(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* w,
+    const interop::OutputArrayProxy* u,
+    const interop::OutputArrayProxy* vt,
+    int flags)
 {
     return cvTry([&] {
-    *returnValue = cv::Mahalanobis(*v1, *v2, *icovar);
+        cv::SVDecomp(InProxy(*src), OutProxy(*w), OutProxy(*u), OutProxy(*vt), flags);
     });
 }
 
-CVAPI(ExceptionStatus) core_dft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+CVAPI(ExceptionStatus) core_SVBackSubst(
+    const interop::InputArrayProxy* w,
+    const interop::InputArrayProxy* u,
+    const interop::InputArrayProxy* vt,
+    const interop::InputArrayProxy* rhs,
+    const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::dft(*src, *dst, flags, nonzeroRows);
+        cv::SVBackSubst(InProxy(*w), InProxy(*u), InProxy(*vt), InProxy(*rhs), OutProxy(*dst));
     });
 }
 
-CVAPI(ExceptionStatus) core_idft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+CVAPI(ExceptionStatus) core_Mahalanobis(
+    const interop::InputArrayProxy* v1,
+    const interop::InputArrayProxy* v2,
+    const interop::InputArrayProxy* icovar,
+    double *returnValue)
 {
     return cvTry([&] {
-    cv::idft(*src, *dst, flags, nonzeroRows);
+        *returnValue = cv::Mahalanobis(InProxy(*v1), InProxy(*v2), InProxy(*icovar));
     });
 }
 
-CVAPI(ExceptionStatus) core_dct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_dft(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags, int nonzeroRows)
 {
     return cvTry([&] {
-    cv::dct(*src, *dst, flags); 
+        cv::dft(InProxy(*src), OutProxy(*dst), flags, nonzeroRows);
     });
 }
 
-CVAPI(ExceptionStatus) core_idct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_idft(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags, int nonzeroRows)
 {
     return cvTry([&] {
-    cv::idct(*src, *dst, flags);
+        cv::idft(InProxy(*src), OutProxy(*dst), flags, nonzeroRows);
     });
 }
 
-CVAPI(ExceptionStatus) core_mulSpectrums(cv::_InputArray *a, cv::_InputArray *b, cv::_OutputArray *c, int flags, int conjB)
+CVAPI(ExceptionStatus) core_dct(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags)
 {
     return cvTry([&] {
-    cv::mulSpectrums(*a, *b, *c, flags, conjB != 0);
+        cv::dct(InProxy(*src), OutProxy(*dst), flags);
+    });
+}
+
+CVAPI(ExceptionStatus) core_idct(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags)
+{
+    return cvTry([&] {
+        cv::idct(InProxy(*src), OutProxy(*dst), flags);
+    });
+}
+
+CVAPI(ExceptionStatus) core_mulSpectrums(
+    const interop::InputArrayProxy* a,
+    const interop::InputArrayProxy* b,
+    const interop::OutputArrayProxy* c,
+    int flags,
+    int conjB)
+{
+    return cvTry([&] {
+        cv::mulSpectrums(InProxy(*a), InProxy(*b), OutProxy(*c), flags, conjB != 0);
     });
 }
 
 CVAPI(ExceptionStatus) core_getOptimalDFTSize(int vecsize, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getOptimalDFTSize(vecsize);
+        *returnValue = cv::getOptimalDFTSize(vecsize);
     });
 }
 
 CVAPI(ExceptionStatus) core_theRNG_get(uint64 *returnValue)
 {
     return cvTry([&] {
-    cv::RNG &rng = cv::theRNG();
-    *returnValue = rng.state;
+        cv::RNG &rng = cv::theRNG();
+        *returnValue = rng.state;
     });
 }
 
 CVAPI(ExceptionStatus) core_theRNG_set(uint64 value)
 {
     return cvTry([&] {
-    cv::theRNG().state = value;
+        cv::theRNG().state = value;
     });
 }
 
-CVAPI(ExceptionStatus) core_randu_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
+CVAPI(ExceptionStatus) core_randu_InputArray(const interop::InputOutputArrayProxy* dst, const interop::InputArrayProxy* low, const interop::InputArrayProxy* high)
 {
     return cvTry([&] {
-    cv::randu(*dst, *low, *high);
+        cv::randu(IoProxy(*dst), InProxy(*low), InProxy(*high));
     });
 }
-CVAPI(ExceptionStatus) core_randu_Scalar(cv::_InputOutputArray *dst, interop::Scalar low, interop::Scalar high)
+CVAPI(ExceptionStatus) core_randu_Scalar(const interop::InputOutputArrayProxy* dst, interop::Scalar low, interop::Scalar high)
 {
     return cvTry([&] {
-    cv::randu(*dst, cpp(low), cpp(high));
-    });
-}
-
-CVAPI(ExceptionStatus) core_randn_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
-{
-    return cvTry([&] {
-    cv::randn(*dst, *mean, *stddev);
-    });
-}
-CVAPI(ExceptionStatus) core_randn_Scalar(cv::_InputOutputArray *dst, interop::Scalar mean, interop::Scalar stddev)
-{
-    return cvTry([&] {
-    cv::randn(*dst, cpp(mean), cpp(stddev));
+        cv::randu(IoProxy(*dst), cpp(low), cpp(high));
     });
 }
 
-CVAPI(ExceptionStatus) core_randShuffle(cv::_InputOutputArray *dst, double iterFactor, uint64 *rng)
+CVAPI(ExceptionStatus) core_randn_InputArray(const interop::InputOutputArrayProxy* dst, const interop::InputArrayProxy* mean, const interop::InputArrayProxy* stddev)
 {
     return cvTry([&] {
-    cv::RNG rng0;
-    cv::randShuffle(*dst, iterFactor, &rng0);
-    *rng = rng0.state;
+        cv::randn(IoProxy(*dst), InProxy(*mean), InProxy(*stddev));
+    });
+}
+CVAPI(ExceptionStatus) core_randn_Scalar(const interop::InputOutputArrayProxy* dst, interop::Scalar mean, interop::Scalar stddev)
+{
+    return cvTry([&] {
+        cv::randn(IoProxy(*dst), cpp(mean), cpp(stddev));
+    });
+}
+
+CVAPI(ExceptionStatus) core_randShuffle(const interop::InputOutputArrayProxy* dst, double iterFactor, uint64 *rng)
+{
+    return cvTry([&] {
+        cv::RNG rng0;
+        if (rng != nullptr)
+            rng0.state = *rng;
+        cv::randShuffle(IoProxy(*dst), iterFactor, &rng0);
+        if (rng != nullptr)
+            *rng = rng0.state;
     });
 }
 
 CVAPI(ExceptionStatus) core_kmeans(
-    cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
-    interop::TermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers, 
+    const interop::InputArrayProxy* data,
+    int k,
+    const interop::InputOutputArrayProxy* bestLabels,
+    interop::TermCriteria criteria,
+    int attempts,
+    int flags,
+    const interop::OutputArrayProxy* centers,
     double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::kmeans(*data, k, *bestLabels, cpp(criteria), attempts, flags, entity(centers));
+        *returnValue = cv::kmeans(InProxy(*data), k, IoProxy(*bestLabels), cpp(criteria), attempts, flags, OutProxy(*centers));
     });
 }
 
@@ -931,13 +1166,13 @@ CVAPI(ExceptionStatus) core_kmeans(
 CVAPI(ExceptionStatus) core_cubeRoot(float val, float* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::cubeRoot(val);
+        *returnValue = cv::cubeRoot(val);
     });
 }
 CVAPI(ExceptionStatus) core_fastAtan2(float y, float x, float* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::fastAtan2(y, x);
+        *returnValue = cv::fastAtan2(y, x);
     });
 }
 
@@ -969,7 +1204,7 @@ static int opencvsharp_silentErrorHandler(int /*status*/, const char* /*funcName
 CVAPI(ExceptionStatus) core_setSilentErrorHandler()
 {
     return cvTry([&] {
-        cv::redirectError(opencvsharp_silentErrorHandler);
+            cv::redirectError(opencvsharp_silentErrorHandler);
     });
 }
 
@@ -980,144 +1215,144 @@ CVAPI(ExceptionStatus) core_getLastException(
     int* code, int* line, std::string* func, std::string* file, std::string* message)
 {
     return cvTry([&] {
-    const auto& last = lastNativeException();
-    *code = last.code;
-    *line = last.line;
-    func->assign(last.func);
-    file->assign(last.file);
-    message->assign(last.message);
+        const auto& last = lastNativeException();
+        *code = last.code;
+        *line = last.line;
+        func->assign(last.func);
+        file->assign(last.file);
+        message->assign(last.message);
     });
 }
 
 CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
 {
     return cvTry([&] {
-    cv::setNumThreads(nthreads);
+        cv::setNumThreads(nthreads);
     });
 }
 
 CVAPI(ExceptionStatus) core_getNumThreads(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getNumThreads();
+        *returnValue = cv::getNumThreads();
     });
 }
 CVAPI(ExceptionStatus) core_getThreadNum(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getThreadNum();
+        *returnValue = cv::getThreadNum();
     });
 }
 
 CVAPI(ExceptionStatus) core_getBuildInformation(std::string *buf)
 {
     return cvTry([&] {
-    const auto& str = cv::getBuildInformation();
-    buf->assign(str);
+        const auto& str = cv::getBuildInformation();
+        buf->assign(str);
     });
 }
 
 CVAPI(ExceptionStatus) core_getVersionString(char *buf, int bufLength)
 {
     return cvTry([&] {
-    const auto& str = cv::getVersionString();
-    copyString(str, buf, bufLength);
+        const auto& str = cv::getVersionString();
+        copyString(str, buf, bufLength);
     });
 }
 
 CVAPI(ExceptionStatus) core_getVersionMajor(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getVersionMajor();
+        *returnValue = cv::getVersionMajor();
     });
 }
 
 CVAPI(ExceptionStatus) core_getVersionMinor(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getVersionMinor();
+        *returnValue = cv::getVersionMinor();
     });
 }
 
 CVAPI(ExceptionStatus) core_getVersionRevision(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getVersionRevision();
+        *returnValue = cv::getVersionRevision();
     });
 }
 
 CVAPI(ExceptionStatus) core_getTickCount(int64* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getTickCount();
+        *returnValue = cv::getTickCount();
     });
 }
 
 CVAPI(ExceptionStatus) core_getTickFrequency(double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getTickFrequency();
+        *returnValue = cv::getTickFrequency();
     });
 }
 
 CVAPI(ExceptionStatus) core_getCPUTickCount(int64* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getCPUTickCount();
+        *returnValue = cv::getCPUTickCount();
     });
 }
 
 CVAPI(ExceptionStatus) core_checkHardwareSupport(int feature, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::checkHardwareSupport(feature) ? 1 : 0;
+        *returnValue = cv::checkHardwareSupport(feature) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) core_getHardwareFeatureName(int feature, std::string *buf)
 {
     return cvTry([&] {
-    const auto& str = cv::getHardwareFeatureName(feature);
-    buf->assign(str);
+        const auto& str = cv::getHardwareFeatureName(feature);
+        buf->assign(str);
     });
 }
 
 CVAPI(ExceptionStatus) core_getCPUFeaturesLine(std::string *buf)
 {
     return cvTry([&] {
-    const auto& str = cv::getCPUFeaturesLine();
-    buf->assign(str);
+        const auto& str = cv::getCPUFeaturesLine();
+        buf->assign(str);
     });
 }
 
 CVAPI(ExceptionStatus) core_getNumberOfCPUs(int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getNumberOfCPUs();
+        *returnValue = cv::getNumberOfCPUs();
     });
 }
 
 CVAPI(ExceptionStatus) core_setUseOptimized(int onoff)
 {
     return cvTry([&] {
-    cv::setUseOptimized(onoff != 0);
+        cv::setUseOptimized(onoff != 0);
     });
 }
 CVAPI(ExceptionStatus) core_useOptimized(int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::useOptimized() ? 1 : 0;
+        *returnValue = cv::useOptimized() ? 1 : 0;
     });
 }
 
-CVAPI(ExceptionStatus) core_format(cv::_InputArray *mtx, int fmt, std::string *buf)
+CVAPI(ExceptionStatus) core_format(const interop::InputArrayProxy* mtx, int fmt, std::string *buf)
 {
     return cvTry([&] {
-    const auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
+        const auto formatted = cv::format(InProxy(*mtx), static_cast<cv::Formatter::FormatType>(fmt));
 
-    std::stringstream s;
-    s << formatted;
-    buf->assign(s.str());
+        std::stringstream s;
+        s << formatted;
+        buf->assign(s.str());
     });
 }
 
@@ -1128,14 +1363,14 @@ CVAPI(ExceptionStatus) core_format(cv::_InputArray *mtx, int fmt, std::string *b
 CVAPI(ExceptionStatus) core_logger_setLogLevel(cv::utils::logging::LogLevel logLevel, cv::utils::logging::LogLevel* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::utils::logging::setLogLevel(logLevel);
+        *returnValue = cv::utils::logging::setLogLevel(logLevel);
     });
 }
 
 CVAPI(ExceptionStatus) core_logger_getLogLevel(cv::utils::logging::LogLevel *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::utils::logging::getLogLevel();
+        *returnValue = cv::utils::logging::getLogLevel();
     });
 }
 
@@ -1143,21 +1378,27 @@ CVAPI(ExceptionStatus) core_logger_getLogLevel(cv::utils::logging::LogLevel *ret
 
 #pragma region RNG
 
-CVAPI(ExceptionStatus) core_RNG_fill(uint64 *state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
+CVAPI(ExceptionStatus) core_RNG_fill(
+    uint64 *state,
+    const interop::InputOutputArrayProxy* mat,
+    int distType,
+    const interop::InputArrayProxy* a,
+    const interop::InputArrayProxy* b,
+    int saturateRange)
 {
     return cvTry([&] {
-    cv::RNG rng(*state);
-    rng.fill(*mat, distType, *a, *b, saturateRange != 0);
-    *state = rng.state;
+        cv::RNG rng(*state);
+        rng.fill(IoProxy(*mat), distType, InProxy(*a), InProxy(*b), saturateRange != 0);
+        *state = rng.state;
     });
 }
 
 CVAPI(ExceptionStatus) core_RNG_gaussian(uint64 *state, double sigma, double *returnValue)
 {
     return cvTry([&] {
-    cv::RNG rng(*state);
-    *returnValue = rng.gaussian(sigma);
-    *state = rng.state;
+        cv::RNG rng(*state);
+        *returnValue = rng.gaussian(sigma);
+        *state = rng.state;
     });
 }
 

@@ -157,6 +157,25 @@ public class InputArrayRefTest : TestBase
     }
 
     [Fact]
+    public void MinMax_InputArray_WriteThrough()
+    {
+        // Guards the migrated core_min1/core_max1 (InputArray,InputArray,OutputArray): the native
+        // call must write dst element-wise, not silently pick a MatExpr-returning overload.
+        using var a = Float3x3(1, 9, 3, 9, 5, 9, 7, 9, 2);
+        using var b = Float3x3(9, 2, 9, 4, 9, 6, 9, 8, 9);
+
+        using var mn = new Mat();
+        Cv2.Min(a, b, mn);
+        using var mx = new Mat();
+        Cv2.Max(a, b, mx);
+
+        using var expectedMin = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 2);
+        using var expectedMax = Float3x3(9, 9, 9, 9, 9, 9, 9, 9, 9);
+        ImageEquals(expectedMin, mn);
+        ImageEquals(expectedMax, mx);
+    }
+
+    [Fact]
     public void CompleteSymmRef_Matches()
     {
         using var actual = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);

@@ -29,7 +29,10 @@ CVAPI(ExceptionStatus) imgproc_FontFace_delete(cv::FontFace *obj)
     });
 }
 
-CVAPI(ExceptionStatus) imgproc_FontFace_set(cv::FontFace *obj, const char *fontPathOrName, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_FontFace_set(
+    cv::FontFace *obj,
+    const char *fontPathOrName,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->set(cv::String(fontPathOrName)) ? 1 : 0;
@@ -43,7 +46,11 @@ CVAPI(ExceptionStatus) imgproc_FontFace_getName(cv::FontFace *obj, std::string *
     });
 }
 
-CVAPI(ExceptionStatus) imgproc_FontFace_setInstance(cv::FontFace *obj, int *params, int paramsLength, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_FontFace_setInstance(
+    cv::FontFace *obj,
+    int *params,
+    int paramsLength,
+    int *returnValue)
 {
     return cvTry([&] {
     const std::vector<int> v(params, params + paramsLength);
@@ -51,7 +58,10 @@ CVAPI(ExceptionStatus) imgproc_FontFace_setInstance(cv::FontFace *obj, int *para
     });
 }
 
-CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(cv::FontFace *obj, std::vector<int> *params, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(
+    cv::FontFace *obj,
+    std::vector<int> *params,
+    int *returnValue)
 {
     return cvTry([&] {
     *returnValue = obj->getInstance(*params) ? 1 : 0;
@@ -63,21 +73,36 @@ CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(cv::FontFace *obj, std::vect
 #pragma region putText / getTextSize with FontFace
 
 CVAPI(ExceptionStatus) imgproc_putText_FontFace(
-    cv::_InputOutputArray *img, const char *text, interop::Point org, interop::Scalar color,
-    cv::FontFace *fface, int size, int weight, int flags, int wrapStart, int wrapEnd,
+    const interop::InputOutputArrayProxy* img,
+    const char *text,
+    interop::Point org,
+    interop::Scalar color,
+    cv::FontFace *fface,
+    int size,
+    int weight,
+    int flags,
+    int wrapStart,
+    int wrapEnd,
     interop::Point *returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::putText(
-        *img, cv::String(text), cpp(org), cpp(color), *fface, size, weight,
-        static_cast<cv::PutTextFlags>(flags), cv::Range(wrapStart, wrapEnd));
-    *returnValue = c(p);
+        const auto p = cv::putText(
+            IoProxy(*img), cv::String(text), cpp(org), cpp(color), *fface, size, weight,
+            static_cast<cv::PutTextFlags>(flags), cv::Range(wrapStart, wrapEnd));
+        *returnValue = c(p);
     });
 }
 
 CVAPI(ExceptionStatus) imgproc_getTextSize_FontFace(
-    interop::Size imgsize, const char *text, interop::Point org,
-    cv::FontFace *fface, int size, int weight, int flags, int wrapStart, int wrapEnd,
+    interop::Size imgsize,
+    const char *text,
+    interop::Point org,
+    cv::FontFace *fface,
+    int size,
+    int weight,
+    int flags,
+    int wrapStart,
+    int wrapEnd,
     interop::Rect *returnValue)
 {
     return cvTry([&] {
