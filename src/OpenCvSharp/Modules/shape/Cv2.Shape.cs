@@ -83,18 +83,11 @@ public static partial class Cv2
     /// <returns>The EMDL1 distance.</returns>
     public static float EMDL1(InputArray signature1, InputArray signature2)
     {
-        if (signature1 is null)
-            throw new ArgumentNullException(nameof(signature1));
-        if (signature2 is null)
-            throw new ArgumentNullException(nameof(signature2));
-        signature1.ThrowIfDisposed();
-        signature2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.shape_EMDL1(signature1.ToInputProxy(), signature2.ToInputProxy(), out var ret));
+            NativeMethods.shape_EMDL1(signature1.Proxy, signature2.Proxy, out var ret));
 
-        GC.KeepAlive(signature1);
-        GC.KeepAlive(signature2);
+        GC.KeepAlive(signature1.Source);
+        GC.KeepAlive(signature2.Source);
         return ret;
     }
 

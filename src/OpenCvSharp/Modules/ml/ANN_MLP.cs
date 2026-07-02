@@ -287,13 +287,11 @@ public class ANN_MLP : StatModel
     public virtual void SetLayerSizes(InputArray layerSizes)
     {
         ThrowIfDisposed();
-        if (layerSizes is null)
-            throw new ArgumentNullException(nameof(layerSizes));
 
         NativeMethods.HandleException(
-            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.ToInputProxy()));
+            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.Proxy));
 
-        GC.KeepAlive(layerSizes);
+        GC.KeepAlive(layerSizes.Source);
     }
 
     /// <summary>

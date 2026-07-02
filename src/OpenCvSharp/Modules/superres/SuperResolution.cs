@@ -80,14 +80,10 @@ public class SuperResolution : Algorithm
     public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.ToOutputProxy()));
-        frame.Fix();
-        GC.KeepAlive(frame);
+            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.Proxy));
+        GC.KeepAlive(frame.Source);
     }
         
     /// <summary>

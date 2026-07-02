@@ -311,14 +311,11 @@ public class VideoWriter : CvObject
     public void Write(InputArray image)
     {
         ThrowIfDisposed();
-        if(image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_write(Handle, image.ToInputProxy()));
+            NativeMethods.videoio_VideoWriter_write(Handle, image.Proxy));
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>

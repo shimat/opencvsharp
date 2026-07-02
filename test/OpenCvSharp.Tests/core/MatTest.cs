@@ -239,7 +239,7 @@ public class MatTest : TestBase
         using Mat mask = src.GreaterThan(128);
         src.CopyTo(dst, mask);
         ShowImagesWhenDebugMode(dst);
-        src.CopyTo(dst, null);
+        src.CopyTo(dst, default);
         ShowImagesWhenDebugMode(dst);
     }
 
@@ -248,7 +248,8 @@ public class MatTest : TestBase
     {
         using var graySrc = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var resultImage = graySrc.Clone();
-        using var mask = graySrc.InRange(100, 200);
+        using var mask = new Mat();
+        Cv2.InRange(graySrc, new Scalar(100), new Scalar(200), mask);
         var ret = resultImage.SetTo(0, mask);
         ShowImagesWhenDebugMode(resultImage);
         Assert.True(ReferenceEquals(resultImage, ret));
@@ -1085,7 +1086,7 @@ public class MatTest : TestBase
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
         var rect = new Rect(2, 2, 7, 5);
-        mat.Rectangle(rect, new Scalar(expectedValue), -1);
+        Cv2.Rectangle(mat, rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat.SubMat(rect);
         Assert.Equal(rect.Width, subMat.Cols);
@@ -1108,7 +1109,7 @@ public class MatTest : TestBase
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
         var rect = new Rect(2, 2, 7, 5);
-        mat.Rectangle(rect, new Scalar(expectedValue), -1);
+        Cv2.Rectangle(mat, rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat[rect];
         Assert.Equal(rect.Width, subMat.Cols);
@@ -1198,7 +1199,8 @@ public class MatTest : TestBase
         using var mat1 = Mat.FromPixelData(8, 8, MatType.CV_32FC1, ptr);
         for (long i = 0; i < 1000000; i++)
         {
-            using var mat2 = mat1.Idct();
+            using var mat2 = new Mat();
+            Cv2.Idct(mat1, mat2);
             GC.KeepAlive(mat2);
         }
 
@@ -1212,7 +1214,7 @@ public class MatTest : TestBase
     public void TestStreamWriting()
     {
         using var m = new Mat(new Size(87, 92), MatType.CV_8UC1);
-        m.Randn(Scalar.RandomColor(), new Scalar(7));
+        Cv2.Randn(m, Scalar.RandomColor(), new Scalar(7));
 
         using var stream = new System.IO.MemoryStream();
         stream.Write([1, 2, 3, 4], 0, 4);

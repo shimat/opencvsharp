@@ -119,13 +119,10 @@ public class Dictionary : CvObject
     /// <returns></returns>
     public int GetDistanceToId(InputArray bits, int id, bool allRotations = true)
     {
-        if (bits is null)
-            throw new ArgumentNullException(nameof(bits));
-        bits.ThrowIfDisposed();
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_getDistanceToId(Handle, bits.ToInputProxy(), id, allRotations ? 1 : 0, out var ret));
+            NativeMethods.aruco_Dictionary_getDistanceToId(Handle, bits.Proxy, id, allRotations ? 1 : 0, out var ret));
         
         return ret;
     }
@@ -139,13 +136,10 @@ public class Dictionary : CvObject
     /// <param name="borderBits"></param>
     public void GenerateImageMarker(int id, int sidePixels, OutputArray img, int borderBits = 1)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
         ThrowIfDisposed();
         
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_generateImageMarker(Handle, id, sidePixels, img.ToOutputProxy(), borderBits));
+            NativeMethods.aruco_Dictionary_generateImageMarker(Handle, id, sidePixels, img.Proxy, borderBits));
         
     }
     

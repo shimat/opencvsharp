@@ -24,37 +24,17 @@ static partial class Cv2
         InputArray Rt, InputArray unregisteredDepth, Size outputImagePlaneSize,
         OutputArray registeredDepth, bool depthDilation = false)
     {
-        if (unregisteredCameraMatrix is null)
-            throw new ArgumentNullException(nameof(unregisteredCameraMatrix));
-        if (registeredCameraMatrix is null)
-            throw new ArgumentNullException(nameof(registeredCameraMatrix));
-        if (registeredDistCoeffs is null)
-            throw new ArgumentNullException(nameof(registeredDistCoeffs));
-        if (Rt is null)
-            throw new ArgumentNullException(nameof(Rt));
-        if (unregisteredDepth is null)
-            throw new ArgumentNullException(nameof(unregisteredDepth));
-        if (registeredDepth is null)
-            throw new ArgumentNullException(nameof(registeredDepth));
-        unregisteredCameraMatrix.ThrowIfDisposed();
-        registeredCameraMatrix.ThrowIfDisposed();
-        registeredDistCoeffs.ThrowIfDisposed();
-        Rt.ThrowIfDisposed();
-        unregisteredDepth.ThrowIfDisposed();
-        registeredDepth.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.ptcloud_registerDepth(
-                unregisteredCameraMatrix.ToInputProxy(), registeredCameraMatrix.ToInputProxy(), registeredDistCoeffs.ToInputProxy(),
-                Rt.ToInputProxy(), unregisteredDepth.ToInputProxy(), outputImagePlaneSize,
-                registeredDepth.ToOutputProxy(), depthDilation ? 1 : 0));
+                unregisteredCameraMatrix.Proxy, registeredCameraMatrix.Proxy, registeredDistCoeffs.Proxy,
+                Rt.Proxy, unregisteredDepth.Proxy, outputImagePlaneSize,
+                registeredDepth.Proxy, depthDilation ? 1 : 0));
 
-        registeredDepth.Fix();
-        GC.KeepAlive(unregisteredCameraMatrix);
-        GC.KeepAlive(registeredCameraMatrix);
-        GC.KeepAlive(registeredDistCoeffs);
-        GC.KeepAlive(Rt);
-        GC.KeepAlive(unregisteredDepth);
+        GC.KeepAlive(unregisteredCameraMatrix.Source);
+        GC.KeepAlive(registeredCameraMatrix.Source);
+        GC.KeepAlive(registeredDistCoeffs.Source);
+        GC.KeepAlive(Rt.Source);
+        GC.KeepAlive(unregisteredDepth.Source);
     }
 
     /// <summary>
@@ -66,26 +46,12 @@ static partial class Cv2
     /// <param name="points3d">the resulting 3d points (point is represented by 4 channels value [x, y, z, 0]).</param>
     public static void DepthTo3dSparse(InputArray depth, InputArray inK, InputArray inPoints, OutputArray points3d)
     {
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        if (inK is null)
-            throw new ArgumentNullException(nameof(inK));
-        if (inPoints is null)
-            throw new ArgumentNullException(nameof(inPoints));
-        if (points3d is null)
-            throw new ArgumentNullException(nameof(points3d));
-        depth.ThrowIfDisposed();
-        inK.ThrowIfDisposed();
-        inPoints.ThrowIfDisposed();
-        points3d.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_depthTo3dSparse(depth.ToInputProxy(), inK.ToInputProxy(), inPoints.ToInputProxy(), points3d.ToOutputProxy()));
+            NativeMethods.ptcloud_depthTo3dSparse(depth.Proxy, inK.Proxy, inPoints.Proxy, points3d.Proxy));
 
-        points3d.Fix();
-        GC.KeepAlive(depth);
-        GC.KeepAlive(inK);
-        GC.KeepAlive(inPoints);
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(inK.Source);
+        GC.KeepAlive(inPoints.Source);
     }
 
     /// <summary>
@@ -95,26 +61,14 @@ static partial class Cv2
     /// <param name="K">the calibration matrix.</param>
     /// <param name="points3d">the resulting 3d points (point is represented by 4 channels value [x, y, z, 0]).</param>
     /// <param name="mask">the mask of the points to consider (can be empty).</param>
-    public static void DepthTo3d(InputArray depth, InputArray K, OutputArray points3d, InputArray? mask = null)
+    public static void DepthTo3d(InputArray depth, InputArray K, OutputArray points3d, InputArray mask = default)
     {
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        if (K is null)
-            throw new ArgumentNullException(nameof(K));
-        if (points3d is null)
-            throw new ArgumentNullException(nameof(points3d));
-        depth.ThrowIfDisposed();
-        K.ThrowIfDisposed();
-        points3d.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_depthTo3d(depth.ToInputProxy(), K.ToInputProxy(), points3d.ToOutputProxy(), mask?.ToInputProxy() ?? default));
+            NativeMethods.ptcloud_depthTo3d(depth.Proxy, K.Proxy, points3d.Proxy, mask.Proxy));
 
-        points3d.Fix();
-        GC.KeepAlive(depth);
-        GC.KeepAlive(K);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(K.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -127,18 +81,10 @@ static partial class Cv2
     /// <param name="depthFactor">factor by which depth is converted to distance (by default = 1000.0 for Kinect sensor).</param>
     public static void RescaleDepth(InputArray src, int type, OutputArray dst, double depthFactor = 1000.0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_rescaleDepth(src.ToInputProxy(), type, dst.ToOutputProxy(), depthFactor));
+            NativeMethods.ptcloud_rescaleDepth(src.Proxy, type, dst.Proxy, depthFactor));
 
-        dst.Fix();
-        GC.KeepAlive(src);
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -154,37 +100,19 @@ static partial class Cv2
     /// <param name="warpedImage">The warped RGB image (optional).</param>
     /// <param name="warpedMask">The mask of valid pixels in warped image (optional).</param>
     public static void WarpFrame(
-        InputArray depth, InputArray? image, InputArray? mask, InputArray Rt, InputArray cameraMatrix,
-        OutputArray? warpedDepth = null, OutputArray? warpedImage = null, OutputArray? warpedMask = null)
+        InputArray depth, InputArray image, InputArray mask, InputArray Rt, InputArray cameraMatrix,
+        OutputArray warpedDepth = default, OutputArray warpedImage = default, OutputArray warpedMask = default)
     {
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        if (Rt is null)
-            throw new ArgumentNullException(nameof(Rt));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        depth.ThrowIfDisposed();
-        image?.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
-        Rt.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        warpedDepth?.ThrowIfNotReady();
-        warpedImage?.ThrowIfNotReady();
-        warpedMask?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.ptcloud_warpFrame(
-                depth.ToInputProxy(), image?.ToInputProxy() ?? default, mask?.ToInputProxy() ?? default, Rt.ToInputProxy(), cameraMatrix.ToInputProxy(),
-                warpedDepth?.ToOutputProxy() ?? default, warpedImage?.ToOutputProxy() ?? default, warpedMask?.ToOutputProxy() ?? default));
+                depth.Proxy, image.Proxy, mask.Proxy, Rt.Proxy, cameraMatrix.Proxy,
+                warpedDepth.Proxy, warpedImage.Proxy, warpedMask.Proxy));
 
-        warpedDepth?.Fix();
-        warpedImage?.Fix();
-        warpedMask?.Fix();
-        GC.KeepAlive(depth);
-        GC.KeepAlive(image);
-        GC.KeepAlive(mask);
-        GC.KeepAlive(Rt);
-        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(Rt.Source);
+        GC.KeepAlive(cameraMatrix.Source);
     }
 
     /// <summary>
@@ -207,29 +135,14 @@ static partial class Cv2
         double sensorErrorA = 0, double sensorErrorB = 0, double sensorErrorC = 0,
         RgbdPlaneMethod method = RgbdPlaneMethod.Default)
     {
-        if (points3d is null)
-            throw new ArgumentNullException(nameof(points3d));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        if (planeCoefficients is null)
-            throw new ArgumentNullException(nameof(planeCoefficients));
-        points3d.ThrowIfDisposed();
-        normals.ThrowIfDisposed();
-        mask.ThrowIfNotReady();
-        planeCoefficients.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.ptcloud_findPlanes(
-                points3d.ToInputProxy(), normals.ToInputProxy(), mask.ToOutputProxy(), planeCoefficients.ToOutputProxy(),
+                points3d.Proxy, normals.Proxy, mask.Proxy, planeCoefficients.Proxy,
                 blockSize, minSize, threshold,
                 sensorErrorA, sensorErrorB, sensorErrorC, (int)method));
 
-        mask.Fix();
-        planeCoefficients.Fix();
-        GC.KeepAlive(points3d);
-        GC.KeepAlive(normals);
+        GC.KeepAlive(points3d.Source);
+        GC.KeepAlive(normals.Source);
     }
 
     /// <summary>
@@ -239,22 +152,14 @@ static partial class Cv2
     /// <param name="vertices">Output vertex coordinates, each value contains 3 floats.</param>
     /// <param name="normals">Output per-vertex normals, each value contains 3 floats (optional).</param>
     /// <param name="rgb">Output per-vertex colors, each value contains 3 floats (optional).</param>
-    public static void LoadPointCloud(string filename, OutputArray vertices, OutputArray? normals = null, OutputArray? rgb = null)
+    public static void LoadPointCloud(string filename, OutputArray vertices, OutputArray normals = default, OutputArray rgb = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
-        if (vertices is null)
-            throw new ArgumentNullException(nameof(vertices));
-        vertices.ThrowIfNotReady();
-        normals?.ThrowIfNotReady();
-        rgb?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_loadPointCloud(filename, vertices.ToOutputProxy(), normals?.ToOutputProxy() ?? default, rgb?.ToOutputProxy() ?? default));
+            NativeMethods.ptcloud_loadPointCloud(filename, vertices.Proxy, normals.Proxy, rgb.Proxy));
 
-        vertices.Fix();
-        normals?.Fix();
-        rgb?.Fix();
     }
 
     /// <summary>
@@ -264,22 +169,17 @@ static partial class Cv2
     /// <param name="vertices">Vertex coordinates, each value contains 3 floats.</param>
     /// <param name="normals">Per-vertex normals, each value contains 3 floats (optional).</param>
     /// <param name="rgb">Per-vertex colors, each value contains 3 floats (optional).</param>
-    public static void SavePointCloud(string filename, InputArray vertices, InputArray? normals = null, InputArray? rgb = null)
+    public static void SavePointCloud(string filename, InputArray vertices, InputArray normals = default, InputArray rgb = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
-        if (vertices is null)
-            throw new ArgumentNullException(nameof(vertices));
-        vertices.ThrowIfDisposed();
-        normals?.ThrowIfDisposed();
-        rgb?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_savePointCloud(filename, vertices.ToInputProxy(), normals?.ToInputProxy() ?? default, rgb?.ToInputProxy() ?? default));
+            NativeMethods.ptcloud_savePointCloud(filename, vertices.Proxy, normals.Proxy, rgb.Proxy));
 
-        GC.KeepAlive(vertices);
-        GC.KeepAlive(normals);
-        GC.KeepAlive(rgb);
+        GC.KeepAlive(vertices.Source);
+        GC.KeepAlive(normals.Source);
+        GC.KeepAlive(rgb.Source);
     }
 
     /// <summary>
@@ -293,26 +193,16 @@ static partial class Cv2
     /// <param name="texCoords">Output per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
     public static void LoadMesh(
         string filename, OutputArray vertices, out Mat[] indices,
-        OutputArray? normals = null, OutputArray? colors = null, OutputArray? texCoords = null)
+        OutputArray normals = default, OutputArray colors = default, OutputArray texCoords = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
-        if (vertices is null)
-            throw new ArgumentNullException(nameof(vertices));
-        vertices.ThrowIfNotReady();
-        normals?.ThrowIfNotReady();
-        colors?.ThrowIfNotReady();
-        texCoords?.ThrowIfNotReady();
 
         using var indicesVec = new VectorOfMat();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_loadMesh(
-                filename, vertices.ToOutputProxy(), indicesVec.CvPtr, normals?.ToOutputProxy() ?? default, colors?.ToOutputProxy() ?? default, texCoords?.ToOutputProxy() ?? default));
+                filename, vertices.Proxy, indicesVec.CvPtr, normals.Proxy, colors.Proxy, texCoords.Proxy));
 
-        vertices.Fix();
-        normals?.Fix();
-        colors?.Fix();
-        texCoords?.Fix();
         indices = indicesVec.ToArray();
     }
 
@@ -327,29 +217,23 @@ static partial class Cv2
     /// <param name="texCoords">Per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
     public static void SaveMesh(
         string filename, InputArray vertices, IEnumerable<Mat> indices,
-        InputArray? normals = null, InputArray? colors = null, InputArray? texCoords = null)
+        InputArray normals = default, InputArray colors = default, InputArray texCoords = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
-        if (vertices is null)
-            throw new ArgumentNullException(nameof(vertices));
         if (indices is null)
             throw new ArgumentNullException(nameof(indices));
-        vertices.ThrowIfDisposed();
-        normals?.ThrowIfDisposed();
-        colors?.ThrowIfDisposed();
-        texCoords?.ThrowIfDisposed();
 
         var indicesArray = indices as Mat[] ?? indices.ToArray();
         using var indicesVec = new VectorOfMat(indicesArray);
         NativeMethods.HandleException(
             NativeMethods.ptcloud_saveMesh(
-                filename, vertices.ToInputProxy(), indicesVec.CvPtr, normals?.ToInputProxy() ?? default, colors?.ToInputProxy() ?? default, texCoords?.ToInputProxy() ?? default));
+                filename, vertices.Proxy, indicesVec.CvPtr, normals.Proxy, colors.Proxy, texCoords.Proxy));
 
-        GC.KeepAlive(vertices);
-        GC.KeepAlive(normals);
-        GC.KeepAlive(colors);
-        GC.KeepAlive(texCoords);
+        GC.KeepAlive(vertices.Source);
+        GC.KeepAlive(normals.Source);
+        GC.KeepAlive(colors.Source);
+        GC.KeepAlive(texCoords.Source);
         GC.KeepAlive(indicesArray);
     }
 }

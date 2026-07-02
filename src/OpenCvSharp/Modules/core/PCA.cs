@@ -30,16 +30,10 @@ public class PCA : CvObject
     /// <param name="maxComponents">maximum number of components that PCA should retain; by default, all the components are retained.</param>
     public PCA(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new2(data.ToInputProxy(), mean.ToInputProxy(), (int)flags, maxComponents, out var p));
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
+            NativeMethods.core_PCA_new2(data.Proxy, mean.Proxy, (int)flags, maxComponents, out var p));
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
         InitSafeHandle(p);
     }
 
@@ -53,16 +47,10 @@ public class PCA : CvObject
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public PCA(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new3(data.ToInputProxy(), mean.ToInputProxy(), (int)flags, retainedVariance, out var p));
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
+            NativeMethods.core_PCA_new3(data.Proxy, mean.Proxy, (int)flags, retainedVariance, out var p));
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
         InitSafeHandle(p);
     }
 
@@ -139,16 +127,10 @@ public class PCA : CvObject
     public PCA Compute(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
         ThrowIfDisposed();
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_operatorThis(Handle, data.ToInputProxy(), mean.ToInputProxy(), (int)flags, maxComponents));
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
+            NativeMethods.core_PCA_operatorThis(Handle, data.Proxy, mean.Proxy, (int)flags, maxComponents));
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
         return this;
     }
 
@@ -176,16 +158,10 @@ public class PCA : CvObject
     public PCA ComputeVar(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
         ThrowIfDisposed();
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
-        data.ThrowIfDisposed();
-        mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_computeVar(Handle, data.ToInputProxy(), mean.ToInputProxy(), (int)flags, retainedVariance));
-        GC.KeepAlive(data);
-        GC.KeepAlive(mean);
+            NativeMethods.core_PCA_computeVar(Handle, data.Proxy, mean.Proxy, (int)flags, retainedVariance));
+        GC.KeepAlive(data.Source);
+        GC.KeepAlive(mean.Source);
         return this;
     }
 
@@ -208,12 +184,9 @@ public class PCA : CvObject
     public Mat Project(InputArray vec)
     {
         ThrowIfDisposed();
-        if (vec is null)
-            throw new ArgumentNullException(nameof(vec));
-        vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project1(Handle, vec.ToInputProxy(), out var ret));
-        GC.KeepAlive(vec);
+            NativeMethods.core_PCA_project1(Handle, vec.Proxy, out var ret));
+        GC.KeepAlive(vec.Source);
         return Mat.FromNativePointer(ret);
     }
 
@@ -232,17 +205,10 @@ public class PCA : CvObject
     public void Project(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
-        if (vec is null)
-            throw new ArgumentNullException(nameof(vec));
-        if (result is null)
-            throw new ArgumentNullException(nameof(result));
-        vec.ThrowIfDisposed();
-        result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_project2(Handle, vec.ToInputProxy(), result.ToOutputProxy()));
-        result.Fix();
-        GC.KeepAlive(vec);
-        GC.KeepAlive(result);
+            NativeMethods.core_PCA_project2(Handle, vec.Proxy, result.Proxy));
+        GC.KeepAlive(vec.Source);
+        GC.KeepAlive(result.Source);
     }
 
     /// <summary>
@@ -261,12 +227,9 @@ public class PCA : CvObject
     public Mat BackProject(InputArray vec)
     {
         ThrowIfDisposed();
-        if (vec is null)
-            throw new ArgumentNullException(nameof(vec));
-        vec.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject1(Handle, vec.ToInputProxy(), out var ret));
-        GC.KeepAlive(vec);
+            NativeMethods.core_PCA_backProject1(Handle, vec.Proxy, out var ret));
+        GC.KeepAlive(vec.Source);
         return new Mat(ret);
     }
 
@@ -287,17 +250,10 @@ public class PCA : CvObject
     public void BackProject(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
-        if (vec is null)
-            throw new ArgumentNullException(nameof(vec));
-        if (result is null)
-            throw new ArgumentNullException(nameof(result));
-        vec.ThrowIfDisposed();
-        result.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_backProject2(Handle, vec.ToInputProxy(), result.ToOutputProxy()));
-        result.Fix();
-        GC.KeepAlive(vec);
-        GC.KeepAlive(result);
+            NativeMethods.core_PCA_backProject2(Handle, vec.Proxy, result.Proxy));
+        GC.KeepAlive(vec.Source);
+        GC.KeepAlive(result.Source);
     }
 
     /// <summary>

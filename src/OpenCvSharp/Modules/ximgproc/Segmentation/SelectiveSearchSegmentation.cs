@@ -36,14 +36,11 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void SetBaseImage(InputArray img)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.ToInputProxy()));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.Proxy));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -91,14 +88,11 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddImage(InputArray img)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.ToInputProxy()));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.Proxy));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>

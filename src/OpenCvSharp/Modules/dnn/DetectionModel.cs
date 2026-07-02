@@ -87,18 +87,15 @@ public class DetectionModel : Model
         float confThreshold = 0.5f, float nmsThreshold = 0.0f)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var classIdsVec = new StdVector<int>();
         using var confidencesVec = new StdVector<float>();
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_detect(
-                Handle, frame.ToInputProxy(), classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
+                Handle, frame.Proxy, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
                 confThreshold, nmsThreshold));
-        GC.KeepAlive(frame);
+        GC.KeepAlive(frame.Source);
 
         classIds = classIdsVec.ToArray();
         confidences = confidencesVec.ToArray();

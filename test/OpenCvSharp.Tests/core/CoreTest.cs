@@ -51,7 +51,7 @@ public class CoreTest : TestBase
         Assert.Equal(13, dst.At<byte>(1, 0));
         Assert.Equal(14, dst.At<byte>(1, 1));
 
-        using var inputArray = InputArray.Create(10.0);
+        var inputArray = InputArray.Create(10.0);
         Cv2.Add(src, inputArray, dst);
         Assert.Equal(11, dst.At<byte>(0, 0));
         Assert.Equal(12, dst.At<byte>(0, 1));
@@ -414,7 +414,7 @@ public class CoreTest : TestBase
     public void NormVecb()
     {
         var vec = new Vec3b(10, 20, 30);
-        using var ia = InputArray.Create(vec);
+        var ia = InputArray.Create(vec);
         var norm = Cv2.Norm(ia, NormTypes.L1);
         Assert.Equal(60, norm);
     }

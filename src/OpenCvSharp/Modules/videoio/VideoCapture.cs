@@ -1149,14 +1149,10 @@ public class VideoCapture : CvObject
     public bool Retrieve(OutputArray image, int flag = 0)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), flag, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.Proxy, flag, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
 
@@ -1173,14 +1169,10 @@ public class VideoCapture : CvObject
     public bool Retrieve(OutputArray image, CameraChannels streamIdx)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), (int)streamIdx, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.Proxy, (int)streamIdx, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
         
@@ -1262,14 +1254,10 @@ public class VideoCapture : CvObject
     public bool Read(OutputArray image)
     {
         ThrowIfDisposed();
-        if(image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.ToOutputProxy(), out var ret));
+            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.Proxy, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
         

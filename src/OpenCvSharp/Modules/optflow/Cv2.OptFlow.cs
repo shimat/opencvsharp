@@ -22,20 +22,12 @@ public static partial class Cv2
             InputArray silhouette, InputOutputArray mhi,
             double timestamp, double duration)
         {
-            if (silhouette is null)
-                throw new ArgumentNullException(nameof(silhouette));
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            silhouette.ThrowIfDisposed();
-            mhi.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_updateMotionHistory(
-                    silhouette.ToInputProxy(), mhi.ToInputOutputProxy(), timestamp, duration));
+                    silhouette.Proxy, mhi.Proxy, timestamp, duration));
 
-            mhi.Fix();
-            GC.KeepAlive(silhouette);
-            GC.KeepAlive(mhi);
+            GC.KeepAlive(silhouette.Source);
+            GC.KeepAlive(mhi.Source);
         }
 
         /// <summary>
@@ -56,25 +48,13 @@ public static partial class Cv2
             InputArray mhi, OutputArray mask, OutputArray orientation,
             double delta1, double delta2, int apertureSize = 3)
         {
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            if (orientation is null)
-                throw new ArgumentNullException(nameof(orientation));
-            mhi.ThrowIfDisposed();
-            mask.ThrowIfNotReady();
-            orientation.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcMotionGradient(
-                    mhi.ToInputProxy(), mask.ToOutputProxy(), orientation.ToOutputProxy(), delta1, delta2, apertureSize));
+                    mhi.Proxy, mask.Proxy, orientation.Proxy, delta1, delta2, apertureSize));
 
-            mask.Fix();
-            orientation.Fix();
-            GC.KeepAlive(mhi);
-            GC.KeepAlive(mask);
-            GC.KeepAlive(orientation);
+            GC.KeepAlive(mhi.Source);
+            GC.KeepAlive(mask.Source);
+            GC.KeepAlive(orientation.Source);
         }
 
         /// <summary>
@@ -91,23 +71,13 @@ public static partial class Cv2
             InputArray orientation, InputArray mask, InputArray mhi,
             double timestamp, double duration)
         {
-            if (orientation is null)
-                throw new ArgumentNullException(nameof(orientation));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            orientation.ThrowIfDisposed();
-            mask.ThrowIfDisposed();
-            mhi.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcGlobalOrientation(
-                    orientation.ToInputProxy(), mask.ToInputProxy(), mhi.ToInputProxy(), timestamp, duration, out var ret));
+                    orientation.Proxy, mask.Proxy, mhi.Proxy, timestamp, duration, out var ret));
 
-            GC.KeepAlive(orientation);
-            GC.KeepAlive(mask);
-            GC.KeepAlive(mhi);
+            GC.KeepAlive(orientation.Source);
+            GC.KeepAlive(mask.Source);
+            GC.KeepAlive(mhi.Source);
             return ret;
         }
 
@@ -125,22 +95,14 @@ public static partial class Cv2
             out Rect[] boundingRects,
             double timestamp, double segThresh)
         {
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            if (segmask is null)
-                throw new ArgumentNullException(nameof(segmask));
-            mhi.ThrowIfDisposed();
-            segmask.ThrowIfNotReady();
-
             using var br = new StdVector<Rect>();
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_segmentMotion(
-                    mhi.ToInputProxy(), segmask.ToOutputProxy(), br.CvPtr, timestamp, segThresh));
+                    mhi.Proxy, segmask.Proxy, br.CvPtr, timestamp, segThresh));
             boundingRects = br.ToArray();
             
-            segmask.Fix();
-            GC.KeepAlive(mhi);
-            GC.KeepAlive(segmask);
+            GC.KeepAlive(mhi.Source);
+            GC.KeepAlive(segmask.Source);
         }
 
         /// <summary>
@@ -160,24 +122,14 @@ public static partial class Cv2
             int averagingBlockSize,
             int maxFlow)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF1(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     layers, averagingBlockSize, maxFlow));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
 
         /// <summary>
@@ -217,27 +169,17 @@ public static partial class Cv2
             double upscaleSigmaColor,
             double speedUpThr)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF2(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     layers, averagingBlockSize, maxFlow,
                     sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
                     sigmaColorFix, occThr, upscaleAveragingRadius,
                     upscaleSigmaDist, upscaleSigmaColor, speedUpThr));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
 
         /// <summary>
@@ -266,24 +208,14 @@ public static partial class Cv2
             float fgsLambda = 500.0f,
             float fgsSigma = 1.5f)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSparseToDense(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     gridStep, k, sigma, usePostProc ? 1 : 0, fgsLambda, fgsSigma));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
     }
 }

@@ -21,23 +21,13 @@ public abstract class HistogramCostExtractor : Algorithm
         InputArray descriptors1, InputArray descriptors2, OutputArray costMatrix)
     {
         ThrowIfDisposed();
-        if (descriptors1 is null)
-            throw new ArgumentNullException(nameof(descriptors1));
-        if (descriptors2 is null)
-            throw new ArgumentNullException(nameof(descriptors2));
-        if (costMatrix is null)
-            throw new ArgumentNullException(nameof(costMatrix));
-        descriptors1.ThrowIfDisposed();
-        descriptors2.ThrowIfDisposed();
-        costMatrix.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.shape_HistogramCostExtractor_buildCostMatrix(
-                Handle, descriptors1.ToInputProxy(), descriptors2.ToInputProxy(), costMatrix.ToOutputProxy()));
+                Handle, descriptors1.Proxy, descriptors2.Proxy, costMatrix.Proxy));
 
-        GC.KeepAlive(descriptors1);
-        GC.KeepAlive(descriptors2);
-        costMatrix.Fix();
+        GC.KeepAlive(descriptors1.Source);
+        GC.KeepAlive(descriptors2.Source);
     }
 
     /// <summary>

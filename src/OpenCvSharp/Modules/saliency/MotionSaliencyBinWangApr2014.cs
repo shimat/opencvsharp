@@ -35,18 +35,11 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
     public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        image.ThrowIfDisposed();
-        saliencyMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_MotionSaliencyBinWangApr2014_computeSaliency(
-                Handle, image.ToInputProxy(), saliencyMap.ToOutputProxy(), out var ret));
-        GC.KeepAlive(image);
-        saliencyMap.Fix();
+                Handle, image.Proxy, saliencyMap.Proxy, out var ret));
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
 

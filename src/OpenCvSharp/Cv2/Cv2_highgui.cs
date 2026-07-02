@@ -306,14 +306,11 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI1(windowName, img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI1(windowName, img.Proxy, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -330,14 +327,10 @@ static partial class Cv2
     // ReSharper disable once InconsistentNaming
     public static Rect SelectROI(InputArray img, bool showCrosshair = true, bool fromCenter = false)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI2(img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI2(img.Proxy, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -358,15 +351,12 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         using var boundingBoxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROIs(windowName, img.ToInputProxy(), boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
+            NativeMethods.highgui_selectROIs(windowName, img.Proxy, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return boundingBoxesVec.ToArray();
     }
 

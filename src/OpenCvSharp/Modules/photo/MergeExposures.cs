@@ -22,13 +22,8 @@ public abstract class MergeExposures : Algorithm
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         if (times is null)
             throw new ArgumentNullException(nameof(times));
-        if (response is null)
-            throw new ArgumentNullException(nameof(response));
-        dst.ThrowIfNotReady();
 
         var srcArray = src.Select(s => s.CvPtr).ToArray();
         var timesArray = times as float[] ?? times.ToArray();
@@ -36,12 +31,11 @@ public abstract class MergeExposures : Algorithm
             throw new OpenCvSharpException("src.Count() != times.Count");
             
         NativeMethods.HandleException(
-            NativeMethods.photo_MergeExposures_process(Handle, srcArray, srcArray.Length, dst.ToOutputProxy(), timesArray, response.ToInputProxy()));
+            NativeMethods.photo_MergeExposures_process(Handle, srcArray, srcArray.Length, dst.Proxy, timesArray, response.Proxy));
 
-        dst.Fix();
         GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(response);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(response.Source);
         GC.KeepAlive(srcArray);
         GC.KeepAlive(timesArray);
     }

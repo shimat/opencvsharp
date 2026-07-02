@@ -15,15 +15,13 @@ public class Index : CvObject
     /// <param name="distType"></param>
     public Index(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
     {
-        if (features is null)
-            throw new ArgumentNullException(nameof(features));
         if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_new(features.ToInputProxy(), @params.CvPtr, (int)distType, out var p));
+            NativeMethods.flann_Index_new(features.Proxy, @params.CvPtr, (int)distType, out var p));
 
-        GC.KeepAlive(features);
+        GC.KeepAlive(features.Source);
         GC.KeepAlive(@params);
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create Index");

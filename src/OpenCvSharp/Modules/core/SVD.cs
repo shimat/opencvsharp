@@ -24,12 +24,9 @@ public class SVD : CvObject
     /// <param name="flags"></param>
     public SVD(InputArray src, Flags flags = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new2(src.ToInputProxy(), (int)flags, out var p));
-        GC.KeepAlive(src);
+            NativeMethods.core_SVD_new2(src.Proxy, (int)flags, out var p));
+        GC.KeepAlive(src.Source);
         InitSafeHandle(p);
     }
 
@@ -86,12 +83,9 @@ public class SVD : CvObject
     public SVD Run(InputArray src, Flags flags = 0)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_operatorThis(Handle, src.ToInputProxy(), (int)flags));
-        GC.KeepAlive(src);
+            NativeMethods.core_SVD_operatorThis(Handle, src.Proxy, (int)flags));
+        GC.KeepAlive(src.Source);
         return this;
     }
 
@@ -104,16 +98,10 @@ public class SVD : CvObject
     public void BackSubst(InputArray rhs, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (rhs is null)
-            throw new ArgumentNullException(nameof(rhs));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        rhs.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_backSubst(Handle, rhs.ToInputProxy(), dst.ToOutputProxy()));
-        GC.KeepAlive(rhs);
-        GC.KeepAlive(dst);
+            NativeMethods.core_SVD_backSubst(Handle, rhs.Proxy, dst.Proxy));
+        GC.KeepAlive(rhs.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -127,27 +115,12 @@ public class SVD : CvObject
     public static void Compute(InputArray src, OutputArray w,
         OutputArray u, OutputArray vt, Flags flags = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (u is null)
-            throw new ArgumentNullException(nameof(u));
-        if (vt is null)
-            throw new ArgumentNullException(nameof(vt));
-        src.ThrowIfDisposed();
-        w.ThrowIfNotReady();
-        u.ThrowIfNotReady();
-        vt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_compute1(src.ToInputProxy(), w.ToOutputProxy(), u.ToOutputProxy(), vt.ToOutputProxy(), (int)flags));
-        w.Fix();
-        u.Fix();
-        vt.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(w);
-        GC.KeepAlive(u);
-        GC.KeepAlive(vt);
+            NativeMethods.core_SVD_static_compute1(src.Proxy, w.Proxy, u.Proxy, vt.Proxy, (int)flags));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(u.Source);
+        GC.KeepAlive(vt.Source);
     }
 
     /// <summary>
@@ -158,17 +131,10 @@ public class SVD : CvObject
     /// <param name="flags"></param>
     public static void Compute(InputArray src, OutputArray w, Flags flags = 0)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        src.ThrowIfDisposed();
-        w.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_compute2(src.ToInputProxy(), w.ToOutputProxy(), (int)flags));
-        w.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(w);
+            NativeMethods.core_SVD_static_compute2(src.Proxy, w.Proxy, (int)flags));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(w.Source);
     }
 
     /// <summary>
@@ -182,29 +148,13 @@ public class SVD : CvObject
     public static void BackSubst(InputArray w, InputArray u,
         InputArray vt, InputArray rhs, OutputArray dst)
     {
-        if (w is null)
-            throw new ArgumentNullException(nameof(w));
-        if (u is null)
-            throw new ArgumentNullException(nameof(u));
-        if (vt is null)
-            throw new ArgumentNullException(nameof(vt));
-        if (rhs is null)
-            throw new ArgumentNullException(nameof(rhs));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        w.ThrowIfDisposed();
-        u.ThrowIfDisposed();
-        vt.ThrowIfDisposed();
-        rhs.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_backSubst(w.ToInputProxy(), u.ToInputProxy(), vt.ToInputProxy(), rhs.ToInputProxy(), dst.ToOutputProxy()));
-        dst.Fix();
-        GC.KeepAlive(w);
-        GC.KeepAlive(u);
-        GC.KeepAlive(vt);
-        GC.KeepAlive(rhs);
-        GC.KeepAlive(dst);
+            NativeMethods.core_SVD_static_backSubst(w.Proxy, u.Proxy, vt.Proxy, rhs.Proxy, dst.Proxy));
+        GC.KeepAlive(w.Source);
+        GC.KeepAlive(u.Source);
+        GC.KeepAlive(vt.Source);
+        GC.KeepAlive(rhs.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -214,17 +164,10 @@ public class SVD : CvObject
     /// <param name="dst"></param>
     public static void SolveZ(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_static_solveZ(src.ToInputProxy(), dst.ToOutputProxy()));
-        dst.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+            NativeMethods.core_SVD_static_solveZ(src.Proxy, dst.Proxy));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>

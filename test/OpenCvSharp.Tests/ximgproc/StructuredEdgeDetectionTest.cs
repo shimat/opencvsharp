@@ -82,7 +82,7 @@ public class StructuredEdgeDetectionTest : TestBase
                 Assert.NotEmpty(boxes);
                 foreach (var box in boxes)
                 {
-                    image.Rectangle(box, Scalar.Red, 2);
+                    Cv2.Rectangle(image, box, Scalar.Red, 2);
                 }
                 ShowImagesWhenDebugMode(image32F, edges, orientation, edgesNms, image);
                 //Window.ShowImages(image, edgesNms);

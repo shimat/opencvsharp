@@ -157,13 +157,9 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat ImDecode(InputArray buf, ImreadModes flags)
     {
-        if (buf is null)
-            throw new ArgumentNullException(nameof(buf));
-        buf.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imdecode_InputArray(buf.ToInputProxy(), (int) flags, out var ret));
-        GC.KeepAlive(buf);
+            NativeMethods.imgcodecs_imdecode_InputArray(buf.Proxy, (int) flags, out var ret));
+        GC.KeepAlive(buf.Source);
         return new Mat(ret);
     }
 
@@ -215,15 +211,12 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
         prms ??= [];
-        img.ThrowIfDisposed();
 
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencode_vector(ext, img.ToInputProxy(), bufVec.CvPtr, prms, prms.Length, out var ret));
-        GC.KeepAlive(img);
+            NativeMethods.imgcodecs_imencode_vector(ext, img.Proxy, bufVec.CvPtr, prms, prms.Length, out var ret));
+        GC.KeepAlive(img.Source);
         buf = bufVec.ToArray();
         return ret != 0;
     }

@@ -145,13 +145,9 @@ static partial class Cv2
     /// <returns></returns>
     public static bool CheckChessboard(InputArray img, Size size)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.objdetect_checkChessboard(img.ToInputProxy(), size, out var ret));
-        GC.KeepAlive(img);
+            NativeMethods.objdetect_checkChessboard(img.Proxy, size, out var ret));
+        GC.KeepAlive(img.Source);
         return ret != 0;
     }
 
@@ -167,19 +163,12 @@ static partial class Cv2
     public static bool FindChessboardCornersSB(
         InputArray image, Size patternSize, OutputArray corners, ChessboardFlags flags = 0)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (corners is null)
-            throw new ArgumentNullException(nameof(corners));
-        image.ThrowIfDisposed();
-        corners.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_OutputArray(
-                image.ToInputProxy(), patternSize, corners.ToOutputProxy(), (int) flags, out var ret));
+                image.Proxy, patternSize, corners.Proxy, (int) flags, out var ret));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(corners);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(corners.Source);
         return ret != 0;
     }
 
@@ -195,17 +184,13 @@ static partial class Cv2
     public static bool FindChessboardCornersSB(
         InputArray image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_vector(
-                image.ToInputProxy(), patternSize, cornersVec.CvPtr, (int) flags, out var ret));
+                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
 
         corners = cornersVec.ToArray();
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
 
@@ -218,18 +203,10 @@ static partial class Cv2
     /// <returns></returns>
     public static bool Find4QuadCornerSubpix(InputArray img, InputOutputArray corners, Size regionSize)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (corners is null)
-            throw new ArgumentNullException(nameof(corners));
-        img.ThrowIfDisposed();
-        corners.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_InputArray(
-                img.ToInputProxy(), corners.ToInputOutputProxy(), regionSize, out var ret));
-        GC.KeepAlive(img);
-        corners.Fix();
+                img.Proxy, corners.Proxy, regionSize, out var ret));
+        GC.KeepAlive(img.Source);
         return ret != 0;
     }
     /// <summary>
@@ -241,17 +218,14 @@ static partial class Cv2
     /// <returns></returns>
     public static bool Find4QuadCornerSubpix(InputArray img, Point2f[] corners, Size regionSize)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
         if (corners is null)
             throw new ArgumentNullException(nameof(corners));
-        img.ThrowIfDisposed();
 
         using var cornersVec = new StdVector<Point2f>(corners);
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_vector(
-                img.ToInputProxy(), cornersVec.CvPtr, regionSize, out var ret));
-        GC.KeepAlive(img);
+                img.Proxy, cornersVec.CvPtr, regionSize, out var ret));
+        GC.KeepAlive(img.Source);
 
         var newCorners = cornersVec.ToArray();
         for (var i = 0; i < corners.Length; i++)
@@ -272,18 +246,10 @@ static partial class Cv2
     public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
         InputArray corners, bool patternWasFound)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (corners is null)
-            throw new ArgumentNullException(nameof(corners));
-        image.ThrowIfNotReady();
-        corners.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.objdetect_drawChessboardCorners_InputArray(
-                image.ToInputOutputProxy(), patternSize, corners.ToInputProxy(), patternWasFound ? 1 : 0));
-        GC.KeepAlive(corners);
-        image.Fix();
+                image.Proxy, patternSize, corners.Proxy, patternWasFound ? 1 : 0));
+        GC.KeepAlive(corners.Source);
     }
 
     /// <summary>
@@ -297,17 +263,13 @@ static partial class Cv2
     public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
         IEnumerable<Point2f> corners, bool patternWasFound)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (corners is null)
             throw new ArgumentNullException(nameof(corners));
-        image.ThrowIfNotReady();
 
         var cornersArray = corners as Point2f[] ?? corners.ToArray();
         NativeMethods.HandleException(
             NativeMethods.objdetect_drawChessboardCorners_array(
-                image.ToInputOutputProxy(), patternSize, cornersArray, cornersArray.Length,
+                image.Proxy, patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0));
-        image.Fix();
     }
 }

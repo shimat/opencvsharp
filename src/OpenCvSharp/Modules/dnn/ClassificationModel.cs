@@ -78,12 +78,9 @@ public class ClassificationModel : Model
     public void Classify(InputArray frame, out int classId, out float conf)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.ToInputProxy(), out classId, out conf));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.Proxy, out classId, out conf));
+        GC.KeepAlive(frame.Source);
     }
 }

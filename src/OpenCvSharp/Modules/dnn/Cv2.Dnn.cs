@@ -266,17 +266,14 @@ public static partial class Cv2
         /// <returns>4-dimensional Mat.</returns>
         public static Mat BlobFromImageWithParams(InputArray image, Image2BlobParams? param = null)
         {
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
-            image.ThrowIfDisposed();
             param ??= new Image2BlobParams();
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImageWithParams(
-                    image.ToInputProxy(), param.ScaleFactor, param.Size, param.Mean,
+                    image.Proxy, param.ScaleFactor, param.Size, param.Mean,
                     param.SwapRB ? 1 : 0, (int)param.Depth, (int)param.DataLayout, (int)param.PaddingMode, param.BorderValue,
                     out var ret));
-            GC.KeepAlive(image);
+            GC.KeepAlive(image.Source);
             return new Mat(ret);
         }
 

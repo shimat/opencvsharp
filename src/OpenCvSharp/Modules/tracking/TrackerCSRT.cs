@@ -62,14 +62,10 @@ public class TrackerCSRT : Tracker
     /// <param name="mask"></param>
     public virtual void SetInitialMask(InputArray mask)
     {
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        mask.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerCSRT_setInitialMask(RawPtr, mask.ToInputProxy()));
+            NativeMethods.tracking_TrackerCSRT_setInitialMask(RawPtr, mask.Proxy));
 
-        GC.KeepAlive(mask);
+        GC.KeepAlive(mask.Source);
     }
 
     #pragma warning disable CA1034

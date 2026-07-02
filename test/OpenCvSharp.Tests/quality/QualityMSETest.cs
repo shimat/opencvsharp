@@ -29,7 +29,7 @@ public class QualityMSETest : TestBase
         {
             Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
-            var value = QualityMSE.Compute(refImage, targetImage, null);
+            var value = QualityMSE.Compute(refImage, targetImage);
             Assert.Equal(83.89224, value[0], 6);
             Assert.Equal(96.848604, value[1], 6);
             Assert.Equal(50.611845, value[2], 6);

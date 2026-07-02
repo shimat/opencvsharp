@@ -56,14 +56,11 @@ public class KeypointsModel : Model
     public Point2f[] Estimate(InputArray frame, float thresh = 0.5f)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.ToInputProxy(), keypointsVec.CvPtr, thresh));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.Proxy, keypointsVec.CvPtr, thresh));
+        GC.KeepAlive(frame.Source);
         return keypointsVec.ToArray();
     }
 }

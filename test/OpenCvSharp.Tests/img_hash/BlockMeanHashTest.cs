@@ -86,13 +86,14 @@ public class BlockMeanHashTest : TestBase
         using (var img2 = LoadImage("building.jpg", ImreadModes.Grayscale))
         {
             var size = new Size(256, 256);
-            using (var scaledImg1 = img1.Resize(size))
-            using (var scaledImg2 = img2.Resize(size))
-            {
-                double hash = model.Compare(scaledImg1, scaledImg2);
-                // Tolerance widened to absorb cross-platform floating-point variance (e.g. Linux ARM64).
-                Assert.Equal(264411, hash, tolerance: 1000);
-            }
+            using var scaledImg1 = new Mat();
+            Cv2.Resize(img1, scaledImg1, size);
+            using var scaledImg2 = new Mat();
+            Cv2.Resize(img2, scaledImg2, size);
+
+            double hash = model.Compare(scaledImg1, scaledImg2);
+            // Tolerance widened to absorb cross-platform floating-point variance (e.g. Linux ARM64).
+            Assert.Equal(264411, hash, tolerance: 1000);
         }
     }
 }

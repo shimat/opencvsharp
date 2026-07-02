@@ -254,12 +254,9 @@ public class VolumeSettings : CvObject
     public void SetVolumePose(InputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumePose(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_VolumeSettings_setVolumePose(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
@@ -269,12 +266,8 @@ public class VolumeSettings : CvObject
     public void GetVolumePose(OutputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumePose(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_VolumeSettings_getVolumePose(Handle, val.Proxy));
     }
 
     /// <summary>
@@ -284,12 +277,9 @@ public class VolumeSettings : CvObject
     public void SetVolumeResolution(InputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_VolumeSettings_setVolumeResolution(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
@@ -299,12 +289,8 @@ public class VolumeSettings : CvObject
     public void GetVolumeResolution(OutputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_VolumeSettings_getVolumeResolution(Handle, val.Proxy));
     }
 
     /// <summary>
@@ -314,12 +300,8 @@ public class VolumeSettings : CvObject
     public void GetVolumeStrides(OutputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_VolumeSettings_getVolumeStrides(Handle, val.Proxy));
     }
 
     /// <summary>
@@ -329,12 +311,9 @@ public class VolumeSettings : CvObject
     public void SetCameraIntegrateIntrinsics(InputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_VolumeSettings_setCameraIntegrateIntrinsics(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
@@ -344,12 +323,8 @@ public class VolumeSettings : CvObject
     public void GetCameraIntegrateIntrinsics(OutputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_VolumeSettings_getCameraIntegrateIntrinsics(Handle, val.Proxy));
     }
 
     /// <summary>
@@ -359,12 +334,9 @@ public class VolumeSettings : CvObject
     public void SetCameraRaycastIntrinsics(InputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_VolumeSettings_setCameraRaycastIntrinsics(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
@@ -374,12 +346,8 @@ public class VolumeSettings : CvObject
     public void GetCameraRaycastIntrinsics(OutputArray val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_VolumeSettings_getCameraRaycastIntrinsics(Handle, val.Proxy));
     }
 
     #endregion

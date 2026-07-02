@@ -37,17 +37,6 @@ public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
     }
 
     /// <summary>
-    /// DetectAndDecode must throw ArgumentNullException when inputImage is null.
-    /// Does not require model files.
-    /// </summary>
-    [Fact]
-    public void DetectAndDecode_NullInput_ThrowsArgumentNullException()
-    {
-        using var qr = new OpenCvSharp.WeChatQRCode();
-        Assert.Throws<ArgumentNullException>(() => qr.DetectAndDecode(null!, out _));
-    }
-
-    /// <summary>
     /// Grayscale image containing 2 QR codes. Both must be decoded correctly.
     /// </summary>
     [Fact]

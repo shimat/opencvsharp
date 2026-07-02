@@ -81,21 +81,17 @@ public class BarcodeDetector : CvObject
     /// <param name="types">list of decoded types.</param>
     public void DetectAndDecode(InputArray inputImage, out Point2f[] points, out string[] results, out string[] types)
     {
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        inputImage.ThrowIfDisposed();
-
         using var pointsVec = new StdVector<Point2f>();
         using var infos = new VectorOfString();
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_detectAndDecodeWithType(
-                Handle, inputImage.ToInputProxy(), pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
+                Handle, inputImage.Proxy, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
 
         points = pointsVec.ToArray();
         results = infos.ToArray();
         types = resultTypes.ToArray();
-        GC.KeepAlive(inputImage);
+        GC.KeepAlive(inputImage.Source);
     }
 
     }

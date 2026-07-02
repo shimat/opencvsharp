@@ -33,15 +33,12 @@ public abstract class TextDetectionModel : Model
     public void Detect(InputArray frame, out Point[][] detections, out float[] confidences)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var detectionsVec = new VectorOfVectorPoint();
         using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_detect(Handle, frame.ToInputProxy(), detectionsVec.CvPtr, confidencesVec.CvPtr));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_TextDetectionModel_detect(Handle, frame.Proxy, detectionsVec.CvPtr, confidencesVec.CvPtr));
+        GC.KeepAlive(frame.Source);
 
         detections = detectionsVec.ToArray();
         confidences = confidencesVec.ToArray();
@@ -57,15 +54,12 @@ public abstract class TextDetectionModel : Model
     public void DetectTextRectangles(InputArray frame, out RotatedRect[] detections, out float[] confidences)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var detectionsVec = new StdVector<RotatedRect>();
         using var confidencesVec = new StdVector<float>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextDetectionModel_detectTextRectangles(Handle, frame.ToInputProxy(), detectionsVec.CvPtr, confidencesVec.CvPtr));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_TextDetectionModel_detectTextRectangles(Handle, frame.Proxy, detectionsVec.CvPtr, confidencesVec.CvPtr));
+        GC.KeepAlive(frame.Source);
 
         detections = detectionsVec.ToArray();
         confidences = confidencesVec.ToArray();

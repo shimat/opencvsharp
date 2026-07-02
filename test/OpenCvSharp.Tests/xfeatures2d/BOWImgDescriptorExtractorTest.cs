@@ -85,7 +85,7 @@ public class BOWImgDescriptorExtractorTest : TestBase
         using (var bowTrainer = new BOWKMeansTrainer(200, tc, 1, KMeansFlags.PpCenters))
         {
             var descriptors = new Mat();
-            descriptorExtractor.DetectAndCompute(img, null, out keypoints, descriptors);
+            descriptorExtractor.DetectAndCompute(img, default, out keypoints, descriptors);
 
             using var featuresUnclustered = new Mat();
             featuresUnclustered.PushBack(descriptors);

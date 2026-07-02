@@ -41,8 +41,6 @@ public class ArucoDetector : CvObject
         out int[] ids,
         out Point2f[][] rejectedImgPoints)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
         using var cornersVec = new VectorOfVectorPoint2f();
@@ -51,12 +49,12 @@ public class ArucoDetector : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_ArucoDetector_detectMarkers(
-                Handle, image.ToInputProxy(), cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
+                Handle, image.Proxy, cornersVec.CvPtr, idsVec.CvPtr, rejectedVec.CvPtr));
 
         corners = cornersVec.ToArray();
         ids = idsVec.ToArray();
         rejectedImgPoints = rejectedVec.ToArray();
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 }

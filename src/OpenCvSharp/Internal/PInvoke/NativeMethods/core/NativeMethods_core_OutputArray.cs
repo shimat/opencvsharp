@@ -21,9 +21,6 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_OutputArray_new_byScalar(Scalar val, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_OutputArray_new_byVectorOfMat(IntPtr vector, out IntPtr returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_delete(IntPtr oa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -31,7 +28,4 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_OutputArray_getScalar(IntPtr oa, out Scalar returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_OutputArray_getVectorOfMat(OpenCvSafeHandle oa, IntPtr vector);
 }

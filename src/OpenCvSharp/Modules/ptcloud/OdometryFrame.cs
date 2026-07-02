@@ -19,28 +19,23 @@ public class OdometryFrame : CvObject
     /// <param name="image">An BGR or grayscale image (or null if it's not required for the used ICP algorithm).</param>
     /// <param name="mask">A user-provided mask of valid pixels, should be CV_8UC1.</param>
     /// <param name="normals">A user-provided normals to the depth surface, should be CV_32FC4.</param>
-    public OdometryFrame(InputArray? depth = null, InputArray? image = null, InputArray? mask = null, InputArray? normals = null)
+    public OdometryFrame(InputArray depth = default, InputArray image = default, InputArray mask = default, InputArray normals = default)
     {
-        depth?.ThrowIfDisposed();
-        image?.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
-        normals?.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ptcloud_OdometryFrame_new(
-                depth?.ToInputProxy() ?? default,
-                image?.ToInputProxy() ?? default,
-                mask?.ToInputProxy() ?? default,
-                normals?.ToInputProxy() ?? default,
+                depth.Proxy,
+                image.Proxy,
+                mask.Proxy,
+                normals.Proxy,
                 out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(OdometryFrame)}");
         InitSafeHandle(p);
 
-        GC.KeepAlive(depth);
-        GC.KeepAlive(image);
-        GC.KeepAlive(mask);
-        GC.KeepAlive(normals);
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(normals.Source);
     }
 
     /// <summary>
@@ -67,12 +62,8 @@ public class OdometryFrame : CvObject
     public void GetImage(OutputArray image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getImage(Handle, image.ToOutputProxy()));
-        image.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getImage(Handle, image.Proxy));
     }
 
     /// <summary>
@@ -81,12 +72,8 @@ public class OdometryFrame : CvObject
     public void GetGrayImage(OutputArray image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getGrayImage(Handle, image.ToOutputProxy()));
-        image.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getGrayImage(Handle, image.Proxy));
     }
 
     /// <summary>
@@ -95,12 +82,8 @@ public class OdometryFrame : CvObject
     public void GetDepth(OutputArray depth)
     {
         ThrowIfDisposed();
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        depth.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getDepth(Handle, depth.ToOutputProxy()));
-        depth.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getDepth(Handle, depth.Proxy));
     }
 
     /// <summary>
@@ -109,12 +92,8 @@ public class OdometryFrame : CvObject
     public void GetProcessedDepth(OutputArray depth)
     {
         ThrowIfDisposed();
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        depth.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getProcessedDepth(Handle, depth.ToOutputProxy()));
-        depth.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getProcessedDepth(Handle, depth.Proxy));
     }
 
     /// <summary>
@@ -123,12 +102,8 @@ public class OdometryFrame : CvObject
     public void GetMask(OutputArray mask)
     {
         ThrowIfDisposed();
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        mask.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getMask(Handle, mask.ToOutputProxy()));
-        mask.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getMask(Handle, mask.Proxy));
     }
 
     /// <summary>
@@ -137,12 +112,8 @@ public class OdometryFrame : CvObject
     public void GetNormals(OutputArray normals)
     {
         ThrowIfDisposed();
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getNormals(Handle, normals.ToOutputProxy()));
-        normals.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getNormals(Handle, normals.Proxy));
     }
 
     /// <summary>
@@ -165,12 +136,8 @@ public class OdometryFrame : CvObject
     public void GetPyramidAt(OutputArray img, OdometryFramePyramidType pyrType, long level)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometryFrame_getPyramidAt(Handle, img.ToOutputProxy(), (int)pyrType, new IntPtr(level)));
-        img.Fix();
+            NativeMethods.ptcloud_OdometryFrame_getPyramidAt(Handle, img.Proxy, (int)pyrType, new IntPtr(level)));
     }
 
     #endregion

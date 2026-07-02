@@ -37,7 +37,7 @@ public class ORBTest : TestBase
         using (var orb = ORB.Create(500))
         using (Mat descriptor = new Mat())
         {
-            orb.DetectAndCompute(gray, null, out var keyPoints, descriptor);
+            orb.DetectAndCompute(gray, default, out var keyPoints, descriptor);
 
             testOutputHelper.WriteLine($"keyPoints has {keyPoints.Length} items.");
             testOutputHelper.WriteLine($"descriptor has {descriptor.Rows} items.");

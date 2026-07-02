@@ -42,20 +42,14 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void GetBoundingBoxes(InputArray edgeMap, InputArray orientationMap, out Rect[] boxes)
     {
         ThrowIfDisposed();
-        if (edgeMap is null)
-            throw new ArgumentNullException(nameof(edgeMap));
-        if (orientationMap is null)
-            throw new ArgumentNullException(nameof(orientationMap));
-        edgeMap.ThrowIfDisposed();
-        orientationMap.ThrowIfDisposed();
 
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(Handle, edgeMap.ToInputProxy(), orientationMap.ToInputProxy(), boxesVec.CvPtr));
+            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(Handle, edgeMap.Proxy, orientationMap.Proxy, boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
-        GC.KeepAlive(edgeMap);
-        GC.KeepAlive(orientationMap);
+        GC.KeepAlive(edgeMap.Source);
+        GC.KeepAlive(orientationMap.Source);
     }
 
     /// <summary>
@@ -67,18 +61,11 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void DetectEdges(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -89,18 +76,11 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void ComputeOrientation(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -117,23 +97,13 @@ public class StructuredEdgeDetection : Algorithm
         int r = 2, int s = 0, float m = 1, bool isParallel = true)
     {
         ThrowIfDisposed();
-        if (edgeImage is null)
-            throw new ArgumentNullException(nameof(edgeImage));
-        if (orientationImage is null)
-            throw new ArgumentNullException(nameof(orientationImage));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        edgeImage.ThrowIfDisposed();
-        orientationImage.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_StructuredEdgeDetection_edgesNms(
-                Handle, edgeImage.ToInputProxy(), orientationImage.ToInputProxy(), dst.ToOutputProxy(), r, s, m, isParallel ? 1 : 0));
+                Handle, edgeImage.Proxy, orientationImage.Proxy, dst.Proxy, r, s, m, isParallel ? 1 : 0));
 
-        GC.KeepAlive(edgeImage);
-        GC.KeepAlive(orientationImage);
-        dst.Fix();
+        GC.KeepAlive(edgeImage.Source);
+        GC.KeepAlive(orientationImage.Source);
     }
 
     }

@@ -138,18 +138,11 @@ public class DnnSuperResImpl : CvObject
     public void Upsample(InputArray img, OutputArray result)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (result is null) 
-            throw new ArgumentNullException(nameof(result));
-        img.ThrowIfDisposed();
-        result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(Handle, img.ToInputProxy(), result.ToOutputProxy()));
+            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(Handle, img.Proxy, result.Proxy));
 
-        GC.KeepAlive(img);
-        result.Fix();
+        GC.KeepAlive(img.Source);
     }
         
     /// <summary>
@@ -164,8 +157,6 @@ public class DnnSuperResImpl : CvObject
         InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
     {
         ThrowIfDisposed();
-        if (img is null) 
-            throw new ArgumentNullException(nameof(img));
         if (scaleFactors is null) 
             throw new ArgumentNullException(nameof(scaleFactors));
         if (nodeNames is null)
@@ -176,7 +167,7 @@ public class DnnSuperResImpl : CvObject
         var nodeNamesArray = nodeNames as string[] ?? nodeNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-                Handle, img.ToInputProxy(), imgsNewVec.CvPtr,
+                Handle, img.Proxy, imgsNewVec.CvPtr,
                 scaleFactorsArray, scaleFactorsArray.Length, 
                 nodeNamesArray, nodeNamesArray.Length));
 

@@ -74,25 +74,13 @@ public class NormalBayesClassifier : StatModel
         OutputArray outputProbs, int flags = 0)
     {
         ThrowIfDisposed();
-        if (inputs is null)
-            throw new ArgumentNullException(nameof(inputs));
-        if (outputs is null)
-            throw new ArgumentNullException(nameof(outputs));
-        if (outputProbs is null)
-            throw new ArgumentNullException(nameof(outputProbs));
-
-        inputs.ThrowIfDisposed();
-        outputs.ThrowIfNotReady();
-        outputProbs.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_predictProb(
-                Handle, inputs.ToInputProxy(), outputs.ToOutputProxy(), outputProbs.ToOutputProxy(), flags, out var ret));
-        outputs.Fix();
-        outputProbs.Fix();
-        GC.KeepAlive(inputs);
-        GC.KeepAlive(outputs);
-        GC.KeepAlive(outputProbs);
+                Handle, inputs.Proxy, outputs.Proxy, outputProbs.Proxy, flags, out var ret));
+        GC.KeepAlive(inputs.Source);
+        GC.KeepAlive(outputs.Source);
+        GC.KeepAlive(outputProbs.Source);
         return ret;
     }
 }

@@ -50,10 +50,10 @@ public class StitchingTest : TestBase
             int x2 = x1 + width;
             int y2 = y1 + height;
 
-            result.Line(new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
-            result.Line(new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
-            result.Line(new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
-            result.Line(new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
+            Cv2.Line(result, new Point(x1, y1), new Point(x1, y2), new Scalar(0, 0, 255));
+            Cv2.Line(result, new Point(x1, y2), new Point(x2, y2), new Scalar(0, 0, 255));
+            Cv2.Line(result, new Point(x2, y2), new Point(x2, y1), new Scalar(0, 0, 255));
+            Cv2.Line(result, new Point(x2, y1), new Point(x1, y1), new Scalar(0, 0, 255));
 
             Mat m = source[new Rect(x1, y1, width, height)];
             mats.Add(m.Clone());

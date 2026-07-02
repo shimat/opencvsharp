@@ -100,7 +100,7 @@ public class VideoTrackingTest : TestBase
         Cv2.Rectangle(a, new Rect(16, 16, 28, 28), Scalar.All(255), -1);
         using var warp = Mat.FromPixelData(2, 3, MatType.CV_32FC1, new float[] { 1, 0, 0, 0, 1, 0 });
         var cc = Cv2.FindTransformECC(a, a, warp, MotionTypes.Translation,
-            new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 50, 1e-4), null, 5);
+            new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 50, 1e-4), default, 5);
 
         Assert.True(cc > 0.9); // identical inputs -> near-perfect alignment
     }

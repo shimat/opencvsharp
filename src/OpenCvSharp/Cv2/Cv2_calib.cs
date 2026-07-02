@@ -89,18 +89,10 @@ static partial class Cv2
         OutputArray corners,
         ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (corners is null)
-            throw new ArgumentNullException(nameof(corners));
-        image.ThrowIfDisposed();
-        corners.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_InputArray(
-                image.ToInputProxy(), patternSize, corners.ToOutputProxy(), (int) flags, out var ret));
-        GC.KeepAlive(image);
-        corners.Fix();
+                image.Proxy, patternSize, corners.Proxy, (int) flags, out var ret));
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
     /// <summary>
@@ -119,15 +111,11 @@ static partial class Cv2
         out Point2f[] corners,
         ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_vector(
-                image.ToInputProxy(), patternSize, cornersVec.CvPtr, (int) flags, out var ret));
-        GC.KeepAlive(image);
+                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
+        GC.KeepAlive(image.Source);
         corners = cornersVec.ToArray();
         return ret != 0;
     }
@@ -148,20 +136,12 @@ static partial class Cv2
         FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
         FeatureDetector? blobDetector = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (centers is null)
-            throw new ArgumentNullException(nameof(centers));
-        image.ThrowIfDisposed();
-        centers.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_InputArray(
-                image.ToInputProxy(), patternSize, centers.ToOutputProxy(), (int) flags, ToPtr(blobDetector), out var ret));
-        GC.KeepAlive(image);
-        GC.KeepAlive(centers);
+                image.Proxy, patternSize, centers.Proxy, (int) flags, ToPtr(blobDetector), out var ret));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(centers.Source);
         GC.KeepAlive(blobDetector);
-        centers.Fix();
         return ret != 0;
     }
 
@@ -181,15 +161,11 @@ static partial class Cv2
         FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
         FeatureDetector? blobDetector = null)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var centersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_vector(
-                image.ToInputProxy(), patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
-        GC.KeepAlive(image);
+                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
+        GC.KeepAlive(image.Source);
         GC.KeepAlive(blobDetector);
         centers = centersVec.ToArray();
         return ret != 0;
@@ -234,12 +210,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(objectPoints));
         if (imagePoints is null)
             throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
-        cameraMatrix.ThrowIfNotReady();
-        distCoeffs.ThrowIfNotReady();
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
@@ -253,17 +223,15 @@ static partial class Cv2
             NativeMethods.calib_calibrateCamera_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, objectPointsPtrs.Length,
-                imageSize, cameraMatrix.ToInputOutputProxy(), distCoeffs.ToInputOutputProxy(),
+                imageSize, cameraMatrix.Proxy, distCoeffs.Proxy,
                 rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
         GC.KeepAlive(objectPoints);
         GC.KeepAlive(imagePoints);
         rvecs = rvecsVec.ToArray();
         tvecs = tvecsVec.ToArray();
 
-        cameraMatrix.Fix();
-        distCoeffs.Fix();
         return ret;
     }
 
@@ -375,33 +343,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(imagePoints1));
         if (imagePoints2 is null)
             throw new ArgumentNullException(nameof(imagePoints2));
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (r is null)
-            throw new ArgumentNullException(nameof(r));
-        if (t is null)
-            throw new ArgumentNullException(nameof(t));
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (f is null)
-            throw new ArgumentNullException(nameof(f));
-        if (perViewErrors is null)
-            throw new ArgumentNullException(nameof(perViewErrors));
-        cameraMatrix1.ThrowIfDisposed();
-        distCoeffs1.ThrowIfDisposed();
-        cameraMatrix2.ThrowIfDisposed();
-        distCoeffs2.ThrowIfDisposed();
-        r.ThrowIfNotReady();
-        t.ThrowIfNotReady();
-        e.ThrowIfNotReady();
-        f.ThrowIfNotReady();
-        perViewErrors.ThrowIfNotReady();
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, 1e-6));
@@ -413,19 +354,14 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.calib_registerCameras(
                 op1, op1.Length, op2, op2.Length, ip1, ip1.Length, ip2, ip2.Length,
-                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(), (int)cameraModel1,
-                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(), (int)cameraModel2,
-                r.ToInputOutputProxy(), t.ToInputOutputProxy(), e.ToOutputProxy(), f.ToOutputProxy(), perViewErrors.ToOutputProxy(), flags, criteria0, out var ret));
+                cameraMatrix1.Proxy, distCoeffs1.Proxy, (int)cameraModel1,
+                cameraMatrix2.Proxy, distCoeffs2.Proxy, (int)cameraModel2,
+                r.Proxy, t.Proxy, e.Proxy, f.Proxy, perViewErrors.Proxy, flags, criteria0, out var ret));
 
-        r.Fix();
-        t.Fix();
-        e.Fix();
-        f.Fix();
-        perViewErrors.Fix();
-        GC.KeepAlive(cameraMatrix1);
-        GC.KeepAlive(distCoeffs1);
-        GC.KeepAlive(cameraMatrix2);
-        GC.KeepAlive(distCoeffs2);
+        GC.KeepAlive(cameraMatrix1.Source);
+        GC.KeepAlive(distCoeffs1.Source);
+        GC.KeepAlive(cameraMatrix2.Source);
+        GC.KeepAlive(distCoeffs2.Source);
         GC.KeepAlive(objectPoints1);
         GC.KeepAlive(objectPoints2);
         GC.KeepAlive(imagePoints1);
@@ -464,7 +400,7 @@ static partial class Cv2
         InputArray detectionMask,
         InputArray models,
         out Mat[] ks, out Mat[] distortions, out Mat[] rs, out Mat[] ts,
-        InputArray? flagsForIntrinsics = null,
+        InputArray flagsForIntrinsics = default,
         int flags = 0,
         TermCriteria? criteria = null)
     {
@@ -474,13 +410,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(imagePoints));
         if (imageSize is null)
             throw new ArgumentNullException(nameof(imageSize));
-        if (detectionMask is null)
-            throw new ArgumentNullException(nameof(detectionMask));
-        if (models is null)
-            throw new ArgumentNullException(nameof(models));
-        detectionMask.ThrowIfDisposed();
-        models.ThrowIfDisposed();
-        flagsForIntrinsics?.ThrowIfDisposed();
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
@@ -509,9 +438,9 @@ static partial class Cv2
                 objPointsPtrs, objPointsPtrs.Length,
                 flatImagePoints.ToArray(), framesPerCamera.Length, framesPerCamera,
                 imageSizeArray, imageSizeArray.Length,
-                detectionMask.ToInputProxy(), models.ToInputProxy(),
+                detectionMask.Proxy, models.Proxy,
                 ksVec.CvPtr, distVec.CvPtr, rsVec.CvPtr, tsVec.CvPtr,
-                flagsForIntrinsics?.ToInputProxy() ?? default, flags, criteria0, out var ret));
+                flagsForIntrinsics.Proxy, flags, criteria0, out var ret));
 
         ks = ksVec.ToArray();
         distortions = distVec.ToArray();
@@ -520,9 +449,9 @@ static partial class Cv2
 
         GC.KeepAlive(objPoints);
         GC.KeepAlive(imagePoints);
-        GC.KeepAlive(detectionMask);
-        GC.KeepAlive(models);
-        GC.KeepAlive(flagsForIntrinsics);
+        GC.KeepAlive(detectionMask.Source);
+        GC.KeepAlive(models.Source);
+        GC.KeepAlive(flagsForIntrinsics.Source);
         return ret;
     }
 
@@ -562,30 +491,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(imagePoints1));
         if (imagePoints2 is null)
             throw new ArgumentNullException(nameof(imagePoints2));
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (T is null)
-            throw new ArgumentNullException(nameof(T));
-        if (E is null)
-            throw new ArgumentNullException(nameof(E));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-        cameraMatrix1.ThrowIfDisposed();
-        distCoeffs1.ThrowIfDisposed();
-        cameraMatrix2.ThrowIfDisposed();
-        distCoeffs2.ThrowIfDisposed();
-        cameraMatrix1.ThrowIfNotReady();
-        cameraMatrix2.ThrowIfNotReady();
-        distCoeffs1.ThrowIfNotReady();
-        distCoeffs2.ThrowIfNotReady();
 
         var opPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
         var ip1Ptrs = imagePoints1.Select(x => x.CvPtr).ToArray();
@@ -598,30 +503,22 @@ static partial class Cv2
             NativeMethods.calib_stereoCalibrate_InputArray(
                 opPtrs, opPtrs.Length,
                 ip1Ptrs, ip1Ptrs.Length, ip2Ptrs, ip2Ptrs.Length,
-                cameraMatrix1.ToInputOutputProxy(), distCoeffs1.ToInputOutputProxy(),
-                cameraMatrix2.ToInputOutputProxy(), distCoeffs2.ToInputOutputProxy(),
-                imageSize, R.ToOutputProxy(), T.ToOutputProxy(), E.ToOutputProxy(), F.ToOutputProxy(),
+                cameraMatrix1.Proxy, distCoeffs1.Proxy,
+                cameraMatrix2.Proxy, distCoeffs2.Proxy,
+                imageSize, R.Proxy, T.Proxy, E.Proxy, F.Proxy,
                 (int) flags, criteria0, out var ret));
 
-        GC.KeepAlive(cameraMatrix1);
-        GC.KeepAlive(distCoeffs1);
-        GC.KeepAlive(cameraMatrix2);
-        GC.KeepAlive(distCoeffs2);
-        GC.KeepAlive(R);
-        GC.KeepAlive(T);
-        GC.KeepAlive(E);
-        GC.KeepAlive(F);
+        GC.KeepAlive(cameraMatrix1.Source);
+        GC.KeepAlive(distCoeffs1.Source);
+        GC.KeepAlive(cameraMatrix2.Source);
+        GC.KeepAlive(distCoeffs2.Source);
+        GC.KeepAlive(R.Source);
+        GC.KeepAlive(T.Source);
+        GC.KeepAlive(E.Source);
+        GC.KeepAlive(F.Source);
         GC.KeepAlive(objectPoints);
         GC.KeepAlive(imagePoints1);
         GC.KeepAlive(imagePoints2);
-        cameraMatrix1.Fix();
-        distCoeffs1.Fix();
-        cameraMatrix2.Fix();
-        distCoeffs2.Fix();
-        R.Fix();
-        T.Fix();
-        E.Fix();
-        F.Fix();
 
         return ret;
     }
@@ -689,12 +586,12 @@ static partial class Cv2
                         ip2.GetPointer(), ip2.GetDim1Length(), ip2.GetDim2Lengths(),
                         cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
                         cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
-                        imageSize, R?.ToOutputProxy() ?? default, T?.ToOutputProxy() ?? default, E?.ToOutputProxy() ?? default, F?.ToOutputProxy() ?? default,
+                        imageSize, R.Proxy, T.Proxy, E.Proxy, F.Proxy,
                         (int) flags, criteria0, out var ret));
-                GC.KeepAlive(R);
-                GC.KeepAlive(T);
-                GC.KeepAlive(E);
-                GC.KeepAlive(F);
+                GC.KeepAlive(R.Source);
+                GC.KeepAlive(T.Source);
+                GC.KeepAlive(E.Source);
+                GC.KeepAlive(F.Source);
                 return ret;
             }
         }
@@ -752,12 +649,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(R_target2cam));
         if (t_target2cam is null)
             throw new ArgumentNullException(nameof(t_target2cam));
-        if (R_cam2gripper is null)
-            throw new ArgumentNullException(nameof(R_cam2gripper));
-        if (t_cam2gripper is null)
-            throw new ArgumentNullException(nameof(t_cam2gripper));
-        R_cam2gripper.ThrowIfNotReady();
-        t_cam2gripper.ThrowIfNotReady();
 
         var R_gripper2baseArray = R_gripper2base as Mat[] ?? R_gripper2base.ToArray();
         var t_gripper2baseArray = t_gripper2base as Mat[] ?? t_gripper2base.ToArray();
@@ -782,14 +673,12 @@ static partial class Cv2
                 t_gripper2basePtrArray, t_gripper2basePtrArray.Length,
                 R_target2camPtrArray, R_target2camPtrArray.Length,
                 t_target2camPtrArray, t_target2camPtrArray.Length,
-                R_cam2gripper.ToOutputProxy(), t_cam2gripper.ToOutputProxy(), (int)method));
+                R_cam2gripper.Proxy, t_cam2gripper.Proxy, (int)method));
 
         GC.KeepAlive(R_gripper2base);
         GC.KeepAlive(t_gripper2base);
         GC.KeepAlive(R_target2cam);
         GC.KeepAlive(t_target2cam);
-        R_cam2gripper.Fix();
-        t_cam2gripper.Fix();
 
         foreach (var mat in R_gripper2baseArray) GC.KeepAlive(mat);
         foreach (var mat in t_gripper2baseArray) GC.KeepAlive(mat);
@@ -844,18 +733,6 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(R_base2gripper));
         if (t_base2gripper is null)
             throw new ArgumentNullException(nameof(t_base2gripper));
-        if (R_base2world is null)
-            throw new ArgumentNullException(nameof(R_base2world));
-        if (t_base2world is null)
-            throw new ArgumentNullException(nameof(t_base2world));
-        if (R_gripper2cam is null)
-            throw new ArgumentNullException(nameof(R_gripper2cam));
-        if (t_gripper2cam is null)
-            throw new ArgumentNullException(nameof(t_gripper2cam));
-        R_base2world.ThrowIfNotReady();
-        t_base2world.ThrowIfNotReady();
-        R_gripper2cam.ThrowIfNotReady();
-        t_gripper2cam.ThrowIfNotReady();
         var R_world2camArray = R_world2cam as Mat[] ?? R_world2cam.ToArray();
         var t_world2camArray = t_world2cam as Mat[] ?? t_world2cam.ToArray();
         var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
@@ -879,13 +756,9 @@ static partial class Cv2
                 t_world2camPtrArray, t_world2camPtrArray.Length,
                 R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
                 t_base2gripperPtrArray, t_base2gripperPtrArray.Length,
-                R_base2world.ToOutputProxy(), t_base2world.ToOutputProxy(), R_gripper2cam.ToOutputProxy(), t_gripper2cam.ToOutputProxy(),
+                R_base2world.Proxy, t_base2world.Proxy, R_gripper2cam.Proxy, t_gripper2cam.Proxy,
                 (int)method));
 
-        R_base2world.Fix();
-        t_base2world.Fix();
-        R_gripper2cam.Fix();
-        t_gripper2cam.Fix();
         foreach (var mat in R_world2camArray) GC.KeepAlive(mat);
         foreach (var mat in t_world2camArray) GC.KeepAlive(mat);
         foreach (var mat in R_base2gripperArray) GC.KeepAlive(mat);

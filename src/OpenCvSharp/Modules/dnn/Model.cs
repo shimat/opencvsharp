@@ -172,14 +172,11 @@ public class Model : CvObject
     public Mat[] Predict(InputArray frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var outsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.dnn_Model_predict(Handle, frame.ToInputProxy(), outsVec.CvPtr));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_Model_predict(Handle, frame.Proxy, outsVec.CvPtr));
+        GC.KeepAlive(frame.Source);
         return outsVec.ToArray();
     }
 

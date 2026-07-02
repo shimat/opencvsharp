@@ -116,24 +116,21 @@ public class Feature2D : Algorithm
     /// <param name="mask">Mask specifying where to look for keypoints (optional). 
     /// Must be a char matrix with non-zero values in the region of interest.</param>
     /// <returns>The detected keypoints.</returns>
-    public KeyPoint[] Detect(InputArray image, InputArray? mask = null)
+    public KeyPoint[] Detect(InputArray image, InputArray mask = default)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
-        image.ThrowIfDisposed();
         try
         {
             using var keypoints = new StdVector<KeyPoint>();
             NativeMethods.HandleException(
-                NativeMethods.features_Feature2D_detect_InputArray(Handle, image.ToInputProxy(), keypoints.CvPtr, mask?.ToInputProxy() ?? default));
+                NativeMethods.features_Feature2D_detect_InputArray(Handle, image.Proxy, keypoints.CvPtr, mask.Proxy));
             return keypoints.ToArray();
         }
         finally
         {
-            GC.KeepAlive(image);
-            GC.KeepAlive(mask);
+            GC.KeepAlive(image.Source);
+            GC.KeepAlive(mask.Source);
         }
     }
 
@@ -180,19 +177,15 @@ public class Feature2D : Algorithm
     /// <param name="descriptors">Computed descriptors. Row i is the descriptor for KeyPoint i.</param>param>
     public virtual void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray descriptors)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (descriptors is null) 
-            throw new ArgumentNullException(nameof(descriptors));
         ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
-        NativeMethods.features_Feature2D_compute1(Handle, image.ToInputProxy(), keypointsVec.CvPtr, descriptors.ToOutputProxy()));
+        NativeMethods.features_Feature2D_compute1(Handle, image.Proxy, keypointsVec.CvPtr, descriptors.Proxy));
         keypoints = keypointsVec.ToArray();
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(descriptors);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(descriptors.Source);
     }
 
     /// <summary>
@@ -235,29 +228,22 @@ public class Feature2D : Algorithm
     /// <param name="useProvidedKeypoints"></param>
     public virtual void DetectAndCompute(
         InputArray image,
-        InputArray? mask,
+        InputArray mask,
         out KeyPoint[] keypoints,
         OutputArray descriptors,
         bool useProvidedKeypoints = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (descriptors is null)
-            throw new ArgumentNullException(nameof(descriptors));
-        image.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<KeyPoint>();
 
         NativeMethods.HandleException(
-            NativeMethods.features_Feature2D_detectAndCompute(Handle, image.ToInputProxy(), mask?.ToInputProxy() ?? default, keypointsVec.CvPtr, descriptors.ToOutputProxy(), useProvidedKeypoints ? 1 : 0));
+            NativeMethods.features_Feature2D_detectAndCompute(Handle, image.Proxy, mask.Proxy, keypointsVec.CvPtr, descriptors.Proxy, useProvidedKeypoints ? 1 : 0));
         keypoints = keypointsVec.ToArray();
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(mask);
-        descriptors.Fix();
-        GC.KeepAlive(descriptors);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(descriptors.Source);
     }
 
     /// <summary>

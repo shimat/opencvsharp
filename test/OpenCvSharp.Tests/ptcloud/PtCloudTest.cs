@@ -177,7 +177,7 @@ public class PtCloudTest : TestBase
 
         try
         {
-            Cv2.WarpFrame(depth, null, null, rt, cameraMatrix, warpedDepth);
+            Cv2.WarpFrame(depth, default, default, rt, cameraMatrix, warpedDepth);
             testOutputHelper.WriteLine($"WarpFrame produced empty={warpedDepth.Empty()}");
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)

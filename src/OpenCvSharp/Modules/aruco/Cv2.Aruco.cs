@@ -35,8 +35,6 @@ public static partial class Cv2
         ///  are calculated based on this one to improve visualization.</param>
         public static void DrawDetectedMarkers(InputOutputArray image, Point2f[][] corners, IEnumerable<int>? ids, Scalar borderColor)
         {
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
             if (corners is null)
                 throw new ArgumentNullException(nameof(corners));
 
@@ -45,7 +43,7 @@ public static partial class Cv2
             {
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.ToInputOutputProxy(), cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
+                        image.Proxy, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         IntPtr.Zero, 0, borderColor));
             }
             else
@@ -53,10 +51,10 @@ public static partial class Cv2
                 var idxArray = ids.ToArray();
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.ToInputOutputProxy(), cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
+                        image.Proxy, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         idxArray, idxArray.Length, borderColor));
             }
-            GC.KeepAlive(image);
+            GC.KeepAlive(image.Source);
         }
 
         /// <summary>
@@ -115,8 +113,6 @@ public static partial class Cv2
         public static void DrawDetectedDiamonds(InputOutputArray image,
             Point2f[][] diamondCorners, IEnumerable<Vec4i>? diamondIds, Scalar borderColor)
         {
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
             if (diamondCorners is null)
                 throw new ArgumentNullException(nameof(diamondCorners));
 
@@ -125,7 +121,7 @@ public static partial class Cv2
             if (diamondIds is null)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.aruco_drawDetectedDiamonds(image.ToInputOutputProxy(),
+                    NativeMethods.aruco_drawDetectedDiamonds(image.Proxy,
                         cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         IntPtr.Zero, borderColor));
             }
@@ -134,12 +130,12 @@ public static partial class Cv2
                 using var ids = new StdVector<Vec4i>(diamondIds);
 
                 NativeMethods.HandleException(
-                    NativeMethods.aruco_drawDetectedDiamonds(image.ToInputOutputProxy(),
+                    NativeMethods.aruco_drawDetectedDiamonds(image.Proxy,
                         cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         ids.CvPtr, borderColor));
             }
 
-            GC.KeepAlive(image);
+            GC.KeepAlive(image.Source);
         }
 
         /// <summary>
@@ -163,8 +159,6 @@ public static partial class Cv2
         public static void DrawDetectedCornersCharuco(InputOutputArray image,
             Point2f[] charucoCorners, IEnumerable<int>? charucoIds, Scalar cornerColor)
         {
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
             if (charucoCorners is null)
                 throw new ArgumentNullException(nameof(charucoCorners));
 
@@ -173,7 +167,7 @@ public static partial class Cv2
             if (charucoIds is null)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.aruco_drawDetectedCornersCharuco(image.ToInputOutputProxy(),
+                    NativeMethods.aruco_drawDetectedCornersCharuco(image.Proxy,
                         charucoCornersVec.CvPtr, IntPtr.Zero, cornerColor));
             }
             else
@@ -181,11 +175,11 @@ public static partial class Cv2
                 using var ids = new StdVector<int>(charucoIds);
 
                 NativeMethods.HandleException(
-                    NativeMethods.aruco_drawDetectedCornersCharuco(image.ToInputOutputProxy(),
+                    NativeMethods.aruco_drawDetectedCornersCharuco(image.Proxy,
                         charucoCornersVec.CvPtr, ids.CvPtr, cornerColor));
             }
 
-            GC.KeepAlive(image);
+            GC.KeepAlive(image.Source);
         }
     }
 }

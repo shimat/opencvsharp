@@ -75,14 +75,14 @@ public class BitmapSourceConverterTest : OpenCvSharp.Tests.TestBase
         var whiteColor8 = new Scalar(255, 255, 255);
         using (var mat = new Mat(size, size, MatType.CV_8UC3, new Scalar(128, 128, 128)))
         {
-            mat.Rectangle(new Rect(15, 10, 100, 100), blueColor8, -1);
-            mat.PutText("B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+            Cv2.Rectangle(mat, new Rect(15, 10, 100, 100), blueColor8, -1);
+            Cv2.PutText(mat, "B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-            mat.Rectangle(new Rect(130, 10, 100, 100), greenColor8, -1);
-            mat.PutText("G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+            Cv2.Rectangle(mat, new Rect(130, 10, 100, 100), greenColor8, -1);
+            Cv2.PutText(mat, "G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-            mat.Rectangle(new Rect(75, 130, 100, 100), redColor8, -1);
-            mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
+            Cv2.Rectangle(mat, new Rect(75, 130, 100, 100), redColor8, -1);
+            Cv2.PutText(mat, "R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
             bs8 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
         }
@@ -93,14 +93,14 @@ public class BitmapSourceConverterTest : OpenCvSharp.Tests.TestBase
         var whiteColor16 = new Scalar(65535, 65535, 65535);
         using (var mat = new Mat(size, size, MatType.CV_16UC3, new Scalar(32767, 32767, 32767)))
         {
-            mat.Rectangle(new Rect(15, 10, 100, 100), blueColor16, -1);
-            mat.PutText("B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
+            Cv2.Rectangle(mat, new Rect(15, 10, 100, 100), blueColor16, -1);
+            Cv2.PutText(mat, "B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-            mat.Rectangle(new Rect(130, 10, 100, 100), greenColor16, -1);
-            mat.PutText("G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
+            Cv2.Rectangle(mat, new Rect(130, 10, 100, 100), greenColor16, -1);
+            Cv2.PutText(mat, "G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-            mat.Rectangle(new Rect(75, 130, 100, 100), redColor16, -1);
-            mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
+            Cv2.Rectangle(mat, new Rect(75, 130, 100, 100), redColor16, -1);
+            Cv2.PutText(mat, "R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
             bs16 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
         }

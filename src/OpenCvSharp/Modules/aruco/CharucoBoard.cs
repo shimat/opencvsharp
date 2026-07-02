@@ -101,14 +101,10 @@ public class CharucoBoard : CvObject
     /// </summary>
     public void GenerateImage(Size outSize, OutputArray img, int marginSize = 0, int borderBits = 1)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_CharucoBoard_generateImage(Handle, outSize, img.ToOutputProxy(), marginSize, borderBits));
-        img.Fix();
+            NativeMethods.aruco_CharucoBoard_generateImage(Handle, outSize, img.Proxy, marginSize, borderBits));
     }
 
     /// <summary>
@@ -116,14 +112,11 @@ public class CharucoBoard : CvObject
     /// </summary>
     public bool CheckCharucoCornersCollinear(InputArray charucoIds)
     {
-        if (charucoIds is null)
-            throw new ArgumentNullException(nameof(charucoIds));
-        charucoIds.ThrowIfDisposed();
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.aruco_CharucoBoard_checkCharucoCornersCollinear(Handle, charucoIds.ToInputProxy(), out var ret));
-        GC.KeepAlive(charucoIds);
+            NativeMethods.aruco_CharucoBoard_checkCharucoCornersCollinear(Handle, charucoIds.Proxy, out var ret));
+        GC.KeepAlive(charucoIds.Source);
         return ret != 0;
     }
 }

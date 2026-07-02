@@ -26,7 +26,7 @@ public class ImgProcTest : TestBase
         using var src = new Mat(100, 100, MatType.CV_8UC1, Scalar.All(255));
         using var dst = new Mat();
         Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
-        Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
+        Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, default);
 
         ShowImagesWhenDebugMode(src, dst);
 
@@ -39,7 +39,7 @@ public class ImgProcTest : TestBase
         using var src = Mat.ZerosMat(100, 100, MatType.CV_8UC1);
         using var dst = new Mat();
         Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.White, 1);
-        Cv2.MorphologyEx(src, dst, MorphTypes.Erode, null);
+        Cv2.MorphologyEx(src, dst, MorphTypes.Erode, default);
 
         ShowImagesWhenDebugMode(src, dst);
 
@@ -451,9 +451,9 @@ public class ImgProcTest : TestBase
             }
 
             using var img = new Mat(200, 200, MatType.CV_8UC3, new Scalar(0));
-            img.Polylines([ToPoints(rr1.Points())], true, Scalar.Red);
-            img.Polylines([ToPoints(rr2.Points())], true, Scalar.Green);
-            img.Polylines([ToPoints(intersectingRegion)], true, Scalar.White);
+            Cv2.Polylines(img, [ToPoints(rr1.Points())], true, Scalar.Red);
+            Cv2.Polylines(img, [ToPoints(rr2.Points())], true, Scalar.Green);
+            Cv2.Polylines(img, [ToPoints(intersectingRegion)], true, Scalar.White);
 
             Window.ShowImages(img);
         }
@@ -468,13 +468,11 @@ public class ImgProcTest : TestBase
         using Mat img2 = img1.Clone();
         using Mat img3 = img1.Clone();
         using Mat img4 = img1.Clone();
-        using InputOutputArray ioa3 = InputOutputArray.Create(img3);
-        using InputOutputArray ioa4 = InputOutputArray.Create(img4);
 
         Cv2.Rectangle(img1, new Rect(10, 10, 80, 80), color, 1);
         Cv2.Rectangle(img2, new Point(10, 10), new Point(89, 89), color, 1);
-        Cv2.Rectangle(ioa3, new Rect(10, 10, 80, 80), color, 1);
-        Cv2.Rectangle(ioa4, new Point(10, 10), new Point(89, 89), color, 1);
+        Cv2.Rectangle(InputOutputArray.Create(img3), new Rect(10, 10, 80, 80), color, 1);
+        Cv2.Rectangle(InputOutputArray.Create(img4), new Point(10, 10), new Point(89, 89), color, 1);
 
         ShowImagesWhenDebugMode(img1, img2);
 
@@ -514,7 +512,7 @@ public class ImgProcTest : TestBase
         var color = Scalar.Red;
 
         using Mat img = Mat.Zeros(100, 100, MatType.CV_8UC3);
-        img.Rectangle(new Rect(10, 10, 80, 80), color, Cv2.FILLED/*-1*/);
+        Cv2.Rectangle(img, new Rect(10, 10, 80, 80), color, Cv2.FILLED/*-1*/);
 
         if (Debugger.IsAttached)
         {
@@ -653,7 +651,7 @@ public class ImgProcTest : TestBase
         Cv2.CalcHist(
             images: [src],
             channels: [0],
-            mask: null,
+            mask: default,
             hist: hist,
             dims: 1,
             histSize: [256],
@@ -858,7 +856,8 @@ public class ImgProcTest : TestBase
         where T : unmanaged
     {
         using var src = new Mat<T>(10, 10);
-        using var dst = src.Resize(default, 0.5, 0.5, flags);
+        using var dst = new Mat();
+        Cv2.Resize(src, dst, default, 0.5, 0.5, flags);
         Assert.Equal(new Size(5, 5), dst.Size());
     }
 
@@ -1222,7 +1221,7 @@ public class ImgProcTest : TestBase
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var hist = new Mat();
         var ranges = new[] { new Rangef(0, 256) };
-        Cv2.CalcHist(new[] { src }, SingleChannelIndex, null, hist, 1, GrayscaleHistSize, ranges);
+        Cv2.CalcHist(new[] { src }, SingleChannelIndex, default, hist, 1, GrayscaleHistSize, ranges);
 
         using var backProject = new Mat();
         Cv2.CalcBackProject(new[] { src }, SingleChannelIndex, hist, backProject, ranges);
@@ -1393,7 +1392,8 @@ public class ImgProcTest : TestBase
     public void GrabCut()
     {
         using var color = LoadImage("lenna.png", ImreadModes.Color);
-        using var img = color.Resize(new Size(64, 64));
+        using var img = new Mat();
+        Cv2.Resize(color, img, new Size(64, 64));
         using var mask = new Mat();
         using var bgdModel = new Mat();
         using var fgdModel = new Mat();
@@ -1468,7 +1468,8 @@ public class ImgProcTest : TestBase
     public void PhaseCorrelate()
     {
         using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
-        using var small = gray.Resize(new Size(64, 64));
+        using var small = new Mat();
+        Cv2.Resize(gray, small, new Size(64, 64));
         using var src = new Mat();
         small.ConvertTo(src, MatType.CV_32F);
         using var window = new Mat();
@@ -1483,7 +1484,8 @@ public class ImgProcTest : TestBase
     public void Watershed()
     {
         using var color = LoadImage("lenna.png", ImreadModes.Color);
-        using var img = color.Resize(new Size(64, 64));
+        using var img = new Mat();
+        Cv2.Resize(color, img, new Size(64, 64));
         using var markers = new Mat(img.Size(), MatType.CV_32SC1, Scalar.All(0));
         markers.Set(8, 8, 1);
         markers.Set(56, 56, 2);

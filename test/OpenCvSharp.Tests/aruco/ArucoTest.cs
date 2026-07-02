@@ -225,7 +225,8 @@ public class ArucoTest : TestBase
     public void DrawDetectedMarker()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
+        using var outputImage = new Mat();
+        Cv2.CvtColor(image, outputImage, ColorConversionCodes.GRAY2RGB);
         using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         using var detector = new ArucoDetector(dict);
         detector.DetectMarkers(image, out var corners, out var ids, out var rejectedImgPoints);
@@ -329,7 +330,7 @@ public class ArucoTest : TestBase
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         var dp = new DetectorParameters();
         var rp = new RefineParameters();
-        using var detector = new CharucoDetector(board, null, null, 2, false, true, dp, rp);
+        using var detector = new CharucoDetector(board, default, default, 2, false, true, dp, rp);
         Assert.NotNull(detector);
     }
 
@@ -423,7 +424,8 @@ public class ArucoTest : TestBase
         using var board = new CharucoBoard(5, 7, 0.04f, 0.02f, dict);
         using var boardImage = new Mat();
         board.GenerateImage(new Size(600, 800), boardImage, 10, 1);
-        using var outputImage = boardImage.CvtColor(ColorConversionCodes.GRAY2RGB);
+        using var outputImage = new Mat();
+        Cv2.CvtColor(boardImage, outputImage, ColorConversionCodes.GRAY2RGB);
 
         using var detector = new CharucoDetector(board);
         detector.DetectBoard(boardImage, out var charucoCorners, out var charucoIds, out _, out _);

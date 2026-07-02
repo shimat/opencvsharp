@@ -44,22 +44,16 @@ public abstract class Facemark : Algorithm
         out Point2f[][] landmarks)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (faces is null)
-            throw new ArgumentNullException(nameof(faces));
-        image.ThrowIfDisposed();
-        faces.ThrowIfDisposed();
 
         int ret;
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(Handle, image.ToInputProxy(), faces.ToInputProxy(), landmarx.CvPtr, out ret));
+                NativeMethods.face_Facemark_fit(Handle, image.Proxy, faces.Proxy, landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
 
         return ret != 0;
     }

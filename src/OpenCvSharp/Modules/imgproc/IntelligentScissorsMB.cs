@@ -137,12 +137,10 @@ public class IntelligentScissorsMB : CvObject
     public IntelligentScissorsMB ApplyImage(InputArray image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImage(
-                CvPtr, image.ToInputProxy()));
+                CvPtr, image.Proxy));
 
         return this;
     }
@@ -158,19 +156,13 @@ public class IntelligentScissorsMB : CvObject
     /// <returns></returns>
     public IntelligentScissorsMB ApplyImageFeatures(
         InputArray nonEdge, InputArray gradientDirection, InputArray gradientMagnitude,
-        InputArray? image = null)
+        InputArray image = default)
     {
         ThrowIfDisposed();
-        if (nonEdge is null)
-            throw new ArgumentNullException(nameof(nonEdge));
-        if (gradientDirection is null)
-            throw new ArgumentNullException(nameof(gradientDirection));
-        if (gradientMagnitude is null)
-            throw new ArgumentNullException(nameof(gradientMagnitude));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
-                CvPtr, nonEdge.ToInputProxy(), gradientDirection.ToInputProxy(), gradientMagnitude.ToInputProxy(), image?.ToInputProxy() ?? default));
+                CvPtr, nonEdge.Proxy, gradientDirection.Proxy, gradientMagnitude.Proxy, image.Proxy));
 
         return this;
     }
@@ -200,11 +192,9 @@ public class IntelligentScissorsMB : CvObject
     public void GetContour(Point targetPt, OutputArray contour, bool backward = false)
     {
         ThrowIfDisposed();
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_getContour(
-                CvPtr, targetPt, contour.ToOutputProxy(), backward ? 1 : 0));
+                CvPtr, targetPt, contour.Proxy, backward ? 1 : 0));
     }
 }

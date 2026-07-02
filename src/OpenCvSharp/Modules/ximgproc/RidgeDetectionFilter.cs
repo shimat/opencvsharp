@@ -59,12 +59,8 @@ public class RidgeDetectionFilter : Algorithm
     /// <param name="dst">OutputAray of structure as RidgeDetectionFilter::ddepth. Output image with ridges.</param>
     public virtual void GetRidgeFilteredImage(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.Proxy, dst.Proxy));
     }
 }

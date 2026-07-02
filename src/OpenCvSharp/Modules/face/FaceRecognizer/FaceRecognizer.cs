@@ -67,13 +67,10 @@ public abstract class FaceRecognizer : Algorithm
     public virtual int Predict(InputArray src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict1(Handle, src.ToInputProxy(), out var ret));
-        GC.KeepAlive(src);
+            NativeMethods.face_FaceRecognizer_predict1(Handle, src.Proxy, out var ret));
+        GC.KeepAlive(src.Source);
         return ret;
     }
 
@@ -86,13 +83,10 @@ public abstract class FaceRecognizer : Algorithm
     public virtual void Predict(InputArray src, out int label, out double confidence)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict2(Handle, src.ToInputProxy(), out label, out confidence));
-        GC.KeepAlive(src);
+            NativeMethods.face_FaceRecognizer_predict2(Handle, src.Proxy, out label, out confidence));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>

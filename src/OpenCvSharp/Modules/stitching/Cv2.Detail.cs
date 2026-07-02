@@ -65,14 +65,11 @@ public static partial class Cv2
         public static ImageFeatures ComputeImageFeatures(
             Feature2D featuresFinder,
             InputArray image,
-            InputArray? mask = null)
+            InputArray mask = default)
         {
             if (featuresFinder is null)
                 throw new ArgumentNullException(nameof(featuresFinder));
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
             featuresFinder.ThrowIfDisposed();
-            image.ThrowIfDisposed();
 
             var descriptorsMat = new Mat();
             using var keypointsVec = new StdVector<KeyPoint>();
@@ -85,12 +82,12 @@ public static partial class Cv2
             unsafe
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_computeImageFeatures2(featuresFinder.RawPtr, image.ToInputProxy(), &wImageFeatures, mask?.ToInputProxy() ?? default));
+                    NativeMethods.stitching_computeImageFeatures2(featuresFinder.RawPtr, image.Proxy, &wImageFeatures, mask.Proxy));
             }
             
             GC.KeepAlive(featuresFinder);
-            GC.KeepAlive(image);
-            GC.KeepAlive(mask);
+            GC.KeepAlive(image.Source);
+            GC.KeepAlive(mask.Source);
             GC.KeepAlive(descriptorsMat);
 
             return new ImageFeatures(

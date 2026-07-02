@@ -91,65 +91,26 @@ static partial class Cv2
         double alpha, Size newImageSize,
         out Rect validPixROI1, out Rect validPixROI2)
     {
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (T is null)
-            throw new ArgumentNullException(nameof(T));
-        if (R1 is null)
-            throw new ArgumentNullException(nameof(R1));
-        if (R2 is null)
-            throw new ArgumentNullException(nameof(R2));
-        if (P1 is null)
-            throw new ArgumentNullException(nameof(P1));
-        if (P2 is null)
-            throw new ArgumentNullException(nameof(P2));
-        if (Q is null)
-            throw new ArgumentNullException(nameof(Q));
-        cameraMatrix1.ThrowIfDisposed();
-        distCoeffs1.ThrowIfDisposed();
-        cameraMatrix2.ThrowIfDisposed();
-        distCoeffs2.ThrowIfDisposed();
-        R.ThrowIfDisposed();
-        T.ThrowIfDisposed();
-        R1.ThrowIfNotReady();
-        R2.ThrowIfNotReady();
-        P1.ThrowIfNotReady();
-        P2.ThrowIfNotReady();
-        Q.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.stereo_stereoRectify_InputArray(
-                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(),
-                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(),
-                imageSize, R.ToInputProxy(), T.ToInputProxy(),
-                R1.ToOutputProxy(), R2.ToOutputProxy(), P1.ToOutputProxy(), P2.ToOutputProxy(), Q.ToOutputProxy(),
+                cameraMatrix1.Proxy, distCoeffs1.Proxy,
+                cameraMatrix2.Proxy, distCoeffs2.Proxy,
+                imageSize, R.Proxy, T.Proxy,
+                R1.Proxy, R2.Proxy, P1.Proxy, P2.Proxy, Q.Proxy,
                 (int) flags, alpha, newImageSize, out validPixROI1, out validPixROI2));
 
-        GC.KeepAlive(cameraMatrix1);
-        GC.KeepAlive(distCoeffs1);
-        GC.KeepAlive(cameraMatrix2);
-        GC.KeepAlive(distCoeffs2);
-        GC.KeepAlive(R);
-        GC.KeepAlive(T);
-        GC.KeepAlive(R1);
-        GC.KeepAlive(R2);
-        GC.KeepAlive(P1);
-        GC.KeepAlive(P2);
-        GC.KeepAlive(Q);
+        GC.KeepAlive(cameraMatrix1.Source);
+        GC.KeepAlive(distCoeffs1.Source);
+        GC.KeepAlive(cameraMatrix2.Source);
+        GC.KeepAlive(distCoeffs2.Source);
+        GC.KeepAlive(R.Source);
+        GC.KeepAlive(T.Source);
+        GC.KeepAlive(R1.Source);
+        GC.KeepAlive(R2.Source);
+        GC.KeepAlive(P1.Source);
+        GC.KeepAlive(P2.Source);
+        GC.KeepAlive(Q.Source);
 
-        R1.Fix();
-        R2.Fix();
-        P1.Fix();
-        P2.Fix();
-        Q.Fix();
     }
 
     /// <summary>
@@ -295,33 +256,15 @@ static partial class Cv2
         OutputArray H1, OutputArray H2,
         double threshold = 5)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-        if (H1 is null)
-            throw new ArgumentNullException(nameof(H1));
-        if (H2 is null)
-            throw new ArgumentNullException(nameof(H2));
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        F.ThrowIfDisposed();
-        H1.ThrowIfNotReady();
-        H2.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.stereo_stereoRectifyUncalibrated_InputArray(
-                points1.ToInputProxy(), points2.ToInputProxy(), F.ToInputProxy(), imgSize, H1.ToOutputProxy(), H2.ToOutputProxy(), threshold, out var ret));
+                points1.Proxy, points2.Proxy, F.Proxy, imgSize, H1.Proxy, H2.Proxy, threshold, out var ret));
 
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        GC.KeepAlive(F);
-        GC.KeepAlive(H1);
-        GC.KeepAlive(H2);
-        H1.Fix();
-        H2.Fix();
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
+        GC.KeepAlive(F.Source);
+        GC.KeepAlive(H1.Source);
+        GC.KeepAlive(H2.Source);
         return ret != 0;
     }
 
@@ -421,100 +364,42 @@ static partial class Cv2
         OutputArray Q, double alpha, Size newImgSize,
         out Rect roi1, out Rect roi2, StereoRectificationFlags flags)
     {
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (cameraMatrix3 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix3));
-        if (distCoeffs3 is null)
-            throw new ArgumentNullException(nameof(distCoeffs3));
         if (imgpt1 is null)
             throw new ArgumentNullException(nameof(imgpt1));
         if (imgpt3 is null)
             throw new ArgumentNullException(nameof(imgpt3));
-        if (R12 is null)
-            throw new ArgumentNullException(nameof(R12));
-        if (T12 is null)
-            throw new ArgumentNullException(nameof(T12));
-        if (R13 is null)
-            throw new ArgumentNullException(nameof(R13));
-        if (T13 is null)
-            throw new ArgumentNullException(nameof(T13));
-        if (R1 is null)
-            throw new ArgumentNullException(nameof(R1));
-        if (R2 is null)
-            throw new ArgumentNullException(nameof(R2));
-        if (R3 is null)
-            throw new ArgumentNullException(nameof(R3));
-        if (P1 is null)
-            throw new ArgumentNullException(nameof(P1));
-        if (P2 is null)
-            throw new ArgumentNullException(nameof(P2));
-        if (P3 is null)
-            throw new ArgumentNullException(nameof(P3));
-        if (Q is null)
-            throw new ArgumentNullException(nameof(Q));
-        cameraMatrix1.ThrowIfDisposed();
-        distCoeffs1.ThrowIfDisposed();
-        cameraMatrix2.ThrowIfDisposed();
-        distCoeffs2.ThrowIfDisposed();
-        cameraMatrix3.ThrowIfDisposed();
-        distCoeffs3.ThrowIfDisposed();
-        R12.ThrowIfDisposed();
-        T12.ThrowIfDisposed();
-        R13.ThrowIfDisposed();
-        T13.ThrowIfDisposed();
-        R1.ThrowIfNotReady();
-        R2.ThrowIfNotReady();
-        R3.ThrowIfNotReady();
-        P1.ThrowIfNotReady();
-        P2.ThrowIfNotReady();
-        P3.ThrowIfNotReady();
-        Q.ThrowIfNotReady();
 
         var imgpt1Ptrs = imgpt1.Select(x => x.CvPtr).ToArray();
         var imgpt3Ptrs = imgpt3.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
             NativeMethods.stereo_rectify3Collinear_InputArray(
-                cameraMatrix1.ToInputProxy(), distCoeffs1.ToInputProxy(),
-                cameraMatrix2.ToInputProxy(), distCoeffs2.ToInputProxy(),
-                cameraMatrix3.ToInputProxy(), distCoeffs3.ToInputProxy(),
+                cameraMatrix1.Proxy, distCoeffs1.Proxy,
+                cameraMatrix2.Proxy, distCoeffs2.Proxy,
+                cameraMatrix3.Proxy, distCoeffs3.Proxy,
                 imgpt1Ptrs, imgpt1Ptrs.Length, imgpt3Ptrs, imgpt3Ptrs.Length,
-                imageSize, R12.ToInputProxy(), T12.ToInputProxy(), R13.ToInputProxy(), T13.ToInputProxy(),
-                R1.ToOutputProxy(), R2.ToOutputProxy(), R3.ToOutputProxy(), P1.ToOutputProxy(), P2.ToOutputProxy(), P3.ToOutputProxy(),
-                Q.ToOutputProxy(), alpha, newImgSize, out roi1, out roi2, (int) flags, out var ret));
+                imageSize, R12.Proxy, T12.Proxy, R13.Proxy, T13.Proxy,
+                R1.Proxy, R2.Proxy, R3.Proxy, P1.Proxy, P2.Proxy, P3.Proxy,
+                Q.Proxy, alpha, newImgSize, out roi1, out roi2, (int) flags, out var ret));
 
-        GC.KeepAlive(cameraMatrix1);
-        GC.KeepAlive(distCoeffs1);
-        GC.KeepAlive(cameraMatrix2);
-        GC.KeepAlive(distCoeffs2);
-        GC.KeepAlive(cameraMatrix3);
-        GC.KeepAlive(distCoeffs3);
+        GC.KeepAlive(cameraMatrix1.Source);
+        GC.KeepAlive(distCoeffs1.Source);
+        GC.KeepAlive(cameraMatrix2.Source);
+        GC.KeepAlive(distCoeffs2.Source);
+        GC.KeepAlive(cameraMatrix3.Source);
+        GC.KeepAlive(distCoeffs3.Source);
         GC.KeepAlive(imgpt1);
         GC.KeepAlive(imgpt3);
-        GC.KeepAlive(R12);
-        GC.KeepAlive(T12);
-        GC.KeepAlive(R13);
-        GC.KeepAlive(T13);
-        GC.KeepAlive(R1);
-        GC.KeepAlive(R2);
-        GC.KeepAlive(R3);
-        GC.KeepAlive(P1);
-        GC.KeepAlive(P2);
-        GC.KeepAlive(P3);
-        GC.KeepAlive(Q);
-        R1.Fix();
-        R2.Fix();
-        R3.Fix();
-        P1.Fix();
-        P2.Fix();
-        P3.Fix();
-        Q.Fix();
+        GC.KeepAlive(R12.Source);
+        GC.KeepAlive(T12.Source);
+        GC.KeepAlive(R13.Source);
+        GC.KeepAlive(T13.Source);
+        GC.KeepAlive(R1.Source);
+        GC.KeepAlive(R2.Source);
+        GC.KeepAlive(R3.Source);
+        GC.KeepAlive(P1.Source);
+        GC.KeepAlive(P2.Source);
+        GC.KeepAlive(P3.Source);
+        GC.KeepAlive(Q.Source);
         return ret;
     }
 
@@ -529,17 +414,12 @@ static partial class Cv2
     /// are multiplied by 16, this scale factor should be taken into account when specifying this parameter value.</param>
     /// <param name="buf">The optional temporary buffer to avoid memory allocation within the function.</param>
     public static void FilterSpeckles(InputOutputArray img, double newVal, int maxSpeckleSize, double maxDiff,
-        InputOutputArray? buf = null)
+        InputOutputArray buf = default)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.stereo_filterSpeckles(img.ToInputOutputProxy(), newVal, maxSpeckleSize, maxDiff, buf?.ToInputOutputProxy() ?? default));
-        GC.KeepAlive(img);
-        GC.KeepAlive(buf);
-        img.Fix();
+            NativeMethods.stereo_filterSpeckles(img.Proxy, newVal, maxSpeckleSize, maxDiff, buf.Proxy));
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(buf.Source);
     }
 
     /// <summary>
@@ -571,20 +451,12 @@ static partial class Cv2
     public static void ValidateDisparity(InputOutputArray disparity, InputArray cost,
         int minDisparity, int numberOfDisparities, int disp12MaxDisp = 1)
     {
-        if (disparity is null)
-            throw new ArgumentNullException(nameof(disparity));
-        if (cost is null)
-            throw new ArgumentNullException(nameof(cost));
-        disparity.ThrowIfNotReady();
-        cost.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.stereo_validateDisparity(
-                disparity.ToInputOutputProxy(), cost.ToInputProxy(), minDisparity, numberOfDisparities, disp12MaxDisp));
+                disparity.Proxy, cost.Proxy, minDisparity, numberOfDisparities, disp12MaxDisp));
 
-        disparity.Fix();
-        GC.KeepAlive(disparity);
-        GC.KeepAlive(cost);
+        GC.KeepAlive(disparity.Source);
+        GC.KeepAlive(cost.Source);
     }
 
     /// <summary>
@@ -603,23 +475,12 @@ static partial class Cv2
         OutputArray _3dImage, InputArray Q,
         bool handleMissingValues = false, int ddepth = -1)
     {
-        if (disparity is null)
-            throw new ArgumentNullException(nameof(disparity));
-        if (_3dImage is null)
-            throw new ArgumentNullException(nameof(_3dImage));
-        if (Q is null)
-            throw new ArgumentNullException(nameof(Q));
-        disparity.ThrowIfDisposed();
-        _3dImage.ThrowIfNotReady();
-        Q.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.stereo_reprojectImageTo3D(
-                disparity.ToInputProxy(), _3dImage.ToOutputProxy(), Q.ToInputProxy(), handleMissingValues ? 1 : 0, ddepth));
+                disparity.Proxy, _3dImage.Proxy, Q.Proxy, handleMissingValues ? 1 : 0, ddepth));
 
-        _3dImage.Fix();
-        GC.KeepAlive(disparity);
-        GC.KeepAlive(_3dImage);
-        GC.KeepAlive(Q);
+        GC.KeepAlive(disparity.Source);
+        GC.KeepAlive(_3dImage.Source);
+        GC.KeepAlive(Q.Source);
     }
 }

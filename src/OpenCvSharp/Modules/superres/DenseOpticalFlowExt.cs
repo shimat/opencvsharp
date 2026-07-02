@@ -100,28 +100,15 @@ public abstract class DenseOpticalFlowExt : Algorithm
     /// <param name="frame1"></param>
     /// <param name="flow1"></param>
     /// <param name="flow2"></param>
-    public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray? flow2 = null)
+    public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = default)
     {
-        if (frame0 is null)
-            throw new ArgumentNullException(nameof(frame0));
-        if (frame1 is null)
-            throw new ArgumentNullException(nameof(frame1));
-        if (flow1 is null)
-            throw new ArgumentNullException(nameof(flow1));
-        frame0.ThrowIfDisposed();
-        frame1.ThrowIfDisposed();
-        flow1.ThrowIfNotReady();
-        flow2?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(
-                Handle, frame0.ToInputProxy(), frame1.ToInputProxy(), flow1.ToOutputProxy(), flow2?.ToOutputProxy() ?? default));
+                Handle, frame0.Proxy, frame1.Proxy, flow1.Proxy, flow2.Proxy));
 
-        GC.KeepAlive(frame0);
-        GC.KeepAlive(frame1);
-        GC.KeepAlive(flow1);
-        GC.KeepAlive(flow2);
-        flow1.Fix();
-        flow2?.Fix();
+        GC.KeepAlive(frame0.Source);
+        GC.KeepAlive(frame1.Source);
+        GC.KeepAlive(flow1.Source);
+        GC.KeepAlive(flow2.Source);
     }
 }

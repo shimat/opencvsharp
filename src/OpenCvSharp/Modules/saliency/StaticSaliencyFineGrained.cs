@@ -35,18 +35,11 @@ public class StaticSaliencyFineGrained : Algorithm
     public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        image.ThrowIfDisposed();
-        saliencyMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencyFineGrained_computeSaliency(
-                Handle, image.ToInputProxy(), saliencyMap.ToOutputProxy(), out var ret));
-        GC.KeepAlive(image);
-        saliencyMap.Fix();
+                Handle, image.Proxy, saliencyMap.Proxy, out var ret));
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
 
@@ -59,18 +52,11 @@ public class StaticSaliencyFineGrained : Algorithm
     public virtual bool ComputeBinaryMap(InputArray saliencyMap, OutputArray binaryMap)
     {
         ThrowIfDisposed();
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        if (binaryMap is null)
-            throw new ArgumentNullException(nameof(binaryMap));
-        saliencyMap.ThrowIfDisposed();
-        binaryMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencyFineGrained_computeBinaryMap(
-                Handle, saliencyMap.ToInputProxy(), binaryMap.ToOutputProxy(), out var ret));
-        GC.KeepAlive(saliencyMap);
-        binaryMap.Fix();
+                Handle, saliencyMap.Proxy, binaryMap.Proxy, out var ret));
+        GC.KeepAlive(saliencyMap.Source);
         return ret != 0;
     }
 }

@@ -57,23 +57,10 @@ public static partial class Cv2
             Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dstStep1 is null)
-                throw new ArgumentNullException(nameof(dstStep1));
-            if (dstStep2 is null)
-                throw new ArgumentNullException(nameof(dstStep2));
-
-            src.ThrowIfDisposed();
-            dstStep1.ThrowIfNotReady();
-            dstStep2.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising1(src.ToInputProxy(), dstStep1.ToInputOutputProxy(), dstStep2.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising1(src.Proxy, dstStep1.Proxy, dstStep2.Proxy, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
-            GC.KeepAlive(src);
-            dstStep1.Fix();
-            dstStep2.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -115,18 +102,10 @@ public static partial class Cv2
             Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising2(src.ToInputProxy(), dst.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising2(src.Proxy, dst.Proxy, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         #endregion
@@ -207,18 +186,11 @@ public static partial class Cv2
             InputArray src, OutputArray dst, int size, int dynRatio, 
             ColorConversionCodes? code = null)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting(src.ToInputProxy(), dst.ToOutputProxy(), size, dynRatio, code.HasValue ? (int)code : -1));
+                NativeMethods.xphoto_oilPainting(src.Proxy, dst.Proxy, size, dynRatio, code.HasValue ? (int)code : -1));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         #endregion
@@ -236,19 +208,11 @@ public static partial class Cv2
         /// <param name="gainR">gain for the R channel</param>
         public static void ApplyChannelGains(InputArray src, OutputArray dst, float gainB, float gainG, float gainR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_applyChannelGains(src.ToInputProxy(), dst.ToOutputProxy(), gainB, gainG, gainR));
+                NativeMethods.xphoto_applyChannelGains(src.Proxy, dst.Proxy, gainB, gainG, gainR));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         /// <summary>

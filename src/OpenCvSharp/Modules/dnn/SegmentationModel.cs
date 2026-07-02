@@ -54,16 +54,9 @@ public class SegmentationModel : Model
     public void Segment(InputArray frame, OutputArray mask)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        frame.ThrowIfDisposed();
-        mask.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_SegmentationModel_segment(Handle, frame.ToInputProxy(), mask.ToOutputProxy()));
-        GC.KeepAlive(frame);
-        mask.Fix();
+            NativeMethods.dnn_SegmentationModel_segment(Handle, frame.Proxy, mask.Proxy));
+        GC.KeepAlive(frame.Source);
     }
 }

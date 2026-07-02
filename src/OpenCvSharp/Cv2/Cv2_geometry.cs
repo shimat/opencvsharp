@@ -19,23 +19,14 @@ static partial class Cv2
     /// <param name="src">Input rotation vector (3x1 or 1x3) or rotation matrix (3x3).</param>
     /// <param name="dst">Output rotation matrix (3x3) or rotation vector (3x1 or 1x3), respectively.</param>
     /// <param name="jacobian">Optional output Jacobian matrix, 3x9 or 9x3, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
-    public static void Rodrigues(InputArray src, OutputArray dst, OutputArray? jacobian = null)
+    public static void Rodrigues(InputArray src, OutputArray dst, OutputArray jacobian = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.geometry_Rodrigues(src.ToInputProxy(), dst.ToOutputProxy(), jacobian?.ToOutputProxy() ?? default));
+            NativeMethods.geometry_Rodrigues(src.Proxy, dst.Proxy, jacobian.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(jacobian);
-        dst.Fix();
-        jacobian?.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(jacobian.Source);
     }
 
     /// <summary>
@@ -54,10 +45,7 @@ static partial class Cv2
         using var vectorM = Mat.FromPixelData(3, 1, MatType.CV_64FC1, vector);
         using var matrixM = new Mat<double>();
         using var jacobianM = new Mat<double>();
-        using var vectorInputArray = InputArray.Create(vectorM);
-        using var matrixOutputArray = OutputArray.Create(matrixM);
-        using var jacobianOutputArray = OutputArray.Create(jacobianM);
-        Rodrigues(vectorInputArray, matrixOutputArray, jacobianOutputArray);
+        Rodrigues(vectorM, matrixM, jacobianM);
         matrix = matrixM.ToRectangularArray();
         jacobian = jacobianM.ToRectangularArray();
     }
@@ -78,10 +66,7 @@ static partial class Cv2
         using var matrixM = Mat.FromPixelData(3, 3, MatType.CV_64FC1, matrix);
         using var vectorM = new Mat<double>();
         using var jacobianM = new Mat<double>();
-        using var matrixOutputArray = InputArray.Create(matrixM);
-        using var vectorInputArray = OutputArray.Create(vectorM);
-        using var jacobianOutputArray = OutputArray.Create(jacobianM);
-        Rodrigues(matrixOutputArray, vectorInputArray, jacobianOutputArray);
+        Rodrigues(matrixM, vectorM, jacobianM);
         vector = vectorM.ToArray();
         jacobian = jacobianM.ToRectangularArray();
     }
@@ -102,27 +87,19 @@ static partial class Cv2
         InputArray dstPoints,
         HomographyMethods method = HomographyMethods.None, 
         double ransacReprojThreshold = 3,
-        OutputArray? mask = null, 
+        OutputArray mask = default, 
         int maxIters = 2000,
         double confidence = 0.995)
     {
-        if (srcPoints is null)
-            throw new ArgumentNullException(nameof(srcPoints));
-        if (dstPoints is null)
-            throw new ArgumentNullException(nameof(dstPoints));
-        srcPoints.ThrowIfDisposed();
-        dstPoints.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_findHomography_InputArray(
-                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), (int)method,
-                ransacReprojThreshold, mask?.ToOutputProxy() ?? default, maxIters, confidence,
+                srcPoints.Proxy, dstPoints.Proxy, (int)method,
+                ransacReprojThreshold, mask.Proxy, maxIters, confidence,
                 out var ret));
 
-        GC.KeepAlive(srcPoints);
-        GC.KeepAlive(dstPoints);
-        GC.KeepAlive(mask);
-        mask?.Fix();
+        GC.KeepAlive(srcPoints.Source);
+        GC.KeepAlive(dstPoints.Source);
+        GC.KeepAlive(mask.Source);
         return new Mat(ret);
     }
 
@@ -143,7 +120,7 @@ static partial class Cv2
         IEnumerable<Point2d> dstPoints,
         HomographyMethods method = HomographyMethods.None, 
         double ransacReprojThreshold = 3,
-        OutputArray? mask = null,
+        OutputArray mask = default,
         int maxIters = 2000,
         double confidence = 0.995)
     {
@@ -159,11 +136,10 @@ static partial class Cv2
             NativeMethods.geometry_findHomography_vector(
                 srcPointsArray, srcPointsArray.Length,
                 dstPointsArray, dstPointsArray.Length, 
-                (int)method, ransacReprojThreshold, mask?.ToOutputProxy() ?? default, maxIters, confidence,
+                (int)method, ransacReprojThreshold, mask.Proxy, maxIters, confidence,
                 out var ret));
 
-        GC.KeepAlive(mask);
-        mask?.Fix();
+        GC.KeepAlive(mask.Source);
         return new Mat(ret);
     }
 
@@ -182,26 +158,15 @@ static partial class Cv2
         OutputArray mask,
         UsacParams? @params)
     {
-        if (srcPoints is null)
-            throw new ArgumentNullException(nameof(srcPoints));
-        if (dstPoints is null)
-            throw new ArgumentNullException(nameof(dstPoints));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        srcPoints.ThrowIfDisposed();
-        dstPoints.ThrowIfDisposed();
-        mask.ThrowIfNotReady();
-
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findHomography_UsacParams(
-                srcPoints.ToInputProxy(), dstPoints.ToInputProxy(), mask.ToOutputProxy(), ref p,
+                srcPoints.Proxy, dstPoints.Proxy, mask.Proxy, ref p,
                 out var ret));
 
-        GC.KeepAlive(srcPoints);
-        GC.KeepAlive(dstPoints);
-        GC.KeepAlive(mask);
-        mask.Fix();
+        GC.KeepAlive(srcPoints.Source);
+        GC.KeepAlive(dstPoints.Source);
+        GC.KeepAlive(mask.Source);
         return new Mat(ret);
     }
 
@@ -216,29 +181,16 @@ static partial class Cv2
     /// <param name="qz">Optional output 3x3 rotation matrix around z-axis.</param>
     /// <returns></returns>
     public static Vec3d RQDecomp3x3(InputArray src, OutputArray mtxR, OutputArray mtxQ,
-        OutputArray? qx = null, OutputArray? qy = null, OutputArray? qz = null)
+        OutputArray qx = default, OutputArray qy = default, OutputArray qz = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (mtxR is null)
-            throw new ArgumentNullException(nameof(mtxR));
-        if (mtxQ is null)
-            throw new ArgumentNullException(nameof(mtxQ));
-        src.ThrowIfDisposed();
-        mtxR.ThrowIfNotReady();
-        mtxQ.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_RQDecomp3x3_InputArray(
-                src.ToInputProxy(), mtxR.ToOutputProxy(), mtxQ.ToOutputProxy(),
-                qx?.ToOutputProxy() ?? default, qy?.ToOutputProxy() ?? default, qz?.ToOutputProxy() ?? default, out var ret));
+                src.Proxy, mtxR.Proxy, mtxQ.Proxy,
+                qx.Proxy, qy.Proxy, qz.Proxy, out var ret));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(mtxR);
-        GC.KeepAlive(mtxQ);
-        qx?.Fix();
-        qy?.Fix();
-        qz?.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mtxR.Source);
+        GC.KeepAlive(mtxQ.Source);
         return ret;
     }
 
@@ -306,45 +258,25 @@ static partial class Cv2
         OutputArray cameraMatrix,
         OutputArray rotMatrix,
         OutputArray transVect,
-        OutputArray? rotMatrixX = null,
-        OutputArray? rotMatrixY = null,
-        OutputArray? rotMatrixZ = null,
-        OutputArray? eulerAngles = null)
+        OutputArray rotMatrixX = default,
+        OutputArray rotMatrixY = default,
+        OutputArray rotMatrixZ = default,
+        OutputArray eulerAngles = default)
     {
-        if (projMatrix is null)
-            throw new ArgumentNullException(nameof(projMatrix));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (rotMatrix is null)
-            throw new ArgumentNullException(nameof(rotMatrix));
-        if (transVect is null)
-            throw new ArgumentNullException(nameof(transVect));
-        projMatrix.ThrowIfDisposed();
-        cameraMatrix.ThrowIfNotReady();
-        rotMatrix.ThrowIfNotReady();
-        transVect.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeProjectionMatrix_InputArray(
-                projMatrix.ToInputProxy(), cameraMatrix.ToOutputProxy(), rotMatrix.ToOutputProxy(), transVect.ToOutputProxy(),
-                rotMatrixX?.ToOutputProxy() ?? default, rotMatrixY?.ToOutputProxy() ?? default, rotMatrixZ?.ToOutputProxy() ?? default, eulerAngles?.ToOutputProxy() ?? default));
+                projMatrix.Proxy, cameraMatrix.Proxy, rotMatrix.Proxy, transVect.Proxy,
+                rotMatrixX.Proxy, rotMatrixY.Proxy, rotMatrixZ.Proxy, eulerAngles.Proxy));
 
-        GC.KeepAlive(projMatrix);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(rotMatrix);
-        GC.KeepAlive(transVect);
-        GC.KeepAlive(rotMatrixX);
-        GC.KeepAlive(rotMatrixY);
-        GC.KeepAlive(rotMatrixZ);
-        GC.KeepAlive(eulerAngles);
+        GC.KeepAlive(projMatrix.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(rotMatrix.Source);
+        GC.KeepAlive(transVect.Source);
+        GC.KeepAlive(rotMatrixX.Source);
+        GC.KeepAlive(rotMatrixY.Source);
+        GC.KeepAlive(rotMatrixZ.Source);
+        GC.KeepAlive(eulerAngles.Source);
 
-        cameraMatrix.Fix();
-        rotMatrix.Fix();
-        transVect.Fix();
-        rotMatrixX?.Fix();
-        rotMatrixY?.Fix();
-        rotMatrixZ?.Fix();
-        eulerAngles?.Fix();
     }
 
     /// <summary>
@@ -426,24 +358,10 @@ static partial class Cv2
         InputArray a, InputArray b,
         OutputArray dABdA, OutputArray dABdB)
     {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
-        if (dABdA is null)
-            throw new ArgumentNullException(nameof(dABdA));
-        if (dABdB is null)
-            throw new ArgumentNullException(nameof(dABdB));
-        a.ThrowIfDisposed();
-        b.ThrowIfDisposed();
-        dABdA.ThrowIfNotReady();
-        dABdB.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_matMulDeriv(a.ToInputProxy(), b.ToInputProxy(), dABdA.ToOutputProxy(), dABdB.ToOutputProxy()));
-        GC.KeepAlive(a);
-        GC.KeepAlive(b);
-        dABdA.Fix();
-        dABdB.Fix();
+            NativeMethods.geometry_matMulDeriv(a.Proxy, b.Proxy, dABdA.Proxy, dABdB.Proxy));
+        GC.KeepAlive(a.Source);
+        GC.KeepAlive(b.Source);
     }
 
     /// <summary>
@@ -467,50 +385,31 @@ static partial class Cv2
         InputArray rvec1, InputArray tvec1,
         InputArray rvec2, InputArray tvec2,
         OutputArray rvec3, OutputArray tvec3,
-        OutputArray? dr3dr1 = null, OutputArray? dr3dt1 = null,
-        OutputArray? dr3dr2 = null, OutputArray? dr3dt2 = null,
-        OutputArray? dt3dr1 = null, OutputArray? dt3dt1 = null,
-        OutputArray? dt3dr2 = null, OutputArray? dt3dt2 = null)
+        OutputArray dr3dr1 = default, OutputArray dr3dt1 = default,
+        OutputArray dr3dr2 = default, OutputArray dr3dt2 = default,
+        OutputArray dt3dr1 = default, OutputArray dt3dt1 = default,
+        OutputArray dt3dr2 = default, OutputArray dt3dt2 = default)
     {
-        if (rvec1 is null)
-            throw new ArgumentNullException(nameof(rvec1));
-        if (tvec1 is null)
-            throw new ArgumentNullException(nameof(tvec1));
-        if (rvec2 is null)
-            throw new ArgumentNullException(nameof(rvec2));
-        if (tvec2 is null)
-            throw new ArgumentNullException(nameof(tvec2));
-        if (rvec3 is null)
-            throw new ArgumentNullException(nameof(rvec3));
-        if (tvec3 is null)
-            throw new ArgumentNullException(nameof(tvec3));
-        rvec1.ThrowIfDisposed();
-        tvec1.ThrowIfDisposed();
-        rvec2.ThrowIfDisposed();
-        tvec2.ThrowIfDisposed();
-        rvec3.ThrowIfNotReady();
-        tvec3.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_composeRT_InputArray(
-                rvec1.ToInputProxy(), tvec1.ToInputProxy(), rvec2.ToInputProxy(), tvec2.ToInputProxy(), rvec3.ToOutputProxy(), tvec3.ToOutputProxy(),
-                dr3dr1?.ToOutputProxy() ?? default, dr3dt1?.ToOutputProxy() ?? default, dr3dr2?.ToOutputProxy() ?? default, dr3dt2?.ToOutputProxy() ?? default,
-                dt3dr1?.ToOutputProxy() ?? default, dt3dt1?.ToOutputProxy() ?? default, dt3dr2?.ToOutputProxy() ?? default, dt3dt2?.ToOutputProxy() ?? default));
+                rvec1.Proxy, tvec1.Proxy, rvec2.Proxy, tvec2.Proxy, rvec3.Proxy, tvec3.Proxy,
+                dr3dr1.Proxy, dr3dt1.Proxy, dr3dr2.Proxy, dr3dt2.Proxy,
+                dt3dr1.Proxy, dt3dt1.Proxy, dt3dr2.Proxy, dt3dt2.Proxy));
 
-        GC.KeepAlive(rvec1);
-        GC.KeepAlive(tvec1);
-        GC.KeepAlive(rvec2);
-        GC.KeepAlive(tvec2);
-        GC.KeepAlive(rvec3);
-        GC.KeepAlive(tvec3);
-        GC.KeepAlive(dr3dr1);
-        GC.KeepAlive(dr3dt1);
-        GC.KeepAlive(dr3dr2);
-        GC.KeepAlive(dr3dt2);
-        GC.KeepAlive(dt3dr1);
-        GC.KeepAlive(dt3dt1);
-        GC.KeepAlive(dt3dr2);
-        GC.KeepAlive(dt3dt2);
+        GC.KeepAlive(rvec1.Source);
+        GC.KeepAlive(tvec1.Source);
+        GC.KeepAlive(rvec2.Source);
+        GC.KeepAlive(tvec2.Source);
+        GC.KeepAlive(rvec3.Source);
+        GC.KeepAlive(tvec3.Source);
+        GC.KeepAlive(dr3dr1.Source);
+        GC.KeepAlive(dr3dt1.Source);
+        GC.KeepAlive(dr3dr2.Source);
+        GC.KeepAlive(dr3dt2.Source);
+        GC.KeepAlive(dt3dr1.Source);
+        GC.KeepAlive(dt3dt1.Source);
+        GC.KeepAlive(dt3dr2.Source);
+        GC.KeepAlive(dt3dt2.Source);
     }
 
     /// <summary>
@@ -630,38 +529,22 @@ static partial class Cv2
         InputArray cameraMatrix,
         InputArray distCoeffs,
         OutputArray imagePoints,
-        OutputArray? jacobian = null,
+        OutputArray jacobian = default,
         double aspectRatio = 0)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        objectPoints.ThrowIfDisposed();
-        rvec.ThrowIfDisposed();
-        tvec.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        imagePoints.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_projectPoints_InputArray(
-                objectPoints.ToInputProxy(),
-                rvec.ToInputProxy(), tvec.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs?.ToInputProxy() ?? default,
-                imagePoints.ToOutputProxy(), jacobian?.ToOutputProxy() ?? default, aspectRatio));
+                objectPoints.Proxy,
+                rvec.Proxy, tvec.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+                imagePoints.Proxy, jacobian.Proxy, aspectRatio));
 
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(rvec);
-        GC.KeepAlive(tvec);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        GC.KeepAlive(imagePoints);
-        GC.KeepAlive(jacobian);
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(rvec.Source);
+        GC.KeepAlive(tvec.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(jacobian.Source);
     }
 
     /// <summary>
@@ -755,35 +638,14 @@ static partial class Cv2
         bool useExtrinsicGuess = false,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
-        objectPoints.ThrowIfDisposed();
-        imagePoints.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        distCoeffs.ThrowIfDisposed();
-        rvec.ThrowIfDisposed();
-        tvec.ThrowIfDisposed();
-
         NativeMethods.HandleException(NativeMethods.geometry_solvePnP_InputArray(
-            objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
-            rvec.ToOutputProxy(), tvec.ToOutputProxy(), useExtrinsicGuess ? 1 : 0, (int) flags));
+            objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+            rvec.Proxy, tvec.Proxy, useExtrinsicGuess ? 1 : 0, (int) flags));
 
-        rvec.Fix();
-        tvec.Fix();
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(imagePoints);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
     }
 
     /// <summary>
@@ -872,47 +734,25 @@ static partial class Cv2
         InputArray imagePoints,
         InputArray cameraMatrix,
         InputArray distCoeffs,
-        OutputArray? rvec,
-        OutputArray? tvec,
+        OutputArray rvec,
+        OutputArray tvec,
         bool useExtrinsicGuess = false,
         int iterationsCount = 100,
         float reprojectionError = 8.0f,
         double confidence = 0.99,
-        OutputArray? inliers = null,
+        OutputArray inliers = default,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
-        objectPoints.ThrowIfDisposed();
-        imagePoints.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        distCoeffs.ThrowIfDisposed();
-        rvec.ThrowIfDisposed();
-        tvec.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRansac_InputArray(
-                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
-                rvec.ToOutputProxy(), tvec.ToOutputProxy(), useExtrinsicGuess ? 1 : 0, iterationsCount,
-                reprojectionError, confidence, inliers?.ToOutputProxy() ?? default, (int) flags));
+                objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+                rvec.Proxy, tvec.Proxy, useExtrinsicGuess ? 1 : 0, iterationsCount,
+                reprojectionError, confidence, inliers.Proxy, (int) flags));
 
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(imagePoints);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        rvec.Fix();
-        tvec.Fix();
-        inliers?.Fix();
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
     }
 
     /// <summary>
@@ -1025,15 +865,11 @@ static partial class Cv2
         out double fovx, out double fovy, out double focalLength,
         out Point2d principalPoint, out double aspectRatio)
     {
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        cameraMatrix.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_calibrationMatrixValues_InputArray(
-                cameraMatrix.ToInputProxy(), imageSize, apertureWidth, apertureHeight, 
+                cameraMatrix.Proxy, imageSize, apertureWidth, apertureHeight, 
                 out fovx, out fovy, out focalLength, out principalPoint, out aspectRatio));
-        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(cameraMatrix.Source);
     }
 
     /// <summary>
@@ -1089,23 +925,19 @@ static partial class Cv2
     /// <returns>optimal new camera matrix</returns>
     public static Mat GetOptimalNewCameraMatrix(
         InputArray cameraMatrix, 
-        InputArray? distCoeffs,
+        InputArray distCoeffs,
         Size imageSize,
         double alpha, 
         Size newImgSize,
         out Rect validPixROI,
         bool centerPrincipalPoint = false)
     {
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        cameraMatrix.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_getOptimalNewCameraMatrix_InputArray(
-                cameraMatrix.ToInputProxy(), distCoeffs?.ToInputProxy() ?? default, imageSize, alpha, newImgSize,
+                cameraMatrix.Proxy, distCoeffs.Proxy, imageSize, alpha, newImgSize,
                 out validPixROI, centerPrincipalPoint ? 1 : 0, out var ret));
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
         return new Mat(ret);
     }
 
@@ -1160,19 +992,11 @@ static partial class Cv2
     /// <param name="dst">Output vector of N+1-dimensional points.</param>
     public static void ConvertPointsToHomogeneous(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1218,16 +1042,9 @@ static partial class Cv2
     /// <param name="dst">Output vector of N-1-dimensional points.</param>
     public static void ConvertPointsFromHomogeneous(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.ToInputProxy(), dst.ToOutputProxy()));
-        GC.KeepAlive(src);
-        dst.Fix();
+            NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.Proxy, dst.Proxy));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -1273,16 +1090,9 @@ static partial class Cv2
     /// <param name="dst">Output vector of 2D, 3D, or 4D points.</param>
     public static void ConvertPointsHomogeneous(InputArray src, OutputArray dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.geometry_convertPointsHomogeneous(src.ToInputProxy(), dst.ToOutputProxy()));
-        GC.KeepAlive(src);
-        dst.Fix();
+            NativeMethods.geometry_convertPointsHomogeneous(src.Proxy, dst.Proxy));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -1305,22 +1115,14 @@ static partial class Cv2
         InputArray points1, InputArray points2,
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0, double param2 = 0.99,
-        OutputArray? mask = null)
+        OutputArray mask = default)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_InputArray(
-                points1.ToInputProxy(), points2.ToInputProxy(), (int) method,
-                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
-        mask?.Fix();
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
+                points1.Proxy, points2.Proxy, (int) method,
+                param1, param2, mask.Proxy, out var ret));
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
         return new Mat(ret);
     }
 
@@ -1347,7 +1149,7 @@ static partial class Cv2
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0,
         double param2 = 0.99,
-        OutputArray? mask = null)
+        OutputArray mask = default)
     {
         if (points1 is null)
             throw new ArgumentNullException(nameof(points1));
@@ -1361,8 +1163,7 @@ static partial class Cv2
             NativeMethods.geometry_findFundamentalMat_arrayF32(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
-                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
-        mask?.Fix();
+                param1, param2, mask.Proxy, out var ret));
         return new Mat(ret);
     }
 
@@ -1389,7 +1190,7 @@ static partial class Cv2
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0,
         double param2 = 0.99,
-        OutputArray? mask = null)
+        OutputArray mask = default)
     {
         if (points1 is null)
             throw new ArgumentNullException(nameof(points1));
@@ -1403,8 +1204,7 @@ static partial class Cv2
             NativeMethods.geometry_findFundamentalMat_arrayF64(
                 points1Array, points1Array.Length,
                 points2Array, points2Array.Length, (int) method,
-                param1, param2, mask?.ToOutputProxy() ?? default, out var ret));
-        mask?.Fix();
+                param1, param2, mask.Proxy, out var ret));
         return new Mat(ret);
     }
 
@@ -1419,25 +1219,14 @@ static partial class Cv2
     /// <returns>The estimated fundamental matrix.</returns>
     public static Mat FindFundamentalMat(InputArray points1, InputArray points2, OutputArray mask, UsacParams? @params)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (mask is null)
-            throw new ArgumentNullException(nameof(mask));
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        mask.ThrowIfNotReady();
-
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_UsacParams(
-                points1.ToInputProxy(), points2.ToInputProxy(), mask.ToOutputProxy(), ref p, out var ret));
+                points1.Proxy, points2.Proxy, mask.Proxy, ref p, out var ret));
 
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        GC.KeepAlive(mask);
-        mask.Fix();
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
+        GC.KeepAlive(mask.Source);
         return new Mat(ret);
     }
 
@@ -1454,23 +1243,12 @@ static partial class Cv2
         InputArray F,
         OutputArray lines)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        points.ThrowIfDisposed();
-        F.ThrowIfDisposed();
-        lines.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_computeCorrespondEpilines_InputArray(
-                points.ToInputProxy(), whichImage, F.ToInputProxy(), lines.ToOutputProxy()));
+                points.Proxy, whichImage, F.Proxy, lines.Proxy));
 
-        GC.KeepAlive(F);
-        GC.KeepAlive(points);
-        lines.Fix();
+        GC.KeepAlive(F.Source);
+        GC.KeepAlive(points.Source);
     }
 
     /// <summary>
@@ -1559,32 +1337,15 @@ static partial class Cv2
         InputArray projPoints1, InputArray projPoints2,
         OutputArray points4D)
     {
-        if (projMatr1 is null)
-            throw new ArgumentNullException(nameof(projMatr1));
-        if (projMatr2 is null)
-            throw new ArgumentNullException(nameof(projMatr2));
-        if (projPoints1 is null)
-            throw new ArgumentNullException(nameof(projPoints1));
-        if (projPoints2 is null)
-            throw new ArgumentNullException(nameof(projPoints2));
-        if (points4D is null)
-            throw new ArgumentNullException(nameof(points4D));
-        projMatr1.ThrowIfDisposed();
-        projMatr2.ThrowIfDisposed();
-        projPoints1.ThrowIfDisposed();
-        projPoints2.ThrowIfDisposed();
-        points4D.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_triangulatePoints_InputArray(
-                projMatr1.ToInputProxy(), projMatr2.ToInputProxy(),
-                projPoints1.ToInputProxy(), projPoints2.ToInputProxy(), points4D.ToOutputProxy()));
+                projMatr1.Proxy, projMatr2.Proxy,
+                projPoints1.Proxy, projPoints2.Proxy, points4D.Proxy));
 
-        GC.KeepAlive(projMatr1);
-        GC.KeepAlive(projMatr2);
-        GC.KeepAlive(projPoints1);
-        GC.KeepAlive(projPoints2);
-        points4D.Fix();
+        GC.KeepAlive(projMatr1.Source);
+        GC.KeepAlive(projMatr2.Source);
+        GC.KeepAlive(projPoints1.Source);
+        GC.KeepAlive(projPoints2.Source);
     }
 
 
@@ -1651,32 +1412,14 @@ static partial class Cv2
         InputArray F, InputArray points1, InputArray points2,
         OutputArray newPoints1, OutputArray newPoints2)
     {
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (newPoints1 is null)
-            throw new ArgumentNullException(nameof(newPoints1));
-        if (newPoints2 is null)
-            throw new ArgumentNullException(nameof(newPoints2));
-        F.ThrowIfDisposed();
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        newPoints1.ThrowIfNotReady();
-        newPoints2.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_correctMatches_InputArray(
-                F.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(),
-                newPoints1.ToOutputProxy(), newPoints2.ToOutputProxy()));
+                F.Proxy, points1.Proxy, points2.Proxy,
+                newPoints1.Proxy, newPoints2.Proxy));
 
-        GC.KeepAlive(F);
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        newPoints1.Fix();
-        newPoints2.Fix();
+        GC.KeepAlive(F.Source);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
     }
 
     /// <summary>
@@ -1738,39 +1481,17 @@ static partial class Cv2
     public static int RecoverPose(
         InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
         OutputArray R, OutputArray t,
-        InputOutputArray? mask = null)
+        InputOutputArray mask = default)
     {
-        if (E is null)
-            throw new ArgumentNullException(nameof(E));
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (t is null)
-            throw new ArgumentNullException(nameof(t));
-        E.ThrowIfDisposed();
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        R.ThrowIfNotReady();
-        t.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray1(
-                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
-                R.ToOutputProxy(), t.ToOutputProxy(), mask?.ToInputOutputProxy() ?? default, out var ret));
+                E.Proxy, points1.Proxy, points2.Proxy, cameraMatrix.Proxy,
+                R.Proxy, t.Proxy, mask.Proxy, out var ret));
 
-        GC.KeepAlive(E);
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        GC.KeepAlive(cameraMatrix);
-        R.Fix();
-        t.Fix();
-        mask?.Fix();
+        GC.KeepAlive(E.Source);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
+        GC.KeepAlive(cameraMatrix.Source);
 
         return ret;
     }
@@ -1794,36 +1515,17 @@ static partial class Cv2
     public static int RecoverPose(
         InputArray E, InputArray points1, InputArray points2,
         OutputArray R, OutputArray t, double focal, Point2d pp,
-        InputOutputArray? mask = null)
+        InputOutputArray mask = default)
     {
-        if (E is null)
-            throw new ArgumentNullException(nameof(E));
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (t is null)
-            throw new ArgumentNullException(nameof(t));
-        E.ThrowIfDisposed();
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        R.ThrowIfNotReady();
-        t.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray2(
-                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(),
-                R.ToOutputProxy(), t.ToOutputProxy(), focal, pp, mask?.ToInputOutputProxy() ?? default, out var ret));
+                E.Proxy, points1.Proxy, points2.Proxy,
+                R.Proxy, t.Proxy, focal, pp, mask.Proxy, out var ret));
 
-        GC.KeepAlive(E);
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
+        GC.KeepAlive(E.Source);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
         GC.KeepAlive(pp);
-        R.Fix();
-        t.Fix();
-        mask?.Fix();
 
         return ret;
     }
@@ -1848,40 +1550,17 @@ static partial class Cv2
     public static int RecoverPose(
         InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
         OutputArray R, OutputArray t, double distanceTresh,
-        InputOutputArray? mask = null, OutputArray? triangulatedPoints = null)
+        InputOutputArray mask = default, OutputArray triangulatedPoints = default)
     {
-        if (E is null)
-            throw new ArgumentNullException(nameof(E));
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (t is null)
-            throw new ArgumentNullException(nameof(t));
-        E.ThrowIfDisposed();
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        R.ThrowIfNotReady();
-        t.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray3(
-                E.ToInputProxy(), points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
-                R.ToOutputProxy(), t.ToOutputProxy(), distanceTresh, mask?.ToInputOutputProxy() ?? default, triangulatedPoints?.ToOutputProxy() ?? default, out var ret));
+                E.Proxy, points1.Proxy, points2.Proxy, cameraMatrix.Proxy,
+                R.Proxy, t.Proxy, distanceTresh, mask.Proxy, triangulatedPoints.Proxy, out var ret));
 
-        GC.KeepAlive(E);
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        GC.KeepAlive(cameraMatrix);
-        R.Fix();
-        t.Fix();
-        mask?.Fix();
-        triangulatedPoints?.Fix();
+        GC.KeepAlive(E.Source);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
+        GC.KeepAlive(cameraMatrix.Source);
 
         return ret;
     }
@@ -1907,27 +1586,16 @@ static partial class Cv2
         InputArray points1, InputArray points2, InputArray cameraMatrix,
         EssentialMatMethod method = EssentialMatMethod.Ransac,
         double prob = 0.999, double threshold = 1.0,
-        OutputArray? mask = null)
+        OutputArray mask = default)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray1(
-                points1.ToInputProxy(), points2.ToInputProxy(), cameraMatrix.ToInputProxy(),
-                (int) method, prob, threshold, mask?.ToOutputProxy() ?? default, out var ret));
+                points1.Proxy, points2.Proxy, cameraMatrix.Proxy,
+                (int) method, prob, threshold, mask.Proxy, out var ret));
 
-        mask?.Fix();
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
-        GC.KeepAlive(cameraMatrix);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
+        GC.KeepAlive(cameraMatrix.Source);
         return new Mat(ret);
     }
 
@@ -1953,23 +1621,15 @@ static partial class Cv2
         InputArray points1, InputArray points2, double focal, Point2d pp,
         EssentialMatMethod method = EssentialMatMethod.Ransac,
         double prob = 0.999, double threshold = 1.0,
-        OutputArray? mask = null)
+        OutputArray mask = default)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        points1.ThrowIfDisposed();
-        points2.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray2(
-                points1.ToInputProxy(), points2.ToInputProxy(), focal, pp,
-                (int) method, prob, threshold, mask?.ToOutputProxy() ?? default, out var ret));
+                points1.Proxy, points2.Proxy, focal, pp,
+                (int) method, prob, threshold, mask.Proxy, out var ret));
 
-        mask?.Fix();
-        GC.KeepAlive(points1);
-        GC.KeepAlive(points2);
+        GC.KeepAlive(points1.Source);
+        GC.KeepAlive(points2.Source);
         return new Mat(ret);
     }
 
@@ -1989,27 +1649,12 @@ static partial class Cv2
         OutputArray outVal, OutputArray inliers,
         double ransacThreshold = 3, double confidence = 0.99)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (outVal is null)
-            throw new ArgumentNullException(nameof(outVal));
-        if (inliers is null)
-            throw new ArgumentNullException(nameof(inliers));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-        outVal.ThrowIfNotReady();
-        inliers.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffine3D(
-                src.ToInputProxy(), dst.ToInputProxy(), outVal.ToOutputProxy(), inliers.ToOutputProxy(), ransacThreshold, confidence, out var ret));
+                src.Proxy, dst.Proxy, outVal.Proxy, inliers.Proxy, ransacThreshold, confidence, out var ret));
 
-        outVal.Fix();
-        inliers.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return ret;
     }
 
@@ -2023,21 +1668,11 @@ static partial class Cv2
     /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
     public static double SampsonDistance(InputArray pt1, InputArray pt2, InputArray f)
     {
-        if (pt1 is null)
-            throw new ArgumentNullException(nameof(pt1));
-        if (pt2 is null)
-            throw new ArgumentNullException(nameof(pt2));
-        if (f is null)
-            throw new ArgumentNullException(nameof(f));
-        pt1.ThrowIfDisposed();
-        pt2.ThrowIfDisposed();
-        f.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.geometry_sampsonDistance_InputArray(pt1.ToInputProxy(), pt2.ToInputProxy(), f.ToInputProxy(), out var ret));
+            NativeMethods.geometry_sampsonDistance_InputArray(pt1.Proxy, pt2.Proxy, f.Proxy, out var ret));
 
-        GC.KeepAlive(pt1);
-        GC.KeepAlive(pt2);
+        GC.KeepAlive(pt1.Source);
+        GC.KeepAlive(pt2.Source);
 
         return ret;
     }
@@ -2085,27 +1720,19 @@ static partial class Cv2
     /// Passing 0 will disable refining, so the output matrix will be output of robust method.</param>
     /// <returns>Output 2D affine transformation matrix \f$2 \times 3\f$ or empty matrix if transformation could not be estimated.</returns>
     public static Mat? EstimateAffine2D(
-        InputArray from, InputArray to, OutputArray? inliers = null,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99,
         ulong refineIters = 10)
     {
-        if (from is null)
-            throw new ArgumentNullException(nameof(from));
-        if (to is null)
-            throw new ArgumentNullException(nameof(to));
-        from.ThrowIfDisposed();
-        to.ThrowIfDisposed();
-        inliers?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffine2D(
-                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
+                from.Proxy, to.Proxy, inliers.Proxy,
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
-        GC.KeepAlive(from);
-        GC.KeepAlive(to);
-        GC.KeepAlive(inliers);
+        GC.KeepAlive(from.Source);
+        GC.KeepAlive(to.Source);
+        GC.KeepAlive(inliers.Source);
 
         return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
     }
@@ -2125,27 +1752,19 @@ static partial class Cv2
     /// <param name="refineIters"></param>
     /// <returns>Output 2D affine transformation (4 degrees of freedom) matrix 2x3 or empty matrix if transformation could not be estimated.</returns>
     public static Mat? EstimateAffinePartial2D(
-        InputArray from, InputArray to, OutputArray? inliers = null,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99,
         ulong refineIters = 10)
     {
-        if (from is null)
-            throw new ArgumentNullException(nameof(from));
-        if (to is null)
-            throw new ArgumentNullException(nameof(to));
-        from.ThrowIfDisposed();
-        to.ThrowIfDisposed();
-        inliers?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateAffinePartial2D(
-                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
+                from.Proxy, to.Proxy, inliers.Proxy,
                 (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
-        GC.KeepAlive(from);
-        GC.KeepAlive(to);
-        GC.KeepAlive(inliers);
+        GC.KeepAlive(from.Source);
+        GC.KeepAlive(to.Source);
+        GC.KeepAlive(inliers.Source);
 
         return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
     }
@@ -2166,28 +1785,20 @@ static partial class Cv2
         out Mat[] translations,
         out Mat[] normals)
     {
-        if (h is null)
-            throw new ArgumentNullException(nameof(h));
-        if (k is null)
-            throw new ArgumentNullException(nameof(k));
-
-        h.ThrowIfDisposed();
-        k.ThrowIfDisposed();
-
         using var rotationsVec = new VectorOfMat();
         using var translationsVec = new VectorOfMat();
         using var normalsVec = new VectorOfMat();
 
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeHomographyMat(
-                h.ToInputProxy(), k.ToInputProxy(), rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr, out var ret));
+                h.Proxy, k.Proxy, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr, out var ret));
 
         rotations = rotationsVec.ToArray();
         translations = translationsVec.ToArray();
         normals = normalsVec.ToArray();
 
-        GC.KeepAlive(h);
-        GC.KeepAlive(k);
+        GC.KeepAlive(h.Source);
+        GC.KeepAlive(k.Source);
         GC.KeepAlive(rotations);
         GC.KeepAlive(translations);
         GC.KeepAlive(normals);
@@ -2210,36 +1821,26 @@ static partial class Cv2
         InputArray beforePoints,
         InputArray afterPoints,
         OutputArray possibleSolutions,
-        InputArray? pointsMask = null)
+        InputArray pointsMask = default)
     {
         if (rotations is null)
             throw new ArgumentNullException(nameof(rotations));
         if (normals is null)
             throw new ArgumentNullException(nameof(normals));
-        if (beforePoints is null)
-            throw new ArgumentNullException(nameof(beforePoints));
-        if (afterPoints is null)
-            throw new ArgumentNullException(nameof(afterPoints));
-        if (possibleSolutions is null)
-            throw new ArgumentNullException(nameof(possibleSolutions));
-        beforePoints.ThrowIfDisposed();
-        afterPoints.ThrowIfDisposed();
-        possibleSolutions.ThrowIfNotReady();
-        pointsMask?.ThrowIfDisposed();
 
         using var rotationsVec = new VectorOfMat(rotations);
         using var normalsVec = new VectorOfMat(normals);
         NativeMethods.HandleException(
             NativeMethods.geometry_filterHomographyDecompByVisibleRefpoints(
-                rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.ToInputProxy(), afterPoints.ToInputProxy(),
-                possibleSolutions.ToOutputProxy(), pointsMask?.ToInputProxy() ?? default));
+                rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.Proxy, afterPoints.Proxy,
+                possibleSolutions.Proxy, pointsMask.Proxy));
 
         GC.KeepAlive(rotations);
         GC.KeepAlive(normals);
-        GC.KeepAlive(beforePoints);
-        GC.KeepAlive(afterPoints);
-        GC.KeepAlive(possibleSolutions);
-        GC.KeepAlive(pointsMask);
+        GC.KeepAlive(beforePoints.Source);
+        GC.KeepAlive(afterPoints.Source);
+        GC.KeepAlive(possibleSolutions.Source);
+        GC.KeepAlive(pointsMask.Source);
     }
 
     /// <summary>
@@ -2254,15 +1855,12 @@ static partial class Cv2
     public static Mat GetDefaultNewCameraMatrix(
         InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
     {
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        cameraMatrix.ThrowIfDisposed();
         var imgSize0 = imgSize.GetValueOrDefault(new Size());
 
         NativeMethods.HandleException(
             NativeMethods.geometry_getDefaultNewCameraMatrix(
-                cameraMatrix.ToInputProxy(), imgSize0, centerPrincipalPoint ? 1 : 0, out var matPtr));
-        GC.KeepAlive(cameraMatrix);
+                cameraMatrix.Proxy, imgSize0, centerPrincipalPoint ? 1 : 0, out var matPtr));
+        GC.KeepAlive(cameraMatrix.Source);
         return new Mat(matPtr);
     }
 
@@ -2286,31 +1884,20 @@ static partial class Cv2
         OutputArray dst,
         InputArray cameraMatrix, 
         InputArray distCoeffs,
-        InputArray? r = null, 
-        InputArray? p = null)
+        InputArray r = default, 
+        InputArray p = default)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        cameraMatrix.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_undistortPoints(
-                src.ToInputProxy(), dst.ToOutputProxy(), cameraMatrix.ToInputProxy(),
-                distCoeffs?.ToInputProxy() ?? default, r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default));
+                src.Proxy, dst.Proxy, cameraMatrix.Proxy,
+                distCoeffs.Proxy, r.Proxy, p.Proxy));
             
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        GC.KeepAlive(r);
-        GC.KeepAlive(p);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(r.Source);
+        GC.KeepAlive(p.Source);
     }
 
     /// <summary>
@@ -2334,32 +1921,21 @@ static partial class Cv2
         OutputArray dst,
         InputArray cameraMatrix, 
         InputArray distCoeffs,
-        InputArray? r = null, 
-        InputArray? p = null,
+        InputArray r = default, 
+        InputArray p = default,
         TermCriteria? termCriteria = null)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        cameraMatrix.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_undistortPointsIter(
-                src.ToInputProxy(), dst.ToOutputProxy(), cameraMatrix.ToInputProxy(),
-                distCoeffs?.ToInputProxy() ?? default, r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default, termCriteria.GetValueOrDefault()));
+                src.Proxy, dst.Proxy, cameraMatrix.Proxy,
+                distCoeffs.Proxy, r.Proxy, p.Proxy, termCriteria.GetValueOrDefault()));
             
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        GC.KeepAlive(r);
-        GC.KeepAlive(p);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(r.Source);
+        GC.KeepAlive(p.Source);
     }
 
     /// <summary>
@@ -2377,39 +1953,18 @@ static partial class Cv2
         InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
         InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
-        objectPoints.ThrowIfDisposed();
-        imagePoints.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        distCoeffs.ThrowIfDisposed();
-        rvec.ThrowIfNotReady();
-        tvec.ThrowIfNotReady();
-
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRefineLM(
-                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
-                rvec.ToInputOutputProxy(), tvec.ToInputOutputProxy(), c));
+                objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+                rvec.Proxy, tvec.Proxy, c));
 
-        rvec.Fix();
-        tvec.Fix();
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(imagePoints);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        GC.KeepAlive(rvec);
-        GC.KeepAlive(tvec);
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(rvec.Source);
+        GC.KeepAlive(tvec.Source);
     }
 
     /// <summary>
@@ -2428,39 +1983,18 @@ static partial class Cv2
         InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
         InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null, double vvsLambda = 1)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
-        objectPoints.ThrowIfDisposed();
-        imagePoints.ThrowIfDisposed();
-        cameraMatrix.ThrowIfDisposed();
-        distCoeffs.ThrowIfDisposed();
-        rvec.ThrowIfNotReady();
-        tvec.ThrowIfNotReady();
-
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
             NativeMethods.geometry_solvePnPRefineVVS(
-                objectPoints.ToInputProxy(), imagePoints.ToInputProxy(), cameraMatrix.ToInputProxy(), distCoeffs.ToInputProxy(),
-                rvec.ToInputOutputProxy(), tvec.ToInputOutputProxy(), c, vvsLambda));
+                objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+                rvec.Proxy, tvec.Proxy, c, vvsLambda));
 
-        rvec.Fix();
-        tvec.Fix();
-        GC.KeepAlive(objectPoints);
-        GC.KeepAlive(imagePoints);
-        GC.KeepAlive(cameraMatrix);
-        GC.KeepAlive(distCoeffs);
-        GC.KeepAlive(rvec);
-        GC.KeepAlive(tvec);
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(rvec.Source);
+        GC.KeepAlive(tvec.Source);
     }
 
     /// <summary>
@@ -2472,29 +2006,13 @@ static partial class Cv2
     /// <param name="t">One possible translation (up to scale).</param>
     public static void DecomposeEssentialMat(InputArray e, OutputArray r1, OutputArray r2, OutputArray t)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (r1 is null)
-            throw new ArgumentNullException(nameof(r1));
-        if (r2 is null)
-            throw new ArgumentNullException(nameof(r2));
-        if (t is null)
-            throw new ArgumentNullException(nameof(t));
-        e.ThrowIfDisposed();
-        r1.ThrowIfNotReady();
-        r2.ThrowIfNotReady();
-        t.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.geometry_decomposeEssentialMat(e.ToInputProxy(), r1.ToOutputProxy(), r2.ToOutputProxy(), t.ToOutputProxy()));
+            NativeMethods.geometry_decomposeEssentialMat(e.Proxy, r1.Proxy, r2.Proxy, t.Proxy));
 
-        r1.Fix();
-        r2.Fix();
-        t.Fix();
-        GC.KeepAlive(e);
-        GC.KeepAlive(r1);
-        GC.KeepAlive(r2);
-        GC.KeepAlive(t);
+        GC.KeepAlive(e.Source);
+        GC.KeepAlive(r1.Source);
+        GC.KeepAlive(r2.Source);
+        GC.KeepAlive(t.Source);
     }
 
     /// <summary>
@@ -2511,27 +2029,12 @@ static partial class Cv2
         InputArray src, InputArray dst, OutputArray outVal, OutputArray inliers,
         double ransacThreshold = 3, double confidence = 0.99)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (outVal is null)
-            throw new ArgumentNullException(nameof(outVal));
-        if (inliers is null)
-            throw new ArgumentNullException(nameof(inliers));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
-        outVal.ThrowIfNotReady();
-        inliers.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateTranslation3D(
-                src.ToInputProxy(), dst.ToInputProxy(), outVal.ToOutputProxy(), inliers.ToOutputProxy(), ransacThreshold, confidence, out var ret));
+                src.Proxy, dst.Proxy, outVal.Proxy, inliers.Proxy, ransacThreshold, confidence, out var ret));
 
-        outVal.Fix();
-        inliers.Fix();
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
         return ret != 0;
     }
 
@@ -2548,27 +2051,18 @@ static partial class Cv2
     /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).</param>
     /// <returns>The estimated 2D translation vector.</returns>
     public static Vec2d EstimateTranslation2D(
-        InputArray from, InputArray to, OutputArray? inliers = null,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99, ulong refineIters = 0)
     {
-        if (from is null)
-            throw new ArgumentNullException(nameof(from));
-        if (to is null)
-            throw new ArgumentNullException(nameof(to));
-        from.ThrowIfDisposed();
-        to.ThrowIfDisposed();
-        inliers?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.geometry_estimateTranslation2D(
-                from.ToInputProxy(), to.ToInputProxy(), inliers?.ToOutputProxy() ?? default,
+                from.Proxy, to.Proxy, inliers.Proxy,
                 (int)method, ransacReprojThreshold, maxIters, confidence, refineIters, out var ret));
 
-        inliers?.Fix();
-        GC.KeepAlive(from);
-        GC.KeepAlive(to);
-        GC.KeepAlive(inliers);
+        GC.KeepAlive(from.Source);
+        GC.KeepAlive(to.Source);
+        GC.KeepAlive(inliers.Source);
         return ret;
     }
 }

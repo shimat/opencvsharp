@@ -29,15 +29,11 @@ public class GuidedFilter : Algorithm
     public static GuidedFilter Create(
         InputArray guide, int radius, double eps)
     {
-        if (guide is null)
-            throw new ArgumentNullException(nameof(guide));
-        guide.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createGuidedFilter(
-                guide.ToInputProxy(), radius, eps, out var smartPtr));
+                guide.Proxy, radius, eps, out var smartPtr));
             
-        GC.KeepAlive(guide); 
+        GC.KeepAlive(guide.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_get(smartPtr, out var rawPtr));
         return new GuidedFilter(smartPtr, rawPtr);
     }
@@ -51,18 +47,11 @@ public class GuidedFilter : Algorithm
     public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_GuidedFilter_filter(
-                Handle, src.ToInputProxy(), dst.ToOutputProxy(), dDepth));
+                Handle, src.Proxy, dst.Proxy, dDepth));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 }

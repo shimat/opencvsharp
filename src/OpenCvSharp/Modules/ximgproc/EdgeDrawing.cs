@@ -130,13 +130,10 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectEdges(InputArray src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEdges(Handle, src.ToInputProxy()));
-        GC.KeepAlive(src);
+            NativeMethods.ximgproc_EdgeDrawing_detectEdges(Handle, src.Proxy));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>
@@ -146,13 +143,9 @@ public class EdgeDrawing : Algorithm
     public virtual void GetEdgeImage(OutputArray dst)
     {
         ThrowIfDisposed();
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(Handle, dst.ToOutputProxy()));
-        dst.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_getEdgeImage(Handle, dst.Proxy));
     }
 
     /// <summary>
@@ -162,13 +155,9 @@ public class EdgeDrawing : Algorithm
     public virtual void GetGradientImage(OutputArray dst)
     {
         ThrowIfDisposed();
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(Handle, dst.ToOutputProxy()));
-        dst.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_getGradientImage(Handle, dst.Proxy));
     }
 
     /// <summary>
@@ -208,13 +197,9 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectLines(OutputArray lines)
     {
         ThrowIfDisposed();
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectLines(Handle, lines.ToOutputProxy()));
-        lines.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_detectLines(Handle, lines.Proxy));
     }
 
     /// <summary>
@@ -243,13 +228,9 @@ public class EdgeDrawing : Algorithm
     public virtual void DetectEllipses(OutputArray ellipses)
     {
         ThrowIfDisposed();
-        if (ellipses is null)
-            throw new ArgumentNullException(nameof(ellipses));
-        ellipses.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(Handle, ellipses.ToOutputProxy()));
-        ellipses.Fix();
+            NativeMethods.ximgproc_EdgeDrawing_detectEllipses(Handle, ellipses.Proxy));
     }
 
     /// <summary>

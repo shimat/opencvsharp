@@ -33,14 +33,6 @@ public class BarcodeDetectorTest : TestBase
     // -----------------------------------------------------------------------
 
     [Fact]
-    public void DetectAndDecode_NullImage_ThrowsArgumentNullException()
-    {
-        using var bd = new BarcodeDetector();
-        Assert.Throws<ArgumentNullException>(
-            () => bd.DetectAndDecode(null!, out _, out _, out _));
-    }
-
-    [Fact]
     public void SetDetectorScales_NullArgument_ThrowsArgumentNullException()
     {
         using var bd = new BarcodeDetector();

@@ -340,21 +340,12 @@ public class SVM : StatModel
     public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
     {
         ThrowIfDisposed();
-        if (alpha is null)
-            throw new ArgumentNullException(nameof(alpha));
-        if (svidx is null)
-            throw new ArgumentNullException(nameof(svidx));
-
-        alpha.ThrowIfNotReady();
-        svidx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_getDecisionFunction(Handle, i, alpha.ToOutputProxy(), svidx.ToOutputProxy(), out var ret));
+            NativeMethods.ml_SVM_getDecisionFunction(Handle, i, alpha.Proxy, svidx.Proxy, out var ret));
 
-        alpha.Fix();
-        svidx.Fix();
-        GC.KeepAlive(alpha);
-        GC.KeepAlive(svidx);
+        GC.KeepAlive(alpha.Source);
+        GC.KeepAlive(svidx.Source);
         return ret;
     }
 

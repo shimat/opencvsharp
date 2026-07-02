@@ -45,20 +45,13 @@ public sealed class CLAHE : Algorithm
     public void Apply(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_apply(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.imgproc_CLAHE_apply(Handle, src.Proxy, dst.Proxy));
 
-        dst.Fix();
         // Handle (a SafeHandle) keeps this alive across the call, so no GC.KeepAlive(this) is needed.
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>

@@ -93,15 +93,12 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void Iterate(InputArray img, int numIterations = 10)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_iterate(
-                Handle, img.ToInputProxy(), numIterations));
+                Handle, img.Proxy, numIterations));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -116,14 +113,10 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabels(
-                Handle, labelsOut.ToOutputProxy()));
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -135,13 +128,9 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabelContourMask(
-                Handle, image.ToOutputProxy(), thickLine ? 1 : 0));
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 }

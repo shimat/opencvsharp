@@ -26,23 +26,14 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public new virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (regions is null)
-            throw new ArgumentNullException(nameof(regions));
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
-        img.ThrowIfDisposed();
-        regions.ThrowIfDisposed();
-        sizes.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                Handle, img.ToInputProxy(), regions.ToInputProxy(), sizes.ToInputProxy(), imageId));
+                Handle, img.Proxy, regions.Proxy, sizes.Proxy, imageId));
 
-        GC.KeepAlive(img);
-        GC.KeepAlive(regions);
-        GC.KeepAlive(sizes);
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(regions.Source);
+        GC.KeepAlive(sizes.Source);
     }
 
     /// <summary>

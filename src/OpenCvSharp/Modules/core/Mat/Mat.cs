@@ -1275,27 +1275,15 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(OutputArray m, InputArray? mask = null)
+    public void CopyTo(OutputArray m, InputArray mask = default)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo1(Handle, m.ToOutputProxy()));
-        }
-        else
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo2(Handle, m.ToOutputProxy(), mask.ToInputProxy()));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_copyTo2(Handle, m.Proxy, mask.Proxy));
 
-        m.Fix();
-        GC.KeepAlive(mask);
+        GC.KeepAlive(m.Source);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1303,27 +1291,18 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(Mat m, InputArray? mask = null)
+    public void CopyTo(Mat m, InputArray mask = default)
     {
         ThrowIfDisposed();
         if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
-        mask?.ThrowIfDisposed();
 
-        if (mask is null)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo_toMat1(Handle, m.CvPtr));
-        }
-        else
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo_toMat2(Handle, m.CvPtr, mask.ToInputProxy()));
-        }
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_copyTo_toMat2(Handle, m.CvPtr, mask.Proxy));
 
         GC.KeepAlive(m);
-        GC.KeepAlive(mask);
+        GC.KeepAlive(mask.Source);
     }
 
     /// <summary>
@@ -1337,14 +1316,11 @@ public partial class Mat : CvObject
     public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_convertTo(Handle, m.ToOutputProxy(), rtype, alpha, beta));
+            NativeMethods.core_Mat_convertTo(Handle, m.Proxy, rtype, alpha, beta));
 
-        m.Fix();
+        GC.KeepAlive(m.Source);
     }
         
     /// <summary>
@@ -1391,15 +1367,12 @@ public partial class Mat : CvObject
     public Mat SetTo(InputArray value, Mat? mask = null)
     {
         ThrowIfDisposed();
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
-        value.ThrowIfDisposed();
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_InputArray(Handle, value.ToInputProxy(), maskPtr));
+            NativeMethods.core_Mat_setTo_InputArray(Handle, value.Proxy, maskPtr));
 
-        GC.KeepAlive(value);
+        GC.KeepAlive(value.Source);
         GC.KeepAlive(mask);
         return this;
     }
@@ -1478,17 +1451,18 @@ public partial class Mat : CvObject
     /// <returns></returns>
     public MatExpr Mul(InputArray m, double scale = 1)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        // MatExpr.FromExpr defers evaluation via a captured delegate, and ref structs cannot be
+        // captured by a closure — so the proxy and its keepalive source are captured by value instead.
+        var proxy = m.Proxy;
+        var source = m.Source;
 
         return MatExpr.FromExpr(() =>
         {
             ThrowIfDisposed();
-            m.ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_mul(Handle, m.ToInputProxy(), scale, out var ret));
+                NativeMethods.core_Mat_mul(Handle, proxy, scale, out var ret));
             GC.KeepAlive(this);
-            GC.KeepAlive(m);
+            GC.KeepAlive(source);
             return new NativeMatExpr(ret);
         });
     }
@@ -1501,14 +1475,11 @@ public partial class Mat : CvObject
     public Mat Cross(InputArray m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_cross(Handle, m.ToInputProxy(), out var ret));
+            NativeMethods.core_Mat_cross(Handle, m.Proxy, out var ret));
 
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         var retVal = new Mat(ret);
         return retVal;
     }
@@ -1521,14 +1492,11 @@ public partial class Mat : CvObject
     public double Dot(InputArray m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_dot(Handle, m.ToInputProxy(), out var ret));
+            NativeMethods.core_Mat_dot(Handle, m.Proxy, out var ret));
 
-        GC.KeepAlive(m);
+        GC.KeepAlive(m.Source);
         return ret;
     }
         
@@ -3342,8 +3310,11 @@ public partial class Mat : CvObject
     /// <param name="ext">Encodes an image into a memory buffer.</param>
     /// <param name="prms">Format-specific parameters.</param>
     /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", int[]? prms = null) 
-        => ImEncode(ext, prms);
+    public byte[] ToBytes(string ext = ".png", int[]? prms = null)
+    {
+        Cv2.ImEncode(ext, this, out var buf, prms);
+        return buf;
+    }
 
     /// <summary>
     /// Encodes an image into a memory buffer.
@@ -3351,8 +3322,11 @@ public partial class Mat : CvObject
     /// <param name="ext">Encodes an image into a memory buffer.</param>
     /// <param name="prms">Format-specific parameters.</param>
     /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms) 
-        => ImEncode(ext, prms);
+    public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
+    {
+        Cv2.ImEncode(ext, this, out var buf, prms);
+        return buf;
+    }
 
     /// <summary>
     /// Converts Mat to System.IO.MemoryStream

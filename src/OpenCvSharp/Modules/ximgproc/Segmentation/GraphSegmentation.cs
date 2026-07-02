@@ -102,18 +102,12 @@ public class GraphSegmentation : Algorithm
     public virtual void ProcessImage(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     }

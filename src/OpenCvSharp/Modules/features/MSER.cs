@@ -145,20 +145,17 @@ public class MSER : Feature2D
         InputArray image, out Point[][] msers, out Rect[] bboxes)
     {
         ThrowIfDisposed();
-        if (image is null) 
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
         using (var msersVec = new VectorOfVectorPoint())
         using (var bboxesVec = new StdVector<Rect>())
         {
             NativeMethods.HandleException(
-                NativeMethods.features_MSER_detectRegions(Handle, image.ToInputProxy(), msersVec.CvPtr, bboxesVec.CvPtr));
+                NativeMethods.features_MSER_detectRegions(Handle, image.Proxy, msersVec.CvPtr, bboxesVec.CvPtr));
             msers = msersVec.ToArray();
             bboxes = bboxesVec.ToArray();
         }
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 
     #endregion

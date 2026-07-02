@@ -40,15 +40,12 @@ public class ObjectnessBING : Algorithm
     public virtual bool ComputeSaliency(InputArray image, out Vec4i[] objectnessBoundingBox)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
         using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_computeSaliency(
-                Handle, image.ToInputProxy(), vec.CvPtr, out var ret));
-        GC.KeepAlive(image);
+                Handle, image.Proxy, vec.CvPtr, out var ret));
+        GC.KeepAlive(image.Source);
         objectnessBoundingBox = vec.ToArray();
         return ret != 0;
     }

@@ -19,8 +19,6 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_InputArray_new_byScalar(Scalar val, out IntPtr handle, out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_new_byDouble(IntPtr valPointer, out IntPtr returnValue);
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_InputArray_new_byVectorOfMat(IntPtr vector, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_new_byVecb(IntPtr vec, int n, out IntPtr returnValue);

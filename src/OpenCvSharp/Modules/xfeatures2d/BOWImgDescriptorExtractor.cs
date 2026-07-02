@@ -95,22 +95,18 @@ public class BOWImgDescriptorExtractor : CvObject
         out int[][] pointIdxsOfClusters, Mat? descriptors = null)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (imgDescriptor is null)
-            throw new ArgumentNullException(nameof(imgDescriptor));
 
         using (var keypointsVec = new StdVector<KeyPoint>(keypoints))
         using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
         {
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute11(Handle, image.ToInputProxy(), keypointsVec.CvPtr, 
-                    imgDescriptor.ToOutputProxy(), pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors)));
+                NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute11(Handle, image.Proxy, keypointsVec.CvPtr, 
+                    imgDescriptor.Proxy, pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors)));
             keypoints = keypointsVec.ToArray();
             pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
         }
-        GC.KeepAlive(image);
-        GC.KeepAlive(imgDescriptor);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(imgDescriptor.Source);
         GC.KeepAlive(descriptors);
     }
 
@@ -124,20 +120,16 @@ public class BOWImgDescriptorExtractor : CvObject
     public void Compute(InputArray keypointDescriptors, OutputArray imgDescriptor, out int[][] pointIdxsOfClusters)
     {
         ThrowIfDisposed();
-        if (keypointDescriptors is null)
-            throw new ArgumentNullException(nameof(keypointDescriptors));
-        if (imgDescriptor is null)
-            throw new ArgumentNullException(nameof(imgDescriptor));
 
         using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
         {
             NativeMethods.HandleException(
                 NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_compute12(
-                    Handle, keypointDescriptors.ToInputProxy(), imgDescriptor.ToOutputProxy(), pointIdxsOfClustersVec.CvPtr));
+                    Handle, keypointDescriptors.Proxy, imgDescriptor.Proxy, pointIdxsOfClustersVec.CvPtr));
             pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
         }
-        GC.KeepAlive(keypointDescriptors);
-        GC.KeepAlive(imgDescriptor);
+        GC.KeepAlive(keypointDescriptors.Source);
+        GC.KeepAlive(imgDescriptor.Source);
     }
 
     /// <summary>

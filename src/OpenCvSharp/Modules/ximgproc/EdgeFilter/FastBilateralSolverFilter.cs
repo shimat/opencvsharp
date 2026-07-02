@@ -32,15 +32,11 @@ public class FastBilateralSolverFilter : Algorithm
         InputArray guide, double sigmaSpatial, double sigmaLuma, double sigmaChroma, 
         double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
     {
-        if (guide is null)
-            throw new ArgumentNullException(nameof(guide));
-        guide.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastBilateralSolverFilter(
-                guide.ToInputProxy(), sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var smartPtr));
+                guide.Proxy, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var smartPtr));
             
-        GC.KeepAlive(guide); 
+        GC.KeepAlive(guide.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_get(smartPtr, out var rawPtr));
         return new FastBilateralSolverFilter(smartPtr, rawPtr);
     }
@@ -54,22 +50,12 @@ public class FastBilateralSolverFilter : Algorithm
     public virtual void Filter(InputArray src, InputArray confidence, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (confidence is null)
-            throw new ArgumentNullException(nameof(confidence));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        confidence.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastBilateralSolverFilter_filter(
-                Handle, src.ToInputProxy(), confidence.ToInputProxy(), dst.ToOutputProxy()));
+                Handle, src.Proxy, confidence.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(confidence);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(confidence.Source);
     }
 }

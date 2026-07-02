@@ -42,13 +42,6 @@ CVAPI(ExceptionStatus) core_InputArray_new_byDouble(double *handle, cv::_InputAr
     });
 }
 
-CVAPI(ExceptionStatus) core_InputArray_new_byVectorOfMat(std::vector<cv::Mat> *vector, cv::_InputArray **returnValue)
-{
-    return cvTry([&] {
-    *returnValue = new cv::_InputArray(*vector);
-    });
-}
-
 #pragma region new_byVec
 
 CVAPI(ExceptionStatus) core_InputArray_new_byVecb(uchar *vec, int n, cv::_InputArray **returnValue)

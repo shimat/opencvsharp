@@ -91,15 +91,11 @@ public class FrameSource : CvPtrObject
     public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_nextFrame(Handle, frame.ToOutputProxy()));
+            NativeMethods.superres_FrameSource_nextFrame(Handle, frame.Proxy));
 
-        frame.Fix();
-        GC.KeepAlive(frame);
+        GC.KeepAlive(frame.Source);
     }
 
     /// <summary>
