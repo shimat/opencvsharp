@@ -1283,21 +1283,13 @@ public static partial class Cv2
     /// <param name="src">The source array</param>
     /// <param name="power">The exponent of power</param>
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-    public static void Pow(InputArray src, double power, OutputArray dst)
+    public static void Pow(InputArrayRef src, double power, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_pow_Mat(src.ToInputProxy(), power, dst.ToOutputProxy()));
+            NativeMethods.core_pow_Mat(src.Proxy, power, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1305,21 +1297,13 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
-    public static void Exp(InputArray src, OutputArray dst)
+    public static void Exp(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_exp_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_exp_Mat(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -1327,22 +1311,14 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
-    public static void Log(InputArray src, OutputArray dst)
+    public static void Log(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_log_Mat(src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_log_Mat(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
-
 
     /// <summary>
     /// Calculates x and y coordinates of 2D vectors from their magnitude and angle.
@@ -1354,31 +1330,16 @@ public static partial class Cv2
     /// <param name="x">output array of x-coordinates of 2D vectors; it has the same size and type as angle.</param>
     /// <param name="y">output array of y-coordinates of 2D vectors; it has the same size and type as angle.</param>
     /// <param name="angleInDegrees">when true, the input angles are measured in degrees, otherwise, they are measured in radians.</param>
-    public static void PolarToCart(InputArray magnitude, InputArray angle,
-        OutputArray x, OutputArray y, bool angleInDegrees = false)
+    public static void PolarToCart(InputArrayRef magnitude, InputArrayRef angle,
+        OutputArrayRef x, OutputArrayRef y, bool angleInDegrees = false)
     {
-        if (magnitude is null)
-            throw new ArgumentNullException(nameof(magnitude));
-        if (angle is null)
-            throw new ArgumentNullException(nameof(angle));
-        if (x is null)
-            throw new ArgumentNullException(nameof(x));
-        if (y is null)
-            throw new ArgumentNullException(nameof(y));
-        magnitude.ThrowIfDisposed();
-        angle.ThrowIfDisposed();
-        x.ThrowIfNotReady();
-        y.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_polarToCart(magnitude.ToInputProxy(), angle.ToInputProxy(), x.ToOutputProxy(), y.ToOutputProxy(), angleInDegrees ? 1 : 0));
+            NativeMethods.core_polarToCart(magnitude.Proxy, angle.Proxy, x.Proxy, y.Proxy, angleInDegrees ? 1 : 0));
 
-        GC.KeepAlive(magnitude);
-        GC.KeepAlive(angle);
-        GC.KeepAlive(x);
-        GC.KeepAlive(y);
-        x.Fix();
-        y.Fix();
+        GC.KeepAlive(magnitude.Source);
+        GC.KeepAlive(angle.Source);
+        GC.KeepAlive(x.Source);
+        GC.KeepAlive(y.Source);
     }
 
     /// <summary>
@@ -1390,31 +1351,16 @@ public static partial class Cv2
     /// <param name="angle">output array of angles that has the same size and type as x;
     /// the angles are measured in radians(from 0 to 2\*Pi) or in degrees(0 to 360 degrees).</param>
     /// <param name="angleInDegrees">a flag, indicating whether the angles are measured in radians(which is by default), or in degrees.</param>
-    public static void CartToPolar(InputArray x, InputArray y,
-        OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
+    public static void CartToPolar(InputArrayRef x, InputArrayRef y,
+        OutputArrayRef magnitude, OutputArrayRef angle, bool angleInDegrees = false)
     {
-        if (x is null)
-            throw new ArgumentNullException(nameof(x));
-        if (y is null)
-            throw new ArgumentNullException(nameof(y));
-        if (magnitude is null)
-            throw new ArgumentNullException(nameof(magnitude));
-        if (angle is null)
-            throw new ArgumentNullException(nameof(angle));
-        x.ThrowIfDisposed();
-        y.ThrowIfDisposed();
-        magnitude.ThrowIfNotReady();
-        angle.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_cartToPolar(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
+            NativeMethods.core_cartToPolar(x.Proxy, y.Proxy, magnitude.Proxy, angle.Proxy, angleInDegrees ? 1 : 0));
 
-        GC.KeepAlive(x);
-        GC.KeepAlive(y);
-        GC.KeepAlive(magnitude);
-        GC.KeepAlive(angle);
-        magnitude.Fix();
-        angle.Fix();
+        GC.KeepAlive(x.Source);
+        GC.KeepAlive(y.Source);
+        GC.KeepAlive(magnitude.Source);
+        GC.KeepAlive(angle.Source);
     }
 
     /// <summary>
@@ -1424,25 +1370,14 @@ public static partial class Cv2
     /// <param name="y">input array of y-coordinates of 2D vectors; it must have the same size and the same type as x.</param>
     /// <param name="angle">output array of vector angles; it has the same size and same type as x.</param>
     /// <param name="angleInDegrees">when true, the function calculates the angle in degrees, otherwise, they are measured in radians.</param>
-    public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
+    public static void Phase(InputArrayRef x, InputArrayRef y, OutputArrayRef angle, bool angleInDegrees = false)
     {
-        if (x is null)
-            throw new ArgumentNullException(nameof(x));
-        if (y is null)
-            throw new ArgumentNullException(nameof(y));
-        if (angle is null)
-            throw new ArgumentNullException(nameof(angle));
-        x.ThrowIfDisposed();
-        y.ThrowIfDisposed();
-        angle.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_phase(x.ToInputProxy(), y.ToInputProxy(), angle.ToOutputProxy(), angleInDegrees ? 1 : 0));
+            NativeMethods.core_phase(x.Proxy, y.Proxy, angle.Proxy, angleInDegrees ? 1 : 0));
 
-        GC.KeepAlive(x);
-        GC.KeepAlive(y);
-        GC.KeepAlive(angle);
-        angle.Fix();
+        GC.KeepAlive(x.Source);
+        GC.KeepAlive(y.Source);
+        GC.KeepAlive(angle.Source);
     }
 
     /// <summary>
@@ -1451,36 +1386,25 @@ public static partial class Cv2
     /// <param name="x">floating-point array of x-coordinates of the vectors.</param>
     /// <param name="y">floating-point array of y-coordinates of the vectors; it must have the same size as x.</param>
     /// <param name="magnitude">output array of the same size and type as x.</param>
-    public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
+    public static void Magnitude(InputArrayRef x, InputArrayRef y, OutputArrayRef magnitude)
     {
-        if (x is null)
-            throw new ArgumentNullException(nameof(x));
-        if (y is null)
-            throw new ArgumentNullException(nameof(y));
-        if (magnitude is null)
-            throw new ArgumentNullException(nameof(magnitude));
-        x.ThrowIfDisposed();
-        y.ThrowIfDisposed();
-        magnitude.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_magnitude_Mat(x.ToInputProxy(), y.ToInputProxy(), magnitude.ToOutputProxy()));
+            NativeMethods.core_magnitude_Mat(x.Proxy, y.Proxy, magnitude.Proxy));
 
-        GC.KeepAlive(x);
-        GC.KeepAlive(y);
-        GC.KeepAlive(magnitude);
-        magnitude.Fix();
+        GC.KeepAlive(x.Source);
+        GC.KeepAlive(y.Source);
+        GC.KeepAlive(magnitude.Source);
     }
-        
+
     /// <summary>
     /// checks that each matrix element is within the specified range.
     /// </summary>
     /// <param name="src">The array to check</param>
-    /// <param name="quiet">The flag indicating whether the functions quietly 
-    /// return false when the array elements are out of range, 
+    /// <param name="quiet">The flag indicating whether the functions quietly
+    /// return false when the array elements are out of range,
     /// or they throw an exception.</param>
     /// <returns></returns>
-    public static bool CheckRange(InputArray src, bool quiet = true)
+    public static bool CheckRange(InputArrayRef src, bool quiet = true)
     {
         return CheckRange(src, quiet, out _);
     }
@@ -1489,44 +1413,36 @@ public static partial class Cv2
     /// checks that each matrix element is within the specified range.
     /// </summary>
     /// <param name="src">The array to check</param>
-    /// <param name="quiet">The flag indicating whether the functions quietly 
-    /// return false when the array elements are out of range, 
+    /// <param name="quiet">The flag indicating whether the functions quietly
+    /// return false when the array elements are out of range,
     /// or they throw an exception.</param>
-    /// <param name="pos">The optional output parameter, where the position of 
+    /// <param name="pos">The optional output parameter, where the position of
     /// the first outlier is stored.</param>
     /// <param name="minVal">The inclusive lower boundary of valid values range</param>
     /// <param name="maxVal">The exclusive upper boundary of valid values range</param>
     /// <returns></returns>
-    public static bool CheckRange(InputArray src, bool quiet, out Point pos,
+    public static bool CheckRange(InputArrayRef src, bool quiet, out Point pos,
         double minVal = double.MinValue, double maxVal = double.MaxValue)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.core_checkRange(src.ToInputProxy(), quiet ? 1 : 0, out pos, minVal, maxVal, out var ret));
-        GC.KeepAlive(src);
+            NativeMethods.core_checkRange(src.Proxy, quiet ? 1 : 0, out pos, minVal, maxVal, out var ret));
+        GC.KeepAlive(src.Source);
         return ret != 0;
     }
-        
+
     /// <summary>
     /// converts NaN's to the given number
     /// </summary>
     /// <param name="a"></param>
     /// <param name="val"></param>
-    public static void PatchNaNs(InputOutputArray a, double val = 0)
+    public static void PatchNaNs(InputOutputArrayRef a, double val = 0)
     {
-        if (a is null)
-            throw new ArgumentNullException(nameof(a));
-        a.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_patchNaNs(a.ToInputOutputProxy(), val));
+            NativeMethods.core_patchNaNs(a.Proxy, val));
 
-        GC.KeepAlive(a);
+        GC.KeepAlive(a.Source);
     }
-        
+
     /// <summary>
     /// implements generalized matrix product algorithm GEMM from BLAS
     /// </summary>
@@ -1538,30 +1454,16 @@ public static partial class Cv2
     /// <param name="dst"></param>
     /// <param name="flags"></param>
     // ReSharper disable once IdentifierTypo
-    public static void Gemm(InputArray src1, InputArray src2, double alpha,
-        InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
+    public static void Gemm(InputArrayRef src1, InputArrayRef src2, double alpha,
+        InputArrayRef src3, double gamma, OutputArrayRef dst, GemmFlags flags = GemmFlags.None)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (src3 is null)
-            throw new ArgumentNullException(nameof(src3));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src1.ThrowIfDisposed();
-        src2.ThrowIfDisposed();
-        src3.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.core_gemm(src1.ToInputProxy(), src2.ToInputProxy(), alpha, src3.ToInputProxy(), gamma, dst.ToOutputProxy(), (int) flags));
+            NativeMethods.core_gemm(src1.Proxy, src2.Proxy, alpha, src3.Proxy, gamma, dst.Proxy, (int) flags));
 
-        GC.KeepAlive(src1);
-        GC.KeepAlive(src2);
-        GC.KeepAlive(src3);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src1.Source);
+        GC.KeepAlive(src2.Source);
+        GC.KeepAlive(src3.Source);
+        GC.KeepAlive(dst.Source);
     }
         
     /// <summary>
@@ -1580,23 +1482,15 @@ public static partial class Cv2
     /// <param name="dtype">When it’s negative, the destination matrix will have the 
     /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
     /// which should be either CV_32F or CV_64F</param>
-    public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
-        InputArray? delta = null, double scale = 1, int dtype = -1)
+    public static void MulTransposed(InputArrayRef src, OutputArrayRef dst, bool aTa,
+        InputArrayRef delta = default, double scale = 1, int dtype = -1)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_mulTransposed(src.ToInputProxy(), dst.ToOutputProxy(), aTa ? 1 : 0, delta?.ToInputProxy() ?? default, scale, dtype));
+            NativeMethods.core_mulTransposed(src.Proxy, dst.Proxy, aTa ? 1 : 0, delta.Proxy, scale, dtype));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(delta);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(delta.Source);
     }
         
     /// <summary>
@@ -1604,22 +1498,13 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array of the same type as src</param>
-    public static void Transpose(InputArray src, OutputArray dst)
+    public static void Transpose(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-            
-
         NativeMethods.HandleException(
-            NativeMethods.core_transpose(src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.core_transpose(src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
         
     /// <summary>
@@ -1628,53 +1513,31 @@ public static partial class Cv2
     /// <param name="src">The source array; must have as many channels (1 to 4) as mtx.cols or mtx.cols-1</param>
     /// <param name="dst">The destination array; will have the same size and depth as src and as many channels as mtx.rows</param>
     /// <param name="m">The transformation matrix</param>
-    public static void Transform(InputArray src, OutputArray dst, InputArray m)
+    public static void Transform(InputArrayRef src, OutputArrayRef dst, InputArrayRef m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        m.ThrowIfDisposed();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_transform(src.ToInputProxy(), dst.ToOutputProxy(), m.ToInputProxy()));
+            NativeMethods.core_transform(src.Proxy, dst.Proxy, m.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(m);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>
     /// performs perspective transformation of each element of multi-channel input matrix
     /// </summary>
-    /// <param name="src">The source two-channel or three-channel floating-point array; 
+    /// <param name="src">The source two-channel or three-channel floating-point array;
     /// each element is 2D/3D vector to be transformed</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src</param>
     /// <param name="m">3x3 or 4x4 transformation matrix</param>
-    public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
+    public static void PerspectiveTransform(InputArrayRef src, OutputArrayRef dst, InputArrayRef m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        m.ThrowIfDisposed();
-            
         NativeMethods.HandleException(
-            NativeMethods.core_perspectiveTransform(src.ToInputProxy(), dst.ToOutputProxy(), m.ToInputProxy()));
+            NativeMethods.core_perspectiveTransform(src.Proxy, dst.Proxy, m.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        GC.KeepAlive(m);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+        GC.KeepAlive(m.Source);
     }
 
     /// <summary>

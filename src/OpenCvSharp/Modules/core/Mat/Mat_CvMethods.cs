@@ -408,7 +408,7 @@ partial class Mat
     /// <param name="dtype">When it’s negative, the destination matrix will have the 
     /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
     /// which should be either CV_32F or CV_64F</param>
-    public Mat MulTransposed(bool aTa, InputArray? delta = null, double scale = 1, int dtype = -1)
+    public Mat MulTransposed(bool aTa, InputArrayRef delta = default, double scale = 1, int dtype = -1)
     {
         var dst = new Mat();
         Cv2.MulTransposed(this, dst, aTa, delta, scale, dtype);
@@ -431,7 +431,7 @@ partial class Mat
     /// </summary>
     /// <param name="m">The transformation matrix</param>
     /// <returns>The destination array; will have the same size and depth as src and as many channels as mtx.rows</returns>
-    public Mat Transform(InputArray m)
+    public Mat Transform(InputArrayRef m)
     {
         var dst = new Mat();
         Cv2.Transform(this, dst, m);
@@ -443,7 +443,7 @@ partial class Mat
     /// </summary>
     /// <param name="m">3x3 or 4x4 transformation matrix</param>
     /// <returns>The destination array; it will have the same size and same type as src</returns>
-    public Mat PerspectiveTransform(InputArray m)
+    public Mat PerspectiveTransform(InputArrayRef m)
     {
         var dst = new Mat();
         Cv2.PerspectiveTransform(this, dst, m);
