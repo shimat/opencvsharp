@@ -7,6 +7,10 @@ on:
         description: "Publish with the -beta suffix kept (pre-release)"
         type: boolean
         default: false
+      skip_platforms:
+        description: "Comma-separated platforms to skip (linux-arm64, macos, wasm, manylinux)"
+        type: string
+        default: ""
 
 jobs:
   Prepare:
@@ -32,6 +36,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm64 artifact
+        if: ${{ !contains(inputs.skip_platforms, 'linux-arm64') }}
         uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -40,6 +45,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download macos artifact
+        if: ${{ !contains(inputs.skip_platforms, 'macos') }}
         uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -48,6 +54,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
+        if: ${{ !contains(inputs.skip_platforms, 'wasm') }}
         uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -56,6 +63,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download manylinux artifact
+        if: ${{ !contains(inputs.skip_platforms, 'manylinux') }}
         uses: dawidd6/action-download-artifact@v21
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -67,6 +75,8 @@ jobs:
           ls -l
 
       - name: Validate expected packages exist
+        env:
+          SKIP_PLATFORMS: ${{ inputs.skip_platforms }}
         run: |
           set -euo pipefail
 
@@ -83,6 +93,13 @@ jobs:
             fi
           }
 
+          skip_has() {
+            case ",${SKIP_PLATFORMS}," in
+              *",$1,"*) return 0 ;;
+              *) return 1 ;;
+            esac
+          }
+
           check_package "OpenCvSharp5.5.*.nupkg"
           check_package "OpenCvSharp5.Extensions.*.nupkg"
           check_package "OpenCvSharp5.WpfExtensions.*.nupkg"
@@ -92,13 +109,33 @@ jobs:
           check_package "OpenCvSharp5.runtime.win.slim.*.nupkg"
           check_package "OpenCvSharp5.Windows.[0-9]*.nupkg"
           check_package "OpenCvSharp5.Windows.Slim.*.nupkg"
-          check_package "OpenCvSharp5.runtime.linux-arm.*.nupkg"
-          check_package "OpenCvSharp5.runtime.linux-arm64.*.nupkg"
-          check_package "OpenCvSharp5.runtime.wasm.*.nupkg"
-          check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
-          check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
-          check_package "OpenCvSharp5.runtime.osx.x64.*.nupkg"
-          check_package "OpenCvSharp5.runtime.osx.arm64.*.nupkg"
+
+          if skip_has linux-arm64; then
+            echo "skip_platforms: skipping linux-arm64 package checks"
+          else
+            check_package "OpenCvSharp5.runtime.linux-arm.*.nupkg"
+            check_package "OpenCvSharp5.runtime.linux-arm64.*.nupkg"
+          fi
+
+          if skip_has wasm; then
+            echo "skip_platforms: skipping wasm package checks"
+          else
+            check_package "OpenCvSharp5.runtime.wasm.*.nupkg"
+          fi
+
+          if skip_has manylinux; then
+            echo "skip_platforms: skipping manylinux package checks"
+          else
+            check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
+            check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
+          fi
+
+          if skip_has macos; then
+            echo "skip_platforms: skipping macos package checks"
+          else
+            check_package "OpenCvSharp5.runtime.osx.x64.*.nupkg"
+            check_package "OpenCvSharp5.runtime.osx.arm64.*.nupkg"
+          fi
 
           if [ "$failed" -gt 0 ]; then
             echo ""
