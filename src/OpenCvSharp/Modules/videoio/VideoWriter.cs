@@ -308,17 +308,14 @@ public class VideoWriter : CvObject
     /// </summary>
     /// <param name="image">the written frame.</param>
     /// <returns></returns>
-    public void Write(InputArray image)
+    public void Write(InputArrayRef image)
     {
         ThrowIfDisposed();
-        if(image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_write(Handle, image.ToInputProxy()));
+            NativeMethods.videoio_VideoWriter_write(Handle, image.Proxy));
 
-        GC.KeepAlive(image);
+        GC.KeepAlive(image.Source);
     }
 
     /// <summary>

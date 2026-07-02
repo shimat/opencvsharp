@@ -184,19 +184,14 @@ public class LogisticRegression : StatModel
     /// <param name="results">Predicted labels as a column matrix of type CV_32S.</param>
     /// <param name="flags">Not used.</param>
     /// <returns></returns>
-    public float Predict(InputArray samples, OutputArray? results = null, int flags = 0)
+    public float Predict(InputArrayRef samples, OutputArrayRef results = default, int flags = 0)
     {
         ThrowIfDisposed();
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
-        samples.ThrowIfDisposed();
-        results?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_predict(Handle, samples.ToInputProxy(), results?.ToOutputProxy() ?? default, flags, out var ret));
-        GC.KeepAlive(samples);
-        GC.KeepAlive(results);
-        results?.Fix();
+            NativeMethods.ml_LogisticRegression_predict(Handle, samples.Proxy, results.Proxy, flags, out var ret));
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(results.Source);
 
         return ret;
     }

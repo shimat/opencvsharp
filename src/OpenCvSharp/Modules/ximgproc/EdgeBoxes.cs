@@ -300,23 +300,17 @@ public class EdgeBoxes : Algorithm
     /// <param name="edgeMap">edge image.</param>
     /// <param name="orientationMap">orientation map.</param>
     /// <param name="boxes">proposal boxes.</param>
-    public virtual void GetBoundingBoxes(InputArray edgeMap, InputArray orientationMap, out Rect[] boxes)
+    public virtual void GetBoundingBoxes(InputArrayRef edgeMap, InputArrayRef orientationMap, out Rect[] boxes)
     {
         ThrowIfDisposed();
-        if (edgeMap is null)
-            throw new ArgumentNullException(nameof(edgeMap));
-        if (orientationMap is null)
-            throw new ArgumentNullException(nameof(orientationMap));
-        edgeMap.ThrowIfDisposed();
-        orientationMap.ThrowIfDisposed();
 
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(
-                Handle, edgeMap.ToInputProxy(), orientationMap.ToInputProxy(), boxesVec.CvPtr));
+                Handle, edgeMap.Proxy, orientationMap.Proxy, boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
-        GC.KeepAlive(edgeMap);
-        GC.KeepAlive(orientationMap);
+        GC.KeepAlive(edgeMap.Source);
+        GC.KeepAlive(orientationMap.Source);
     }
 }

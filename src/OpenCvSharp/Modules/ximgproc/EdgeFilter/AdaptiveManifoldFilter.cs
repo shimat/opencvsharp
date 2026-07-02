@@ -181,23 +181,15 @@ public class AdaptiveManifoldFilter : Algorithm
     /// <param name="src">filtering image with any numbers of channels.</param>
     /// <param name="dst">output image.</param>
     /// <param name="joint">optional joint (also called as guided) image with any numbers of channels.</param>
-    public virtual void Filter(InputArray src, OutputArray dst, InputArray? joint = null)
+    public virtual void Filter(InputArrayRef src, OutputArrayRef dst, InputArrayRef joint = default)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-        joint?.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_AdaptiveManifoldFilter_filter(
-                Handle, src.ToInputProxy(), dst.ToOutputProxy(), joint?.ToInputProxy() ?? default));
+                Handle, src.Proxy, dst.Proxy, joint.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
-        GC.KeepAlive(joint);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(joint.Source);
     }
 }

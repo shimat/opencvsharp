@@ -284,16 +284,14 @@ public class ANN_MLP : StatModel
     /// The last element - number of elements in the output layer.Default value is empty Mat.
     /// </summary>
     /// <param name="layerSizes"></param>
-    public virtual void SetLayerSizes(InputArray layerSizes)
+    public virtual void SetLayerSizes(InputArrayRef layerSizes)
     {
         ThrowIfDisposed();
-        if (layerSizes is null)
-            throw new ArgumentNullException(nameof(layerSizes));
 
         NativeMethods.HandleException(
-            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.ToInputProxy()));
+            NativeMethods.ml_ANN_MLP_setLayerSizes(Handle, layerSizes.Proxy));
 
-        GC.KeepAlive(layerSizes);
+        GC.KeepAlive(layerSizes.Source);
     }
 
     /// <summary>

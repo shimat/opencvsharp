@@ -53,17 +53,14 @@ public class KeypointsModel : Model
     /// <param name="frame">The input image.</param>
     /// <param name="thresh">minimum confidence threshold to select a keypoint.</param>
     /// <returns>a vector holding the x and y coordinates of each detected keypoint.</returns>
-    public Point2f[] Estimate(InputArray frame, float thresh = 0.5f)
+    public Point2f[] Estimate(InputArrayRef frame, float thresh = 0.5f)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
-            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.ToInputProxy(), keypointsVec.CvPtr, thresh));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_KeypointsModel_estimate(Handle, frame.Proxy, keypointsVec.CvPtr, thresh));
+        GC.KeepAlive(frame.Source);
         return keypointsVec.ToArray();
     }
 }

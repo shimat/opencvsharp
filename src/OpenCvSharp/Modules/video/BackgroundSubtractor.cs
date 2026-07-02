@@ -19,36 +19,23 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="image"></param>
     /// <param name="fgmask"></param>
     /// <param name="learningRate"></param>
-    public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
+    public virtual void Apply(InputArrayRef image, OutputArrayRef fgmask, double learningRate = -1)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (fgmask is null)
-            throw new ArgumentNullException(nameof(fgmask));
-        image.ThrowIfDisposed();
-        fgmask.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_apply(Handle, image.ToInputProxy(), fgmask.ToOutputProxy(), learningRate));
+            NativeMethods.video_BackgroundSubtractor_apply(Handle, image.Proxy, fgmask.Proxy, learningRate));
             
-        fgmask.Fix();
-        GC.KeepAlive(image);
-        GC.KeepAlive(fgmask);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(fgmask.Source);
     }
 
     /// <summary>
     /// computes a background image
     /// </summary>
     /// <param name="backgroundImage"></param>
-    public virtual void GetBackgroundImage(OutputArray backgroundImage)
+    public virtual void GetBackgroundImage(OutputArrayRef backgroundImage)
     {
-        if (backgroundImage is null)
-            throw new ArgumentNullException(nameof(backgroundImage));
-        backgroundImage.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(Handle, backgroundImage.ToOutputProxy()));
-        GC.KeepAlive(backgroundImage);
-        backgroundImage.Fix();
+            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(Handle, backgroundImage.Proxy));
+        GC.KeepAlive(backgroundImage.Source);
     }
 }

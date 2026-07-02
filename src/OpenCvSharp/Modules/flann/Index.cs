@@ -13,17 +13,15 @@ public class Index : CvObject
     /// <param name="features">features – Matrix of type CV _ 32F containing the features(points) to index. The size of the matrix is num _ features x feature _ dimensionality.</param>
     /// <param name="params">Structure containing the index parameters. The type of index that will be constructed depends on the type of this parameter. </param>
     /// <param name="distType"></param>
-    public Index(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
+    public Index(InputArrayRef features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
     {
-        if (features is null)
-            throw new ArgumentNullException(nameof(features));
         if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_new(features.ToInputProxy(), @params.CvPtr, (int)distType, out var p));
+            NativeMethods.flann_Index_new(features.Proxy, @params.CvPtr, (int)distType, out var p));
 
-        GC.KeepAlive(features);
+        GC.KeepAlive(features.Source);
         GC.KeepAlive(@params);
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create Index");

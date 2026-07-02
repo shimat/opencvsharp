@@ -37,22 +37,17 @@ public sealed class MergeMertens : MergeExposures
     /// </summary>
     /// <param name="src">vector of input images</param>
     /// <param name="dst">result image</param>
-    public void Process(IEnumerable<Mat> src, OutputArray dst)
+    public void Process(IEnumerable<Mat> src, OutputArrayRef dst)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        dst.ThrowIfNotReady();
 
         var srcArray = src.Select(s => s.CvPtr).ToArray();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_MergeMertens_process(Handle, srcArray, srcArray.Length, dst.ToOutputProxy()));
+            NativeMethods.photo_MergeMertens_process(Handle, srcArray, srcArray.Length, dst.Proxy));
 
         GC.KeepAlive(src);
         GC.KeepAlive(srcArray);
-        dst.Fix();
     }
 }

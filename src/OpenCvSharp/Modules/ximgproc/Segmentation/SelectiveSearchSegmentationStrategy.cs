@@ -31,26 +31,17 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     /// <param name="regions">A segementation of the image. The parameter must be the same size of img.</param>
     /// <param name="sizes">The sizes of different regions</param>
     /// <param name="imageId">If not set to -1, try to cache pre-computations. If the same set og (img, regions, size) is used, the image_id need to be the same.</param>
-    public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
+    public virtual void SetImage(InputArrayRef img, InputArrayRef regions, InputArrayRef sizes, int imageId = -1)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (regions is null)
-            throw new ArgumentNullException(nameof(regions));
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
-        img.ThrowIfDisposed();
-        regions.ThrowIfDisposed();
-        sizes.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                Handle, img.ToInputProxy(), regions.ToInputProxy(), sizes.ToInputProxy(), imageId));
+                Handle, img.Proxy, regions.Proxy, sizes.Proxy, imageId));
 
-        GC.KeepAlive(img);
-        GC.KeepAlive(regions);
-        GC.KeepAlive(sizes);
+        GC.KeepAlive(img.Source);
+        GC.KeepAlive(regions.Source);
+        GC.KeepAlive(sizes.Source);
     }
 
     /// <summary>

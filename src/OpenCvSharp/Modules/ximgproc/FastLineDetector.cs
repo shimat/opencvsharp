@@ -48,21 +48,14 @@ public class FastLineDetector : Algorithm
     /// and ending point of a line. Where Vec4f is (x1, y1, x2, y2), 
     /// point 1 is the start, point 2 - end.Returned lines are directed so that the
     /// brighter side is on their left.</param>
-    public virtual void Detect(InputArray image, OutputArray lines)
+    public virtual void Detect(InputArrayRef image, OutputArrayRef lines)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
-        image.ThrowIfDisposed();
-        lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.ToInputProxy(), lines.ToOutputProxy()));
-        GC.KeepAlive(image);
-        GC.KeepAlive(lines);
-        lines.Fix();
+            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(Handle, image.Proxy, lines.Proxy));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(lines.Source);
     }
 
     /// <summary>
@@ -76,17 +69,14 @@ public class FastLineDetector : Algorithm
     /// and ending point of a line. Where Vec4f is (x1, y1, x2, y2), 
     /// point 1 is the start, point 2 - end.Returned lines are directed so that the
     /// brighter side is on their left.</returns>
-    public virtual Vec4f[] Detect(InputArray image)
+    public virtual Vec4f[] Detect(InputArrayRef image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
 
         using var lines = new StdVector<Vec4f>();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.ToInputProxy(), lines.CvPtr));
-        GC.KeepAlive(image);
+            NativeMethods.ximgproc_FastLineDetector_detect_vector(Handle, image.Proxy, lines.CvPtr));
+        GC.KeepAlive(image.Source);
         return lines.ToArray();
     }
 
@@ -96,20 +86,15 @@ public class FastLineDetector : Algorithm
     /// <param name="image">The image, where the lines will be drawn. Should be bigger or equal to the image, where the lines were found.</param>
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     /// <param name="drawArrow">If true, arrow heads will be drawn.</param>
-    public virtual void DrawSegments(InputOutputArray image, InputArray lines,
+    public virtual void DrawSegments(InputOutputArrayRef image, InputArrayRef lines,
         bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.ToInputOutputProxy(), lines.ToInputProxy(), drawArrow ? 1 : 0));
-        GC.KeepAlive(image);
-        image.Fix();
-        GC.KeepAlive(lines);
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(Handle, image.Proxy, lines.Proxy, drawArrow ? 1 : 0));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(lines.Source);
     }
 
     /// <summary>
@@ -118,20 +103,17 @@ public class FastLineDetector : Algorithm
     /// <param name="image">The image, where the lines will be drawn. Should be bigger or equal to the image, where the lines were found.</param>
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     /// <param name="drawArrow">If true, arrow heads will be drawn.</param>
-    public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
+    public virtual void DrawSegments(InputOutputArrayRef image, IEnumerable<Vec4f> lines, bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
         if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
         using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
-                Handle, image.ToInputOutputProxy(), linesVec.CvPtr, drawArrow ? 1 : 0));
+                Handle, image.Proxy, linesVec.CvPtr, drawArrow ? 1 : 0));
             
-        GC.KeepAlive(image);
-        image.Fix();
+        GC.KeepAlive(image.Source);
     }
 }

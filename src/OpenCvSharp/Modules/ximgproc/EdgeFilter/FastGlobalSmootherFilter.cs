@@ -28,17 +28,13 @@ public class FastGlobalSmootherFilter : Algorithm
     /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
     /// <returns></returns>
     public static FastGlobalSmootherFilter Create(
-        InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
+        InputArrayRef guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
     {
-        if (guide is null)
-            throw new ArgumentNullException(nameof(guide));
-        guide.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastGlobalSmootherFilter(
-                guide.ToInputProxy(), lambda, sigmaColor, lambdaAttenuation, numIter, out var smartPtr));
+                guide.Proxy, lambda, sigmaColor, lambdaAttenuation, numIter, out var smartPtr));
             
-        GC.KeepAlive(guide); 
+        GC.KeepAlive(guide.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastGlobalSmootherFilter_get(smartPtr, out var rawPtr));
         return new FastGlobalSmootherFilter(smartPtr, rawPtr);
     }
@@ -48,21 +44,14 @@ public class FastGlobalSmootherFilter : Algorithm
     /// </summary>
     /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point 32-bit depth and up to 4 channels.</param>
     /// <param name="dst">destination image.</param>
-    public virtual void Filter(InputArray src, OutputArray dst)
+    public virtual void Filter(InputArrayRef src, OutputArrayRef dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastGlobalSmootherFilter_filter(
-                Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+                Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 }

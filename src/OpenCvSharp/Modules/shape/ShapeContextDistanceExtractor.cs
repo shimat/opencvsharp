@@ -255,21 +255,15 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     /// <param name="image1">Image corresponding to the shape defined by contours1.</param>
     /// <param name="image2">Image corresponding to the shape defined by contours2.</param>
-    public void SetImages(InputArray image1, InputArray image2)
+    public void SetImages(InputArrayRef image1, InputArrayRef image2)
     {
         ThrowIfDisposed();
-        if (image1 is null)
-            throw new ArgumentNullException(nameof(image1));
-        if (image2 is null)
-            throw new ArgumentNullException(nameof(image2));
-        image1.ThrowIfDisposed();
-        image2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(Handle, image1.ToInputProxy(), image2.ToInputProxy()));
+            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(Handle, image1.Proxy, image2.Proxy));
 
-        GC.KeepAlive(image1);
-        GC.KeepAlive(image2);
+        GC.KeepAlive(image1.Source);
+        GC.KeepAlive(image2.Source);
     }
 
     /// <summary>
@@ -278,23 +272,15 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     /// <param name="image1">Image corresponding to the shape defined by contours1.</param>
     /// <param name="image2">Image corresponding to the shape defined by contours2.</param>
-    public void GetImages(OutputArray image1, OutputArray image2)
+    public void GetImages(OutputArrayRef image1, OutputArrayRef image2)
     {
         ThrowIfDisposed();
-        if (image1 is null)
-            throw new ArgumentNullException(nameof(image1));
-        if (image2 is null)
-            throw new ArgumentNullException(nameof(image2));
-        image1.ThrowIfNotReady();
-        image2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(Handle, image1.ToOutputProxy(), image2.ToOutputProxy()));
+            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(Handle, image1.Proxy, image2.Proxy));
 
-        image1.Fix();
-        image2.Fix();
-        GC.KeepAlive(image1);
-        GC.KeepAlive(image2);
+        GC.KeepAlive(image1.Source);
+        GC.KeepAlive(image2.Source);
     }
 
     #endregion

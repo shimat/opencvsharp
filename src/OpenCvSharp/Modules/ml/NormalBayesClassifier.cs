@@ -70,29 +70,17 @@ public class NormalBayesClassifier : StatModel
     /// output vector outputs. The predicted class for a single input vector is returned by the method. 
     /// The vector outputProbs contains the output probabilities corresponding to each element of result.
     /// </remarks>
-    public float PredictProb(InputArray inputs, OutputArray outputs,
-        OutputArray outputProbs, int flags = 0)
+    public float PredictProb(InputArrayRef inputs, OutputArrayRef outputs,
+        OutputArrayRef outputProbs, int flags = 0)
     {
         ThrowIfDisposed();
-        if (inputs is null)
-            throw new ArgumentNullException(nameof(inputs));
-        if (outputs is null)
-            throw new ArgumentNullException(nameof(outputs));
-        if (outputProbs is null)
-            throw new ArgumentNullException(nameof(outputProbs));
-
-        inputs.ThrowIfDisposed();
-        outputs.ThrowIfNotReady();
-        outputProbs.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_predictProb(
-                Handle, inputs.ToInputProxy(), outputs.ToOutputProxy(), outputProbs.ToOutputProxy(), flags, out var ret));
-        outputs.Fix();
-        outputProbs.Fix();
-        GC.KeepAlive(inputs);
-        GC.KeepAlive(outputs);
-        GC.KeepAlive(outputProbs);
+                Handle, inputs.Proxy, outputs.Proxy, outputProbs.Proxy, flags, out var ret));
+        GC.KeepAlive(inputs.Source);
+        GC.KeepAlive(outputs.Source);
+        GC.KeepAlive(outputProbs.Source);
         return ret;
     }
 }

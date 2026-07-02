@@ -1,7 +1,7 @@
 namespace OpenCvSharp;
 
 /// <summary>
-/// Parameters for the OpenCV 5 <see cref="Cv2.Filter2D(InputArray, OutputArray, InputArray, Filter2DParams)"/> overload.
+/// Parameters for the OpenCV 5 <see cref="Cv2.Filter2D(InputArrayRef, OutputArrayRef, InputArrayRef, Filter2DParams)"/> overload.
 /// Mirrors cv::Filter2DParams; all fields are optional and default to the OpenCV defaults.
 /// </summary>
 public class Filter2DParams

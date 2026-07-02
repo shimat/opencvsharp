@@ -14,5 +14,5 @@ public abstract class WhiteBalancer : Algorithm
     /// </summary>
     /// <param name="src">Input image</param>
     /// <param name="dst">White balancing result</param>
-    public abstract void BalanceWhite(InputArray src, OutputArray dst);
+    public abstract void BalanceWhite(InputArrayRef src, OutputArrayRef dst);
 }

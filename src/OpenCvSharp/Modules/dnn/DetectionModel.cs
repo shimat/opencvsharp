@@ -83,22 +83,19 @@ public class DetectionModel : Model
     /// <param name="confThreshold">A threshold used to filter boxes by confidences.</param>
     /// <param name="nmsThreshold">A threshold used in non maximum suppression.</param>
     public void Detect(
-        InputArray frame, out int[] classIds, out float[] confidences, out Rect[] boxes,
+        InputArrayRef frame, out int[] classIds, out float[] confidences, out Rect[] boxes,
         float confThreshold = 0.5f, float nmsThreshold = 0.0f)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var classIdsVec = new StdVector<int>();
         using var confidencesVec = new StdVector<float>();
         using var boxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_detect(
-                Handle, frame.ToInputProxy(), classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
+                Handle, frame.Proxy, classIdsVec.CvPtr, confidencesVec.CvPtr, boxesVec.CvPtr,
                 confThreshold, nmsThreshold));
-        GC.KeepAlive(frame);
+        GC.KeepAlive(frame.Source);
 
         classIds = classIdsVec.ToArray();
         confidences = confidencesVec.ToArray();

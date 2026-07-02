@@ -64,16 +64,13 @@ public abstract class FaceRecognizer : Algorithm
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public virtual int Predict(InputArray src)
+    public virtual int Predict(InputArrayRef src)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict1(Handle, src.ToInputProxy(), out var ret));
-        GC.KeepAlive(src);
+            NativeMethods.face_FaceRecognizer_predict1(Handle, src.Proxy, out var ret));
+        GC.KeepAlive(src.Source);
         return ret;
     }
 
@@ -83,16 +80,13 @@ public abstract class FaceRecognizer : Algorithm
     /// <param name="src"></param>
     /// <param name="label"></param>
     /// <param name="confidence"></param>
-    public virtual void Predict(InputArray src, out int label, out double confidence)
+    public virtual void Predict(InputArrayRef src, out int label, out double confidence)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict2(Handle, src.ToInputProxy(), out label, out confidence));
-        GC.KeepAlive(src);
+            NativeMethods.face_FaceRecognizer_predict2(Handle, src.Proxy, out label, out confidence));
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>

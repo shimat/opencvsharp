@@ -77,17 +77,13 @@ public class SuperResolution : Algorithm
     /// Process next frame from input and return output result.
     /// </summary>
     /// <param name="frame">Output result</param>
-    public virtual void NextFrame(OutputArray frame)
+    public virtual void NextFrame(OutputArrayRef frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.ToOutputProxy()));
-        frame.Fix();
-        GC.KeepAlive(frame);
+            NativeMethods.superres_SuperResolution_nextFrame(Handle, frame.Proxy));
+        GC.KeepAlive(frame.Source);
     }
         
     /// <summary>
@@ -120,7 +116,7 @@ public class SuperResolution : Algorithm
     /// </summary>
     /// <param name="fs"></param>
     /// <param name="output"></param>
-    protected virtual void ProcessImpl(FrameSource fs, OutputArray output)
+    protected virtual void ProcessImpl(FrameSource fs, OutputArrayRef output)
     {
     }
 

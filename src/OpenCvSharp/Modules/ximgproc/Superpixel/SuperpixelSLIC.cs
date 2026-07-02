@@ -34,20 +34,16 @@ public class SuperpixelSLIC : Algorithm
     /// <param name="ruler">Chooses the enforcement of superpixel smoothness factor of superpixel</param>
     /// <returns></returns>
     public static SuperpixelSLIC Create(
-        InputArray image,
+        InputArrayRef image,
         SLICType algorithm = SLICType.SLICO,
         int regionSize = 10, 
         float ruler = 10.0f)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelSLIC(
-                image.ToInputProxy(), (int)algorithm, regionSize, ruler, out var smartPtr));
+                image.Proxy, (int)algorithm, regionSize, ruler, out var smartPtr));
             
-        GC.KeepAlive(image); 
+        GC.KeepAlive(image.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_get(smartPtr, out var rawPtr));
         return new SuperpixelSLIC(smartPtr, rawPtr);
     }
@@ -95,17 +91,13 @@ public class SuperpixelSLIC : Algorithm
     /// the range[0, getNumberOfSuperpixels()].
     /// </summary>
     /// <param name="labelsOut"></param>
-    public virtual void GetLabels(OutputArray labelsOut)
+    public virtual void GetLabels(OutputArrayRef labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabels(
-                Handle, labelsOut.ToOutputProxy()));
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -114,17 +106,13 @@ public class SuperpixelSLIC : Algorithm
     /// </summary>
     /// <param name="image">Return: CV_8U1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</param>
     /// <param name="thickLine">If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</param>
-    public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
+    public virtual void GetLabelContourMask(OutputArrayRef image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabelContourMask(
-                Handle, image.ToOutputProxy(), thickLine ? 1 : 0));
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 
     /// <summary>

@@ -152,30 +152,21 @@ public class KNearest : StatModel
     /// <param name="dist">Optional output distances from the input vectors to the corresponding neighbors. 
     /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
     /// <returns></returns>
-    public float FindNearest(InputArray samples, int k, OutputArray results,
-        OutputArray? neighborResponses = null, OutputArray? dist = null)
+    public float FindNearest(InputArrayRef samples, int k, OutputArrayRef results,
+        OutputArrayRef neighborResponses = default, OutputArrayRef dist = default)
     {
         ThrowIfDisposed();
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
-        if (results is null)
-            throw new ArgumentNullException(nameof(results));
-        samples.ThrowIfDisposed();
-        results.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_findNearest(
                 Handle,
-                samples.ToInputProxy(), k, results.ToOutputProxy(),
-                neighborResponses?.ToOutputProxy() ?? default, dist?.ToOutputProxy() ?? default, out var ret));
+                samples.Proxy, k, results.Proxy,
+                neighborResponses.Proxy, dist.Proxy, out var ret));
 
-        GC.KeepAlive(samples);
-        GC.KeepAlive(results);
-        GC.KeepAlive(neighborResponses);
-        GC.KeepAlive(dist);
-        results.Fix();
-        neighborResponses?.Fix();
-        dist?.Fix();
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(results.Source);
+        GC.KeepAlive(neighborResponses.Source);
+        GC.KeepAlive(dist.Source);
         return ret;
     }
 

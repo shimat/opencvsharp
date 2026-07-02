@@ -19,16 +19,12 @@ static partial class Cv2
     /// <param name="nonmaxSupression">if true, non-maximum suppression is applied to 
     /// detected corners (keypoints).</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression = true)
+    public static KeyPoint[] FAST(InputArrayRef image, int threshold, bool nonmaxSupression = true)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.features_FAST1(image.ToInputProxy(), kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
-        GC.KeepAlive(image);
+            NativeMethods.features_FAST1(image.Proxy, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
+        GC.KeepAlive(image.Source);
         return kp.ToArray();
     }
 
@@ -42,16 +38,12 @@ static partial class Cv2
     /// detected corners (keypoints).</param>
     /// <param name="type">one of the three neighborhoods as defined in the paper</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression, FASTType type)
+    public static KeyPoint[] FAST(InputArrayRef image, int threshold, bool nonmaxSupression, FASTType type)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.features_FAST2(image.ToInputProxy(), kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
-        GC.KeepAlive(image);
+            NativeMethods.features_FAST2(image.Proxy, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
+        GC.KeepAlive(image.Source);
         return kp.ToArray();
     }
 
@@ -65,16 +57,12 @@ static partial class Cv2
     /// detected corners (keypoints).</param>
     /// <param name="type">one of the four neighborhoods as defined in the paper</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
+    public static KeyPoint[] AGAST(InputArrayRef image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         using var vector = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_AGAST(image.ToInputProxy(), vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
-        GC.KeepAlive(image);
+            NativeMethods.xfeatures2d_AGAST(image.Proxy, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
+        GC.KeepAlive(image.Source);
         return vector.ToArray();
     }
 
@@ -87,28 +75,22 @@ static partial class Cv2
     /// <param name="color">Color of keypoints.</param>
     /// <param name="flags">Flags setting drawing features. Possible flags bit values are defined by DrawMatchesFlags.</param>
     public static void DrawKeypoints(
-        InputArray image,
+        InputArrayRef image,
         IEnumerable<KeyPoint> keypoints, 
-        InputOutputArray outImage,
+        InputOutputArrayRef outImage,
         Scalar? color = null,
         DrawMatchesFlags flags = DrawMatchesFlags.Default)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (outImage is null)
-            throw new ArgumentNullException(nameof(outImage));
         if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
-        image.ThrowIfDisposed();
-        outImage.ThrowIfDisposed();
 
         var keypointsArray = keypoints.CastOrToArray();
         var color0 = color.GetValueOrDefault(Scalar.All(-1));
         NativeMethods.HandleException(
-            NativeMethods.features_drawKeypoints(image.ToInputProxy(), keypointsArray, keypointsArray.Length, outImage.ToInputOutputProxy(), color0, (int)flags));
+            NativeMethods.features_drawKeypoints(image.Proxy, keypointsArray, keypointsArray.Length, outImage.Proxy, color0, (int)flags));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(outImage);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(outImage.Source);
     }
 
     /// <summary>

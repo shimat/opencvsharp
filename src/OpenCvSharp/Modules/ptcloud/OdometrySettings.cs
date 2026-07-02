@@ -45,85 +45,64 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Sets the camera matrix.
     /// </summary>
-    public void SetCameraMatrix(InputArray val)
+    public void SetCameraMatrix(InputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_OdometrySettings_setCameraMatrix(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
     /// Gets the camera matrix.
     /// </summary>
-    public void GetCameraMatrix(OutputArray val)
+    public void GetCameraMatrix(OutputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_OdometrySettings_getCameraMatrix(Handle, val.Proxy));
     }
 
     /// <summary>
     /// Sets the iteration counts.
     /// </summary>
-    public void SetIterCounts(InputArray val)
+    public void SetIterCounts(InputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setIterCounts(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_OdometrySettings_setIterCounts(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
     /// Gets the iteration counts.
     /// </summary>
-    public void GetIterCounts(OutputArray val)
+    public void GetIterCounts(OutputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getIterCounts(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_OdometrySettings_getIterCounts(Handle, val.Proxy));
     }
 
     /// <summary>
     /// Sets the minimum gradient magnitudes.
     /// </summary>
-    public void SetMinGradientMagnitudes(InputArray val)
+    public void SetMinGradientMagnitudes(InputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(Handle, val.ToInputProxy()));
-        GC.KeepAlive(val);
+            NativeMethods.ptcloud_OdometrySettings_setMinGradientMagnitudes(Handle, val.Proxy));
+        GC.KeepAlive(val.Source);
     }
 
     /// <summary>
     /// Gets the minimum gradient magnitudes.
     /// </summary>
-    public void GetMinGradientMagnitudes(OutputArray val)
+    public void GetMinGradientMagnitudes(OutputArrayRef val)
     {
         ThrowIfDisposed();
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
-        val.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(Handle, val.ToOutputProxy()));
-        val.Fix();
+            NativeMethods.ptcloud_OdometrySettings_getMinGradientMagnitudes(Handle, val.Proxy));
     }
 
     #endregion

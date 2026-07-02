@@ -116,21 +116,17 @@ public class Odometry : CvObject
     /// <param name="dstFrame">dst frame ("rotated" image).</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(OdometryFrame srcFrame, OdometryFrame dstFrame, OutputArray Rt)
+    public bool Compute(OdometryFrame srcFrame, OdometryFrame dstFrame, OutputArrayRef Rt)
     {
         ThrowIfDisposed();
         if (srcFrame is null)
             throw new ArgumentNullException(nameof(srcFrame));
         if (dstFrame is null)
             throw new ArgumentNullException(nameof(dstFrame));
-        if (Rt is null)
-            throw new ArgumentNullException(nameof(Rt));
         srcFrame.ThrowIfDisposed();
         dstFrame.ThrowIfDisposed();
-        Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_Frame(Handle, srcFrame.CvPtr, dstFrame.CvPtr, Rt.ToOutputProxy(), out var ret));
-        Rt.Fix();
+            NativeMethods.ptcloud_Odometry_compute_Frame(Handle, srcFrame.CvPtr, dstFrame.CvPtr, Rt.Proxy, out var ret));
         GC.KeepAlive(srcFrame);
         GC.KeepAlive(dstFrame);
         return ret != 0;
@@ -143,23 +139,13 @@ public class Odometry : CvObject
     /// <param name="dstDepth">destination depth ("rotated" image).</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(InputArray srcDepth, InputArray dstDepth, OutputArray Rt)
+    public bool Compute(InputArrayRef srcDepth, InputArrayRef dstDepth, OutputArrayRef Rt)
     {
         ThrowIfDisposed();
-        if (srcDepth is null)
-            throw new ArgumentNullException(nameof(srcDepth));
-        if (dstDepth is null)
-            throw new ArgumentNullException(nameof(dstDepth));
-        if (Rt is null)
-            throw new ArgumentNullException(nameof(Rt));
-        srcDepth.ThrowIfDisposed();
-        dstDepth.ThrowIfDisposed();
-        Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_Depth(Handle, srcDepth.ToInputProxy(), dstDepth.ToInputProxy(), Rt.ToOutputProxy(), out var ret));
-        Rt.Fix();
-        GC.KeepAlive(srcDepth);
-        GC.KeepAlive(dstDepth);
+            NativeMethods.ptcloud_Odometry_compute_Depth(Handle, srcDepth.Proxy, dstDepth.Proxy, Rt.Proxy, out var ret));
+        GC.KeepAlive(srcDepth.Source);
+        GC.KeepAlive(dstDepth.Source);
         return ret != 0;
     }
 
@@ -172,31 +158,15 @@ public class Odometry : CvObject
     /// <param name="dstRGB">destination RGB.</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(InputArray srcDepth, InputArray srcRGB, InputArray dstDepth, InputArray dstRGB, OutputArray Rt)
+    public bool Compute(InputArrayRef srcDepth, InputArrayRef srcRGB, InputArrayRef dstDepth, InputArrayRef dstRGB, OutputArrayRef Rt)
     {
         ThrowIfDisposed();
-        if (srcDepth is null)
-            throw new ArgumentNullException(nameof(srcDepth));
-        if (srcRGB is null)
-            throw new ArgumentNullException(nameof(srcRGB));
-        if (dstDepth is null)
-            throw new ArgumentNullException(nameof(dstDepth));
-        if (dstRGB is null)
-            throw new ArgumentNullException(nameof(dstRGB));
-        if (Rt is null)
-            throw new ArgumentNullException(nameof(Rt));
-        srcDepth.ThrowIfDisposed();
-        srcRGB.ThrowIfDisposed();
-        dstDepth.ThrowIfDisposed();
-        dstRGB.ThrowIfDisposed();
-        Rt.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Odometry_compute_DepthRGB(Handle, srcDepth.ToInputProxy(), srcRGB.ToInputProxy(), dstDepth.ToInputProxy(), dstRGB.ToInputProxy(), Rt.ToOutputProxy(), out var ret));
-        Rt.Fix();
-        GC.KeepAlive(srcDepth);
-        GC.KeepAlive(srcRGB);
-        GC.KeepAlive(dstDepth);
-        GC.KeepAlive(dstRGB);
+            NativeMethods.ptcloud_Odometry_compute_DepthRGB(Handle, srcDepth.Proxy, srcRGB.Proxy, dstDepth.Proxy, dstRGB.Proxy, Rt.Proxy, out var ret));
+        GC.KeepAlive(srcDepth.Source);
+        GC.KeepAlive(srcRGB.Source);
+        GC.KeepAlive(dstDepth.Source);
+        GC.KeepAlive(dstRGB.Source);
         return ret != 0;
     }
 

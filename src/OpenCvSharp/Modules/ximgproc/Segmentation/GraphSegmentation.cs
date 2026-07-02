@@ -99,21 +99,15 @@ public class GraphSegmentation : Algorithm
     /// </summary>
     /// <param name="src">The input image. Any number of channel (1 (Eg: Gray), 3 (Eg: RGB), 4 (Eg: RGB-D)) can be provided</param>
     /// <param name="dst">The output segmentation. It's a CV_32SC1 Mat with the same number of cols and rows as input image, with an unique, sequential, id for each pixel.</param>
-    public virtual void ProcessImage(InputArray src, OutputArray dst)
+    public virtual void ProcessImage(InputArrayRef src, OutputArrayRef dst)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     }

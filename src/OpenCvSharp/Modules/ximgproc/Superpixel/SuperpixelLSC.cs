@@ -37,17 +37,13 @@ public class SuperpixelLSC : Algorithm
     /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
     /// <returns></returns>
     public static SuperpixelLSC Create(
-        InputArray image, int regionSize = 10, float ratio = 0.075f)
+        InputArrayRef image, int regionSize = 10, float ratio = 0.075f)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelLSC(
-                image.ToInputProxy(), regionSize, ratio, out var smartPtr));
+                image.Proxy, regionSize, ratio, out var smartPtr));
             
-        GC.KeepAlive(image); 
+        GC.KeepAlive(image.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelLSC_get(smartPtr, out var rawPtr));
         return new SuperpixelLSC(smartPtr, rawPtr);
     }
@@ -95,17 +91,13 @@ public class SuperpixelLSC : Algorithm
     /// </summary>
     /// <param name="labelsOut">Return: A CV_32SC1 integer array containing the labels of the superpixel
     /// segmentation.The labels are in the range[0, getNumberOfSuperpixels()].</param>
-    public virtual void GetLabels(OutputArray labelsOut)
+    public virtual void GetLabels(OutputArrayRef labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut is null)
-            throw new ArgumentNullException(nameof(labelsOut));
-        labelsOut.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabels(
-                Handle, labelsOut.ToOutputProxy()));
-        labelsOut.Fix();
+                Handle, labelsOut.Proxy));
     }
 
     /// <summary>
@@ -114,17 +106,13 @@ public class SuperpixelLSC : Algorithm
     /// </summary>
     /// <param name="image">Return: CV_8U1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</param>
     /// <param name="thickLine">If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</param>
-    public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
+    public virtual void GetLabelContourMask(OutputArrayRef image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelLSC_getLabelContourMask(
-                Handle, image.ToOutputProxy(), thickLine ? 1 : 0));
-        image.Fix();
+                Handle, image.Proxy, thickLine ? 1 : 0));
     }
 
     /// <summary>

@@ -14,21 +14,17 @@ public abstract class TextDetector : CvObject
     /// <param name="inputImage">an image to process</param>
     /// <param name="bbox"> a vector of Rect that will store the detected word bounding box</param>
     /// <param name="confidence">a vector of float that will be updated with the confidence the classifier has for the selected bounding box</param>
-    public virtual void Detect(InputArray inputImage, out Rect[] bbox, out float[] confidence)
+    public virtual void Detect(InputArrayRef inputImage, out Rect[] bbox, out float[] confidence)
     {
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        inputImage.ThrowIfDisposed();
-
         using (var bboxVec = new StdVector<Rect>())
         using (var confidenceVec = new StdVector<float>())
         {
             NativeMethods.HandleException(
-                NativeMethods.text_TextDetector_detect(Handle, inputImage.ToInputProxy(), bboxVec.CvPtr, confidenceVec.CvPtr));
+                NativeMethods.text_TextDetector_detect(Handle, inputImage.Proxy, bboxVec.CvPtr, confidenceVec.CvPtr));
             bbox = bboxVec.ToArray();
             confidence = confidenceVec.ToArray();
         }
 
-        GC.KeepAlive(inputImage);
+        GC.KeepAlive(inputImage.Source);
     }
 }

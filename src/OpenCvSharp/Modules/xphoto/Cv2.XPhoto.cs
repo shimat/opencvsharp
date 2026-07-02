@@ -42,9 +42,9 @@ public static partial class Cv2
         /// <param name="transformType">Type of the orthogonal transform used in collaborative filtering step. 
         /// Currently only Haar transform is supported.</param>
         public static void Bm3dDenoising(
-            InputArray src,
-            InputOutputArray dstStep1,
-            OutputArray dstStep2,
+            InputArrayRef src,
+            InputOutputArrayRef dstStep1,
+            OutputArrayRef dstStep2,
             float h = 1,
             int templateWindowSize = 4,
             int searchWindowSize = 16,
@@ -57,23 +57,10 @@ public static partial class Cv2
             Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dstStep1 is null)
-                throw new ArgumentNullException(nameof(dstStep1));
-            if (dstStep2 is null)
-                throw new ArgumentNullException(nameof(dstStep2));
-
-            src.ThrowIfDisposed();
-            dstStep1.ThrowIfNotReady();
-            dstStep2.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising1(src.ToInputProxy(), dstStep1.ToInputOutputProxy(), dstStep2.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising1(src.Proxy, dstStep1.Proxy, dstStep2.Proxy, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
-            GC.KeepAlive(src);
-            dstStep1.Fix();
-            dstStep2.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -101,8 +88,8 @@ public static partial class Cv2
         /// <param name="transformType">Type of the orthogonal transform used in collaborative filtering step. 
         /// Currently only Haar transform is supported.</param>
         public static void Bm3dDenoising(
-            InputArray src,
-            OutputArray dst,
+            InputArrayRef src,
+            OutputArrayRef dst,
             float h = 1,
             int templateWindowSize = 4,
             int searchWindowSize = 16,
@@ -115,18 +102,10 @@ public static partial class Cv2
             Bm3dSteps step = Bm3dSteps.STEPALL,
             TransformTypes transformType = TransformTypes.HAAR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_bm3dDenoising2(src.ToInputProxy(), dst.ToOutputProxy(), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
+                NativeMethods.xphoto_bm3dDenoising2(src.Proxy, dst.Proxy, h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType, (int) step, (int) transformType));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         #endregion
@@ -204,21 +183,14 @@ public static partial class Cv2
         /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
         /// <param name="code">color space conversion code(see ColorConversionCodes). Histogram will used only first plane</param>
         public static void OilPainting(
-            InputArray src, OutputArray dst, int size, int dynRatio, 
+            InputArrayRef src, OutputArrayRef dst, int size, int dynRatio, 
             ColorConversionCodes? code = null)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting(src.ToInputProxy(), dst.ToOutputProxy(), size, dynRatio, code.HasValue ? (int)code : -1));
+                NativeMethods.xphoto_oilPainting(src.Proxy, dst.Proxy, size, dynRatio, code.HasValue ? (int)code : -1));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         #endregion
@@ -234,21 +206,13 @@ public static partial class Cv2
         /// <param name="gainB">gain for the B channel</param>
         /// <param name="gainG">gain for the G channel</param>
         /// <param name="gainR">gain for the R channel</param>
-        public static void ApplyChannelGains(InputArray src, OutputArray dst, float gainB, float gainG, float gainR)
+        public static void ApplyChannelGains(InputArrayRef src, OutputArrayRef dst, float gainB, float gainG, float gainR)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.xphoto_applyChannelGains(src.ToInputProxy(), dst.ToOutputProxy(), gainB, gainG, gainR));
+                NativeMethods.xphoto_applyChannelGains(src.Proxy, dst.Proxy, gainB, gainG, gainR));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         /// <summary>

@@ -80,20 +80,14 @@ public abstract class StatModel : Algorithm
     /// <param name="layout">SampleTypes value</param>
     /// <param name="responses">vector of responses associated with the training samples.</param>
     /// <returns></returns>
-    public virtual bool Train(InputArray samples, SampleTypes layout, InputArray responses)
+    public virtual bool Train(InputArrayRef samples, SampleTypes layout, InputArrayRef responses)
     {
         ThrowIfDisposed();
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
-        if (responses is null)
-            throw new ArgumentNullException(nameof(responses));
-        samples.ThrowIfDisposed();
-        responses.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_train2(Handle, samples.ToInputProxy(), (int)layout, responses.ToInputProxy(), out var ret));
-        GC.KeepAlive(samples);
-        GC.KeepAlive(responses);
+            NativeMethods.ml_StatModel_train2(Handle, samples.Proxy, (int)layout, responses.Proxy, out var ret));
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(responses.Source);
         return ret != 0;
     }
 
@@ -109,7 +103,7 @@ public abstract class StatModel : Algorithm
     /// sounds a bit confusing.</param>
     /// <param name="resp">the optional output responses.</param>
     /// <returns></returns>
-    public virtual float CalcError(TrainData data, bool test, OutputArray resp)
+    public virtual float CalcError(TrainData data, bool test, OutputArrayRef resp)
     {
         throw new NotImplementedException();
     }
@@ -121,20 +115,15 @@ public abstract class StatModel : Algorithm
     /// <param name="results">The optional output matrix of results.</param>
     /// <param name="flags">The optional flags, model-dependent.</param>
     /// <returns></returns>
-    public virtual float Predict(InputArray samples, OutputArray? results = null, Flags flags = 0)
+    public virtual float Predict(InputArrayRef samples, OutputArrayRef results = default, Flags flags = 0)
     {
         ThrowIfDisposed();
-        if (samples is null)
-            throw new ArgumentNullException(nameof(samples));
-        samples.ThrowIfDisposed();
-        results?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ml_StatModel_predict(
-                Handle, samples.ToInputProxy(), results?.ToOutputProxy() ?? default, (int) flags, out var ret));
-        GC.KeepAlive(samples);
-        GC.KeepAlive(results);
-        results?.Fix();
+                Handle, samples.Proxy, results.Proxy, (int) flags, out var ret));
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(results.Source);
         return ret;
     }
 

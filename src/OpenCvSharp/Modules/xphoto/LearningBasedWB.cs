@@ -92,21 +92,13 @@ public class LearningBasedWB : WhiteBalancer
     /// </summary>
     /// <param name="src">Input image</param>
     /// <param name="dst">White balancing result</param>
-    public override void BalanceWhite(InputArray src, OutputArray dst)
+    public override void BalanceWhite(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_balanceWhite(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.xphoto_LearningBasedWB_balanceWhite(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 
     /// <summary>
@@ -114,20 +106,12 @@ public class LearningBasedWB : WhiteBalancer
     /// </summary>
     /// <param name="src">Input three-channel image (BGR color space is assumed).</param>
     /// <param name="dst">An array of four (r,g) chromaticity tuples corresponding to the features listed above.</param>
-    public void ExtractSimpleFeatures(InputArray src, OutputArray dst)
+    public void ExtractSimpleFeatures(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        GC.KeepAlive(dst);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
     }
 }

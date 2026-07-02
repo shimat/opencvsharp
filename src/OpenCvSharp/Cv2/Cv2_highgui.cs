@@ -302,18 +302,15 @@ static partial class Cv2
     /// selection rectangle will correspond to the initial mouse position.</param>
     /// <returns>selected ROI or empty rect if selection canceled.</returns>
     // ReSharper disable once InconsistentNaming
-    public static Rect SelectROI(string windowName, InputArray img, bool showCrosshair = true, bool fromCenter = false)
+    public static Rect SelectROI(string windowName, InputArrayRef img, bool showCrosshair = true, bool fromCenter = false)
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI1(windowName, img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI1(windowName, img.Proxy, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -328,16 +325,12 @@ static partial class Cv2
     /// selection rectangle will correspond to the initial mouse position.</param>
     /// <returns>selected ROI or empty rect if selection canceled.</returns>
     // ReSharper disable once InconsistentNaming
-    public static Rect SelectROI(InputArray img, bool showCrosshair = true, bool fromCenter = false)
+    public static Rect SelectROI(InputArrayRef img, bool showCrosshair = true, bool fromCenter = false)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROI2(img.ToInputProxy(), showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+            NativeMethods.highgui_selectROI2(img.Proxy, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return ret;
     }
 
@@ -354,19 +347,16 @@ static partial class Cv2
     /// selection rectangle will correspond to the initial mouse position.</param>
     /// <returns>selected ROIs.</returns>
     // ReSharper disable once InconsistentNaming
-    public static  Rect[] SelectROIs(string windowName, InputArray img, bool showCrosshair = true, bool fromCenter = false)
+    public static  Rect[] SelectROIs(string windowName, InputArrayRef img, bool showCrosshair = true, bool fromCenter = false)
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         using var boundingBoxesVec = new StdVector<Rect>();
         NativeMethods.HandleException(
-            NativeMethods.highgui_selectROIs(windowName, img.ToInputProxy(), boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
+            NativeMethods.highgui_selectROIs(windowName, img.Proxy, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
         return boundingBoxesVec.ToArray();
     }
 

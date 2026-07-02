@@ -63,20 +63,14 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="trainKpts">Train image keypoints (Nx2 float matrix with x,y coordinates).</param>
     /// <param name="queryImageSize">Size of the query image (width, height).</param>
     /// <param name="trainImageSize">Size of the train image (width, height).</param>
-    public void SetPairInfo(InputArray queryKpts, InputArray trainKpts, Size queryImageSize = default, Size trainImageSize = default)
+    public void SetPairInfo(InputArrayRef queryKpts, InputArrayRef trainKpts, Size queryImageSize = default, Size trainImageSize = default)
     {
         ThrowIfDisposed();
-        if (queryKpts is null)
-            throw new ArgumentNullException(nameof(queryKpts));
-        if (trainKpts is null)
-            throw new ArgumentNullException(nameof(trainKpts));
-        queryKpts.ThrowIfDisposed();
-        trainKpts.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.features_LightGlueMatcher_setPairInfo(Handle, queryKpts.ToInputProxy(), trainKpts.ToInputProxy(), queryImageSize, trainImageSize));
-        GC.KeepAlive(queryKpts);
-        GC.KeepAlive(trainKpts);
+            NativeMethods.features_LightGlueMatcher_setPairInfo(Handle, queryKpts.Proxy, trainKpts.Proxy, queryImageSize, trainImageSize));
+        GC.KeepAlive(queryKpts.Source);
+        GC.KeepAlive(trainKpts.Source);
     }
 
     /// <summary>

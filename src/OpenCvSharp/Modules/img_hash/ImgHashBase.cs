@@ -18,23 +18,14 @@ public abstract class ImgHashBase : Algorithm
     /// <param name="inputArr">input image want to compute hash value</param>
     /// <param name="outputArr">hash of the image</param>
     /// <returns></returns>
-    public virtual void Compute(InputArray inputArr, OutputArray outputArr)
+    public virtual void Compute(InputArrayRef inputArr, OutputArrayRef outputArr)
     {
         ThrowIfDisposed();
 
-        if (inputArr is null)
-            throw new ArgumentNullException(nameof(inputArr));
-        if (outputArr is null)
-            throw new ArgumentNullException(nameof(outputArr));
-
-        inputArr.ThrowIfDisposed();
-        outputArr.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compute(Handle, inputArr.ToInputProxy(), outputArr.ToOutputProxy()));
+            NativeMethods.img_hash_ImgHashBase_compute(Handle, inputArr.Proxy, outputArr.Proxy));
 
-        GC.KeepAlive(inputArr);
-        outputArr.Fix();
+        GC.KeepAlive(inputArr.Source);
     }
 
     /// <summary>
@@ -43,22 +34,14 @@ public abstract class ImgHashBase : Algorithm
     /// <param name="hashOne">Hash value one</param>
     /// <param name="hashTwo">Hash value two</param>
     /// <returns>value indicate similarity between inOne and inTwo, the meaning of the value vary from algorithms to algorithms</returns>
-    public virtual double Compare(InputArray hashOne, InputArray hashTwo)
+    public virtual double Compare(InputArrayRef hashOne, InputArrayRef hashTwo)
     {
         ThrowIfDisposed();
 
-        if (hashOne is null)
-            throw new ArgumentNullException(nameof(hashOne));
-        if (hashTwo is null)
-            throw new ArgumentNullException(nameof(hashTwo));
-
-        hashOne.ThrowIfDisposed();
-        hashTwo.ThrowIfDisposed();
-
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ImgHashBase_compare(Handle, hashOne.ToInputProxy(), hashTwo.ToInputProxy(), out var ret));
-        GC.KeepAlive(hashOne);
-        GC.KeepAlive(hashOne);
+            NativeMethods.img_hash_ImgHashBase_compare(Handle, hashOne.Proxy, hashTwo.Proxy, out var ret));
+        GC.KeepAlive(hashOne.Source);
+        GC.KeepAlive(hashOne.Source);
         return ret;
     }
 }

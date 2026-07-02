@@ -122,17 +122,14 @@ public class TextRecognitionModel : Model
     /// </summary>
     /// <param name="frame">The input image.</param>
     /// <returns>The text recognition result.</returns>
-    public string Recognize(InputArray frame)
+    public string Recognize(InputArrayRef frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         using var result = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.dnn_TextRecognitionModel_recognize(Handle, frame.ToInputProxy(), result.CvPtr));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_TextRecognitionModel_recognize(Handle, frame.Proxy, result.CvPtr));
+        GC.KeepAlive(frame.Source);
         return result.ToString();
     }
 }

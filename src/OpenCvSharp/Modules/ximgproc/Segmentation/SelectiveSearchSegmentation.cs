@@ -33,17 +33,14 @@ public class SelectiveSearchSegmentation : Algorithm
     /// Set a image used by switch* functions to initialize the class
     /// </summary>
     /// <param name="img">The image</param>
-    public virtual void SetBaseImage(InputArray img)
+    public virtual void SetBaseImage(InputArrayRef img)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.ToInputProxy()));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(Handle, img.Proxy));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>
@@ -88,17 +85,14 @@ public class SelectiveSearchSegmentation : Algorithm
     /// Add a new image in the list of images to process.
     /// </summary>
     /// <param name="img">The image</param>
-    public virtual void AddImage(InputArray img)
+    public virtual void AddImage(InputArrayRef img)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.ToInputProxy()));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(Handle, img.Proxy));
 
-        GC.KeepAlive(img);
+        GC.KeepAlive(img.Source);
     }
 
     /// <summary>

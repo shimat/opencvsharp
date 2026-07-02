@@ -57,14 +57,10 @@ public class RidgeDetectionFilter : Algorithm
     /// </summary>
     /// <param name="src">InputArray as supported by Sobel. img can be 1-Channel or 3-Channels.</param>
     /// <param name="dst">OutputAray of structure as RidgeDetectionFilter::ddepth. Output image with ridges.</param>
-    public virtual void GetRidgeFilteredImage(InputArray src, OutputArray dst)
+    public virtual void GetRidgeFilteredImage(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(Handle, src.Proxy, dst.Proxy));
     }
 }

@@ -75,15 +75,12 @@ public class ClassificationModel : Model
     /// <param name="frame">The input image.</param>
     /// <param name="classId">Top-1 predicted class id.</param>
     /// <param name="conf">Top-1 prediction confidence.</param>
-    public void Classify(InputArray frame, out int classId, out float conf)
+    public void Classify(InputArrayRef frame, out int classId, out float conf)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
-        frame.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.ToInputProxy(), out classId, out conf));
-        GC.KeepAlive(frame);
+            NativeMethods.dnn_ClassificationModel_classify(Handle, frame.Proxy, out classId, out conf));
+        GC.KeepAlive(frame.Source);
     }
 }

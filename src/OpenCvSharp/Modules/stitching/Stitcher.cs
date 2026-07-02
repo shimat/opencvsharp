@@ -269,32 +269,25 @@ namespace OpenCvSharp
 
         #region Methods
 
-        public Status EstimateTransform(InputArray images)
+        public Status EstimateTransform(InputArrayRef images)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
-            images.ThrowIfDisposed();
-
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(Handle, images.ToInputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(Handle, images.Proxy, out var ret));
 
-            GC.KeepAlive(images);
+            GC.KeepAlive(images.Source);
             return (Status)ret;
         }
 
-        public Status EstimateTransform(InputArray images, Rect[][] rois)
+        public Status EstimateTransform(InputArrayRef images, Rect[][] rois)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
             if (rois is null)
                 throw new ArgumentNullException(nameof(rois));
-            images.ThrowIfDisposed();
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(Handle, images.ToInputProxy(), roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), out var ret));
+                NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(Handle, images.Proxy, roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), out var ret));
 
-            GC.KeepAlive(images);
+            GC.KeepAlive(images.Source);
             return (Status)ret;
         }
 
@@ -332,53 +325,36 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
-        public Status ComposePanorama(OutputArray pano)
+        public Status ComposePanorama(OutputArrayRef pano)
         {
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            pano.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama1(Handle, pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama1(Handle, pano.Proxy, out var ret));
 
-            pano.Fix();
-            GC.KeepAlive(pano);
+            GC.KeepAlive(pano.Source);
             return (Status)ret;
         }
 
-        public Status ComposePanorama(InputArray images, OutputArray pano)
+        public Status ComposePanorama(InputArrayRef images, OutputArrayRef pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            images.ThrowIfDisposed();
-            pano.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama2_InputArray(Handle, images.ToInputProxy(), pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama2_InputArray(Handle, images.Proxy, pano.Proxy, out var ret));
 
-            pano.Fix();
-            GC.KeepAlive(images);
-            GC.KeepAlive(pano);
+            GC.KeepAlive(images.Source);
+            GC.KeepAlive(pano.Source);
             return (Status)ret;
         }
 
-        public Status ComposePanorama(IEnumerable<Mat> images, OutputArray pano)
+        public Status ComposePanorama(IEnumerable<Mat> images, OutputArrayRef pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            pano.ThrowIfNotReady();
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_composePanorama2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_composePanorama2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.Proxy, out var ret));
 
-            pano.Fix();
             GC.KeepAlive(images);
-            GC.KeepAlive(pano);
+            GC.KeepAlive(pano.Source);
             return (Status)ret;
         }
 
@@ -388,21 +364,13 @@ namespace OpenCvSharp
         /// <param name="images">Input images.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(InputArray images, OutputArray pano)
+        public Status Stitch(InputArrayRef images, OutputArrayRef pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            images.ThrowIfDisposed();
-            pano.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch1_InputArray(Handle, images.ToInputProxy(), pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_stitch1_InputArray(Handle, images.Proxy, pano.Proxy, out var ret));
 
-            GC.KeepAlive(images);
-            GC.KeepAlive(pano);
-            pano.Fix();
+            GC.KeepAlive(images.Source);
+            GC.KeepAlive(pano.Source);
 
             return (Status)ret;
         }
@@ -413,22 +381,18 @@ namespace OpenCvSharp
         /// <param name="images">Input images.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(IEnumerable<Mat> images, OutputArray pano)
+        public Status Stitch(IEnumerable<Mat> images, OutputArrayRef pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            pano.ThrowIfNotReady();
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch1_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_stitch1_MatArray(Handle, imagesPtrs, imagesPtrs.Length, pano.Proxy, out var ret));
 
             GC.KeepAlive(images);
-            GC.KeepAlive(pano);
-            pano.Fix();
+            GC.KeepAlive(pano.Source);
 
             return (Status)ret;
         }
@@ -440,24 +404,17 @@ namespace OpenCvSharp
         /// <param name="rois">Region of interest rectangles.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(InputArray images, Rect[][] rois, OutputArray pano)
+        public Status Stitch(InputArrayRef images, Rect[][] rois, OutputArrayRef pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
             if (rois is null)
                 throw new ArgumentNullException(nameof(rois));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            images.ThrowIfDisposed();
-            pano.ThrowIfNotReady();
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch2_InputArray(Handle, images.ToInputProxy(), roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_stitch2_InputArray(Handle, images.Proxy, roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.Proxy, out var ret));
 
-            pano.Fix();
-            GC.KeepAlive(images);
-            GC.KeepAlive(pano);
+            GC.KeepAlive(images.Source);
+            GC.KeepAlive(pano.Source);
             return (Status)ret;
         }
 
@@ -468,25 +425,21 @@ namespace OpenCvSharp
         /// <param name="rois">Region of interest rectangles.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArray pano)
+        public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArrayRef pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));
             if (rois is null)
                 throw new ArgumentNullException(nameof(rois));
-            if (pano is null)
-                throw new ArgumentNullException(nameof(pano));
-            pano.ThrowIfNotReady();
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
-                NativeMethods.stitching_Stitcher_stitch2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.ToOutputProxy(), out var ret));
+                NativeMethods.stitching_Stitcher_stitch2_MatArray(Handle, imagesPtrs, imagesPtrs.Length, roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(), pano.Proxy, out var ret));
 
-            pano.Fix();
             GC.KeepAlive(images);
-            GC.KeepAlive(pano);
+            GC.KeepAlive(pano.Source);
             return (Status)ret;
         }
 

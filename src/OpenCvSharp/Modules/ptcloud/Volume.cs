@@ -66,19 +66,16 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="frame">the object from which to take depth and image data.</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void IntegrateFrame(OdometryFrame frame, InputArray pose)
+    public void IntegrateFrame(OdometryFrame frame, InputArrayRef pose)
     {
         ThrowIfDisposed();
         if (frame is null)
             throw new ArgumentNullException(nameof(frame));
-        if (pose is null)
-            throw new ArgumentNullException(nameof(pose));
         frame.ThrowIfDisposed();
-        pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrateFrame(Handle, frame.CvPtr, pose.ToInputProxy()));
+            NativeMethods.ptcloud_Volume_integrateFrame(Handle, frame.CvPtr, pose.Proxy));
         GC.KeepAlive(frame);
-        GC.KeepAlive(pose);
+        GC.KeepAlive(pose.Source);
     }
 
     /// <summary>
@@ -86,19 +83,13 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="depth">the depth image.</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void Integrate(InputArray depth, InputArray pose)
+    public void Integrate(InputArrayRef depth, InputArrayRef pose)
     {
         ThrowIfDisposed();
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        if (pose is null)
-            throw new ArgumentNullException(nameof(pose));
-        depth.ThrowIfDisposed();
-        pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrate(Handle, depth.ToInputProxy(), pose.ToInputProxy()));
-        GC.KeepAlive(depth);
-        GC.KeepAlive(pose);
+            NativeMethods.ptcloud_Volume_integrate(Handle, depth.Proxy, pose.Proxy));
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(pose.Source);
     }
 
     /// <summary>
@@ -107,23 +98,14 @@ public class Volume : CvObject
     /// <param name="depth">the depth image.</param>
     /// <param name="image">the color image (only for ColorTSDF).</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void IntegrateColor(InputArray depth, InputArray image, InputArray pose)
+    public void IntegrateColor(InputArrayRef depth, InputArrayRef image, InputArrayRef pose)
     {
         ThrowIfDisposed();
-        if (depth is null)
-            throw new ArgumentNullException(nameof(depth));
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (pose is null)
-            throw new ArgumentNullException(nameof(pose));
-        depth.ThrowIfDisposed();
-        image.ThrowIfDisposed();
-        pose.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_integrateColor(Handle, depth.ToInputProxy(), image.ToInputProxy(), pose.ToInputProxy()));
-        GC.KeepAlive(depth);
-        GC.KeepAlive(image);
-        GC.KeepAlive(pose);
+            NativeMethods.ptcloud_Volume_integrateColor(Handle, depth.Proxy, image.Proxy, pose.Proxy));
+        GC.KeepAlive(depth.Source);
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(pose.Source);
     }
 
     #endregion
@@ -136,23 +118,12 @@ public class Volume : CvObject
     /// <param name="cameraPose">the pose of camera in global coordinates.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    public void Raycast(InputArray cameraPose, OutputArray points, OutputArray normals)
+    public void Raycast(InputArrayRef cameraPose, OutputArrayRef points, OutputArrayRef normals)
     {
         ThrowIfDisposed();
-        if (cameraPose is null)
-            throw new ArgumentNullException(nameof(cameraPose));
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        cameraPose.ThrowIfDisposed();
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycast(Handle, cameraPose.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
-        GC.KeepAlive(cameraPose);
+            NativeMethods.ptcloud_Volume_raycast(Handle, cameraPose.Proxy, points.Proxy, normals.Proxy));
+        GC.KeepAlive(cameraPose.Source);
     }
 
     /// <summary>
@@ -162,27 +133,12 @@ public class Volume : CvObject
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
     /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
-    public void RaycastColor(InputArray cameraPose, OutputArray points, OutputArray normals, OutputArray colors)
+    public void RaycastColor(InputArrayRef cameraPose, OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
     {
         ThrowIfDisposed();
-        if (cameraPose is null)
-            throw new ArgumentNullException(nameof(cameraPose));
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        if (colors is null)
-            throw new ArgumentNullException(nameof(colors));
-        cameraPose.ThrowIfDisposed();
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
-        colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastColor(Handle, cameraPose.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
-        colors.Fix();
-        GC.KeepAlive(cameraPose);
+            NativeMethods.ptcloud_Volume_raycastColor(Handle, cameraPose.Proxy, points.Proxy, normals.Proxy, colors.Proxy));
+        GC.KeepAlive(cameraPose.Source);
     }
 
     /// <summary>
@@ -194,27 +150,13 @@ public class Volume : CvObject
     /// <param name="K">camera raycast intrinsics.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    public void RaycastEx(InputArray cameraPose, int height, int width, InputArray K, OutputArray points, OutputArray normals)
+    public void RaycastEx(InputArrayRef cameraPose, int height, int width, InputArrayRef K, OutputArrayRef points, OutputArrayRef normals)
     {
         ThrowIfDisposed();
-        if (cameraPose is null)
-            throw new ArgumentNullException(nameof(cameraPose));
-        if (K is null)
-            throw new ArgumentNullException(nameof(K));
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        cameraPose.ThrowIfDisposed();
-        K.ThrowIfDisposed();
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastEx(Handle, cameraPose.ToInputProxy(), height, width, K.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
-        GC.KeepAlive(cameraPose);
-        GC.KeepAlive(K);
+            NativeMethods.ptcloud_Volume_raycastEx(Handle, cameraPose.Proxy, height, width, K.Proxy, points.Proxy, normals.Proxy));
+        GC.KeepAlive(cameraPose.Source);
+        GC.KeepAlive(K.Source);
     }
 
     /// <summary>
@@ -227,31 +169,13 @@ public class Volume : CvObject
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
     /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
-    public void RaycastExColor(InputArray cameraPose, int height, int width, InputArray K, OutputArray points, OutputArray normals, OutputArray colors)
+    public void RaycastExColor(InputArrayRef cameraPose, int height, int width, InputArrayRef K, OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
     {
         ThrowIfDisposed();
-        if (cameraPose is null)
-            throw new ArgumentNullException(nameof(cameraPose));
-        if (K is null)
-            throw new ArgumentNullException(nameof(K));
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        if (colors is null)
-            throw new ArgumentNullException(nameof(colors));
-        cameraPose.ThrowIfDisposed();
-        K.ThrowIfDisposed();
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
-        colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_raycastExColor(Handle, cameraPose.ToInputProxy(), height, width, K.ToInputProxy(), points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
-        colors.Fix();
-        GC.KeepAlive(cameraPose);
-        GC.KeepAlive(K);
+            NativeMethods.ptcloud_Volume_raycastExColor(Handle, cameraPose.Proxy, height, width, K.Proxy, points.Proxy, normals.Proxy, colors.Proxy));
+        GC.KeepAlive(cameraPose.Source);
+        GC.KeepAlive(K.Source);
     }
 
     #endregion
@@ -263,19 +187,12 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="points">the input existing points.</param>
     /// <param name="normals">the storage of normals (corresponding to input points).</param>
-    public void FetchNormals(InputArray points, OutputArray normals)
+    public void FetchNormals(InputArrayRef points, OutputArrayRef normals)
     {
         ThrowIfDisposed();
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        points.ThrowIfDisposed();
-        normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchNormals(Handle, points.ToInputProxy(), normals.ToOutputProxy()));
-        normals.Fix();
-        GC.KeepAlive(points);
+            NativeMethods.ptcloud_Volume_fetchNormals(Handle, points.Proxy, normals.Proxy));
+        GC.KeepAlive(points.Source);
     }
 
     /// <summary>
@@ -283,19 +200,11 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="points">the storage of all points.</param>
     /// <param name="normals">the storage of all normals, corresponding to points.</param>
-    public void FetchPointsNormals(OutputArray points, OutputArray normals)
+    public void FetchPointsNormals(OutputArrayRef points, OutputArrayRef normals)
     {
         ThrowIfDisposed();
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchPointsNormals(Handle, points.ToOutputProxy(), normals.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
+            NativeMethods.ptcloud_Volume_fetchPointsNormals(Handle, points.Proxy, normals.Proxy));
     }
 
     /// <summary>
@@ -304,23 +213,11 @@ public class Volume : CvObject
     /// <param name="points">the storage of all points.</param>
     /// <param name="normals">the storage of all normals, corresponding to points.</param>
     /// <param name="colors">the storage of all colors, corresponding to points (only for ColorTSDF).</param>
-    public void FetchPointsNormalsColors(OutputArray points, OutputArray normals, OutputArray colors)
+    public void FetchPointsNormalsColors(OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
     {
         ThrowIfDisposed();
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
-        if (colors is null)
-            throw new ArgumentNullException(nameof(colors));
-        points.ThrowIfNotReady();
-        normals.ThrowIfNotReady();
-        colors.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_fetchPointsNormalsColors(Handle, points.ToOutputProxy(), normals.ToOutputProxy(), colors.ToOutputProxy()));
-        points.Fix();
-        normals.Fix();
-        colors.Fix();
+            NativeMethods.ptcloud_Volume_fetchPointsNormalsColors(Handle, points.Proxy, normals.Proxy, colors.Proxy));
     }
 
     #endregion
@@ -364,15 +261,11 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="bb">6-float 1d array containing (min_x, min_y, min_z, max_x, max_y, max_z) in volume coordinates.</param>
     /// <param name="precision">bounding box calculation precision.</param>
-    public void GetBoundingBox(OutputArray bb, VolumeBoundingBoxPrecision precision)
+    public void GetBoundingBox(OutputArrayRef bb, VolumeBoundingBoxPrecision precision)
     {
         ThrowIfDisposed();
-        if (bb is null)
-            throw new ArgumentNullException(nameof(bb));
-        bb.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.ptcloud_Volume_getBoundingBox(Handle, bb.ToOutputProxy(), (int)precision));
-        bb.Fix();
+            NativeMethods.ptcloud_Volume_getBoundingBox(Handle, bb.Proxy, (int)precision));
     }
 
     /// <summary>

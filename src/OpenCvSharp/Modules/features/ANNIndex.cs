@@ -34,15 +34,12 @@ public class ANNIndex : CvPtrObject
     /// Adds feature vectors to the index.
     /// </summary>
     /// <param name="features">Matrix containing the feature vectors to index (num_features x feature_dimension).</param>
-    public void AddItems(InputArray features)
+    public void AddItems(InputArrayRef features)
     {
         ThrowIfDisposed();
-        if (features is null)
-            throw new ArgumentNullException(nameof(features));
-        features.ThrowIfDisposed();
 
-        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(Handle, features.ToInputProxy()));
-        GC.KeepAlive(features);
+        NativeMethods.HandleException(NativeMethods.features_ANNIndex_addItems(Handle, features.Proxy));
+        GC.KeepAlive(features.Source);
     }
 
     /// <summary>
@@ -63,24 +60,13 @@ public class ANNIndex : CvPtrObject
     /// <param name="dists">Output matrix that will contain the distances to the K-nearest neighbors found.</param>
     /// <param name="knn">Number of nearest neighbors to search for.</param>
     /// <param name="searchK">The maximum number of nodes to inspect; defaults to trees x knn when -1.</param>
-    public void KnnSearch(InputArray query, OutputArray indices, OutputArray dists, int knn, int searchK = -1)
+    public void KnnSearch(InputArrayRef query, OutputArrayRef indices, OutputArrayRef dists, int knn, int searchK = -1)
     {
         ThrowIfDisposed();
-        if (query is null)
-            throw new ArgumentNullException(nameof(query));
-        if (indices is null)
-            throw new ArgumentNullException(nameof(indices));
-        if (dists is null)
-            throw new ArgumentNullException(nameof(dists));
-        query.ThrowIfDisposed();
-        indices.ThrowIfNotReady();
-        dists.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.features_ANNIndex_knnSearch(Handle, query.ToInputProxy(), indices.ToOutputProxy(), dists.ToOutputProxy(), knn, searchK));
-        GC.KeepAlive(query);
-        indices.Fix();
-        dists.Fix();
+            NativeMethods.features_ANNIndex_knnSearch(Handle, query.Proxy, indices.Proxy, dists.Proxy, knn, searchK));
+        GC.KeepAlive(query.Source);
     }
 
     /// <summary>

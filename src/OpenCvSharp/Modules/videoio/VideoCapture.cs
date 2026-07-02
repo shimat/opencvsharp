@@ -1146,17 +1146,13 @@ public class VideoCapture : CvObject
     /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
     /// <param name="flag">it could be a frame index or a driver specific flag</param>
     /// <returns></returns>
-    public bool Retrieve(OutputArray image, int flag = 0)
+    public bool Retrieve(OutputArrayRef image, int flag = 0)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), flag, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.Proxy, flag, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
 
@@ -1170,17 +1166,13 @@ public class VideoCapture : CvObject
     /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
     /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
     /// <returns></returns>
-    public bool Retrieve(OutputArray image, CameraChannels streamIdx)
+    public bool Retrieve(OutputArrayRef image, CameraChannels streamIdx)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.ToOutputProxy(), (int)streamIdx, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(Handle, image.Proxy, (int)streamIdx, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
         
@@ -1259,17 +1251,13 @@ public class VideoCapture : CvObject
     /// frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
     /// </summary>
     /// <returns>`false` if no frames has been grabbed</returns>
-    public bool Read(OutputArray image)
+    public bool Read(OutputArrayRef image)
     {
         ThrowIfDisposed();
-        if(image is null)
-            throw new ArgumentNullException(nameof(image));
-        image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.ToOutputProxy(), out var ret));
+            NativeMethods.videoio_VideoCapture_read_OutputArray(Handle, image.Proxy, out var ret));
 
-        image.Fix();
         return ret != 0;
     }
         

@@ -47,20 +47,16 @@ public class WeChatQRCode : CvObject
     /// Will be empty if not found.
     /// </param>
     /// <returns>list of decoded string.</returns>
-    public string[] DetectAndDecode(InputArray inputImage, out Point2f[][] points)
+    public string[] DetectAndDecode(InputArrayRef inputImage, out Point2f[][] points)
     {
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        inputImage.ThrowIfDisposed();
-
         using var pointsVec = new VectorOfVectorPoint2f();
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode_points(
-                Handle, inputImage.ToInputProxy(), pointsVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.Proxy, pointsVec.CvPtr, texts.CvPtr));
 
         points = pointsVec.ToArray();
-        GC.KeepAlive(inputImage);
+        GC.KeepAlive(inputImage.Source);
         return texts.ToArray();
     }
 
@@ -75,20 +71,16 @@ public class WeChatQRCode : CvObject
     /// Will be empty if not found.
     /// </param>
     /// <returns>list of decoded string.</returns>
-    public string[] DetectAndDecodeRaw(InputArray inputImage, out Mat[] bbox)
+    public string[] DetectAndDecodeRaw(InputArrayRef inputImage, out Mat[] bbox)
     {
-        if (inputImage is null)
-            throw new ArgumentNullException(nameof(inputImage));
-        inputImage.ThrowIfDisposed();
-
         using var bboxVec = new VectorOfMat();
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
-                Handle, inputImage.ToInputProxy(), bboxVec.CvPtr, texts.CvPtr));
+                Handle, inputImage.Proxy, bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
-        GC.KeepAlive(inputImage);
+        GC.KeepAlive(inputImage.Source);
         return texts.ToArray();
     }
 }

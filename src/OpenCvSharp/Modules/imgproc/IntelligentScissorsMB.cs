@@ -134,15 +134,13 @@ public class IntelligentScissorsMB : CvObject
     /// </summary>
     /// <param name="image">input image. Type is #CV_8UC1 / #CV_8UC3</param>
     /// <returns></returns>
-    public IntelligentScissorsMB ApplyImage(InputArray image)
+    public IntelligentScissorsMB ApplyImage(InputArrayRef image)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImage(
-                CvPtr, image.ToInputProxy()));
+                CvPtr, image.Proxy));
 
         return this;
     }
@@ -157,20 +155,14 @@ public class IntelligentScissorsMB : CvObject
     /// <param name="image">Optional parameter. Must be specified if subset of features is specified (non-specified features are calculated internally)</param>
     /// <returns></returns>
     public IntelligentScissorsMB ApplyImageFeatures(
-        InputArray nonEdge, InputArray gradientDirection, InputArray gradientMagnitude,
-        InputArray? image = null)
+        InputArrayRef nonEdge, InputArrayRef gradientDirection, InputArrayRef gradientMagnitude,
+        InputArrayRef image = default)
     {
         ThrowIfDisposed();
-        if (nonEdge is null)
-            throw new ArgumentNullException(nameof(nonEdge));
-        if (gradientDirection is null)
-            throw new ArgumentNullException(nameof(gradientDirection));
-        if (gradientMagnitude is null)
-            throw new ArgumentNullException(nameof(gradientMagnitude));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
-                CvPtr, nonEdge.ToInputProxy(), gradientDirection.ToInputProxy(), gradientMagnitude.ToInputProxy(), image?.ToInputProxy() ?? default));
+                CvPtr, nonEdge.Proxy, gradientDirection.Proxy, gradientMagnitude.Proxy, image.Proxy));
 
         return this;
     }
@@ -197,14 +189,12 @@ public class IntelligentScissorsMB : CvObject
     /// <param name="contour">contour The list of pixels which contains optimal path between the source and the target points of the image. 
     /// Type is CV_32SC2 (compatible with `std::vector&lt;Point&gt;`)</param>
     /// <param name="backward">Flag to indicate reverse order of retrived pixels (use "true" value to fetch points from the target to the source point)</param>
-    public void GetContour(Point targetPt, OutputArray contour, bool backward = false)
+    public void GetContour(Point targetPt, OutputArrayRef contour, bool backward = false)
     {
         ThrowIfDisposed();
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_getContour(
-                CvPtr, targetPt, contour.ToOutputProxy(), backward ? 1 : 0));
+                CvPtr, targetPt, contour.Proxy, backward ? 1 : 0));
     }
 }

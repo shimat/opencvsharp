@@ -34,43 +34,24 @@ static partial class Cv2
         /// rotation vector, translation vector, and the skew.In the old interface different components of 
         /// the jacobian are returned via different output parameters.</param>
         public static void ProjectPoints(
-            InputArray objectPoints, OutputArray imagePoints, InputArray rvec, InputArray tvec,
-            InputArray k, InputArray d, double alpha = 0, OutputArray? jacobian = null)
+            InputArrayRef objectPoints, OutputArrayRef imagePoints, InputArrayRef rvec, InputArrayRef tvec,
+            InputArrayRef k, InputArrayRef d, double alpha = 0, OutputArrayRef jacobian = default)
         {
-            if (objectPoints is null)
-                throw new ArgumentNullException(nameof(objectPoints));
-            if (imagePoints is null)
-                throw new ArgumentNullException(nameof(imagePoints));
-            if (rvec is null)
-                throw new ArgumentNullException(nameof(rvec));
-            if (tvec is null)
-                throw new ArgumentNullException(nameof(tvec));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            objectPoints.ThrowIfDisposed();
-            rvec.ThrowIfDisposed();
-            tvec.ThrowIfDisposed();
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-            jacobian?.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_projectPoints2(
-                    objectPoints.ToInputProxy(),
-                    imagePoints.ToOutputProxy(),
-                    rvec.ToInputProxy(), tvec.ToInputProxy(),
-                    k.ToInputProxy(), d.ToInputProxy(),
-                    alpha, jacobian?.ToOutputProxy() ?? default));
+                    objectPoints.Proxy,
+                    imagePoints.Proxy,
+                    rvec.Proxy, tvec.Proxy,
+                    k.Proxy, d.Proxy,
+                    alpha, jacobian.Proxy));
 
-            GC.KeepAlive(objectPoints);
-            GC.KeepAlive(rvec);
-            GC.KeepAlive(tvec);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
-            GC.KeepAlive(imagePoints);
-            GC.KeepAlive(jacobian);
+            GC.KeepAlive(objectPoints.Source);
+            GC.KeepAlive(rvec.Source);
+            GC.KeepAlive(tvec.Source);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
+            GC.KeepAlive(imagePoints.Source);
+            GC.KeepAlive(jacobian.Source);
         }
 
         /// <summary>
@@ -83,29 +64,16 @@ static partial class Cv2
         /// <param name="d">Input vector of distortion coefficients</param>
         /// <param name="alpha">The skew coefficient.</param>
         public static void DistortPoints(
-            InputArray undistorted, OutputArray distorted, InputArray k, InputArray d, double alpha = 0)
+            InputArrayRef undistorted, OutputArrayRef distorted, InputArrayRef k, InputArrayRef d, double alpha = 0)
         {
-            if (undistorted is null)
-                throw new ArgumentNullException(nameof(undistorted));
-            if (distorted is null)
-                throw new ArgumentNullException(nameof(distorted));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            undistorted.ThrowIfDisposed();
-            distorted.ThrowIfNotReady();
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints(
-                    undistorted.ToInputProxy(), distorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), alpha));
+                    undistorted.Proxy, distorted.Proxy, k.Proxy, d.Proxy, alpha));
 
-            GC.KeepAlive(undistorted);
-            GC.KeepAlive(distorted);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
+            GC.KeepAlive(undistorted.Source);
+            GC.KeepAlive(distorted.Source);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
         }
 
         /// <summary>
@@ -121,34 +89,17 @@ static partial class Cv2
         /// <param name="d">Input vector of distortion coefficients.</param>
         /// <param name="alpha">The skew coefficient.</param>
         public static void DistortPoints(
-            InputArray undistorted, OutputArray distorted, InputArray kundistorted, InputArray k, InputArray d, double alpha = 0)
+            InputArrayRef undistorted, OutputArrayRef distorted, InputArrayRef kundistorted, InputArrayRef k, InputArrayRef d, double alpha = 0)
         {
-            if (undistorted is null)
-                throw new ArgumentNullException(nameof(undistorted));
-            if (distorted is null)
-                throw new ArgumentNullException(nameof(distorted));
-            if (kundistorted is null)
-                throw new ArgumentNullException(nameof(kundistorted));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            undistorted.ThrowIfDisposed();
-            distorted.ThrowIfNotReady();
-            kundistorted.ThrowIfDisposed();
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints2(
-                    undistorted.ToInputProxy(), distorted.ToOutputProxy(), kundistorted.ToInputProxy(), k.ToInputProxy(), d.ToInputProxy(), alpha));
+                    undistorted.Proxy, distorted.Proxy, kundistorted.Proxy, k.Proxy, d.Proxy, alpha));
 
-            distorted.Fix();
-            GC.KeepAlive(undistorted);
-            GC.KeepAlive(distorted);
-            GC.KeepAlive(kundistorted);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
+            GC.KeepAlive(undistorted.Source);
+            GC.KeepAlive(distorted.Source);
+            GC.KeepAlive(kundistorted.Source);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
         }
 
         /// <summary>
@@ -163,34 +114,19 @@ static partial class Cv2
         /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
         // ReSharper disable once MemberHidesStaticFromOuterClass
         public static void UndistortPoints(
-            InputArray distorted, OutputArray undistorted,
-            InputArray k, InputArray d, InputArray? r = null, InputArray? p = null)
+            InputArrayRef distorted, OutputArrayRef undistorted,
+            InputArrayRef k, InputArrayRef d, InputArrayRef r = default, InputArrayRef p = default)
         {
-            if (distorted is null)
-                throw new ArgumentNullException(nameof(distorted));
-            if (undistorted is null)
-                throw new ArgumentNullException(nameof(undistorted));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            distorted.ThrowIfDisposed();
-            undistorted.ThrowIfNotReady();
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-            r?.ThrowIfDisposed();
-            p?.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortPoints(
-                    distorted.ToInputProxy(), undistorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), r?.ToInputProxy() ?? default, p?.ToInputProxy() ?? default));
+                    distorted.Proxy, undistorted.Proxy, k.Proxy, d.Proxy, r.Proxy, p.Proxy));
 
-            GC.KeepAlive(distorted);
-            GC.KeepAlive(undistorted);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
-            GC.KeepAlive(r);
-            GC.KeepAlive(p);
+            GC.KeepAlive(distorted.Source);
+            GC.KeepAlive(undistorted.Source);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
+            GC.KeepAlive(r.Source);
+            GC.KeepAlive(p.Source);
         }
 
         /// <summary>
@@ -206,38 +142,19 @@ static partial class Cv2
         /// <param name="map1">The first output map.</param>
         /// <param name="map2">The second output map.</param>
         public static void InitUndistortRectifyMap(
-            InputArray k, InputArray d, InputArray r, InputArray p,
-            Size size, int m1type, OutputArray map1, OutputArray map2)
+            InputArrayRef k, InputArrayRef d, InputArrayRef r, InputArrayRef p,
+            Size size, int m1type, OutputArrayRef map1, OutputArrayRef map2)
         {
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            if (r is null)
-                throw new ArgumentNullException(nameof(r));
-            if (p is null)
-                throw new ArgumentNullException(nameof(p));
-            if (map1 is null)
-                throw new ArgumentNullException(nameof(map1));
-            if (map2 is null)
-                throw new ArgumentNullException(nameof(map2));
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-            r.ThrowIfDisposed();
-            p.ThrowIfDisposed();
-            map1.ThrowIfNotReady();
-            map2.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_initUndistortRectifyMap(
-                    k.ToInputProxy(), d.ToInputProxy(), r.ToInputProxy(), p.ToInputProxy(), size, m1type, map1.ToOutputProxy(), map2.ToOutputProxy()));
+                    k.Proxy, d.Proxy, r.Proxy, p.Proxy, size, m1type, map1.Proxy, map2.Proxy));
                 
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
-            GC.KeepAlive(r);
-            GC.KeepAlive(p);
-            GC.KeepAlive(map1);
-            GC.KeepAlive(map2);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
+            GC.KeepAlive(r.Source);
+            GC.KeepAlive(p.Source);
+            GC.KeepAlive(map1.Source);
+            GC.KeepAlive(map2.Source);
         }
 
         /// <summary>
@@ -251,32 +168,18 @@ static partial class Cv2
         /// may additionally scale and shift the result by using a different matrix.</param>
         /// <param name="newSize"></param>
         public static void UndistortImage(
-            InputArray distorted, OutputArray undistorted,
-            InputArray k, InputArray d, InputArray? knew = null, Size newSize = default)
+            InputArrayRef distorted, OutputArrayRef undistorted,
+            InputArrayRef k, InputArrayRef d, InputArrayRef knew = default, Size newSize = default)
         {
-            if (distorted is null)
-                throw new ArgumentNullException(nameof(distorted));
-            if (undistorted is null)
-                throw new ArgumentNullException(nameof(undistorted));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            distorted.ThrowIfDisposed();
-            undistorted.ThrowIfNotReady();
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-            knew?.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortImage(
-                    distorted.ToInputProxy(), undistorted.ToOutputProxy(), k.ToInputProxy(), d.ToInputProxy(), knew?.ToInputProxy() ?? default, newSize));
+                    distorted.Proxy, undistorted.Proxy, k.Proxy, d.Proxy, knew.Proxy, newSize));
 
-            GC.KeepAlive(distorted);
-            GC.KeepAlive(undistorted);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
-            GC.KeepAlive(knew);
+            GC.KeepAlive(distorted.Source);
+            GC.KeepAlive(undistorted.Source);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
+            GC.KeepAlive(knew.Source);
         }
 
         /// <summary>
@@ -293,30 +196,17 @@ static partial class Cv2
         /// <param name="newSize"></param>
         /// <param name="fovScale">Divisor for new focal length.</param>
         public static void EstimateNewCameraMatrixForUndistortRectify(
-            InputArray k, InputArray d, Size imageSize, InputArray r,
-            OutputArray p, double balance = 0.0, Size newSize = default, double fovScale = 1.0)
+            InputArrayRef k, InputArrayRef d, Size imageSize, InputArrayRef r,
+            OutputArrayRef p, double balance = 0.0, Size newSize = default, double fovScale = 1.0)
         {
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            if (r is null)
-                throw new ArgumentNullException(nameof(r));
-            if (p is null)
-                throw new ArgumentNullException(nameof(p));
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
-            r.ThrowIfDisposed();
-            p.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
-                    k.ToInputProxy(), d.ToInputProxy(), imageSize, r.ToInputProxy(), p.ToOutputProxy(), balance, newSize, fovScale));
+                    k.Proxy, d.Proxy, imageSize, r.Proxy, p.Proxy, balance, newSize, fovScale));
 
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
-            GC.KeepAlive(r);
-            GC.KeepAlive(p);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
+            GC.KeepAlive(r.Source);
+            GC.KeepAlive(p.Source);
         }
 
         /// <summary>
@@ -340,7 +230,7 @@ static partial class Cv2
         /// <returns></returns>
         public static double Calibrate(
             IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints,
-            Size imageSize, InputOutputArray k, InputOutputArray d,
+            Size imageSize, InputOutputArrayRef k, InputOutputArrayRef d,
             out IEnumerable<Mat> rvecs, out IEnumerable<Mat> tvecs,
             FishEyeCalibrationFlags flags = 0, TermCriteria? criteria = null)
         {
@@ -348,12 +238,6 @@ static partial class Cv2
                 throw new ArgumentNullException(nameof(objectPoints));
             if (imagePoints is null)
                 throw new ArgumentNullException(nameof(imagePoints));
-            if (k is null)
-                throw new ArgumentNullException(nameof(k));
-            if (d is null)
-                throw new ArgumentNullException(nameof(d));
-            k.ThrowIfDisposed();
-            d.ThrowIfDisposed();
 
             var criteriaVal = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
@@ -365,15 +249,15 @@ static partial class Cv2
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_calibrate(
                     objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
-                    k.ToInputOutputProxy(), d.ToInputOutputProxy(), rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal, out var result));
+                    k.Proxy, d.Proxy, rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal, out var result));
 
             rvecs = rvecsVec.ToArray();
             tvecs = tvecsVec.ToArray();
 
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(imagePoints);
-            GC.KeepAlive(k);
-            GC.KeepAlive(d);
+            GC.KeepAlive(k.Source);
+            GC.KeepAlive(d.Source);
 
             return result;
         }
@@ -406,62 +290,28 @@ static partial class Cv2
         /// length.Balance is in range of[0, 1].</param>
         /// <param name="fovScale">Divisor for new focal length.</param>
         public static void StereoRectify(
-            InputArray k1, InputArray d1, InputArray k2, InputArray d2, 
-            Size imageSize, InputArray r, InputArray tvec, OutputArray r1, OutputArray r2, 
-            OutputArray p1, OutputArray p2, OutputArray q, FishEyeCalibrationFlags flags, Size newImageSize = default,
+            InputArrayRef k1, InputArrayRef d1, InputArrayRef k2, InputArrayRef d2, 
+            Size imageSize, InputArrayRef r, InputArrayRef tvec, OutputArrayRef r1, OutputArrayRef r2, 
+            OutputArrayRef p1, OutputArrayRef p2, OutputArrayRef q, FishEyeCalibrationFlags flags, Size newImageSize = default,
             double balance = 0.0, double fovScale = 1.0)
         {
-            if (k1 is null)
-                throw new ArgumentNullException(nameof(k1));
-            if (d1 is null)
-                throw new ArgumentNullException(nameof(d1));
-            if (k2 is null)
-                throw new ArgumentNullException(nameof(k2));
-            if (d2 is null)
-                throw new ArgumentNullException(nameof(d2));
-            if (r is null)
-                throw new ArgumentNullException(nameof(r));
-            if (tvec is null)
-                throw new ArgumentNullException(nameof(tvec));
-            if (r1 is null)
-                throw new ArgumentNullException(nameof(r1));
-            if (r2 is null)
-                throw new ArgumentNullException(nameof(r2));
-            if (p1 is null)
-                throw new ArgumentNullException(nameof(p1));
-            if (p2 is null)
-                throw new ArgumentNullException(nameof(p2));
-            if (q is null)
-                throw new ArgumentNullException(nameof(q));
-            k1.ThrowIfDisposed();
-            d1.ThrowIfDisposed();
-            k2.ThrowIfDisposed();
-            d2.ThrowIfDisposed();
-            r.ThrowIfDisposed();
-            tvec.ThrowIfDisposed();
-            r1.ThrowIfNotReady();
-            r2.ThrowIfNotReady();
-            p1.ThrowIfNotReady();
-            p2.ThrowIfNotReady();
-            q.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_stereoRectify(
-                    k1.ToInputProxy(), d1.ToInputProxy(), k2.ToInputProxy(), d2.ToInputProxy(),
-                    imageSize, r.ToInputProxy(), tvec.ToInputProxy(), r1.ToOutputProxy(), r2.ToOutputProxy(),
-                    p1.ToOutputProxy(), p2.ToOutputProxy(), q.ToOutputProxy(), (int) flags, newImageSize, balance, fovScale));
+                    k1.Proxy, d1.Proxy, k2.Proxy, d2.Proxy,
+                    imageSize, r.Proxy, tvec.Proxy, r1.Proxy, r2.Proxy,
+                    p1.Proxy, p2.Proxy, q.Proxy, (int) flags, newImageSize, balance, fovScale));
 
-            GC.KeepAlive(k1);
-            GC.KeepAlive(d1);
-            GC.KeepAlive(k2);
-            GC.KeepAlive(d2);
-            GC.KeepAlive(r);
-            GC.KeepAlive(tvec);
-            GC.KeepAlive(r1);
-            GC.KeepAlive(r2);
-            GC.KeepAlive(p1);
-            GC.KeepAlive(p2);
-            GC.KeepAlive(q);
+            GC.KeepAlive(k1.Source);
+            GC.KeepAlive(d1.Source);
+            GC.KeepAlive(k2.Source);
+            GC.KeepAlive(d2.Source);
+            GC.KeepAlive(r.Source);
+            GC.KeepAlive(tvec.Source);
+            GC.KeepAlive(r1.Source);
+            GC.KeepAlive(r2.Source);
+            GC.KeepAlive(p1.Source);
+            GC.KeepAlive(p2.Source);
+            GC.KeepAlive(q.Source);
         }
 
         /// <summary>
@@ -485,8 +335,8 @@ static partial class Cv2
         /// <returns></returns>
         public static double StereoCalibrate(
             IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
-            InputOutputArray k1, InputOutputArray d1, InputOutputArray k2, InputOutputArray d2, Size imageSize,
-            OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
+            InputOutputArrayRef k1, InputOutputArrayRef d1, InputOutputArrayRef k2, InputOutputArrayRef d2, Size imageSize,
+            OutputArrayRef r, OutputArrayRef t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
             TermCriteria? criteria = null)
         {
             if (objectPoints is null)
@@ -495,24 +345,6 @@ static partial class Cv2
                 throw new ArgumentNullException(nameof(imagePoints1));
             if (imagePoints2 is null)
                 throw new ArgumentNullException(nameof(imagePoints2));
-            if (k1 is null)
-                throw new ArgumentNullException(nameof(k1));
-            if (d1 is null)
-                throw new ArgumentNullException(nameof(d1));
-            if (k2 is null)
-                throw new ArgumentNullException(nameof(k2));
-            if (d2 is null)
-                throw new ArgumentNullException(nameof(d2));
-            if (r is null)
-                throw new ArgumentNullException(nameof(r));
-            if (t is null)
-                throw new ArgumentNullException(nameof(t));
-            k1.ThrowIfNotReady();
-            d1.ThrowIfNotReady();
-            k2.ThrowIfNotReady();
-            d2.ThrowIfNotReady();
-            r.ThrowIfNotReady();
-            t.ThrowIfNotReady();
 
             var criteriaVal = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
@@ -523,18 +355,18 @@ static partial class Cv2
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_stereoCalibrate(
                     objectPointsVec.CvPtr, imagePoints1Vec.CvPtr, imagePoints2Vec.CvPtr,
-                    k1.ToInputOutputProxy(), d1.ToInputOutputProxy(), k2.ToInputOutputProxy(), d2.ToInputOutputProxy(), imageSize,
-                    r.ToOutputProxy(), t.ToOutputProxy(), (int) flags, criteriaVal, out var result));
+                    k1.Proxy, d1.Proxy, k2.Proxy, d2.Proxy, imageSize,
+                    r.Proxy, t.Proxy, (int) flags, criteriaVal, out var result));
 
             GC.KeepAlive(objectPoints);
             GC.KeepAlive(imagePoints1);
             GC.KeepAlive(imagePoints2);
-            GC.KeepAlive(k1);
-            GC.KeepAlive(d1);
-            GC.KeepAlive(k2);
-            GC.KeepAlive(d2);
-            GC.KeepAlive(r);
-            GC.KeepAlive(t);
+            GC.KeepAlive(k1.Source);
+            GC.KeepAlive(d1.Source);
+            GC.KeepAlive(k2.Source);
+            GC.KeepAlive(d2.Source);
+            GC.KeepAlive(r.Source);
+            GC.KeepAlive(t.Source);
 
             return result;
         }

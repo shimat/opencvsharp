@@ -40,21 +40,12 @@ public class Tonemap : Algorithm
     /// </summary>
     /// <param name="src">source image - CV_32FC3 Mat (float 32 bits 3 channels)</param>
     /// <param name="dst">destination image - CV_32FC3 Mat with values in [0, 1] range</param>
-    public virtual void Process(InputArray src, OutputArray dst)
+    public virtual void Process(InputArrayRef src, OutputArrayRef dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
-
         NativeMethods.HandleException(
-            NativeMethods.photo_Tonemap_process(Handle, src.ToInputProxy(), dst.ToOutputProxy()));
+            NativeMethods.photo_Tonemap_process(Handle, src.Proxy, dst.Proxy));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 
     /// <summary>

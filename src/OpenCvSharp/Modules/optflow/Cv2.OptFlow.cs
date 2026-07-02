@@ -19,23 +19,15 @@ public static partial class Cv2
         /// <param name="timestamp">Current time in milliseconds or other units.</param>
         /// <param name="duration">Maximal duration of the motion track in the same units as timestamp .</param>
         public static void UpdateMotionHistory(
-            InputArray silhouette, InputOutputArray mhi,
+            InputArrayRef silhouette, InputOutputArrayRef mhi,
             double timestamp, double duration)
         {
-            if (silhouette is null)
-                throw new ArgumentNullException(nameof(silhouette));
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            silhouette.ThrowIfDisposed();
-            mhi.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_updateMotionHistory(
-                    silhouette.ToInputProxy(), mhi.ToInputOutputProxy(), timestamp, duration));
+                    silhouette.Proxy, mhi.Proxy, timestamp, duration));
 
-            mhi.Fix();
-            GC.KeepAlive(silhouette);
-            GC.KeepAlive(mhi);
+            GC.KeepAlive(silhouette.Source);
+            GC.KeepAlive(mhi.Source);
         }
 
         /// <summary>
@@ -53,28 +45,16 @@ public static partial class Cv2
         /// min(delta1, delta2) &lt;= M(x,y)-m(x,y) &lt;= max(delta1, delta2).</param>
         /// <param name="apertureSize"></param>
         public static void CalcMotionGradient(
-            InputArray mhi, OutputArray mask, OutputArray orientation,
+            InputArrayRef mhi, OutputArrayRef mask, OutputArrayRef orientation,
             double delta1, double delta2, int apertureSize = 3)
         {
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            if (orientation is null)
-                throw new ArgumentNullException(nameof(orientation));
-            mhi.ThrowIfDisposed();
-            mask.ThrowIfNotReady();
-            orientation.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcMotionGradient(
-                    mhi.ToInputProxy(), mask.ToOutputProxy(), orientation.ToOutputProxy(), delta1, delta2, apertureSize));
+                    mhi.Proxy, mask.Proxy, orientation.Proxy, delta1, delta2, apertureSize));
 
-            mask.Fix();
-            orientation.Fix();
-            GC.KeepAlive(mhi);
-            GC.KeepAlive(mask);
-            GC.KeepAlive(orientation);
+            GC.KeepAlive(mhi.Source);
+            GC.KeepAlive(mask.Source);
+            GC.KeepAlive(orientation.Source);
         }
 
         /// <summary>
@@ -88,26 +68,16 @@ public static partial class Cv2
         /// <param name="duration">Maximum duration of a motion track in milliseconds, passed to UpdateMotionHistory() .</param>
         /// <returns></returns>
         public static double CalcGlobalOrientation(
-            InputArray orientation, InputArray mask, InputArray mhi,
+            InputArrayRef orientation, InputArrayRef mask, InputArrayRef mhi,
             double timestamp, double duration)
         {
-            if (orientation is null)
-                throw new ArgumentNullException(nameof(orientation));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            orientation.ThrowIfDisposed();
-            mask.ThrowIfDisposed();
-            mhi.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_calcGlobalOrientation(
-                    orientation.ToInputProxy(), mask.ToInputProxy(), mhi.ToInputProxy(), timestamp, duration, out var ret));
+                    orientation.Proxy, mask.Proxy, mhi.Proxy, timestamp, duration, out var ret));
 
-            GC.KeepAlive(orientation);
-            GC.KeepAlive(mask);
-            GC.KeepAlive(mhi);
+            GC.KeepAlive(orientation.Source);
+            GC.KeepAlive(mask.Source);
+            GC.KeepAlive(mhi.Source);
             return ret;
         }
 
@@ -121,26 +91,18 @@ public static partial class Cv2
         /// <param name="timestamp">Current time in milliseconds or other units.</param>
         /// <param name="segThresh">Segmentation threshold that is recommended to be equal to the interval between motion history “steps” or greater.</param>
         public static void SegmentMotion(
-            InputArray mhi, OutputArray segmask,
+            InputArrayRef mhi, OutputArrayRef segmask,
             out Rect[] boundingRects,
             double timestamp, double segThresh)
         {
-            if (mhi is null)
-                throw new ArgumentNullException(nameof(mhi));
-            if (segmask is null)
-                throw new ArgumentNullException(nameof(segmask));
-            mhi.ThrowIfDisposed();
-            segmask.ThrowIfNotReady();
-
             using var br = new StdVector<Rect>();
             NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_segmentMotion(
-                    mhi.ToInputProxy(), segmask.ToOutputProxy(), br.CvPtr, timestamp, segThresh));
+                    mhi.Proxy, segmask.Proxy, br.CvPtr, timestamp, segThresh));
             boundingRects = br.ToArray();
             
-            segmask.Fix();
-            GC.KeepAlive(mhi);
-            GC.KeepAlive(segmask);
+            GC.KeepAlive(mhi.Source);
+            GC.KeepAlive(segmask.Source);
         }
 
         /// <summary>
@@ -153,31 +115,21 @@ public static partial class Cv2
         /// <param name="averagingBlockSize">Size of block through which we sum up when calculate cost function for pixel</param>
         /// <param name="maxFlow">maximal flow that we search at each level</param>
         public static void CalcOpticalFlowSF(
-            InputArray from,
-            InputArray to,
-            OutputArray flow,
+            InputArrayRef from,
+            InputArrayRef to,
+            OutputArrayRef flow,
             int layers,
             int averagingBlockSize,
             int maxFlow)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF1(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     layers, averagingBlockSize, maxFlow));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
 
         /// <summary>
@@ -200,9 +152,9 @@ public static partial class Cv2
         /// <param name="upscaleSigmaColor">color sigma for bilateral upscale operation</param>
         /// <param name="speedUpThr">threshold to detect point with irregular flow - where flow should be recalculated after upscale</param>
         public static void CalcOpticalFlowSF(
-            InputArray from,
-            InputArray to,
-            OutputArray flow,
+            InputArrayRef from,
+            InputArrayRef to,
+            OutputArrayRef flow,
             int layers,
             int averagingBlockSize,
             int maxFlow,
@@ -217,27 +169,17 @@ public static partial class Cv2
             double upscaleSigmaColor,
             double speedUpThr)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSF2(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     layers, averagingBlockSize, maxFlow,
                     sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
                     sigmaColorFix, occThr, upscaleAveragingRadius,
                     upscaleSigmaDist, upscaleSigmaColor, speedUpThr));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
 
         /// <summary>
@@ -256,9 +198,9 @@ public static partial class Cv2
         /// <param name="fgsLambda">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
         /// <param name="fgsSigma">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
         public static void CalcOpticalFlowSparseToDense(
-            InputArray from,
-            InputArray to,
-            OutputArray flow,
+            InputArrayRef from,
+            InputArrayRef to,
+            OutputArrayRef flow,
             int gridStep = 8,
             int k = 128,
             float sigma = 0.05f,
@@ -266,24 +208,14 @@ public static partial class Cv2
             float fgsLambda = 500.0f,
             float fgsSigma = 1.5f)
         {
-            if (from is null)
-                throw new ArgumentNullException(nameof(from));
-            if (to is null)
-                throw new ArgumentNullException(nameof(to));
-            if (flow is null)
-                throw new ArgumentNullException(nameof(flow));
-            from.ThrowIfDisposed();
-            to.ThrowIfDisposed();
-            flow.ThrowIfDisposed();
-
             NativeMethods.HandleException(
                 NativeMethods.optflow_calcOpticalFlowSparseToDense(
-                    from.ToInputProxy(), to.ToInputProxy(), flow.ToOutputProxy(),
+                    from.Proxy, to.Proxy, flow.Proxy,
                     gridStep, k, sigma, usePostProc ? 1 : 0, fgsLambda, fgsSigma));
 
-            GC.KeepAlive(from);
-            GC.KeepAlive(to);
-            GC.KeepAlive(flow);
+            GC.KeepAlive(from.Source);
+            GC.KeepAlive(to.Source);
+            GC.KeepAlive(flow.Source);
         }
     }
 }

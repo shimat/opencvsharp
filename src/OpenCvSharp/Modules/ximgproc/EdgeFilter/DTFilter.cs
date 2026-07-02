@@ -31,18 +31,14 @@ public class DTFilter : Algorithm
     /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
     /// <returns></returns>
     public static DTFilter Create(
-        InputArray guide, double sigmaSpatial, double sigmaColor, 
+        InputArrayRef guide, double sigmaSpatial, double sigmaColor, 
         EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
     {
-        if (guide is null)
-            throw new ArgumentNullException(nameof(guide));
-        guide.ThrowIfDisposed();
-
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createDTFilter(
-                guide.ToInputProxy(), sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
+                guide.Proxy, sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
             
-        GC.KeepAlive(guide); 
+        GC.KeepAlive(guide.Source); 
         NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_get(smartPtr, out var rawPtr));
         return new DTFilter(smartPtr, rawPtr);
     }
@@ -54,21 +50,14 @@ public class DTFilter : Algorithm
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="dDepth"></param>
-    public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
+    public virtual void Filter(InputArrayRef src, OutputArrayRef dst, int dDepth = -1)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        src.ThrowIfDisposed();
-        dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                Handle, src.ToInputProxy(), dst.ToOutputProxy(), dDepth));
+                Handle, src.Proxy, dst.Proxy, dDepth));
 
-        GC.KeepAlive(src);
-        dst.Fix();
+        GC.KeepAlive(src.Source);
     }
 }

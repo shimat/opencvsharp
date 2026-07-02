@@ -132,20 +132,12 @@ public static partial class Cv2
             /// <param name="rlDest">resulting run length encoded image.</param>
             /// <param name="thresh">threshold value.</param>
             /// <param name="type">thresholding type (only cv::THRESH_BINARY and cv::THRESH_BINARY_INV are supported)</param>
-            public static void Threshold(InputArray src, OutputArray rlDest, double thresh, ThresholdTypes type)
+            public static void Threshold(InputArrayRef src, OutputArrayRef rlDest, double thresh, ThresholdTypes type)
             {
-                if (src is null)
-                    throw new ArgumentNullException(nameof(src));
-                if (rlDest is null)
-                    throw new ArgumentNullException(nameof(rlDest));
-                src.ThrowIfDisposed();
-                rlDest.ThrowIfNotReady();
-
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_threshold(src.ToInputProxy(), rlDest.ToOutputProxy(), thresh, (int)type));
+                    NativeMethods.ximgproc_rl_threshold(src.Proxy, rlDest.Proxy, thresh, (int)type));
 
-                GC.KeepAlive(src);
-                rlDest.Fix();
+                GC.KeepAlive(src.Source);
             }
 
             /// <summary>
@@ -156,26 +148,15 @@ public static partial class Cv2
             /// <param name="rlKernel">kernel</param>
             /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
             public static void Dilate(
-                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, Point? anchor = null)
+                InputArrayRef rlSrc, OutputArrayRef rlDest, InputArrayRef rlKernel, Point? anchor = null)
             {
-                if (rlSrc is null)
-                    throw new ArgumentNullException(nameof(rlSrc));
-                if (rlDest is null)
-                    throw new ArgumentNullException(nameof(rlDest));
-                if (rlKernel is null)
-                    throw new ArgumentNullException(nameof(rlKernel));
-                rlSrc.ThrowIfDisposed();
-                rlDest.ThrowIfNotReady();
-                rlKernel.ThrowIfDisposed();
-
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_dilate(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), rlKernel.ToInputProxy(), anchorValue));
+                    NativeMethods.ximgproc_rl_dilate(rlSrc.Proxy, rlDest.Proxy, rlKernel.Proxy, anchorValue));
 
-                GC.KeepAlive(rlSrc);
-                rlDest.Fix();
-                GC.KeepAlive(rlKernel);
+                GC.KeepAlive(rlSrc.Source);
+                GC.KeepAlive(rlKernel.Source);
             }
 
             /// <summary>
@@ -189,26 +170,15 @@ public static partial class Cv2
             /// <param name="anchor">position of the anchor within the element; default value (0, 0)
             /// is usually the element center.</param>
             public static void Erode(
-                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, bool bBoundaryOn = true, Point? anchor = null)
+                InputArrayRef rlSrc, OutputArrayRef rlDest, InputArrayRef rlKernel, bool bBoundaryOn = true, Point? anchor = null)
             {
-                if (rlSrc is null)
-                    throw new ArgumentNullException(nameof(rlSrc));
-                if (rlDest is null)
-                    throw new ArgumentNullException(nameof(rlDest));
-                if (rlKernel is null)
-                    throw new ArgumentNullException(nameof(rlKernel));
-                rlSrc.ThrowIfDisposed();
-                rlDest.ThrowIfNotReady();
-                rlKernel.ThrowIfDisposed();
-
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_erode(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), rlKernel.ToInputProxy(), bBoundaryOn ? 1 : 0, anchorValue));
+                    NativeMethods.ximgproc_rl_erode(rlSrc.Proxy, rlDest.Proxy, rlKernel.Proxy, bBoundaryOn ? 1 : 0, anchorValue));
 
-                GC.KeepAlive(rlSrc);
-                rlDest.Fix();
-                GC.KeepAlive(rlKernel);
+                GC.KeepAlive(rlSrc.Source);
+                GC.KeepAlive(rlKernel.Source);
             }
 
             /// <summary>
@@ -231,20 +201,12 @@ public static partial class Cv2
             /// <param name="image">image to paint into (currently only single channel images).</param>
             /// <param name="rlSrc">run length encoded image</param>
             /// <param name="value">all foreground pixel of the binary image are set to this value</param>
-            public static void Paint(InputOutputArray image, InputArray rlSrc, Scalar value)
+            public static void Paint(InputOutputArrayRef image, InputArrayRef rlSrc, Scalar value)
             {
-                if (image is null)
-                    throw new ArgumentNullException(nameof(image));
-                if (rlSrc is null)
-                    throw new ArgumentNullException(nameof(rlSrc));
-                image.ThrowIfNotReady();
-                rlSrc.ThrowIfDisposed();
-
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_paint(image.ToInputOutputProxy(), rlSrc.ToInputProxy(), value));
+                    NativeMethods.ximgproc_rl_paint(image.Proxy, rlSrc.Proxy, value));
                 
-                image.Fix();
-                GC.KeepAlive(rlSrc);
+                GC.KeepAlive(rlSrc.Source);
             }
 
             /// <summary>
@@ -253,15 +215,12 @@ public static partial class Cv2
             /// </summary>
             /// <param name="rlStructuringElement"></param>
             /// <returns></returns>
-            public static bool IsRLMorphologyPossible(InputArray rlStructuringElement)
+            public static bool IsRLMorphologyPossible(InputArrayRef rlStructuringElement)
             {
-                if (rlStructuringElement is null)
-                    throw new ArgumentNullException(nameof(rlStructuringElement));
-                
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.ToInputProxy(), out var ret));
+                    NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.Proxy, out var ret));
 
-                GC.KeepAlive(rlStructuringElement);
+                GC.KeepAlive(rlStructuringElement.Source);
 
                 return ret != 0;
             }
@@ -273,19 +232,14 @@ public static partial class Cv2
             /// <param name="res">result</param>
             /// <param name="size">image size (to be used if an "on" boundary should be used in erosion, using the default
             /// means that the size is computed from the extension of the input)</param>
-            public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArray res, Size? size = null)
+            public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArrayRef res, Size? size = null)
             {
-                if (res is null)
-                    throw new ArgumentNullException(nameof(res));
-                res.ThrowIfNotReady();
-
                 var runsArray = runs as Point3i[] ?? runs.ToArray();
                 var sizeValue = size.GetValueOrDefault(new Size(0, 0));
                                 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_createRLEImage(runsArray, runsArray.Length, res.ToOutputProxy(), sizeValue));
+                    NativeMethods.ximgproc_rl_createRLEImage(runsArray, runsArray.Length, res.Proxy, sizeValue));
 
-                res.Fix();
             }
 
             /// <summary>
@@ -299,27 +253,16 @@ public static partial class Cv2
             /// to be on for erosion operations (True: works in the same way as the default of cv::erode, False: is a little faster)</param>
             /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
             public static void MorphologyEx(
-                InputArray rlSrc, OutputArray rlDest, MorphTypes op, InputArray rlKernel,
+                InputArrayRef rlSrc, OutputArrayRef rlDest, MorphTypes op, InputArrayRef rlKernel,
                 bool bBoundaryOnForErosion = true, Point? anchor = null)
             {
-                if (rlSrc is null)
-                    throw new ArgumentNullException(nameof(rlSrc));
-                if (rlDest is null)
-                    throw new ArgumentNullException(nameof(rlDest));
-                if (rlKernel is null)
-                    throw new ArgumentNullException(nameof(rlKernel));
-                rlSrc.ThrowIfDisposed();
-                rlDest.ThrowIfNotReady();
-                rlKernel.ThrowIfDisposed();
-
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_rl_morphologyEx(rlSrc.ToInputProxy(), rlDest.ToOutputProxy(), (int)op, rlKernel.ToInputProxy(), bBoundaryOnForErosion ? 1 : 0, anchorValue));
+                    NativeMethods.ximgproc_rl_morphologyEx(rlSrc.Proxy, rlDest.Proxy, (int)op, rlKernel.Proxy, bBoundaryOnForErosion ? 1 : 0, anchorValue));
 
-                GC.KeepAlive(rlSrc);
-                rlDest.Fix();
-                GC.KeepAlive(rlKernel);
+                GC.KeepAlive(rlSrc.Source);
+                GC.KeepAlive(rlKernel.Source);
             }
         }
 
@@ -350,8 +293,8 @@ public static partial class Cv2
         /// Other techniques can be specified, see cv::ximgproc::LocalBinarizationMethods.</param>
         /// <param name="r">The user-adjustable parameter used by Sauvola's technique. This is the dynamic range of standard deviation.</param>
         public static void NiblackThreshold(
-            InputArray src,
-            OutputArray dst,
+            InputArrayRef src,
+            OutputArrayRef dst,
             double maxValue,
             ThresholdTypes type,
             int blockSize,
@@ -359,19 +302,11 @@ public static partial class Cv2
             LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack,
             double r = 128)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_niBlackThreshold(src.ToInputProxy(), dst.ToOutputProxy(), maxValue, (int)type, blockSize, k, (int)binarizationMethod, r));
+                NativeMethods.ximgproc_niBlackThreshold(src.Proxy, dst.Proxy, maxValue, (int)type, blockSize, k, (int)binarizationMethod, r));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         /// <summary>
@@ -382,21 +317,13 @@ public static partial class Cv2
         /// <param name="dst">Destination image of the same size and the same type as src. The function can work in-place.</param>
         /// <param name="thinningType">Value that defines which thinning algorithm should be used. </param>
         public static void Thinning(
-            InputArray src, OutputArray dst,
+            InputArrayRef src, OutputArrayRef dst,
             ThinningTypes thinningType = ThinningTypes.ZHANGSUEN)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_thinning(src.ToInputProxy(), dst.ToOutputProxy(), (int)thinningType));
+                NativeMethods.ximgproc_thinning(src.Proxy, dst.Proxy, (int)thinningType));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -408,20 +335,12 @@ public static partial class Cv2
         /// <param name="alpha">The amount of time to step forward by on each iteration (normally, it's between 0 and 1).</param>
         /// <param name="k">sensitivity to the edges</param>
         /// <param name="niters">The number of iterations</param>
-        public static void AnisotropicDiffusion(InputArray src, OutputArray dst, float alpha, float k, int niters)
+        public static void AnisotropicDiffusion(InputArrayRef src, OutputArrayRef dst, float alpha, float k, int niters)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_anisotropicDiffusion(src.ToInputProxy(), dst.ToOutputProxy(), alpha, k, niters));
+                NativeMethods.ximgproc_anisotropicDiffusion(src.Proxy, dst.Proxy, alpha, k, niters));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         #region brightedges.hpp
@@ -459,20 +378,12 @@ public static partial class Cv2
         /// </summary>
         /// <param name="img">Source 8-bit, 32-bit or 64-bit image, with 3-channel image.</param>
         /// <param name="qimg">result CV_64FC4 a quaternion image( 4 chanels zero channel and B,G,R).</param>
-        public static void CreateQuaternionImage(InputArray img, OutputArray qimg)
+        public static void CreateQuaternionImage(InputArrayRef img, OutputArrayRef qimg)
         {
-            if (img is null)
-                throw new ArgumentNullException(nameof(img));
-            if (qimg is null)
-                throw new ArgumentNullException(nameof(qimg));
-            img.ThrowIfDisposed();
-            qimg.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_createQuaternionImage(img.ToInputProxy(), qimg.ToOutputProxy()));
+                NativeMethods.ximgproc_createQuaternionImage(img.Proxy, qimg.Proxy));
 
-            GC.KeepAlive(img);
-            qimg.Fix();
+            GC.KeepAlive(img.Source);
         }
 
         /// <summary>
@@ -480,20 +391,12 @@ public static partial class Cv2
         /// </summary>
         /// <param name="qimg">quaternion image.</param>
         /// <param name="qcimg">conjugate of qimg</param>
-        public static void QConj(InputArray qimg, OutputArray qcimg)
+        public static void QConj(InputArrayRef qimg, OutputArrayRef qcimg)
         {
-            if (qimg is null)
-                throw new ArgumentNullException(nameof(qimg));
-            if (qcimg is null)
-                throw new ArgumentNullException(nameof(qcimg));
-            qimg.ThrowIfDisposed();
-            qcimg.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qconj(qimg.ToInputProxy(), qcimg.ToOutputProxy()));
+                NativeMethods.ximgproc_qconj(qimg.Proxy, qcimg.Proxy));
 
-            GC.KeepAlive(qimg);
-            qcimg.Fix();
+            GC.KeepAlive(qimg.Source);
         }
 
         /// <summary>
@@ -501,20 +404,12 @@ public static partial class Cv2
         /// </summary>
         /// <param name="qimg">quaternion image.</param>
         /// <param name="qnimg">conjugate of qimg</param>
-        public static void QUnitary(InputArray qimg, OutputArray qnimg)
+        public static void QUnitary(InputArrayRef qimg, OutputArrayRef qnimg)
         {
-            if (qimg is null)
-                throw new ArgumentNullException(nameof(qimg));
-            if (qnimg is null)
-                throw new ArgumentNullException(nameof(qnimg));
-            qimg.ThrowIfDisposed();
-            qnimg.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qunitary(qimg.ToInputProxy(), qnimg.ToOutputProxy()));
+                NativeMethods.ximgproc_qunitary(qimg.Proxy, qnimg.Proxy));
 
-            GC.KeepAlive(qimg);
-            qnimg.Fix();
+            GC.KeepAlive(qimg.Source);
         }
 
         /// <summary>
@@ -523,24 +418,13 @@ public static partial class Cv2
         /// <param name="src1">quaternion image.</param>
         /// <param name="src2">quaternion image.</param>
         /// <param name="dst">product dst(I)=src1(I) . src2(I)</param>
-        public static void QMultiply(InputArray src1, InputArray src2, OutputArray dst)
+        public static void QMultiply(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
         {
-            if (src1 is null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 is null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qmultiply(src1.ToInputProxy(), src2.ToInputProxy(), dst.ToOutputProxy()));
+                NativeMethods.ximgproc_qmultiply(src1.Proxy, src2.Proxy, dst.Proxy));
 
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            dst.Fix();
+            GC.KeepAlive(src1.Source);
+            GC.KeepAlive(src2.Source);
         }
 
         /// <summary>
@@ -550,20 +434,12 @@ public static partial class Cv2
         /// <param name="qimg">quaternion image in dual space.</param>
         /// <param name="flags">quaternion image in dual space. only DFT_INVERSE flags is supported</param>
         /// <param name="sideLeft">true the hypercomplex exponential is to be multiplied on the left (false on the right ).</param>
-        public static void QDft(InputArray img, OutputArray qimg, DftFlags flags, bool sideLeft)
+        public static void QDft(InputArrayRef img, OutputArrayRef qimg, DftFlags flags, bool sideLeft)
         {
-            if (img is null)
-                throw new ArgumentNullException(nameof(img));
-            if (qimg is null)
-                throw new ArgumentNullException(nameof(qimg));
-            img.ThrowIfDisposed();
-            qimg.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_qdft(img.ToInputProxy(), qimg.ToOutputProxy(), (int)flags, sideLeft ? 1 : 0));
+                NativeMethods.ximgproc_qdft(img.Proxy, qimg.Proxy, (int)flags, sideLeft ? 1 : 0));
 
-            GC.KeepAlive(img);
-            qimg.Fix();
+            GC.KeepAlive(img.Source);
         }
 
         /// <summary>
@@ -572,24 +448,13 @@ public static partial class Cv2
         /// <param name="img">Image where the search is running. It must be 3 channels image</param>
         /// <param name="templ">Searched template. It must be not greater than the source image and have 3 channels</param>
         /// <param name="result">Map of comparison results. It must be single-channel 64-bit floating-point</param>
-        public static void ColorMatchTemplate(InputArray img, InputArray templ, OutputArray result)
+        public static void ColorMatchTemplate(InputArrayRef img, InputArrayRef templ, OutputArrayRef result)
         {
-            if (img is null)
-                throw new ArgumentNullException(nameof(img));
-            if (templ is null)
-                throw new ArgumentNullException(nameof(templ));
-            if (result is null)
-                throw new ArgumentNullException(nameof(result));
-            img.ThrowIfDisposed();
-            templ.ThrowIfDisposed();
-            result.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_colorMatchTemplate(img.ToInputProxy(), templ.ToInputProxy(), result.ToOutputProxy()));
+                NativeMethods.ximgproc_colorMatchTemplate(img.Proxy, templ.Proxy, result.Proxy));
 
-            GC.KeepAlive(img);
-            GC.KeepAlive(templ);
-            result.Fix();
+            GC.KeepAlive(img.Source);
+            GC.KeepAlive(templ.Source);
         }
 
         #endregion
@@ -603,20 +468,12 @@ public static partial class Cv2
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientDericheY(InputArray op, OutputArray dst, double alpha, double omega)
+        public static void GradientDericheY(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
         {
-            if (op is null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheY(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
+                NativeMethods.ximgproc_GradientDericheY(op.Proxy, dst.Proxy, alpha, omega));
 
-            GC.KeepAlive(op);
-            dst.Fix();
+            GC.KeepAlive(op.Source);
         }
 
         /// <summary>
@@ -626,20 +483,12 @@ public static partial class Cv2
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientDericheX(InputArray op, OutputArray dst, double alpha, double omega)
+        public static void GradientDericheX(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
         {
-            if (op is null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheX(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
+                NativeMethods.ximgproc_GradientDericheX(op.Proxy, dst.Proxy, alpha, omega));
 
-            GC.KeepAlive(op);
-            dst.Fix();
+            GC.KeepAlive(op.Source);
         }
 
         #endregion
@@ -713,7 +562,7 @@ public static partial class Cv2
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
         public static DTFilter CreateDTFilter(
-            InputArray guide, double sigmaSpatial, double sigmaColor,
+            InputArrayRef guide, double sigmaSpatial, double sigmaColor,
             EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
             return OpenCvSharp.XImgProc.DTFilter.Create(guide, sigmaSpatial, sigmaColor, mode, numIters);
@@ -735,25 +584,14 @@ public static partial class Cv2
         /// filtering 2D signals in the article.</param>
         /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
         // ReSharper disable once InconsistentNaming
-        public static void DTFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
+        public static void DTFilter(InputArrayRef guide, InputArrayRef src, OutputArrayRef dst, double sigmaSpatial,
             double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
-            if (guide is null)
-                throw new ArgumentNullException(nameof(guide));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            guide.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_dtFilter(guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), sigmaSpatial, sigmaColor, (int)mode, numIters));
+                NativeMethods.ximgproc_dtFilter(guide.Proxy, src.Proxy, dst.Proxy, sigmaSpatial, sigmaColor, (int)mode, numIters));
 
-            GC.KeepAlive(guide);
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(guide.Source);
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -766,7 +604,7 @@ public static partial class Cv2
         /// space into bilateralFilter.</param>
         /// <returns></returns>
         public static GuidedFilter CreateGuidedFilter(
-            InputArray guide, int radius, double eps)
+            InputArrayRef guide, int radius, double eps)
         {
             return OpenCvSharp.XImgProc.GuidedFilter.Create(guide, radius, eps);
         }
@@ -786,25 +624,14 @@ public static partial class Cv2
         /// space into bilateralFilter.</param>
         /// <param name="dDepth">optional depth of the output image.</param>
         public static void GuidedFilter(
-            InputArray guide, InputArray src, OutputArray dst,
+            InputArrayRef guide, InputArrayRef src, OutputArrayRef dst,
             int radius, double eps, int dDepth = -1)
         {
-            if (guide is null)
-                throw new ArgumentNullException(nameof(guide));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            guide.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_guidedFilter(guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), radius, eps, dDepth));
+                NativeMethods.ximgproc_guidedFilter(guide.Proxy, src.Proxy, dst.Proxy, radius, eps, dDepth));
 
-            GC.KeepAlive(guide);
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(guide.Source);
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -836,25 +663,14 @@ public static partial class Cv2
         /// original paper.</param>
         // ReSharper disable once InconsistentNaming
         public static void AMFilter(
-            InputArray joint, InputArray src, OutputArray dst, double sigmaS, double sigmaR,
+            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, double sigmaS, double sigmaR,
             bool adjustOutliers = false)
         {
-            if (joint is null)
-                throw new ArgumentNullException(nameof(joint));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            joint.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_amFilter(joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), sigmaS, sigmaR, adjustOutliers ? 1 : 0));
+                NativeMethods.ximgproc_amFilter(joint.Proxy, src.Proxy, dst.Proxy, sigmaS, sigmaR, adjustOutliers ? 1 : 0));
 
-            GC.KeepAlive(joint);
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(joint.Source);
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -874,26 +690,15 @@ public static partial class Cv2
         /// proportional to sigmaSpace.</param>
         /// <param name="borderType"></param>
         public static void JointBilateralFilter(
-            InputArray joint, InputArray src, OutputArray dst, int d,
+            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, int d,
             double sigmaColor, double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
         {
-            if (joint is null)
-                throw new ArgumentNullException(nameof(joint));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            joint.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_jointBilateralFilter(
-                    joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), d, sigmaColor, sigmaSpace, (int)borderType));
+                    joint.Proxy, src.Proxy, dst.Proxy, d, sigmaColor, sigmaSpace, (int)borderType));
 
-            GC.KeepAlive(joint);
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(joint.Source);
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -909,21 +714,13 @@ public static partial class Cv2
         /// <param name="sigmaAvg">Range blur parameter for texture blurring. Larger value makes result to be more blurred. When the
         /// value is negative, it is automatically calculated as described in the paper.</param>
         public static void BilateralTextureFilter(
-            InputArray src, OutputArray dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
+            InputArrayRef src, OutputArrayRef dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_bilateralTextureFilter(
-                    src.ToInputProxy(), dst.ToOutputProxy(), fr, numIter, sigmaAlpha, sigmaAvg));
+                    src.Proxy, dst.Proxy, fr, numIter, sigmaAlpha, sigmaAvg));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -943,22 +740,14 @@ public static partial class Cv2
         /// <param name="numOfIter">Number of iterations of joint edge-preserving filtering applied on the source image.</param>
         /// <param name="borderType"></param>
         public static void RollingGuidanceFilter(
-            InputArray src, OutputArray dst, int d = -1, double sigmaColor = 25,
+            InputArrayRef src, OutputArrayRef dst, int d = -1, double sigmaColor = 25,
             double sigmaSpace = 3, int numOfIter = 4, BorderTypes borderType = BorderTypes.Default)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_rollingGuidanceFilter(
-                    src.ToInputProxy(), dst.ToOutputProxy(), d, sigmaColor, sigmaSpace, numOfIter, (int)borderType));
+                    src.Proxy, dst.Proxy, d, sigmaColor, sigmaSpace, numOfIter, (int)borderType));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -976,31 +765,17 @@ public static partial class Cv2
         /// <param name="numIter">number of iterations used for solver, 25 is usually enough.</param>
         /// <param name="maxTol">convergence tolerance used for solver.</param>
         public static void FastBilateralSolverFilter(
-            InputArray guide, InputArray src, InputArray confidence,
-            OutputArray dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
+            InputArrayRef guide, InputArrayRef src, InputArrayRef confidence,
+            OutputArrayRef dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
             double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
         {
-            if (guide is null)
-                throw new ArgumentNullException(nameof(guide));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (confidence is null)
-                throw new ArgumentNullException(nameof(confidence));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            guide.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            confidence.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_fastBilateralSolverFilter(
-                    guide.ToInputProxy(), src.ToInputProxy(), confidence.ToInputProxy(), dst.ToOutputProxy(), sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol));
+                    guide.Proxy, src.Proxy, confidence.Proxy, dst.Proxy, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol));
 
-            GC.KeepAlive(guide);
-            GC.KeepAlive(src);
-            GC.KeepAlive(confidence);
-            dst.Fix();
+            GC.KeepAlive(guide.Source);
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(confidence.Source);
         }
 
         /// <summary>
@@ -1014,7 +789,7 @@ public static partial class Cv2
         /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
         /// <returns></returns>
         public static FastGlobalSmootherFilter CreateFastGlobalSmootherFilter(
-            InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
+            InputArrayRef guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
         {
             return OpenCvSharp.XImgProc.FastGlobalSmootherFilter.Create(guide, lambda, sigmaColor, lambdaAttenuation, numIter);
         }
@@ -1032,26 +807,15 @@ public static partial class Cv2
         /// it should be 0.25. Setting it to 1.0 may lead to streaking artifacts.</param>
         /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
         public static void FastGlobalSmootherFilter(
-            InputArray guide, InputArray src, OutputArray dst, double lambda, double sigmaColor,
+            InputArrayRef guide, InputArrayRef src, OutputArrayRef dst, double lambda, double sigmaColor,
             double lambdaAttenuation = 0.25, int numIter = 3)
         {
-            if (guide is null)
-                throw new ArgumentNullException(nameof(guide));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            guide.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_fastGlobalSmootherFilter(
-                    guide.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), lambda, sigmaColor, lambdaAttenuation, numIter));
+                    guide.Proxy, src.Proxy, dst.Proxy, lambda, sigmaColor, lambdaAttenuation, numIter));
 
-            GC.KeepAlive(guide);
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(guide.Source);
+            GC.KeepAlive(src.Source);
         }
 
         /// <summary>
@@ -1061,21 +825,13 @@ public static partial class Cv2
         /// <param name="dst">destination image.</param>
         /// <param name="lambda">parameter defining the smooth term weight.</param>
         /// <param name="kappa">parameter defining the increasing factor of the weight of the gradient data term.</param>
-        public static void L0Smooth(InputArray src, OutputArray dst, double lambda = 0.02, double kappa = 2.0)
+        public static void L0Smooth(InputArrayRef src, OutputArrayRef dst, double lambda = 0.02, double kappa = 2.0)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_l0Smooth(
-                    src.ToInputProxy(), dst.ToOutputProxy(), lambda, kappa));
+                    src.Proxy, dst.Proxy, lambda, kappa));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         #endregion
@@ -1089,20 +845,12 @@ public static partial class Cv2
         /// <param name="dst">Destination image of the same size and type as src.</param>
         /// <param name="d">Diameter of each pixel neighborhood that is used during filtering. Must be greater or equal 3.</param>
         /// <param name="threshold">Threshold, which distinguishes between noise, outliers, and data.</param>
-        public static void EdgePreservingFilter(InputArray src, OutputArray dst, int d, double threshold)
+        public static void EdgePreservingFilter(InputArrayRef src, OutputArrayRef dst, int d, double threshold)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_edgePreservingFilter(src.ToInputProxy(), dst.ToOutputProxy(), d, threshold));
+                NativeMethods.ximgproc_edgePreservingFilter(src.Proxy, dst.Proxy, d, threshold));
 
-            GC.KeepAlive(src);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
         }
 
         #endregion
@@ -1124,21 +872,13 @@ public static partial class Cv2
         /// <param name="dst">The destination estimated covariance matrix. Output matrix will be size (windowRows*windowCols, windowRows*windowCols).</param>
         /// <param name="windowRows">The number of rows in the window.</param>
         /// <param name="windowCols">The number of cols in the window.</param>
-        public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
+        public static void CovarianceEstimation(InputArrayRef src, OutputArrayRef dst, int windowRows, int windowCols)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_covarianceEstimation(src.ToInputProxy(), dst.ToOutputProxy(), windowRows, windowCols));
+                NativeMethods.ximgproc_covarianceEstimation(src.Proxy, dst.Proxy, windowRows, windowCols));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         #endregion
@@ -1155,26 +895,18 @@ public static partial class Cv2
         /// <param name="op">The operation to be applied, see cv::HoughOp</param>
         /// <param name="makeSkew">Specifies to do or not to do image skewing, see cv::HoughDeskewOption</param>
         public static void FastHoughTransform(
-            InputArray src,
-            OutputArray dst,
+            InputArrayRef src,
+            OutputArrayRef dst,
             MatType dstMatDepth,
             AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
             HoughOP op = HoughOP.FHT_ADD,
             HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_FastHoughTransform(src.ToInputProxy(), dst.ToOutputProxy(), dstMatDepth, (int)angleRange, (int)op, (int)makeSkew));
+                NativeMethods.ximgproc_FastHoughTransform(src.Proxy, dst.Proxy, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew));
 
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         /// <summary>
@@ -1193,18 +925,14 @@ public static partial class Cv2
         /// <returns>Coordinates of line segment corresponded by point in Hough space.</returns>
         public static Vec4i HoughPoint2Line(
             Point houghPoint,
-            InputArray srcImgInfo,
+            InputArrayRef srcImgInfo,
             AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
             HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW,
             RulesOption rules = RulesOption.IGNORE_BORDERS)
         {
-            if (srcImgInfo is null)
-                throw new ArgumentNullException(nameof(srcImgInfo));
-            srcImgInfo.ThrowIfDisposed();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.ToInputProxy(), (int)angleRange, (int)makeSkew, (int)rules, out Vec4i ret));
-            GC.KeepAlive(srcImgInfo);
+                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.Proxy, (int)angleRange, (int)makeSkew, (int)rules, out Vec4i ret));
+            GC.KeepAlive(srcImgInfo.Source);
             return ret;
         }
 
@@ -1249,7 +977,7 @@ public static partial class Cv2
         /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
-        public static SuperpixelLSC CreateSuperpixelLSC(InputArray image, int regionSize = 10, float ratio = 0.075f)
+        public static SuperpixelLSC CreateSuperpixelLSC(InputArrayRef image, int regionSize = 10, float ratio = 0.075f)
         {
             return SuperpixelLSC.Create(image, regionSize, ratio);
         }
@@ -1265,21 +993,13 @@ public static partial class Cv2
         /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientPaillouY(InputArray op, OutputArray dst, double alpha, double omega)
+        public static void GradientPaillouY(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
         {
-            if (op is null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientPaillouY(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
+                NativeMethods.ximgproc_GradientPaillouY(op.Proxy, dst.Proxy, alpha, omega));
 
-            GC.KeepAlive(op);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(op.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         /// <summary>
@@ -1289,21 +1009,13 @@ public static partial class Cv2
         /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientPaillouX(InputArray op, OutputArray dst, double alpha, double omega)
+        public static void GradientPaillouX(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
         {
-            if (op is null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientPaillouX(op.ToInputProxy(), dst.ToOutputProxy(), alpha, omega));
+                NativeMethods.ximgproc_GradientPaillouX(op.Proxy, dst.Proxy, alpha, omega));
 
-            GC.KeepAlive(op);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            GC.KeepAlive(op.Source);
+            GC.KeepAlive(dst.Source);
         }
 
         #endregion
@@ -1315,23 +1027,19 @@ public static partial class Cv2
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <returns>Transformation matrix corresponding to inversed image transformation</returns>
-        public static double[,] PeiLinNormalization(InputArray i)
+        public static double[,] PeiLinNormalization(InputArrayRef i)
         {
-            if (i is null)
-                throw new ArgumentNullException(nameof(i));
-            i.ThrowIfDisposed();
-
             double[,] ret = new double[2, 3];
             unsafe
             {
                 fixed (double* retPointer = ret)
                 {
                     NativeMethods.HandleException(
-                        NativeMethods.ximgproc_PeiLinNormalization_Mat23d(i.ToInputProxy(), retPointer));
+                        NativeMethods.ximgproc_PeiLinNormalization_Mat23d(i.Proxy, retPointer));
                 }
             }
 
-            GC.KeepAlive(i);
+            GC.KeepAlive(i.Source);
             return ret;
         }
 
@@ -1340,20 +1048,12 @@ public static partial class Cv2
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <param name="t">Inversed image transformation.</param>
-        public static void PeiLinNormalization(InputArray i, OutputArray t)
+        public static void PeiLinNormalization(InputArrayRef i, OutputArrayRef t)
         {
-            if (i is null)
-                throw new ArgumentNullException(nameof(i));
-            if (t is null)
-                throw new ArgumentNullException(nameof(t));
-            i.ThrowIfDisposed();
-            t.ThrowIfNotReady();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.ToInputProxy(), t.ToOutputProxy()));
+                NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.Proxy, t.Proxy));
 
-            GC.KeepAlive(i);
-            t.Fix();
+            GC.KeepAlive(i.Source);
         }
 
         #endregion
@@ -1443,28 +1143,17 @@ public static partial class Cv2
         /// <param name="mask">A 0-1 mask that has the same size with I. This mask is used to ignore the effect of some pixels. If the pixel value on mask is 0,
         /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
         public static void WeightedMedianFilter(
-            InputArray joint, InputArray src, OutputArray dst, int r,
-            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, InputArray? mask = null)
+            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, int r,
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, InputArrayRef mask = default)
         {
-            if (joint is null)
-                throw new ArgumentNullException(nameof(joint));
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
-            joint.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_weightedMedianFilter(
-                    joint.ToInputProxy(), src.ToInputProxy(), dst.ToOutputProxy(), r, sigma, (int)weightType, mask?.ToInputProxy() ?? default));
+                    joint.Proxy, src.Proxy, dst.Proxy, r, sigma, (int)weightType, mask.Proxy));
 
-            GC.KeepAlive(joint);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
+            GC.KeepAlive(joint.Source);
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
+            GC.KeepAlive(mask.Source);
         }
 
         #endregion

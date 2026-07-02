@@ -32,21 +32,14 @@ public class StaticSaliencySpectralResidual : Algorithm
     /// <param name="image">The input image.</param>
     /// <param name="saliencyMap">The computed saliency map (CV_32FC1).</param>
     /// <returns>true if the saliency map was computed successfully.</returns>
-    public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
+    public virtual bool ComputeSaliency(InputArrayRef image, OutputArrayRef saliencyMap)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        image.ThrowIfDisposed();
-        saliencyMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeSaliency(
-                Handle, image.ToInputProxy(), saliencyMap.ToOutputProxy(), out var ret));
-        GC.KeepAlive(image);
-        saliencyMap.Fix();
+                Handle, image.Proxy, saliencyMap.Proxy, out var ret));
+        GC.KeepAlive(image.Source);
         return ret != 0;
     }
 
@@ -56,21 +49,14 @@ public class StaticSaliencySpectralResidual : Algorithm
     /// <param name="saliencyMap">The input saliency map (CV_32FC1).</param>
     /// <param name="binaryMap">The computed binary map.</param>
     /// <returns>true if the binary map was computed successfully.</returns>
-    public virtual bool ComputeBinaryMap(InputArray saliencyMap, OutputArray binaryMap)
+    public virtual bool ComputeBinaryMap(InputArrayRef saliencyMap, OutputArrayRef binaryMap)
     {
         ThrowIfDisposed();
-        if (saliencyMap is null)
-            throw new ArgumentNullException(nameof(saliencyMap));
-        if (binaryMap is null)
-            throw new ArgumentNullException(nameof(binaryMap));
-        saliencyMap.ThrowIfDisposed();
-        binaryMap.ThrowIfNotReady();
 
         NativeMethods.HandleException(
             NativeMethods.saliency_StaticSaliencySpectralResidual_computeBinaryMap(
-                Handle, saliencyMap.ToInputProxy(), binaryMap.ToOutputProxy(), out var ret));
-        GC.KeepAlive(saliencyMap);
-        binaryMap.Fix();
+                Handle, saliencyMap.Proxy, binaryMap.Proxy, out var ret));
+        GC.KeepAlive(saliencyMap.Source);
         return ret != 0;
     }
 

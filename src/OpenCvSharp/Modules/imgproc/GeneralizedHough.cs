@@ -123,17 +123,14 @@ public abstract class GeneralizedHough : Algorithm
     /// </summary>
     /// <param name="templ"></param>
     /// <param name="templCenter"></param>
-    public void SetTemplate(InputArray templ, Point? templCenter = null)
+    public void SetTemplate(InputArrayRef templ, Point? templCenter = null)
     {
         ThrowIfDisposed();
-        if (templ is null)
-            throw new ArgumentNullException(nameof(templ));
-        templ.ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_GeneralizedHough_setTemplate1(Handle, templ.ToInputProxy(), templCenterValue));
-        GC.KeepAlive(templ);
+            NativeMethods.imgproc_GeneralizedHough_setTemplate1(Handle, templ.Proxy, templCenterValue));
+        GC.KeepAlive(templ.Source);
     }
 
     /// <summary>
@@ -143,27 +140,18 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="dx"></param>
     /// <param name="dy"></param>
     /// <param name="templCenter"></param>
-    public virtual void SetTemplate(InputArray edges, InputArray dx, InputArray dy, Point? templCenter = null)
+    public virtual void SetTemplate(InputArrayRef edges, InputArrayRef dx, InputArrayRef dy, Point? templCenter = null)
     {
         ThrowIfDisposed();
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        edges.ThrowIfDisposed();
-        dx.ThrowIfDisposed();
-        dy.ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_setTemplate2(
-                Handle, edges.ToInputProxy(), dx.ToInputProxy(), dy.ToInputProxy(), templCenterValue));
+                Handle, edges.Proxy, dx.Proxy, dy.Proxy, templCenterValue));
 
-        GC.KeepAlive(edges);
-        GC.KeepAlive(dx);
-        GC.KeepAlive(dy);
+        GC.KeepAlive(edges.Source);
+        GC.KeepAlive(dx.Source);
+        GC.KeepAlive(dy.Source);
     }
 
     /// <summary>
@@ -173,25 +161,15 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArray image, OutputArray positions, OutputArray? votes = null)
+        InputArrayRef image, OutputArrayRef positions, OutputArrayRef votes = default)
     {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (positions is null)
-            throw new ArgumentNullException(nameof(positions));
-        image.ThrowIfDisposed();
-        positions.ThrowIfNotReady();
-        votes?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect1(
-                Handle, image.ToInputProxy(), positions.ToOutputProxy(), votes?.ToOutputProxy() ?? default));
+                Handle, image.Proxy, positions.Proxy, votes.Proxy));
 
-        GC.KeepAlive(image);
-        GC.KeepAlive(positions);
-        GC.KeepAlive(votes);
-        positions.Fix();
-        votes?.Fix();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(positions.Source);
+        GC.KeepAlive(votes.Source);
     }
 
     /// <summary>
@@ -203,32 +181,16 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray? votes = null)
+        InputArrayRef edges, InputArrayRef dx, InputArrayRef dy, OutputArrayRef positions, OutputArrayRef votes = default)
     {
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
-        if (dx is null)
-            throw new ArgumentNullException(nameof(dx));
-        if (dy is null)
-            throw new ArgumentNullException(nameof(dy));
-        if (positions is null)
-            throw new ArgumentNullException(nameof(positions));
-        edges.ThrowIfDisposed();
-        dx.ThrowIfDisposed();
-        dy.ThrowIfDisposed();
-        positions.ThrowIfNotReady();
-        votes?.ThrowIfNotReady();
-
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect2(
-                Handle, edges.ToInputProxy(), dx.ToInputProxy(), dy.ToInputProxy(), positions.ToOutputProxy(), votes?.ToOutputProxy() ?? default));
+                Handle, edges.Proxy, dx.Proxy, dy.Proxy, positions.Proxy, votes.Proxy));
 
-        GC.KeepAlive(edges);
-        GC.KeepAlive(dx);
-        GC.KeepAlive(dy);
-        GC.KeepAlive(positions);
-        GC.KeepAlive(votes);
-        positions.Fix();
-        votes?.Fix();
+        GC.KeepAlive(edges.Source);
+        GC.KeepAlive(dx.Source);
+        GC.KeepAlive(dy.Source);
+        GC.KeepAlive(positions.Source);
+        GC.KeepAlive(votes.Source);
     }
 }

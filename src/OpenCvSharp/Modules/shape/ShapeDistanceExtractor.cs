@@ -19,22 +19,16 @@ public abstract class ShapeDistanceExtractor : Algorithm
     /// <param name="contour2">Contour defining second shape.</param>
     /// <returns></returns>
         /// <inheritdoc/>
-    public virtual float ComputeDistance(InputArray contour1, InputArray contour2)
+    public virtual float ComputeDistance(InputArrayRef contour1, InputArrayRef contour2)
     {
         ThrowIfDisposed();
-        if (contour1 is null)
-            throw new ArgumentNullException(nameof(contour1));
-        if (contour2 is null)
-            throw new ArgumentNullException(nameof(contour2));
-        contour1.ThrowIfDisposed();
-        contour2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
-                Handle, contour1.ToInputProxy(), contour2.ToInputProxy(), out var ret));
+                Handle, contour1.Proxy, contour2.Proxy, out var ret));
 
-        GC.KeepAlive(contour1);
-        GC.KeepAlive(contour2);
+        GC.KeepAlive(contour1.Source);
+        GC.KeepAlive(contour2.Source);
 
         return ret;
     }
