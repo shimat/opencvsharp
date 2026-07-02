@@ -42,9 +42,9 @@ public static partial class Cv2
         /// <param name="transformType">Type of the orthogonal transform used in collaborative filtering step. 
         /// Currently only Haar transform is supported.</param>
         public static void Bm3dDenoising(
-            InputArrayRef src,
-            InputOutputArrayRef dstStep1,
-            OutputArrayRef dstStep2,
+            InputArray src,
+            InputOutputArray dstStep1,
+            OutputArray dstStep2,
             float h = 1,
             int templateWindowSize = 4,
             int searchWindowSize = 16,
@@ -88,8 +88,8 @@ public static partial class Cv2
         /// <param name="transformType">Type of the orthogonal transform used in collaborative filtering step. 
         /// Currently only Haar transform is supported.</param>
         public static void Bm3dDenoising(
-            InputArrayRef src,
-            OutputArrayRef dst,
+            InputArray src,
+            OutputArray dst,
             float h = 1,
             int templateWindowSize = 4,
             int searchWindowSize = 16,
@@ -183,7 +183,7 @@ public static partial class Cv2
         /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
         /// <param name="code">color space conversion code(see ColorConversionCodes). Histogram will used only first plane</param>
         public static void OilPainting(
-            InputArrayRef src, OutputArrayRef dst, int size, int dynRatio, 
+            InputArray src, OutputArray dst, int size, int dynRatio, 
             ColorConversionCodes? code = null)
         {
             NativeMethods.HandleException(
@@ -206,7 +206,7 @@ public static partial class Cv2
         /// <param name="gainB">gain for the B channel</param>
         /// <param name="gainG">gain for the G channel</param>
         /// <param name="gainR">gain for the R channel</param>
-        public static void ApplyChannelGains(InputArrayRef src, OutputArrayRef dst, float gainB, float gainG, float gainR)
+        public static void ApplyChannelGains(InputArray src, OutputArray dst, float gainB, float gainG, float gainR)
         {
             NativeMethods.HandleException(
                 NativeMethods.xphoto_applyChannelGains(src.Proxy, dst.Proxy, gainB, gainG, gainR));

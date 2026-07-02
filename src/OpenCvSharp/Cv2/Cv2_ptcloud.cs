@@ -20,9 +20,9 @@ static partial class Cv2
     /// <param name="registeredDepth">the result of transforming the depth into the external camera.</param>
     /// <param name="depthDilation">whether or not the depth is dilated to avoid holes and occlusion errors (optional).</param>
     public static void RegisterDepth(
-        InputArrayRef unregisteredCameraMatrix, InputArrayRef registeredCameraMatrix, InputArrayRef registeredDistCoeffs,
-        InputArrayRef Rt, InputArrayRef unregisteredDepth, Size outputImagePlaneSize,
-        OutputArrayRef registeredDepth, bool depthDilation = false)
+        InputArray unregisteredCameraMatrix, InputArray registeredCameraMatrix, InputArray registeredDistCoeffs,
+        InputArray Rt, InputArray unregisteredDepth, Size outputImagePlaneSize,
+        OutputArray registeredDepth, bool depthDilation = false)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_registerDepth(
@@ -44,7 +44,7 @@ static partial class Cv2
     /// <param name="inK">the calibration matrix.</param>
     /// <param name="inPoints">the list of xy coordinates.</param>
     /// <param name="points3d">the resulting 3d points (point is represented by 4 channels value [x, y, z, 0]).</param>
-    public static void DepthTo3dSparse(InputArrayRef depth, InputArrayRef inK, InputArrayRef inPoints, OutputArrayRef points3d)
+    public static void DepthTo3dSparse(InputArray depth, InputArray inK, InputArray inPoints, OutputArray points3d)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_depthTo3dSparse(depth.Proxy, inK.Proxy, inPoints.Proxy, points3d.Proxy));
@@ -61,7 +61,7 @@ static partial class Cv2
     /// <param name="K">the calibration matrix.</param>
     /// <param name="points3d">the resulting 3d points (point is represented by 4 channels value [x, y, z, 0]).</param>
     /// <param name="mask">the mask of the points to consider (can be empty).</param>
-    public static void DepthTo3d(InputArrayRef depth, InputArrayRef K, OutputArrayRef points3d, InputArrayRef mask = default)
+    public static void DepthTo3d(InputArray depth, InputArray K, OutputArray points3d, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_depthTo3d(depth.Proxy, K.Proxy, points3d.Proxy, mask.Proxy));
@@ -79,7 +79,7 @@ static partial class Cv2
     /// <param name="type">the desired output depth (CV_32F or CV_64F).</param>
     /// <param name="dst">the rescaled float depth image.</param>
     /// <param name="depthFactor">factor by which depth is converted to distance (by default = 1000.0 for Kinect sensor).</param>
-    public static void RescaleDepth(InputArrayRef src, int type, OutputArrayRef dst, double depthFactor = 1000.0)
+    public static void RescaleDepth(InputArray src, int type, OutputArray dst, double depthFactor = 1000.0)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_rescaleDepth(src.Proxy, type, dst.Proxy, depthFactor));
@@ -100,8 +100,8 @@ static partial class Cv2
     /// <param name="warpedImage">The warped RGB image (optional).</param>
     /// <param name="warpedMask">The mask of valid pixels in warped image (optional).</param>
     public static void WarpFrame(
-        InputArrayRef depth, InputArrayRef image, InputArrayRef mask, InputArrayRef Rt, InputArrayRef cameraMatrix,
-        OutputArrayRef warpedDepth = default, OutputArrayRef warpedImage = default, OutputArrayRef warpedMask = default)
+        InputArray depth, InputArray image, InputArray mask, InputArray Rt, InputArray cameraMatrix,
+        OutputArray warpedDepth = default, OutputArray warpedImage = default, OutputArray warpedMask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_warpFrame(
@@ -130,7 +130,7 @@ static partial class Cv2
     /// <param name="sensorErrorC">coefficient of the sensor error (0 by default).</param>
     /// <param name="method">the method to use to compute the planes.</param>
     public static void FindPlanes(
-        InputArrayRef points3d, InputArrayRef normals, OutputArrayRef mask, OutputArrayRef planeCoefficients,
+        InputArray points3d, InputArray normals, OutputArray mask, OutputArray planeCoefficients,
         int blockSize = 40, int minSize = 1600, double threshold = 0.01,
         double sensorErrorA = 0, double sensorErrorB = 0, double sensorErrorC = 0,
         RgbdPlaneMethod method = RgbdPlaneMethod.Default)
@@ -152,7 +152,7 @@ static partial class Cv2
     /// <param name="vertices">Output vertex coordinates, each value contains 3 floats.</param>
     /// <param name="normals">Output per-vertex normals, each value contains 3 floats (optional).</param>
     /// <param name="rgb">Output per-vertex colors, each value contains 3 floats (optional).</param>
-    public static void LoadPointCloud(string filename, OutputArrayRef vertices, OutputArrayRef normals = default, OutputArrayRef rgb = default)
+    public static void LoadPointCloud(string filename, OutputArray vertices, OutputArray normals = default, OutputArray rgb = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
@@ -169,7 +169,7 @@ static partial class Cv2
     /// <param name="vertices">Vertex coordinates, each value contains 3 floats.</param>
     /// <param name="normals">Per-vertex normals, each value contains 3 floats (optional).</param>
     /// <param name="rgb">Per-vertex colors, each value contains 3 floats (optional).</param>
-    public static void SavePointCloud(string filename, InputArrayRef vertices, InputArrayRef normals = default, InputArrayRef rgb = default)
+    public static void SavePointCloud(string filename, InputArray vertices, InputArray normals = default, InputArray rgb = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
@@ -192,8 +192,8 @@ static partial class Cv2
     /// <param name="colors">Output per-vertex colors, each value contains 3 floats (optional).</param>
     /// <param name="texCoords">Output per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
     public static void LoadMesh(
-        string filename, OutputArrayRef vertices, out Mat[] indices,
-        OutputArrayRef normals = default, OutputArrayRef colors = default, OutputArrayRef texCoords = default)
+        string filename, OutputArray vertices, out Mat[] indices,
+        OutputArray normals = default, OutputArray colors = default, OutputArray texCoords = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));
@@ -216,8 +216,8 @@ static partial class Cv2
     /// <param name="colors">Per-vertex colors, each value contains 3 floats (optional).</param>
     /// <param name="texCoords">Per-vertex texture coordinates, each value contains 2 or 3 floats (optional).</param>
     public static void SaveMesh(
-        string filename, InputArrayRef vertices, IEnumerable<Mat> indices,
-        InputArrayRef normals = default, InputArrayRef colors = default, InputArrayRef texCoords = default)
+        string filename, InputArray vertices, IEnumerable<Mat> indices,
+        InputArray normals = default, InputArray colors = default, InputArray texCoords = default)
     {
         if (filename is null)
             throw new ArgumentNullException(nameof(filename));

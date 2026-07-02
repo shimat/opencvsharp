@@ -37,7 +37,7 @@ public class ObjectnessBING : Algorithm
     /// Sorted by descending objectness score.
     /// </param>
     /// <returns>true if the computation succeeded.</returns>
-    public virtual bool ComputeSaliency(InputArrayRef image, out Vec4i[] objectnessBoundingBox)
+    public virtual bool ComputeSaliency(InputArray image, out Vec4i[] objectnessBoundingBox)
     {
         ThrowIfDisposed();
 

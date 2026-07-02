@@ -251,7 +251,7 @@ public class VolumeSettings : CvObject
     /// Sets volume pose.
     /// </summary>
     /// <param name="val">input value.</param>
-    public void SetVolumePose(InputArrayRef val)
+    public void SetVolumePose(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -263,7 +263,7 @@ public class VolumeSettings : CvObject
     /// Gets volume pose.
     /// </summary>
     /// <param name="val">output value.</param>
-    public void GetVolumePose(OutputArrayRef val)
+    public void GetVolumePose(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -274,7 +274,7 @@ public class VolumeSettings : CvObject
     /// Sets resolution of voxel space.
     /// </summary>
     /// <param name="val">input value.</param>
-    public void SetVolumeResolution(InputArrayRef val)
+    public void SetVolumeResolution(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -286,7 +286,7 @@ public class VolumeSettings : CvObject
     /// Gets resolution of voxel space.
     /// </summary>
     /// <param name="val">output value.</param>
-    public void GetVolumeResolution(OutputArrayRef val)
+    public void GetVolumeResolution(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -297,7 +297,7 @@ public class VolumeSettings : CvObject
     /// Returns 3 integers representing strides by x, y and z dimension.
     /// </summary>
     /// <param name="val">output value.</param>
-    public void GetVolumeStrides(OutputArrayRef val)
+    public void GetVolumeStrides(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -308,7 +308,7 @@ public class VolumeSettings : CvObject
     /// Sets intrinsics of camera for integrations.
     /// </summary>
     /// <param name="val">input value.</param>
-    public void SetCameraIntegrateIntrinsics(InputArrayRef val)
+    public void SetCameraIntegrateIntrinsics(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -320,7 +320,7 @@ public class VolumeSettings : CvObject
     /// Returns intrinsics of camera for integrations.
     /// </summary>
     /// <param name="val">output value.</param>
-    public void GetCameraIntegrateIntrinsics(OutputArrayRef val)
+    public void GetCameraIntegrateIntrinsics(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -331,7 +331,7 @@ public class VolumeSettings : CvObject
     /// Sets camera intrinsics for raycast image.
     /// </summary>
     /// <param name="val">input value.</param>
-    public void SetCameraRaycastIntrinsics(InputArrayRef val)
+    public void SetCameraRaycastIntrinsics(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -343,7 +343,7 @@ public class VolumeSettings : CvObject
     /// Returns camera intrinsics for raycast image.
     /// </summary>
     /// <param name="val">output value.</param>
-    public void GetCameraRaycastIntrinsics(OutputArrayRef val)
+    public void GetCameraRaycastIntrinsics(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

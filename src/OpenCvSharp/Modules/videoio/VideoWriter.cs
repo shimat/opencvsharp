@@ -308,7 +308,7 @@ public class VideoWriter : CvObject
     /// </summary>
     /// <param name="image">the written frame.</param>
     /// <returns></returns>
-    public void Write(InputArrayRef image)
+    public void Write(InputArray image)
     {
         ThrowIfDisposed();
 

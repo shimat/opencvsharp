@@ -19,7 +19,7 @@ public static partial class Cv2
         /// <param name="corners">positions of marker corners on input image.
         /// For N detected markers, the dimensions of this array should be Nx4.The order of the corners should be clockwise.</param>
         /// <param name="ids">vector of identifiers for markers in markersCorners. Optional, if not provided, ids are not painted.</param>
-        public static void DrawDetectedMarkers(InputOutputArrayRef image, Point2f[][] corners, IEnumerable<int> ids)
+        public static void DrawDetectedMarkers(InputOutputArray image, Point2f[][] corners, IEnumerable<int> ids)
         {
             DrawDetectedMarkers(image, corners, ids, new Scalar(0, 255, 0));
         }
@@ -33,7 +33,7 @@ public static partial class Cv2
         /// <param name="ids">vector of identifiers for markers in markersCorners. Optional, if not provided, ids are not painted.</param>
         /// <param name="borderColor">color of marker borders. Rest of colors (text color and first corner color)
         ///  are calculated based on this one to improve visualization.</param>
-        public static void DrawDetectedMarkers(InputOutputArrayRef image, Point2f[][] corners, IEnumerable<int>? ids, Scalar borderColor)
+        public static void DrawDetectedMarkers(InputOutputArray image, Point2f[][] corners, IEnumerable<int>? ids, Scalar borderColor)
         {
             if (corners is null)
                 throw new ArgumentNullException(nameof(corners));
@@ -98,7 +98,7 @@ public static partial class Cv2
         /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
         /// <param name="diamondCorners">positions of diamond corners in the same format returned by detectCharucoDiamond(). (e.g std::vector&lt;std::vector&lt;cv::Point2f&gt;&gt;). For N detected markers, the dimensions of this array should be Nx4. The order of the corners should be clockwise.</param>
         /// <param name="diamondIds">vector of identifiers for diamonds in diamondCorners, in the same format returned by detectCharucoDiamond() (e.g. std::vector&lt;Vec4i&gt;). Optional, if not provided, ids are not painted.</param>
-        public static void DrawDetectedDiamonds(InputOutputArrayRef image, Point2f[][] diamondCorners, IEnumerable<Vec4i>? diamondIds = null)
+        public static void DrawDetectedDiamonds(InputOutputArray image, Point2f[][] diamondCorners, IEnumerable<Vec4i>? diamondIds = null)
         {
             DrawDetectedDiamonds(image, diamondCorners, diamondIds, new Scalar(0, 0, 255));
         }
@@ -110,7 +110,7 @@ public static partial class Cv2
         /// <param name="diamondCorners">positions of diamond corners in the same format returned by detectCharucoDiamond(). (e.g std::vector&lt;std::vector&lt;cv::Point2f&gt;&gt;). For N detected markers, the dimensions of this array should be Nx4. The order of the corners should be clockwise.</param>
         /// <param name="diamondIds">vector of identifiers for diamonds in diamondCorners, in the same format returned by detectCharucoDiamond() (e.g. std::vector&lt;Vec4i&gt;). Optional, if not provided, ids are not painted.</param>
         /// <param name="borderColor">color of marker borders. Rest of colors (text color and first corner color) are calculated based on this one.</param>
-        public static void DrawDetectedDiamonds(InputOutputArrayRef image,
+        public static void DrawDetectedDiamonds(InputOutputArray image,
             Point2f[][] diamondCorners, IEnumerable<Vec4i>? diamondIds, Scalar borderColor)
         {
             if (diamondCorners is null)
@@ -144,7 +144,7 @@ public static partial class Cv2
         /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
         /// <param name="charucoCorners">vector of detected charuco corners.</param>
         /// <param name="charucoIds">list of identifiers for each corner in charucoCorners.</param>
-        public static void DrawDetectedCornersCharuco(InputOutputArrayRef image, Point2f[] charucoCorners, IEnumerable<int>? charucoIds = null)
+        public static void DrawDetectedCornersCharuco(InputOutputArray image, Point2f[] charucoCorners, IEnumerable<int>? charucoIds = null)
         {
             DrawDetectedCornersCharuco(image, charucoCorners, charucoIds, new Scalar(0, 0, 255));
         }
@@ -156,7 +156,7 @@ public static partial class Cv2
         /// <param name="charucoCorners">vector of detected charuco corners.</param>
         /// <param name="charucoIds">list of identifiers for each corner in charucoCorners.</param>
         /// <param name="cornerColor">color of the square surrounding each corner.</param>
-        public static void DrawDetectedCornersCharuco(InputOutputArrayRef image,
+        public static void DrawDetectedCornersCharuco(InputOutputArray image,
             Point2f[] charucoCorners, IEnumerable<int>? charucoIds, Scalar cornerColor)
         {
             if (charucoCorners is null)

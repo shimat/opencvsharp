@@ -48,7 +48,7 @@ public class FastLineDetector : Algorithm
     /// and ending point of a line. Where Vec4f is (x1, y1, x2, y2), 
     /// point 1 is the start, point 2 - end.Returned lines are directed so that the
     /// brighter side is on their left.</param>
-    public virtual void Detect(InputArrayRef image, OutputArrayRef lines)
+    public virtual void Detect(InputArray image, OutputArray lines)
     {
         ThrowIfDisposed();
 
@@ -69,7 +69,7 @@ public class FastLineDetector : Algorithm
     /// and ending point of a line. Where Vec4f is (x1, y1, x2, y2), 
     /// point 1 is the start, point 2 - end.Returned lines are directed so that the
     /// brighter side is on their left.</returns>
-    public virtual Vec4f[] Detect(InputArrayRef image)
+    public virtual Vec4f[] Detect(InputArray image)
     {
         ThrowIfDisposed();
 
@@ -86,7 +86,7 @@ public class FastLineDetector : Algorithm
     /// <param name="image">The image, where the lines will be drawn. Should be bigger or equal to the image, where the lines were found.</param>
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     /// <param name="drawArrow">If true, arrow heads will be drawn.</param>
-    public virtual void DrawSegments(InputOutputArrayRef image, InputArrayRef lines,
+    public virtual void DrawSegments(InputOutputArray image, InputArray lines,
         bool drawArrow = false)
     {
         ThrowIfDisposed();
@@ -103,7 +103,7 @@ public class FastLineDetector : Algorithm
     /// <param name="image">The image, where the lines will be drawn. Should be bigger or equal to the image, where the lines were found.</param>
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     /// <param name="drawArrow">If true, arrow heads will be drawn.</param>
-    public virtual void DrawSegments(InputOutputArrayRef image, IEnumerable<Vec4f> lines, bool drawArrow = false)
+    public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
     {
         ThrowIfDisposed();
         if (lines is null)

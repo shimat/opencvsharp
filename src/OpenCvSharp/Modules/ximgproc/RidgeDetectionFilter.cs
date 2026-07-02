@@ -57,7 +57,7 @@ public class RidgeDetectionFilter : Algorithm
     /// </summary>
     /// <param name="src">InputArray as supported by Sobel. img can be 1-Channel or 3-Channels.</param>
     /// <param name="dst">OutputAray of structure as RidgeDetectionFilter::ddepth. Output image with ridges.</param>
-    public virtual void GetRidgeFilteredImage(InputArrayRef src, OutputArrayRef dst)
+    public virtual void GetRidgeFilteredImage(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

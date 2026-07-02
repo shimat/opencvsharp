@@ -117,7 +117,7 @@ public class Dictionary : CvObject
     /// <param name="id"></param>
     /// <param name="allRotations"></param>
     /// <returns></returns>
-    public int GetDistanceToId(InputArrayRef bits, int id, bool allRotations = true)
+    public int GetDistanceToId(InputArray bits, int id, bool allRotations = true)
     {
         ThrowIfDisposed();
 
@@ -134,7 +134,7 @@ public class Dictionary : CvObject
     /// <param name="sidePixels"></param>
     /// <param name="img"></param>
     /// <param name="borderBits"></param>
-    public void GenerateImageMarker(int id, int sidePixels, OutputArrayRef img, int borderBits = 1)
+    public void GenerateImageMarker(int id, int sidePixels, OutputArray img, int borderBits = 1)
     {
         ThrowIfDisposed();
         

@@ -39,8 +39,8 @@ public abstract class Facemark : Algorithm
     /// <param name="landmarks">The detected landmark points for each faces.</param>
     /// <returns></returns>
     public virtual bool Fit(
-        InputArrayRef image,
-        InputArrayRef faces,
+        InputArray image,
+        InputArray faces,
         out Point2f[][] landmarks)
     {
         ThrowIfDisposed();

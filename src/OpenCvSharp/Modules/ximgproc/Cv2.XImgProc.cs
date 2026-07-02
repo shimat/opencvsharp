@@ -132,7 +132,7 @@ public static partial class Cv2
             /// <param name="rlDest">resulting run length encoded image.</param>
             /// <param name="thresh">threshold value.</param>
             /// <param name="type">thresholding type (only cv::THRESH_BINARY and cv::THRESH_BINARY_INV are supported)</param>
-            public static void Threshold(InputArrayRef src, OutputArrayRef rlDest, double thresh, ThresholdTypes type)
+            public static void Threshold(InputArray src, OutputArray rlDest, double thresh, ThresholdTypes type)
             {
                 NativeMethods.HandleException(
                     NativeMethods.ximgproc_rl_threshold(src.Proxy, rlDest.Proxy, thresh, (int)type));
@@ -148,7 +148,7 @@ public static partial class Cv2
             /// <param name="rlKernel">kernel</param>
             /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
             public static void Dilate(
-                InputArrayRef rlSrc, OutputArrayRef rlDest, InputArrayRef rlKernel, Point? anchor = null)
+                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, Point? anchor = null)
             {
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
@@ -170,7 +170,7 @@ public static partial class Cv2
             /// <param name="anchor">position of the anchor within the element; default value (0, 0)
             /// is usually the element center.</param>
             public static void Erode(
-                InputArrayRef rlSrc, OutputArrayRef rlDest, InputArrayRef rlKernel, bool bBoundaryOn = true, Point? anchor = null)
+                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, bool bBoundaryOn = true, Point? anchor = null)
             {
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
 
@@ -201,7 +201,7 @@ public static partial class Cv2
             /// <param name="image">image to paint into (currently only single channel images).</param>
             /// <param name="rlSrc">run length encoded image</param>
             /// <param name="value">all foreground pixel of the binary image are set to this value</param>
-            public static void Paint(InputOutputArrayRef image, InputArrayRef rlSrc, Scalar value)
+            public static void Paint(InputOutputArray image, InputArray rlSrc, Scalar value)
             {
                 NativeMethods.HandleException(
                     NativeMethods.ximgproc_rl_paint(image.Proxy, rlSrc.Proxy, value));
@@ -215,7 +215,7 @@ public static partial class Cv2
             /// </summary>
             /// <param name="rlStructuringElement"></param>
             /// <returns></returns>
-            public static bool IsRLMorphologyPossible(InputArrayRef rlStructuringElement)
+            public static bool IsRLMorphologyPossible(InputArray rlStructuringElement)
             {
                 NativeMethods.HandleException(
                     NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.Proxy, out var ret));
@@ -232,7 +232,7 @@ public static partial class Cv2
             /// <param name="res">result</param>
             /// <param name="size">image size (to be used if an "on" boundary should be used in erosion, using the default
             /// means that the size is computed from the extension of the input)</param>
-            public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArrayRef res, Size? size = null)
+            public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArray res, Size? size = null)
             {
                 var runsArray = runs as Point3i[] ?? runs.ToArray();
                 var sizeValue = size.GetValueOrDefault(new Size(0, 0));
@@ -253,7 +253,7 @@ public static partial class Cv2
             /// to be on for erosion operations (True: works in the same way as the default of cv::erode, False: is a little faster)</param>
             /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
             public static void MorphologyEx(
-                InputArrayRef rlSrc, OutputArrayRef rlDest, MorphTypes op, InputArrayRef rlKernel,
+                InputArray rlSrc, OutputArray rlDest, MorphTypes op, InputArray rlKernel,
                 bool bBoundaryOnForErosion = true, Point? anchor = null)
             {
                 var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
@@ -293,8 +293,8 @@ public static partial class Cv2
         /// Other techniques can be specified, see cv::ximgproc::LocalBinarizationMethods.</param>
         /// <param name="r">The user-adjustable parameter used by Sauvola's technique. This is the dynamic range of standard deviation.</param>
         public static void NiblackThreshold(
-            InputArrayRef src,
-            OutputArrayRef dst,
+            InputArray src,
+            OutputArray dst,
             double maxValue,
             ThresholdTypes type,
             int blockSize,
@@ -317,7 +317,7 @@ public static partial class Cv2
         /// <param name="dst">Destination image of the same size and the same type as src. The function can work in-place.</param>
         /// <param name="thinningType">Value that defines which thinning algorithm should be used. </param>
         public static void Thinning(
-            InputArrayRef src, OutputArrayRef dst,
+            InputArray src, OutputArray dst,
             ThinningTypes thinningType = ThinningTypes.ZHANGSUEN)
         {
             NativeMethods.HandleException(
@@ -335,7 +335,7 @@ public static partial class Cv2
         /// <param name="alpha">The amount of time to step forward by on each iteration (normally, it's between 0 and 1).</param>
         /// <param name="k">sensitivity to the edges</param>
         /// <param name="niters">The number of iterations</param>
-        public static void AnisotropicDiffusion(InputArrayRef src, OutputArrayRef dst, float alpha, float k, int niters)
+        public static void AnisotropicDiffusion(InputArray src, OutputArray dst, float alpha, float k, int niters)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_anisotropicDiffusion(src.Proxy, dst.Proxy, alpha, k, niters));
@@ -378,7 +378,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="img">Source 8-bit, 32-bit or 64-bit image, with 3-channel image.</param>
         /// <param name="qimg">result CV_64FC4 a quaternion image( 4 chanels zero channel and B,G,R).</param>
-        public static void CreateQuaternionImage(InputArrayRef img, OutputArrayRef qimg)
+        public static void CreateQuaternionImage(InputArray img, OutputArray qimg)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_createQuaternionImage(img.Proxy, qimg.Proxy));
@@ -391,7 +391,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="qimg">quaternion image.</param>
         /// <param name="qcimg">conjugate of qimg</param>
-        public static void QConj(InputArrayRef qimg, OutputArrayRef qcimg)
+        public static void QConj(InputArray qimg, OutputArray qcimg)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_qconj(qimg.Proxy, qcimg.Proxy));
@@ -404,7 +404,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="qimg">quaternion image.</param>
         /// <param name="qnimg">conjugate of qimg</param>
-        public static void QUnitary(InputArrayRef qimg, OutputArrayRef qnimg)
+        public static void QUnitary(InputArray qimg, OutputArray qnimg)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_qunitary(qimg.Proxy, qnimg.Proxy));
@@ -418,7 +418,7 @@ public static partial class Cv2
         /// <param name="src1">quaternion image.</param>
         /// <param name="src2">quaternion image.</param>
         /// <param name="dst">product dst(I)=src1(I) . src2(I)</param>
-        public static void QMultiply(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+        public static void QMultiply(InputArray src1, InputArray src2, OutputArray dst)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_qmultiply(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -434,7 +434,7 @@ public static partial class Cv2
         /// <param name="qimg">quaternion image in dual space.</param>
         /// <param name="flags">quaternion image in dual space. only DFT_INVERSE flags is supported</param>
         /// <param name="sideLeft">true the hypercomplex exponential is to be multiplied on the left (false on the right ).</param>
-        public static void QDft(InputArrayRef img, OutputArrayRef qimg, DftFlags flags, bool sideLeft)
+        public static void QDft(InputArray img, OutputArray qimg, DftFlags flags, bool sideLeft)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_qdft(img.Proxy, qimg.Proxy, (int)flags, sideLeft ? 1 : 0));
@@ -448,7 +448,7 @@ public static partial class Cv2
         /// <param name="img">Image where the search is running. It must be 3 channels image</param>
         /// <param name="templ">Searched template. It must be not greater than the source image and have 3 channels</param>
         /// <param name="result">Map of comparison results. It must be single-channel 64-bit floating-point</param>
-        public static void ColorMatchTemplate(InputArrayRef img, InputArrayRef templ, OutputArrayRef result)
+        public static void ColorMatchTemplate(InputArray img, InputArray templ, OutputArray result)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_colorMatchTemplate(img.Proxy, templ.Proxy, result.Proxy));
@@ -468,7 +468,7 @@ public static partial class Cv2
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientDericheY(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
+        public static void GradientDericheY(InputArray op, OutputArray dst, double alpha, double omega)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_GradientDericheY(op.Proxy, dst.Proxy, alpha, omega));
@@ -483,7 +483,7 @@ public static partial class Cv2
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientDericheX(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
+        public static void GradientDericheX(InputArray op, OutputArray dst, double alpha, double omega)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_GradientDericheX(op.Proxy, dst.Proxy, alpha, omega));
@@ -562,7 +562,7 @@ public static partial class Cv2
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
         public static DTFilter CreateDTFilter(
-            InputArrayRef guide, double sigmaSpatial, double sigmaColor,
+            InputArray guide, double sigmaSpatial, double sigmaColor,
             EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
             return OpenCvSharp.XImgProc.DTFilter.Create(guide, sigmaSpatial, sigmaColor, mode, numIters);
@@ -584,7 +584,7 @@ public static partial class Cv2
         /// filtering 2D signals in the article.</param>
         /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
         // ReSharper disable once InconsistentNaming
-        public static void DTFilter(InputArrayRef guide, InputArrayRef src, OutputArrayRef dst, double sigmaSpatial,
+        public static void DTFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
             double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
             NativeMethods.HandleException(
@@ -604,7 +604,7 @@ public static partial class Cv2
         /// space into bilateralFilter.</param>
         /// <returns></returns>
         public static GuidedFilter CreateGuidedFilter(
-            InputArrayRef guide, int radius, double eps)
+            InputArray guide, int radius, double eps)
         {
             return OpenCvSharp.XImgProc.GuidedFilter.Create(guide, radius, eps);
         }
@@ -624,7 +624,7 @@ public static partial class Cv2
         /// space into bilateralFilter.</param>
         /// <param name="dDepth">optional depth of the output image.</param>
         public static void GuidedFilter(
-            InputArrayRef guide, InputArrayRef src, OutputArrayRef dst,
+            InputArray guide, InputArray src, OutputArray dst,
             int radius, double eps, int dDepth = -1)
         {
             NativeMethods.HandleException(
@@ -663,7 +663,7 @@ public static partial class Cv2
         /// original paper.</param>
         // ReSharper disable once InconsistentNaming
         public static void AMFilter(
-            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, double sigmaS, double sigmaR,
+            InputArray joint, InputArray src, OutputArray dst, double sigmaS, double sigmaR,
             bool adjustOutliers = false)
         {
             NativeMethods.HandleException(
@@ -690,7 +690,7 @@ public static partial class Cv2
         /// proportional to sigmaSpace.</param>
         /// <param name="borderType"></param>
         public static void JointBilateralFilter(
-            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, int d,
+            InputArray joint, InputArray src, OutputArray dst, int d,
             double sigmaColor, double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
         {
             NativeMethods.HandleException(
@@ -714,7 +714,7 @@ public static partial class Cv2
         /// <param name="sigmaAvg">Range blur parameter for texture blurring. Larger value makes result to be more blurred. When the
         /// value is negative, it is automatically calculated as described in the paper.</param>
         public static void BilateralTextureFilter(
-            InputArrayRef src, OutputArrayRef dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
+            InputArray src, OutputArray dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_bilateralTextureFilter(
@@ -740,7 +740,7 @@ public static partial class Cv2
         /// <param name="numOfIter">Number of iterations of joint edge-preserving filtering applied on the source image.</param>
         /// <param name="borderType"></param>
         public static void RollingGuidanceFilter(
-            InputArrayRef src, OutputArrayRef dst, int d = -1, double sigmaColor = 25,
+            InputArray src, OutputArray dst, int d = -1, double sigmaColor = 25,
             double sigmaSpace = 3, int numOfIter = 4, BorderTypes borderType = BorderTypes.Default)
         {
             NativeMethods.HandleException(
@@ -765,8 +765,8 @@ public static partial class Cv2
         /// <param name="numIter">number of iterations used for solver, 25 is usually enough.</param>
         /// <param name="maxTol">convergence tolerance used for solver.</param>
         public static void FastBilateralSolverFilter(
-            InputArrayRef guide, InputArrayRef src, InputArrayRef confidence,
-            OutputArrayRef dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
+            InputArray guide, InputArray src, InputArray confidence,
+            OutputArray dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
             double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
         {
             NativeMethods.HandleException(
@@ -789,7 +789,7 @@ public static partial class Cv2
         /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
         /// <returns></returns>
         public static FastGlobalSmootherFilter CreateFastGlobalSmootherFilter(
-            InputArrayRef guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
+            InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
         {
             return OpenCvSharp.XImgProc.FastGlobalSmootherFilter.Create(guide, lambda, sigmaColor, lambdaAttenuation, numIter);
         }
@@ -807,7 +807,7 @@ public static partial class Cv2
         /// it should be 0.25. Setting it to 1.0 may lead to streaking artifacts.</param>
         /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
         public static void FastGlobalSmootherFilter(
-            InputArrayRef guide, InputArrayRef src, OutputArrayRef dst, double lambda, double sigmaColor,
+            InputArray guide, InputArray src, OutputArray dst, double lambda, double sigmaColor,
             double lambdaAttenuation = 0.25, int numIter = 3)
         {
             NativeMethods.HandleException(
@@ -825,7 +825,7 @@ public static partial class Cv2
         /// <param name="dst">destination image.</param>
         /// <param name="lambda">parameter defining the smooth term weight.</param>
         /// <param name="kappa">parameter defining the increasing factor of the weight of the gradient data term.</param>
-        public static void L0Smooth(InputArrayRef src, OutputArrayRef dst, double lambda = 0.02, double kappa = 2.0)
+        public static void L0Smooth(InputArray src, OutputArray dst, double lambda = 0.02, double kappa = 2.0)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_l0Smooth(
@@ -845,7 +845,7 @@ public static partial class Cv2
         /// <param name="dst">Destination image of the same size and type as src.</param>
         /// <param name="d">Diameter of each pixel neighborhood that is used during filtering. Must be greater or equal 3.</param>
         /// <param name="threshold">Threshold, which distinguishes between noise, outliers, and data.</param>
-        public static void EdgePreservingFilter(InputArrayRef src, OutputArrayRef dst, int d, double threshold)
+        public static void EdgePreservingFilter(InputArray src, OutputArray dst, int d, double threshold)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_edgePreservingFilter(src.Proxy, dst.Proxy, d, threshold));
@@ -872,7 +872,7 @@ public static partial class Cv2
         /// <param name="dst">The destination estimated covariance matrix. Output matrix will be size (windowRows*windowCols, windowRows*windowCols).</param>
         /// <param name="windowRows">The number of rows in the window.</param>
         /// <param name="windowCols">The number of cols in the window.</param>
-        public static void CovarianceEstimation(InputArrayRef src, OutputArrayRef dst, int windowRows, int windowCols)
+        public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_covarianceEstimation(src.Proxy, dst.Proxy, windowRows, windowCols));
@@ -895,8 +895,8 @@ public static partial class Cv2
         /// <param name="op">The operation to be applied, see cv::HoughOp</param>
         /// <param name="makeSkew">Specifies to do or not to do image skewing, see cv::HoughDeskewOption</param>
         public static void FastHoughTransform(
-            InputArrayRef src,
-            OutputArrayRef dst,
+            InputArray src,
+            OutputArray dst,
             MatType dstMatDepth,
             AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
             HoughOP op = HoughOP.FHT_ADD,
@@ -925,7 +925,7 @@ public static partial class Cv2
         /// <returns>Coordinates of line segment corresponded by point in Hough space.</returns>
         public static Vec4i HoughPoint2Line(
             Point houghPoint,
-            InputArrayRef srcImgInfo,
+            InputArray srcImgInfo,
             AngleRangeOption angleRange = AngleRangeOption.ARO_315_135,
             HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW,
             RulesOption rules = RulesOption.IGNORE_BORDERS)
@@ -977,7 +977,7 @@ public static partial class Cv2
         /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
-        public static SuperpixelLSC CreateSuperpixelLSC(InputArrayRef image, int regionSize = 10, float ratio = 0.075f)
+        public static SuperpixelLSC CreateSuperpixelLSC(InputArray image, int regionSize = 10, float ratio = 0.075f)
         {
             return SuperpixelLSC.Create(image, regionSize, ratio);
         }
@@ -993,7 +993,7 @@ public static partial class Cv2
         /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientPaillouY(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
+        public static void GradientPaillouY(InputArray op, OutputArray dst, double alpha, double omega)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_GradientPaillouY(op.Proxy, dst.Proxy, alpha, omega));
@@ -1009,7 +1009,7 @@ public static partial class Cv2
         /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
         /// <param name="alpha">double see paper</param>
         /// <param name="omega">double see paper</param>
-        public static void GradientPaillouX(InputArrayRef op, OutputArrayRef dst, double alpha, double omega)
+        public static void GradientPaillouX(InputArray op, OutputArray dst, double alpha, double omega)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_GradientPaillouX(op.Proxy, dst.Proxy, alpha, omega));
@@ -1027,7 +1027,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <returns>Transformation matrix corresponding to inversed image transformation</returns>
-        public static double[,] PeiLinNormalization(InputArrayRef i)
+        public static double[,] PeiLinNormalization(InputArray i)
         {
             double[,] ret = new double[2, 3];
             unsafe
@@ -1048,7 +1048,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <param name="t">Inversed image transformation.</param>
-        public static void PeiLinNormalization(InputArrayRef i, OutputArrayRef t)
+        public static void PeiLinNormalization(InputArray i, OutputArray t)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.Proxy, t.Proxy));
@@ -1143,8 +1143,8 @@ public static partial class Cv2
         /// <param name="mask">A 0-1 mask that has the same size with I. This mask is used to ignore the effect of some pixels. If the pixel value on mask is 0,
         /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
         public static void WeightedMedianFilter(
-            InputArrayRef joint, InputArrayRef src, OutputArrayRef dst, int r,
-            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, InputArrayRef mask = default)
+            InputArray joint, InputArray src, OutputArray dst, int r,
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, InputArray mask = default)
         {
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_weightedMedianFilter(

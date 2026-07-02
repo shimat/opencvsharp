@@ -90,7 +90,7 @@ public class SuperpixelSEEDS : Algorithm
     /// channels must match with the initialized image size &amp; channels with the function
     /// createSuperpixelSEEDS(). It should be in HSV or Lab color space.Lab is a bit better, but also slower.</param>
     /// <param name="numIterations">Number of pixel level iterations. Higher number improves the result.</param>
-    public virtual void Iterate(InputArrayRef img, int numIterations = 10)
+    public virtual void Iterate(InputArray img, int numIterations = 10)
     {
         ThrowIfDisposed();
 
@@ -110,7 +110,7 @@ public class SuperpixelSEEDS : Algorithm
     /// </summary>
     /// <param name="labelsOut">Return: A CV_32UC1 integer array containing the labels of the superpixel
     /// segmentation.The labels are in the range[0, getNumberOfSuperpixels()].</param>
-    public virtual void GetLabels(OutputArrayRef labelsOut)
+    public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
 
@@ -125,7 +125,7 @@ public class SuperpixelSEEDS : Algorithm
     /// </summary>
     /// <param name="image">Return: CV_8U1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</param>
     /// <param name="thickLine">If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</param>
-    public virtual void GetLabelContourMask(OutputArrayRef image, bool thickLine = true)
+    public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
 

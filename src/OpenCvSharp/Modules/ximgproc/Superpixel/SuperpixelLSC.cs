@@ -37,7 +37,7 @@ public class SuperpixelLSC : Algorithm
     /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
     /// <returns></returns>
     public static SuperpixelLSC Create(
-        InputArrayRef image, int regionSize = 10, float ratio = 0.075f)
+        InputArray image, int regionSize = 10, float ratio = 0.075f)
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelLSC(
@@ -91,7 +91,7 @@ public class SuperpixelLSC : Algorithm
     /// </summary>
     /// <param name="labelsOut">Return: A CV_32SC1 integer array containing the labels of the superpixel
     /// segmentation.The labels are in the range[0, getNumberOfSuperpixels()].</param>
-    public virtual void GetLabels(OutputArrayRef labelsOut)
+    public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
 
@@ -106,7 +106,7 @@ public class SuperpixelLSC : Algorithm
     /// </summary>
     /// <param name="image">Return: CV_8U1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</param>
     /// <param name="thickLine">If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</param>
-    public virtual void GetLabelContourMask(OutputArrayRef image, bool thickLine = true)
+    public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
 

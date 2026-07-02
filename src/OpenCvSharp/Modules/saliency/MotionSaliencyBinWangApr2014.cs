@@ -32,7 +32,7 @@ public class MotionSaliencyBinWangApr2014 : Algorithm
     /// <param name="image">Input image frame (grayscale, CV_8UC1).</param>
     /// <param name="saliencyMap">The computed binary saliency map.</param>
     /// <returns>true if the saliency map was computed successfully.</returns>
-    public virtual bool ComputeSaliency(InputArrayRef image, OutputArrayRef saliencyMap)
+    public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
     {
         ThrowIfDisposed();
 

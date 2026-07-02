@@ -4,7 +4,7 @@ using OpenCvSharp.Internal.Vectors;
 namespace OpenCvSharp;
 
 /// <summary>
-/// TrueType font face used by the FontFace-based <see cref="Cv2.PutText(InputOutputArrayRef, string, Point, Scalar, FontFace, int, int, PutTextFlags, OpenCvSharp.Range?)"/>
+/// TrueType font face used by the FontFace-based <see cref="Cv2.PutText(InputOutputArray, string, Point, Scalar, FontFace, int, int, PutTextFlags, OpenCvSharp.Range?)"/>
 /// and <see cref="Cv2.GetTextSize(Size, string, Point, FontFace, int, int, PutTextFlags, OpenCvSharp.Range?)"/> (OpenCV 5).
 /// </summary>
 public class FontFace : CvObject

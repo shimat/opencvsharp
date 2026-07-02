@@ -31,7 +31,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     /// <param name="regions">A segementation of the image. The parameter must be the same size of img.</param>
     /// <param name="sizes">The sizes of different regions</param>
     /// <param name="imageId">If not set to -1, try to cache pre-computations. If the same set og (img, regions, size) is used, the image_id need to be the same.</param>
-    public virtual void SetImage(InputArrayRef img, InputArrayRef regions, InputArrayRef sizes, int imageId = -1)
+    public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
     {
         ThrowIfDisposed();
 

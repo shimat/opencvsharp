@@ -89,7 +89,7 @@ public class MarrHildrethHash : ImgHashBase
 
     // ReSharper disable once RedundantOverriddenMember
     /// <inheritdoc />
-    public override void Compute(InputArrayRef inputArr, OutputArrayRef outputArr)
+    public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);
     }

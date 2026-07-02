@@ -19,7 +19,7 @@ static partial class Cv2
     /// <param name="src">Input rotation vector (3x1 or 1x3) or rotation matrix (3x3).</param>
     /// <param name="dst">Output rotation matrix (3x3) or rotation vector (3x1 or 1x3), respectively.</param>
     /// <param name="jacobian">Optional output Jacobian matrix, 3x9 or 9x3, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
-    public static void Rodrigues(InputArrayRef src, OutputArrayRef dst, OutputArrayRef jacobian = default)
+    public static void Rodrigues(InputArray src, OutputArray dst, OutputArray jacobian = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_Rodrigues(src.Proxy, dst.Proxy, jacobian.Proxy));
@@ -83,11 +83,11 @@ static partial class Cv2
     /// <param name="confidence">Confidence level, between 0 and 1.</param>
     /// <returns></returns>
     public static Mat FindHomography(
-        InputArrayRef srcPoints, 
-        InputArrayRef dstPoints,
+        InputArray srcPoints, 
+        InputArray dstPoints,
         HomographyMethods method = HomographyMethods.None, 
         double ransacReprojThreshold = 3,
-        OutputArrayRef mask = default, 
+        OutputArray mask = default, 
         int maxIters = 2000,
         double confidence = 0.995)
     {
@@ -120,7 +120,7 @@ static partial class Cv2
         IEnumerable<Point2d> dstPoints,
         HomographyMethods method = HomographyMethods.None, 
         double ransacReprojThreshold = 3,
-        OutputArrayRef mask = default,
+        OutputArray mask = default,
         int maxIters = 2000,
         double confidence = 0.995)
     {
@@ -153,9 +153,9 @@ static partial class Cv2
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     public static Mat FindHomography(
-        InputArrayRef srcPoints, 
-        InputArrayRef dstPoints,
-        OutputArrayRef mask,
+        InputArray srcPoints, 
+        InputArray dstPoints,
+        OutputArray mask,
         UsacParams? @params)
     {
         var p = (@params ?? new UsacParams()).ToNativeStruct();
@@ -180,8 +180,8 @@ static partial class Cv2
     /// <param name="qy">Optional output 3x3 rotation matrix around y-axis.</param>
     /// <param name="qz">Optional output 3x3 rotation matrix around z-axis.</param>
     /// <returns></returns>
-    public static Vec3d RQDecomp3x3(InputArrayRef src, OutputArrayRef mtxR, OutputArrayRef mtxQ,
-        OutputArrayRef qx = default, OutputArrayRef qy = default, OutputArrayRef qz = default)
+    public static Vec3d RQDecomp3x3(InputArray src, OutputArray mtxR, OutputArray mtxQ,
+        OutputArray qx = default, OutputArray qy = default, OutputArray qz = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_RQDecomp3x3_InputArray(
@@ -254,14 +254,14 @@ static partial class Cv2
     /// <param name="rotMatrixZ">Optional 3x3 rotation matrix around z-axis.</param>
     /// <param name="eulerAngles">ptional three-element vector containing three Euler angles of rotation in degrees.</param>
     public static void DecomposeProjectionMatrix(
-        InputArrayRef projMatrix,
-        OutputArrayRef cameraMatrix,
-        OutputArrayRef rotMatrix,
-        OutputArrayRef transVect,
-        OutputArrayRef rotMatrixX = default,
-        OutputArrayRef rotMatrixY = default,
-        OutputArrayRef rotMatrixZ = default,
-        OutputArrayRef eulerAngles = default)
+        InputArray projMatrix,
+        OutputArray cameraMatrix,
+        OutputArray rotMatrix,
+        OutputArray transVect,
+        OutputArray rotMatrixX = default,
+        OutputArray rotMatrixY = default,
+        OutputArray rotMatrixZ = default,
+        OutputArray eulerAngles = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeProjectionMatrix_InputArray(
@@ -355,8 +355,8 @@ static partial class Cv2
     /// <param name="dABdA">First output derivative matrix d(A*B)/dA of size A.rows*B.cols X A.rows*A.cols .</param>
     /// <param name="dABdB">Second output derivative matrix d(A*B)/dB of size A.rows*B.cols X B.rows*B.cols .</param>
     public static void MatMulDeriv(
-        InputArrayRef a, InputArrayRef b,
-        OutputArrayRef dABdA, OutputArrayRef dABdB)
+        InputArray a, InputArray b,
+        OutputArray dABdA, OutputArray dABdB)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_matMulDeriv(a.Proxy, b.Proxy, dABdA.Proxy, dABdB.Proxy));
@@ -382,13 +382,13 @@ static partial class Cv2
     /// <param name="dt3dr2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
     /// <param name="dt3dt2">Optional output derivatives of rvec3 or tvec3 with regard to rvec1, rvec2, tvec1 and tvec2, respectively.</param>
     public static void ComposeRT(
-        InputArrayRef rvec1, InputArrayRef tvec1,
-        InputArrayRef rvec2, InputArrayRef tvec2,
-        OutputArrayRef rvec3, OutputArrayRef tvec3,
-        OutputArrayRef dr3dr1 = default, OutputArrayRef dr3dt1 = default,
-        OutputArrayRef dr3dr2 = default, OutputArrayRef dr3dt2 = default,
-        OutputArrayRef dt3dr1 = default, OutputArrayRef dt3dt1 = default,
-        OutputArrayRef dt3dr2 = default, OutputArrayRef dt3dt2 = default)
+        InputArray rvec1, InputArray tvec1,
+        InputArray rvec2, InputArray tvec2,
+        OutputArray rvec3, OutputArray tvec3,
+        OutputArray dr3dr1 = default, OutputArray dr3dt1 = default,
+        OutputArray dr3dr2 = default, OutputArray dr3dt2 = default,
+        OutputArray dt3dr1 = default, OutputArray dt3dt1 = default,
+        OutputArray dt3dr2 = default, OutputArray dt3dt2 = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_composeRT_InputArray(
@@ -523,13 +523,13 @@ static partial class Cv2
     /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
     /// is fixed and correspondingly adjusts the jacobian matrix.</param>
     public static void ProjectPoints(
-        InputArrayRef objectPoints,
-        InputArrayRef rvec,
-        InputArrayRef tvec,
-        InputArrayRef cameraMatrix,
-        InputArrayRef distCoeffs,
-        OutputArrayRef imagePoints,
-        OutputArrayRef jacobian = default,
+        InputArray objectPoints,
+        InputArray rvec,
+        InputArray tvec,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        OutputArray imagePoints,
+        OutputArray jacobian = default,
         double aspectRatio = 0)
     {
         NativeMethods.HandleException(
@@ -630,11 +630,11 @@ static partial class Cv2
     /// the rotation and translation vectors, respectively, and further optimizes them.</param>
     /// <param name="flags">Method for solving a PnP problem:</param>
     public static void SolvePnP(
-        InputArrayRef objectPoints,
-        InputArrayRef imagePoints,
-        InputArrayRef cameraMatrix,
-        InputArrayRef distCoeffs,
-        OutputArrayRef rvec, OutputArrayRef tvec,
+        InputArray objectPoints,
+        InputArray imagePoints,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        OutputArray rvec, OutputArray tvec,
         bool useExtrinsicGuess = false,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
@@ -730,17 +730,17 @@ static partial class Cv2
     /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
     /// <param name="flags">Method for solving a PnP problem</param>
     public static void SolvePnPRansac(
-        InputArrayRef objectPoints,
-        InputArrayRef imagePoints,
-        InputArrayRef cameraMatrix,
-        InputArrayRef distCoeffs,
-        OutputArrayRef rvec,
-        OutputArrayRef tvec,
+        InputArray objectPoints,
+        InputArray imagePoints,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        OutputArray rvec,
+        OutputArray tvec,
         bool useExtrinsicGuess = false,
         int iterationsCount = 100,
         float reprojectionError = 8.0f,
         double confidence = 0.99,
-        OutputArrayRef inliers = default,
+        OutputArray inliers = default,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
         NativeMethods.HandleException(
@@ -860,7 +860,7 @@ static partial class Cv2
     /// <param name="principalPoint">Principal point in pixels.</param>
     /// <param name="aspectRatio">fy / fx</param>
     public static void CalibrationMatrixValues(
-        InputArrayRef cameraMatrix, Size imageSize,
+        InputArray cameraMatrix, Size imageSize,
         double apertureWidth, double apertureHeight,
         out double fovx, out double fovy, out double focalLength,
         out Point2d principalPoint, out double aspectRatio)
@@ -924,8 +924,8 @@ static partial class Cv2
     /// subset of the source image (determined by alpha) to the corrected image.</param>
     /// <returns>optimal new camera matrix</returns>
     public static Mat GetOptimalNewCameraMatrix(
-        InputArrayRef cameraMatrix, 
-        InputArrayRef distCoeffs,
+        InputArray cameraMatrix, 
+        InputArray distCoeffs,
         Size imageSize,
         double alpha, 
         Size newImgSize,
@@ -990,7 +990,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="src">Input vector of N-dimensional points.</param>
     /// <param name="dst">Output vector of N+1-dimensional points.</param>
-    public static void ConvertPointsToHomogeneous(InputArrayRef src, OutputArrayRef dst)
+    public static void ConvertPointsToHomogeneous(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_convertPointsToHomogeneous_InputArray(src.Proxy, dst.Proxy));
@@ -1040,7 +1040,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="src">Input vector of N-dimensional points.</param>
     /// <param name="dst">Output vector of N-1-dimensional points.</param>
-    public static void ConvertPointsFromHomogeneous(InputArrayRef src, OutputArrayRef dst)
+    public static void ConvertPointsFromHomogeneous(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_convertPointsFromHomogeneous_InputArray(src.Proxy, dst.Proxy));
@@ -1088,7 +1088,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="src">Input array or vector of 2D, 3D, or 4D points.</param>
     /// <param name="dst">Output vector of 2D, 3D, or 4D points.</param>
-    public static void ConvertPointsHomogeneous(InputArrayRef src, OutputArrayRef dst)
+    public static void ConvertPointsHomogeneous(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_convertPointsHomogeneous(src.Proxy, dst.Proxy));
@@ -1112,10 +1112,10 @@ static partial class Cv2
     /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
     /// <returns>fundamental matrix</returns>
     public static Mat FindFundamentalMat(
-        InputArrayRef points1, InputArrayRef points2,
+        InputArray points1, InputArray points2,
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0, double param2 = 0.99,
-        OutputArrayRef mask = default)
+        OutputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_findFundamentalMat_InputArray(
@@ -1149,7 +1149,7 @@ static partial class Cv2
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0,
         double param2 = 0.99,
-        OutputArrayRef mask = default)
+        OutputArray mask = default)
     {
         if (points1 is null)
             throw new ArgumentNullException(nameof(points1));
@@ -1190,7 +1190,7 @@ static partial class Cv2
         FundamentalMatMethods method = FundamentalMatMethods.Ransac,
         double param1 = 3.0,
         double param2 = 0.99,
-        OutputArrayRef mask = default)
+        OutputArray mask = default)
     {
         if (points1 is null)
             throw new ArgumentNullException(nameof(points1));
@@ -1217,7 +1217,7 @@ static partial class Cv2
     /// <param name="mask">Output array of N elements; every element marks an inlier (1) or outlier (0).</param>
     /// <param name="params">USAC parameters. Null uses the defaults.</param>
     /// <returns>The estimated fundamental matrix.</returns>
-    public static Mat FindFundamentalMat(InputArrayRef points1, InputArrayRef points2, OutputArrayRef mask, UsacParams? @params)
+    public static Mat FindFundamentalMat(InputArray points1, InputArray points2, OutputArray mask, UsacParams? @params)
     {
         var p = (@params ?? new UsacParams()).ToNativeStruct();
         NativeMethods.HandleException(
@@ -1238,10 +1238,10 @@ static partial class Cv2
     /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
     /// <param name="lines">Output vector of the epipolar lines corresponding to the points in the other image.
     ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</param>
-    public static void ComputeCorrespondEpilines(InputArrayRef points,
+    public static void ComputeCorrespondEpilines(InputArray points,
         int whichImage,
-        InputArrayRef F,
-        OutputArrayRef lines)
+        InputArray F,
+        OutputArray lines)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_computeCorrespondEpilines_InputArray(
@@ -1333,9 +1333,9 @@ static partial class Cv2
     /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
     /// <param name="points4D">4xN array of reconstructed points in homogeneous coordinates.</param>
     public static void TriangulatePoints(
-        InputArrayRef projMatr1, InputArrayRef projMatr2,
-        InputArrayRef projPoints1, InputArrayRef projPoints2,
-        OutputArrayRef points4D)
+        InputArray projMatr1, InputArray projMatr2,
+        InputArray projPoints1, InputArray projPoints2,
+        OutputArray points4D)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_triangulatePoints_InputArray(
@@ -1409,8 +1409,8 @@ static partial class Cv2
     /// <param name="newPoints1">The optimized points1.</param>
     /// <param name="newPoints2">The optimized points2.</param>
     public static void CorrectMatches(
-        InputArrayRef F, InputArrayRef points1, InputArrayRef points2,
-        OutputArrayRef newPoints1, OutputArrayRef newPoints2)
+        InputArray F, InputArray points1, InputArray points2,
+        OutputArray newPoints1, OutputArray newPoints2)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_correctMatches_InputArray(
@@ -1479,9 +1479,9 @@ static partial class Cv2
     /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
     /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
     public static int RecoverPose(
-        InputArrayRef E, InputArrayRef points1, InputArrayRef points2, InputArrayRef cameraMatrix,
-        OutputArrayRef R, OutputArrayRef t,
-        InputOutputArrayRef mask = default)
+        InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+        OutputArray R, OutputArray t,
+        InputOutputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray1(
@@ -1513,9 +1513,9 @@ static partial class Cv2
     /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
     /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
     public static int RecoverPose(
-        InputArrayRef E, InputArrayRef points1, InputArrayRef points2,
-        OutputArrayRef R, OutputArrayRef t, double focal, Point2d pp,
-        InputOutputArrayRef mask = default)
+        InputArray E, InputArray points1, InputArray points2,
+        OutputArray R, OutputArray t, double focal, Point2d pp,
+        InputOutputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray2(
@@ -1548,9 +1548,9 @@ static partial class Cv2
     /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
     /// <param name="triangulatedPoints">3d points which were reconstructed by triangulation.</param>
     public static int RecoverPose(
-        InputArrayRef E, InputArrayRef points1, InputArrayRef points2, InputArrayRef cameraMatrix,
-        OutputArrayRef R, OutputArrayRef t, double distanceTresh,
-        InputOutputArrayRef mask = default, OutputArrayRef triangulatedPoints = default)
+        InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+        OutputArray R, OutputArray t, double distanceTresh,
+        InputOutputArray mask = default, OutputArray triangulatedPoints = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_recoverPose_InputArray3(
@@ -1583,10 +1583,10 @@ static partial class Cv2
     /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
     /// <returns>essential matrix</returns>
     public static Mat FindEssentialMat(
-        InputArrayRef points1, InputArrayRef points2, InputArrayRef cameraMatrix,
+        InputArray points1, InputArray points2, InputArray cameraMatrix,
         EssentialMatMethod method = EssentialMatMethod.Ransac,
         double prob = 0.999, double threshold = 1.0,
-        OutputArrayRef mask = default)
+        OutputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray1(
@@ -1618,10 +1618,10 @@ static partial class Cv2
     /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
     /// <returns>essential matrix</returns>
     public static Mat FindEssentialMat(
-        InputArrayRef points1, InputArrayRef points2, double focal, Point2d pp,
+        InputArray points1, InputArray points2, double focal, Point2d pp,
         EssentialMatMethod method = EssentialMatMethod.Ransac,
         double prob = 0.999, double threshold = 1.0,
-        OutputArrayRef mask = default)
+        OutputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_findEssentialMat_InputArray2(
@@ -1645,8 +1645,8 @@ static partial class Cv2
     /// Anything between 0.95 and 0.99 is usually good enough. Values too close to 1 can slow down the estimation significantly. 
     /// Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
     /// <returns></returns>
-    public static int EstimateAffine3D(InputArrayRef src, InputArrayRef dst,
-        OutputArrayRef outVal, OutputArrayRef inliers,
+    public static int EstimateAffine3D(InputArray src, InputArray dst,
+        OutputArray outVal, OutputArray inliers,
         double ransacThreshold = 3, double confidence = 0.99)
     {
         NativeMethods.HandleException(
@@ -1666,7 +1666,7 @@ static partial class Cv2
     /// <param name="f">F fundamental matrix</param>
     /// <returns>The computed Sampson distance.</returns>
     /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
-    public static double SampsonDistance(InputArrayRef pt1, InputArrayRef pt2, InputArrayRef f)
+    public static double SampsonDistance(InputArray pt1, InputArray pt2, InputArray f)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_sampsonDistance_InputArray(pt1.Proxy, pt2.Proxy, f.Proxy, out var ret));
@@ -1720,7 +1720,7 @@ static partial class Cv2
     /// Passing 0 will disable refining, so the output matrix will be output of robust method.</param>
     /// <returns>Output 2D affine transformation matrix \f$2 \times 3\f$ or empty matrix if transformation could not be estimated.</returns>
     public static Mat? EstimateAffine2D(
-        InputArrayRef from, InputArrayRef to, OutputArrayRef inliers = default,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99,
         ulong refineIters = 10)
@@ -1752,7 +1752,7 @@ static partial class Cv2
     /// <param name="refineIters"></param>
     /// <returns>Output 2D affine transformation (4 degrees of freedom) matrix 2x3 or empty matrix if transformation could not be estimated.</returns>
     public static Mat? EstimateAffinePartial2D(
-        InputArrayRef from, InputArrayRef to, OutputArrayRef inliers = default,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99,
         ulong refineIters = 10)
@@ -1779,8 +1779,8 @@ static partial class Cv2
     /// <param name="normals">Array of plane normal matrices.</param>
     /// <returns></returns>
     public static int DecomposeHomographyMat(
-        InputArrayRef h,
-        InputArrayRef k,
+        InputArray h,
+        InputArray k,
         out Mat[] rotations,
         out Mat[] translations,
         out Mat[] normals)
@@ -1818,10 +1818,10 @@ static partial class Cv2
     public static void FilterHomographyDecompByVisibleRefpoints(
         IEnumerable<Mat> rotations,
         IEnumerable<Mat> normals,
-        InputArrayRef beforePoints,
-        InputArrayRef afterPoints,
-        OutputArrayRef possibleSolutions,
-        InputArrayRef pointsMask = default)
+        InputArray beforePoints,
+        InputArray afterPoints,
+        OutputArray possibleSolutions,
+        InputArray pointsMask = default)
     {
         if (rotations is null)
             throw new ArgumentNullException(nameof(rotations));
@@ -1853,7 +1853,7 @@ static partial class Cv2
     /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
     /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
     public static Mat GetDefaultNewCameraMatrix(
-        InputArrayRef cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
+        InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
     {
         var imgSize0 = imgSize.GetValueOrDefault(new Size());
 
@@ -1880,12 +1880,12 @@ static partial class Cv2
     /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
     /// the identity new camera matrix is used.</param>
     public static void UndistortPoints(
-        InputArrayRef src, 
-        OutputArrayRef dst,
-        InputArrayRef cameraMatrix, 
-        InputArrayRef distCoeffs,
-        InputArrayRef r = default, 
-        InputArrayRef p = default)
+        InputArray src, 
+        OutputArray dst,
+        InputArray cameraMatrix, 
+        InputArray distCoeffs,
+        InputArray r = default, 
+        InputArray p = default)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_undistortPoints(
@@ -1917,12 +1917,12 @@ static partial class Cv2
     /// the identity new camera matrix is used.</param>
     /// <param name="termCriteria"></param>
     public static void UndistortPointsIter(
-        InputArrayRef src, 
-        OutputArrayRef dst,
-        InputArrayRef cameraMatrix, 
-        InputArrayRef distCoeffs,
-        InputArrayRef r = default, 
-        InputArrayRef p = default,
+        InputArray src, 
+        OutputArray dst,
+        InputArray cameraMatrix, 
+        InputArray distCoeffs,
+        InputArray r = default, 
+        InputArray p = default,
         TermCriteria? termCriteria = null)
     {
         NativeMethods.HandleException(
@@ -1950,8 +1950,8 @@ static partial class Cv2
     /// <param name="tvec">Input/Output translation vector. Input values are used as the initial solution.</param>
     /// <param name="criteria">Criteria when to stop the Levenberg-Marquardt iterative algorithm.</param>
     public static void SolvePnPRefineLM(
-        InputArrayRef objectPoints, InputArrayRef imagePoints, InputArrayRef cameraMatrix, InputArrayRef distCoeffs,
-        InputOutputArrayRef rvec, InputOutputArrayRef tvec, TermCriteria? criteria = null)
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null)
     {
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
@@ -1980,8 +1980,8 @@ static partial class Cv2
     /// <param name="criteria">Criteria when to stop the iterative algorithm.</param>
     /// <param name="vvsLambda">Gain for the virtual visual servoing control law.</param>
     public static void SolvePnPRefineVVS(
-        InputArrayRef objectPoints, InputArrayRef imagePoints, InputArrayRef cameraMatrix, InputArrayRef distCoeffs,
-        InputOutputArrayRef rvec, InputOutputArrayRef tvec, TermCriteria? criteria = null, double vvsLambda = 1)
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        InputOutputArray rvec, InputOutputArray tvec, TermCriteria? criteria = null, double vvsLambda = 1)
     {
         var c = criteria ?? new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 20, 1.1920929e-07);
         NativeMethods.HandleException(
@@ -2004,7 +2004,7 @@ static partial class Cv2
     /// <param name="r1">One possible rotation matrix.</param>
     /// <param name="r2">Another possible rotation matrix.</param>
     /// <param name="t">One possible translation (up to scale).</param>
-    public static void DecomposeEssentialMat(InputArrayRef e, OutputArrayRef r1, OutputArrayRef r2, OutputArrayRef t)
+    public static void DecomposeEssentialMat(InputArray e, OutputArray r1, OutputArray r2, OutputArray t)
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_decomposeEssentialMat(e.Proxy, r1.Proxy, r2.Proxy, t.Proxy));
@@ -2026,7 +2026,7 @@ static partial class Cv2
     /// <param name="confidence">Confidence level, between 0 and 1.</param>
     /// <returns>True if a translation was found.</returns>
     public static bool EstimateTranslation3D(
-        InputArrayRef src, InputArrayRef dst, OutputArrayRef outVal, OutputArrayRef inliers,
+        InputArray src, InputArray dst, OutputArray outVal, OutputArray inliers,
         double ransacThreshold = 3, double confidence = 0.99)
     {
         NativeMethods.HandleException(
@@ -2051,7 +2051,7 @@ static partial class Cv2
     /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).</param>
     /// <returns>The estimated 2D translation vector.</returns>
     public static Vec2d EstimateTranslation2D(
-        InputArrayRef from, InputArrayRef to, OutputArrayRef inliers = default,
+        InputArray from, InputArray to, OutputArray inliers = default,
         RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
         ulong maxIters = 2000, double confidence = 0.99, ulong refineIters = 0)
     {

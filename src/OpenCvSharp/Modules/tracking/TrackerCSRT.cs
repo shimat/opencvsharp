@@ -60,7 +60,7 @@ public class TrackerCSRT : Tracker
     /// 
     /// </summary>
     /// <param name="mask"></param>
-    public virtual void SetInitialMask(InputArrayRef mask)
+    public virtual void SetInitialMask(InputArray mask)
     {
         NativeMethods.HandleException(
             NativeMethods.tracking_TrackerCSRT_setInitialMask(RawPtr, mask.Proxy));

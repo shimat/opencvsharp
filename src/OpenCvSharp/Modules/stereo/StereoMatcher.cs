@@ -23,7 +23,7 @@ public class StereoMatcher : Algorithm
     /// <param name="disparity">Output disparity map. It has the same size as the input images. Some algorithms, 
     /// like StereoBM or StereoSGBM compute 16-bit fixed-point disparity map(where each disparity value has 4 fractional bits), 
     /// whereas other algorithms output 32 - bit floating - point disparity map.</param>
-    public virtual void Compute(InputArrayRef left, InputArrayRef right, OutputArrayRef disparity)
+    public virtual void Compute(InputArray left, InputArray right, OutputArray disparity)
     {
         NativeMethods.HandleException(
             NativeMethods.stereo_StereoMatcher_compute(Handle, left.Proxy, right.Proxy, disparity.Proxy));

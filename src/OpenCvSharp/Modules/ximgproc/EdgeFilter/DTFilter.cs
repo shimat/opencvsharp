@@ -31,7 +31,7 @@ public class DTFilter : Algorithm
     /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
     /// <returns></returns>
     public static DTFilter Create(
-        InputArrayRef guide, double sigmaSpatial, double sigmaColor, 
+        InputArray guide, double sigmaSpatial, double sigmaColor, 
         EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
     {
         NativeMethods.HandleException(
@@ -50,7 +50,7 @@ public class DTFilter : Algorithm
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="dDepth"></param>
-    public virtual void Filter(InputArrayRef src, OutputArrayRef dst, int dDepth = -1)
+    public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
     {
         ThrowIfDisposed();
 

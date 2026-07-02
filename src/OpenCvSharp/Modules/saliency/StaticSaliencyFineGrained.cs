@@ -32,7 +32,7 @@ public class StaticSaliencyFineGrained : Algorithm
     /// <param name="image">The input image.</param>
     /// <param name="saliencyMap">The computed saliency map.</param>
     /// <returns>true if the saliency map was computed successfully.</returns>
-    public virtual bool ComputeSaliency(InputArrayRef image, OutputArrayRef saliencyMap)
+    public virtual bool ComputeSaliency(InputArray image, OutputArray saliencyMap)
     {
         ThrowIfDisposed();
 
@@ -49,7 +49,7 @@ public class StaticSaliencyFineGrained : Algorithm
     /// <param name="saliencyMap">The input saliency map.</param>
     /// <param name="binaryMap">The computed binary map.</param>
     /// <returns>true if the binary map was computed successfully.</returns>
-    public virtual bool ComputeBinaryMap(InputArrayRef saliencyMap, OutputArrayRef binaryMap)
+    public virtual bool ComputeBinaryMap(InputArray saliencyMap, OutputArray binaryMap)
     {
         ThrowIfDisposed();
 

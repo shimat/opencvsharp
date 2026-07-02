@@ -337,7 +337,7 @@ public class SVM : StatModel
     /// within the matrix of support vectors (which can be retrieved by SVM::getSupportVectors). 
     /// In the case of linear %SVM each decision function consists of a single "compressed" support vector.</param>
     /// <returns></returns>
-    public double GetDecisionFunction(int i, OutputArrayRef alpha, OutputArrayRef svidx)
+    public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
     {
         ThrowIfDisposed();
 

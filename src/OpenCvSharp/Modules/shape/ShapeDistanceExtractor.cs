@@ -19,7 +19,7 @@ public abstract class ShapeDistanceExtractor : Algorithm
     /// <param name="contour2">Contour defining second shape.</param>
     /// <returns></returns>
         /// <inheritdoc/>
-    public virtual float ComputeDistance(InputArrayRef contour1, InputArrayRef contour2)
+    public virtual float ComputeDistance(InputArray contour1, InputArray contour2)
     {
         ThrowIfDisposed();
 

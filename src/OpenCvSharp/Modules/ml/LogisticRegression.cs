@@ -184,7 +184,7 @@ public class LogisticRegression : StatModel
     /// <param name="results">Predicted labels as a column matrix of type CV_32S.</param>
     /// <param name="flags">Not used.</param>
     /// <returns></returns>
-    public float Predict(InputArrayRef samples, OutputArrayRef results = default, int flags = 0)
+    public float Predict(InputArray samples, OutputArray results = default, int flags = 0)
     {
         ThrowIfDisposed();
 

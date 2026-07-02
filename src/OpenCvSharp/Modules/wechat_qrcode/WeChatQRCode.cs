@@ -47,7 +47,7 @@ public class WeChatQRCode : CvObject
     /// Will be empty if not found.
     /// </param>
     /// <returns>list of decoded string.</returns>
-    public string[] DetectAndDecode(InputArrayRef inputImage, out Point2f[][] points)
+    public string[] DetectAndDecode(InputArray inputImage, out Point2f[][] points)
     {
         using var pointsVec = new VectorOfVectorPoint2f();
         using var texts = new VectorOfString();
@@ -71,7 +71,7 @@ public class WeChatQRCode : CvObject
     /// Will be empty if not found.
     /// </param>
     /// <returns>list of decoded string.</returns>
-    public string[] DetectAndDecodeRaw(InputArrayRef inputImage, out Mat[] bbox)
+    public string[] DetectAndDecodeRaw(InputArray inputImage, out Mat[] bbox)
     {
         using var bboxVec = new VectorOfMat();
         using var texts = new VectorOfString();

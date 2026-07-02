@@ -49,8 +49,8 @@ public class LineSegmentDetector : Algorithm
     /// <param name="prec">Vector of precisions with which the lines are found.</param>
     /// <param name="nfa">Vector containing number of false alarms in the line region, 
     /// with precision of 10%. The bigger the value, logarithmically better the detection.</param>
-    public virtual void Detect(InputArrayRef image, OutputArrayRef lines,
-        OutputArrayRef width = default, OutputArrayRef prec = default, OutputArrayRef nfa = default)
+    public virtual void Detect(InputArray image, OutputArray lines,
+        OutputArray width = default, OutputArray prec = default, OutputArray nfa = default)
     {
         NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.Proxy, lines.Proxy,
             width.Proxy, prec.Proxy, nfa.Proxy);
@@ -72,7 +72,7 @@ public class LineSegmentDetector : Algorithm
     /// <param name="prec">Vector of precisions with which the lines are found.</param>
     /// <param name="nfa">Vector containing number of false alarms in the line region, 
     /// with precision of 10%. The bigger the value, logarithmically better the detection.</param>
-    public virtual void Detect(InputArrayRef image, out Vec4f[] lines,
+    public virtual void Detect(InputArray image, out Vec4f[] lines,
         out double[] width, out double[] prec, out double[] nfa)
     {
         using (var linesVec = new StdVector<Vec4f>())
@@ -97,7 +97,7 @@ public class LineSegmentDetector : Algorithm
     /// <param name="image">The image, where the liens will be drawn. 
     /// Should be bigger or equal to the image, where the lines were found.</param>
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
-    public virtual void DrawSegments(InputOutputArrayRef image, InputArrayRef lines)
+    public virtual void DrawSegments(InputOutputArray image, InputArray lines)
     {
         NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.Proxy, lines.Proxy);
         GC.KeepAlive(image.Source);
@@ -115,7 +115,7 @@ public class LineSegmentDetector : Algorithm
     /// in the above mentioned colors.</param>
     /// <returns></returns>
     public virtual int CompareSegments(
-        Size size, InputArrayRef lines1, InputArrayRef lines2, InputOutputArrayRef image = default)
+        Size size, InputArray lines1, InputArray lines2, InputOutputArray image = default)
     {
         var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
             Handle, size, lines1.Proxy, lines2.Proxy, image.Proxy);

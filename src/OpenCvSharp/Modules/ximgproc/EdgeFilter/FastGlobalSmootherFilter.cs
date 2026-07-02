@@ -28,7 +28,7 @@ public class FastGlobalSmootherFilter : Algorithm
     /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
     /// <returns></returns>
     public static FastGlobalSmootherFilter Create(
-        InputArrayRef guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
+        InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastGlobalSmootherFilter(
@@ -44,7 +44,7 @@ public class FastGlobalSmootherFilter : Algorithm
     /// </summary>
     /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point 32-bit depth and up to 4 channels.</param>
     /// <param name="dst">destination image.</param>
-    public virtual void Filter(InputArrayRef src, OutputArrayRef dst)
+    public virtual void Filter(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
 

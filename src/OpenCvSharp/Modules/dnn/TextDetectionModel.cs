@@ -30,7 +30,7 @@ public abstract class TextDetectionModel : Model
     /// <param name="frame">The input image.</param>
     /// <param name="detections">array with detections' quadrangles (4 points per result).</param>
     /// <param name="confidences">array with detection confidences.</param>
-    public void Detect(InputArrayRef frame, out Point[][] detections, out float[] confidences)
+    public void Detect(InputArray frame, out Point[][] detections, out float[] confidences)
     {
         ThrowIfDisposed();
 
@@ -51,7 +51,7 @@ public abstract class TextDetectionModel : Model
     /// <param name="frame">The input image.</param>
     /// <param name="detections">array with detections' RotatedRect results.</param>
     /// <param name="confidences">array with detection confidences.</param>
-    public void DetectTextRectangles(InputArrayRef frame, out RotatedRect[] detections, out float[] confidences)
+    public void DetectTextRectangles(InputArray frame, out RotatedRect[] detections, out float[] confidences)
     {
         ThrowIfDisposed();
 

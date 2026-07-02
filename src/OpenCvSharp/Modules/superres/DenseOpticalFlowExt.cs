@@ -100,7 +100,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     /// <param name="frame1"></param>
     /// <param name="flow1"></param>
     /// <param name="flow2"></param>
-    public virtual void Calc(InputArrayRef frame0, InputArrayRef frame1, OutputArrayRef flow1, OutputArrayRef flow2 = default)
+    public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = default)
     {
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(

@@ -19,7 +19,7 @@ public class OdometryFrame : CvObject
     /// <param name="image">An BGR or grayscale image (or null if it's not required for the used ICP algorithm).</param>
     /// <param name="mask">A user-provided mask of valid pixels, should be CV_8UC1.</param>
     /// <param name="normals">A user-provided normals to the depth surface, should be CV_32FC4.</param>
-    public OdometryFrame(InputArrayRef depth = default, InputArrayRef image = default, InputArrayRef mask = default, InputArrayRef normals = default)
+    public OdometryFrame(InputArray depth = default, InputArray image = default, InputArray mask = default, InputArray normals = default)
     {
         NativeMethods.HandleException(
             NativeMethods.ptcloud_OdometryFrame_new(
@@ -59,7 +59,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the original user-provided BGR/Gray image.
     /// </summary>
-    public void GetImage(OutputArrayRef image)
+    public void GetImage(OutputArray image)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -69,7 +69,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the gray image generated from the user-provided BGR/Gray image.
     /// </summary>
-    public void GetGrayImage(OutputArrayRef image)
+    public void GetGrayImage(OutputArray image)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -79,7 +79,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the original user-provided depth image.
     /// </summary>
-    public void GetDepth(OutputArrayRef depth)
+    public void GetDepth(OutputArray depth)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -89,7 +89,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the depth image generated for ICP algorithm needs.
     /// </summary>
-    public void GetProcessedDepth(OutputArrayRef depth)
+    public void GetProcessedDepth(OutputArray depth)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -99,7 +99,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the valid pixels mask generated for the ICP calculations intersected with the user-provided mask.
     /// </summary>
-    public void GetMask(OutputArrayRef mask)
+    public void GetMask(OutputArray mask)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -109,7 +109,7 @@ public class OdometryFrame : CvObject
     /// <summary>
     /// Gets the normals image either generated for the ICP calculations or user-provided.
     /// </summary>
-    public void GetNormals(OutputArrayRef normals)
+    public void GetNormals(OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -133,7 +133,7 @@ public class OdometryFrame : CvObject
     /// <param name="img">Output image.</param>
     /// <param name="pyrType">Type of pyramid.</param>
     /// <param name="level">Level in the pyramid.</param>
-    public void GetPyramidAt(OutputArrayRef img, OdometryFramePyramidType pyrType, long level)
+    public void GetPyramidAt(OutputArray img, OdometryFramePyramidType pyrType, long level)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

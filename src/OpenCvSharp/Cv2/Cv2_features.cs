@@ -19,7 +19,7 @@ static partial class Cv2
     /// <param name="nonmaxSupression">if true, non-maximum suppression is applied to 
     /// detected corners (keypoints).</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] FAST(InputArrayRef image, int threshold, bool nonmaxSupression = true)
+    public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression = true)
     {
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
@@ -38,7 +38,7 @@ static partial class Cv2
     /// detected corners (keypoints).</param>
     /// <param name="type">one of the three neighborhoods as defined in the paper</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] FAST(InputArrayRef image, int threshold, bool nonmaxSupression, FASTType type)
+    public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression, FASTType type)
     {
         using var kp = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
@@ -57,7 +57,7 @@ static partial class Cv2
     /// detected corners (keypoints).</param>
     /// <param name="type">one of the four neighborhoods as defined in the paper</param>
     /// <returns>keypoints detected on the image.</returns>
-    public static KeyPoint[] AGAST(InputArrayRef image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
+    public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
     {
         using var vector = new StdVector<KeyPoint>();
         NativeMethods.HandleException(
@@ -75,9 +75,9 @@ static partial class Cv2
     /// <param name="color">Color of keypoints.</param>
     /// <param name="flags">Flags setting drawing features. Possible flags bit values are defined by DrawMatchesFlags.</param>
     public static void DrawKeypoints(
-        InputArrayRef image,
+        InputArray image,
         IEnumerable<KeyPoint> keypoints, 
-        InputOutputArrayRef outImage,
+        InputOutputArray outImage,
         Scalar? color = null,
         DrawMatchesFlags flags = DrawMatchesFlags.Default)
     {

@@ -116,7 +116,7 @@ public class Odometry : CvObject
     /// <param name="dstFrame">dst frame ("rotated" image).</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(OdometryFrame srcFrame, OdometryFrame dstFrame, OutputArrayRef Rt)
+    public bool Compute(OdometryFrame srcFrame, OdometryFrame dstFrame, OutputArray Rt)
     {
         ThrowIfDisposed();
         if (srcFrame is null)
@@ -139,7 +139,7 @@ public class Odometry : CvObject
     /// <param name="dstDepth">destination depth ("rotated" image).</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(InputArrayRef srcDepth, InputArrayRef dstDepth, OutputArrayRef Rt)
+    public bool Compute(InputArray srcDepth, InputArray dstDepth, OutputArray Rt)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -158,7 +158,7 @@ public class Odometry : CvObject
     /// <param name="dstRGB">destination RGB.</param>
     /// <param name="Rt">Rigid transformation output (4x4).</param>
     /// <returns>true on success, false if failed to find the transformation.</returns>
-    public bool Compute(InputArrayRef srcDepth, InputArrayRef srcRGB, InputArrayRef dstDepth, InputArrayRef dstRGB, OutputArrayRef Rt)
+    public bool Compute(InputArray srcDepth, InputArray srcRGB, InputArray dstDepth, InputArray dstRGB, OutputArray Rt)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

@@ -127,7 +127,7 @@ public class EdgeDrawing : Algorithm
     /// Detects edges in a grayscale or color image and prepares them to detect lines and ellipses.
     /// </summary>
     /// <param name="src">8-bit, single-channel (CV_8UC1) or color (CV_8UC3, CV_8UC4) input image.</param>
-    public virtual void DetectEdges(InputArrayRef src)
+    public virtual void DetectEdges(InputArray src)
     {
         ThrowIfDisposed();
 
@@ -140,7 +140,7 @@ public class EdgeDrawing : Algorithm
     /// Returns the edge image prepared by <see cref="DetectEdges"/>.
     /// </summary>
     /// <param name="dst">8-bit, single-channel output image.</param>
-    public virtual void GetEdgeImage(OutputArrayRef dst)
+    public virtual void GetEdgeImage(OutputArray dst)
     {
         ThrowIfDisposed();
 
@@ -152,7 +152,7 @@ public class EdgeDrawing : Algorithm
     /// Returns the gradient image prepared by <see cref="DetectEdges"/>.
     /// </summary>
     /// <param name="dst">16-bit, single-channel output image.</param>
-    public virtual void GetGradientImage(OutputArrayRef dst)
+    public virtual void GetGradientImage(OutputArray dst)
     {
         ThrowIfDisposed();
 
@@ -175,7 +175,7 @@ public class EdgeDrawing : Algorithm
     }
 
     /// <summary>
-    /// Returns for each line found in <see cref="DetectLines(OutputArrayRef)"/> its edge segment index in
+    /// Returns for each line found in <see cref="DetectLines(OutputArray)"/> its edge segment index in
     /// <see cref="GetSegments"/>.
     /// </summary>
     /// <returns>Edge segment indices of detected lines.</returns>
@@ -194,7 +194,7 @@ public class EdgeDrawing : Algorithm
     /// Call <see cref="DetectEdges"/> before calling this function.
     /// </summary>
     /// <param name="lines">Output Vec4f array: start point (x1,y1) and end point (x2,y2) of each line.</param>
-    public virtual void DetectLines(OutputArrayRef lines)
+    public virtual void DetectLines(OutputArray lines)
     {
         ThrowIfDisposed();
 
@@ -225,7 +225,7 @@ public class EdgeDrawing : Algorithm
     /// Output Vec6d array: center point and perimeter for circles;
     /// center point, axes and angle for ellipses.
     /// </param>
-    public virtual void DetectEllipses(OutputArrayRef ellipses)
+    public virtual void DetectEllipses(OutputArray ellipses)
     {
         ThrowIfDisposed();
 

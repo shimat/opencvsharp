@@ -36,7 +36,7 @@ public class ArucoDetector : CvObject
     /// Basic marker detection.
     /// </summary>
     public void DetectMarkers(
-        InputArrayRef image,
+        InputArray image,
         out Point2f[][] corners,
         out int[] ids,
         out Point2f[][] rejectedImgPoints)

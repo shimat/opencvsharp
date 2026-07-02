@@ -2,21 +2,19 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp;
 
-// FOUNDATION for the InputArray/OutputArray ref-struct redesign (issue: allocation-free arrays).
-//
-// A handle-less, stack-only proxy that mirrors OpenCV's cv::_InputArray: it carries just a native
-// handle + a kind tag (and an inline payload for scalar/vector operands). No native _InputArray is
-// allocated on the managed side; the extern boundary receives the proxy BY VALUE and rebuilds a
+// InputArray/OutputArray/InputOutputArray: handle-less, stack-only proxies that mirror OpenCV's
+// cv::_InputArray/_OutputArray/_InputOutputArray. Each carries just a native handle + a kind tag
+// (and an inline payload for scalar/vector operands). No native _InputArray is allocated on the
+// managed side; the extern boundary receives the proxy BY VALUE and rebuilds a
 // cv::_InputArray/_OutputArray on its own stack (see fromInputProxy/fromOutputProxy in my_types.h).
-// This makes implicit-conversion temporaries (e.g. Cv2.Foo(mat, dst)) allocation-free and removes
-// the non-deterministic finalizer cleanup of the current class-based InputArray.
+// This makes implicit-conversion temporaries (e.g. Cv2.Foo(mat, dst)) allocation-free and avoids the
+// non-deterministic finalizer cleanup a heap-allocated proxy class would need.
 //
-// Named *Ref while the class-based InputArray/OutputArray still exist; the big-bang migration
-// renames these over them. Scope (owner decision, "Option 1"): handle kinds (Mat/UMat/MatExpr) and
-// inline value kinds (Scalar/double/Vec). Array / Span / vector-of-Mat inputs are NOT carried here
-// (they get dedicated ReadOnlySpan / out Mat[] signatures), so a proxy never owns pinned memory.
+// Scope (owner decision, "Option 1"): handle kinds (Mat/UMat/MatExpr) and inline value kinds
+// (Scalar/double/Vec). Array / Span / vector-of-Mat inputs are NOT carried here (they get dedicated
+// ReadOnlySpan / out Mat[] signatures), so a proxy never owns pinned memory.
 
-/// <summary>Kind of array a ref-struct proxy refers to. Must match the switch in my_types.h.</summary>
+/// <summary>Kind of array a proxy refers to. Must match the switch in my_types.h.</summary>
 public enum ArrayProxyKind
 {
     /// <summary>No array (cv::noArray()).</summary>
@@ -33,18 +31,6 @@ public enum ArrayProxyKind
     Double = 5,
     /// <summary>A small fixed-length vector value (inline).</summary>
     Vec = 6,
-
-    // Migration scaffold: a proxy that wraps an existing native cv::_InputArray*/_OutputArray*/
-    // _InputOutputArray* (the handle of a class-based InputArray/OutputArray/InputOutputArray).
-    // Lets externs move to the ArrayProxy ABI one module at a time while the class types still
-    // exist; the native side just dereferences the handle. Removed once the type flip is complete.
-
-    /// <summary>An existing native cv::_InputArray* (class-based <see cref="InputArray"/>).</summary>
-    RawInputArray = 7,
-    /// <summary>An existing native cv::_OutputArray* (class-based <see cref="OutputArray"/>).</summary>
-    RawOutputArray = 8,
-    /// <summary>An existing native cv::_InputOutputArray* (class-based <see cref="InputOutputArray"/>).</summary>
-    RawInputOutputArray = 9,
 }
 
 /// <summary>
@@ -103,33 +89,33 @@ internal struct InputOutputArrayProxy
 /// Stack-only input proxy (see file header). Carries a native handle or an inline value; building
 /// one allocates nothing on the managed heap.
 /// </summary>
-public readonly ref struct InputArrayRef
+public readonly ref struct InputArray
 {
     // Keeps the source Mat/UMat/NativeMatExpr alive across the native call (the proxy stores only
     // its raw handle).
     internal readonly object? Source;
     internal readonly InputArrayProxy Proxy;
 
-    private InputArrayRef(object? source, InputArrayProxy proxy)
+    private InputArray(object? source, InputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
     }
 
     /// <summary>Wraps a <see cref="Mat"/> (no allocation).</summary>
-    public static implicit operator InputArrayRef(Mat mat)
+    public static implicit operator InputArray(Mat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputArrayRef(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new InputArray(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> (no allocation).</summary>
-    public static implicit operator InputArrayRef(UMat mat)
+    public static implicit operator InputArray(UMat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputArrayRef(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new InputArray(mat, new InputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 
     /// <summary>
@@ -137,19 +123,19 @@ public readonly ref struct InputArrayRef
     /// (kept alive via <see cref="Source"/>), so this path is not allocation-free — matching the
     /// inherent cost of feeding a lazy expression into an OpenCV call.
     /// </summary>
-    public static implicit operator InputArrayRef(MatExpr expr)
+    public static implicit operator InputArray(MatExpr expr)
     {
         ArgumentNullException.ThrowIfNull(expr);
         var native = expr.Eval();
-        return new InputArrayRef(native, new InputArrayProxy { Handle = native.CvPtr, Kind = (int)ArrayProxyKind.MatExpr });
+        return new InputArray(native, new InputArrayProxy { Handle = native.CvPtr, Kind = (int)ArrayProxyKind.MatExpr });
     }
 
     /// <summary>Wraps a <see cref="Scalar"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Scalar s) =>
+    public static implicit operator InputArray(Scalar s) =>
         new(null, InputArrayProxy.FromScalar(s));
 
     /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline as Scalar(d,0,0,0)).</summary>
-    public static implicit operator InputArrayRef(double d) =>
+    public static implicit operator InputArray(double d) =>
         new(null, new InputArrayProxy { Kind = (int)ArrayProxyKind.Double, Payload0 = d });
 
     // cv depth constants for the inline Vec payload (cv::CV_8U .. CV_64F).
@@ -157,110 +143,110 @@ public readonly ref struct InputArrayRef
 
     // Copies a fixed-length vector value into the inline payload (no allocation). The native side
     // reads it back as (const T*)payload with VecLength elements; see fromInputProxy in my_types.h.
-    private static InputArrayRef FromVec<T>(T vec, int depth, int length) where T : unmanaged
+    private static InputArray FromVec<T>(T vec, int depth, int length) where T : unmanaged
     {
         var proxy = new InputArrayProxy { Kind = (int)ArrayProxyKind.Vec, VecDepth = depth, VecLength = length };
         var payload = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref proxy.Payload0, 6));
         MemoryMarshal.Write(payload, in vec);
-        return new InputArrayRef(null, proxy);
+        return new InputArray(null, proxy);
     }
 
     /// <summary>Wraps a <see cref="Vec2b"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2b v) => FromVec(v, DepthU8, 2);
+    public static implicit operator InputArray(Vec2b v) => FromVec(v, DepthU8, 2);
     /// <summary>Wraps a <see cref="Vec3b"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3b v) => FromVec(v, DepthU8, 3);
+    public static implicit operator InputArray(Vec3b v) => FromVec(v, DepthU8, 3);
     /// <summary>Wraps a <see cref="Vec4b"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4b v) => FromVec(v, DepthU8, 4);
+    public static implicit operator InputArray(Vec4b v) => FromVec(v, DepthU8, 4);
     /// <summary>Wraps a <see cref="Vec6b"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6b v) => FromVec(v, DepthU8, 6);
+    public static implicit operator InputArray(Vec6b v) => FromVec(v, DepthU8, 6);
     /// <summary>Wraps a <see cref="Vec2s"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2s v) => FromVec(v, DepthS16, 2);
+    public static implicit operator InputArray(Vec2s v) => FromVec(v, DepthS16, 2);
     /// <summary>Wraps a <see cref="Vec3s"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3s v) => FromVec(v, DepthS16, 3);
+    public static implicit operator InputArray(Vec3s v) => FromVec(v, DepthS16, 3);
     /// <summary>Wraps a <see cref="Vec4s"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4s v) => FromVec(v, DepthS16, 4);
+    public static implicit operator InputArray(Vec4s v) => FromVec(v, DepthS16, 4);
     /// <summary>Wraps a <see cref="Vec6s"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6s v) => FromVec(v, DepthS16, 6);
+    public static implicit operator InputArray(Vec6s v) => FromVec(v, DepthS16, 6);
     /// <summary>Wraps a <see cref="Vec2w"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2w v) => FromVec(v, DepthU16, 2);
+    public static implicit operator InputArray(Vec2w v) => FromVec(v, DepthU16, 2);
     /// <summary>Wraps a <see cref="Vec3w"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3w v) => FromVec(v, DepthU16, 3);
+    public static implicit operator InputArray(Vec3w v) => FromVec(v, DepthU16, 3);
     /// <summary>Wraps a <see cref="Vec4w"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4w v) => FromVec(v, DepthU16, 4);
+    public static implicit operator InputArray(Vec4w v) => FromVec(v, DepthU16, 4);
     /// <summary>Wraps a <see cref="Vec6w"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6w v) => FromVec(v, DepthU16, 6);
+    public static implicit operator InputArray(Vec6w v) => FromVec(v, DepthU16, 6);
     /// <summary>Wraps a <see cref="Vec2i"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2i v) => FromVec(v, DepthS32, 2);
+    public static implicit operator InputArray(Vec2i v) => FromVec(v, DepthS32, 2);
     /// <summary>Wraps a <see cref="Vec3i"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3i v) => FromVec(v, DepthS32, 3);
+    public static implicit operator InputArray(Vec3i v) => FromVec(v, DepthS32, 3);
     /// <summary>Wraps a <see cref="Vec4i"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4i v) => FromVec(v, DepthS32, 4);
+    public static implicit operator InputArray(Vec4i v) => FromVec(v, DepthS32, 4);
     /// <summary>Wraps a <see cref="Vec6i"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6i v) => FromVec(v, DepthS32, 6);
+    public static implicit operator InputArray(Vec6i v) => FromVec(v, DepthS32, 6);
     /// <summary>Wraps a <see cref="Vec2f"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2f v) => FromVec(v, DepthF32, 2);
+    public static implicit operator InputArray(Vec2f v) => FromVec(v, DepthF32, 2);
     /// <summary>Wraps a <see cref="Vec3f"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3f v) => FromVec(v, DepthF32, 3);
+    public static implicit operator InputArray(Vec3f v) => FromVec(v, DepthF32, 3);
     /// <summary>Wraps a <see cref="Vec4f"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4f v) => FromVec(v, DepthF32, 4);
+    public static implicit operator InputArray(Vec4f v) => FromVec(v, DepthF32, 4);
     /// <summary>Wraps a <see cref="Vec6f"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6f v) => FromVec(v, DepthF32, 6);
+    public static implicit operator InputArray(Vec6f v) => FromVec(v, DepthF32, 6);
     /// <summary>Wraps a <see cref="Vec2d"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec2d v) => FromVec(v, DepthF64, 2);
+    public static implicit operator InputArray(Vec2d v) => FromVec(v, DepthF64, 2);
     /// <summary>Wraps a <see cref="Vec3d"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec3d v) => FromVec(v, DepthF64, 3);
+    public static implicit operator InputArray(Vec3d v) => FromVec(v, DepthF64, 3);
     /// <summary>Wraps a <see cref="Vec4d"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec4d v) => FromVec(v, DepthF64, 4);
+    public static implicit operator InputArray(Vec4d v) => FromVec(v, DepthF64, 4);
     /// <summary>Wraps a <see cref="Vec6d"/> value (no allocation; travels inline).</summary>
-    public static implicit operator InputArrayRef(Vec6d v) => FromVec(v, DepthF64, 6);
+    public static implicit operator InputArray(Vec6d v) => FromVec(v, DepthF64, 6);
 
     #region Create (explicit-call parity with the implicit operators above)
 
     /// <summary>Wraps a <see cref="Mat"/> (no allocation).</summary>
-    public static InputArrayRef Create(Mat? mat) => mat!;
+    public static InputArray Create(Mat? mat) => mat!;
 
     /// <summary>Wraps a <see cref="UMat"/> (no allocation).</summary>
-    public static InputArrayRef Create(UMat mat) => mat;
+    public static InputArray Create(UMat mat) => mat;
 
     /// <summary>Wraps a <see cref="MatExpr"/> (materializes it to a native cv::MatExpr).</summary>
-    public static InputArrayRef Create(MatExpr node) => node;
+    public static InputArray Create(MatExpr node) => node;
 
     /// <summary>Wraps a <see cref="Scalar"/> value (no allocation; travels inline).</summary>
-    public static InputArrayRef Create(Scalar val) => val;
+    public static InputArray Create(Scalar val) => val;
 
     /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline).</summary>
-    public static InputArrayRef Create(double val) => val;
+    public static InputArray Create(double val) => val;
 
     /// <summary>Wraps a fixed-length <see cref="IVec"/> value (no allocation; travels inline).</summary>
-    public static InputArrayRef Create(IVec vec)
+    public static InputArray Create(IVec vec)
     {
         ArgumentNullException.ThrowIfNull(vec);
         return vec switch
         {
-            Vec2b v => (InputArrayRef)v,
-            Vec3b v => (InputArrayRef)v,
-            Vec4b v => (InputArrayRef)v,
-            Vec6b v => (InputArrayRef)v,
-            Vec2s v => (InputArrayRef)v,
-            Vec3s v => (InputArrayRef)v,
-            Vec4s v => (InputArrayRef)v,
-            Vec6s v => (InputArrayRef)v,
-            Vec2w v => (InputArrayRef)v,
-            Vec3w v => (InputArrayRef)v,
-            Vec4w v => (InputArrayRef)v,
-            Vec6w v => (InputArrayRef)v,
-            Vec2i v => (InputArrayRef)v,
-            Vec3i v => (InputArrayRef)v,
-            Vec4i v => (InputArrayRef)v,
-            Vec6i v => (InputArrayRef)v,
-            Vec2f v => (InputArrayRef)v,
-            Vec3f v => (InputArrayRef)v,
-            Vec4f v => (InputArrayRef)v,
-            Vec6f v => (InputArrayRef)v,
-            Vec2d v => (InputArrayRef)v,
-            Vec3d v => (InputArrayRef)v,
-            Vec4d v => (InputArrayRef)v,
-            Vec6d v => (InputArrayRef)v,
+            Vec2b v => (InputArray)v,
+            Vec3b v => (InputArray)v,
+            Vec4b v => (InputArray)v,
+            Vec6b v => (InputArray)v,
+            Vec2s v => (InputArray)v,
+            Vec3s v => (InputArray)v,
+            Vec4s v => (InputArray)v,
+            Vec6s v => (InputArray)v,
+            Vec2w v => (InputArray)v,
+            Vec3w v => (InputArray)v,
+            Vec4w v => (InputArray)v,
+            Vec6w v => (InputArray)v,
+            Vec2i v => (InputArray)v,
+            Vec3i v => (InputArray)v,
+            Vec4i v => (InputArray)v,
+            Vec6i v => (InputArray)v,
+            Vec2f v => (InputArray)v,
+            Vec3f v => (InputArray)v,
+            Vec4f v => (InputArray)v,
+            Vec6f v => (InputArray)v,
+            Vec2d v => (InputArray)v,
+            Vec3d v => (InputArray)v,
+            Vec4d v => (InputArray)v,
+            Vec6d v => (InputArray)v,
             _ => throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec)),
         };
     }
@@ -270,7 +256,7 @@ public readonly ref struct InputArrayRef
     /// <paramref name="type"/> (not allocation-free: this materializes a real Mat, same as the
     /// class-based <c>InputArray.Create&lt;T&gt;</c> it replaces).
     /// </summary>
-    public static InputArrayRef Create<T>(T[] array, MatType type) where T : unmanaged
+    public static InputArray Create<T>(T[] array, MatType type) where T : unmanaged
     {
         ArgumentNullException.ThrowIfNull(array);
         if (array.Length == 0)
@@ -279,14 +265,14 @@ public readonly ref struct InputArrayRef
     }
 
     /// <summary>Wraps a 1-D array, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
-    public static InputArrayRef Create<T>(T[] array) where T : unmanaged =>
+    public static InputArray Create<T>(T[] array) where T : unmanaged =>
         Create(array, EstimateType(typeof(T)));
 
     /// <summary>
     /// Wraps a 2-D array by copying it into a freshly-created <see cref="Mat"/> of the given
     /// <paramref name="type"/>.
     /// </summary>
-    public static InputArrayRef Create<T>(T[,] array, MatType type) where T : unmanaged
+    public static InputArray Create<T>(T[,] array, MatType type) where T : unmanaged
     {
         ArgumentNullException.ThrowIfNull(array);
         var rows = array.GetLength(0);
@@ -299,11 +285,11 @@ public readonly ref struct InputArrayRef
     }
 
     /// <summary>Wraps a 2-D array, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
-    public static InputArrayRef Create<T>(T[,] array) where T : unmanaged =>
+    public static InputArray Create<T>(T[,] array) where T : unmanaged =>
         Create(array, EstimateType(typeof(T)));
 
     /// <summary>Wraps a sequence, inferring the <see cref="MatType"/> from <typeparamref name="T"/>.</summary>
-    public static InputArrayRef Create<T>(IEnumerable<T> enumerable) where T : unmanaged
+    public static InputArray Create<T>(IEnumerable<T> enumerable) where T : unmanaged
     {
         ArgumentNullException.ThrowIfNull(enumerable);
         return Create(new List<T>(enumerable).ToArray());
@@ -311,7 +297,7 @@ public readonly ref struct InputArrayRef
 
     /// <summary>Wraps a sequence by copying it into a freshly-created <see cref="Mat"/> of the given
     /// <paramref name="type"/>.</summary>
-    public static InputArrayRef Create<T>(IEnumerable<T> enumerable, MatType type) where T : unmanaged
+    public static InputArray Create<T>(IEnumerable<T> enumerable, MatType type) where T : unmanaged
     {
         ArgumentNullException.ThrowIfNull(enumerable);
         return Create(new List<T>(enumerable).ToArray(), type);
@@ -372,7 +358,7 @@ public readonly ref struct InputArrayRef
         if (t == typeof(Vec4d)) return MatType.CV_64FC4;
         if (t == typeof(Vec6d)) return MatType.CV_64FC(6);
 
-        throw new ArgumentException("Not supported value type for InputArrayRef");
+        throw new ArgumentException("Not supported value type for InputArray");
     }
 
     #endregion
@@ -382,74 +368,74 @@ public readonly ref struct InputArrayRef
 /// Stack-only output proxy (see file header). Single Mat/UMat output only — native writes through
 /// the referenced matrix directly, so no write-back (Fix/AssignResult) is needed.
 /// </summary>
-public readonly ref struct OutputArrayRef
+public readonly ref struct OutputArray
 {
     internal readonly object? Source;
     internal readonly OutputArrayProxy Proxy;
 
-    private OutputArrayRef(object? source, OutputArrayProxy proxy)
+    private OutputArray(object? source, OutputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
     }
 
     /// <summary>Wraps a <see cref="Mat"/> output (no allocation).</summary>
-    public static implicit operator OutputArrayRef(Mat mat)
+    public static implicit operator OutputArray(Mat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new OutputArrayRef(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new OutputArray(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> output (no allocation).</summary>
-    public static implicit operator OutputArrayRef(UMat mat)
+    public static implicit operator OutputArray(UMat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new OutputArrayRef(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new OutputArray(mat, new OutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 
     /// <summary>Wraps a <see cref="Mat"/> output (no allocation).</summary>
-    public static OutputArrayRef Create(Mat mat) => mat;
+    public static OutputArray Create(Mat mat) => mat;
 
     /// <summary>Wraps a <see cref="UMat"/> output (no allocation).</summary>
-    public static OutputArrayRef Create(UMat mat) => mat;
+    public static OutputArray Create(UMat mat) => mat;
 }
 
 /// <summary>
 /// Stack-only input/output proxy (see file header). Single Mat/UMat only; its read/write role is
 /// flag-dependent in OpenCV, so it is kept as one type (not split into in/out variants).
 /// </summary>
-public readonly ref struct InputOutputArrayRef
+public readonly ref struct InputOutputArray
 {
     internal readonly object? Source;
     internal readonly InputOutputArrayProxy Proxy;
 
-    private InputOutputArrayRef(object? source, InputOutputArrayProxy proxy)
+    private InputOutputArray(object? source, InputOutputArrayProxy proxy)
     {
         Source = source;
         Proxy = proxy;
     }
 
     /// <summary>Wraps a <see cref="Mat"/> in/out target (no allocation).</summary>
-    public static implicit operator InputOutputArrayRef(Mat mat)
+    public static implicit operator InputOutputArray(Mat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputOutputArrayRef(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
+        return new InputOutputArray(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.Mat });
     }
 
     /// <summary>Wraps a <see cref="UMat"/> in/out target (no allocation).</summary>
-    public static implicit operator InputOutputArrayRef(UMat mat)
+    public static implicit operator InputOutputArray(UMat mat)
     {
         ArgumentNullException.ThrowIfNull(mat);
         mat.ThrowIfDisposed();
-        return new InputOutputArrayRef(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
+        return new InputOutputArray(mat, new InputOutputArrayProxy { Handle = mat.CvPtr, Kind = (int)ArrayProxyKind.UMat });
     }
 
     /// <summary>Wraps a <see cref="Mat"/> in/out target (no allocation).</summary>
-    public static InputOutputArrayRef Create(Mat mat) => mat;
+    public static InputOutputArray Create(Mat mat) => mat;
 
     /// <summary>Wraps a <see cref="UMat"/> in/out target (no allocation).</summary>
-    public static InputOutputArrayRef Create(UMat mat) => mat;
+    public static InputOutputArray Create(UMat mat) => mat;
 }

@@ -27,7 +27,7 @@ public static partial class Cv2
         /// paper and returns all possible regions where text is likely to occur.</param>
         /// <returns>a vector of resulting bounding boxes where probability of finding text is high</returns>
         public static Rect[] DetectTextSWT(
-            InputArrayRef input, bool darkOnLight, OutputArrayRef draw = default, OutputArrayRef chainBBs = default)
+            InputArray input, bool darkOnLight, OutputArray draw = default, OutputArray chainBBs = default)
         {
             using var result = new StdVector<Rect>();
             NativeMethods.HandleException(

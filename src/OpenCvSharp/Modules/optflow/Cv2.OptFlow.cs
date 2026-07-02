@@ -19,7 +19,7 @@ public static partial class Cv2
         /// <param name="timestamp">Current time in milliseconds or other units.</param>
         /// <param name="duration">Maximal duration of the motion track in the same units as timestamp .</param>
         public static void UpdateMotionHistory(
-            InputArrayRef silhouette, InputOutputArrayRef mhi,
+            InputArray silhouette, InputOutputArray mhi,
             double timestamp, double duration)
         {
             NativeMethods.HandleException(
@@ -45,7 +45,7 @@ public static partial class Cv2
         /// min(delta1, delta2) &lt;= M(x,y)-m(x,y) &lt;= max(delta1, delta2).</param>
         /// <param name="apertureSize"></param>
         public static void CalcMotionGradient(
-            InputArrayRef mhi, OutputArrayRef mask, OutputArrayRef orientation,
+            InputArray mhi, OutputArray mask, OutputArray orientation,
             double delta1, double delta2, int apertureSize = 3)
         {
             NativeMethods.HandleException(
@@ -68,7 +68,7 @@ public static partial class Cv2
         /// <param name="duration">Maximum duration of a motion track in milliseconds, passed to UpdateMotionHistory() .</param>
         /// <returns></returns>
         public static double CalcGlobalOrientation(
-            InputArrayRef orientation, InputArrayRef mask, InputArrayRef mhi,
+            InputArray orientation, InputArray mask, InputArray mhi,
             double timestamp, double duration)
         {
             NativeMethods.HandleException(
@@ -91,7 +91,7 @@ public static partial class Cv2
         /// <param name="timestamp">Current time in milliseconds or other units.</param>
         /// <param name="segThresh">Segmentation threshold that is recommended to be equal to the interval between motion history “steps” or greater.</param>
         public static void SegmentMotion(
-            InputArrayRef mhi, OutputArrayRef segmask,
+            InputArray mhi, OutputArray segmask,
             out Rect[] boundingRects,
             double timestamp, double segThresh)
         {
@@ -115,9 +115,9 @@ public static partial class Cv2
         /// <param name="averagingBlockSize">Size of block through which we sum up when calculate cost function for pixel</param>
         /// <param name="maxFlow">maximal flow that we search at each level</param>
         public static void CalcOpticalFlowSF(
-            InputArrayRef from,
-            InputArrayRef to,
-            OutputArrayRef flow,
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
             int layers,
             int averagingBlockSize,
             int maxFlow)
@@ -152,9 +152,9 @@ public static partial class Cv2
         /// <param name="upscaleSigmaColor">color sigma for bilateral upscale operation</param>
         /// <param name="speedUpThr">threshold to detect point with irregular flow - where flow should be recalculated after upscale</param>
         public static void CalcOpticalFlowSF(
-            InputArrayRef from,
-            InputArrayRef to,
-            OutputArrayRef flow,
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
             int layers,
             int averagingBlockSize,
             int maxFlow,
@@ -198,9 +198,9 @@ public static partial class Cv2
         /// <param name="fgsLambda">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
         /// <param name="fgsSigma">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
         public static void CalcOpticalFlowSparseToDense(
-            InputArrayRef from,
-            InputArrayRef to,
-            OutputArrayRef flow,
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
             int gridStep = 8,
             int k = 128,
             float sigma = 0.05f,

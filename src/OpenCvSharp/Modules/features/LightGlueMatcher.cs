@@ -63,7 +63,7 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="trainKpts">Train image keypoints (Nx2 float matrix with x,y coordinates).</param>
     /// <param name="queryImageSize">Size of the query image (width, height).</param>
     /// <param name="trainImageSize">Size of the train image (width, height).</param>
-    public void SetPairInfo(InputArrayRef queryKpts, InputArrayRef trainKpts, Size queryImageSize = default, Size trainImageSize = default)
+    public void SetPairInfo(InputArray queryKpts, InputArray trainKpts, Size queryImageSize = default, Size trainImageSize = default)
     {
         ThrowIfDisposed();
 

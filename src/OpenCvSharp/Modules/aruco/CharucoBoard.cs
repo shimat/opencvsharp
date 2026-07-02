@@ -99,7 +99,7 @@ public class CharucoBoard : CvObject
     /// <summary>
     /// Generate the board image.
     /// </summary>
-    public void GenerateImage(Size outSize, OutputArrayRef img, int marginSize = 0, int borderBits = 1)
+    public void GenerateImage(Size outSize, OutputArray img, int marginSize = 0, int borderBits = 1)
     {
         ThrowIfDisposed();
 
@@ -110,7 +110,7 @@ public class CharucoBoard : CvObject
     /// <summary>
     /// Check whether the ChArUco markers are collinear.
     /// </summary>
-    public bool CheckCharucoCornersCollinear(InputArrayRef charucoIds)
+    public bool CheckCharucoCornersCollinear(InputArray charucoIds)
     {
         ThrowIfDisposed();
 

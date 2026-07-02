@@ -70,8 +70,8 @@ public class NormalBayesClassifier : StatModel
     /// output vector outputs. The predicted class for a single input vector is returned by the method. 
     /// The vector outputProbs contains the output probabilities corresponding to each element of result.
     /// </remarks>
-    public float PredictProb(InputArrayRef inputs, OutputArrayRef outputs,
-        OutputArrayRef outputProbs, int flags = 0)
+    public float PredictProb(InputArray inputs, OutputArray outputs,
+        OutputArray outputProbs, int flags = 0)
     {
         ThrowIfDisposed();
 

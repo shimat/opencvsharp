@@ -44,7 +44,7 @@ public class QualityPSNR : QualityBase
     /// <param name="ref">input image to use as the source for comparison</param>
     /// <param name="maxPixelValue">maximum per-channel value for any individual pixel; eg 255 for uint8 image</param>
     /// <returns></returns>
-    public static QualityPSNR Create(InputArrayRef @ref, double maxPixelValue = MaxPixelValueDefault)
+    public static QualityPSNR Create(InputArray @ref, double maxPixelValue = MaxPixelValueDefault)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_createQualityPSNR(@ref.Proxy, maxPixelValue, out var smartPtr));
@@ -61,7 +61,7 @@ public class QualityPSNR : QualityBase
     /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <param name="maxPixelValue">maximum per-channel value for any individual pixel; eg 255 for uint8 image</param>
     /// <returns>PSNR value, or double.PositiveInfinity if the MSE between the two images == 0</returns>
-    public static Scalar Compute(InputArrayRef @ref, InputArrayRef cmp, OutputArrayRef qualityMap = default, double maxPixelValue = MaxPixelValueDefault)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default, double maxPixelValue = MaxPixelValueDefault)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_QualityPSNR_staticCompute(

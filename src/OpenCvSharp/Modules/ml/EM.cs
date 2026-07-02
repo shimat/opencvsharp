@@ -197,10 +197,10 @@ public class EM : Algorithm
     /// <returns></returns>
     // ReSharper disable once InconsistentNaming
     public virtual bool TrainEM(
-        InputArrayRef samples,
-        OutputArrayRef logLikelihoods = default,
-        OutputArrayRef labels = default,
-        OutputArrayRef probs = default)
+        InputArray samples,
+        OutputArray logLikelihoods = default,
+        OutputArray labels = default,
+        OutputArray probs = default)
     {
         ThrowIfDisposed();
 
@@ -242,13 +242,13 @@ public class EM : Algorithm
     /// <param name="probs">The optional output matrix that contains posterior probabilities of each Gaussian
     /// mixture component given the each sample. It has \f$nsamples \times nclusters\f$ size and CV_64FC1 type.</param>
     public virtual bool TrainE(
-        InputArrayRef samples,
-        InputArrayRef means0,
-        InputArrayRef covs0 = default,
-        InputArrayRef weights0 = default,
-        OutputArrayRef logLikelihoods = default,
-        OutputArrayRef labels = default,
-        OutputArrayRef probs = default)
+        InputArray samples,
+        InputArray means0,
+        InputArray covs0 = default,
+        InputArray weights0 = default,
+        OutputArray logLikelihoods = default,
+        OutputArray labels = default,
+        OutputArray probs = default)
     {
         ThrowIfDisposed();
 
@@ -289,11 +289,11 @@ public class EM : Algorithm
     /// <param name="probs">The optional output matrix that contains posterior probabilities of each Gaussian
     /// mixture component given the each sample. It has \f$nsamples \times nclusters\f$ size and CV_64FC1 type.</param>
     public virtual bool TrainM(
-        InputArrayRef samples,
-        InputArrayRef probs0,
-        OutputArrayRef logLikelihoods = default,
-        OutputArrayRef labels = default,
-        OutputArrayRef probs = default)
+        InputArray samples,
+        InputArray probs0,
+        OutputArray logLikelihoods = default,
+        OutputArray labels = default,
+        OutputArray probs = default)
     {
         ThrowIfDisposed();
 
@@ -323,7 +323,7 @@ public class EM : Algorithm
     /// \f$1 \times dims\f$ or \f$dims \times 1\f$ size.</param>
     /// <param name="probs">Optional output matrix that contains posterior probabilities of each component
     /// given the sample. It has \f$1 \times nclusters\f$ size and CV_64FC1 type.</param>
-    public virtual Vec2d Predict2(InputArrayRef sample, OutputArrayRef probs = default)
+    public virtual Vec2d Predict2(InputArray sample, OutputArray probs = default)
     {
         ThrowIfDisposed();
 

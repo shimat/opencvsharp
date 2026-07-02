@@ -39,7 +39,7 @@ public class StructuredEdgeDetection : Algorithm
     /// <param name="edgeMap">edge image.</param>
     /// <param name="orientationMap">orientation map.</param>
     /// <param name="boxes">proposal boxes.</param>
-    public virtual void GetBoundingBoxes(InputArrayRef edgeMap, InputArrayRef orientationMap, out Rect[] boxes)
+    public virtual void GetBoundingBoxes(InputArray edgeMap, InputArray orientationMap, out Rect[] boxes)
     {
         ThrowIfDisposed();
 
@@ -58,7 +58,7 @@ public class StructuredEdgeDetection : Algorithm
     /// </summary>
     /// <param name="src">source image (RGB, float, in [0;1]) to detect edges</param>
     /// <param name="dst">destination image (grayscale, float, in [0;1]) where edges are drawn</param>
-    public virtual void DetectEdges(InputArrayRef src, OutputArrayRef dst)
+    public virtual void DetectEdges(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
 
@@ -73,7 +73,7 @@ public class StructuredEdgeDetection : Algorithm
     /// </summary>
     /// <param name="src">edge image.</param>
     /// <param name="dst">orientation image.</param>
-    public virtual void ComputeOrientation(InputArrayRef src, OutputArrayRef dst)
+    public virtual void ComputeOrientation(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
 
@@ -93,7 +93,7 @@ public class StructuredEdgeDetection : Algorithm
     /// <param name="s">radius for boundary suppression.</param>
     /// <param name="m">multiplier for conservative suppression.</param>
     /// <param name="isParallel">enables/disables parallel computing.</param>
-    public virtual void EdgesNms(InputArrayRef edgeImage, InputArrayRef orientationImage, OutputArrayRef dst, 
+    public virtual void EdgesNms(InputArray edgeImage, InputArray orientationImage, OutputArray dst, 
         int r = 2, int s = 0, float m = 1, bool isParallel = true)
     {
         ThrowIfDisposed();

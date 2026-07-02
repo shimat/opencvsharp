@@ -1275,7 +1275,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(OutputArrayRef m, InputArrayRef mask = default)
+    public void CopyTo(OutputArray m, InputArray mask = default)
     {
         ThrowIfDisposed();
 
@@ -1291,7 +1291,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(Mat m, InputArrayRef mask = default)
+    public void CopyTo(Mat m, InputArray mask = default)
     {
         ThrowIfDisposed();
         if (m is null)
@@ -1313,7 +1313,7 @@ public partial class Mat : CvObject
     /// if rtype is negative, the output matrix will have the same type as the input.</param>
     /// <param name="alpha">optional scale factor.</param>
     /// <param name="beta">optional delta added to the scaled values.</param>
-    public void ConvertTo(OutputArrayRef m, MatType rtype, double alpha = 1, double beta = 0)
+    public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
 
@@ -1364,7 +1364,7 @@ public partial class Mat : CvObject
     /// <param name="value"></param>
     /// <param name="mask"></param>
     /// <returns></returns>
-    public Mat SetTo(InputArrayRef value, Mat? mask = null)
+    public Mat SetTo(InputArray value, Mat? mask = null)
     {
         ThrowIfDisposed();
 
@@ -1449,7 +1449,7 @@ public partial class Mat : CvObject
     /// <param name="m"></param>
     /// <param name="scale"></param>
     /// <returns></returns>
-    public MatExpr Mul(InputArrayRef m, double scale = 1)
+    public MatExpr Mul(InputArray m, double scale = 1)
     {
         // MatExpr.FromExpr defers evaluation via a captured delegate, and ref structs cannot be
         // captured by a closure — so the proxy and its keepalive source are captured by value instead.
@@ -1472,7 +1472,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">Another cross-product operand.</param>
     /// <returns></returns>
-    public Mat Cross(InputArrayRef m)
+    public Mat Cross(InputArray m)
     {
         ThrowIfDisposed();
 
@@ -1489,7 +1489,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="m">another dot-product operand.</param>
     /// <returns></returns>
-    public double Dot(InputArrayRef m)
+    public double Dot(InputArray m)
     {
         ThrowIfDisposed();
 

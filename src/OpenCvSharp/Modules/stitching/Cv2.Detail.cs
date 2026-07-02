@@ -64,8 +64,8 @@ public static partial class Cv2
         /// <param name="mask"></param>
         public static ImageFeatures ComputeImageFeatures(
             Feature2D featuresFinder,
-            InputArrayRef image,
-            InputArrayRef mask = default)
+            InputArray image,
+            InputArray mask = default)
         {
             if (featuresFinder is null)
                 throw new ArgumentNullException(nameof(featuresFinder));

@@ -19,7 +19,7 @@ public class QualityMSE : QualityBase
     /// </summary>
     /// <param name="ref">input image to use as the source for comparison</param>
     /// <returns></returns>
-    public static QualityMSE Create(InputArrayRef @ref)
+    public static QualityMSE Create(InputArray @ref)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_createQualityMSE(@ref.Proxy, out var smartPtr));
@@ -39,7 +39,7 @@ public class QualityMSE : QualityBase
     /// <param name="cmp"></param>
     /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
-    public static Scalar Compute(InputArrayRef @ref, InputArrayRef cmp, OutputArrayRef qualityMap = default)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_QualityMSE_staticCompute(

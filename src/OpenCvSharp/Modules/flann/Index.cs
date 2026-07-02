@@ -13,7 +13,7 @@ public class Index : CvObject
     /// <param name="features">features – Matrix of type CV _ 32F containing the features(points) to index. The size of the matrix is num _ features x feature _ dimensionality.</param>
     /// <param name="params">Structure containing the index parameters. The type of index that will be constructed depends on the type of this parameter. </param>
     /// <param name="distType"></param>
-    public Index(InputArrayRef features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
+    public Index(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
     {
         if (@params is null)
             throw new ArgumentNullException(nameof(@params));

@@ -264,7 +264,7 @@ public static partial class Cv2
         /// <param name="image">input image (all with 1-, 3- or 4-channels).</param>
         /// <param name="param">params with preprocessing parameters. If null, default params are used.</param>
         /// <returns>4-dimensional Mat.</returns>
-        public static Mat BlobFromImageWithParams(InputArrayRef image, Image2BlobParams? param = null)
+        public static Mat BlobFromImageWithParams(InputArray image, Image2BlobParams? param = null)
         {
             param ??= new Image2BlobParams();
 

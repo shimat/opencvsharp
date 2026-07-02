@@ -65,7 +65,7 @@ public class Moments
     /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
     /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
     /// <returns></returns>
-    public Moments(InputArrayRef array, bool binaryImage = false)
+    public Moments(InputArray array, bool binaryImage = false)
     {
         InitializeFromInputArray(array, binaryImage);
     }
@@ -144,7 +144,7 @@ public class Moments
     /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
     /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
     /// <returns></returns>
-    private void InitializeFromInputArray(InputArrayRef array, bool binaryImage)
+    private void InitializeFromInputArray(InputArray array, bool binaryImage)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_moments(array.Proxy, binaryImage ? 1 : 0, out var m));

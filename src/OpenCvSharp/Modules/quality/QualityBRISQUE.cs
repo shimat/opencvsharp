@@ -72,7 +72,7 @@ public class QualityBRISQUE : QualityBase
     /// <param name="modelFilePath">String which contains a path to the BRISQUE model data, eg. /path/to/brisque_model_live.yml</param>
     /// <param name="rangeFilePath">cv::String which contains a path to the BRISQUE range data, eg. /path/to/brisque_range_live.yml</param>
     /// <returns>cv::Scalar with the score in the first element.  The score ranges from 0 (best quality) to 100 (worst quality)</returns>
-    public static Scalar Compute(InputArrayRef img, string modelFilePath, string rangeFilePath)
+    public static Scalar Compute(InputArray img, string modelFilePath, string rangeFilePath)
     {
         if (string.IsNullOrEmpty(modelFilePath))
             throw new ArgumentNullException(nameof(modelFilePath));
@@ -91,7 +91,7 @@ public class QualityBRISQUE : QualityBase
     /// </summary>
     /// <param name="img">image (BGR(A) or grayscale) for which to compute features</param>
     /// <param name="features">output row vector of features to cv::Mat or cv::UMat</param>
-    public static void ComputeFeatures(InputArrayRef img, OutputArrayRef features)
+    public static void ComputeFeatures(InputArray img, OutputArray features)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_QualityBRISQUE_computeFeatures(img.Proxy, features.Proxy));

@@ -38,12 +38,12 @@ static partial class Cv2
     /// in the rectified images (no source image pixels are lost). Obviously, any intermediate value yields an intermediate result between those two extreme cases.</param>
     /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to initUndistortRectifyMap(). When (0,0) is passed (default), it is set to the original imageSize . 
     /// Setting it to larger value can help you preserve details in the original image, especially when there is a big radial distortion.</param>
-    public static void StereoRectify(InputArrayRef cameraMatrix1, InputArrayRef distCoeffs1,
-        InputArrayRef cameraMatrix2, InputArrayRef distCoeffs2,
-        Size imageSize, InputArrayRef R, InputArrayRef T,
-        OutputArrayRef R1, OutputArrayRef R2,
-        OutputArrayRef P1, OutputArrayRef P2,
-        OutputArrayRef Q,
+    public static void StereoRectify(InputArray cameraMatrix1, InputArray distCoeffs1,
+        InputArray cameraMatrix2, InputArray distCoeffs2,
+        Size imageSize, InputArray R, InputArray T,
+        OutputArray R1, OutputArray R2,
+        OutputArray P1, OutputArray P2,
+        OutputArray Q,
         StereoRectificationFlags flags = StereoRectificationFlags.ZeroDisparity,
         double alpha = -1, Size? newImageSize = null)
     {
@@ -82,12 +82,12 @@ static partial class Cv2
     /// Otherwise, they are likely to be smaller.</param>
     /// <param name="validPixROI2">Optional output rectangles inside the rectified images where all the pixels are valid. If alpha=0 , the ROIs cover the whole images. 
     /// Otherwise, they are likely to be smaller.</param>
-    public static void StereoRectify(InputArrayRef cameraMatrix1, InputArrayRef distCoeffs1,
-        InputArrayRef cameraMatrix2, InputArrayRef distCoeffs2,
-        Size imageSize, InputArrayRef R, InputArrayRef T,
-        OutputArrayRef R1, OutputArrayRef R2,
-        OutputArrayRef P1, OutputArrayRef P2,
-        OutputArrayRef Q, StereoRectificationFlags flags,
+    public static void StereoRectify(InputArray cameraMatrix1, InputArray distCoeffs1,
+        InputArray cameraMatrix2, InputArray distCoeffs2,
+        Size imageSize, InputArray R, InputArray T,
+        OutputArray R1, OutputArray R2,
+        OutputArray P1, OutputArray P2,
+        OutputArray Q, StereoRectificationFlags flags,
         double alpha, Size newImageSize,
         out Rect validPixROI1, out Rect validPixROI2)
     {
@@ -251,9 +251,9 @@ static partial class Cv2
     /// with the epipolar geometry (that is, the points for which |points2[i]^T * F * points1[i]| > threshold ) 
     /// are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.</param>
     /// <returns></returns>
-    public static bool StereoRectifyUncalibrated(InputArrayRef points1, InputArrayRef points2,
-        InputArrayRef F, Size imgSize,
-        OutputArrayRef H1, OutputArrayRef H2,
+    public static bool StereoRectifyUncalibrated(InputArray points1, InputArray points2,
+        InputArray F, Size imgSize,
+        OutputArray H1, OutputArray H2,
         double threshold = 5)
     {
         NativeMethods.HandleException(
@@ -353,15 +353,15 @@ static partial class Cv2
     /// <param name="flags"></param>
     /// <returns></returns>
     public static float Rectify3Collinear(
-        InputArrayRef cameraMatrix1, InputArrayRef distCoeffs1,
-        InputArrayRef cameraMatrix2, InputArrayRef distCoeffs2,
-        InputArrayRef cameraMatrix3, InputArrayRef distCoeffs3,
+        InputArray cameraMatrix1, InputArray distCoeffs1,
+        InputArray cameraMatrix2, InputArray distCoeffs2,
+        InputArray cameraMatrix3, InputArray distCoeffs3,
         IReadOnlyList<Mat> imgpt1, IReadOnlyList<Mat> imgpt3,
-        Size imageSize, InputArrayRef R12, InputArrayRef T12,
-        InputArrayRef R13, InputArrayRef T13,
-        OutputArrayRef R1, OutputArrayRef R2, OutputArrayRef R3,
-        OutputArrayRef P1, OutputArrayRef P2, OutputArrayRef P3,
-        OutputArrayRef Q, double alpha, Size newImgSize,
+        Size imageSize, InputArray R12, InputArray T12,
+        InputArray R13, InputArray T13,
+        OutputArray R1, OutputArray R2, OutputArray R3,
+        OutputArray P1, OutputArray P2, OutputArray P3,
+        OutputArray Q, double alpha, Size newImgSize,
         out Rect roi1, out Rect roi2, StereoRectificationFlags flags)
     {
         if (imgpt1 is null)
@@ -413,8 +413,8 @@ static partial class Cv2
     /// Note that since StereoBM, StereoSGBM and may be other algorithms return a fixed-point disparity map, where disparity values 
     /// are multiplied by 16, this scale factor should be taken into account when specifying this parameter value.</param>
     /// <param name="buf">The optional temporary buffer to avoid memory allocation within the function.</param>
-    public static void FilterSpeckles(InputOutputArrayRef img, double newVal, int maxSpeckleSize, double maxDiff,
-        InputOutputArrayRef buf = default)
+    public static void FilterSpeckles(InputOutputArray img, double newVal, int maxSpeckleSize, double maxDiff,
+        InputOutputArray buf = default)
     {
         NativeMethods.HandleException(
             NativeMethods.stereo_filterSpeckles(img.Proxy, newVal, maxSpeckleSize, maxDiff, buf.Proxy));
@@ -448,7 +448,7 @@ static partial class Cv2
     /// <param name="minDisparity"></param>
     /// <param name="numberOfDisparities"></param>
     /// <param name="disp12MaxDisp"></param>
-    public static void ValidateDisparity(InputOutputArrayRef disparity, InputArrayRef cost,
+    public static void ValidateDisparity(InputOutputArray disparity, InputArray cost,
         int minDisparity, int numberOfDisparities, int disp12MaxDisp = 1)
     {
         NativeMethods.HandleException(
@@ -471,8 +471,8 @@ static partial class Cv2
     /// transformed to 3D points with a very large Z value (currently set to 10000).</param>
     /// <param name="ddepth">he optional output array depth. If it is -1, the output image will have CV_32F depth. 
     /// ddepth can also be set to CV_16S, CV_32S or CV_32F.</param>
-    public static void ReprojectImageTo3D(InputArrayRef disparity,
-        OutputArrayRef _3dImage, InputArrayRef Q,
+    public static void ReprojectImageTo3D(InputArray disparity,
+        OutputArray _3dImage, InputArray Q,
         bool handleMissingValues = false, int ddepth = -1)
     {
         NativeMethods.HandleException(

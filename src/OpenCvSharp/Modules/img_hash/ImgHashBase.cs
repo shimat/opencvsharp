@@ -18,7 +18,7 @@ public abstract class ImgHashBase : Algorithm
     /// <param name="inputArr">input image want to compute hash value</param>
     /// <param name="outputArr">hash of the image</param>
     /// <returns></returns>
-    public virtual void Compute(InputArrayRef inputArr, OutputArrayRef outputArr)
+    public virtual void Compute(InputArray inputArr, OutputArray outputArr)
     {
         ThrowIfDisposed();
 
@@ -34,7 +34,7 @@ public abstract class ImgHashBase : Algorithm
     /// <param name="hashOne">Hash value one</param>
     /// <param name="hashTwo">Hash value two</param>
     /// <returns>value indicate similarity between inOne and inTwo, the meaning of the value vary from algorithms to algorithms</returns>
-    public virtual double Compare(InputArrayRef hashOne, InputArrayRef hashTwo)
+    public virtual double Compare(InputArray hashOne, InputArray hashTwo)
     {
         ThrowIfDisposed();
 

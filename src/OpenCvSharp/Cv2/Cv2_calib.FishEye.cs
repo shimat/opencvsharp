@@ -34,8 +34,8 @@ static partial class Cv2
         /// rotation vector, translation vector, and the skew.In the old interface different components of 
         /// the jacobian are returned via different output parameters.</param>
         public static void ProjectPoints(
-            InputArrayRef objectPoints, OutputArrayRef imagePoints, InputArrayRef rvec, InputArrayRef tvec,
-            InputArrayRef k, InputArrayRef d, double alpha = 0, OutputArrayRef jacobian = default)
+            InputArray objectPoints, OutputArray imagePoints, InputArray rvec, InputArray tvec,
+            InputArray k, InputArray d, double alpha = 0, OutputArray jacobian = default)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_projectPoints2(
@@ -64,7 +64,7 @@ static partial class Cv2
         /// <param name="d">Input vector of distortion coefficients</param>
         /// <param name="alpha">The skew coefficient.</param>
         public static void DistortPoints(
-            InputArrayRef undistorted, OutputArrayRef distorted, InputArrayRef k, InputArrayRef d, double alpha = 0)
+            InputArray undistorted, OutputArray distorted, InputArray k, InputArray d, double alpha = 0)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints(
@@ -89,7 +89,7 @@ static partial class Cv2
         /// <param name="d">Input vector of distortion coefficients.</param>
         /// <param name="alpha">The skew coefficient.</param>
         public static void DistortPoints(
-            InputArrayRef undistorted, OutputArrayRef distorted, InputArrayRef kundistorted, InputArrayRef k, InputArrayRef d, double alpha = 0)
+            InputArray undistorted, OutputArray distorted, InputArray kundistorted, InputArray k, InputArray d, double alpha = 0)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_distortPoints2(
@@ -114,8 +114,8 @@ static partial class Cv2
         /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
         // ReSharper disable once MemberHidesStaticFromOuterClass
         public static void UndistortPoints(
-            InputArrayRef distorted, OutputArrayRef undistorted,
-            InputArrayRef k, InputArrayRef d, InputArrayRef r = default, InputArrayRef p = default)
+            InputArray distorted, OutputArray undistorted,
+            InputArray k, InputArray d, InputArray r = default, InputArray p = default)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortPoints(
@@ -142,8 +142,8 @@ static partial class Cv2
         /// <param name="map1">The first output map.</param>
         /// <param name="map2">The second output map.</param>
         public static void InitUndistortRectifyMap(
-            InputArrayRef k, InputArrayRef d, InputArrayRef r, InputArrayRef p,
-            Size size, int m1type, OutputArrayRef map1, OutputArrayRef map2)
+            InputArray k, InputArray d, InputArray r, InputArray p,
+            Size size, int m1type, OutputArray map1, OutputArray map2)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_initUndistortRectifyMap(
@@ -168,8 +168,8 @@ static partial class Cv2
         /// may additionally scale and shift the result by using a different matrix.</param>
         /// <param name="newSize"></param>
         public static void UndistortImage(
-            InputArrayRef distorted, OutputArrayRef undistorted,
-            InputArrayRef k, InputArrayRef d, InputArrayRef knew = default, Size newSize = default)
+            InputArray distorted, OutputArray undistorted,
+            InputArray k, InputArray d, InputArray knew = default, Size newSize = default)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_undistortImage(
@@ -196,8 +196,8 @@ static partial class Cv2
         /// <param name="newSize"></param>
         /// <param name="fovScale">Divisor for new focal length.</param>
         public static void EstimateNewCameraMatrixForUndistortRectify(
-            InputArrayRef k, InputArrayRef d, Size imageSize, InputArrayRef r,
-            OutputArrayRef p, double balance = 0.0, Size newSize = default, double fovScale = 1.0)
+            InputArray k, InputArray d, Size imageSize, InputArray r,
+            OutputArray p, double balance = 0.0, Size newSize = default, double fovScale = 1.0)
         {
             NativeMethods.HandleException(
                 NativeMethods.calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
@@ -230,7 +230,7 @@ static partial class Cv2
         /// <returns></returns>
         public static double Calibrate(
             IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints,
-            Size imageSize, InputOutputArrayRef k, InputOutputArrayRef d,
+            Size imageSize, InputOutputArray k, InputOutputArray d,
             out IEnumerable<Mat> rvecs, out IEnumerable<Mat> tvecs,
             FishEyeCalibrationFlags flags = 0, TermCriteria? criteria = null)
         {
@@ -290,9 +290,9 @@ static partial class Cv2
         /// length.Balance is in range of[0, 1].</param>
         /// <param name="fovScale">Divisor for new focal length.</param>
         public static void StereoRectify(
-            InputArrayRef k1, InputArrayRef d1, InputArrayRef k2, InputArrayRef d2, 
-            Size imageSize, InputArrayRef r, InputArrayRef tvec, OutputArrayRef r1, OutputArrayRef r2, 
-            OutputArrayRef p1, OutputArrayRef p2, OutputArrayRef q, FishEyeCalibrationFlags flags, Size newImageSize = default,
+            InputArray k1, InputArray d1, InputArray k2, InputArray d2, 
+            Size imageSize, InputArray r, InputArray tvec, OutputArray r1, OutputArray r2, 
+            OutputArray p1, OutputArray p2, OutputArray q, FishEyeCalibrationFlags flags, Size newImageSize = default,
             double balance = 0.0, double fovScale = 1.0)
         {
             NativeMethods.HandleException(
@@ -335,8 +335,8 @@ static partial class Cv2
         /// <returns></returns>
         public static double StereoCalibrate(
             IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
-            InputOutputArrayRef k1, InputOutputArrayRef d1, InputOutputArrayRef k2, InputOutputArrayRef d2, Size imageSize,
-            OutputArrayRef r, OutputArrayRef t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
+            InputOutputArray k1, InputOutputArray d1, InputOutputArray k2, InputOutputArray d2, Size imageSize,
+            OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
             TermCriteria? criteria = null)
         {
             if (objectPoints is null)

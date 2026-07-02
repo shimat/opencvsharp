@@ -66,7 +66,7 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="frame">the object from which to take depth and image data.</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void IntegrateFrame(OdometryFrame frame, InputArrayRef pose)
+    public void IntegrateFrame(OdometryFrame frame, InputArray pose)
     {
         ThrowIfDisposed();
         if (frame is null)
@@ -83,7 +83,7 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="depth">the depth image.</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void Integrate(InputArrayRef depth, InputArrayRef pose)
+    public void Integrate(InputArray depth, InputArray pose)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -98,7 +98,7 @@ public class Volume : CvObject
     /// <param name="depth">the depth image.</param>
     /// <param name="image">the color image (only for ColorTSDF).</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
-    public void IntegrateColor(InputArrayRef depth, InputArrayRef image, InputArrayRef pose)
+    public void IntegrateColor(InputArray depth, InputArray image, InputArray pose)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -118,7 +118,7 @@ public class Volume : CvObject
     /// <param name="cameraPose">the pose of camera in global coordinates.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    public void Raycast(InputArrayRef cameraPose, OutputArrayRef points, OutputArrayRef normals)
+    public void Raycast(InputArray cameraPose, OutputArray points, OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -133,7 +133,7 @@ public class Volume : CvObject
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
     /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
-    public void RaycastColor(InputArrayRef cameraPose, OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
+    public void RaycastColor(InputArray cameraPose, OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -150,7 +150,7 @@ public class Volume : CvObject
     /// <param name="K">camera raycast intrinsics.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    public void RaycastEx(InputArrayRef cameraPose, int height, int width, InputArrayRef K, OutputArrayRef points, OutputArrayRef normals)
+    public void RaycastEx(InputArray cameraPose, int height, int width, InputArray K, OutputArray points, OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -169,7 +169,7 @@ public class Volume : CvObject
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
     /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
-    public void RaycastExColor(InputArrayRef cameraPose, int height, int width, InputArrayRef K, OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
+    public void RaycastExColor(InputArray cameraPose, int height, int width, InputArray K, OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -187,7 +187,7 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="points">the input existing points.</param>
     /// <param name="normals">the storage of normals (corresponding to input points).</param>
-    public void FetchNormals(InputArrayRef points, OutputArrayRef normals)
+    public void FetchNormals(InputArray points, OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -200,7 +200,7 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="points">the storage of all points.</param>
     /// <param name="normals">the storage of all normals, corresponding to points.</param>
-    public void FetchPointsNormals(OutputArrayRef points, OutputArrayRef normals)
+    public void FetchPointsNormals(OutputArray points, OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -213,7 +213,7 @@ public class Volume : CvObject
     /// <param name="points">the storage of all points.</param>
     /// <param name="normals">the storage of all normals, corresponding to points.</param>
     /// <param name="colors">the storage of all colors, corresponding to points (only for ColorTSDF).</param>
-    public void FetchPointsNormalsColors(OutputArrayRef points, OutputArrayRef normals, OutputArrayRef colors)
+    public void FetchPointsNormalsColors(OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -261,7 +261,7 @@ public class Volume : CvObject
     /// </summary>
     /// <param name="bb">6-float 1d array containing (min_x, min_y, min_z, max_x, max_y, max_z) in volume coordinates.</param>
     /// <param name="precision">bounding box calculation precision.</param>
-    public void GetBoundingBox(OutputArrayRef bb, VolumeBoundingBoxPrecision precision)
+    public void GetBoundingBox(OutputArray bb, VolumeBoundingBoxPrecision precision)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

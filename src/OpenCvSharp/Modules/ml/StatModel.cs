@@ -80,7 +80,7 @@ public abstract class StatModel : Algorithm
     /// <param name="layout">SampleTypes value</param>
     /// <param name="responses">vector of responses associated with the training samples.</param>
     /// <returns></returns>
-    public virtual bool Train(InputArrayRef samples, SampleTypes layout, InputArrayRef responses)
+    public virtual bool Train(InputArray samples, SampleTypes layout, InputArray responses)
     {
         ThrowIfDisposed();
 
@@ -103,7 +103,7 @@ public abstract class StatModel : Algorithm
     /// sounds a bit confusing.</param>
     /// <param name="resp">the optional output responses.</param>
     /// <returns></returns>
-    public virtual float CalcError(TrainData data, bool test, OutputArrayRef resp)
+    public virtual float CalcError(TrainData data, bool test, OutputArray resp)
     {
         throw new NotImplementedException();
     }
@@ -115,7 +115,7 @@ public abstract class StatModel : Algorithm
     /// <param name="results">The optional output matrix of results.</param>
     /// <param name="flags">The optional flags, model-dependent.</param>
     /// <returns></returns>
-    public virtual float Predict(InputArrayRef samples, OutputArrayRef results = default, Flags flags = 0)
+    public virtual float Predict(InputArray samples, OutputArray results = default, Flags flags = 0)
     {
         ThrowIfDisposed();
 

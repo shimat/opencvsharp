@@ -122,7 +122,7 @@ public class TextRecognitionModel : Model
     /// </summary>
     /// <param name="frame">The input image.</param>
     /// <returns>The text recognition result.</returns>
-    public string Recognize(InputArrayRef frame)
+    public string Recognize(InputArray frame)
     {
         ThrowIfDisposed();
 

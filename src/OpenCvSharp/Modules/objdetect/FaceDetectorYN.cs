@@ -65,8 +65,8 @@ public class FaceDetectorYN : Algorithm
     public int Detect(Mat image, Mat faces)
     {
         ThrowIfDisposed();
-        InputArrayRef iaImage = image;
-        OutputArrayRef oaFaces = faces;
+        InputArray iaImage = image;
+        OutputArray oaFaces = faces;
         NativeMethods.HandleException(
             NativeMethods.objdetect_FaceDetectorYN_detect(Handle, iaImage.Proxy, oaFaces.Proxy, out var result));
         return result;

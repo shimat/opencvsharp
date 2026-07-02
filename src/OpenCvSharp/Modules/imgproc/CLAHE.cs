@@ -42,7 +42,7 @@ public sealed class CLAHE : Algorithm
     /// </summary>
     /// <param name="src">Source image of type CV_8UC1 or CV_16UC1.</param>
     /// <param name="dst">Destination image.</param>
-    public void Apply(InputArrayRef src, OutputArrayRef dst)
+    public void Apply(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
 

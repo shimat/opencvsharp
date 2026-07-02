@@ -181,7 +181,7 @@ public class AdaptiveManifoldFilter : Algorithm
     /// <param name="src">filtering image with any numbers of channels.</param>
     /// <param name="dst">output image.</param>
     /// <param name="joint">optional joint (also called as guided) image with any numbers of channels.</param>
-    public virtual void Filter(InputArrayRef src, OutputArrayRef dst, InputArrayRef joint = default)
+    public virtual void Filter(InputArray src, OutputArray dst, InputArray joint = default)
     {
         ThrowIfDisposed();
 

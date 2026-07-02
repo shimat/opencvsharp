@@ -284,7 +284,7 @@ public class ANN_MLP : StatModel
     /// The last element - number of elements in the output layer.Default value is empty Mat.
     /// </summary>
     /// <param name="layerSizes"></param>
-    public virtual void SetLayerSizes(InputArrayRef layerSizes)
+    public virtual void SetLayerSizes(InputArray layerSizes)
     {
         ThrowIfDisposed();
 

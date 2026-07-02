@@ -169,7 +169,7 @@ public class Model : CvObject
     /// </summary>
     /// <param name="frame">The input image.</param>
     /// <returns>Allocated output blobs, which will store results of the computation.</returns>
-    public Mat[] Predict(InputArrayRef frame)
+    public Mat[] Predict(InputArray frame)
     {
         ThrowIfDisposed();
 

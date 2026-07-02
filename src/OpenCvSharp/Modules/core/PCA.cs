@@ -28,7 +28,7 @@ public class PCA : CvObject
     /// <param name="mean">optional mean value; if the matrix is empty (@c noArray()), the mean is computed from the data.</param>
     /// <param name="flags">operation flags; currently the parameter is only used to specify the data layout (PCA::Flags)</param>
     /// <param name="maxComponents">maximum number of components that PCA should retain; by default, all the components are retained.</param>
-    public PCA(InputArrayRef data, InputArrayRef mean, Flags flags, int maxComponents = 0)
+    public PCA(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCA_new2(data.Proxy, mean.Proxy, (int)flags, maxComponents, out var p));
@@ -45,7 +45,7 @@ public class PCA : CvObject
     /// <param name="flags">operation flags; currently the parameter is only used to specify the data layout (PCA::Flags)</param>
     /// <param name="retainedVariance">Percentage of variance that PCA should retain.
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
-    public PCA(InputArrayRef data, InputArrayRef mean, Flags flags, double retainedVariance)
+    public PCA(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCA_new3(data.Proxy, mean.Proxy, (int)flags, retainedVariance, out var p));
@@ -124,7 +124,7 @@ public class PCA : CvObject
     /// <param name="maxComponents">maximum number of components that PCA should retain;
     /// by default, all the components are retained.</param>
     /// <returns></returns>
-    public PCA Compute(InputArrayRef data, InputArrayRef mean, Flags flags, int maxComponents = 0)
+    public PCA Compute(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -155,7 +155,7 @@ public class PCA : CvObject
     /// Using this parameter will let the %PCA decided how many components to
     /// retain but it will always keep at least 2.</param>
     /// <returns></returns>
-    public PCA ComputeVar(InputArrayRef data, InputArrayRef mean, Flags flags, double retainedVariance)
+    public PCA ComputeVar(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -181,7 +181,7 @@ public class PCA : CvObject
     /// (vector dimensionality) and `vec.rows` is the number of vectors to
     /// project, and the same is true for the PCA::DATA_AS_COL case.</param>
     /// <returns></returns>
-    public Mat Project(InputArrayRef vec)
+    public Mat Project(InputArray vec)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -202,7 +202,7 @@ public class PCA : CvObject
     /// means that `result.cols==vec.cols` and the number of rows match the
     /// number of principal components (for example, `maxComponents` parameter
     /// passed to the constructor).</param>
-    public void Project(InputArrayRef vec, OutputArrayRef result)
+    public void Project(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -224,7 +224,7 @@ public class PCA : CvObject
     /// <param name="vec">coordinates of the vectors in the principal component subspace,
     /// the layout and size are the same as of PCA::project output vectors.</param>
     /// <returns></returns>
-    public Mat BackProject(InputArrayRef vec)
+    public Mat BackProject(InputArray vec)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -247,7 +247,7 @@ public class PCA : CvObject
     /// the layout and size are the same as of PCA::project output vectors.</param>
     /// <param name="result">reconstructed vectors; the layout and size are the same as 
     /// of PCA::project input vectors.</param>
-    public void BackProject(InputArrayRef vec, OutputArrayRef result)
+    public void BackProject(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

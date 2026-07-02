@@ -31,7 +31,7 @@ public class LDA : CvObject
     /// <param name="src"></param>
     /// <param name="labels"></param>
     /// <param name="numComponents"></param>
-    public LDA(InputArrayRef src, InputArrayRef labels, int numComponents = 0)
+    public LDA(InputArray src, InputArray labels, int numComponents = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_LDA_new2(src.Proxy, labels.Proxy, numComponents, out var p));
@@ -133,7 +133,7 @@ public class LDA : CvObject
     /// </summary>
     /// <param name="src"></param>
     /// <param name="labels"></param>
-    public void Compute(InputArrayRef src, InputArrayRef labels)
+    public void Compute(InputArray src, InputArray labels)
     {
         ThrowIfDisposed();
 
@@ -150,7 +150,7 @@ public class LDA : CvObject
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public Mat Project(InputArrayRef src)
+    public Mat Project(InputArray src)
     {
         ThrowIfDisposed();
 
@@ -168,7 +168,7 @@ public class LDA : CvObject
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public Mat Reconstruct(InputArrayRef src)
+    public Mat Reconstruct(InputArray src)
     {
         ThrowIfDisposed();
 
@@ -187,7 +187,7 @@ public class LDA : CvObject
     /// <param name="mean"></param>
     /// <param name="src"></param>
     /// <returns></returns>
-    public static Mat SubspaceProject(InputArrayRef w, InputArrayRef mean, InputArrayRef src)
+    public static Mat SubspaceProject(InputArray w, InputArray mean, InputArray src)
     {
         NativeMethods.HandleException(
             NativeMethods.core_LDA_subspaceProject(w.Proxy, mean.Proxy, src.Proxy, out var ret));
@@ -206,7 +206,7 @@ public class LDA : CvObject
     /// <param name="mean"></param>
     /// <param name="src"></param>
     /// <returns></returns>
-    public static Mat SubspaceReconstruct(InputArrayRef w, InputArrayRef mean, InputArrayRef src)
+    public static Mat SubspaceReconstruct(InputArray w, InputArray mean, InputArray src)
     {
         NativeMethods.HandleException(
             NativeMethods.core_LDA_subspaceReconstruct(w.Proxy, mean.Proxy, src.Proxy, out var ret));

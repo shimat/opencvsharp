@@ -116,7 +116,7 @@ public class Feature2D : Algorithm
     /// <param name="mask">Mask specifying where to look for keypoints (optional). 
     /// Must be a char matrix with non-zero values in the region of interest.</param>
     /// <returns>The detected keypoints.</returns>
-    public KeyPoint[] Detect(InputArrayRef image, InputArrayRef mask = default)
+    public KeyPoint[] Detect(InputArray image, InputArray mask = default)
     {
         ThrowIfDisposed();
 
@@ -175,7 +175,7 @@ public class Feature2D : Algorithm
     /// <param name="image">The image.</param>
     /// <param name="keypoints">The input keypoints. Keypoints for which a descriptor cannot be computed are removed.</param>
     /// <param name="descriptors">Computed descriptors. Row i is the descriptor for KeyPoint i.</param>param>
-    public virtual void Compute(InputArrayRef image, ref KeyPoint[] keypoints, OutputArrayRef descriptors)
+    public virtual void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray descriptors)
     {
         ThrowIfDisposed();
 
@@ -227,10 +227,10 @@ public class Feature2D : Algorithm
     /// <param name="descriptors"></param>
     /// <param name="useProvidedKeypoints"></param>
     public virtual void DetectAndCompute(
-        InputArrayRef image,
-        InputArrayRef mask,
+        InputArray image,
+        InputArray mask,
         out KeyPoint[] keypoints,
-        OutputArrayRef descriptors,
+        OutputArray descriptors,
         bool useProvidedKeypoints = false)
     {
         ThrowIfDisposed();

@@ -18,7 +18,7 @@ public abstract class HistogramCostExtractor : Algorithm
     /// <param name="descriptors2">Second set of descriptors.</param>
     /// <param name="costMatrix">Output cost matrix.</param>
     public virtual void BuildCostMatrix(
-        InputArrayRef descriptors1, InputArrayRef descriptors2, OutputArrayRef costMatrix)
+        InputArray descriptors1, InputArray descriptors2, OutputArray costMatrix)
     {
         ThrowIfDisposed();
 

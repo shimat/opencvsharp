@@ -64,7 +64,7 @@ public abstract class FaceRecognizer : Algorithm
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public virtual int Predict(InputArrayRef src)
+    public virtual int Predict(InputArray src)
     {
         ThrowIfDisposed();
 
@@ -80,7 +80,7 @@ public abstract class FaceRecognizer : Algorithm
     /// <param name="src"></param>
     /// <param name="label"></param>
     /// <param name="confidence"></param>
-    public virtual void Predict(InputArrayRef src, out int label, out double confidence)
+    public virtual void Predict(InputArray src, out int label, out double confidence)
     {
         ThrowIfDisposed();
 

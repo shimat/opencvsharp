@@ -255,7 +255,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     /// <param name="image1">Image corresponding to the shape defined by contours1.</param>
     /// <param name="image2">Image corresponding to the shape defined by contours2.</param>
-    public void SetImages(InputArrayRef image1, InputArrayRef image2)
+    public void SetImages(InputArray image1, InputArray image2)
     {
         ThrowIfDisposed();
 
@@ -272,7 +272,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     /// <param name="image1">Image corresponding to the shape defined by contours1.</param>
     /// <param name="image2">Image corresponding to the shape defined by contours2.</param>
-    public void GetImages(OutputArrayRef image1, OutputArrayRef image2)
+    public void GetImages(OutputArray image1, OutputArray image2)
     {
         ThrowIfDisposed();
 

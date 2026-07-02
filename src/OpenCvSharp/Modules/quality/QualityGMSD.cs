@@ -22,7 +22,7 @@ public class QualityGMSD : QualityBase
     /// </summary>
     /// <param name="ref">input image to use as the source for comparison</param>
     /// <returns></returns>
-    public static QualityGMSD Create(InputArrayRef @ref)
+    public static QualityGMSD Create(InputArray @ref)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_createQualityGMSD(@ref.Proxy, out var smartPtr));
@@ -38,7 +38,7 @@ public class QualityGMSD : QualityBase
     /// <param name="cmp"></param>
     /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
-    public static Scalar Compute(InputArrayRef @ref, InputArrayRef cmp, OutputArrayRef qualityMap = default)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_QualityGMSD_staticCompute(

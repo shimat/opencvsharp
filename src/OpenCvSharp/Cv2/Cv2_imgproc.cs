@@ -45,7 +45,7 @@ static partial class Cv2
     /// and wish to preserve all the fractional bits, you may want to set normalize = false.</param>
     /// <param name="ktype">Type of filter coefficients. It can be CV_32f or CV_64F.</param>
     public static void GetDerivKernels(
-        OutputArrayRef kx, OutputArrayRef ky, int dx, int dy, int ksize,
+        OutputArray kx, OutputArray ky, int dx, int dy, int ksize,
         bool normalize = false, MatType? ktype = null)
     {
         var ktype0 = ktype.GetValueOrDefault(MatType.CV_32F);
@@ -116,7 +116,7 @@ static partial class Cv2
     /// For larger aperture sizes it can only be CV_8U</param>
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
     /// <param name="ksize">The aperture linear size. It must be odd and more than 1, i.e. 3, 5, 7 ...</param>
-    public static void MedianBlur(InputArrayRef src, OutputArrayRef dst, int ksize)
+    public static void MedianBlur(InputArray src, OutputArray dst, int ksize)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_medianBlur(src.Proxy, dst.Proxy, ksize));
@@ -140,7 +140,7 @@ static partial class Cv2
     /// regardless of possible future modifications of all this semantics, it is recommended to specify all of ksize, sigmaX, and sigmaY.</param>
     /// <param name="borderType">pixel extrapolation method</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
-    public static void GaussianBlur(InputArrayRef src, OutputArrayRef dst, Size ksize, double sigmaX,
+    public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX,
         double sigmaY = 0, BorderTypes borderType = BorderTypes.Default, AlgorithmHint hint = AlgorithmHint.Default)
     {
         NativeMethods.HandleException(
@@ -165,7 +165,7 @@ static partial class Cv2
     /// (as long as their colors are close enough; see sigmaColor). Then d>0 , it specifies 
     /// the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace</param>
     /// <param name="borderType"></param>
-    public static void BilateralFilter(InputArrayRef src, OutputArrayRef dst, int d, double sigmaColor,
+    public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor,
         double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
     {
         NativeMethods.HandleException(
@@ -186,7 +186,7 @@ static partial class Cv2
     /// <param name="normalize">Indicates, whether the kernel is normalized by its area or not</param>
     /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
     public static void BoxFilter(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth, 
+        InputArray src, OutputArray dst, MatType ddepth, 
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
@@ -215,7 +215,7 @@ static partial class Cv2
     /// <param name="normalize"></param>
     /// <param name="borderType"></param>
     public static void SqrBoxFilter(
-        InputArrayRef src, OutputArrayRef dst, int ddepth,
+        InputArray src, OutputArray dst, int ddepth,
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
@@ -236,7 +236,7 @@ static partial class Cv2
     /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
     /// <param name="borderType">The border mode used to extrapolate pixels outside of the image</param>
     public static void Blur(
-        InputArrayRef src, OutputArrayRef dst, Size ksize, 
+        InputArray src, OutputArray dst, Size ksize, 
         Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
     {
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
@@ -262,8 +262,8 @@ static partial class Cv2
     /// <param name="delta">The optional value added to the filtered pixels before storing them in dst</param>
     /// <param name="borderType">The pixel extrapolation method</param>
     public static void Filter2D(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth,
-        InputArrayRef kernel, Point? anchor = null, double delta = 0, 
+        InputArray src, OutputArray dst, MatType ddepth,
+        InputArray kernel, Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
         var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
@@ -282,7 +282,7 @@ static partial class Cv2
     /// <param name="dst">output image of the same size and the same number of channels as src.</param>
     /// <param name="kernel">convolution kernel (or rather a correlation kernel), a single-channel floating point matrix.</param>
     /// <param name="params">filtering parameters (anchor, border, depth, scale, shift). Null uses the defaults.</param>
-    public static void Filter2D(InputArrayRef src, OutputArrayRef dst, InputArrayRef kernel, Filter2DParams? @params = null)
+    public static void Filter2D(InputArray src, OutputArray dst, InputArray kernel, Filter2DParams? @params = null)
     {
         var p = @params ?? new Filter2DParams();
         NativeMethods.HandleException(
@@ -307,7 +307,7 @@ static partial class Cv2
     /// <param name="delta">The value added to the filtered results before storing them</param>
     /// <param name="borderType">The pixel extrapolation method</param>
     public static void SepFilter2D(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth, InputArrayRef kernelX, InputArrayRef kernelY,
+        InputArray src, OutputArray dst, MatType ddepth, InputArray kernelX, InputArray kernelY,
         Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
@@ -335,7 +335,7 @@ static partial class Cv2
     /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
     /// <param name="borderType">The pixel extrapolation method</param>
     public static void Sobel(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth, int xorder, int yorder, 
+        InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
         int ksize = 3, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)        
     {
@@ -356,7 +356,7 @@ static partial class Cv2
     /// <param name="ksize">size of Sobel kernel. It must be 3.</param>
     /// <param name="borderType">pixel extrapolation method</param>
     public static void SpatialGradient(
-        InputArrayRef src, OutputArrayRef dx, OutputArrayRef dy, int ksize = 3, BorderTypes borderType = BorderTypes.Default)
+        InputArray src, OutputArray dx, OutputArray dy, int ksize = 3, BorderTypes borderType = BorderTypes.Default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_spatialGradient(src.Proxy, dx.Proxy, dy.Proxy, ksize, (int)borderType));
@@ -376,7 +376,7 @@ static partial class Cv2
     /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
     /// <param name="borderType">The pixel extrapolation method</param>
     public static void Scharr(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth, int xorder, int yorder, 
+        InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
         double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
     {
         NativeMethods.HandleException(
@@ -398,7 +398,7 @@ static partial class Cv2
     /// <param name="delta">The optional delta value, added to the results prior to storing them in dst</param>
     /// <param name="borderType">The pixel extrapolation method</param>
     public static void Laplacian(
-        InputArrayRef src, OutputArrayRef dst, MatType ddepth,
+        InputArray src, OutputArray dst, MatType ddepth,
         int ksize = 1, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
@@ -418,7 +418,7 @@ static partial class Cv2
     /// <param name="threshold2">The second threshold for the hysteresis procedure</param>
     /// <param name="apertureSize">Aperture size for the Sobel operator [By default this is ApertureSize.Size3]</param>
     /// <param name="L2gradient">Indicates, whether the more accurate L2 norm should be used to compute the image gradient magnitude (true), or a faster default L1 norm is enough (false). [By default this is false]</param>
-    public static void Canny(InputArrayRef src, OutputArrayRef edges,
+    public static void Canny(InputArray src, OutputArray edges,
         double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false)
     {
         NativeMethods.HandleException(
@@ -438,7 +438,7 @@ static partial class Cv2
     /// <param name="threshold2">second threshold for the hysteresis procedure.</param>
     /// <param name="L2gradient">Indicates, whether the more accurate L2 norm should be used to compute the image gradient magnitude (true), or a faster default L1 norm is enough (false). [By default this is false]</param>
     public static void Canny(
-        InputArrayRef dx, InputArrayRef dy, OutputArrayRef edges,
+        InputArray dx, InputArray dy, OutputArray edges,
         double threshold1, double threshold2,
         bool L2gradient = false)
     {
@@ -459,8 +459,8 @@ static partial class Cv2
     /// <param name="ksize">Aperture parameter for the Sobel operator.</param>
     /// <param name="borderType">Pixel extrapolation method. See #BorderTypes. #BORDER_WRAP is not supported.</param>
     public static void CornerMinEigenVal(
-        InputArrayRef src,
-        OutputArrayRef dst,
+        InputArray src,
+        OutputArray dst,
         int blockSize, 
         int ksize = 3,
         BorderTypes borderType = BorderTypes.Default)
@@ -483,8 +483,8 @@ static partial class Cv2
     /// <param name="k">Harris detector free parameter. See the formula above.</param>
     /// <param name="borderType">Pixel extrapolation method. See #BorderTypes. #BORDER_WRAP is not supported.</param>
     public static void CornerHarris(
-        InputArrayRef src, 
-        OutputArrayRef dst, 
+        InputArray src, 
+        OutputArray dst, 
         int blockSize,
         int ksize,
         double k,
@@ -506,7 +506,7 @@ static partial class Cv2
     /// <param name="ksize"></param>
     /// <param name="borderType"></param>
     public static void CornerEigenValsAndVecs(
-        InputArrayRef src, OutputArrayRef dst, int blockSize, int ksize,
+        InputArray src, OutputArray dst, int blockSize, int ksize,
         BorderTypes borderType = BorderTypes.Default)
     {
         NativeMethods.HandleException(
@@ -524,7 +524,7 @@ static partial class Cv2
     /// <param name="ksize"></param>
     /// <param name="borderType"></param>
     public static void PreCornerDetect(
-        InputArrayRef src, OutputArrayRef dst, int ksize, BorderTypes borderType = BorderTypes.Default)
+        InputArray src, OutputArray dst, int ksize, BorderTypes borderType = BorderTypes.Default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_preCornerDetect(src.Proxy, dst.Proxy, ksize, (int) borderType));
@@ -546,7 +546,7 @@ static partial class Cv2
     /// That is, the process of corner position refinement stops either after criteria.maxCount iterations 
     /// or when the corner position moves by less than criteria.epsilon on some iteration.</param>
     /// <returns></returns>
-    public static Point2f[] CornerSubPix(InputArrayRef image, IEnumerable<Point2f> inputCorners,
+    public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
         Size winSize, Size zeroZone, TermCriteria criteria)
     {
         if (inputCorners is null)
@@ -582,9 +582,9 @@ static partial class Cv2
     /// <param name="useHarrisDetector">Parameter indicating whether to use a Harris detector</param>
     /// <param name="k">Free parameter of the Harris detector.</param>
     /// <returns>Output vector of detected corners.</returns>
-    public static Point2f[] GoodFeaturesToTrack(InputArrayRef src, 
+    public static Point2f[] GoodFeaturesToTrack(InputArray src, 
         int maxCorners, double qualityLevel, double minDistance,
-        InputArrayRef mask, int blockSize, bool useHarrisDetector, double k)
+        InputArray mask, int blockSize, bool useHarrisDetector, double k)
     {
         using var vector = new StdVector<Point2f>();
         var maskPtr = mask.Proxy;
@@ -608,7 +608,7 @@ static partial class Cv2
     /// <returns>The output vector of lines. Each line is represented by a two-element vector (rho, theta) . 
     /// rho is the distance from the coordinate origin (0,0) (top-left corner of the image) and theta is the line rotation angle in radians</returns>
     public static LineSegmentPolar[] HoughLines(
-        InputArrayRef image, double rho, double theta, int threshold, 
+        InputArray image, double rho, double theta, int threshold, 
         double srn = 0, double stn = 0)
     {
         using var vec = new StdVector<Vec2f>();
@@ -629,7 +629,7 @@ static partial class Cv2
     /// <param name="maxLineGap">The maximum allowed gap between points on the same line to link them. [By default this is 0]</param>
     /// <returns>The output lines. Each line is represented by a 4-element vector (x1, y1, x2, y2)</returns>
     public static LineSegmentPoint[] HoughLinesP(
-        InputArrayRef image, double rho, double theta, int threshold, 
+        InputArray image, double rho, double theta, int threshold, 
         double minLineLength = 0, double maxLineGap = 0)
     {
         using var vec = new StdVector<Vec4i>();
@@ -654,7 +654,7 @@ static partial class Cv2
     /// <param name="maxTheta">Maximum angle value of the accumulator in radians.</param>
     /// <param name="thetaStep">Angle resolution of the accumulator in radians.</param>
     public static void HoughLinesPointSet(
-        InputArrayRef point, OutputArrayRef lines, int linesMax, int threshold,
+        InputArray point, OutputArray lines, int linesMax, int threshold,
         double minRho, double maxRho, double rhoStep,
         double minTheta, double maxTheta, double thetaStep)
     {
@@ -678,7 +678,7 @@ static partial class Cv2
     /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
     /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
     public static CircleSegment[] HoughCircles(
-        InputArrayRef image, HoughModes method, double dp, double minDist, 
+        InputArray image, HoughModes method, double dp, double minDist, 
         double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
     {
         using var vec = new StdVector<Vec3f>();
@@ -709,7 +709,7 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void Dilate(
-        InputArrayRef src, OutputArrayRef dst, InputArrayRef element,
+        InputArray src, OutputArray dst, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
@@ -735,7 +735,7 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void Erode(
-        InputArrayRef src, OutputArrayRef dst, InputArrayRef element,
+        InputArray src, OutputArray dst, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
@@ -762,7 +762,7 @@ static partial class Cv2
     /// <param name="borderType">The pixel extrapolation method. [By default this is BorderType.Constant]</param>
     /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
     public static void MorphologyEx(
-        InputArrayRef src, OutputArrayRef dst, MorphTypes op, InputArrayRef element,
+        InputArray src, OutputArray dst, MorphTypes op, InputArray element,
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
@@ -792,7 +792,7 @@ static partial class Cv2
     /// <param name="fy">scale factor along the vertical axis; when it equals 0, 
     /// it is computed as: (double)dsize.height/src.rows</param>
     /// <param name="interpolation">interpolation method</param>
-    public static void Resize(InputArrayRef src, OutputArrayRef dst, Size dsize,
+    public static void Resize(InputArray src, OutputArray dst, Size dsize,
         double fx = 0, double fy = 0, InterpolationFlags interpolation = InterpolationFlags.Linear)
     {
         NativeMethods.HandleException(
@@ -817,7 +817,7 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it is 0.</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpAffine(
-        InputArrayRef src, OutputArrayRef dst, InputArrayRef m, Size dsize,
+        InputArray src, OutputArray dst, InputArray m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
         AlgorithmHint hint = AlgorithmHint.Default)
@@ -844,7 +844,7 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
-        InputArrayRef src, OutputArrayRef dst, InputArrayRef m, Size dsize,
+        InputArray src, OutputArray dst, InputArray m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant,
         Scalar? borderValue = null,
@@ -873,7 +873,7 @@ static partial class Cv2
     /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void WarpPerspective(
-        InputArrayRef src, OutputArrayRef dst, float[,] m, Size dsize,
+        InputArray src, OutputArray dst, float[,] m, Size dsize,
         InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant,
         Scalar? borderValue = null,
@@ -908,7 +908,7 @@ static partial class Cv2
     /// <param name="borderValue">Value used in case of a constant border. By default, it is 0.</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
     public static void Remap(
-        InputArrayRef src, OutputArrayRef dst, InputArrayRef map1, InputArrayRef map2,
+        InputArray src, OutputArray dst, InputArray map1, InputArray map2,
         InterpolationFlags interpolation = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null,
         AlgorithmHint hint = AlgorithmHint.Default)
@@ -933,7 +933,7 @@ static partial class Cv2
     /// <param name="dstmap2">The second output map.</param>
     /// <param name="dstmap1Type">Type of the first output map that should be CV_16SC2 , CV_32FC1 , or CV_32FC2 .</param>
     /// <param name="nnInterpolation">Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.</param>
-    public static void ConvertMaps(InputArrayRef map1, InputArrayRef map2, OutputArrayRef dstmap1, OutputArrayRef dstmap2, MatType dstmap1Type, bool nnInterpolation = false)
+    public static void ConvertMaps(InputArray map1, InputArray map2, OutputArray dstmap1, OutputArray dstmap2, MatType dstmap1Type, bool nnInterpolation = false)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_convertMaps(map1.Proxy, map2.Proxy, dstmap1.Proxy, dstmap2.Proxy, dstmap1Type,
@@ -964,7 +964,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="m">Original affine transformation.</param>
     /// <param name="im">Output reverse affine transformation.</param>
-    public static void InvertAffineTransform(InputArrayRef m, OutputArrayRef im)
+    public static void InvertAffineTransform(InputArray m, OutputArray im)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_invertAffineTransform(m.Proxy, im.Proxy));
@@ -1000,7 +1000,7 @@ static partial class Cv2
     /// <param name="src">Coordinates of quadrangle vertices in the source image.</param>
     /// <param name="dst">Coordinates of the corresponding quadrangle vertices in the destination image.</param>
     /// <returns></returns>
-    public static Mat GetPerspectiveTransform(InputArrayRef src, InputArrayRef dst)
+    public static Mat GetPerspectiveTransform(InputArray src, InputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_getPerspectiveTransform2(src.Proxy, dst.Proxy, out var retMat));
@@ -1037,7 +1037,7 @@ static partial class Cv2
     /// <param name="src">Coordinates of triangle vertices in the source image.</param>
     /// <param name="dst">Coordinates of the corresponding triangle vertices in the destination image.</param>
     /// <returns></returns>
-    public static Mat GetAffineTransform(InputArrayRef src, InputArrayRef dst)
+    public static Mat GetAffineTransform(InputArray src, InputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_getAffineTransform2(src.Proxy, dst.Proxy, out var retMat));
@@ -1056,8 +1056,8 @@ static partial class Cv2
     /// within the source image. The center must be inside the image.</param>
     /// <param name="patch">Extracted patch that has the size patchSize and the same number of channels as src .</param>
     /// <param name="patchType">Depth of the extracted pixels. By default, they have the same depth as src.</param>
-    public static void GetRectSubPix(InputArrayRef image, Size patchSize, Point2f center, 
-        OutputArrayRef patch, int patchType = -1)
+    public static void GetRectSubPix(InputArray image, Size patchSize, Point2f center, 
+        OutputArray patch, int patchType = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_getRectSubPix(image.Proxy, patchSize, center, patch.Proxy, patchType));
@@ -1082,7 +1082,7 @@ static partial class Cv2
     /// <param name="interpolationFlags">interpolation methods.</param>
     /// <param name="warpPolarMode">interpolation methods.</param>
     public static void WarpPolar(
-        InputArrayRef src, OutputArrayRef dst, Size dsize,
+        InputArray src, OutputArray dst, Size dsize,
         Point2f center, double maxRadius, InterpolationFlags interpolationFlags, WarpPolarMode warpPolarMode)
     {
         int flags = (int)interpolationFlags | (int)warpPolarMode;
@@ -1100,7 +1100,7 @@ static partial class Cv2
     /// <param name="src"></param>
     /// <param name="sum"></param>
     /// <param name="sdepth"></param>
-    public static void Integral(InputArrayRef src, OutputArrayRef sum, MatType? sdepth = null)
+    public static void Integral(InputArray src, OutputArray sum, MatType? sdepth = null)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_integral1(src.Proxy, sum.Proxy, sdepth?.Value ?? -1));
@@ -1117,7 +1117,7 @@ static partial class Cv2
     /// <param name="sum"></param>
     /// <param name="sqsum"></param>
     /// <param name="sdepth"></param>
-    public static void Integral(InputArrayRef src, OutputArrayRef sum, OutputArrayRef sqsum, MatType? sdepth = null)
+    public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, MatType? sdepth = null)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_integral2(src.Proxy, sum.Proxy, sqsum.Proxy, sdepth?.Value ?? -1));
@@ -1138,7 +1138,7 @@ static partial class Cv2
     /// <param name="sdepth">desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.</param>
     /// <param name="sqdepth">desired depth of the integral image of squared pixel values, CV_32F or CV_64F.</param>
     public static void Integral(
-        InputArrayRef src, OutputArrayRef sum, OutputArrayRef sqsum, OutputArrayRef tilted, 
+        InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, 
         MatType? sdepth = null, MatType? sqdepth = null)
     {
         NativeMethods.HandleException(
@@ -1156,7 +1156,7 @@ static partial class Cv2
     /// <param name="src">Input image as 1- or 3-channel, 8-bit or 32-bit floating point.</param>
     /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
     /// <param name="mask">Optional operation mask.</param>
-    public static void Accumulate(InputArrayRef src, InputOutputArrayRef dst, InputArrayRef mask)
+    public static void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_accumulate(src.Proxy, dst.Proxy, mask.Proxy));
@@ -1172,7 +1172,7 @@ static partial class Cv2
     /// <param name="src">Input image as 1- or 3-channel, 8-bit or 32-bit floating point.</param>
     /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
     /// <param name="mask">Optional operation mask.</param>
-    public static void AccumulateSquare(InputArrayRef src, InputOutputArrayRef dst, InputArrayRef mask)
+    public static void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_accumulateSquare(src.Proxy, dst.Proxy, mask.Proxy));
@@ -1189,7 +1189,7 @@ static partial class Cv2
     /// <param name="src2">Second input image of the same type and the same size as src1</param>
     /// <param name="dst">Accumulator with the same number of channels as input images, 32-bit or 64-bit floating-point.</param>
     /// <param name="mask">Optional operation mask.</param>
-    public static void AccumulateProduct(InputArrayRef src1, InputArrayRef src2, InputOutputArrayRef dst, InputArrayRef mask)
+    public static void AccumulateProduct(InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_accumulateProduct(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
@@ -1207,7 +1207,7 @@ static partial class Cv2
     /// <param name="dst">Accumulator image with the same number of channels as input image, 32-bit or 64-bit floating-point.</param>
     /// <param name="alpha">Weight of the input image.</param>
     /// <param name="mask">Optional operation mask.</param>
-    public static void AccumulateWeighted(InputArrayRef src, InputOutputArrayRef dst, double alpha, InputArrayRef mask)
+    public static void AccumulateWeighted(InputArray src, InputOutputArray dst, double alpha, InputArray mask)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_accumulateWeighted(src.Proxy, dst.Proxy, alpha, mask.Proxy));
@@ -1231,8 +1231,8 @@ static partial class Cv2
     /// <param name="window">Floating point array with windowing coefficients to reduce edge effects (optional).</param>
     /// <param name="response">Signal power within the 5x5 centroid around the peak, between 0 and 1 (optional).</param>
     /// <returns>detected phase shift(sub-pixel) between the two arrays.</returns>
-    public static Point2d PhaseCorrelate(InputArrayRef src1, InputArrayRef src2,
-        InputArrayRef window, out double response)
+    public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
+        InputArray window, out double response)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_phaseCorrelate(src1.Proxy, src2.Proxy, window.Proxy, out response, out var ret));
@@ -1249,7 +1249,7 @@ static partial class Cv2
     /// <param name="dst">Destination array to place Hann coefficients in</param>
     /// <param name="winSize">The window size specifications</param>
     /// <param name="type">Created array type</param>
-    public static void CreateHanningWindow(OutputArrayRef dst, Size winSize, MatType type)
+    public static void CreateHanningWindow(OutputArray dst, Size winSize, MatType type)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_createHanningWindow(dst.Proxy, winSize, type));
@@ -1266,7 +1266,7 @@ static partial class Cv2
     /// <param name="maxval">maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
     /// <param name="type">thresholding type (see the details below).</param>
     /// <returns>the computed threshold value when type == OTSU</returns>
-    public static double Threshold(InputArrayRef src, OutputArrayRef dst, double thresh, double maxval, ThresholdTypes type)
+    public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdTypes type)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_threshold(src.Proxy, dst.Proxy, thresh, maxval, (int)type, out var ret));
@@ -1287,7 +1287,7 @@ static partial class Cv2
     /// <param name="blockSize">Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.</param>
     /// <param name="c">Constant subtracted from the mean or weighted mean (see the details below). 
     /// Normally, it is positive but may be zero or negative as well.</param>
-    public static void AdaptiveThreshold(InputArrayRef src, OutputArrayRef dst,
+    public static void AdaptiveThreshold(InputArray src, OutputArray dst,
         double maxValue, AdaptiveThresholdTypes adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
     {
         NativeMethods.HandleException(
@@ -1304,7 +1304,7 @@ static partial class Cv2
     /// <param name="dst">output image; it has the specified size and the same type as src.</param>
     /// <param name="dstSize">size of the output image; by default, it is computed as Size((src.cols+1)/2</param>
     /// <param name="borderType"></param>
-    public static void PyrDown(InputArrayRef src, OutputArrayRef dst,
+    public static void PyrDown(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
         var dstSize0 = dstSize.GetValueOrDefault(new Size());
@@ -1322,7 +1322,7 @@ static partial class Cv2
     /// <param name="maxlevel"></param>
     /// <param name="borderType"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public static void BuildPyramid(InputArrayRef src, VectorOfMat dst,int maxlevel,
+    public static void BuildPyramid(InputArray src, VectorOfMat dst,int maxlevel,
          BorderTypes borderType = BorderTypes.Default)
     {
         if (dst is null)
@@ -1342,7 +1342,7 @@ static partial class Cv2
     /// <param name="dst">output image. It has the specified size and the same type as src.</param>
     /// <param name="dstSize">size of the output image; by default, it is computed as Size(src.cols*2, (src.rows*2)</param>
     /// <param name="borderType"></param>
-    public static void PyrUp(InputArrayRef src, OutputArrayRef dst,
+    public static void PyrUp(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
         var dstSize0 = dstSize.GetValueOrDefault(new Size());
@@ -1366,8 +1366,8 @@ static partial class Cv2
     /// <param name="uniform"></param>
     /// <param name="accumulate"></param>
     public static void CalcHist(Mat[] images, 
-        int[] channels, InputArrayRef mask,
-        OutputArrayRef hist, int dims, int[] histSize,
+        int[] channels, InputArray mask,
+        OutputArray hist, int dims, int[] histSize,
         Rangef[] ranges, bool uniform = true, bool accumulate = false)
     {
         if (ranges is null)
@@ -1390,8 +1390,8 @@ static partial class Cv2
     /// <param name="uniform"></param>
     /// <param name="accumulate"></param>
     public static void CalcHist(Mat[] images,
-        int[] channels, InputArrayRef mask,
-        OutputArrayRef hist, int dims, int[] histSize,
+        int[] channels, InputArray mask,
+        OutputArray hist, int dims, int[] histSize,
         float[][] ranges, bool uniform = true, bool accumulate = false)
     {
         if (images is null)
@@ -1426,7 +1426,7 @@ static partial class Cv2
     /// <param name="ranges"></param>
     /// <param name="uniform"></param>
     public static void CalcBackProject(Mat[] images,
-        int[] channels, InputArrayRef hist, OutputArrayRef backProject, 
+        int[] channels, InputArray hist, OutputArray backProject, 
         Rangef[] ranges, bool uniform = true)
     {
         if (images is null)
@@ -1456,7 +1456,7 @@ static partial class Cv2
     /// <param name="h2">The second compared histogram of the same size as h1</param>
     /// <param name="method">The comparison method</param>
     /// <returns></returns>
-    public static double CompareHist(InputArrayRef h1, InputArrayRef h2, HistCompMethods method)
+    public static double CompareHist(InputArray h1, InputArray h2, HistCompMethods method)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_compareHist(h1.Proxy, h2.Proxy, (int)method, out var ret));
@@ -1471,7 +1471,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="src">The source 8-bit single channel image</param>
     /// <param name="dst">The destination image; will have the same size and the same type as src</param>
-    public static void EqualizeHist(InputArrayRef src, OutputArrayRef dst)
+    public static void EqualizeHist(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_equalizeHist(src.Proxy, dst.Proxy));
@@ -1511,7 +1511,7 @@ static partial class Cv2
     /// to either signature1 or signature2. The weights must be non-negative and have at least one non-zero value.</param>
     /// <param name="distType">Used metric.</param>
     /// <returns></returns>
-    public static float EMD(InputArrayRef signature1, InputArrayRef signature2, DistanceTypes distType)
+    public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
     {
         return EMD(signature1, signature2, distType, default, out _);
     }
@@ -1538,8 +1538,8 @@ static partial class Cv2
     /// <param name="cost">User-defined size1 x size2 cost matrix. Also, if a cost matrix
     /// is used, lower boundary lowerBound cannot be calculated because it needs a metric function.</param>
     /// <returns></returns>
-    public static float EMD(InputArrayRef signature1, InputArrayRef signature2,
-        DistanceTypes distType, InputArrayRef cost)
+    public static float EMD(InputArray signature1, InputArray signature2,
+        DistanceTypes distType, InputArray cost)
     {
         return EMD(signature1, signature2, distType, cost, out _);
     }
@@ -1576,8 +1576,8 @@ static partial class Cv2
     /// <param name="flow">Resultant size1 x size2 flow matrix: flow[i,j] is  a flow from i-th point of signature1
     /// to j-th point of signature2.</param>
     /// <returns></returns>
-    public static float EMD(InputArrayRef signature1, InputArrayRef signature2,
-        DistanceTypes distType, InputArrayRef cost, out float lowerBound, OutputArrayRef flow = default)
+    public static float EMD(InputArray signature1, InputArray signature2,
+        DistanceTypes distType, InputArray cost, out float lowerBound, OutputArray flow = default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_EMD(
@@ -1597,7 +1597,7 @@ static partial class Cv2
     /// <param name="image">Input 8-bit 3-channel image.</param>
     /// <param name="markers">Input/output 32-bit single-channel image (map) of markers. 
     /// It should have the same size as image.</param>
-    public static void Watershed(InputArrayRef image, InputOutputArrayRef markers)
+    public static void Watershed(InputArray image, InputOutputArray markers)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_watershed(image.Proxy, markers.Proxy));
@@ -1615,7 +1615,7 @@ static partial class Cv2
     /// <param name="sr">The color window radius.</param>
     /// <param name="maxLevel">Maximum level of the pyramid for the segmentation.</param>
     /// <param name="termcrit">Termination criteria: when to stop meanshift iterations.</param>
-    public static void PyrMeanShiftFiltering(InputArrayRef src, OutputArrayRef dst,
+    public static void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
         double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
     {
         var termcrit0 = termcrit.GetValueOrDefault(
@@ -1641,8 +1641,8 @@ static partial class Cv2
     /// <param name="iterCount">Number of iterations the algorithm should make before returning the result. 
     /// Note that the result can be refined with further calls with mode==GC_INIT_WITH_MASK or mode==GC_EVAL .</param>
     /// <param name="mode">Operation mode that could be one of GrabCutFlag value.</param>
-    public static void GrabCut(InputArrayRef img, InputOutputArrayRef mask, Rect rect,
-        InputOutputArrayRef bgdModel, InputOutputArrayRef fgdModel,
+    public static void GrabCut(InputArray img, InputOutputArray mask, Rect rect,
+        InputOutputArray bgdModel, InputOutputArray fgdModel,
         int iterCount, GrabCutModes mode)
     {
         NativeMethods.HandleException(
@@ -1669,9 +1669,9 @@ static partial class Cv2
     /// #DIST_MASK_PRECISE is not supported by this variant. In case of the #DIST_L1 or #DIST_C distance type,
     /// the parameter is forced to 3 because a 3x3 mask gives the same result as 5x5 or any larger aperture.</param>
     /// <param name="labelType">Type of the label array to build</param>
-    public static void DistanceTransformWithLabels(InputArrayRef src,
-        OutputArrayRef dst,
-        OutputArrayRef labels,
+    public static void DistanceTransformWithLabels(InputArray src,
+        OutputArray dst,
+        OutputArray labels,
         DistanceTypes distanceType,
         DistanceTransformMasks maskSize,
         DistanceTransformLabelTypes labelType = DistanceTransformLabelTypes.CComp)
@@ -1697,8 +1697,8 @@ static partial class Cv2
     /// the same result as 5x5 or any larger aperture.</param>
     /// <param name="dstType">Type of output image. It can be MatType.CV_8U or MatType.CV_32F.
     /// Type CV_8U can be used only for  the first variant of the function and distanceType == #DIST_L1.</param>
-    public static void DistanceTransform(InputArrayRef src,
-        OutputArrayRef dst,
+    public static void DistanceTransform(InputArray src,
+        OutputArray dst,
         DistanceTypes distanceType,
         DistanceTransformMasks maskSize,
         int dstType = MatType.CV_32S)
@@ -1719,7 +1719,7 @@ static partial class Cv2
     /// <param name="seedPoint">Starting point.</param>
     /// <param name="newVal">New value of the repainted domain pixels.</param>
     /// <returns></returns>
-    public static int FloodFill(InputOutputArrayRef image, Point seedPoint, Scalar newVal)
+    public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
     {
         return FloodFill(image, seedPoint, newVal, out _);
     }
@@ -1745,7 +1745,7 @@ static partial class Cv2
     /// neighbors of a pixel are considered. Using FloodFillFlags.MaskOnly will
     /// fill in the mask using the grey value 255 (white). </param>
     /// <returns></returns>
-    public static int FloodFill(InputOutputArrayRef image,
+    public static int FloodFill(InputOutputArray image,
         Point seedPoint, Scalar newVal, out Rect rect,
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
@@ -1781,7 +1781,7 @@ static partial class Cv2
     /// <param name="seedPoint">Starting point.</param>
     /// <param name="newVal">New value of the repainted domain pixels.</param>
     /// <returns></returns>
-    public static int FloodFill(InputOutputArrayRef image, InputOutputArrayRef mask,
+    public static int FloodFill(InputOutputArray image, InputOutputArray mask,
         Point seedPoint, Scalar newVal)
     {
         return FloodFill(image, mask, seedPoint, newVal, out _);
@@ -1813,7 +1813,7 @@ static partial class Cv2
     /// neighbors of a pixel are considered. Using FloodFillFlags.MaskOnly will
     /// fill in the mask using the grey value 255 (white). </param>
     /// <returns></returns>
-    public static int FloodFill(InputOutputArrayRef image, InputOutputArrayRef mask,
+    public static int FloodFill(InputOutputArray image, InputOutputArray mask,
         Point seedPoint, Scalar newVal, out Rect rect,
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
@@ -1845,8 +1845,8 @@ static partial class Cv2
     /// <param name="weights1">It has a type of CV_32FC1 and the same size with src1.</param>
     /// <param name="weights2">It has a type of CV_32FC1 and the same size with src1.</param>
     /// <param name="dst">It is created if it does not have the same size and type with src1.</param>
-    public static void BlendLinear(InputArrayRef src1, InputArrayRef src2, InputArrayRef weights1, InputArrayRef weights2,
-        OutputArrayRef dst)
+    public static void BlendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2,
+        OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_blendLinear(src1.Proxy, src2.Proxy, weights1.Proxy, weights2.Proxy, dst.Proxy));
@@ -1865,7 +1865,7 @@ static partial class Cv2
     /// <param name="code">The color space conversion code</param>
     /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
-    public static void CvtColor(InputArrayRef src, OutputArrayRef dst, ColorConversionCodes code, int dstCn = 0,
+    public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0,
         AlgorithmHint hint = AlgorithmHint.Default)
     {
         NativeMethods.HandleException(
@@ -1892,7 +1892,7 @@ static partial class Cv2
     /// - #COLOR_YUV2BGRA_NV21
     /// - #COLOR_YUV2RGBA_NV21</param>
     /// <param name="hint">Hint that selects between alternative algorithm implementations (OpenCV 5).</param>
-    public static void CvtColorTwoPlane(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, ColorConversionCodes code,
+    public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code,
         AlgorithmHint hint = AlgorithmHint.Default)
     {
         NativeMethods.HandleException(
@@ -1931,7 +1931,7 @@ static partial class Cv2
     ///
     ///     # COLOR_BayerBG2BGRA , #COLOR_BayerGB2BGRA , #COLOR_BayerRG2BGRA , #COLOR_BayerGR2BGRA
     /// </remarks>
-    public static void Demosaicing(InputArrayRef src, OutputArrayRef dst, ColorConversionCodes code, int dstCn = 0)
+    public static void Demosaicing(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_demosaicing(src.Proxy, dst.Proxy, (int)code, dstCn));
@@ -1948,7 +1948,7 @@ static partial class Cv2
     /// 2D array) or an array ( 1xN or Nx1 ) of 2D points ( Point or Point2f )</param>
     /// <param name="binaryImage">If it is true, then all the non-zero image pixels are treated as 1’s</param>
     /// <returns></returns>
-    public static Moments Moments(InputArrayRef array, bool binaryImage = false)
+    public static Moments Moments(InputArray array, bool binaryImage = false)
     {
         return new (array, binaryImage);
     }
@@ -2011,11 +2011,11 @@ static partial class Cv2
     /// <param name="method">Specifies the comparison method</param>
     /// <param name="mask">Mask of searched template. It must have the same datatype and size with templ. It is not set by default.</param>
     public static void MatchTemplate(
-        InputArrayRef image, 
-        InputArrayRef templ,
-        OutputArrayRef result,
+        InputArray image, 
+        InputArray templ,
+        OutputArray result,
         TemplateMatchModes method, 
-        InputArrayRef mask = default)
+        InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_matchTemplate(image.Proxy, templ.Proxy, result.Proxy, (int) method, mask.Proxy));
@@ -2045,7 +2045,7 @@ static partial class Cv2
     /// <param name="ccltype">connected components algorithm type.</param>
     /// <returns></returns>
     public static int ConnectedComponentsWithAlgorithm(
-        InputArrayRef image, OutputArrayRef labels, PixelConnectivity connectivity, MatType ltype, ConnectedComponentsAlgorithmsTypes ccltype)
+        InputArray image, OutputArray labels, PixelConnectivity connectivity, MatType ltype, ConnectedComponentsAlgorithmsTypes ccltype)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_connectedComponentsWithAlgorithm(
@@ -2067,7 +2067,7 @@ static partial class Cv2
     /// <param name="labels">destination labeled image</param>
     /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
     /// <returns>The number of labels</returns>
-    public static int ConnectedComponents(InputArrayRef image, OutputArrayRef labels,
+    public static int ConnectedComponents(InputArray image, OutputArray labels,
         PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
     {
         return ConnectedComponents(image, labels, connectivity, MatType.CV_32S);
@@ -2085,7 +2085,7 @@ static partial class Cv2
     /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
     /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
     /// <returns>The number of labels</returns>
-    public static int ConnectedComponents(InputArrayRef image, OutputArrayRef labels,
+    public static int ConnectedComponents(InputArray image, OutputArray labels,
         PixelConnectivity connectivity, MatType ltype)
     {
 
@@ -2109,7 +2109,7 @@ static partial class Cv2
     /// <param name="labels">destination labeled rectangular array</param>
     /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
     /// <returns>The number of labels</returns>
-    public static int ConnectedComponents(InputArrayRef image, out int[,] labels, PixelConnectivity connectivity)
+    public static int ConnectedComponents(InputArray image, out int[,] labels, PixelConnectivity connectivity)
     {
         using var labelsMat = new Mat<int>();
         var result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
@@ -2140,10 +2140,10 @@ static partial class Cv2
     /// <param name="ccltype">connected components algorithm type.</param>
     /// <returns></returns>
     public static int ConnectedComponentsWithStatsWithAlgorithm(
-        InputArrayRef image,
-        OutputArrayRef labels,
-        OutputArrayRef stats, 
-        OutputArrayRef centroids,
+        InputArray image,
+        OutputArray labels,
+        OutputArray stats, 
+        OutputArray centroids,
         PixelConnectivity connectivity,
         MatType ltype, 
         ConnectedComponentsAlgorithmsTypes ccltype)
@@ -2176,8 +2176,8 @@ static partial class Cv2
     /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
     /// <returns></returns>
     public static int ConnectedComponentsWithStats(
-        InputArrayRef image, OutputArrayRef labels,
-        OutputArrayRef stats, OutputArrayRef centroids,
+        InputArray image, OutputArray labels,
+        OutputArray stats, OutputArray centroids,
         PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
     {
         return ConnectedComponentsWithStats(image, labels, stats, centroids, connectivity, MatType.CV_32S);
@@ -2201,8 +2201,8 @@ static partial class Cv2
     /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
     /// <returns></returns>
     public static int ConnectedComponentsWithStats(
-        InputArrayRef image, OutputArrayRef labels,
-        OutputArrayRef stats, OutputArrayRef centroids,
+        InputArray image, OutputArray labels,
+        OutputArray stats, OutputArray centroids,
         PixelConnectivity connectivity,
         MatType ltype)
     {
@@ -2229,7 +2229,7 @@ static partial class Cv2
     /// <param name="ccltype"></param>
     /// <returns></returns>
     public static ConnectedComponents ConnectedComponentsEx(
-        InputArrayRef image, 
+        InputArray image, 
         PixelConnectivity connectivity = PixelConnectivity.Connectivity8, 
         ConnectedComponentsAlgorithmsTypes ccltype = ConnectedComponentsAlgorithmsTypes.Default)
     {
@@ -2275,7 +2275,7 @@ static partial class Cv2
     /// <param name="method">Contour approximation method</param>
     /// <param name="offset"> Optional offset by which every contour point is shifted. 
     /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
-    public static void FindContours(InputArrayRef image, out Point[][] contours,
+    public static void FindContours(InputArray image, out Point[][] contours,
         out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -2308,8 +2308,8 @@ static partial class Cv2
     /// <param name="method">Contour approximation method</param>
     /// <param name="offset"> Optional offset by which every contour point is shifted. 
     /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
-    public static void FindContours(InputArrayRef image, out Mat[] contours,
-        OutputArrayRef hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
+    public static void FindContours(InputArray image, out Mat[] contours,
+        OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
         var offset0 = offset.GetValueOrDefault(new Point());
         using var contoursVec = new VectorOfMat();
@@ -2333,7 +2333,7 @@ static partial class Cv2
     /// <param name="offset"> Optional offset by which every contour point is shifted. 
     /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
     /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
-    public static Point[][] FindContoursAsArray(InputArrayRef image,
+    public static Point[][] FindContoursAsArray(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -2347,14 +2347,14 @@ static partial class Cv2
 
     /// <summary>
     /// Finds contours in a binary image using the link-runs algorithm (OpenCV 5). This is an
-    /// alternative to <see cref="FindContours(InputArrayRef, out Point[][], out HierarchyIndex[], RetrievalModes, ContourApproximationModes, Point?)"/>
+    /// alternative to <see cref="FindContours(InputArray, out Point[][], out HierarchyIndex[], RetrievalModes, ContourApproximationModes, Point?)"/>
     /// with reduced memory consumption; it always uses the equivalent of RETR_CCOMP retrieval.
     /// </summary>
     /// <param name="image">Source, an 8-bit single-channel binary image.</param>
     /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
     /// <param name="hierarchy">Output vector containing information about the image topology
     /// (next/previous/first-child/parent indices for each contour).</param>
-    public static void FindContoursLinkRuns(InputArrayRef image, out Point[][] contours, out HierarchyIndex[] hierarchy)
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours, out HierarchyIndex[] hierarchy)
     {
         using var contoursVec = new VectorOfVectorPoint();
         using var hierarchyVec = new StdVector<Vec4i>();
@@ -2371,7 +2371,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="image">Source, an 8-bit single-channel binary image.</param>
     /// <param name="contours">Detected contours. Each contour is stored as a vector of points.</param>
-    public static void FindContoursLinkRuns(InputArrayRef image, out Point[][] contours)
+    public static void FindContoursLinkRuns(InputArray image, out Point[][] contours)
     {
         using var contoursVec = new VectorOfVectorPoint();
         NativeMethods.HandleException(
@@ -2392,7 +2392,7 @@ static partial class Cv2
     /// <param name="offset"> Optional offset by which every contour point is shifted. 
     /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
     /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
-    public static Mat<Point>[] FindContoursAsMat(InputArrayRef image,
+    public static Mat<Point>[] FindContoursAsMat(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -2415,7 +2415,7 @@ static partial class Cv2
     /// This is the maximum distance between the original curve and its approximation.</param>
     /// <param name="closed">The result of the approximation; 
     /// The type should match the type of the input curve</param>
-    public static void ApproxPolyDP(InputArrayRef curve, OutputArrayRef approxCurve, double epsilon, bool closed)
+    public static void ApproxPolyDP(InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_approxPolyDP_InputArray(curve.Proxy, approxCurve.Proxy, epsilon, closed ? 1 : 0));
@@ -2476,7 +2476,7 @@ static partial class Cv2
     /// <param name="curve">The input vector of 2D points, represented by CV_32SC2 or CV_32FC2 matrix.</param>
     /// <param name="closed">Indicates, whether the curve is closed or not.</param>
     /// <returns></returns>
-    public static double ArcLength(InputArrayRef curve, bool closed)
+    public static double ArcLength(InputArray curve, bool closed)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_arcLength_InputArray(curve.Proxy, closed ? 1 : 0, out var ret));
@@ -2523,7 +2523,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="curve">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
-    public static Rect BoundingRect(InputArrayRef curve)
+    public static Rect BoundingRect(InputArray curve)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_boundingRect_InputArray(curve.Proxy, out var ret));
@@ -2569,7 +2569,7 @@ static partial class Cv2
     /// <param name="contour">The contour vertices, represented by CV_32SC2 or CV_32FC2 matrix</param>
     /// <param name="oriented"></param>
     /// <returns></returns>
-    public static double ContourArea(InputArrayRef contour, bool oriented = false)
+    public static double ContourArea(InputArray contour, bool oriented = false)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_contourArea_InputArray(contour.Proxy, oriented ? 1 : 0, out var ret));
@@ -2616,7 +2616,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
     /// <returns></returns>
-    public static RotatedRect MinAreaRect(InputArrayRef points)
+    public static RotatedRect MinAreaRect(InputArray points)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_minAreaRect_InputArray(points.Proxy, out var ret));
@@ -2666,7 +2666,7 @@ static partial class Cv2
     /// <param name="box">The input rotated rectangle. It may be the output of</param>
     /// <param name="points">The output array of four vertices of rectangles.</param>
     /// <returns></returns>
-    public static void BoxPoints(RotatedRect box, OutputArrayRef points)
+    public static void BoxPoints(RotatedRect box, OutputArray points)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_boxPoints_OutputArray(box, points.Proxy));
@@ -2695,7 +2695,7 @@ static partial class Cv2
     /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix.</param>
     /// <param name="center">The output center of the circle</param>
     /// <param name="radius">The output radius of the circle</param>
-    public static void MinEnclosingCircle(InputArrayRef points, out Point2f center, out float radius)
+    public static void MinEnclosingCircle(InputArray points, out Point2f center, out float radius)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingCircle_InputArray(points.Proxy, out center, out radius));
@@ -2738,7 +2738,7 @@ static partial class Cv2
     /// <param name="points">Input vector of 2D points with depth CV_32S or CV_32F, stored in std::vector or Mat</param>
     /// <param name="triangle">Output vector of three 2D points defining the vertices of the triangle. The depth</param>
     /// <returns>Triangle area</returns>
-    public static double MinEnclosingTriangle(InputArrayRef points, OutputArrayRef triangle)
+    public static double MinEnclosingTriangle(InputArray points, OutputArray triangle)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_minEnclosingTriangle_InputOutputArray(points.Proxy, triangle.Proxy, out var ret));
@@ -2799,7 +2799,7 @@ static partial class Cv2
     /// <param name="method">Comparison method</param>
     /// <param name="parameter">Method-specific parameter (not supported now)</param>
     /// <returns></returns>
-    public static double MatchShapes(InputArrayRef contour1, InputArrayRef contour2, ShapeMatchModes method, double parameter = 0)
+    public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_matchShapes_InputArray(contour1.Proxy, contour2.Proxy, (int)method, parameter, out var ret));
@@ -2848,7 +2848,7 @@ static partial class Cv2
     /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
     /// and y axis is oriented downwards.</param>
     /// <param name="returnPoints"></param>
-    public static void ConvexHull(InputArrayRef points, OutputArrayRef hull, bool clockwise = false, bool returnPoints = true)
+    public static void ConvexHull(InputArray points, OutputArray hull, bool clockwise = false, bool returnPoints = true)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexHull_InputArray(points.Proxy, hull.Proxy, clockwise ? 1 : 0, returnPoints ? 1 : 0));
@@ -2965,7 +2965,7 @@ static partial class Cv2
     /// (with 8 fractional bits) of the distance between the farthest contour point and the hull. 
     /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0.
     /// </param>
-    public static void ConvexityDefects(InputArrayRef contour, InputArrayRef convexHull, OutputArrayRef convexityDefects)
+    public static void ConvexityDefects(InputArray contour, InputArray convexHull, OutputArray convexityDefects)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_convexityDefects_InputArray(contour.Proxy, convexHull.Proxy, convexityDefects.Proxy));
@@ -3042,7 +3042,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="contour">Input vector of 2D points</param>
     /// <returns></returns>
-    public static bool IsContourConvex(InputArrayRef contour)
+    public static bool IsContourConvex(InputArray contour)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_isContourConvex_InputArray(contour.Proxy, out var ret));
@@ -3093,7 +3093,7 @@ static partial class Cv2
     /// <param name="p12"></param>
     /// <param name="handleNested"></param>
     /// <returns></returns>
-    public static float IntersectConvexConvex(InputArrayRef p1, InputArrayRef p2, OutputArrayRef p12, bool handleNested = true)
+    public static float IntersectConvexConvex(InputArray p1, InputArray p2, OutputArray p12, bool handleNested = true)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_intersectConvexConvex_InputArray(
@@ -3167,7 +3167,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="points">Input 2D point set</param>
     /// <returns></returns>
-    public static RotatedRect FitEllipse(InputArrayRef points)
+    public static RotatedRect FitEllipse(InputArray points)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_fitEllipse_InputArray(points.Proxy, out var ret));
@@ -3217,7 +3217,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="points">Input 2D point set</param>
     /// <returns></returns>
-    public static RotatedRect FitEllipseAMS(InputArrayRef points)
+    public static RotatedRect FitEllipseAMS(InputArray points)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_fitEllipseAMS_InputArray(points.Proxy, out var ret));
@@ -3275,7 +3275,7 @@ static partial class Cv2
     /// </summary>
     /// <param name="points">Input 2D point set</param>
     /// <returns></returns>
-    public static RotatedRect FitEllipseDirect(InputArrayRef points)
+    public static RotatedRect FitEllipseDirect(InputArray points)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_fitEllipseDirect_InputArray(points.Proxy, out var ret));
@@ -3342,7 +3342,7 @@ static partial class Cv2
     /// (distance between the coordinate origin and the line).</param>
     /// <param name="aeps">Sufficient accuracy for the angle. 
     /// 0.01 would be a good default value for reps and aeps.</param>
-    public static void FitLine(InputArrayRef points, OutputArrayRef line, DistanceTypes distType,
+    public static void FitLine(InputArray points, OutputArray line, DistanceTypes distType,
         double param, double reps, double aeps)
     {
         NativeMethods.HandleException(
@@ -3460,7 +3460,7 @@ static partial class Cv2
     /// <param name="pt"></param>
     /// <param name="measureDist"></param>
     /// <returns></returns>
-    public static double PointPolygonTest(InputArrayRef contour, Point2f pt, bool measureDist)
+    public static double PointPolygonTest(InputArray contour, Point2f pt, bool measureDist)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_pointPolygonTest_InputArray(
@@ -3523,7 +3523,7 @@ static partial class Cv2
     /// Stored as std::vector&lt;cv::Point2f&gt; or cv::Mat as Mx1 of type CV_32FC2.</param>
     /// <returns></returns>
     public static RectanglesIntersectTypes RotatedRectangleIntersection(
-        RotatedRect rect1, RotatedRect rect2, OutputArrayRef intersectingRegion)
+        RotatedRect rect1, RotatedRect rect2, OutputArray intersectingRegion)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
@@ -3565,7 +3565,7 @@ static partial class Cv2
     /// <param name="src">The source image, grayscale or colored of type CV_8UC1 or CV_8UC3.</param>
     /// <param name="dst">The result is the colormapped source image. Note: Mat::create is called on dst.</param>
     /// <param name="colormap">colormap The colormap to apply</param>
-    public static void ApplyColorMap(InputArrayRef src, OutputArrayRef dst, ColormapTypes colormap)
+    public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_applyColorMap1(src.Proxy, dst.Proxy, (int) colormap));
@@ -3580,7 +3580,7 @@ static partial class Cv2
     /// <param name="src">The source image, grayscale or colored of type CV_8UC1 or CV_8UC3.</param>
     /// <param name="dst">The result is the colormapped source image. Note: Mat::create is called on dst.</param>
     /// <param name="userColor">The colormap to apply of type CV_8UC1 or CV_8UC3 and size 256</param>
-    public static void ApplyColorMap(InputArrayRef src, OutputArrayRef dst, InputArrayRef userColor)
+    public static void ApplyColorMap(InputArray src, OutputArray dst, InputArray userColor)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_applyColorMap2(src.Proxy, dst.Proxy, userColor.Proxy));
@@ -3603,7 +3603,7 @@ static partial class Cv2
     /// <param name="thickness">Line thickness. [By default this is 1]</param>
     /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-    public static void Line(InputOutputArrayRef img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
+    public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         Line(img, new Point(pt1X, pt1Y), new Point(pt2X, pt2Y), color, thickness, lineType, shift);
@@ -3620,7 +3620,7 @@ static partial class Cv2
     /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
     public static void Line(
-        InputOutputArrayRef img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+        InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -3643,7 +3643,7 @@ static partial class Cv2
     /// <param name="shift">Number of fractional bits in the point coordinates.</param>
     /// <param name="tipLength">The length of the arrow tip in relation to the arrow length</param>
     public static void ArrowedLine(
-        InputOutputArrayRef img, 
+        InputOutputArray img, 
         Point pt1, Point pt2, 
         Scalar color,
         int thickness = 1, 
@@ -3669,7 +3669,7 @@ static partial class Cv2
     /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
     public static void Rectangle(
-        InputOutputArrayRef img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
+        InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -3690,7 +3690,7 @@ static partial class Cv2
     /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
     public static void Rectangle(
-        InputOutputArrayRef img, Rect rect, Scalar color, int thickness = 1,
+        InputOutputArray img, Rect rect, Scalar color, int thickness = 1,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -3754,7 +3754,7 @@ static partial class Cv2
     /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
     /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-    public static void Circle(InputOutputArrayRef img, int centerX, int centerY, int radius, Scalar color,
+    public static void Circle(InputOutputArray img, int centerX, int centerY, int radius, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         Circle(img, new Point(centerX, centerY), radius, color, thickness, lineType, shift);
@@ -3770,7 +3770,7 @@ static partial class Cv2
     /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
     /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-    public static void Circle(InputOutputArrayRef img, Point center, int radius, Scalar color,
+    public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -3792,7 +3792,7 @@ static partial class Cv2
     /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
     /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
     public static void Ellipse(
-        InputOutputArrayRef img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
+        InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -3810,7 +3810,7 @@ static partial class Cv2
     /// <param name="color">Ellipse color. </param>
     /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
     /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
-    public static void Ellipse(InputOutputArrayRef img, RotatedRect box, Scalar color,
+    public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
         NativeMethods.HandleException(
@@ -3832,7 +3832,7 @@ static partial class Cv2
     /// <param name="thickness">Line thickness.</param>
     /// <param name="lineType">Type of the line.</param>
     public static void DrawMarker(
-        InputOutputArrayRef img, Point position, Scalar color,
+        InputOutputArray img, Point position, Scalar color,
         MarkerTypes markerType = MarkerTypes.Cross, int markerSize = 20, int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
         NativeMethods.HandleException(
@@ -3872,7 +3872,7 @@ static partial class Cv2
     /// <param name="color">Polygon color</param>
     /// <param name="lineType">Type of the polygon boundaries</param>
     /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
-    public static void FillConvexPoly(InputOutputArrayRef img, InputArrayRef pts, Scalar color,
+    public static void FillConvexPoly(InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
 
@@ -3932,7 +3932,7 @@ static partial class Cv2
     /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
     /// <param name="offset"></param>
     public static void FillPoly(
-        InputOutputArrayRef img, InputArrayRef pts, Scalar color,
+        InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
     {
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -3997,7 +3997,7 @@ static partial class Cv2
     /// <param name="lineType"></param>
     /// <param name="shift"></param>
     public static void Polylines(
-        InputOutputArrayRef img, InputArrayRef pts, bool isClosed, Scalar color,
+        InputOutputArray img, InputArray pts, bool isClosed, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
         NativeMethods.HandleException(
@@ -4024,7 +4024,7 @@ static partial class Cv2
     /// when there is hierarchy available.</param>
     /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
     public static void DrawContours(
-        InputOutputArrayRef image,
+        InputOutputArray image,
         IEnumerable<IEnumerable<Point>> contours,
         int contourIdx,
         Scalar color,
@@ -4078,13 +4078,13 @@ static partial class Cv2
     /// when there is hierarchy available.</param>
     /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
     public static void DrawContours(
-        InputOutputArrayRef image,
+        InputOutputArray image,
         IEnumerable<Mat> contours,
         int contourIdx,
         Scalar color,
         int thickness = 1,
         LineTypes lineType = LineTypes.Link8,
-        InputArrayRef hierarchy = default,
+        InputArray hierarchy = default,
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
@@ -4186,7 +4186,7 @@ static partial class Cv2
     /// <param name="lineType">Line type. See #LineTypes</param>
     /// <param name="bottomLeftOrigin">When true, the image data origin is at the bottom-left corner.
     /// Otherwise, it is at the top-left corner.</param>
-    public static void PutText(InputOutputArrayRef img, string text, Point org,
+    public static void PutText(InputOutputArray img, string text, Point org,
         HersheyFonts fontFace, double fontScale, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
     {
@@ -4249,7 +4249,7 @@ static partial class Cv2
     /// <param name="wrap">Optional text wrapping range. Null uses the default behavior.</param>
     /// <returns>The coordinates in pixels from where the text can be continued.</returns>
     public static Point PutText(
-        InputOutputArrayRef img, string text, Point org, Scalar color, FontFace fontFace, int size,
+        InputOutputArray img, string text, Point org, Scalar color, FontFace fontFace, int size,
         int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
     {
         if (text is null)
@@ -4317,8 +4317,8 @@ static partial class Cv2
     /// <remarks>This function draws the axes of the world/object coordinate system w.r.t. to the camera frame.
     /// OX is drawn in red, OY in green and OZ in blue.</remarks>
     public static void DrawFrameAxes(
-        InputOutputArrayRef image, InputArrayRef cameraMatrix, InputArrayRef distCoeffs,
-        InputArrayRef rvec, InputArrayRef tvec, float length, int thickness = 3)
+        InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray rvec, InputArray tvec, float length, int thickness = 3)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_drawFrameAxes(
@@ -4342,10 +4342,10 @@ static partial class Cv2
     /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
     /// By default, it is the same as cameraMatrix but you may additionally scale 
     /// and shift the result by using a different matrix.</param>
-    public static void Undistort(InputArrayRef src, OutputArrayRef dst,
-        InputArrayRef cameraMatrix,
-        InputArrayRef distCoeffs,
-        InputArrayRef newCameraMatrix = default)
+    public static void Undistort(InputArray src, OutputArray dst,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
+        InputArray newCameraMatrix = default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_undistort(src.Proxy, dst.Proxy, cameraMatrix.Proxy,
@@ -4370,9 +4370,9 @@ static partial class Cv2
     /// <param name="map1"></param>
     /// <param name="map2"></param>
     public static void InitUndistortRectifyMap(
-        InputArrayRef cameraMatrix, InputArrayRef distCoeffs,
-        InputArrayRef r, InputArrayRef newCameraMatrix,
-        Size size, MatType m1Type, OutputArrayRef map1, OutputArrayRef map2)
+        InputArray cameraMatrix, InputArray distCoeffs,
+        InputArray r, InputArray newCameraMatrix,
+        Size size, MatType m1Type, OutputArray map1, OutputArray map2)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_initUndistortRectifyMap(
@@ -4400,9 +4400,9 @@ static partial class Cv2
     /// <param name="alpha"></param>
     /// <returns></returns>
     public static float InitWideAngleProjMap(
-        InputArrayRef cameraMatrix, InputArrayRef distCoeffs,
+        InputArray cameraMatrix, InputArray distCoeffs,
         Size imageSize, int destImageWidth, MatType m1Type,
-        OutputArrayRef map1, OutputArrayRef map2,
+        OutputArray map1, OutputArray map2,
         ProjectionType projType, double alpha = 0)
     {
         NativeMethods.HandleException(

@@ -34,7 +34,7 @@ public class SuperpixelSLIC : Algorithm
     /// <param name="ruler">Chooses the enforcement of superpixel smoothness factor of superpixel</param>
     /// <returns></returns>
     public static SuperpixelSLIC Create(
-        InputArrayRef image,
+        InputArray image,
         SLICType algorithm = SLICType.SLICO,
         int regionSize = 10, 
         float ruler = 10.0f)
@@ -91,7 +91,7 @@ public class SuperpixelSLIC : Algorithm
     /// the range[0, getNumberOfSuperpixels()].
     /// </summary>
     /// <param name="labelsOut"></param>
-    public virtual void GetLabels(OutputArrayRef labelsOut)
+    public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
 
@@ -106,7 +106,7 @@ public class SuperpixelSLIC : Algorithm
     /// </summary>
     /// <param name="image">Return: CV_8U1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</param>
     /// <param name="thickLine">If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</param>
-    public virtual void GetLabelContourMask(OutputArrayRef image, bool thickLine = true)
+    public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
 

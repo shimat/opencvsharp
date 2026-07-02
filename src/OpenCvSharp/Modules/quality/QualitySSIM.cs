@@ -21,7 +21,7 @@ public class QualitySSIM : QualityBase
     /// </summary>
     /// <param name="ref">input image to use as the source for comparison</param>
     /// <returns></returns>
-    public static QualitySSIM Create(InputArrayRef @ref)
+    public static QualitySSIM Create(InputArray @ref)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_createQualitySSIM(@ref.Proxy, out var smartPtr));
@@ -37,7 +37,7 @@ public class QualitySSIM : QualityBase
     /// <param name="cmp"></param>
     /// <param name="qualityMap">output quality map, or default to skip it</param>
     /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
-    public static Scalar Compute(InputArrayRef @ref, InputArrayRef cmp, OutputArrayRef qualityMap = default)
+    public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap = default)
     {
         NativeMethods.HandleException(
             NativeMethods.quality_QualitySSIM_staticCompute(

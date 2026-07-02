@@ -84,9 +84,9 @@ static partial class Cv2
     /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
     /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
     public static bool FindChessboardCorners(
-        InputArrayRef image,
+        InputArray image,
         Size patternSize,
-        OutputArrayRef corners,
+        OutputArray corners,
         ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
     {
         NativeMethods.HandleException(
@@ -106,7 +106,7 @@ static partial class Cv2
     /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
     /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
     public static bool FindChessboardCorners(
-        InputArrayRef image,
+        InputArray image,
         Size patternSize,
         out Point2f[] corners,
         ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
@@ -130,9 +130,9 @@ static partial class Cv2
     /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background.</param>
     /// <returns></returns>
     public static bool FindCirclesGrid(
-        InputArrayRef image,
+        InputArray image,
         Size patternSize,
-        OutputArrayRef centers,
+        OutputArray centers,
         FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
         FeatureDetector? blobDetector = null)
     {
@@ -155,7 +155,7 @@ static partial class Cv2
     /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background.</param>
     /// <returns></returns>
     public static bool FindCirclesGrid(
-        InputArrayRef image,
+        InputArray image,
         Size patternSize,
         out Point2f[] centers,
         FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
@@ -199,8 +199,8 @@ static partial class Cv2
         IEnumerable<Mat> objectPoints,
         IEnumerable<Mat> imagePoints,
         Size imageSize,
-        InputOutputArrayRef cameraMatrix,
-        InputOutputArrayRef distCoeffs,
+        InputOutputArray cameraMatrix,
+        InputOutputArray distCoeffs,
         out Mat[] rvecs,
         out Mat[] tvecs,
         CalibrationFlags flags = CalibrationFlags.None,
@@ -330,10 +330,10 @@ static partial class Cv2
     public static double RegisterCameras(
         IEnumerable<Mat> objectPoints1, IEnumerable<Mat> objectPoints2,
         IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
-        InputArrayRef cameraMatrix1, InputArrayRef distCoeffs1, CameraModel cameraModel1,
-        InputArrayRef cameraMatrix2, InputArrayRef distCoeffs2, CameraModel cameraModel2,
-        InputOutputArrayRef r, InputOutputArrayRef t, OutputArrayRef e, OutputArrayRef f,
-        OutputArrayRef perViewErrors, int flags = 0, TermCriteria? criteria = null)
+        InputArray cameraMatrix1, InputArray distCoeffs1, CameraModel cameraModel1,
+        InputArray cameraMatrix2, InputArray distCoeffs2, CameraModel cameraModel2,
+        InputOutputArray r, InputOutputArray t, OutputArray e, OutputArray f,
+        OutputArray perViewErrors, int flags = 0, TermCriteria? criteria = null)
     {
         if (objectPoints1 is null)
             throw new ArgumentNullException(nameof(objectPoints1));
@@ -397,10 +397,10 @@ static partial class Cv2
         IEnumerable<Mat> objPoints,
         IReadOnlyList<IReadOnlyList<Mat>> imagePoints,
         IEnumerable<Size> imageSize,
-        InputArrayRef detectionMask,
-        InputArrayRef models,
+        InputArray detectionMask,
+        InputArray models,
         out Mat[] ks, out Mat[] distortions, out Mat[] rs, out Mat[] ts,
-        InputArrayRef flagsForIntrinsics = default,
+        InputArray flagsForIntrinsics = default,
         int flags = 0,
         TermCriteria? criteria = null)
     {
@@ -478,10 +478,10 @@ static partial class Cv2
         IReadOnlyList<Mat> objectPoints,
         IReadOnlyList<Mat> imagePoints1,
         IReadOnlyList<Mat> imagePoints2,
-        InputOutputArrayRef cameraMatrix1, InputOutputArrayRef distCoeffs1,
-        InputOutputArrayRef cameraMatrix2, InputOutputArrayRef distCoeffs2,
-        Size imageSize, OutputArrayRef R,
-        OutputArrayRef T, OutputArrayRef E, OutputArrayRef F,
+        InputOutputArray cameraMatrix1, InputOutputArray distCoeffs1,
+        InputOutputArray cameraMatrix2, InputOutputArray distCoeffs2,
+        Size imageSize, OutputArray R,
+        OutputArray T, OutputArray E, OutputArray F,
         CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
         TermCriteria? criteria = null)
     {
@@ -548,8 +548,8 @@ static partial class Cv2
         IEnumerable<IEnumerable<Point2f>> imagePoints2,
         double[,] cameraMatrix1, double[] distCoeffs1,
         double[,] cameraMatrix2, double[] distCoeffs2,
-        Size imageSize, OutputArrayRef R,
-        OutputArrayRef T, OutputArrayRef E, OutputArrayRef F,
+        Size imageSize, OutputArray R,
+        OutputArray T, OutputArray E, OutputArray F,
         CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
         TermCriteria? criteria = null)
     {
@@ -637,8 +637,8 @@ static partial class Cv2
         IEnumerable<Mat> t_gripper2base,
         IEnumerable<Mat> R_target2cam,
         IEnumerable<Mat> t_target2cam,
-        OutputArrayRef R_cam2gripper,
-        OutputArrayRef t_cam2gripper,
+        OutputArray R_cam2gripper,
+        OutputArray t_cam2gripper,
         HandEyeCalibrationMethod method = HandEyeCalibrationMethod.TSAI)
     {
         if (R_gripper2base is null)
@@ -719,10 +719,10 @@ static partial class Cv2
         IEnumerable<Mat> t_world2cam,
         IEnumerable<Mat> R_base2gripper,
         IEnumerable<Mat> t_base2gripper,
-        OutputArrayRef R_base2world, 
-        OutputArrayRef t_base2world,
-        OutputArrayRef R_gripper2cam,
-        OutputArrayRef t_gripper2cam,
+        OutputArray R_base2world, 
+        OutputArray t_base2world,
+        OutputArray R_gripper2cam,
+        OutputArray t_gripper2cam,
         RobotWorldHandEyeCalibrationMethod method = RobotWorldHandEyeCalibrationMethod.SHAH)
     {
         if (R_world2cam is null)

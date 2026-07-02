@@ -1146,7 +1146,7 @@ public class VideoCapture : CvObject
     /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
     /// <param name="flag">it could be a frame index or a driver specific flag</param>
     /// <returns></returns>
-    public bool Retrieve(OutputArrayRef image, int flag = 0)
+    public bool Retrieve(OutputArray image, int flag = 0)
     {
         ThrowIfDisposed();
 
@@ -1166,7 +1166,7 @@ public class VideoCapture : CvObject
     /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
     /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
     /// <returns></returns>
-    public bool Retrieve(OutputArrayRef image, CameraChannels streamIdx)
+    public bool Retrieve(OutputArray image, CameraChannels streamIdx)
     {
         ThrowIfDisposed();
 
@@ -1251,7 +1251,7 @@ public class VideoCapture : CvObject
     /// frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
     /// </summary>
     /// <returns>`false` if no frames has been grabbed</returns>
-    public bool Read(OutputArrayRef image)
+    public bool Read(OutputArray image)
     {
         ThrowIfDisposed();
 

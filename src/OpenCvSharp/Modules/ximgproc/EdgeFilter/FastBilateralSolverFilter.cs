@@ -29,7 +29,7 @@ public class FastBilateralSolverFilter : Algorithm
     /// <param name="maxTol">convergence tolerance used for solver.</param>
     /// <returns></returns>
     public static FastBilateralSolverFilter Create(
-        InputArrayRef guide, double sigmaSpatial, double sigmaLuma, double sigmaChroma, 
+        InputArray guide, double sigmaSpatial, double sigmaLuma, double sigmaChroma, 
         double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
     {
         NativeMethods.HandleException(
@@ -47,7 +47,7 @@ public class FastBilateralSolverFilter : Algorithm
     /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point 32-bit depth and up to 3 channels.</param>
     /// <param name="confidence">confidence image with unsigned 8-bit or floating-point 32-bit confidence and 1 channel.</param>
     /// <param name="dst">destination image.</param>
-    public virtual void Filter(InputArrayRef src, InputArrayRef confidence, OutputArrayRef dst)
+    public virtual void Filter(InputArray src, InputArray confidence, OutputArray dst)
     {
         ThrowIfDisposed();
 

@@ -123,7 +123,7 @@ public abstract class GeneralizedHough : Algorithm
     /// </summary>
     /// <param name="templ"></param>
     /// <param name="templCenter"></param>
-    public void SetTemplate(InputArrayRef templ, Point? templCenter = null)
+    public void SetTemplate(InputArray templ, Point? templCenter = null)
     {
         ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
@@ -140,7 +140,7 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="dx"></param>
     /// <param name="dy"></param>
     /// <param name="templCenter"></param>
-    public virtual void SetTemplate(InputArrayRef edges, InputArrayRef dx, InputArrayRef dy, Point? templCenter = null)
+    public virtual void SetTemplate(InputArray edges, InputArray dx, InputArray dy, Point? templCenter = null)
     {
         ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
@@ -161,7 +161,7 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArrayRef image, OutputArrayRef positions, OutputArrayRef votes = default)
+        InputArray image, OutputArray positions, OutputArray votes = default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect1(
@@ -181,7 +181,7 @@ public abstract class GeneralizedHough : Algorithm
     /// <param name="positions"></param>
     /// <param name="votes"></param>
     public virtual void Detect(
-        InputArrayRef edges, InputArrayRef dx, InputArrayRef dy, OutputArrayRef positions, OutputArrayRef votes = default)
+        InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray votes = default)
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_GeneralizedHough_detect2(

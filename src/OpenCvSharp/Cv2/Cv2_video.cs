@@ -14,7 +14,7 @@ static partial class Cv2
     /// <param name="criteria">Stop criteria for the underlying MeanShift() .</param>
     /// <returns></returns>
     public static RotatedRect CamShift(
-        InputArrayRef probImage, ref Rect window, TermCriteria criteria)
+        InputArray probImage, ref Rect window, TermCriteria criteria)
     {
         NativeMethods.HandleException(
             NativeMethods.video_CamShift(probImage.Proxy, ref window, criteria, out var ret));
@@ -30,7 +30,7 @@ static partial class Cv2
     /// <param name="criteria">Stop criteria for the iterative search algorithm.</param>
     /// <returns>Number of iterations CAMSHIFT took to converge.</returns>
     public static int MeanShift(
-        InputArrayRef probImage, ref Rect window, TermCriteria criteria)
+        InputArray probImage, ref Rect window, TermCriteria criteria)
     {
         NativeMethods.HandleException(
             NativeMethods.video_meanShift(probImage.Proxy, ref window, criteria, out var ret));
@@ -56,7 +56,7 @@ static partial class Cv2
     /// You can pass false to force data copying.</param>
     /// <returns>number of levels in constructed pyramid. Can be less than maxLevel.</returns>
     public static int BuildOpticalFlowPyramid(
-        InputArrayRef img, OutputArrayRef pyramid,
+        InputArray img, OutputArray pyramid,
         Size winSize, int maxLevel,
         bool withDerivatives = true,
         BorderTypes pyrBorder = BorderTypes.Reflect101,
@@ -87,7 +87,7 @@ static partial class Cv2
     /// You can pass false to force data copying.</param>
     /// <returns>number of levels in constructed pyramid. Can be less than maxLevel.</returns>
     public static int BuildOpticalFlowPyramid(
-        InputArrayRef img, out Mat[] pyramid,
+        InputArray img, out Mat[] pyramid,
         Size winSize, int maxLevel,
         bool withDerivatives = true,
         BorderTypes pyrBorder = BorderTypes.Reflect101,
@@ -117,9 +117,9 @@ static partial class Cv2
     /// <param name="flags"></param>
     /// <param name="minEigThreshold"></param>
     public static void CalcOpticalFlowPyrLK(
-        InputArrayRef prevImg, InputArrayRef nextImg,
-        InputArrayRef prevPts, InputOutputArrayRef nextPts,
-        OutputArrayRef status, OutputArrayRef err,
+        InputArray prevImg, InputArray nextImg,
+        InputArray prevPts, InputOutputArray nextPts,
+        OutputArray status, OutputArray err,
         Size? winSize = null,
         int maxLevel = 3,
         TermCriteria? criteria = null,
@@ -151,8 +151,8 @@ static partial class Cv2
     /// <param name="flags"></param>
     /// <param name="minEigThreshold"></param>
     public static void CalcOpticalFlowPyrLK(
-        InputArrayRef prevImg, 
-        InputArrayRef nextImg,
+        InputArray prevImg, 
+        InputArray nextImg,
         Point2f[] prevPts, 
         ref Point2f[] nextPts,
         out byte[] status, 
@@ -204,8 +204,8 @@ static partial class Cv2
     /// a basis for the polynomial expansion; for polyN=5, you can set polySigma=1.1, 
     /// for polyN=7, a good value would be polySigma=1.5.</param>
     /// <param name="flags">operation flags that can be a combination of OPTFLOW_USE_INITIAL_FLOW and/or OPTFLOW_FARNEBACK_GAUSSIAN</param>
-    public static void CalcOpticalFlowFarneback(InputArrayRef prev, InputArrayRef next,
-        InputOutputArrayRef flow, double pyrScale, int levels, int winsize,
+    public static void CalcOpticalFlowFarneback(InputArray prev, InputArray next,
+        InputOutputArray flow, double pyrScale, int levels, int winsize,
         int iterations, int polyN, double polySigma, OpticalFlowFlags flags)
     {
         NativeMethods.HandleException(
@@ -221,7 +221,7 @@ static partial class Cv2
     /// <param name="inputImage">single-channel input image to be warped to provide an image similar to templateImage, same type as templateImage.</param>
     /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
     /// <returns></returns>
-    public static double ComputeECC(InputArrayRef templateImage, InputArrayRef inputImage, InputArrayRef inputMask = default)
+    public static double ComputeECC(InputArray templateImage, InputArray inputImage, InputArray inputMask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.video_computeECC(templateImage.Proxy, inputImage.Proxy, inputMask.Proxy, out var ret));
@@ -248,12 +248,12 @@ static partial class Cv2
     /// <param name="gaussFiltSize">An optional value indicating size of gaussian blur filter; (DEFAULT: 5)</param>
     /// <returns></returns>
     public static double FindTransformECC(
-        InputArrayRef templateImage,
-        InputArrayRef inputImage,
-        InputOutputArrayRef warpMatrix,
+        InputArray templateImage,
+        InputArray inputImage,
+        InputOutputArray warpMatrix,
         MotionTypes motionType,
         TermCriteria criteria,
-        InputArrayRef inputMask = default, 
+        InputArray inputMask = default, 
         int gaussFiltSize = 5)
     {
         NativeMethods.HandleException(
@@ -281,12 +281,12 @@ static partial class Cv2
     /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
     /// <returns></returns>
     public static double FindTransformECC(
-        InputArrayRef templateImage,
-        InputArrayRef inputImage,
-        InputOutputArrayRef warpMatrix, 
+        InputArray templateImage,
+        InputArray inputImage,
+        InputOutputArray warpMatrix, 
         MotionTypes motionType = MotionTypes.Affine,
         TermCriteria? criteria = null,
-        InputArrayRef inputMask = default)
+        InputArray inputMask = default)
     {
         var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 50, 0.001));
 

@@ -18,7 +18,7 @@ public abstract class MergeExposures : Algorithm
     /// <param name="dst">result image</param>
     /// <param name="times">vector of exposure time values for each image</param>
     /// <param name="response"> 256x1 matrix with inverse camera response function for each pixel value, it should have the same number of channels as images.</param>
-    public virtual void Process(IEnumerable<Mat> src, OutputArrayRef dst, IEnumerable<float> times, InputArrayRef response)
+    public virtual void Process(IEnumerable<Mat> src, OutputArray dst, IEnumerable<float> times, InputArray response)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));

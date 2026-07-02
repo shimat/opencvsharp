@@ -19,7 +19,7 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="image"></param>
     /// <param name="fgmask"></param>
     /// <param name="learningRate"></param>
-    public virtual void Apply(InputArrayRef image, OutputArrayRef fgmask, double learningRate = -1)
+    public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.video_BackgroundSubtractor_apply(Handle, image.Proxy, fgmask.Proxy, learningRate));
@@ -32,7 +32,7 @@ public abstract class BackgroundSubtractor : Algorithm
     /// computes a background image
     /// </summary>
     /// <param name="backgroundImage"></param>
-    public virtual void GetBackgroundImage(OutputArrayRef backgroundImage)
+    public virtual void GetBackgroundImage(OutputArray backgroundImage)
     {
         NativeMethods.HandleException(
             NativeMethods.video_BackgroundSubtractor_getBackgroundImage(Handle, backgroundImage.Proxy));

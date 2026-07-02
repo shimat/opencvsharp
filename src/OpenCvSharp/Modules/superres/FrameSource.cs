@@ -88,7 +88,7 @@ public class FrameSource : CvPtrObject
     /// 
     /// </summary>
     /// <param name="frame"></param>
-    public virtual void NextFrame(OutputArrayRef frame)
+    public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
 

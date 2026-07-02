@@ -27,8 +27,8 @@ public abstract class ShapeTransformer : Algorithm
     /// <param name="targetShape">Contour defining second shape (to which the first will be transformed).</param>
     /// <param name="matches">Vector of matching points between the two contours.</param>
     public virtual void EstimateTransformation(
-        InputArrayRef transformingShape,
-        InputArrayRef targetShape,
+        InputArray transformingShape,
+        InputArray targetShape,
         IEnumerable<DMatch> matches)
     {
         ThrowIfDisposed();
@@ -50,7 +50,7 @@ public abstract class ShapeTransformer : Algorithm
     /// <param name="input">Contour (set of points) to apply the transformation to.</param>
     /// <param name="output">Output contour. If null, only the cost is returned without writing the output.</param>
     /// <returns>The transformation cost.</returns>
-    public virtual float ApplyTransformation(InputArrayRef input, OutputArrayRef output = default)
+    public virtual float ApplyTransformation(InputArray input, OutputArray output = default)
     {
         ThrowIfDisposed();
 
@@ -72,8 +72,8 @@ public abstract class ShapeTransformer : Algorithm
     /// <param name="borderMode">Border extrapolation method. Default: BorderTypes.Constant.</param>
     /// <param name="borderValue">Value used for BorderTypes.Constant borders. Default: black.</param>
     public virtual void WarpImage(
-        InputArrayRef transformingImage,
-        OutputArrayRef output,
+        InputArray transformingImage,
+        OutputArray output,
         InterpolationFlags flags = InterpolationFlags.Linear,
         BorderTypes borderMode = BorderTypes.Constant,
         Scalar? borderValue = null)

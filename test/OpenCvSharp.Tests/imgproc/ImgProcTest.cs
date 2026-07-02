@@ -471,8 +471,8 @@ public class ImgProcTest : TestBase
 
         Cv2.Rectangle(img1, new Rect(10, 10, 80, 80), color, 1);
         Cv2.Rectangle(img2, new Point(10, 10), new Point(89, 89), color, 1);
-        Cv2.Rectangle(InputOutputArrayRef.Create(img3), new Rect(10, 10, 80, 80), color, 1);
-        Cv2.Rectangle(InputOutputArrayRef.Create(img4), new Point(10, 10), new Point(89, 89), color, 1);
+        Cv2.Rectangle(InputOutputArray.Create(img3), new Rect(10, 10, 80, 80), color, 1);
+        Cv2.Rectangle(InputOutputArray.Create(img4), new Point(10, 10), new Point(89, 89), color, 1);
 
         ShowImagesWhenDebugMode(img1, img2);
 

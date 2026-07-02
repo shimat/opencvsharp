@@ -22,7 +22,7 @@ public class SVD : CvObject
     /// </summary>
     /// <param name="src"></param>
     /// <param name="flags"></param>
-    public SVD(InputArrayRef src, Flags flags = 0)
+    public SVD(InputArray src, Flags flags = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVD_new2(src.Proxy, (int)flags, out var p));
@@ -80,7 +80,7 @@ public class SVD : CvObject
     /// <param name="src"></param>
     /// <param name="flags"></param>
     /// <returns></returns>
-    public SVD Run(InputArrayRef src, Flags flags = 0)
+    public SVD Run(InputArray src, Flags flags = 0)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -95,7 +95,7 @@ public class SVD : CvObject
     /// <param name="rhs"></param>
     /// <param name="dst"></param>
     /// <returns></returns>
-    public void BackSubst(InputArrayRef rhs, OutputArrayRef dst)
+    public void BackSubst(InputArray rhs, OutputArray dst)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -112,8 +112,8 @@ public class SVD : CvObject
     /// <param name="u"></param>
     /// <param name="vt"></param>
     /// <param name="flags"></param>
-    public static void Compute(InputArrayRef src, OutputArrayRef w,
-        OutputArrayRef u, OutputArrayRef vt, Flags flags = 0)
+    public static void Compute(InputArray src, OutputArray w,
+        OutputArray u, OutputArray vt, Flags flags = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVD_static_compute1(src.Proxy, w.Proxy, u.Proxy, vt.Proxy, (int)flags));
@@ -129,7 +129,7 @@ public class SVD : CvObject
     /// <param name="src"></param>
     /// <param name="w"></param>
     /// <param name="flags"></param>
-    public static void Compute(InputArrayRef src, OutputArrayRef w, Flags flags = 0)
+    public static void Compute(InputArray src, OutputArray w, Flags flags = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVD_static_compute2(src.Proxy, w.Proxy, (int)flags));
@@ -145,8 +145,8 @@ public class SVD : CvObject
     /// <param name="vt"></param>
     /// <param name="rhs"></param>
     /// <param name="dst"></param>
-    public static void BackSubst(InputArrayRef w, InputArrayRef u,
-        InputArrayRef vt, InputArrayRef rhs, OutputArrayRef dst)
+    public static void BackSubst(InputArray w, InputArray u,
+        InputArray vt, InputArray rhs, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVD_static_backSubst(w.Proxy, u.Proxy, vt.Proxy, rhs.Proxy, dst.Proxy));
@@ -162,7 +162,7 @@ public class SVD : CvObject
     /// </summary>
     /// <param name="src"></param>
     /// <param name="dst"></param>
-    public static void SolveZ(InputArrayRef src, OutputArrayRef dst)
+    public static void SolveZ(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVD_static_solveZ(src.Proxy, dst.Proxy));

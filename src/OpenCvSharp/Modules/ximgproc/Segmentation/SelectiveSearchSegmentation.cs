@@ -33,7 +33,7 @@ public class SelectiveSearchSegmentation : Algorithm
     /// Set a image used by switch* functions to initialize the class
     /// </summary>
     /// <param name="img">The image</param>
-    public virtual void SetBaseImage(InputArrayRef img)
+    public virtual void SetBaseImage(InputArray img)
     {
         ThrowIfDisposed();
 
@@ -85,7 +85,7 @@ public class SelectiveSearchSegmentation : Algorithm
     /// Add a new image in the list of images to process.
     /// </summary>
     /// <param name="img">The image</param>
-    public virtual void AddImage(InputArrayRef img)
+    public virtual void AddImage(InputArray img)
     {
         ThrowIfDisposed();
 

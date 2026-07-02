@@ -18,7 +18,7 @@ public abstract class CalibrateCRF : Algorithm
     /// <param name="src">vector of input images</param>
     /// <param name="dst">256x1 matrix with inverse camera response function</param>
     /// <param name="times">vector of exposure time values for each image</param>
-    public virtual void Process(IEnumerable<Mat> src, OutputArrayRef dst, IEnumerable<float> times)
+    public virtual void Process(IEnumerable<Mat> src, OutputArray dst, IEnumerable<float> times)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));

@@ -51,7 +51,7 @@ public class SegmentationModel : Model
     /// </summary>
     /// <param name="frame">The input image.</param>
     /// <param name="mask">Allocated class prediction for each pixel.</param>
-    public void Segment(InputArrayRef frame, OutputArrayRef mask)
+    public void Segment(InputArray frame, OutputArray mask)
     {
         ThrowIfDisposed();
 

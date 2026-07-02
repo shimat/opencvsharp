@@ -8,7 +8,7 @@ namespace OpenCvSharp.Tests.Core;
 /// Mat/UMat/MatExpr/Scalar/double/Vec are allocation-free, and the explicit Create(...) factory
 /// methods behave the same as their implicit-conversion equivalents.
 /// </summary>
-public class InputArrayRefTest : TestBase
+public class InputArrayTest : TestBase
 {
     private static Mat Float3x3(params float[] v)
     {
@@ -91,7 +91,7 @@ public class InputArrayRefTest : TestBase
         var v = new Vec3d(1, 2, 3);
 
         using var actual = new Mat();
-        Cv2.Transpose(InputArrayRef.Create(v), actual);
+        Cv2.Transpose(InputArray.Create(v), actual);
 
         using var expected = new Mat();
         Cv2.Transpose(v, expected);
@@ -110,7 +110,7 @@ public class InputArrayRefTest : TestBase
         };
 
         using var actual = new Mat();
-        Cv2.Transpose(InputArrayRef.Create(a), actual);
+        Cv2.Transpose(InputArray.Create(a), actual);
 
         using var src = Mat.FromPixelData(3, 3, MatType.CV_64FC1, a);
         using var expected = new Mat();
@@ -125,7 +125,7 @@ public class InputArrayRefTest : TestBase
         double[] a = [1, 2, 3, 4, 5, 6];
 
         using var actual = new Mat();
-        Cv2.Transpose(InputArrayRef.Create(a), actual);
+        Cv2.Transpose(InputArray.Create(a), actual);
 
         using var src = Mat.FromPixelData(6, 1, MatType.CV_64FC1, a);
         using var expected = new Mat();
@@ -140,7 +140,7 @@ public class InputArrayRefTest : TestBase
         using var src = Float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
         using var actual = new Mat();
-        Cv2.Transpose(InputArrayRef.Create(src), actual);
+        Cv2.Transpose(InputArray.Create(src), actual);
 
         using var expected = new Mat();
         Cv2.Transpose(src, expected);

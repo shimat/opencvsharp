@@ -91,7 +91,7 @@ public class BOWImgDescriptorExtractor : CvObject
     /// <param name="pointIdxsOfClusters">pointIdxsOfClusters Indices of keypoints that belong to the cluster. 
     /// This means that pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster(word of vocabulary) returned if it is non-zero.</param>
     /// <param name="descriptors">Descriptors of the image keypoints that are returned if they are non-zero.</param>
-    public void Compute(InputArrayRef image, ref KeyPoint[] keypoints, OutputArrayRef imgDescriptor,
+    public void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray imgDescriptor,
         out int[][] pointIdxsOfClusters, Mat? descriptors = null)
     {
         ThrowIfDisposed();
@@ -117,7 +117,7 @@ public class BOWImgDescriptorExtractor : CvObject
     /// <param name="imgDescriptor">Computed output image descriptor.</param>
     /// <param name="pointIdxsOfClusters">Indices of keypoints that belong to the cluster. 
     /// This means that pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster(word of vocabulary) returned if it is non-zero.</param>
-    public void Compute(InputArrayRef keypointDescriptors, OutputArrayRef imgDescriptor, out int[][] pointIdxsOfClusters)
+    public void Compute(InputArray keypointDescriptors, OutputArray imgDescriptor, out int[][] pointIdxsOfClusters)
     {
         ThrowIfDisposed();
 

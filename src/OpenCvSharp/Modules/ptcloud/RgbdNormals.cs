@@ -45,7 +45,7 @@ public class RgbdNormals : CvPtrObject
     /// <param name="diffThreshold">threshold in depth difference, used in LINEMOD algorithm.</param>
     /// <param name="method">one of the methods to use.</param>
     public static RgbdNormals Create(
-        int rows = 0, int cols = 0, int depth = 0, InputArrayRef K = default, int windowSize = 5,
+        int rows = 0, int cols = 0, int depth = 0, InputArray K = default, int windowSize = 5,
         float diffThreshold = 50f, RgbdNormalsMethod method = RgbdNormalsMethod.RGBD_NORMALS_METHOD_FALS)
     {
         NativeMethods.HandleException(
@@ -72,7 +72,7 @@ public class RgbdNormals : CvPtrObject
     /// </summary>
     /// <param name="points">a rows x cols x 3 matrix of CV_32F/CV_64F or a rows x cols x 1 CV_16U.</param>
     /// <param name="normals">a rows x cols x 3 matrix.</param>
-    public void Apply(InputArrayRef points, OutputArrayRef normals)
+    public void Apply(InputArray points, OutputArray normals)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -169,7 +169,7 @@ public class RgbdNormals : CvPtrObject
     /// Gets the calibration matrix.
     /// </summary>
     /// <param name="val">the output calibration matrix.</param>
-    public void GetK(OutputArrayRef val)
+    public void GetK(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -180,7 +180,7 @@ public class RgbdNormals : CvPtrObject
     /// Sets the calibration matrix.
     /// </summary>
     /// <param name="val">the calibration matrix to use.</param>
-    public void SetK(InputArrayRef val)
+    public void SetK(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

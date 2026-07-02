@@ -43,7 +43,7 @@ public static partial class Cv2
     /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
     /// <param name="borderType">The border type</param>
     /// <param name="value">The border value if borderType == Constant</param>
-    public static void CopyMakeBorder(InputArrayRef src, OutputArrayRef dst, int top, int bottom, int left, int right,
+    public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
         BorderTypes borderType, Scalar? value = null)
     {
         var value0 = value.GetValueOrDefault(new Scalar());
@@ -63,7 +63,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
     /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Add(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
+    public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = default,
         int dtype = -1)
     {
         NativeMethods.HandleException(
@@ -85,7 +85,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
     /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
+    public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = default,
         int dtype = -1)
     {
         NativeMethods.HandleException(
@@ -107,7 +107,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
     /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(InputArrayRef src1, Scalar src2, OutputArrayRef dst, InputArrayRef mask = default,
+    public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray mask = default,
         int dtype = -1)
     {
         NativeMethods.HandleException(
@@ -128,7 +128,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
     /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is skipped]</param>
     /// <param name="dtype"></param>
-    public static void Subtract(Scalar src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default,
+    public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray mask = default,
         int dtype = -1)
     {
         NativeMethods.HandleException(
@@ -149,7 +149,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and the same type as src1</param>
     /// <param name="scale">The optional scale factor. [By default this is 1]</param>
     /// <param name="dtype"></param>
-    public static void Multiply(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, double scale = 1, int dtype = -1)
+    public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.core_multiply(
@@ -168,7 +168,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and same type as src2</param>
     /// <param name="scale">Scale factor [By default this is 1]</param>
     /// <param name="dtype"></param>
-    public static void Divide(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, double scale = 1, MatType? dtype = null)
+    public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, MatType? dtype = null)
     {
         NativeMethods.HandleException(
             NativeMethods.core_divide2(
@@ -186,7 +186,7 @@ public static partial class Cv2
     /// <param name="src2">The first source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src2</param>
     /// <param name="dtype"></param>
-    public static void Divide(double scale, InputArrayRef src2, OutputArrayRef dst, int dtype = -1)
+    public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.core_divide1(scale, src2.Proxy, dst.Proxy, dtype));
@@ -202,7 +202,7 @@ public static partial class Cv2
     /// <param name="alpha"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void ScaleAdd(InputArrayRef src1, double alpha, InputArrayRef src2, OutputArrayRef dst)
+    public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_scaleAdd(src1.Proxy, alpha, src2.Proxy, dst.Proxy));
@@ -222,8 +222,8 @@ public static partial class Cv2
     /// <param name="gamma"></param>
     /// <param name="dst"></param>
     /// <param name="dtype"></param>
-    public static void AddWeighted(InputArrayRef src1, double alpha, InputArrayRef src2,
-        double beta, double gamma, OutputArrayRef dst, int dtype = -1)
+    public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
+        double beta, double gamma, OutputArray dst, int dtype = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.core_addWeighted(
@@ -241,7 +241,7 @@ public static partial class Cv2
     /// <param name="dst">The destination array</param>
     /// <param name="alpha">The optional scale factor. [By default this is 1]</param>
     /// <param name="beta">The optional delta added to the scaled values. [By default this is 0]</param>
-    public static void ConvertScaleAbs(InputArrayRef src, OutputArrayRef dst, double alpha = 1, double beta = 0)
+    public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_convertScaleAbs(src.Proxy, dst.Proxy, alpha, beta));
@@ -261,7 +261,7 @@ public static partial class Cv2
     /// <param name="dst">Destination array;
     /// will have the same size and the same number of channels as src,
     /// and the same depth as lut</param>
-    public static void LUT(InputArrayRef src, InputArrayRef lut, OutputArrayRef dst)
+    public static void LUT(InputArray src, InputArray lut, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_LUT(src.Proxy, lut.Proxy, dst.Proxy));
@@ -282,7 +282,7 @@ public static partial class Cv2
     /// <param name="dst">Destination array;
     /// will have the same size and the same number of channels as src,
     /// and the same depth as lut</param>
-    public static void LUT(InputArrayRef src, byte[] lut, OutputArrayRef dst)
+    public static void LUT(InputArray src, byte[] lut, OutputArray dst)
     {
         if (lut is null)
             throw new ArgumentNullException(nameof(lut));
@@ -298,7 +298,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array; must have 1 to 4 channels</param>
     /// <returns></returns>
-    public static Scalar Sum(InputArrayRef src)
+    public static Scalar Sum(InputArray src)
     {
         NativeMethods.HandleException(
             NativeMethods.core_sum(src.Proxy, out var ret));
@@ -312,7 +312,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mtx">Single-channel array</param>
     /// <returns>number of non-zero elements in mtx</returns>
-    public static int CountNonZero(InputArrayRef mtx)
+    public static int CountNonZero(InputArray mtx)
     {
         NativeMethods.HandleException(
             NativeMethods.core_countNonZero(mtx.Proxy, out var ret));
@@ -326,7 +326,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src"></param>
     /// <param name="idx"></param>
-    public static void FindNonZero(InputArrayRef src, OutputArrayRef idx)
+    public static void FindNonZero(InputArray src, OutputArray idx)
     {
         NativeMethods.HandleException(
             NativeMethods.core_findNonZero(src.Proxy, idx.Proxy));
@@ -342,7 +342,7 @@ public static partial class Cv2
     ///  (so that the result can be stored in Scalar)</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static Scalar Mean(InputArrayRef src, InputArrayRef mask = default)
+    public static Scalar Mean(InputArray src, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_mean(src.Proxy, mask.Proxy, out var ret));
@@ -361,7 +361,7 @@ public static partial class Cv2
     /// <param name="stddev">The output parameter: computed standard deviation</param>
     /// <param name="mask">The optional operation mask</param>
     public static void MeanStdDev(
-        InputArrayRef src, OutputArrayRef mean, OutputArrayRef stddev, InputArrayRef mask = default)
+        InputArray src, OutputArray mean, OutputArray stddev, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_OutputArray(
@@ -382,7 +382,7 @@ public static partial class Cv2
     /// <param name="stddev">The output parameter: computed standard deviation</param>
     /// <param name="mask">The optional operation mask</param>
     public static void MeanStdDev(
-        InputArrayRef src, out Scalar mean, out Scalar stddev, InputArrayRef mask = default)
+        InputArray src, out Scalar mean, out Scalar stddev, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_meanStdDev_Scalar(
@@ -399,8 +399,8 @@ public static partial class Cv2
     /// <param name="normType">Type of the norm</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static double Norm(InputArrayRef src1,
-        NormTypes normType = NormTypes.L2, InputArrayRef mask = default)
+    public static double Norm(InputArray src1,
+        NormTypes normType = NormTypes.L2, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_norm1(src1.Proxy, (int)normType, mask.Proxy, out var ret));
@@ -418,8 +418,8 @@ public static partial class Cv2
     /// <param name="normType">Type of the norm</param>
     /// <param name="mask">The optional operation mask</param>
     /// <returns></returns>
-    public static double Norm(InputArrayRef src1, InputArrayRef src2,
-        NormTypes normType = NormTypes.L2, InputArrayRef mask = default)
+    public static double Norm(InputArray src1, InputArray src2,
+        NormTypes normType = NormTypes.L2, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_norm2(src1.Proxy, src2.Proxy, (int)normType, mask.Proxy, out var ret));
@@ -441,7 +441,7 @@ public static partial class Cv2
     /// <param name="r">the maximum pixel value (255 by default)</param>
     /// <returns></returns>
     // ReSharper disable once InconsistentNaming
-    public static double PSNR(InputArrayRef src1, InputArrayRef src2, double r = 255.0)
+    public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PSNR(src1.Proxy, src2.Proxy, r, out var ret));
@@ -464,11 +464,11 @@ public static partial class Cv2
     /// <param name="mask"></param>
     /// <param name="update"></param>
     /// <param name="crosscheck"></param>
-    public static void BatchDistance(InputArrayRef src1, InputArrayRef src2,
+    public static void BatchDistance(InputArray src1, InputArray src2,
         // ReSharper disable once IdentifierTypo
-        OutputArrayRef dist, int dtype, OutputArrayRef nidx,
+        OutputArray dist, int dtype, OutputArray nidx,
         NormTypes normType = NormTypes.L2,
-        int k = 0, InputArrayRef mask = default,
+        int k = 0, InputArray mask = default,
         int update = 0, bool crosscheck = false)
     {
         NativeMethods.HandleException(
@@ -498,8 +498,8 @@ public static partial class Cv2
     /// the destination array will have the same type as src,
     /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
     /// <param name="mask">The optional operation mask</param>
-    public static void Normalize(InputArrayRef src, InputOutputArrayRef dst, double alpha = 1, double beta = 0,
-        NormTypes normType = NormTypes.L2, int dtype = -1, InputArrayRef mask = default)
+    public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
+        NormTypes normType = NormTypes.L2, int dtype = -1, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_normalize(
@@ -518,7 +518,7 @@ public static partial class Cv2
     /// except for axis being reduced - it should be set to 1.</param>
     /// <param name="axis">Axis to reduce along</param>
     /// <param name="lastIndex">Whether to get the index of first or last occurrence of max</param>
-    public static void ReduceArgMax(InputArrayRef src, OutputArrayRef dst, int axis, bool lastIndex = false)
+    public static void ReduceArgMax(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_reduceArgMax(src.Proxy, dst.Proxy, axis, lastIndex));
@@ -535,7 +535,7 @@ public static partial class Cv2
     /// except for axis being reduced - it should be set to 1.</param>
     /// <param name="axis">Axis to reduce along</param>
     /// <param name="lastIndex">Whether to get the index of first or last occurrence of min</param>
-    public static void ReduceArgMin(InputArrayRef src, OutputArrayRef dst, int axis, bool lastIndex = false)
+    public static void ReduceArgMin(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_reduceArgMin(src.Proxy, dst.Proxy, axis, lastIndex));
@@ -550,7 +550,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minVal">Pointer to returned minimum value</param>
     /// <param name="maxVal">Pointer to returned maximum value</param>
-    public static void MinMaxLoc(InputArrayRef src, out double minVal, out double maxVal)
+    public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
     {
         NativeMethods.HandleException(
             NativeMethods.core_minMaxLoc1(src.Proxy, out minVal, out maxVal));
@@ -564,7 +564,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minLoc">Pointer to returned minimum location</param>
     /// <param name="maxLoc">Pointer to returned maximum location</param>
-    public static void MinMaxLoc(InputArrayRef src, out Point minLoc, out Point maxLoc)
+    public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
     {
         MinMaxLoc(src, out _, out _, out minLoc, out maxLoc);
     }
@@ -578,8 +578,8 @@ public static partial class Cv2
     /// <param name="minLoc">Pointer to returned minimum location</param>
     /// <param name="maxLoc">Pointer to returned maximum location</param>
     /// <param name="mask">The optional mask used to select a sub-array</param>
-    public static void MinMaxLoc(InputArrayRef src, out double minVal, out double maxVal,
-        out Point minLoc, out Point maxLoc, InputArrayRef mask = default)
+    public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
+        out Point minLoc, out Point maxLoc, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_minMaxLoc2(
@@ -595,7 +595,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minVal">Pointer to returned minimum value</param>
     /// <param name="maxVal">Pointer to returned maximum value</param>
-    public static void MinMaxIdx(InputArrayRef src, out double minVal, out double maxVal)
+    public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
     {
         NativeMethods.HandleException(
             NativeMethods.core_minMaxIdx1(src.Proxy, out minVal, out maxVal));
@@ -609,7 +609,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minIdx"></param>
     /// <param name="maxIdx"></param>
-    public static void MinMaxIdx(InputArrayRef src, int[] minIdx, int[] maxIdx)
+    public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
     {
         MinMaxIdx(src, out _, out _, minIdx, maxIdx);
     }
@@ -623,8 +623,8 @@ public static partial class Cv2
     /// <param name="minIdx"></param>
     /// <param name="maxIdx"></param>
     /// <param name="mask"></param>
-    public static void MinMaxIdx(InputArrayRef src, out double minVal, out double maxVal,
-        int[] minIdx, int[] maxIdx, InputArrayRef mask = default)
+    public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
+        int[] minIdx, int[] maxIdx, InputArray mask = default)
     {
         if (minIdx is null)
             throw new ArgumentNullException(nameof(minIdx));
@@ -650,7 +650,7 @@ public static partial class Cv2
     /// <param name="rtype"></param>
     /// <param name="dtype">When it is negative, the destination vector will have
     /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
-    public static void Reduce(InputArrayRef src, OutputArrayRef dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
+    public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
     {
         NativeMethods.HandleException(
             NativeMethods.core_reduce(src.Proxy, dst.Proxy, (int)dim, (int)rtype, dtype));
@@ -771,7 +771,7 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="coi"></param>
-    public static void ExtractChannel(InputArrayRef src, OutputArrayRef dst, int coi)
+    public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
     {
         NativeMethods.HandleException(
             NativeMethods.core_extractChannel(src.Proxy, dst.Proxy, coi));
@@ -786,7 +786,7 @@ public static partial class Cv2
     /// <param name="src"></param>
     /// <param name="dst"></param>
     /// <param name="coi"></param>
-    public static void InsertChannel(InputArrayRef src, InputOutputArrayRef dst, int coi)
+    public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
     {
         NativeMethods.HandleException(
             NativeMethods.core_insertChannel(src.Proxy, dst.Proxy, coi));
@@ -803,7 +803,7 @@ public static partial class Cv2
     /// <param name="flipCode">Specifies how to flip the array:
     /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis,
     /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
-    public static void Flip(InputArrayRef src, OutputArrayRef dst, FlipMode flipCode)
+    public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
     {
         NativeMethods.HandleException(
             NativeMethods.core_flip(src.Proxy, dst.Proxy, (int) flipCode));
@@ -820,7 +820,7 @@ public static partial class Cv2
     /// The size is the same with ROTATE_180, and the rows and cols are switched for
     /// ROTATE_90_CLOCKWISE and ROTATE_90_COUNTERCLOCKWISE.</param>
     /// <param name="rotateCode">an enum to specify how to rotate the array.</param>
-    public static void Rotate(InputArrayRef src, OutputArrayRef dst, RotateFlags rotateCode)
+    public static void Rotate(InputArray src, OutputArray dst, RotateFlags rotateCode)
     {
         NativeMethods.HandleException(
             NativeMethods.core_rotate(src.Proxy, dst.Proxy, (int)rotateCode));
@@ -836,7 +836,7 @@ public static partial class Cv2
     /// <param name="ny">How many times the src is repeated along the vertical axis</param>
     /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
     /// <param name="dst">The destination array; will have the same type as src</param>
-    public static void Repeat(InputArrayRef src, int ny, int nx, OutputArrayRef dst)
+    public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_repeat1(src.Proxy, ny, nx, dst.Proxy));
@@ -870,7 +870,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
-    public static void HConcat(ReadOnlySpan<Mat> src, OutputArrayRef dst)
+    public static void HConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
         if (src.Length == 0)
             throw new ArgumentException("src is empty", nameof(src));
@@ -898,7 +898,7 @@ public static partial class Cv2
     /// <param name="src1">first input array to be considered for horizontal concatenation.</param>
     /// <param name="src2">second input array to be considered for horizontal concatenation.</param>
     /// <param name="dst">output array. It has the same number of rows and depth as the src1 and src2, and the sum of cols of the src1 and src2.</param>
-    public static void HConcat(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+    public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_hconcat2(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -913,7 +913,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
-    public static void VConcat(ReadOnlySpan<Mat> src, OutputArrayRef dst)
+    public static void VConcat(ReadOnlySpan<Mat> src, OutputArray dst)
     {
         if (src.Length == 0)
             throw new ArgumentException("src.Count == 0", nameof(src));
@@ -941,7 +941,7 @@ public static partial class Cv2
     /// <param name="src1">first input array to be considered for vertical concatenation.</param>
     /// <param name="src2">second input array to be considered for vertical concatenation.</param>
     /// <param name="dst">output array. It has the same number of cols and depth as the src1 and src2, and the sum of rows of the src1 and src2.</param>
-    public static void VConcat(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+    public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_vconcat2(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -958,7 +958,7 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseAnd(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
+    public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_bitwise_and(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
@@ -976,7 +976,7 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseOr(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
+    public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_bitwise_or(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
@@ -994,7 +994,7 @@ public static partial class Cv2
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseXor(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, InputArrayRef mask = default)
+    public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_bitwise_xor(src1.Proxy, src2.Proxy, dst.Proxy, mask.Proxy));
@@ -1011,7 +1011,7 @@ public static partial class Cv2
     /// <param name="src">input array.</param>
     /// <param name="dst">output array that has the same size and type as the input</param>
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
-    public static void BitwiseNot(InputArrayRef src, OutputArrayRef dst, InputArrayRef mask = default)
+    public static void BitwiseNot(InputArray src, OutputArray dst, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_bitwise_not(src.Proxy, dst.Proxy, mask.Proxy));
@@ -1027,7 +1027,7 @@ public static partial class Cv2
     /// <param name="src1">first input array or a scalar.</param>
     /// <param name="src2">second input array or a scalar.</param>
     /// <param name="dst">output array that has the same size and type as input arrays.</param>
-    public static void Absdiff(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+    public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_absdiff(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -1045,7 +1045,7 @@ public static partial class Cv2
     /// <param name="dst">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask of the same size as \*this. Its non-zero elements indicate which matrix
     /// elements need to be copied.The mask has to be of type CV_8U and can have 1 or multiple channels.</param>
-    public static void CopyTo(InputArrayRef src, OutputArrayRef dst, InputArrayRef mask = default)
+    public static void CopyTo(InputArray src, OutputArray dst, InputArray mask = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_copyTo(src.Proxy, dst.Proxy, mask.Proxy));
@@ -1062,7 +1062,7 @@ public static partial class Cv2
     /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
     /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
-    public static void InRange(InputArrayRef src, InputArrayRef lowerb, InputArrayRef upperb, OutputArrayRef dst)
+    public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_inRange_InputArray(src.Proxy, lowerb.Proxy, upperb.Proxy, dst.Proxy));
@@ -1080,7 +1080,7 @@ public static partial class Cv2
     /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
     /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
-    public static void InRange(InputArrayRef src, Scalar lowerb, Scalar upperb, OutputArrayRef dst)
+    public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_inRange_Scalar(src.Proxy, lowerb, upperb, dst.Proxy));
@@ -1097,7 +1097,7 @@ public static partial class Cv2
     /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
     /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
     // ReSharper disable once IdentifierTypo
-    public static void Compare(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst, CmpTypes cmpop)
+    public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
     {
         NativeMethods.HandleException(
             NativeMethods.core_compare(src1.Proxy, src2.Proxy, dst.Proxy, (int) cmpop));
@@ -1113,7 +1113,7 @@ public static partial class Cv2
     /// <param name="src1"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void Min(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+    public static void Min(InputArray src1, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_min1(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -1177,7 +1177,7 @@ public static partial class Cv2
     /// <param name="src1"></param>
     /// <param name="src2"></param>
     /// <param name="dst"></param>
-    public static void Max(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst)
+    public static void Max(InputArray src1, InputArray src2, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_max1(src1.Proxy, src2.Proxy, dst.Proxy));
@@ -1240,7 +1240,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-    public static void Sqrt(InputArrayRef src, OutputArrayRef dst)
+    public static void Sqrt(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_sqrt(src.Proxy, dst.Proxy));
@@ -1255,7 +1255,7 @@ public static partial class Cv2
     /// <param name="src">The source array</param>
     /// <param name="power">The exponent of power</param>
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-    public static void Pow(InputArrayRef src, double power, OutputArrayRef dst)
+    public static void Pow(InputArray src, double power, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_pow_Mat(src.Proxy, power, dst.Proxy));
@@ -1269,7 +1269,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
-    public static void Exp(InputArrayRef src, OutputArrayRef dst)
+    public static void Exp(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_exp_Mat(src.Proxy, dst.Proxy));
@@ -1283,7 +1283,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
-    public static void Log(InputArrayRef src, OutputArrayRef dst)
+    public static void Log(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_log_Mat(src.Proxy, dst.Proxy));
@@ -1302,8 +1302,8 @@ public static partial class Cv2
     /// <param name="x">output array of x-coordinates of 2D vectors; it has the same size and type as angle.</param>
     /// <param name="y">output array of y-coordinates of 2D vectors; it has the same size and type as angle.</param>
     /// <param name="angleInDegrees">when true, the input angles are measured in degrees, otherwise, they are measured in radians.</param>
-    public static void PolarToCart(InputArrayRef magnitude, InputArrayRef angle,
-        OutputArrayRef x, OutputArrayRef y, bool angleInDegrees = false)
+    public static void PolarToCart(InputArray magnitude, InputArray angle,
+        OutputArray x, OutputArray y, bool angleInDegrees = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_polarToCart(magnitude.Proxy, angle.Proxy, x.Proxy, y.Proxy, angleInDegrees ? 1 : 0));
@@ -1323,8 +1323,8 @@ public static partial class Cv2
     /// <param name="angle">output array of angles that has the same size and type as x;
     /// the angles are measured in radians(from 0 to 2\*Pi) or in degrees(0 to 360 degrees).</param>
     /// <param name="angleInDegrees">a flag, indicating whether the angles are measured in radians(which is by default), or in degrees.</param>
-    public static void CartToPolar(InputArrayRef x, InputArrayRef y,
-        OutputArrayRef magnitude, OutputArrayRef angle, bool angleInDegrees = false)
+    public static void CartToPolar(InputArray x, InputArray y,
+        OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_cartToPolar(x.Proxy, y.Proxy, magnitude.Proxy, angle.Proxy, angleInDegrees ? 1 : 0));
@@ -1342,7 +1342,7 @@ public static partial class Cv2
     /// <param name="y">input array of y-coordinates of 2D vectors; it must have the same size and the same type as x.</param>
     /// <param name="angle">output array of vector angles; it has the same size and same type as x.</param>
     /// <param name="angleInDegrees">when true, the function calculates the angle in degrees, otherwise, they are measured in radians.</param>
-    public static void Phase(InputArrayRef x, InputArrayRef y, OutputArrayRef angle, bool angleInDegrees = false)
+    public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_phase(x.Proxy, y.Proxy, angle.Proxy, angleInDegrees ? 1 : 0));
@@ -1358,7 +1358,7 @@ public static partial class Cv2
     /// <param name="x">floating-point array of x-coordinates of the vectors.</param>
     /// <param name="y">floating-point array of y-coordinates of the vectors; it must have the same size as x.</param>
     /// <param name="magnitude">output array of the same size and type as x.</param>
-    public static void Magnitude(InputArrayRef x, InputArrayRef y, OutputArrayRef magnitude)
+    public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
     {
         NativeMethods.HandleException(
             NativeMethods.core_magnitude_Mat(x.Proxy, y.Proxy, magnitude.Proxy));
@@ -1376,7 +1376,7 @@ public static partial class Cv2
     /// return false when the array elements are out of range,
     /// or they throw an exception.</param>
     /// <returns></returns>
-    public static bool CheckRange(InputArrayRef src, bool quiet = true)
+    public static bool CheckRange(InputArray src, bool quiet = true)
     {
         return CheckRange(src, quiet, out _);
     }
@@ -1393,7 +1393,7 @@ public static partial class Cv2
     /// <param name="minVal">The inclusive lower boundary of valid values range</param>
     /// <param name="maxVal">The exclusive upper boundary of valid values range</param>
     /// <returns></returns>
-    public static bool CheckRange(InputArrayRef src, bool quiet, out Point pos,
+    public static bool CheckRange(InputArray src, bool quiet, out Point pos,
         double minVal = double.MinValue, double maxVal = double.MaxValue)
     {
         NativeMethods.HandleException(
@@ -1407,7 +1407,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="a"></param>
     /// <param name="val"></param>
-    public static void PatchNaNs(InputOutputArrayRef a, double val = 0)
+    public static void PatchNaNs(InputOutputArray a, double val = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_patchNaNs(a.Proxy, val));
@@ -1426,8 +1426,8 @@ public static partial class Cv2
     /// <param name="dst"></param>
     /// <param name="flags"></param>
     // ReSharper disable once IdentifierTypo
-    public static void Gemm(InputArrayRef src1, InputArrayRef src2, double alpha,
-        InputArrayRef src3, double gamma, OutputArrayRef dst, GemmFlags flags = GemmFlags.None)
+    public static void Gemm(InputArray src1, InputArray src2, double alpha,
+        InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
     {
         NativeMethods.HandleException(
             NativeMethods.core_gemm(src1.Proxy, src2.Proxy, alpha, src3.Proxy, gamma, dst.Proxy, (int) flags));
@@ -1454,8 +1454,8 @@ public static partial class Cv2
     /// <param name="dtype">When it’s negative, the destination matrix will have the 
     /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
     /// which should be either CV_32F or CV_64F</param>
-    public static void MulTransposed(InputArrayRef src, OutputArrayRef dst, bool aTa,
-        InputArrayRef delta = default, double scale = 1, int dtype = -1)
+    public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
+        InputArray delta = default, double scale = 1, int dtype = -1)
     {
         NativeMethods.HandleException(
             NativeMethods.core_mulTransposed(src.Proxy, dst.Proxy, aTa ? 1 : 0, delta.Proxy, scale, dtype));
@@ -1470,7 +1470,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="src">The source array</param>
     /// <param name="dst">The destination array of the same type as src</param>
-    public static void Transpose(InputArrayRef src, OutputArrayRef dst)
+    public static void Transpose(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_transpose(src.Proxy, dst.Proxy));
@@ -1485,7 +1485,7 @@ public static partial class Cv2
     /// <param name="src">The source array; must have as many channels (1 to 4) as mtx.cols or mtx.cols-1</param>
     /// <param name="dst">The destination array; will have the same size and depth as src and as many channels as mtx.rows</param>
     /// <param name="m">The transformation matrix</param>
-    public static void Transform(InputArrayRef src, OutputArrayRef dst, InputArrayRef m)
+    public static void Transform(InputArray src, OutputArray dst, InputArray m)
     {
         NativeMethods.HandleException(
             NativeMethods.core_transform(src.Proxy, dst.Proxy, m.Proxy));
@@ -1502,7 +1502,7 @@ public static partial class Cv2
     /// each element is 2D/3D vector to be transformed</param>
     /// <param name="dst">The destination array; it will have the same size and same type as src</param>
     /// <param name="m">3x3 or 4x4 transformation matrix</param>
-    public static void PerspectiveTransform(InputArrayRef src, OutputArrayRef dst, InputArrayRef m)
+    public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
     {
         NativeMethods.HandleException(
             NativeMethods.core_perspectiveTransform(src.Proxy, dst.Proxy, m.Proxy));
@@ -1615,7 +1615,7 @@ public static partial class Cv2
     /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
     /// otherwise the upper half is copied to the lower half</param>
     // ReSharper disable once IdentifierTypo
-    public static void CompleteSymm(InputOutputArrayRef mtx, bool lowerToUpper = false)
+    public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
     {
         NativeMethods.HandleException(
             NativeMethods.core_completeSymm(mtx.Proxy, lowerToUpper ? 1 : 0));
@@ -1628,7 +1628,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mtx">The matrix to initialize (not necessarily square)</param>
     /// <param name="s">The value to assign to the diagonal elements</param>
-    public static void SetIdentity(InputOutputArrayRef mtx, Scalar? s = null)
+    public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
     {
         var s0 = s.GetValueOrDefault(new Scalar(1));
         NativeMethods.HandleException(
@@ -1642,7 +1642,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mtx">The input matrix; must have CV_32FC1 or CV_64FC1 type and square size</param>
     /// <returns>determinant of the specified matrix.</returns>
-    public static double Determinant(InputArrayRef mtx)
+    public static double Determinant(InputArray mtx)
     {
         NativeMethods.HandleException(
             NativeMethods.core_determinant(mtx.Proxy, out var ret));
@@ -1656,7 +1656,7 @@ public static partial class Cv2
     /// </summary>
     /// <param name="mtx">The source matrix</param>
     /// <returns></returns>
-    public static Scalar Trace(InputArrayRef mtx)
+    public static Scalar Trace(InputArray mtx)
     {
         NativeMethods.HandleException(
             NativeMethods.core_trace(mtx.Proxy, out var ret));
@@ -1672,7 +1672,7 @@ public static partial class Cv2
     /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
     /// <param name="flags">The inversion method</param>
     /// <returns></returns>
-    public static double Invert(InputArrayRef src, OutputArrayRef dst,
+    public static double Invert(InputArray src, OutputArray dst,
         DecompTypes flags = DecompTypes.LU)
     {
         NativeMethods.HandleException(
@@ -1691,7 +1691,7 @@ public static partial class Cv2
     /// <param name="dst"></param>
     /// <param name="flags"></param>
     /// <returns></returns>
-    public static bool Solve(InputArrayRef src1, InputArrayRef src2, OutputArrayRef dst,
+    public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
         DecompTypes flags = DecompTypes.LU)
     {
         NativeMethods.HandleException(
@@ -1716,7 +1716,7 @@ public static partial class Cv2
     /// <returns></returns>
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
-    public static SolveLPResult SolveLP(InputArrayRef func, InputArrayRef constr, OutputArrayRef z)
+    public static SolveLPResult SolveLP(InputArray func, InputArray constr, OutputArray z)
     {
         NativeMethods.HandleException(
             NativeMethods.core_solveLP(func.Proxy, constr.Proxy, z.Proxy, out var ret));
@@ -1733,7 +1733,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="dst">The destination array of the same size and the same type as src</param>
     /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
-    public static void Sort(InputArrayRef src, OutputArrayRef dst, SortFlags flags)
+    public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
     {
         NativeMethods.HandleException(
             NativeMethods.core_sort(src.Proxy, dst.Proxy, (int) flags));
@@ -1748,7 +1748,7 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="dst">The destination integer array of the same size as src</param>
     /// <param name="flags">The operation flags, a combination of SortFlag values</param>
-    public static void SortIdx(InputArrayRef src, OutputArrayRef dst, SortFlags flags)
+    public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
     {
         NativeMethods.HandleException(
             NativeMethods.core_sortIdx(src.Proxy, dst.Proxy, (int) flags));
@@ -1763,7 +1763,7 @@ public static partial class Cv2
     /// <param name="coeffs">The equation coefficients, an array of 3 or 4 elements</param>
     /// <param name="roots">The destination array of real roots which will have 1 or 3 elements</param>
     /// <returns></returns>
-    public static int SolveCubic(InputArrayRef coeffs, OutputArrayRef roots)
+    public static int SolveCubic(InputArray coeffs, OutputArray roots)
     {
         NativeMethods.HandleException(
             NativeMethods.core_solveCubic(coeffs.Proxy, roots.Proxy, out var ret));
@@ -1780,7 +1780,7 @@ public static partial class Cv2
     /// <param name="roots">The destination (complex) array of roots</param>
     /// <param name="maxIters">The maximum number of iterations the algorithm does</param>
     /// <returns></returns>
-    public static double SolvePoly(InputArrayRef coeffs, OutputArrayRef roots, int maxIters = 300)
+    public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
     {
         NativeMethods.HandleException(
             NativeMethods.core_solvePoly(coeffs.Proxy, roots.Proxy, maxIters, out var ret));
@@ -1801,7 +1801,7 @@ public static partial class Cv2
     /// It will have the same size and the same type as src; The eigenvectors are stored
     /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
     /// <returns></returns>
-    public static bool Eigen(InputArrayRef src, OutputArrayRef eigenvalues, OutputArrayRef eigenvectors)
+    public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
     {
         NativeMethods.HandleException(
             NativeMethods.core_eigen(src.Proxy, eigenvalues.Proxy, eigenvectors.Proxy, out var ret));
@@ -1818,7 +1818,7 @@ public static partial class Cv2
     /// <param name="src">input matrix (CV_32FC1 or CV_64FC1 type).</param>
     /// <param name="eigenvalues">output vector of eigenvalues (type is the same type as src).</param>
     /// <param name="eigenvectors">output matrix of eigenvectors (type is the same type as src). The eigenvectors are stored as subsequent matrix rows, in the same order as the corresponding eigenvalues.</param>
-    public static void EigenNonSymmetric(InputArrayRef src, OutputArrayRef eigenvalues, OutputArrayRef eigenvectors)
+    public static void EigenNonSymmetric(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
     {
         NativeMethods.HandleException(
             NativeMethods.core_eigenNonSymmetric(src.Proxy, eigenvalues.Proxy, eigenvectors.Proxy));
@@ -1872,8 +1872,8 @@ public static partial class Cv2
     /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
-        InputArrayRef samples, OutputArrayRef covar,
-        InputOutputArrayRef mean, CovarFlags flags, MatType? ctype = null)
+        InputArray samples, OutputArray covar,
+        InputOutputArray mean, CovarFlags flags, MatType? ctype = null)
     {
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
@@ -1893,8 +1893,8 @@ public static partial class Cv2
     /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
-        InputArrayRef data, InputOutputArrayRef mean,
-        OutputArrayRef eigenvectors, int maxComponents = 0)
+        InputArray data, InputOutputArray mean,
+        OutputArray eigenvectors, int maxComponents = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCACompute(data.Proxy, mean.Proxy, eigenvectors.Proxy, maxComponents));
@@ -1914,8 +1914,8 @@ public static partial class Cv2
     /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
-        InputArrayRef data, InputOutputArrayRef mean,
-        OutputArrayRef eigenvectors, OutputArrayRef eigenvalues, int maxComponents = 0)
+        InputArray data, InputOutputArray mean,
+        OutputArray eigenvectors, OutputArray eigenvalues, int maxComponents = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCACompute2(data.Proxy, mean.Proxy, eigenvectors.Proxy, eigenvalues.Proxy, maxComponents));
@@ -1935,8 +1935,8 @@ public static partial class Cv2
     /// <param name="retainedVariance">Percentage of variance that PCA should retain.
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public static void PCAComputeVar(
-        InputArrayRef data, InputOutputArrayRef mean,
-        OutputArrayRef eigenvectors, double retainedVariance)
+        InputArray data, InputOutputArray mean,
+        OutputArray eigenvectors, double retainedVariance)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCAComputeVar(data.Proxy, mean.Proxy, eigenvectors.Proxy, retainedVariance));
@@ -1956,8 +1956,8 @@ public static partial class Cv2
     /// <param name="retainedVariance">Percentage of variance that PCA should retain.
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public static void PCAComputeVar(
-        InputArrayRef data, InputOutputArrayRef mean,
-        OutputArrayRef eigenvectors, OutputArrayRef eigenvalues, double retainedVariance)
+        InputArray data, InputOutputArray mean,
+        OutputArray eigenvectors, OutputArray eigenvalues, double retainedVariance)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCAComputeVar2(data.Proxy, mean.Proxy, eigenvectors.Proxy, eigenvalues.Proxy, retainedVariance));
@@ -1975,8 +1975,8 @@ public static partial class Cv2
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
     /// <param name="result">output vectors</param>
-    public static void PCAProject(InputArrayRef data, InputArrayRef mean,
-        InputArrayRef eigenvectors, OutputArrayRef result)
+    public static void PCAProject(InputArray data, InputArray mean,
+        InputArray eigenvectors, OutputArray result)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCAProject(data.Proxy, mean.Proxy, eigenvectors.Proxy, result.Proxy));
@@ -1994,8 +1994,8 @@ public static partial class Cv2
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
     /// <param name="result">output vectors</param>
-    public static void PCABackProject(InputArrayRef data, InputArrayRef mean,
-        InputArrayRef eigenvectors, OutputArrayRef result)
+    public static void PCABackProject(InputArray data, InputArray mean,
+        InputArray eigenvectors, OutputArray result)
     {
         NativeMethods.HandleException(
             NativeMethods.core_PCABackProject(data.Proxy, mean.Proxy, eigenvectors.Proxy, result.Proxy));
@@ -2017,8 +2017,8 @@ public static partial class Cv2
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
     public static void SVDecomp(
-        InputArrayRef src, OutputArrayRef w,
-        OutputArrayRef u, OutputArrayRef vt, SVD.Flags flags = SVD.Flags.None)
+        InputArray src, OutputArray w,
+        OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVDecomp(src.Proxy, w.Proxy, u.Proxy, vt.Proxy, (int) flags));
@@ -2039,8 +2039,8 @@ public static partial class Cv2
     /// <param name="dst">output</param>
     // ReSharper disable once InconsistentNaming
     public static void SVBackSubst(
-        InputArrayRef w, InputArrayRef u, InputArrayRef vt,
-        InputArrayRef rhs, OutputArrayRef dst)
+        InputArray w, InputArray u, InputArray vt,
+        InputArray rhs, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.core_SVBackSubst(w.Proxy, u.Proxy, vt.Proxy, rhs.Proxy, dst.Proxy));
@@ -2059,7 +2059,7 @@ public static partial class Cv2
     /// <param name="v2">second 1D input vector.</param>
     /// <param name="icovar">inverse covariance matrix.</param>
     /// <returns></returns>
-    public static double Mahalanobis(InputArrayRef v1, InputArrayRef v2, InputArrayRef icovar)
+    public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mahalanobis(v1.Proxy, v2.Proxy, icovar.Proxy, out var ret));
@@ -2082,7 +2082,7 @@ public static partial class Cv2
     /// thus the function can handle the rest of the rows more efficiently and
     /// thus save some time. This technique is very useful for computing array cross-correlation
     /// or convolution using DFT</param>
-    public static void Dft(InputArrayRef src, OutputArrayRef dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+    public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_dft(src.Proxy, dst.Proxy, (int) flags, nonzeroRows));
@@ -2103,7 +2103,7 @@ public static partial class Cv2
     /// thus the function can handle the rest of the rows more efficiently and
     /// thus save some time. This technique is very useful for computing array cross-correlation
     /// or convolution using DFT</param>
-    public static void Idft(InputArrayRef src, OutputArrayRef dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+    public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_idft(src.Proxy, dst.Proxy, (int) flags, nonzeroRows));
@@ -2118,7 +2118,7 @@ public static partial class Cv2
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-    public static void Dct(InputArrayRef src, OutputArrayRef dst, DctFlags flags = DctFlags.None)
+    public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
     {
         NativeMethods.HandleException(
             NativeMethods.core_dct(src.Proxy, dst.Proxy, (int) flags));
@@ -2133,7 +2133,7 @@ public static partial class Cv2
     /// <param name="src">The source floating-point array</param>
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-    public static void Idct(InputArrayRef src, OutputArrayRef dst, DctFlags flags = DctFlags.None)
+    public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
     {
         NativeMethods.HandleException(
             NativeMethods.core_idct(src.Proxy, dst.Proxy, (int) flags));
@@ -2152,7 +2152,7 @@ public static partial class Cv2
     /// each row of src1 and src2 is an independent 1D Fourier spectrum. If you do not want to use this flag, then simply add a `0` as value.</param>
     /// <param name="conjB">optional flag that conjugates the second input array before the multiplication (true) or not (false).</param>
     public static void MulSpectrums(
-        InputArrayRef a, InputArrayRef b, OutputArrayRef c,
+        InputArray a, InputArray b, OutputArray c,
         DftFlags flags, bool conjB = false)
     {
         NativeMethods.HandleException(
@@ -2205,7 +2205,7 @@ public static partial class Cv2
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
-    public static void Randu(InputOutputArrayRef dst, InputArrayRef low, InputArrayRef high)
+    public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
     {
         NativeMethods.HandleException(
             NativeMethods.core_randu_InputArray(dst.Proxy, low.Proxy, high.Proxy));
@@ -2223,7 +2223,7 @@ public static partial class Cv2
     /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
     // ReSharper disable once IdentifierTypo
-    public static void Randu(InputOutputArrayRef dst, Scalar low, Scalar high)
+    public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
     {
         NativeMethods.HandleException(
             NativeMethods.core_randu_Scalar(dst.Proxy, low, high));
@@ -2239,7 +2239,7 @@ public static partial class Cv2
     /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
     // ReSharper disable once IdentifierTypo
-    public static void Randn(InputOutputArrayRef dst, InputArrayRef mean, InputArrayRef stddev)
+    public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
     {
         NativeMethods.HandleException(
             NativeMethods.core_randn_InputArray(dst.Proxy, mean.Proxy, stddev.Proxy));
@@ -2256,7 +2256,7 @@ public static partial class Cv2
     /// The array must be pre-allocated and have 1 to 4 channels</param>
     /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
-    public static void Randn(InputOutputArrayRef dst, Scalar mean, Scalar stddev)
+    public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
     {
         NativeMethods.HandleException(
             NativeMethods.core_randn_Scalar(dst.Proxy, mean, stddev));
@@ -2270,7 +2270,7 @@ public static partial class Cv2
     /// <param name="dst">The input/output numerical 1D array</param>
     /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
     // ReSharper disable once IdentifierTypo
-    public static void RandShuffle(InputOutputArrayRef dst, double iterFactor)
+    public static void RandShuffle(InputOutputArray dst, double iterFactor)
     {
         NativeMethods.HandleException(
             NativeMethods.core_randShuffle(dst.Proxy, iterFactor, IntPtr.Zero));
@@ -2286,7 +2286,7 @@ public static partial class Cv2
     /// <param name="rng">The optional random number generator used for shuffling.
     /// If it is null, theRng() is used instead.</param>
     // ReSharper disable once IdentifierTypo
-    public static void RandShuffle(InputOutputArrayRef dst, double iterFactor, ref RNG rng)
+    public static void RandShuffle(InputOutputArray dst, double iterFactor, ref RNG rng)
     {
         var state = rng.State;
         NativeMethods.HandleException(
@@ -2315,8 +2315,8 @@ public static partial class Cv2
     /// value are returned by the function. Basically, you can use only the core of the function,
     /// set the number of attempts to 1, initialize labels each time using a custom algorithm,
     /// pass them with the ( flags = #KMEANS_USE_INITIAL_LABELS ) flag, and then choose the best (most-compact) clustering.</returns>
-    public static double Kmeans(InputArrayRef data, int k, InputOutputArrayRef bestLabels,
-        TermCriteria criteria, int attempts, KMeansFlags flags, OutputArrayRef centers = default)
+    public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
+        TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray centers = default)
     {
         NativeMethods.HandleException(
             NativeMethods.core_kmeans(
@@ -2707,7 +2707,7 @@ public static partial class Cv2
     /// <param name="mtx"></param>
     /// <param name="format"></param>
     /// <returns></returns>
-    public static string Format(InputArrayRef mtx, FormatType format = FormatType.Default)
+    public static string Format(InputArray mtx, FormatType format = FormatType.Default)
     {
         using var buf = new StdString();
         NativeMethods.HandleException(

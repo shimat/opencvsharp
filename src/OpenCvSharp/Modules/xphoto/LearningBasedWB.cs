@@ -92,7 +92,7 @@ public class LearningBasedWB : WhiteBalancer
     /// </summary>
     /// <param name="src">Input image</param>
     /// <param name="dst">White balancing result</param>
-    public override void BalanceWhite(InputArrayRef src, OutputArrayRef dst)
+    public override void BalanceWhite(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.xphoto_LearningBasedWB_balanceWhite(Handle, src.Proxy, dst.Proxy));
@@ -106,7 +106,7 @@ public class LearningBasedWB : WhiteBalancer
     /// </summary>
     /// <param name="src">Input three-channel image (BGR color space is assumed).</param>
     /// <param name="dst">An array of four (r,g) chromaticity tuples corresponding to the features listed above.</param>
-    public void ExtractSimpleFeatures(InputArrayRef src, OutputArrayRef dst)
+    public void ExtractSimpleFeatures(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(Handle, src.Proxy, dst.Proxy));

@@ -21,8 +21,8 @@ public class CharucoDetector : CvObject
     /// </summary>
     public CharucoDetector(
         CharucoBoard board,
-        InputArrayRef cameraMatrix,
-        InputArrayRef distCoeffs,
+        InputArray cameraMatrix,
+        InputArray distCoeffs,
         int minMarkers = 2,
         bool tryRefineMarkers = false,
         bool checkMarkers = true,
@@ -59,7 +59,7 @@ public class CharucoDetector : CvObject
     /// Detect aruco markers and interpolate position of ChArUco board corners.
     /// </summary>
     public void DetectBoard(
-        InputArrayRef image,
+        InputArray image,
         out Point2f[] charucoCorners,
         out int[] charucoIds,
         out Point2f[][] markerCorners,
@@ -90,7 +90,7 @@ public class CharucoDetector : CvObject
     /// Detect ChArUco Diamond markers.
     /// </summary>
     public void DetectDiamonds(
-        InputArrayRef image,
+        InputArray image,
         out Point2f[][] diamondCorners,
         out Vec4i[] diamondIds,
         out Point2f[][] markerCorners,

@@ -142,7 +142,7 @@ public class MSER : Feature2D
     /// <param name="msers">resulting list of point sets</param>
     /// <param name="bboxes">resulting bounding boxes</param>
     public virtual void DetectRegions(
-        InputArrayRef image, out Point[][] msers, out Rect[] bboxes)
+        InputArray image, out Point[][] msers, out Rect[] bboxes)
     {
         ThrowIfDisposed();
 

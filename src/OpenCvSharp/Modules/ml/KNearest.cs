@@ -152,8 +152,8 @@ public class KNearest : StatModel
     /// <param name="dist">Optional output distances from the input vectors to the corresponding neighbors. 
     /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
     /// <returns></returns>
-    public float FindNearest(InputArrayRef samples, int k, OutputArrayRef results,
-        OutputArrayRef neighborResponses = default, OutputArrayRef dist = default)
+    public float FindNearest(InputArray samples, int k, OutputArray results,
+        OutputArray neighborResponses = default, OutputArray dist = default)
     {
         ThrowIfDisposed();
 

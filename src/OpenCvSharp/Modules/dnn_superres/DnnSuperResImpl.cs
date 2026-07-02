@@ -135,7 +135,7 @@ public class DnnSuperResImpl : CvObject
     /// </summary>
     /// <param name="img">Image to upscale</param>
     /// <param name="result">Destination upscaled image</param>
-    public void Upsample(InputArrayRef img, OutputArrayRef result)
+    public void Upsample(InputArray img, OutputArray result)
     {
         ThrowIfDisposed();
 
@@ -154,7 +154,7 @@ public class DnnSuperResImpl : CvObject
     /// <param name="nodeNames">Names of the output nodes in the neural network</param>
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public void UpsampleMultioutput(
-        InputArrayRef img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
+        InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
     {
         ThrowIfDisposed();
         if (scaleFactors is null) 

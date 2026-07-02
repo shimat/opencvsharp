@@ -155,7 +155,7 @@ static partial class Cv2
     /// <param name="buf">The input array of vector of bytes.</param>
     /// <param name="flags">The same flags as in imread</param>
     /// <returns></returns>
-    public static Mat ImDecode(InputArrayRef buf, ImreadModes flags)
+    public static Mat ImDecode(InputArray buf, ImreadModes flags)
     {
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imdecode_InputArray(buf.Proxy, (int) flags, out var ret));
@@ -207,7 +207,7 @@ static partial class Cv2
     /// <param name="img">The image to be written</param>
     /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    public static bool ImEncode(string ext, InputArrayRef img, out byte[] buf, int[]? prms = null)
+    public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
@@ -228,7 +228,7 @@ static partial class Cv2
     /// <param name="img">The image to be written</param>
     /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    public static void ImEncode(string ext, InputArrayRef img, out byte[] buf, params ImageEncodingParam[] prms)
+    public static void ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
     {
         if (prms is null)
             throw new ArgumentNullException(nameof(prms));

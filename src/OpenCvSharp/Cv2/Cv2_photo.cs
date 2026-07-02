@@ -12,8 +12,8 @@ static partial class Cv2
     /// <param name="dst">Output image with the same size and type as src.</param>
     /// <param name="inpaintRadius">Radius of a circular neighborhood of each point inpainted that is considered by the algorithm.</param>
     /// <param name="flags">Inpainting method that could be cv::INPAINT_NS or cv::INPAINT_TELEA</param>
-    public static void Inpaint(InputArrayRef src, InputArrayRef inpaintMask,
-        OutputArrayRef dst, double inpaintRadius, InpaintTypes flags)
+    public static void Inpaint(InputArray src, InputArray inpaintMask,
+        OutputArray dst, double inpaintRadius, InpaintTypes flags)
     {
         NativeMethods.HandleException(
             NativeMethods.photo_inpaint(src.Proxy, inpaintMask.Proxy, dst.Proxy, inpaintRadius, (int)flags));
@@ -36,7 +36,7 @@ static partial class Cv2
     /// <param name="searchWindowSize">
     /// Size in pixels of the window that is used to compute weighted average for given pixel. 
     /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-    public static void FastNlMeansDenoising(InputArrayRef src, OutputArrayRef dst, float h = 3,
+    public static void FastNlMeansDenoising(InputArray src, OutputArray dst, float h = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
         NativeMethods.HandleException(
@@ -59,7 +59,7 @@ static partial class Cv2
     /// <param name="searchWindowSize">
     /// Size in pixels of the window that is used to compute weighted average for given pixel. Should be odd. 
     /// Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-    public static void FastNlMeansDenoisingColored(InputArrayRef src, OutputArrayRef dst,
+    public static void FastNlMeansDenoisingColored(InputArray src, OutputArray dst,
         float h = 3, float hColor = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
@@ -85,7 +85,7 @@ static partial class Cv2
     /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
     /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
     public static void FastNlMeansDenoisingMulti(
-        IEnumerable<Mat> srcImgs, OutputArrayRef dst,
+        IEnumerable<Mat> srcImgs, OutputArray dst,
         int imgToDenoiseIndex, int temporalWindowSize,
         float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
     {
@@ -119,7 +119,7 @@ static partial class Cv2
     /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
     /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
     public static void FastNlMeansDenoisingColoredMulti(
-        IEnumerable<Mat> srcImgs, OutputArrayRef dst,
+        IEnumerable<Mat> srcImgs, OutputArray dst,
         int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
@@ -177,7 +177,7 @@ static partial class Cv2
     /// <param name="grayscale">Output 8-bit 1-channel image.</param>
     /// <param name="colorBoost">Output 8-bit 3-channel image.</param>
     public static void Decolor(
-        InputArrayRef src, OutputArrayRef grayscale, OutputArrayRef colorBoost)
+        InputArray src, OutputArray grayscale, OutputArray colorBoost)
     {
         NativeMethods.HandleException(
             NativeMethods.photo_decolor(src.Proxy, grayscale.Proxy, colorBoost.Proxy));
@@ -200,8 +200,8 @@ static partial class Cv2
     /// <param name="blend">Output image with the same size and type as dst.</param>
     /// <param name="flags">Cloning method</param>
     public static void SeamlessClone(
-        InputArrayRef src, InputArrayRef dst, InputArrayRef mask, Point p,
-        OutputArrayRef blend, SeamlessCloneFlags flags)
+        InputArray src, InputArray dst, InputArray mask, Point p,
+        OutputArray blend, SeamlessCloneFlags flags)
     {
         NativeMethods.HandleException(
             NativeMethods.photo_seamlessClone(
@@ -223,7 +223,7 @@ static partial class Cv2
     /// <param name="greenMul">G-channel multiply factor.</param>
     /// <param name="blueMul">B-channel multiply factor.</param>
     public static void ColorChange(
-        InputArrayRef src, InputArrayRef mask, OutputArrayRef dst, 
+        InputArray src, InputArray mask, OutputArray dst, 
         float redMul = 1.0f, float greenMul = 1.0f, float blueMul = 1.0f)
     {
         NativeMethods.HandleException(
@@ -248,7 +248,7 @@ static partial class Cv2
     /// This is useful to highlight under-exposed foreground objects or to reduce specular reflections.
     /// </remarks>
     public static void IlluminationChange(
-        InputArrayRef src, InputArrayRef mask, OutputArrayRef dst,
+        InputArray src, InputArray mask, OutputArray dst,
         float alpha = 0.2f, float beta = 0.4f)
     {
         NativeMethods.HandleException(
@@ -271,7 +271,7 @@ static partial class Cv2
     /// <param name="highThreshold">Value &gt; 100.</param>
     /// <param name="kernelSize">The size of the Sobel kernel to be used.</param>
     public static void TextureFlattening(
-        InputArrayRef src, InputArrayRef mask, OutputArrayRef dst,
+        InputArray src, InputArray mask, OutputArray dst,
         float lowThreshold = 30, float highThreshold = 45,
         int kernelSize = 3)
     {
@@ -293,7 +293,7 @@ static partial class Cv2
     /// <param name="sigmaS">Range between 0 to 200.</param>
     /// <param name="sigmaR">Range between 0 to 1.</param>
     public static void EdgePreservingFilter(
-        InputArrayRef src, OutputArrayRef dst, 
+        InputArray src, OutputArray dst, 
         EdgePreservingMethods flags = EdgePreservingMethods.RecursFilter,
         float sigmaS = 60, float sigmaR = 0.4f)
     {
@@ -312,7 +312,7 @@ static partial class Cv2
     /// <param name="sigmaS">Range between 0 to 200.</param>
     /// <param name="sigmaR">Range between 0 to 1.</param>
     public static void DetailEnhance(
-        InputArrayRef src, OutputArrayRef dst, 
+        InputArray src, OutputArray dst, 
         float sigmaS = 10, float sigmaR = 0.15f)
     {
         NativeMethods.HandleException(
@@ -332,7 +332,7 @@ static partial class Cv2
     /// <param name="sigmaR">Range between 0 to 1.</param>
     /// <param name="shadeFactor">Range between 0 to 0.1.</param>
     public static void PencilSketch(
-        InputArrayRef src, OutputArrayRef dst1, OutputArrayRef dst2,
+        InputArray src, OutputArray dst1, OutputArray dst2,
         float sigmaS = 60, float sigmaR = 0.07f, float shadeFactor = 0.02f)
     {
         NativeMethods.HandleException(
@@ -353,7 +353,7 @@ static partial class Cv2
     /// <param name="sigmaS">Range between 0 to 200.</param>
     /// <param name="sigmaR">Range between 0 to 1.</param>
     public static void Stylization(
-        InputArrayRef src, OutputArrayRef dst,
+        InputArray src, OutputArray dst,
         float sigmaS = 60, float sigmaR = 0.45f)
     {
         NativeMethods.HandleException(

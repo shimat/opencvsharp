@@ -27,7 +27,7 @@ public class GuidedFilter : Algorithm
     /// space into bilateralFilter.</param>
     /// <returns></returns>
     public static GuidedFilter Create(
-        InputArrayRef guide, int radius, double eps)
+        InputArray guide, int radius, double eps)
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createGuidedFilter(
@@ -44,7 +44,7 @@ public class GuidedFilter : Algorithm
     /// <param name="src">filtering image with any numbers of channels.</param>
     /// <param name="dst">output image.</param>
     /// <param name="dDepth">optional depth of the output image. dDepth can be set to -1, which will be equivalent to src.depth().</param>
-    public virtual void Filter(InputArrayRef src, OutputArrayRef dst, int dDepth = -1)
+    public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
     {
         ThrowIfDisposed();
 

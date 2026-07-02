@@ -54,7 +54,7 @@ public class GrayworldWB : WhiteBalancer
     /// </summary>
     /// <param name="src">Input image</param>
     /// <param name="dst">White balancing result</param>
-    public override void BalanceWhite(InputArrayRef src, OutputArrayRef dst)
+    public override void BalanceWhite(InputArray src, OutputArray dst)
     {
         NativeMethods.HandleException(
             NativeMethods.xphoto_GrayworldWB_balanceWhite(Handle, src.Proxy, dst.Proxy));

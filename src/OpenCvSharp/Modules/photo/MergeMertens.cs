@@ -37,7 +37,7 @@ public sealed class MergeMertens : MergeExposures
     /// </summary>
     /// <param name="src">vector of input images</param>
     /// <param name="dst">result image</param>
-    public void Process(IEnumerable<Mat> src, OutputArrayRef dst)
+    public void Process(IEnumerable<Mat> src, OutputArray dst)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));

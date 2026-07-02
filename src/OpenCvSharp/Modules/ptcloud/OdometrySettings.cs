@@ -45,7 +45,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Sets the camera matrix.
     /// </summary>
-    public void SetCameraMatrix(InputArrayRef val)
+    public void SetCameraMatrix(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -56,7 +56,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Gets the camera matrix.
     /// </summary>
-    public void GetCameraMatrix(OutputArrayRef val)
+    public void GetCameraMatrix(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -66,7 +66,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Sets the iteration counts.
     /// </summary>
-    public void SetIterCounts(InputArrayRef val)
+    public void SetIterCounts(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -77,7 +77,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Gets the iteration counts.
     /// </summary>
-    public void GetIterCounts(OutputArrayRef val)
+    public void GetIterCounts(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -87,7 +87,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Sets the minimum gradient magnitudes.
     /// </summary>
-    public void SetMinGradientMagnitudes(InputArrayRef val)
+    public void SetMinGradientMagnitudes(InputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -98,7 +98,7 @@ public class OdometrySettings : CvObject
     /// <summary>
     /// Gets the minimum gradient magnitudes.
     /// </summary>
-    public void GetMinGradientMagnitudes(OutputArrayRef val)
+    public void GetMinGradientMagnitudes(OutputArray val)
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(

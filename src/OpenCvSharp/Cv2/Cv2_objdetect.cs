@@ -143,7 +143,7 @@ static partial class Cv2
     /// <param name="img"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    public static bool CheckChessboard(InputArrayRef img, Size size)
+    public static bool CheckChessboard(InputArray img, Size size)
     {
         NativeMethods.HandleException(
             NativeMethods.objdetect_checkChessboard(img.Proxy, size, out var ret));
@@ -161,7 +161,7 @@ static partial class Cv2
     /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
     /// <returns></returns>
     public static bool FindChessboardCornersSB(
-        InputArrayRef image, Size patternSize, OutputArrayRef corners, ChessboardFlags flags = 0)
+        InputArray image, Size patternSize, OutputArray corners, ChessboardFlags flags = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_OutputArray(
@@ -182,7 +182,7 @@ static partial class Cv2
     /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
     /// <returns></returns>
     public static bool FindChessboardCornersSB(
-        InputArrayRef image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
+        InputArray image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
     {
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
@@ -201,7 +201,7 @@ static partial class Cv2
     /// <param name="corners"></param>
     /// <param name="regionSize"></param>
     /// <returns></returns>
-    public static bool Find4QuadCornerSubpix(InputArrayRef img, InputOutputArrayRef corners, Size regionSize)
+    public static bool Find4QuadCornerSubpix(InputArray img, InputOutputArray corners, Size regionSize)
     {
         NativeMethods.HandleException(
             NativeMethods.objdetect_find4QuadCornerSubpix_InputArray(
@@ -216,7 +216,7 @@ static partial class Cv2
     /// <param name="corners"></param>
     /// <param name="regionSize"></param>
     /// <returns></returns>
-    public static bool Find4QuadCornerSubpix(InputArrayRef img, Point2f[] corners, Size regionSize)
+    public static bool Find4QuadCornerSubpix(InputArray img, Point2f[] corners, Size regionSize)
     {
         if (corners is null)
             throw new ArgumentNullException(nameof(corners));
@@ -243,8 +243,8 @@ static partial class Cv2
     /// <param name="patternSize">Number of inner corners per a chessboard row and column (patternSize = cv::Size(points_per_row,points_per_column)).</param>
     /// <param name="corners">Array of detected corners, the output of findChessboardCorners.</param>
     /// <param name="patternWasFound">Parameter indicating whether the complete board was found or not. The return value of findChessboardCorners() should be passed here.</param>
-    public static void DrawChessboardCorners(InputOutputArrayRef image, Size patternSize,
-        InputArrayRef corners, bool patternWasFound)
+    public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
+        InputArray corners, bool patternWasFound)
     {
         NativeMethods.HandleException(
             NativeMethods.objdetect_drawChessboardCorners_InputArray(
@@ -260,7 +260,7 @@ static partial class Cv2
     /// <param name="corners">Array of detected corners, the output of findChessboardCorners.</param>
     /// <param name="patternWasFound">Parameter indicating whether the complete board was found or not. The return value of findChessboardCorners() should be passed here.</param>
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
-    public static void DrawChessboardCorners(InputOutputArrayRef image, Size patternSize,
+    public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
         IEnumerable<Point2f> corners, bool patternWasFound)
     {
         if (corners is null)

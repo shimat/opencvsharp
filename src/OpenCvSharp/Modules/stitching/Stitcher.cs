@@ -269,7 +269,7 @@ namespace OpenCvSharp
 
         #region Methods
 
-        public Status EstimateTransform(InputArrayRef images)
+        public Status EstimateTransform(InputArray images)
         {
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(Handle, images.Proxy, out var ret));
@@ -278,7 +278,7 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
-        public Status EstimateTransform(InputArrayRef images, Rect[][] rois)
+        public Status EstimateTransform(InputArray images, Rect[][] rois)
         {
             if (rois is null)
                 throw new ArgumentNullException(nameof(rois));
@@ -325,7 +325,7 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
-        public Status ComposePanorama(OutputArrayRef pano)
+        public Status ComposePanorama(OutputArray pano)
         {
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_composePanorama1(Handle, pano.Proxy, out var ret));
@@ -334,7 +334,7 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
-        public Status ComposePanorama(InputArrayRef images, OutputArrayRef pano)
+        public Status ComposePanorama(InputArray images, OutputArray pano)
         {
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_composePanorama2_InputArray(Handle, images.Proxy, pano.Proxy, out var ret));
@@ -344,7 +344,7 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
-        public Status ComposePanorama(IEnumerable<Mat> images, OutputArrayRef pano)
+        public Status ComposePanorama(IEnumerable<Mat> images, OutputArray pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));
@@ -364,7 +364,7 @@ namespace OpenCvSharp
         /// <param name="images">Input images.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(InputArrayRef images, OutputArrayRef pano)
+        public Status Stitch(InputArray images, OutputArray pano)
         {
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_stitch1_InputArray(Handle, images.Proxy, pano.Proxy, out var ret));
@@ -381,7 +381,7 @@ namespace OpenCvSharp
         /// <param name="images">Input images.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(IEnumerable<Mat> images, OutputArrayRef pano)
+        public Status Stitch(IEnumerable<Mat> images, OutputArray pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));
@@ -404,7 +404,7 @@ namespace OpenCvSharp
         /// <param name="rois">Region of interest rectangles.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(InputArrayRef images, Rect[][] rois, OutputArrayRef pano)
+        public Status Stitch(InputArray images, Rect[][] rois, OutputArray pano)
         {
             if (rois is null)
                 throw new ArgumentNullException(nameof(rois));
@@ -425,7 +425,7 @@ namespace OpenCvSharp
         /// <param name="rois">Region of interest rectangles.</param>
         /// <param name="pano">Final pano.</param>
         /// <returns>Status code.</returns>
-        public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArrayRef pano)
+        public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArray pano)
         {
             if (images is null)
                 throw new ArgumentNullException(nameof(images));

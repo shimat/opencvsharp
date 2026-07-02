@@ -83,7 +83,7 @@ public class DetectionModel : Model
     /// <param name="confThreshold">A threshold used to filter boxes by confidences.</param>
     /// <param name="nmsThreshold">A threshold used in non maximum suppression.</param>
     public void Detect(
-        InputArrayRef frame, out int[] classIds, out float[] confidences, out Rect[] boxes,
+        InputArray frame, out int[] classIds, out float[] confidences, out Rect[] boxes,
         float confThreshold = 0.5f, float nmsThreshold = 0.0f)
     {
         ThrowIfDisposed();

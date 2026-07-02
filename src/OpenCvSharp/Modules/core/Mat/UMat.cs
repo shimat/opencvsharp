@@ -694,7 +694,7 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(OutputArrayRef m, InputArrayRef mask = default)
+    public void CopyTo(OutputArray m, InputArray mask = default)
     {
         ThrowIfDisposed();
 
@@ -710,7 +710,7 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
     /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-    public void CopyTo(UMat m, InputArrayRef mask = default)
+    public void CopyTo(UMat m, InputArray mask = default)
     {
         ThrowIfDisposed();
         if (m is null)
@@ -732,7 +732,7 @@ public class UMat : CvObject
     /// if rtype is negative, the output matrix will have the same type as the input.</param>
     /// <param name="alpha">optional scale factor.</param>
     /// <param name="beta">optional delta added to the scaled values.</param>
-    public void ConvertTo(OutputArrayRef m, MatType rtype, double alpha = 1, double beta = 0)
+    public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
 
@@ -783,7 +783,7 @@ public class UMat : CvObject
     /// <param name="value"></param>
     /// <param name="mask"></param>
     /// <returns></returns>
-    public UMat SetTo(InputArrayRef value, UMat? mask = null)
+    public UMat SetTo(InputArray value, UMat? mask = null)
     {
         ThrowIfDisposed();
 
@@ -870,7 +870,7 @@ public class UMat : CvObject
     /// <param name="m"></param>
     /// <param name="scale"></param>
     /// <returns></returns>
-    public UMat Mul(InputArrayRef m, double scale = 1)
+    public UMat Mul(InputArray m, double scale = 1)
     {
         ThrowIfDisposed();
 
@@ -887,7 +887,7 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="m">another dot-product operand.</param>
     /// <returns></returns>
-    public double Dot(InputArrayRef m)
+    public double Dot(InputArray m)
     {
         ThrowIfDisposed();
 
