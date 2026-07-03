@@ -5,12 +5,8 @@ namespace OpenCvSharp;
 /// <summary>
 /// connected components that is returned from Cv2.ConnectedComponentsEx
 /// </summary>
-public sealed class ConnectedComponents : IDisposable
+public class ConnectedComponents
 {
-    private readonly Mat labelsMat;
-    private ReadOnlyArray2D<int>? labelsCache;
-    private bool disposed;
-
     /// <summary>
     /// All blobs, including the background blob at index 0 (<see cref="Blob.Label"/> == 0).
     /// Most callers should skip index 0 unless the background itself is of interest
@@ -19,37 +15,26 @@ public sealed class ConnectedComponents : IDisposable
     public IReadOnlyList<Blob> Blobs { get; }
 
     /// <summary>
-    /// destination labeled value. Materialized from the native label image on first access.
+    /// destination labeled value
     /// </summary>
-    public ReadOnlyArray2D<int> Labels => labelsCache ??= new ReadOnlyArray2D<int>(ToInt32Array(labelsMat));
+    public ReadOnlyArray2D<int> Labels { get; }
 
     /// <summary>
     /// The total number of labels, including the background label (0).
     /// </summary>
-    public int LabelCount { get; }
+    public int LabelCount { get; internal set; }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="blobs"></param>
-    /// <param name="labelsMat">The native label image (CV_32S or CV_16U). Ownership is transferred to this instance.</param>
+    /// <param name="labels"></param>
     /// <param name="labelCount"></param>
-    internal ConnectedComponents(IReadOnlyList<Blob> blobs, Mat labelsMat, int labelCount)
+    internal ConnectedComponents(IReadOnlyList<Blob> blobs, int[,] labels, int labelCount)
     {
         Blobs = blobs;
-        this.labelsMat = labelsMat;
+        Labels = new ReadOnlyArray2D<int>(labels);
         LabelCount = labelCount;
-    }
-
-    /// <summary>
-    /// Releases the underlying native label image.
-    /// </summary>
-    public void Dispose()
-    {
-        if (disposed)
-            return;
-        labelsMat.Dispose();
-        disposed = true;
     }
 
     /// <summary>
@@ -88,11 +73,12 @@ public sealed class ConnectedComponents : IDisposable
         }
 
         // マスク用Matを用意し、Andで切り抜く
-        using var mask = GetLabelMask(labelArray[0]);
+        using var labelsView = Mat.FromPixelData(Labels.GetLength(0), Labels.GetLength(1), MatType.CV_32SC1, Labels.GetBuffer());
+        using var mask = GetLabelMask(labelsView, labelArray[0]);
 
         for (var i = 1; i < labelArray.Length; i++)
         {
-            using var maskI = GetLabelMask(labelArray[i]);
+            using var maskI = GetLabelMask(labelsView, labelArray[i]);
             Cv2.BitwiseOr(mask, maskI, mask);
         }
         src.CopyTo(dst, mask);
@@ -134,9 +120,11 @@ public sealed class ConnectedComponents : IDisposable
             throw new ArgumentNullException(nameof(img));
         if (Blobs is null || Blobs.Count == 0)
             throw new OpenCvSharpException("Blobs is empty");
+        if (Labels is null)
+            throw new OpenCvSharpException("Labels is empty");
 
-        var height = labelsMat.Rows;
-        var width = labelsMat.Cols;
+        var height = Labels.GetLength(0);
+        var width = Labels.GetLength(1);
         img.Create(new Size(width, height), MatType.CV_8UC3);
 
         var colors = new Vec3b[Blobs.Count];
@@ -145,28 +133,15 @@ public sealed class ConnectedComponents : IDisposable
             colors[i] = Scalar.RandomColor().ToVec3b();
         }
 
+        // Reads straight from the plain int[,] buffer (fast array indexing) and writes via
+        // Mat.AsRows (no P/Invoke per pixel), instead of the previous Mat<Vec3b> generic indexer.
+        var labelsBuffer = Labels.GetBuffer();
         var imgRows = img.AsRows<Vec3b>();
-        if (labelsMat.Type() == MatType.CV_16U)
+        for (var y = 0; y < height; y++)
         {
-            var labelRows = labelsMat.AsRows<ushort>();
-            for (var y = 0; y < height; y++)
-            {
-                var labelRow = labelRows[y];
-                var imgRow = imgRows[y];
-                for (var x = 0; x < width; x++)
-                    imgRow[x] = colors[labelRow[x]];
-            }
-        }
-        else
-        {
-            var labelRows = labelsMat.AsRows<int>();
-            for (var y = 0; y < height; y++)
-            {
-                var labelRow = labelRows[y];
-                var imgRow = imgRows[y];
-                for (var x = 0; x < width; x++)
-                    imgRow[x] = colors[labelRow[x]];
-            }
+            var imgRow = imgRows[y];
+            for (var x = 0; x < width; x++)
+                imgRow[x] = colors[labelsBuffer[y, x]];
         }
     }
 
@@ -193,37 +168,14 @@ public sealed class ConnectedComponents : IDisposable
     /// <summary>
     /// 指定したラベル値のところのみを非0で残したマスク画像を返す
     /// </summary>
+    /// <param name="labelsView">Zero-copy Mat view over the <see cref="Labels"/> buffer.</param>
     /// <param name="label"></param>
     /// <returns></returns>
-    private Mat GetLabelMask(int label)
+    private static Mat GetLabelMask(Mat labelsView, int label)
     {
         var result = new Mat();
-        Cv2.Compare(labelsMat, new Scalar(label), result, CmpTypes.EQ);
+        Cv2.Compare(labelsView, new Scalar(label), result, CmpTypes.EQ);
         return result;
-    }
-
-    /// <summary>
-    /// Copies the native label image (CV_32S or CV_16U) into a managed <c>int[,]</c>.
-    /// </summary>
-    private static int[,] ToInt32Array(Mat mat)
-    {
-        if (mat.Type() == MatType.CV_16U)
-        {
-            var rows = mat.Rows;
-            var cols = mat.Cols;
-            var result = new int[rows, cols];
-            var srcRows = mat.AsRows<ushort>();
-            for (var y = 0; y < rows; y++)
-            {
-                var srcRow = srcRows[y];
-                for (var x = 0; x < cols; x++)
-                    result[y, x] = srcRow[x];
-            }
-            return result;
-        }
-
-        using var int32Mat = new Mat<int>(mat);
-        return int32Mat.ToRectangularArray();
     }
 
 #pragma warning disable CA1034

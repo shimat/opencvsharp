@@ -16,7 +16,7 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Threshold(src, binary, 128, 255, ThresholdTypes.BinaryInv);
         ShowImagesWhenDebugMode(src, binary);
 
-        using var cc = Cv2.ConnectedComponentsEx(binary, connectivity, algorithmType);
+        var cc = Cv2.ConnectedComponentsEx(binary, connectivity, algorithmType);
             
         Assert.Equal(27, cc.LabelCount);
         Assert.NotEmpty(cc.Labels.GetBuffer());
@@ -35,7 +35,7 @@ public class ConnectedComponentsTest : TestBase
         using var binary = new Mat();
         Cv2.Threshold(src, binary, 128, 255, ThresholdTypes.BinaryInv);
 
-        using var cc = Cv2.ConnectedComponentsEx(
+        var cc = Cv2.ConnectedComponentsEx(
             binary, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default, MatType.CV_16U);
 
         Assert.Equal(27, cc.LabelCount);
@@ -55,7 +55,7 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Rectangle(src, new Rect(50, 60, 20, 30), Scalar.White, -1); // greater
         ShowImagesWhenDebugMode(src);
 
-        using var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
+        var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
             
         var largestBlob = cc.GetLargestBlob();
         Assert.Equal(50, largestBlob.Left);
@@ -74,7 +74,7 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Rectangle(src, new Rect(10, 20, 10, 20), Scalar.White, -1);
         Cv2.Rectangle(src, new Rect(50, 60, 20, 30), Scalar.White, -1); // greater
 
-        using var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
+        var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
 
         using var dst = new Mat();
         cc.FilterByLabel(src, dst, 1);

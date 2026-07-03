@@ -2229,7 +2229,7 @@ static partial class Cv2
     /// <param name="ccltype"></param>
     /// <param name="ltype">output label image type. Currently CV_32S (default) and CV_16U are supported.
     /// CV_16U halves the native label image's memory footprint, at the cost of a 65535 label limit.</param>
-    /// <returns>A <see cref="global::OpenCvSharp.ConnectedComponents"/> instance. Dispose it to release the underlying native label image.</returns>
+    /// <returns></returns>
     public static ConnectedComponents ConnectedComponentsEx(
         InputArray image,
         PixelConnectivity connectivity = PixelConnectivity.Connectivity8,
@@ -2240,37 +2240,50 @@ static partial class Cv2
         if (labelType != MatType.CV_32S && labelType != MatType.CV_16U)
             throw new ArgumentException("ltype must be CV_32S or CV_16U", nameof(ltype));
 
-        var labelsMat = new Mat();
-        try
-        {
-            using var statsMat = new Mat<int>();
-            using var centroidsMat = new Mat<double>();
-            var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
-                image, labelsMat, statsMat, centroidsMat, connectivity, labelType, ccltype);
-            var stats = statsMat.ToRectangularArray();
-            var centroids = centroidsMat.ToRectangularArray();
+        using var labelsMat = new Mat();
+        using var statsMat = new Mat<int>();
+        using var centroidsMat = new Mat<double>();
+        var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
+            image, labelsMat, statsMat, centroidsMat, connectivity, labelType, ccltype);
+        var labels = ToInt32RectangularArray(labelsMat, labelType);
+        var stats = statsMat.ToRectangularArray();
+        var centroids = centroidsMat.ToRectangularArray();
 
-            var blobs = new ConnectedComponents.Blob[nLabels];
-            for (var i = 0; i < nLabels; i++)
-            {
-                blobs[i] = new ConnectedComponents.Blob
-                {
-                    Label = i,
-                    Left = stats[i, 0],
-                    Top = stats[i, 1],
-                    Width = stats[i, 2],
-                    Height = stats[i, 3],
-                    Area = stats[i, 4],
-                    Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
-                };
-            }
-            return new ConnectedComponents(blobs, labelsMat, nLabels);
-        }
-        catch
+        var blobs = new ConnectedComponents.Blob[nLabels];
+        for (var i = 0; i < nLabels; i++)
         {
-            labelsMat.Dispose();
-            throw;
+            blobs[i] = new ConnectedComponents.Blob
+            {
+                Label = i,
+                Left = stats[i, 0],
+                Top = stats[i, 1],
+                Width = stats[i, 2],
+                Height = stats[i, 3],
+                Area = stats[i, 4],
+                Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
+            };
         }
+        return new ConnectedComponents(blobs, labels, nLabels);
+    }
+
+    /// <summary>
+    /// Copies a CV_32S or CV_16U label Mat into a managed <c>int[,]</c>, widening CV_16U elements.
+    /// </summary>
+    private static int[,] ToInt32RectangularArray(Mat labelsMat, MatType labelType)
+    {
+        if (labelType == MatType.CV_16U)
+        {
+            using var labelsU16 = new Mat<ushort>(labelsMat);
+            var raw = labelsU16.ToRectangularArray();
+            var widened = new int[raw.GetLength(0), raw.GetLength(1)];
+            for (var y = 0; y < raw.GetLength(0); y++)
+                for (var x = 0; x < raw.GetLength(1); x++)
+                    widened[y, x] = raw[y, x];
+            return widened;
+        }
+
+        using var labelsI32 = new Mat<int>(labelsMat);
+        return labelsI32.ToRectangularArray();
     }
         
     /// <summary>
