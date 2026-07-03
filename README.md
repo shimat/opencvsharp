@@ -38,11 +38,11 @@ dotnet add package OpenCvSharp5.official.runtime.linux-x64
 
 ### macOS
 ```bash
-dotnet add package OpenCvSharp4
+dotnet add package OpenCvSharp5
 # Intel (x64):
-dotnet add package OpenCvSharp4.runtime.osx.x64
+dotnet add package OpenCvSharp5.runtime.osx.x64
 # Apple Silicon (arm64):
-dotnet add package OpenCvSharp4.runtime.osx.arm64
+dotnet add package OpenCvSharp5.runtime.osx.arm64
 ```
 
 For more installation options, see the [Installation](#installation) section below.
@@ -101,19 +101,16 @@ dotnet add package OpenCvSharp5.official.runtime.linux-x64
 dotnet run
 ```
 
-> ⚠️ The distro-specific `OpenCvSharp5.official.runtime.ubuntu.*` packages are **no longer maintained**. Use `OpenCvSharp5.official.runtime.linux-x64` instead.
-
-
 ### macOS (Intel and Apple Silicon)
-Add `OpenCvSharp4` and the runtime package matching your architecture:
+Add `OpenCvSharp5` and the runtime package matching your architecture:
 ```bash
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
-dotnet add package OpenCvSharp4
+dotnet add package OpenCvSharp5
 # Intel (x64):
-dotnet add package OpenCvSharp4.runtime.osx.x64
+dotnet add package OpenCvSharp5.runtime.osx.x64
 # Apple Silicon (arm64):
-dotnet add package OpenCvSharp4.runtime.osx.arm64
+dotnet add package OpenCvSharp5.runtime.osx.arm64
 # --- edit Program.cs ---
 dotnet run
 ```
@@ -156,7 +153,7 @@ using (new Window("dst image", dst))
 <details>
 <summary><b>Note: chained Mat arithmetic is leak-free</b></summary>
 
-`Mat` arithmetic operators (`+`, `-`, `*`, `/`, the comparison and bitwise operators, `T()`, `Inv()`, `Mul()`, `Abs()`, `Eye`/`Zeros`/`Ones`, ...) return a purely managed, lazily-evaluated expression tree (`MatExprNode`) that holds **no** unmanaged resources. The native `cv::MatExpr` chain is built only when the expression is materialized — when it is assigned to a `Mat`, or passed where a `Mat`/`InputArray` is expected — and every native intermediate is disposed immediately during that evaluation.
+`Mat` arithmetic operators (`+`, `-`, `*`, `/`, the comparison and bitwise operators, `T()`, `Inv()`, `Mul()`, `Abs()`, `Eye`/`Zeros`/`Ones`, ...) return a purely managed, lazily-evaluated expression tree (`MatExpr`) that holds **no** unmanaged resources. The native `cv::MatExpr` chain is built only when the expression is materialized — when it is assigned to a `Mat`, or passed where a `Mat`/`InputArray` is expected — and every native intermediate is disposed immediately during that evaluation.
 
 As a result, chained expressions never leak: you only need `using` on your inputs and on the final `Mat`. The intermediate expression nodes require no disposal.
 
@@ -219,9 +216,6 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so / libOpenCvSharpExtern.dylib) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp5` and `OpenCvSharp5.runtime.*` packages to your project. Currently, native bindings for Windows x64/ARM64, Linux x64/ARM64, macOS x64/arm64, and WebAssembly are available.
 
-Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
-> [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) / [OpenCvSharp3-WithoutDll](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) / [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) /  [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)
-
 ## Downloads
 If you are not using NuGet, you can download the DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
@@ -268,7 +262,8 @@ https://github.com/shimat?tab=packages
 
 3. Build the native wrapper `OpenCvSharpExtern`:
    ```powershell
-   cmake -S src -B src\build -G "Visual Studio 17 2022" -A x64 `
+   # Use "Visual Studio 17 2022" for VS 2022, or "Visual Studio 18 2026" for VS 2026
+   cmake -S src -B src\build -G "Visual Studio 18 2026" -A x64 `
          -D "CMAKE_PREFIX_PATH=$PWD\opencv_artifacts" `
          -D CMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
          -D VCPKG_TARGET_TRIPLET=x64-windows-static `

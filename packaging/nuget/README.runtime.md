@@ -33,7 +33,6 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp5.runtime.osx.x64` | macOS x64 (Intel) |
 | `OpenCvSharp5.runtime.osx.arm64` | macOS 11.0+ arm64 (Apple Silicon) |
 
-> **Note:** `OpenCvSharp5.official.runtime.ubuntu.22.04-x64`, `ubuntu.22.04-x64.slim`, `ubuntu.24.04-x64`, and `ubuntu.24.04-x64.slim` are **deprecated**. Migrate to the portable `linux-x64` packages.
 > **Note:** `OpenCvSharp5.runtime.linux-arm` has been renamed to `OpenCvSharp5.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp5.runtime.linux-arm64` directly.
 
 ## Slim Profile
