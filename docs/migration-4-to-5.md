@@ -203,7 +203,7 @@ OpenCV 5 reorganizes modules and changes some APIs. The managed surface follows 
 
 - **Module reorganization** (C++ build side): `calib3d` split into `calib`/`stereo`/`geometry`/`ptcloud`; `features2d` renamed to `features`. Despite this, most C# call sites are unaffected — `Cv2.CalibrateCamera`, `Cv2.FindChessboardCorners`, `Cv2.Rodrigues`, `StereoBM`/`StereoSGBM` all keep their existing flat `Cv2`/`OpenCvSharp` locations; only the internal source file layout moved. `ml`, `gapi`, and the Haar `CascadeClassifier` / `HOGDescriptor` native modules moved into `opencv_contrib` on the **C++ build** side only — the C# `CascadeClassifier`/`HOGDescriptor` types stay in the same `OpenCvSharp` namespace and the same NuGet package, so nothing changes for callers.
 - **New `MatType` depth types**: `CV_16BF` (bfloat16), `CV_32U`, `CV_64U`, `CV_64S`, `CV_Bool`.
-- **DNN**: a new default inference engine; the Darknet and Caffe model readers were removed — convert models to ONNX and use `Net.ReadNetFromONNX`.
+- **DNN**: a new inference engine is now the default (`EngineType.Auto` tries the new engine and falls back to the classic 4.x-style engine; pass `EngineType.Classic` explicitly to force the old behavior). The Darknet and Caffe model readers were removed — convert models to ONNX and use `Cv2.Dnn.ReadNetFromOnnx`.
 - **Behavioral differences**: `Resize` with `INTER_NEAREST` now matches Pillow; `WarpAffine` / `WarpPerspective` / `Remap` interpolation produces slightly different numeric output; the legacy `HersheyFonts` text rendering changed and a new `FontFace` text API is available.
 
 _(Detailed managed signature changes will be added here per module as the port lands.)_
