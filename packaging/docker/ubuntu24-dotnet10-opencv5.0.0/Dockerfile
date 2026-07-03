@@ -121,9 +121,9 @@ COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY src/ /opencvsharp/src/
 COPY test/ /opencvsharp/test/
 RUN cd /opencvsharp/src/OpenCvSharp && \
-    dotnet build -c Release -f net10.0 && \
-    cd /opencvsharp/src/OpenCvSharp.Extensions && \
-    dotnet build -c Release -f net10.0
+    dotnet build -c Release -f net8.0 && \
+    cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
+    dotnet build -c Release -f net8.0
 RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
 ########## Final images ##########
