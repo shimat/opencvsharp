@@ -174,6 +174,33 @@ public class KalmanTest : TestBase
         IsDataEqual(mat, kalman.ErrorCovPost);
     }
 
+    [Fact]
+    public void PredictWithoutControl()
+    {
+        using var kalman = new KalmanFilter();
+        kalman.Init(2, 1);
+
+        using var predicted = kalman.Predict();
+
+        Assert.NotNull(predicted);
+        Assert.False(predicted.Empty());
+    }
+
+    [Fact]
+    public void PredictWithControl()
+    {
+        using var kalman = new KalmanFilter();
+        kalman.Init(2, 1, controlParams: 1);
+
+        using var control = Mat.FromPixelData(1, 1, MatType.CV_32F, ControlData);
+        using var predicted = kalman.Predict(control);
+
+        Assert.NotNull(predicted);
+        Assert.False(predicted.Empty());
+    }
+
+    private static readonly float[] ControlData = [1.0f];
+
     private static void IsDataEqual(Mat lhs, Mat rhs)
     {
         Assert.Equal(lhs.Size(), rhs.Size());

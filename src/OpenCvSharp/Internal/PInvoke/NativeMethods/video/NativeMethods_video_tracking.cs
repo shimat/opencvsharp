@@ -79,7 +79,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus video_KalmanFilter_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus video_KalmanFilter_predict(OpenCvSafeHandle obj, IntPtr control, out IntPtr returnValue);
+    public static partial ExceptionStatus video_KalmanFilter_predict(OpenCvSafeHandle obj, OpenCvSafeHandle control, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus video_KalmanFilter_correct(OpenCvSafeHandle obj, IntPtr measurement, out IntPtr returnValue);

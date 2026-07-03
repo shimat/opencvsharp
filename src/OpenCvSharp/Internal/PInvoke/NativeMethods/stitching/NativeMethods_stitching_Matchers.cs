@@ -45,7 +45,7 @@ static partial class NativeMethods
     public static partial ExceptionStatus stitching_FeaturesMatcher_apply2(
         OpenCvSafeHandle obj,
         WImageFeatures[] features, int featuresSize,
-        IntPtr mask,
+        OpenCvSafeHandle mask,
         IntPtr outSrcImgIdx,
         IntPtr outDstImgIdx,
         IntPtr outMatches,

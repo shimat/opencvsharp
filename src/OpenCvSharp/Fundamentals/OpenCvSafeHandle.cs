@@ -44,4 +44,11 @@ public abstract class OpenCvSafeHandle : SafeHandle
 
     /// <inheritdoc />
     public override bool IsInvalid => handle == IntPtr.Zero;
+
+    /// <summary>
+    /// A non-owning handle wrapping a null native pointer. Pass this for an optional
+    /// SafeHandle-typed P/Invoke argument (e.g. a mask) when the caller has none, instead
+    /// of overloading the parameter type with a plain <see cref="IntPtr"/>.
+    /// </summary>
+    public static OpenCvSafeHandle Null { get; } = new OpenCvPtrSafeHandle(IntPtr.Zero, ownsHandle: false, releaseAction: null);
 }

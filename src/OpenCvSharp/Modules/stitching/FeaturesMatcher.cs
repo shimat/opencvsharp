@@ -126,7 +126,7 @@ public abstract class FeaturesMatcher : CvObject
                 NativeMethods.stitching_FeaturesMatcher_apply2(
                     Handle, 
                     wImageFeatures, wImageFeatures.Length,
-                    mask?.CvPtr ?? IntPtr.Zero,
+                    mask?.Handle ?? OpenCvSafeHandle.Null,
                     srcImgIndexVecs.CvPtr,
                     dstImgIndexVecs.CvPtr,
                     matchesVec.CvPtr,

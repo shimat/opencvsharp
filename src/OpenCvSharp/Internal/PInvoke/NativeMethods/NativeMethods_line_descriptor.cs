@@ -29,7 +29,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus line_descriptor_LSDDetector_detect1(
-        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, IntPtr mask);
+        OpenCvSafeHandle obj, IntPtr image, IntPtr keypoints, int scale, int numOctaves, OpenCvSafeHandle mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus line_descriptor_LSDDetector_detect2(
