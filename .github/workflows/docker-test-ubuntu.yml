@@ -24,6 +24,38 @@ jobs:
 
       - uses: docker/setup-buildx-action@v4
 
+      - name: Test native .so (full)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
+          target: test-native
+          build-args: |
+            OPENCV_VERSION=${{ env.OPENCV_VERSION }}
+          outputs: type=cacheonly
+          cache-from: |
+            type=gha,scope=full-test-native-${{ github.ref_name }}
+            type=gha,scope=full-test-native-main
+            type=gha,scope=full-${{ github.ref_name }}
+            type=gha,scope=full-main
+          cache-to: type=gha,mode=min,scope=full-test-native-${{ github.ref_name }}
+
+      - name: Test .NET class libraries (full)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
+          target: test-dotnet
+          build-args: |
+            OPENCV_VERSION=${{ env.OPENCV_VERSION }}
+          outputs: type=cacheonly
+          cache-from: |
+            type=gha,scope=full-test-dotnet-${{ github.ref_name }}
+            type=gha,scope=full-test-dotnet-main
+            type=gha,scope=full-${{ github.ref_name }}
+            type=gha,scope=full-main
+          cache-to: type=gha,mode=min,scope=full-test-dotnet-${{ github.ref_name }}
+
       - name: Build with Docker (full)
         uses: docker/build-push-action@v7
         with:
@@ -46,6 +78,22 @@ jobs:
       - uses: actions/checkout@v7
 
       - uses: docker/setup-buildx-action@v4
+
+      - name: Test native .so (slim)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ env.DOCKER_BUILD_CONTEXT_SLIM }}/Dockerfile
+          target: test-native
+          build-args: |
+            OPENCV_VERSION=${{ env.OPENCV_VERSION }}
+          outputs: type=cacheonly
+          cache-from: |
+            type=gha,scope=slim-test-native-${{ github.ref_name }}
+            type=gha,scope=slim-test-native-main
+            type=gha,scope=slim-${{ github.ref_name }}
+            type=gha,scope=slim-main
+          cache-to: type=gha,mode=min,scope=slim-test-native-${{ github.ref_name }}
 
       - name: Build with Docker (slim)
         uses: docker/build-push-action@v7
