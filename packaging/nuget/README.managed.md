@@ -4,6 +4,8 @@ A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image
 
 > This is the **OpenCvSharp5** family (OpenCV 5.x, .NET 8+). If you need .NET Framework, Unity, or another pre-.NET 8 runtime, use the **OpenCvSharp4** family (OpenCV 4.13.0) instead.
 
+> 🔄 **Already using OpenCvSharp4?** See the [Migration Guide (4 → 5)](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md) on GitHub for target framework changes, package/namespace renames, and OpenCV 5 API changes.
+
 ## Supported Platforms
 
 | Platform | Target Framework |
@@ -31,11 +33,11 @@ dotnet add package OpenCvSharp5.official.runtime.linux-x64
 ### macOS
 
 ```bash
-dotnet add package OpenCvSharp4
+dotnet add package OpenCvSharp5
 # Intel (x64):
-dotnet add package OpenCvSharp4.runtime.osx.x64
+dotnet add package OpenCvSharp5.runtime.osx.x64
 # Apple Silicon (arm64):
-dotnet add package OpenCvSharp4.runtime.osx.arm64
+dotnet add package OpenCvSharp5.runtime.osx.arm64
 ```
 
 For more installation options, see [Installation on GitHub](https://github.com/shimat/opencvsharp#installation).
@@ -55,7 +57,7 @@ The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manyl
 - **Slim package** (`OpenCvSharp5.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
 
 ### macOS (Intel and Apple Silicon)
-The `OpenCvSharp4.runtime.osx.x64` and `OpenCvSharp4.runtime.osx.arm64` packages provide native bindings for macOS. FFmpeg, Tesseract, Freetype, and all standard OpenCV modules are statically linked.
+The `OpenCvSharp5.runtime.osx.x64` and `OpenCvSharp5.runtime.osx.arm64` packages provide native bindings for macOS. FFmpeg, Tesseract, Freetype, and all standard OpenCV modules are statically linked.
 
 ## Slim Profile
 

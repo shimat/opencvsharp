@@ -8,6 +8,8 @@ This is an **internal implementation package** for [OpenCvSharp](https://github.
 
 > The `OpenCvSharp5.*` runtime packages target OpenCV 5.x. An identically-named `OpenCvSharp4.*` counterpart (OpenCV 4.13.0) is also published for .NET Framework / older runtimes.
 
+> 🔄 **Already using OpenCvSharp4?** See the [Migration Guide (4 → 5)](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md) on GitHub for target framework changes, package/namespace renames, and OpenCV 5 API changes.
+
 The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
 
 > **Linux `highgui` dependency:** The **full** `linux-x64` package uses GTK3 for `highgui` (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 is pre-installed on standard Ubuntu/Debian/RHEL environments. In minimal or container environments where it is absent, install it manually:
