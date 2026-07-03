@@ -11,7 +11,6 @@ partial class NativeMatExpr
     public NativeMatExpr Abs()
     {
         NativeMethods.HandleException(NativeMethods.core_abs_MatExpr(CvPtr, out var ret));
-        GC.KeepAlive(this);
         return new NativeMatExpr(ret);
     }
 }

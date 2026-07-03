@@ -282,8 +282,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial nuint vector_Mat_getSize(OpenCvSafeHandle vector);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial IntPtr vector_Mat_getPointer(OpenCvSafeHandle vector);
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_Mat_delete(IntPtr vector);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_Mat_assignToArray(OpenCvSafeHandle vector, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] arr);

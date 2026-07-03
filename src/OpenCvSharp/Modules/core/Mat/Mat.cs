@@ -1461,7 +1461,6 @@ public partial class Mat : CvObject
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_mul(Handle, proxy, scale, out var ret));
-            GC.KeepAlive(this);
             GC.KeepAlive(source);
             return new NativeMatExpr(ret);
         });
