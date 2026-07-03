@@ -1,9 +1,9 @@
-﻿
+﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
 
 // https://github.com/opencv/opencv_contrib/blob/33ae078b0989b44ac8d262d210335b04bb268b4d/modules/line_descriptor/src/binary_descriptor.cpp#L1030
-#if false
 namespace OpenCvSharp.LineDescriptor
 {
     /// <summary>
@@ -133,5 +133,3 @@ namespace OpenCvSharp.LineDescriptor
         }
     }
 }
-
-#endif

@@ -256,9 +256,9 @@ CVAPI(void) vector_vector_Point2f_delete(std::vector<std::vector<cv::Point2f> >*
 
 #pragma endregion
 
+#ifndef NO_CONTRIB
 #pragma region vector<cv::line_descriptor::KeyLine>
 
-#if 0
 CVAPI(std::vector<std::vector<cv::line_descriptor::KeyLine> >*) vector_vector_KeyLine_new1()
 {
     return new std::vector<std::vector<cv::line_descriptor::KeyLine> >;
@@ -286,5 +286,5 @@ CVAPI(void) vector_vector_KeyLine_delete(std::vector<std::vector<cv::line_descri
 {
     delete vec;
 }
-#endif
 #pragma endregion
+#endif // NO_CONTRIB

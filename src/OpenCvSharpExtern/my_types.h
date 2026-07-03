@@ -263,26 +263,6 @@ extern "C"
         cv::Mat* descriptors;
     };
 
-    /*
-    struct line_descriptor_KeyLine
-    {
-        float angle;
-        int class_id;
-        int octave;
-        interop::Point2f pt;
-        float response;
-        float size;
-        float startPointX;
-        float startPointY;
-        float endPointX;
-        float endPointY;
-        float sPointInOctaveX;
-        float sPointInOctaveY;
-        float ePointInOctaveX;
-        float ePointInOctaveY;
-        float lineLength;
-        int numOfPixels;
-    };*/
 }
 
 // bit_cast-based converter pair for layout-identical POD <-> cv:: types.
