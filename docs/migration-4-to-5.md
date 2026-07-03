@@ -148,7 +148,7 @@ var net = Cv2.Dnn.ReadNetFromONNX("m.onnx"); // was: CvDnn.ReadNetFromOnnx(...)
 
 ### Feature detector and Bag-of-Words namespace churn
 
-Following the OpenCV 5 `features2d`/`xfeatures2d` reshuffle, several detector and Bag-of-Words classes changed namespace:
+Following the OpenCV 5 `features2d`/`xfeatures2d` reshuffle, several detector and Bag-of-Words classes changed namespace. This table is the result of a full sweep of every type in `OpenCvSharp.Features2D` (OpenCvSharp4) and the `features`/`xfeatures2d` modules (OpenCvSharp5), not just the ones that happened to surface through sample code:
 
 | Class | Before (OpenCvSharp4) | After (OpenCvSharp5) |
 |---|---|---|
@@ -156,9 +156,19 @@ Following the OpenCV 5 `features2d`/`xfeatures2d` reshuffle, several detector an
 | `BRISK` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
 | `KAZE` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
 | `AKAZE` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
+| `AgastFeatureDetector` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
 | `BOWTrainer` / `BOWKMeansTrainer` / `BOWImgDescriptorExtractor` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
-| `SURF` | `OpenCvSharp.XFeatures2D` | unchanged |
-| `ORB`, `FastFeatureDetector` | `OpenCvSharp` | unchanged |
+
+Everything else in these two modules keeps its OpenCvSharp4 namespace:
+
+| Class | Namespace (unchanged) |
+|---|---|
+| `SURF`, `BriefDescriptorExtractor`, `FREAK`, `LATCH`, `LUCID`, `StarDetector` | `OpenCvSharp.XFeatures2D` |
+| `ORB`, `FastFeatureDetector`, `MSER`, `GFTTDetector`, `SimpleBlobDetector`, `DenseFeatureDetector`, `Feature2D`, `DescriptorMatcher`, `BFMatcher`, `FlannBasedMatcher`, `KeyPointsFilter`, `KeyPoint`, `DMatch`, `AKAZEDescriptorType`, `KAZEDiffusivityType`, `ORBScoreType`, `FASTType`, `DrawMatchesFlags` | `OpenCvSharp` |
+
+Note that `AKAZEDescriptorType` and `KAZEDiffusivityType` stay in `OpenCvSharp` even though the `AKAZE`/`KAZE` classes that use them moved to `OpenCvSharp.XFeatures2D`.
+
+`ALIKED`, `DISK`, `AffineFeature`, `LightGlueMatcher`, and `ANNIndex`/`ANNIndexDistance` are new in OpenCvSharp5 (no OpenCvSharp4 equivalent) and live in `OpenCvSharp`.
 
 ## 5. Removed APIs
 
