@@ -10,8 +10,8 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 5.0.0
-  DOCKER_BUILD_CONTEXT_FULL: ./docker/ubuntu24-dotnet10-opencv5.0.0
-  DOCKER_BUILD_CONTEXT_SLIM: ./docker/ubuntu24-dotnet10-opencv5.0.0-slim
+  DOCKER_BUILD_CONTEXT_FULL: ./packaging/docker/ubuntu24-dotnet10-opencv5.0.0
+  DOCKER_BUILD_CONTEXT_SLIM: ./packaging/docker/ubuntu24-dotnet10-opencv5.0.0-slim
 
 jobs:
   build_full:

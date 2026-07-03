@@ -66,7 +66,7 @@ if(OpenCV_FOUND)
 
 	# Link Tesseract on Windows, Linux, and macOS.
 	# Windows: installed as a static library via vcpkg (CMAKE_PREFIX_PATH points to vcpkg_installed/).
-	# Linux:   installed as a static library by docker/manylinux/build_static_deps.sh
+	# Linux:   installed as a static library by packaging/docker/manylinux/build_static_deps.sh
 	#          into CMAKE_PREFIX_PATH (typically /opt/deps).
 	# macOS:   installed as a static library via vcpkg (CMAKE_PREFIX_PATH includes vcpkg_installed/).
 	if(NOT EMSCRIPTEN)

@@ -14,8 +14,8 @@ When editing the root `README.md`, also update the NuGet-specific README files a
 
 | File | Target packages |
 |---|---|
-| `nuget/README.managed.md` | `OpenCvSharp4`, `OpenCvSharp4.Windows`, `OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.Extensions`, `OpenCvSharp4.WpfExtensions` |
-| `nuget/README.runtime.md` | `OpenCvSharp4.runtime.*`, `OpenCvSharp4.official.runtime.*` (all native runtime packages) |
+| `packaging/nuget/README.managed.md` | `OpenCvSharp4`, `OpenCvSharp4.Windows`, `OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.Extensions`, `OpenCvSharp4.WpfExtensions` |
+| `packaging/nuget/README.runtime.md` | `OpenCvSharp4.runtime.*`, `OpenCvSharp4.official.runtime.*` (all native runtime packages) |
 
 The NuGet READMEs are a subset of the top-level README and consist of the following sections:
 
@@ -172,7 +172,7 @@ OpenCvSharp has three layers:
 
 - **`src/OpenCvSharp/`** — managed C# wrapper (P/Invoke, types, extension methods). Built against `net8.0` (`netstandard2.0`/`netstandard2.1`/`net4x` support was dropped); consumers on net8.0 or above (net9.0, net10.0, ...) can reference it.
 - **`src/OpenCvSharpExtern/`** — thin C++ bridge called by the C# side via P/Invoke.
-- **`nuget/`** — NuGet packaging projects (runtime packages that bundle the native DLLs).
+- **`packaging/nuget/`** — NuGet packaging projects (runtime packages that bundle the native DLLs).
 
 ## Versioning and release process
 

@@ -117,8 +117,8 @@ UpgradeLog*.XML
 *.BAK
 /.vs
 /OpenCvSharp.VC.VC.opendb
-/nuget/nuget/*.nupkg
-/nuget/*.nupkg
+/packaging/nuget/nuget/*.nupkg
+/packaging/nuget/*.nupkg
 /Help
 /myresults.xml
 

@@ -24,7 +24,7 @@ set -euxo pipefail
 # ---------------------------------------------------------------------------
 # 2. Static FFmpeg (skipped if already built)
 # ---------------------------------------------------------------------------
-bash /work/docker/manylinux/build_static_deps.sh
+bash /work/packaging/docker/manylinux/build_static_deps.sh
 
 # ---------------------------------------------------------------------------
 # 3. OpenCV (full, static)

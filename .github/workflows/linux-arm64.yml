@@ -124,11 +124,11 @@ jobs:
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts
           cmake --build src/build -j
           ls src/build/OpenCvSharpExtern
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/packaging/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
-          cd ${GITHUB_WORKSPACE}/nuget/
+          cd ${GITHUB_WORKSPACE}/packaging/nuget/
           ldd libOpenCvSharpExtern.so
           nm libOpenCvSharpExtern.so
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
@@ -150,8 +150,8 @@ jobs:
           echo "Package version: $version"
 
           cd ${GITHUB_WORKSPACE}
-          dotnet pack nuget/OpenCvSharp5.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
-          dotnet pack nuget/OpenCvSharp5.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.linux-arm64.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.linux-arm.csproj  -o ${GITHUB_WORKSPACE}/artifacts_arm64 -p:Version=$version --no-restore
 
           ls ${GITHUB_WORKSPACE}/artifacts_arm64
 
@@ -164,7 +164,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net10.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net10.0/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
-          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
+          cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net10.0/
+          cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null

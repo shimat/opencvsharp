@@ -398,13 +398,13 @@ jobs:
           echo "Package version: $version"
 
           # x64 package
-          cp /tmp/dylib-x64/libOpenCvSharpExtern.dylib nuget/libOpenCvSharpExtern.dylib
-          dotnet pack nuget/OpenCvSharp5.runtime.osx.x64.csproj \
+          cp /tmp/dylib-x64/libOpenCvSharpExtern.dylib packaging/nuget/libOpenCvSharpExtern.dylib
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.osx.x64.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           # arm64 package
-          cp /tmp/dylib-arm64/libOpenCvSharpExtern.dylib nuget/libOpenCvSharpExtern.dylib
-          dotnet pack nuget/OpenCvSharp5.runtime.osx.arm64.csproj \
+          cp /tmp/dylib-arm64/libOpenCvSharpExtern.dylib packaging/nuget/libOpenCvSharpExtern.dylib
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.osx.arm64.csproj \
             -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts
