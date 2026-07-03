@@ -10,9 +10,9 @@
       "groupName": "xunit"
     },
     {
-      "description": "Group SixLabors packages",
-      "matchPackageNames": ["SixLabors.ImageSharp", "SixLabors.ImageSharp.Drawing"],
-      "groupName": "SixLabors.ImageSharp"
+      "description": "Group SkiaSharp packages",
+      "matchPackageNames": ["SkiaSharp", "SkiaSharp.NativeAssets.Linux.NoDependencies", "SkiaSharp.NativeAssets.macOS"],
+      "groupName": "SkiaSharp"
     },
     {
       "description": "Group GitHub Actions",
