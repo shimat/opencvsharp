@@ -71,7 +71,8 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
     {
         imagesVec[i] = *images[i];
     }
-    for (int i = 0; i < masksSize; i++)
+    const int maskCount = std::min(masksSize, imagesSize);
+    for (int i = 0; i < maskCount; i++)
     {
         masksVec[i] = *masks[i];
     }

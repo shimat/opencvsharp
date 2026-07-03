@@ -72,4 +72,21 @@ public class LSDDetectorTest : TestBase
         Assert.NotEmpty(keyLines[0]);
         Assert.NotEmpty(keyLines[1]);
     }
+
+    [Fact]
+    public void DetectMultipleImagesWithMoreMasksThanImages()
+    {
+        using var src1 = LoadImage("building.jpg");
+        using var gray1 = new Mat();
+        Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
+        using var mask1 = new Mat(gray1.Size(), MatType.CV_8UC1, Scalar.All(255));
+        using var mask2 = new Mat(gray1.Size(), MatType.CV_8UC1, Scalar.All(255));
+
+        using var lsd = new LSDDetector();
+        // More masks than images: the native wrapper must not write past the
+        // pre-sized (images.Length) masks vector.
+        var keyLines = lsd.Detect([gray1], 2, 1, [mask1, mask2]);
+
+        Assert.Single(keyLines);
+    }
 }
