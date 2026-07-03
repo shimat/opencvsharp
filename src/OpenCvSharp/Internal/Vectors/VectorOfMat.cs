@@ -73,20 +73,6 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
     }
 
     /// <summary>
-    /// &amp;vector[0]
-    /// </summary>
-    public IntPtr ElemPtr
-    {
-        get
-        {
-            var res = NativeMethods.vector_Mat_getPointer(Handle);
-            // Returns an interior pointer into this vector; keep it alive for the caller's dereference.
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
-
-    /// <summary>
     /// Converts std::vector to managed array
     /// </summary>
     /// <returns></returns>

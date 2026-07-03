@@ -157,11 +157,6 @@ CVAPI(size_t) vector_Mat_getSize(std::vector<cv::Mat>* vector)
     return vector->size();
 }
 
-CVAPI(cv::Mat*) vector_Mat_getPointer(std::vector<cv::Mat>* vector)
-{
-    return &(vector->at(0));
-}
-
 CVAPI(void) vector_Mat_assignToArray(std::vector<cv::Mat>* vector, cv::Mat** arr)
 {
     for (size_t i = 0; i < vector->size(); i++)

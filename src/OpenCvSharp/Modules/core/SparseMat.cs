@@ -134,7 +134,6 @@ public class SparseMat : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_clone(Handle, out var p));
-        GC.KeepAlive(this);
         return new SparseMat(p);
     }
 
@@ -402,7 +401,6 @@ public class SparseMat : CvObject
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_erase_nd(Handle, index.ToArray(), null));
         }
-        GC.KeepAlive(this);
     }
 
     #endregion
@@ -614,7 +612,6 @@ public sealed class SparseMat<T> : SparseMat
                             Handle, dims, (IntPtr)indicesPtr, (IntPtr)valuesPtr, (nuint)Unsafe.SizeOf<T>()));
                 }
             }
-            GC.KeepAlive(this);
         }
         return Enumerate(indices, values, count, dims);
 
@@ -637,7 +634,6 @@ public sealed class SparseMat<T> : SparseMat
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_clone(Handle, out var p));
-        GC.KeepAlive(this);
         return new SparseMat<T>(p);
     }
 }

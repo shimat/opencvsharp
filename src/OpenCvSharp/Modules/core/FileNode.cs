@@ -512,8 +512,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
         try
         {
             NativeMethods.HandleException(
-                NativeMethods.core_FileNode_read_Mat(Handle, value.CvPtr, Cv2.ToPtr(defaultMat)));
-            GC.KeepAlive(defaultMat);
+                NativeMethods.core_FileNode_read_Mat(Handle, value.CvPtr, defaultMat?.Handle ?? OpenCvSafeHandle.Null));
         }
         catch
         {
@@ -534,8 +533,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
         try
         {
             NativeMethods.HandleException(
-                NativeMethods.core_FileNode_read_SparseMat(Handle, value.CvPtr, Cv2.ToPtr(defaultMat)));
-            GC.KeepAlive(defaultMat);
+                NativeMethods.core_FileNode_read_SparseMat(Handle, value.CvPtr, defaultMat?.Handle ?? OpenCvSafeHandle.Null));
         }
         catch
         {

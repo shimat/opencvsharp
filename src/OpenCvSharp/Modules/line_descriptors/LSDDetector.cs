@@ -82,10 +82,9 @@ namespace OpenCvSharp.LineDescriptor
             using var keypointsVec = new VectorOfKeyLine();
             NativeMethods.HandleException(
                 NativeMethods.line_descriptor_LSDDetector_detect1(
-                    Handle, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
+                    Handle, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.Handle ?? OpenCvSafeHandle.Null));
 
             GC.KeepAlive(image);
-            GC.KeepAlive(mask);
 
             return keypointsVec.ToArray();
         }

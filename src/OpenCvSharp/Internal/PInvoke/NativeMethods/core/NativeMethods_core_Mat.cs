@@ -107,9 +107,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_Mat_assignTo(OpenCvSafeHandle self, IntPtr m, int type);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_Mat_setTo_Scalar(OpenCvSafeHandle self, Scalar value, IntPtr mask);
+    public static partial ExceptionStatus core_Mat_setTo_Scalar(OpenCvSafeHandle self, Scalar value, OpenCvSafeHandle mask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus core_Mat_setTo_InputArray(OpenCvSafeHandle self, in InputArrayProxy value, IntPtr mask);
+    internal static partial ExceptionStatus core_Mat_setTo_InputArray(OpenCvSafeHandle self, in InputArrayProxy value, OpenCvSafeHandle mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_Mat_reshape1(

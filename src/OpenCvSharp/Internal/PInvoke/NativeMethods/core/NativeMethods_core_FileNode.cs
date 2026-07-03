@@ -80,9 +80,9 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileNode_read_String(OpenCvSafeHandle node, IntPtr value, [MarshalAs(UnmanagedType.LPStr)] string? defaultValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileNode_read_Mat(OpenCvSafeHandle node, IntPtr mat, IntPtr defaultMat);
+    public static partial ExceptionStatus core_FileNode_read_Mat(OpenCvSafeHandle node, IntPtr mat, OpenCvSafeHandle defaultMat);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus core_FileNode_read_SparseMat(OpenCvSafeHandle node, IntPtr mat, IntPtr defaultMat);
+    public static partial ExceptionStatus core_FileNode_read_SparseMat(OpenCvSafeHandle node, IntPtr mat, OpenCvSafeHandle defaultMat);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileNode_read_vectorOfKeyPoint(OpenCvSafeHandle node, IntPtr keypoints);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

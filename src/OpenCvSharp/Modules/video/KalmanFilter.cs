@@ -310,8 +310,7 @@ public class KalmanFilter : CvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.video_KalmanFilter_predict(Handle, Cv2.ToPtr(control), out var ret));
-        GC.KeepAlive(control);
+            NativeMethods.video_KalmanFilter_predict(Handle, control?.Handle ?? OpenCvSafeHandle.Null, out var ret));
         return new Mat(ret);
     }
 

@@ -1350,11 +1350,9 @@ public partial class Mat : CvObject
     {
         ThrowIfDisposed();
 
-        var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_Scalar(Handle, value, maskPtr));
+            NativeMethods.core_Mat_setTo_Scalar(Handle, value, mask?.Handle ?? OpenCvSafeHandle.Null));
 
-        GC.KeepAlive(mask);
         return this;
     }
 
@@ -1368,12 +1366,10 @@ public partial class Mat : CvObject
     {
         ThrowIfDisposed();
 
-        var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_InputArray(Handle, value.Proxy, maskPtr));
+            NativeMethods.core_Mat_setTo_InputArray(Handle, value.Proxy, mask?.Handle ?? OpenCvSafeHandle.Null));
 
         GC.KeepAlive(value.Source);
-        GC.KeepAlive(mask);
         return this;
     }
         
@@ -1461,7 +1457,6 @@ public partial class Mat : CvObject
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_mul(Handle, proxy, scale, out var ret));
-            GC.KeepAlive(this);
             GC.KeepAlive(source);
             return new NativeMatExpr(ret);
         });
