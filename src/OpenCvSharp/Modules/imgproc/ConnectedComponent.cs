@@ -5,48 +5,65 @@ namespace OpenCvSharp;
 /// <summary>
 /// connected components that is returned from Cv2.ConnectedComponentsEx
 /// </summary>
-public class ConnectedComponents
+public sealed class ConnectedComponents : IDisposable
 {
+    private readonly Mat labelsMat;
+    private ReadOnlyArray2D<int>? labelsCache;
+    private bool disposed;
+
     /// <summary>
-    /// All blobs
+    /// All blobs, including the background blob at index 0 (<see cref="Blob.Label"/> == 0).
+    /// Most callers should skip index 0 unless the background itself is of interest
+    /// (see <see cref="GetLargestBlob"/>, which starts scanning from index 1).
     /// </summary>
     public IReadOnlyList<Blob> Blobs { get; }
 
     /// <summary>
-    /// destination labeled value
+    /// destination labeled value. Materialized from the native label image on first access.
     /// </summary>
-    public ReadOnlyArray2D<int> Labels { get;  }
+    public ReadOnlyArray2D<int> Labels => labelsCache ??= new ReadOnlyArray2D<int>(ToInt32Array(labelsMat));
 
     /// <summary>
-    /// The number of labels -1
+    /// The total number of labels, including the background label (0).
     /// </summary>
-    public int LabelCount { get; internal set; }
+    public int LabelCount { get; }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="blobs"></param>
-    /// <param name="labels"></param>
+    /// <param name="labelsMat">The native label image (CV_32S or CV_16U). Ownership is transferred to this instance.</param>
     /// <param name="labelCount"></param>
-    internal ConnectedComponents(IReadOnlyList<Blob> blobs, int[,] labels, int labelCount)
+    internal ConnectedComponents(IReadOnlyList<Blob> blobs, Mat labelsMat, int labelCount)
     {
         Blobs = blobs;
-        Labels = new ReadOnlyArray2D<int>(labels);
+        this.labelsMat = labelsMat;
         LabelCount = labelCount;
     }
 
     /// <summary>
-    /// Filter a image with the specified label value. 
+    /// Releases the underlying native label image.
+    /// </summary>
+    public void Dispose()
+    {
+        if (disposed)
+            return;
+        labelsMat.Dispose();
+        disposed = true;
+    }
+
+    /// <summary>
+    /// Filter a image with the specified label value.
     /// </summary>
     /// <param name="src">Source image.</param>
     /// <param name="dst">Destination image.</param>
     /// <param name="labelValue">Label value.</param>
     /// <returns>Filtered image.</returns>
-    public void FilterByLabel(Mat src, Mat dst, int labelValue) 
+    public void FilterByLabel(Mat src, Mat dst, int labelValue)
         => FilterByLabels(src, dst, [labelValue]);
 
     /// <summary>
-    /// Filter a image with the specified label values. 
+    /// Filter a image with the specified label values.
     /// </summary>
     /// <param name="src">Source image.</param>
     /// <param name="dst">Destination image.</param>
@@ -76,13 +93,13 @@ public class ConnectedComponents
         for (var i = 1; i < labelArray.Length; i++)
         {
             using var maskI = GetLabelMask(labelArray[i]);
-            Cv2.BitwiseOr(mask, maskI, mask);                
+            Cv2.BitwiseOr(mask, maskI, mask);
         }
         src.CopyTo(dst, mask);
     }
 
     /// <summary>
-    /// Filter a image with the specified blob object. 
+    /// Filter a image with the specified blob object.
     /// </summary>
     /// <param name="src">Source image.</param>
     /// <param name="dst">Destination image.</param>
@@ -96,7 +113,7 @@ public class ConnectedComponents
     }
 
     /// <summary>
-    /// Filter a image with the specified blob objects. 
+    /// Filter a image with the specified blob objects.
     /// </summary>
     /// <param name="src">Source image.</param>
     /// <param name="dst">Destination image.</param>
@@ -115,35 +132,40 @@ public class ConnectedComponents
     {
         if (img is null)
             throw new ArgumentNullException(nameof(img));
-        /*
-        if (img.Empty())
-            throw new ArgumentException("img is empty");
-        if (img.Type() != MatType.CV_8UC3)
-            throw new ArgumentException("img must be CV_8UC3");*/
         if (Blobs is null || Blobs.Count == 0)
             throw new OpenCvSharpException("Blobs is empty");
-        if (Labels is null)
-            throw new OpenCvSharpException("Labels is empty");
 
-        var height = Labels.GetLength(0);
-        var width = Labels.GetLength(1);
+        var height = labelsMat.Rows;
+        var width = labelsMat.Cols;
         img.Create(new Size(width, height), MatType.CV_8UC3);
 
-        var colors = new Scalar[Blobs.Count];
-        colors[0] = Scalar.All(0);
+        var colors = new Vec3b[Blobs.Count];
         for (var i = 1; i < Blobs.Count; i++)
         {
-            colors[i] = Scalar.RandomColor();
+            colors[i] = Scalar.RandomColor().ToVec3b();
         }
 
-        using var imgt = new Mat<Vec3b>(img);
-        var indexer = imgt.GetIndexer();
-        for (var y = 0; y < height; y++)
+        var imgRows = img.AsRows<Vec3b>();
+        if (labelsMat.Type() == MatType.CV_16U)
         {
-            for (var x = 0; x < width; x++)
+            var labelRows = labelsMat.AsRows<ushort>();
+            for (var y = 0; y < height; y++)
             {
-                var labelValue = Labels[y, x];
-                indexer[y, x] = colors[labelValue].ToVec3b();
+                var labelRow = labelRows[y];
+                var imgRow = imgRows[y];
+                for (var x = 0; x < width; x++)
+                    imgRow[x] = colors[labelRow[x]];
+            }
+        }
+        else
+        {
+            var labelRows = labelsMat.AsRows<int>();
+            for (var y = 0; y < height; y++)
+            {
+                var labelRow = labelRows[y];
+                var imgRow = imgRows[y];
+                for (var x = 0; x < width; x++)
+                    imgRow[x] = colors[labelRow[x]];
             }
         }
     }
@@ -175,13 +197,33 @@ public class ConnectedComponents
     /// <returns></returns>
     private Mat GetLabelMask(int label)
     {
-        var rows = Labels.GetLength(0);
-        var cols = Labels.GetLength(1);
-        using var labels = Mat.FromPixelData(rows, cols, MatType.CV_32SC1, Labels.GetBuffer());
-        using var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label));
         var result = new Mat();
-        Cv2.Compare(labels, cmp, result, CmpTypes.EQ);
+        Cv2.Compare(labelsMat, new Scalar(label), result, CmpTypes.EQ);
         return result;
+    }
+
+    /// <summary>
+    /// Copies the native label image (CV_32S or CV_16U) into a managed <c>int[,]</c>.
+    /// </summary>
+    private static int[,] ToInt32Array(Mat mat)
+    {
+        if (mat.Type() == MatType.CV_16U)
+        {
+            var rows = mat.Rows;
+            var cols = mat.Cols;
+            var result = new int[rows, cols];
+            var srcRows = mat.AsRows<ushort>();
+            for (var y = 0; y < rows; y++)
+            {
+                var srcRow = srcRows[y];
+                for (var x = 0; x < cols; x++)
+                    result[y, x] = srcRow[x];
+            }
+            return result;
+        }
+
+        using var int32Mat = new Mat<int>(mat);
+        return int32Mat.ToRectangularArray();
     }
 
 #pragma warning disable CA1034
@@ -191,7 +233,7 @@ public class ConnectedComponents
     public class Blob
     {
         /// <summary>
-        /// Label value
+        /// Label value. 0 is the background label (see <see cref="Blobs"/>).
         /// </summary>
         public int Label { get; internal set; }
 

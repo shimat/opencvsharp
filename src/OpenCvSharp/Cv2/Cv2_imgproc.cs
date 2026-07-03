@@ -2227,36 +2227,50 @@ static partial class Cv2
     /// <param name="image">the image to be labeled</param>
     /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
     /// <param name="ccltype"></param>
-    /// <returns></returns>
+    /// <param name="ltype">output label image type. Currently CV_32S (default) and CV_16U are supported.
+    /// CV_16U halves the native label image's memory footprint, at the cost of a 65535 label limit.</param>
+    /// <returns>A <see cref="global::OpenCvSharp.ConnectedComponents"/> instance. Dispose it to release the underlying native label image.</returns>
     public static ConnectedComponents ConnectedComponentsEx(
-        InputArray image, 
-        PixelConnectivity connectivity = PixelConnectivity.Connectivity8, 
-        ConnectedComponentsAlgorithmsTypes ccltype = ConnectedComponentsAlgorithmsTypes.Default)
+        InputArray image,
+        PixelConnectivity connectivity = PixelConnectivity.Connectivity8,
+        ConnectedComponentsAlgorithmsTypes ccltype = ConnectedComponentsAlgorithmsTypes.Default,
+        MatType? ltype = null)
     {
-        using var labelsMat = new Mat<int>();
-        using var statsMat = new Mat<int>();
-        using var centroidsMat = new Mat<double>();
-        var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
-            image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S, ccltype);
-        var labels = labelsMat.ToRectangularArray();
-        var stats = statsMat.ToRectangularArray();
-        var centroids = centroidsMat.ToRectangularArray();
+        var labelType = ltype ?? MatType.CV_32S;
+        if (labelType != MatType.CV_32S && labelType != MatType.CV_16U)
+            throw new ArgumentException("ltype must be CV_32S or CV_16U", nameof(ltype));
 
-        var blobs = new ConnectedComponents.Blob[nLabels];
-        for (var i = 0; i < nLabels; i++)
+        var labelsMat = new Mat();
+        try
         {
-            blobs[i] = new ConnectedComponents.Blob
+            using var statsMat = new Mat<int>();
+            using var centroidsMat = new Mat<double>();
+            var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
+                image, labelsMat, statsMat, centroidsMat, connectivity, labelType, ccltype);
+            var stats = statsMat.ToRectangularArray();
+            var centroids = centroidsMat.ToRectangularArray();
+
+            var blobs = new ConnectedComponents.Blob[nLabels];
+            for (var i = 0; i < nLabels; i++)
             {
-                Label = i,
-                Left = stats[i, 0],
-                Top = stats[i, 1],
-                Width = stats[i, 2],
-                Height = stats[i, 3],
-                Area = stats[i, 4],
-                Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
-            };
+                blobs[i] = new ConnectedComponents.Blob
+                {
+                    Label = i,
+                    Left = stats[i, 0],
+                    Top = stats[i, 1],
+                    Width = stats[i, 2],
+                    Height = stats[i, 3],
+                    Area = stats[i, 4],
+                    Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
+                };
+            }
+            return new ConnectedComponents(blobs, labelsMat, nLabels);
         }
-        return new ConnectedComponents(blobs, labels, nLabels);
+        catch
+        {
+            labelsMat.Dispose();
+            throw;
+        }
     }
         
     /// <summary>

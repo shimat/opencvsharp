@@ -16,10 +16,29 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Threshold(src, binary, 128, 255, ThresholdTypes.BinaryInv);
         ShowImagesWhenDebugMode(src, binary);
 
-        var cc = Cv2.ConnectedComponentsEx(binary, connectivity, algorithmType);
+        using var cc = Cv2.ConnectedComponentsEx(binary, connectivity, algorithmType);
             
         Assert.Equal(27, cc.LabelCount);
         Assert.NotEmpty(cc.Labels.GetBuffer());
+        Assert.Equal(src.Rows, cc.Labels.GetLength(0));
+        Assert.Equal(src.Cols, cc.Labels.GetLength(1));
+
+        using var render = new Mat();
+        cc.RenderBlobs(render);
+        ShowImagesWhenDebugMode(render);
+    }
+
+    [Fact]
+    public void RunWithCv16ULabelType()
+    {
+        using var src = LoadImage("alphabet.png", ImreadModes.Grayscale);
+        using var binary = new Mat();
+        Cv2.Threshold(src, binary, 128, 255, ThresholdTypes.BinaryInv);
+
+        using var cc = Cv2.ConnectedComponentsEx(
+            binary, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default, MatType.CV_16U);
+
+        Assert.Equal(27, cc.LabelCount);
         Assert.Equal(src.Rows, cc.Labels.GetLength(0));
         Assert.Equal(src.Cols, cc.Labels.GetLength(1));
 
@@ -36,7 +55,7 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Rectangle(src, new Rect(50, 60, 20, 30), Scalar.White, -1); // greater
         ShowImagesWhenDebugMode(src);
 
-        var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
+        using var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
             
         var largestBlob = cc.GetLargestBlob();
         Assert.Equal(50, largestBlob.Left);
@@ -55,7 +74,7 @@ public class ConnectedComponentsTest : TestBase
         Cv2.Rectangle(src, new Rect(10, 20, 10, 20), Scalar.White, -1);
         Cv2.Rectangle(src, new Rect(50, 60, 20, 30), Scalar.White, -1); // greater
 
-        var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
+        using var cc = Cv2.ConnectedComponentsEx(src, PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.Default);
 
         using var dst = new Mat();
         cc.FilterByLabel(src, dst, 1);
