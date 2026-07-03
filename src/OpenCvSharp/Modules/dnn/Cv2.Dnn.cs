@@ -93,7 +93,8 @@ public static partial class Cv2
         /// <param name="onnxFile"></param>
         /// <returns></returns>
         /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromOnnx(string onnxFile, EngineType engine = EngineType.Auto)
+        // ReSharper disable once InconsistentNaming
+        public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
         {
             return Net.ReadNetFromONNX(onnxFile, engine);
         }
@@ -104,7 +105,8 @@ public static partial class Cv2
         /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns></returns>
         /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromOnnx(byte[] onnxFileData, EngineType engine = EngineType.Auto)
+        // ReSharper disable once InconsistentNaming
+        public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
         {
             return Net.ReadNetFromONNX(onnxFileData, engine);
         }
@@ -115,7 +117,8 @@ public static partial class Cv2
         /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns></returns>
         /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromOnnx(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
+        // ReSharper disable once InconsistentNaming
+        public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
         {
             return Net.ReadNetFromONNX(onnxFileData, engine);
         }
@@ -126,11 +129,12 @@ public static partial class Cv2
         /// <param name="onnxFileStream">memory of the first byte of the buffer.</param>
         /// <returns></returns>
         /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromOnnx(Stream onnxFileStream, EngineType engine = EngineType.Auto)
+        // ReSharper disable once InconsistentNaming
+        public static Net? ReadNetFromONNX(Stream onnxFileStream, EngineType engine = EngineType.Auto)
         {
             if (onnxFileStream is null)
                 throw new ArgumentNullException(nameof(onnxFileStream));
-            return ReadNetFromOnnx(StreamToArray(onnxFileStream), engine);
+            return ReadNetFromONNX(StreamToArray(onnxFileStream), engine);
         }
 
         /// <summary>
@@ -188,6 +192,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="path">path to the .pb file with input tensor.</param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static Mat? ReadTensorFromONNX(string path)
         {
             if (path is null)
