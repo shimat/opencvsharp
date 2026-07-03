@@ -1,8 +1,8 @@
-#if false
+using OpenCvSharp.LineDescriptor;
 
 namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary> 
+    /// <summary>
     /// </summary>
     public class VectorOfKeyLine : CvObject, IStdVector<KeyLine>
     {
@@ -31,8 +31,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_KeyLine_getSize(CvPtr);
-                GC.KeepAlive(this);
+                var res = NativeMethods.vector_KeyLine_getSize(Handle);
                 return (int)res;
             }
         }
@@ -44,7 +43,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_KeyLine_getPointer(CvPtr);
+                var res = NativeMethods.vector_KeyLine_getPointer(Handle);
                 GC.KeepAlive(this);
                 return res;
             }
@@ -71,5 +70,3 @@ namespace OpenCvSharp.Internal.Vectors
         }
     }
 }
-
-#endif

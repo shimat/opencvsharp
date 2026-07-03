@@ -1,8 +1,9 @@
-#if false
+using OpenCvSharp.Internal.Util;
+using OpenCvSharp.LineDescriptor;
 
 namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary> 
+    /// <summary>
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class VectorOfVectorKeyLine : CvObject, IStdVector<KeyLine[]>
@@ -73,5 +74,3 @@ namespace OpenCvSharp.Internal.Vectors
         }
     }
 }
-
-#endif

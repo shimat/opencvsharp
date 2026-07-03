@@ -273,8 +273,8 @@ CVAPI(void) vector_ImageFeatures_delete(std::vector<cv::detail::ImageFeatures>* 
 #pragma endregion
 #endif // NO_STITCHING
 
+#ifndef NO_CONTRIB
 #pragma region cv::line_descriptor::KeyLine
-#if 0
 CVAPI(std::vector<cv::line_descriptor::KeyLine>*) vector_KeyLine_new1()
 {
     return new std::vector<cv::line_descriptor::KeyLine>;
@@ -285,26 +285,6 @@ CVAPI(size_t) vector_KeyLine_getSize(std::vector<cv::line_descriptor::KeyLine>* 
     return vector->size();
 }
 
-/*
-CVAPI(void) vector_KeyLine_getElements(
-    std::vector<cv::line_descriptor::KeyLine>* vector, line_descriptor_KeyLine* dst)
-{
-    for (size_t i = 0; i < vector->size(); i++)
-    {
-        const auto &k = vector->at(i);
-        const line_descriptor_KeyLine kl{
-            k.angle, k.class_id, k.octave,
-            {k.pt.x, k.pt.y},
-            k.response,  k.size,
-            k.startPointX, k.startPointY,
-            k.endPointX, k.endPointY,
-            k.sPointInOctaveX, k.sPointInOctaveY,
-            k.ePointInOctaveX, k.ePointInOctaveY,
-            k.lineLength, k.numOfPixels };
-        dst[i] = kl;
-    }
-}*/
-
 CVAPI(cv::line_descriptor::KeyLine*) vector_KeyLine_getPointer(std::vector<cv::line_descriptor::KeyLine>* vector)
 {
     return &(vector->at(0));
@@ -314,5 +294,5 @@ CVAPI(void) vector_KeyLine_delete(std::vector<cv::line_descriptor::KeyLine>* vec
 {
     delete vector;
 }
-#endif
 #pragma endregion
+#endif // NO_CONTRIB
