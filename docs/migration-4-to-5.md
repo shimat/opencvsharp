@@ -9,6 +9,52 @@ move to OpenCvSharp5 and the changes below apply.
 > **Status:** living document. The "OpenCV 5 API changes" section is filled in
 > as modules are ported. See the OpenCV 5 tracking issue for current progress.
 
+## Why so many changes?
+
+The single biggest decision behind OpenCvSharp5 is dropping every target
+framework except **`net8.0`** (see [§1](#1-target-frameworks)). OpenCvSharp4
+has to support .NET Framework 4.6.1, .NET Standard 2.0/2.1, and modern .NET
+all at once, which rules out a lot of runtime and language surface added since
+C# 8 — `ref struct`s with relaxed rules, source-generated P/Invoke
+(`[LibraryImport]`), `SafeHandle`-first ownership, and so on. Once
+OpenCvSharp5 could assume .NET 8+, most of the rest of the redesign followed
+from that one decision:
+
+- **`InputArray`/`OutputArray`/`InputOutputArray` became `ref struct`s**
+  (§2). In OpenCvSharp4, every implicit conversion (e.g. `Cv2.Foo(mat, dst)`)
+  allocated a disposable native wrapper object; because the conversion is
+  *implicit*, there is nowhere natural to put a `using`, so these objects
+  routinely leaked until the finalizer eventually ran. The `ref struct`
+  version carries only a handle and a kind tag, lives on the stack, and has
+  nothing to dispose in the first place.
+- **`Mat` arithmetic (`MatExpr`) became a lazy, purely-managed expression
+  tree** (§2). Chained operators like `255 - mat * 0.8` used to allocate a
+  native `cv::MatExpr` at *every* operator call; OpenCvSharp4 even shipped a
+  dedicated `ResourcesTracker` helper class so users could track and dispose
+  those anonymous intermediates by hand. OpenCvSharp5 builds the whole
+  expression in managed memory and only touches native code once, when the
+  expression is finally materialized into a `Mat` — `ResourcesTracker` is
+  gone because there is nothing left for it to track.
+- **P/Invoke moved from `[DllImport]` to source-generated `[LibraryImport]`**,
+  and most wrapper types now own their native handle through a `SafeHandle`
+  instead of manual `GC.KeepAlive` calls scattered through the codebase. This
+  is invisible from the C# call-site surface almost everywhere, but it is why
+  a few previously `IDisposable`/`CvObject`-based helper types (e.g.
+  `FacemarkAAM.Params`, §6) turned into plain POCOs — they no longer own a
+  native handle that needs managing.
+- **The managed API follows the OpenCV 5 / Python `cv2` module layout more
+  closely.** Free-function facades like `CvDnn`/`CvAruco` became nested
+  `Cv2.Dnn`/`Cv2.Aruco` classes (§4), and C# namespaces track the upstream
+  module reorganization (`features2d` → `features`, `calib3d` split into
+  `calib`/`stereo`/`geometry`/`ptcloud`, etc., §7).
+
+None of this is change for its own sake — every item above is either a direct
+consequence of raising the minimum target framework, or a mechanical
+follow-through of an upstream OpenCV 5 change. But together they add up to a
+real one-time migration cost, bigger than a typical OpenCvSharp point release.
+The sections below are ordered roughly by how many call sites they are likely
+to touch, starting with the highest-impact ones.
+
 ## 1. Target frameworks
 
 The OpenCvSharp5 managed libraries target **.NET 8+ only**. Support for
@@ -20,7 +66,134 @@ The OpenCvSharp5 managed libraries target **.NET 8+ only**. Support for
 If you need **.NET Framework, Unity, or another pre-.NET 8 runtime**, stay on the
 `OpenCvSharp4` family, which keeps the netstandard2.0 / net48 targets.
 
-## 2. Package and namespace renames
+## 2. Resource-safety redesign: `InputArray`/`OutputArray` and `Mat` expressions
+
+### `InputArray` / `OutputArray` / `InputOutputArray` are now `ref struct`s
+
+In OpenCvSharp4, `InputArray`/`OutputArray`/`InputOutputArray` were ordinary
+classes wrapping a native `cv::_InputArray`/`_OutputArray`/`_InputOutputArray`
+handle (`public class InputArray : CvObject`, heap-allocated,
+`IDisposable` via the `CvObject` base). Every implicit conversion from
+`Mat`/`Scalar`/`double`/a fixed-length `Vec`/... allocated one of these on the
+heap and built a matching native object underneath it.
+
+In OpenCvSharp5 they are `readonly ref struct`s (issue #1976): a stack-only
+proxy carrying just a native handle and a kind tag (plus an inline payload for
+scalar/vector operands), built with **zero heap allocation** and requiring
+**no disposal at all** — see
+[`InputArray.cs`](../src/OpenCvSharp/Modules/core/InputArray.cs).
+
+This is transparent at the overwhelming majority of call sites — `Cv2.Foo(mat,
+dst)` compiles completely unchanged — but a few patterns do break:
+
+- **`null` no longer works for an optional array parameter — use `default`.**
+  A `ref struct` can't be `null`, so any call site that passed a literal
+  `null` for an optional mask/array argument now needs `default`:
+  ```csharp
+  // OpenCvSharp4
+  sift.DetectAndCompute(gray, null, out var keypoints, descriptors);
+  // OpenCvSharp5
+  sift.DetectAndCompute(gray, default, out var keypoints, descriptors);
+  ```
+  The compiler error you'll get (`CS0037: cannot convert null to 'InputArray'
+  because it's a non-nullable value type`) doesn't point at `default` as the
+  fix, so it's worth knowing this in advance.
+- **They can no longer be stored in a field, captured by a closure, or used
+  across an `await`/`yield` boundary** (standard `ref struct` constraints).
+  Build one at the call site instead of holding onto it; if you need the same
+  array across several calls, keep the underlying `Mat`/`UMat` around and let
+  the implicit conversion run again each time.
+- **`OutputArray.Create(List<T>)` was removed.** OpenCvSharp4 let a `List<T>`
+  act as a write-back output sink:
+  ```csharp
+  // OpenCvSharp4
+  var output = new List<byte>();
+  Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output), t, max, ThresholdTypes.Binary);
+  ```
+  Use a `Mat` output and read the array back with `Mat.GetArray<T>(out T[])`:
+  ```csharp
+  // OpenCvSharp5
+  using var output = new Mat();
+  Cv2.Threshold(InputArray.Create(input), output, t, max, ThresholdTypes.Binary);
+  output.GetArray(out byte[] outputArr);
+  ```
+
+### `Mat` arithmetic (`MatExpr`) is now a lazy, leak-free tree — no more `ResourcesTracker`
+
+OpenCvSharp4's `Mat` arithmetic operators (`+`, `-`, `*`, `/`, `T()`, `Inv()`,
+...) eagerly built a disposable `MatExpr` wrapping a native `cv::MatExpr` at
+*every* operator call. A chained expression like `255 - mat * 0.8` therefore
+produced multiple untracked native intermediates that a single `using`
+couldn't reach, so OpenCvSharp4 shipped a dedicated `ResourcesTracker` helper
+purely to track and dispose them:
+
+```csharp
+// OpenCvSharp4
+using var t = new ResourcesTracker();
+Mat dst = t.T(255 - t.T(src * 0.8));
+```
+
+In OpenCvSharp5, `Mat` arithmetic operators return a purely managed,
+lazily-evaluated `MatExpr` that holds **no** native resource — the expression
+tree is assembled entirely in managed memory, and the native `cv::MatExpr`
+chain is built (and immediately torn down) only once, when the expression is
+materialized into a `Mat`:
+
+```csharp
+// OpenCvSharp5
+Mat dst = 255 - src * 0.8;
+```
+
+`ResourcesTracker` has been removed entirely — there is nothing left for it to
+track. Two follow-on effects:
+
+- **`MatExpr` is no longer `IDisposable`.** Code that did `using var x =
+  Mat.Zeros(...);` or `using var t = a * b;` now fails to compile (`CS1674:
+  'MatExpr': type used in a using statement must be implicitly convertible to
+  'System.IDisposable'`) — just drop the `using`. If your code declares the
+  variable as `Mat` rather than `var` (e.g. `using (Mat img =
+  Mat.Zeros(...))`), it still compiles and still needs disposal, because
+  `MatExpr` has an implicit conversion to `Mat` that materializes it there.
+- **Fixed-size ops like `Cross()` are unaffected** — they still return a
+  concrete `Mat` directly, since OpenCV's `cross()` always produces one
+  fixed-size result with no fusable expression node.
+
+## 3. `Mat`'s fluent Cv2-wrapper instance methods were removed
+
+`Mat` used to have a large family of instance methods (`mat.Circle(...)`,
+`mat.Line(...)`, `mat.Rectangle(...)`, `mat.PutText(...)`, `mat.CvtColor(...)`,
+`mat.Threshold(...)`, `mat.Resize(...)`, `mat.SaveImage(...)`,
+`mat.HoughCircles(...)`, `mat.MinEnclosingCircle(...)`, and many more — over
+2,300 lines in `Mat_CvMethods.cs`) that existed purely so `Cv2` static methods
+could be called with chainable, fluent syntax. These have been **removed
+entirely**: the duplication doubled the maintenance surface of every `Cv2`
+method, and intermediate `Mat`s produced mid-chain couldn't be captured with
+`using`, leaking into non-deterministic GC-driven native cleanup — the same
+problem the `MatExpr` rework above solves for arithmetic operators.
+
+This is likely the single most common break when porting existing
+OpenCvSharp4 code — more so than any of the renames in this guide — and the
+compile error gives no hint about what happened (`CS1061: 'Mat' does not
+contain a definition for 'Circle'`). The fix is mechanical: `mat.Xxx(args)` →
+`Cv2.Xxx(mat, args)` (insert the `Mat` as the first argument). Two
+subtleties:
+
+- Methods that used to *return a new `Mat`* (`var gray = src.CvtColor(code);`,
+  `var t = src.Threshold(...)`) need an explicit destination `Mat` created
+  first:
+  ```csharp
+  // OpenCvSharp5
+  using var gray = new Mat();
+  Cv2.CvtColor(src, gray, code);
+  ```
+- `Mat.Resize(...)` collides with an unrelated, still-existing instance
+  method — `Mat.Resize(int sz)` / `Mat.Resize(int sz, Scalar s)`, a
+  `std::vector`-style row-count resize present since OpenCvSharp4. If you
+  meant "resize this image" and get a "wrong number of arguments" error
+  rather than "no such method", you want `Cv2.Resize(src, dst, size, fx, fy,
+  interpolation)` — overload resolution won't suggest it for you.
+
+## 4. Package and namespace renames
 
 ### GDI+ extensions: `Extensions` → `GdipExtensions`
 
@@ -73,7 +246,40 @@ factories for types living directly in `cv::`), so it folds straight into `Cv2`.
 `CvExtensions` (the OpenCvSharp-specific `Mat` extension methods) is **not** part
 of this change and keeps its name and `OpenCvSharp.Extensions` namespace.
 
-## 3. Removed APIs
+> **Aruco is more than a rename.** Beyond the `CvAruco.Xxx` → `Cv2.Aruco.Xxx`
+> facade swap, `DetectMarkers` itself moved from a static one-shot call to an
+> instance method on `ArucoDetector`, constructed once from a `Dictionary` +
+> `DetectorParameters` + `RefineParameters` and then reused — mirroring the
+> OpenCV 5 C++ API shape (`cv::aruco::ArucoDetector`):
+> ```csharp
+> // OpenCvSharp4
+> CvAruco.DetectMarkers(image, dictionary, out corners, out ids, detectorParameters, out rejected);
+>
+> // OpenCvSharp5
+> using var dictionary = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_1000);
+> using var detector = new ArucoDetector(dictionary, detectorParameters, new RefineParameters());
+> detector.DetectMarkers(image, out corners, out ids, out rejected);
+> ```
+> The `Aruco` *types* themselves (`ArucoDetector`, `Dictionary`,
+> `DetectorParameters`) did not move — they are still in `OpenCvSharp.Aruco`,
+> same as OpenCvSharp4.
+
+### Feature detector and Bag-of-Words namespace churn
+
+Following the OpenCV 5 `features2d`/`xfeatures2d` reshuffle, several detector
+and Bag-of-Words classes changed namespace:
+
+| Class | Before (OpenCvSharp4) | After (OpenCvSharp5) |
+|---|---|---|
+| `SIFT` | `OpenCvSharp.Features2D` | `OpenCvSharp` (the `Features2D` namespace no longer exists) |
+| `BRISK` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
+| `KAZE` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
+| `AKAZE` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
+| `BOWTrainer` / `BOWKMeansTrainer` / `BOWImgDescriptorExtractor` | `OpenCvSharp` | `OpenCvSharp.XFeatures2D` |
+| `SURF` | `OpenCvSharp.XFeatures2D` | unchanged |
+| `ORB`, `FastFeatureDetector` | `OpenCvSharp` | unchanged |
+
+## 5. Removed APIs
 
 These wrap OpenCV functions that were removed in OpenCV 5 (no replacement), so
 the managed methods are gone too:
@@ -81,14 +287,25 @@ the managed methods are gone too:
 | Removed | Notes / replacement |
 |---|---|
 | `OpenCvSharp.Extensions.Binarizer` (Niblack/Sauvola/Bernsen/Nick/…) | Use `Cv2.XImgProc.NiblackThreshold` (Niblack / Sauvola / Wolf / Nick) |
-| `CvDnn.ReadNetFromDarknet`, `CvDnn.ReadNetFromCaffe`, `CvDnn.ReadNetFromTorch`, `CvDnn.ReadTorchBlob`, `CvDnn.ShrinkCaffeModel` (and the `Net.*` equivalents) | Darknet/Caffe/Torch parsers removed — export to ONNX and use `Cv2.Dnn.ReadNetFromONNX` |
+| `CvDnn.ReadNetFromDarknet`, `CvDnn.ReadNetFromCaffe`, `CvDnn.ReadNetFromTorch`, `CvDnn.ReadTorchBlob`, `CvDnn.ShrinkCaffeModel` (and the `Net.*` equivalents) | Darknet/Caffe/Torch parsers removed — export to ONNX and use `Cv2.Dnn.ReadNetFromOnnx` |
 | `Net.SetHalideScheduler` | Halide backend removed |
 | `Cv2.ConvertFp16` | Use `Mat.ConvertTo` to/from `MatType.CV_16F` |
 | `Cv2.LogPolar`, `Cv2.LinearPolar` | Use `Cv2.WarpPolar` (`WarpPolarMode.Linear` / `Log`) |
 | `Window.GetHandle()`, `Cv2.GetWindowHandle` | Legacy C API removed; no replacement |
+| `Window.DisplayOverlay`, `Window.DisplayStatusBar` | Legacy GTK status-bar API removed; no replacement |
 | `TrackerGOTURN` | Removed from OpenCV 5 |
+| The entire `OpenCvSharp.Cuda` namespace (`GpuMat`, `Stream`, `DeviceInfo`, …) | Was already non-functional dead code in OpenCvSharp4 (guarded by a build symbol that was never actually defined) and has now been deleted outright. OpenCvSharp has never supported CUDA — see the main README. |
+| `OutputArray.Create(List<T>)` | See §2 — use a `Mat` output and `Mat.GetArray<T>(out T[])` instead |
 
-## 3a. Changed signatures
+> **Caffe/Darknet has no runtime fallback, not just a removed convenience
+> method.** The generic dispatcher `Cv2.Dnn.ReadNet(model, config)` still
+> *detects* `.caffemodel`/`.prototxt`/`.weights`/`.cfg` extensions, but on a
+> match it unconditionally throws `cv::Exception: Caffe importer has been
+> removed. Please use ONNX-converted models or use an older OpenCV version.`
+> (same for Darknet). Converting the model to ONNX is mandatory, not just
+> recommended, for any code that used to load `.caffemodel`/Darknet models.
+
+## 6. Changed signatures
 
 Caffe model support was dropped; these constructors now take ONNX model paths:
 
@@ -97,181 +314,36 @@ Caffe model support was dropped; these constructors now take ONNX model paths:
 | `new BarcodeDetector(superResolutionPrototxtPath, superResolutionCaffeModelPath)` | `new BarcodeDetector(superResolutionModelPath = "")` |
 | `new WeChatQRCode(detectorPrototxt, detectorCaffe, srPrototxt, srCaffe)` | `new WeChatQRCode(detectorModelPath = "", superResolutionModelPath = "")` |
 
-## 3b. Additional findings from real-world migration testing (raw notes, needs editing pass)
-
-The following was found by taking the `opencvsharp_samples` repo and actually
-migrating every sample project from OpenCvSharp4 to a locally-built
-OpenCvSharp5 beta package. Not yet cross-checked against other modules or
-polished into the rest of this document — treat as a raw findings dump for a
-future editing pass.
-
-### `Cv2.Dnn.ReadNet(model, config)` is NOT a working fallback for Caffe/Darknet
-
-The "Removed APIs" table above says to use ONNX for Caffe/Darknet models, but
-it's worth being explicit: the generic dispatcher `Cv2.Dnn.ReadNet(model,
-config)` (`cv::dnn::readNet` in `opencv/modules/dnn/src/dnn_read.cpp`)
-still *detects* `.caffemodel`/`.prototxt`/`.weights`/`.cfg` extensions, but on
-match it unconditionally throws:
-
-```
-cv::Exception: Caffe importer has been removed. Please use ONNX-converted models or use an older OpenCV version.
-```
-
-(same for Darknet). So there is no code-level workaround at all for
-Caffe/Darknet models in OpenCvSharp5 — model conversion to ONNX is mandatory,
-not just recommended. (The `opencvsharp_samples` samples that loaded
-`.caffemodel` files — `CaffeSample`, `FaceDetectionDNN`, `HandPose`, `Pose` —
-were deleted outright rather than "fixed", since there is nothing to fix them
-to without a different model file.)
-
-### Minor: `ReadNetFromOnnx` casing is inconsistent between `Cv2.Dnn` and `Net`
-
-`Cv2.Dnn.ReadNetFromOnnx` (lowercase `nnx`) forwards to `Net.ReadNetFromONNX`
-(uppercase `ONNX`). Pick one casing convention; right now the facade and the
-underlying type disagree with each other, and this migration doc's own
-"Removed APIs" table used the `ONNX` casing (inherited from the `Net` side) —
-worth double-checking every mention once one casing is chosen.
-
-### `OutputArray.Create(List<T>)` (write-back into a `List<T>`) was removed
-
-This is a genuine removed API, missing from the "Removed APIs" table above.
-OpenCvSharp4 let you pass a `List<T>` as an output sink, e.g.:
-
-```csharp
-var output = new List<byte>();
-Cv2.Threshold(InputArray.Create(input), OutputArray.Create(output), T, Max, ThresholdTypes.Binary);
-```
-
-`OutputArray.Create(List<T>)` no longer exists. Use a `Mat` as the output and
-pull the array back out with `Mat.GetArray<T>(out T[])`:
-
-```csharp
-using var output = new Mat();
-Cv2.Threshold(InputArray.Create(input), output, T, Max, ThresholdTypes.Binary);
-output.GetArray(out byte[] outputArr);
-```
-
-This was removed as "dead scaffolding" (issue #1976 step 4), but real sample
-code in `opencvsharp_samples` (`NormalArrayOperations`, `SolveEquation`) was
-using it, so "dead" was inaccurate — flag this if the same reasoning gets
-applied to other APIs going forward.
-
-### `null` no longer works for optional `InputArray`/`OutputArray`/`InputOutputArray` parameters — use `default`
-
-`InputArray` / `OutputArray` / `InputOutputArray` are now `readonly ref
-struct`s (see the InputArray/OutputArray ref-struct redesign, issue #1976),
-so they can't be `null`. Any call site that used to pass a literal `null` for
-an optional mask/array parameter (e.g. `Feature2D.DetectAndCompute(image,
-null, out keypoints, descriptors)`, `Cv2.CalcHist(..., null, ...)`,
-`Cv2.Dilate(src, dst, null)`) now needs `default` instead:
-
-```csharp
-sift.DetectAndCompute(gray, default, out var keypoints, descriptors); // was: null
-```
-
-This is the same convention already used in `test/OpenCvSharp.Tests` (e.g.
-`FlannBasedMatcherTest.cs`, `ORBTest.cs`), so it's at least consistent — but
-it isn't mentioned anywhere in this migration doc yet, and the compiler error
-you get (`CS0037: cannot convert null to 'InputArray' because it's a
-non-nullable value type`) doesn't point at `default` as the fix.
-
-### `Mat`'s fluent Cv2-wrapper instance methods were removed entirely (huge blast radius)
-
-`Mat_CvMethods.cs` — the file of `Mat` instance methods that wrapped `Cv2`
-static methods purely for chainable call syntax (`mat.Circle(...)`,
-`mat.Line(...)`, `mat.Rectangle(...)`, `mat.PutText(...)`,
-`mat.Polylines(...)`, `mat.CvtColor(...)`, `mat.Threshold(...)`,
-`mat.Resize(...)`, `mat.SaveImage(...)`, `mat.HoughCircles(...)`,
-`mat.MinEnclosingCircle(...)`, and many more — over 2300 lines) — was deleted
-outright (commit `446c36b8`, "Remove Mat_CvMethods.cs fluent Cv2 wrappers
-(Mat instance methods)"). Rationale from the commit message: the duplication
-doubled the maintenance surface of every `Cv2` method, and intermediate
-`Mat`s produced mid-chain couldn't be captured with `using`, leaking into
-non-deterministic GC-driven native cleanup.
-
-This is an intentional, deliberate, already-decided breaking change — not a
-bug — but its real-world impact is large: migrating the ~20 files in
-`opencvsharp_samples` that used this fluent style touched **every single
-non-GUI sample that draws or converts a `Mat`**. The compile error gives zero
-indication of what changed (`CS1061: 'Mat' does not contain a definition for
-'Circle'`), so anyone hitting this needs to already know the fluent API was
-removed. This deserves prominent, explicit coverage in the migration guide —
-probably its own top-level section — since it's likely the single most common
-break for existing OpenCvSharp4 code, more so than any of the renames above.
-
-Migration pattern is mechanical: `mat.Xxx(args)` → `Cv2.Xxx(mat, args)`
-(insert the `Mat` as the first argument). Two subtleties found in practice:
-
-- Methods that used to *return a new Mat* (`var gray = src.CvtColor(code);`,
-  `var t = src.Threshold(...)`) need an explicit destination `Mat` created
-  first: `using var gray = new Mat(); Cv2.CvtColor(src, gray, code);`.
-- `Mat.Resize(...)` collides with an unrelated, still-existing instance
-  method: `Mat.Resize(int sz)` / `Mat.Resize(int sz, Scalar s)` (std::vector
-  -style row-count resize, present since OpenCvSharp4). Callers who meant
-  "image resize" and got a "wrong number of arguments" error rather than a
-  "no such method" error should be pointed at `Cv2.Resize(src, dst, size,
-  fx, fy, interpolation)` explicitly, since overload resolution won't say
-  "did you mean Cv2.Resize" for them.
-
-### `MatExpr` is no longer `IDisposable` — drop `using` on it
-
-Consistent with the `MatExpr` lazy-tree rework: `Mat.Zeros(...)`, `Mat.Eye(...)`,
-`mat.T()`, and Mat arithmetic operators (`+`, `*`, `-0.5`, ...) now return a
-`MatExpr` that is a lightweight managed value, not a disposable native
-handle. Code that did `using var x = Mat.Zeros(...);` or `using var t = a *
-b;` now fails with `CS1674: 'MatExpr': type used in a using statement must be
-implicitly convertible to 'System.IDisposable'`. Fix is to just drop the
-`using`/`using var` (`var x = Mat.Zeros(...);`). If the declared type is
-explicitly `Mat` rather than `var` (e.g. `using (Mat img = Mat.Zeros(...))`),
-it still compiles and still needs disposal, because `MatExpr` has an
-implicit conversion to `Mat` that materializes it.
-
-### Namespace churn in `features`/`xfeatures2d` beyond what's listed above
-
-Found while migrating `SiftSurfSample`, `BRISKSample`, `KAZESample*`:
-
-- `SIFT` moved out of `OpenCvSharp.Features2D` and now lives directly in
-  `OpenCvSharp` (the `OpenCvSharp.Features2D` namespace no longer exists at
-  all).
-- `BRISK`, `KAZE`, `AKAZE` moved the *other* direction: from `OpenCvSharp`
-  into `OpenCvSharp.XFeatures2D`.
-- `SURF` was already in `OpenCvSharp.XFeatures2D` in OpenCvSharp4, unchanged.
-
-Worth a full sweep of every `features`/`xfeatures2d` type's namespace before
-finalizing this doc, since the above was only what surfaced through the
-samples actually exercised.
-
-### Aruco: `DetectMarkers` is a structural change, not just a `CvAruco` → `Cv2.Aruco` rename
-
-Beyond the `CvAruco.Xxx` → `Cv2.Aruco.Xxx` facade rename already documented
-above, `DetectMarkers` itself moved from being a static one-shot call to an
-instance method on `ArucoDetector` (constructed once from a `Dictionary` +
-`DetectorParameters` + `RefineParameters`, then reused):
+**`FacemarkAAM.Params` / `FacemarkLBF.Params` are no longer `IDisposable`.**
+They used to be native-handle-backed `CvObject` subclasses; they are now
+plain managed classes with the same property names and types (`ModelFilename`,
+`M`, `N`, `NIter`, `Verbose`, `SaveModel`, `MaxM`, `MaxN`, `TextureMaxM`,
+`Scales`, ...). Remove any `using`/`.Dispose()` call on them — everything else
+about constructing and using them is unchanged:
 
 ```csharp
 // OpenCvSharp4
-CvAruco.DetectMarkers(image, dictionary, out corners, out ids, detectorParameters, out rejected);
-
+using var p = new FacemarkAAM.Params { M = 20, N = 10 };
 // OpenCvSharp5
-using var dictionary = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_1000);
-using var detector = new ArucoDetector(dictionary, detectorParameters, new RefineParameters());
-detector.DetectMarkers(image, out corners, out ids, out rejected);
+var p = new FacemarkAAM.Params { M = 20, N = 10 };
 ```
 
-This mirrors the OpenCV 5 C++ API shape (`cv::aruco::ArucoDetector`), so it's
-expected/upstream-driven, but it's a bigger call-site change than the simple
-prefix swap the existing table above implies.
-
-## 4. OpenCV 5 API changes surfaced through the wrapper
+## 7. OpenCV 5 API changes surfaced through the wrapper
 
 OpenCV 5 reorganizes modules and changes some APIs. The managed surface follows
 the C++ structure where reasonable, while the `Cv2` facade is kept
 source-compatible where possible. This section is updated as modules are ported.
 
-- **Module reorganization** (C++ side): `calib3d` split into
-  `calib` / `stereo` / `geometry` / `ptcloud`; `features2d` renamed to
-  `features`; `ml`, `gapi`, and the Haar `CascadeClassifier` / `HOGDescriptor`
-  moved to `opencv_contrib`.
+- **Module reorganization** (C++ build side): `calib3d` split into
+  `calib`/`stereo`/`geometry`/`ptcloud`; `features2d` renamed to `features`.
+  Despite this, most C# call sites are unaffected — `Cv2.CalibrateCamera`,
+  `Cv2.FindChessboardCorners`, `Cv2.Rodrigues`, `StereoBM`/`StereoSGBM` all
+  keep their existing flat `Cv2`/`OpenCvSharp` locations; only the internal
+  source file layout moved. `ml`, `gapi`, and the Haar `CascadeClassifier` /
+  `HOGDescriptor` native modules moved into `opencv_contrib` on the **C++
+  build** side only — the C# `CascadeClassifier`/`HOGDescriptor` types stay in
+  the same `OpenCvSharp` namespace and the same NuGet package, so nothing
+  changes for callers.
 - **New `MatType` depth types**: `CV_16BF` (bfloat16), `CV_32U`, `CV_64U`,
   `CV_64S`, `CV_Bool`.
 - **DNN**: a new default inference engine; the Darknet and Caffe model readers

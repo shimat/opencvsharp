@@ -13,7 +13,9 @@ OpenCvSharp is published in two parallel package families:
 | **OpenCvSharp5** | 5.0.x | .NET 8+ | Active development — recommended for new projects |
 | **OpenCvSharp4** | 4.13.0 | .NET Framework 4.6.1+, .NET Standard 2.0/2.1, .NET 8+ | Maintenance — for .NET Framework, Unity, or older runtimes |
 
-Both families share the same package layout: every `OpenCvSharp5.*` package has an `OpenCvSharp4.*` counterpart. The examples below use **OpenCvSharp5**; replace `5` with `4` for the OpenCvSharp4 family. Migrating from 4 to 5? See the [migration guide](docs/migration-4-to-5.md).
+Both families share the same package layout: every `OpenCvSharp5.*` package has an `OpenCvSharp4.*` counterpart. The examples below use **OpenCvSharp5**; replace `5` with `4` for the OpenCvSharp4 family.
+
+> 🔄 **Already using OpenCvSharp4?** See the **[Migration Guide (4 → 5)](docs/migration-4-to-5.md)** for target framework changes, package/namespace renames, and OpenCV 5 API changes.
 
 ## Quick Start
 
