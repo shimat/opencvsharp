@@ -63,8 +63,10 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
     cv::Mat** masks, int32_t masksSize)
 {
     return cvTry([&] {
+    // LSDDetector::detect(images, keylines, ..., masks) indexes both `keylines` and `masks`
+    // by images.size() without resizing them itself, so both must be pre-sized here.
     std::vector<cv::Mat> imagesVec(imagesSize);
-    std::vector<cv::Mat> masksVec(masksSize);
+    std::vector<cv::Mat> masksVec(imagesSize);
     for (int i = 0; i < imagesSize; i++)
     {
         imagesVec[i] = *images[i];
@@ -73,7 +75,8 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
     {
         masksVec[i] = *masks[i];
     }
-    
+
+    keylines->resize(imagesSize);
     obj->detect(imagesVec, *keylines, scale, numOctaves, masksVec);
 
     });

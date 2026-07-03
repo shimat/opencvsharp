@@ -334,22 +334,17 @@ static partial class NativeMethods
 
     #endregion
     #region cv::line_descriptor::KeyLine
-#if false
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial IntPtr vector_KeyLine_new1();
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_KeyLine_new1();
 
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial nuint vector_KeyLine_getSize(OpenCvSafeHandle vector);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial nuint vector_KeyLine_getSize(OpenCvSafeHandle vector);
 
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern void vector_KeyLine_getElements(IntPtr vector, [Out] KeyLine[] dst);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_KeyLine_getPointer(OpenCvSafeHandle vector);
 
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial IntPtr vector_KeyLine_getPointer(OpenCvSafeHandle vector);
-
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial void vector_KeyLine_delete(IntPtr vector);
-#endif
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_KeyLine_delete(IntPtr vector);
     #endregion
 
     #region vector<uchar>
@@ -459,17 +454,15 @@ static partial class NativeMethods
     public static partial void vector_string_delete(IntPtr vector);
     #endregion
     #region vector<cv::line_descriptor::KeyLine>
-#if false
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial IntPtr vector_vector_KeyLine_new1();
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial nuint vector_vector_KeyLine_getSize1(OpenCvSafeHandle vector);
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial void vector_vector_KeyLine_getSize2(OpenCvSafeHandle vector, [In, Out] nuint[] size);
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial void vector_vector_KeyLine_copy(OpenCvSafeHandle vec, IntPtr[] dst);
-        [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        public static partial void vector_vector_KeyLine_delete(IntPtr vector);
-#endif
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_vector_KeyLine_new1();
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial nuint vector_vector_KeyLine_getSize1(OpenCvSafeHandle vector);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_vector_KeyLine_getSize2(OpenCvSafeHandle vector, [In, Out] nuint[] size);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_vector_KeyLine_copy(OpenCvSafeHandle vec, IntPtr[] dst);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_vector_KeyLine_delete(IntPtr vector);
     #endregion
 }
