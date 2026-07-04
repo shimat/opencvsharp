@@ -1028,4 +1028,892 @@ CVAPI(ExceptionStatus) geometry_estimateTranslation2D(
     });
 }
 
+CVAPI(ExceptionStatus) geometry_approxPolyN(
+    const interop::InputArrayProxy* curve,
+    const interop::OutputArrayProxy* approxCurve,
+    int nsides,
+    float epsilonPercentage,
+    int ensureConvex)
+{
+    return cvTry([&] {
+        cv::approxPolyN(InProxy(*curve), OutProxy(*approxCurve), nsides, epsilonPercentage, ensureConvex != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingConvexPolygon(
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* polygon,
+    int k,
+    double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::minEnclosingConvexPolygon(InProxy(*points), OutProxy(*polygon), k);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getClosestEllipsePoints(
+    interop::RotatedRect ellipseParams,
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* closestPts)
+{
+    return cvTry([&] {
+        cv::getClosestEllipsePoints(cpp(ellipseParams), InProxy(*points), OutProxy(*closestPts));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_buildMST(
+    int numNodes,
+    const interop::MSTEdge* inputEdges,
+    int inputEdgesLength,
+    int algorithm,
+    int root,
+    interop::MSTEdge* resultingEdges,
+    int* resultingEdgesCount,
+    int* returnValue)
+{
+    return cvTry([&] {
+        std::vector<cv::MSTEdge> inVec(inputEdgesLength);
+        for (int i = 0; i < inputEdgesLength; i++)
+            inVec[i] = cpp(inputEdges[i]);
+
+        std::vector<cv::MSTEdge> outVec;
+        const bool ok = cv::buildMST(numNodes, inVec, outVec, static_cast<cv::MSTAlgorithm>(algorithm), root);
+        *returnValue = ok ? 1 : 0;
+        *resultingEdgesCount = static_cast<int>(outVec.size());
+        for (size_t i = 0; i < outVec.size(); i++)
+            resultingEdges[i] = c(outVec[i]);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_voxelGridSampling(
+    const interop::OutputArrayProxy* sampledPointFlags,
+    const interop::InputArrayProxy* inputPts,
+    float length,
+    float width,
+    float height,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::voxelGridSampling(OutProxy(*sampledPointFlags), InProxy(*inputPts), length, width, height);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_randomSampling_Size(
+    const interop::OutputArrayProxy* sampledPts,
+    const interop::InputArrayProxy* inputPts,
+    int sampledPtsSize)
+{
+    return cvTry([&] {
+        cv::randomSampling(OutProxy(*sampledPts), InProxy(*inputPts), sampledPtsSize, nullptr);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_randomSampling_Scale(
+    const interop::OutputArrayProxy* sampledPts,
+    const interop::InputArrayProxy* inputPts,
+    float sampledScale)
+{
+    return cvTry([&] {
+        cv::randomSampling(OutProxy(*sampledPts), InProxy(*inputPts), sampledScale, nullptr);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_farthestPointSampling_Size(
+    const interop::OutputArrayProxy* sampledPointFlags,
+    const interop::InputArrayProxy* inputPts,
+    int sampledPtsSize,
+    float distLowerLimit,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::farthestPointSampling(OutProxy(*sampledPointFlags), InProxy(*inputPts), sampledPtsSize, distLowerLimit, nullptr);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_farthestPointSampling_Scale(
+    const interop::OutputArrayProxy* sampledPointFlags,
+    const interop::InputArrayProxy* inputPts,
+    float sampledScale,
+    float distLowerLimit,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::farthestPointSampling(OutProxy(*sampledPointFlags), InProxy(*inputPts), sampledScale, distLowerLimit, nullptr);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_normalEstimate(
+    const interop::OutputArrayProxy* normals,
+    const interop::OutputArrayProxy* curvatures,
+    const interop::InputArrayProxy* inputPts,
+    const interop::InputArrayProxy* nnIdx,
+    int maxNeighborNum)
+{
+    return cvTry([&] {
+        cv::normalEstimate(OutProxy(*normals), OutProxy(*curvatures), InProxy(*inputPts), InProxy(*nnIdx), maxNeighborNum);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getRotationMatrix2D(
+    interop::Point2f center,
+    double angle,
+    double scale,
+    cv::Mat** returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::getRotationMatrix2D(cpp(center), angle, scale);
+        *returnValue = new cv::Mat(ret);
+    });
+
+}
+
+CVAPI(ExceptionStatus) geometry_invertAffineTransform(const interop::InputArrayProxy* M, const interop::OutputArrayProxy* iM)
+{
+    return cvTry([&] {
+        cv::invertAffineTransform(InProxy(*M), OutProxy(*iM));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getPerspectiveTransform1(
+    cv::Point2f *src,
+    cv::Point2f *dst,
+    cv::Mat** returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::getPerspectiveTransform(src, dst);
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getPerspectiveTransform2(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* dst,
+    cv::Mat** returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::getPerspectiveTransform(InProxy(*src), InProxy(*dst));
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getAffineTransform1(
+    cv::Point2f *src,
+    cv::Point2f *dst,
+    cv::Mat** returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::getAffineTransform(src, dst);
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_getAffineTransform2(
+    const interop::InputArrayProxy* src,
+    const interop::InputArrayProxy* dst,
+    cv::Mat** returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::getAffineTransform(InProxy(*src), InProxy(*dst));
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_moments(
+    const interop::InputArrayProxy* arr,
+    int binaryImage,
+    interop::Moments *returnValue)
+{
+    return cvTry([&] {
+        const auto m = cv::moments(InProxy(*arr), binaryImage != 0);
+        *returnValue = c(m);
+    });
+}
+/*
+
+CVAPI(ExceptionStatus) geometry_HuMoments(interop::Moments *moments, double hu[7])
+{
+    return cvTry([&] {
+        cv::HuMoments(cpp(*moments), hu);
+    });
+}
+*/
+
+CVAPI(ExceptionStatus) geometry_approxPolyDP_InputArray(
+    const interop::InputArrayProxy* curve,
+    const interop::OutputArrayProxy* approxCurve,
+    double epsilon,
+    int closed)
+{
+    return cvTry([&] {
+        cv::approxPolyDP(InProxy(*curve), OutProxy(*approxCurve), epsilon, closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_approxPolyDP_Point(
+    cv::Point *curve,
+    int curveLength,
+    std::vector<cv::Point> *approxCurve,
+    double epsilon,
+    int closed)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+        cv::approxPolyDP(curveMat, *approxCurve, epsilon, closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_approxPolyDP_Point2f(
+    cv::Point2f *curve,
+    int curveLength,
+    std::vector<cv::Point2f> *approxCurve,
+    double epsilon,
+    int closed)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+        cv::approxPolyDP(curveMat, *approxCurve, epsilon, closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_arcLength_InputArray(
+    const interop::InputArrayProxy* curve,
+    int closed,
+    double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::arcLength(InProxy(*curve), closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_arcLength_Point(
+    cv::Point *curve,
+    int curveLength,
+    int closed,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+        *returnValue = cv::arcLength(curveMat, closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_arcLength_Point2f(
+    cv::Point2f *curve,
+    int curveLength,
+    int closed,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+        *returnValue = cv::arcLength(curveMat, closed != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_boundingRect_InputArray(const interop::InputArrayProxy* curve, interop::Rect* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::boundingRect(InProxy(*curve)));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_boundingRect_Point(
+    cv::Point *curve,
+    int curveLength,
+    interop::Rect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+        *returnValue = c(cv::boundingRect(curveMat));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_boundingRect_Point2f(
+    cv::Point2f *curve,
+    int curveLength,
+    interop::Rect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+        *returnValue = c(cv::boundingRect(curveMat));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_contourArea_InputArray(
+    const interop::InputArrayProxy* contour,
+    int oriented,
+    double* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::contourArea(InProxy(*contour), oriented != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_contourArea_Point(
+    cv::Point *contour,
+    int contourLength,
+    int oriented,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+        *returnValue = cv::contourArea(contourMat, oriented != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_contourArea_Point2f(
+    cv::Point2f *contour,
+    int contourLength,
+    int oriented,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+        *returnValue = cv::contourArea(contourMat, oriented != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minAreaRect_InputArray(const interop::InputArrayProxy* points, interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::minAreaRect(InProxy(*points)));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minAreaRect_Point(
+    cv::Point *points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+        *returnValue = c(cv::minAreaRect(pointsMat));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minAreaRect_Point2f(
+    cv::Point2f *points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+        *returnValue = c(cv::minAreaRect(pointsMat));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_boxPoints_OutputArray(interop::RotatedRect box, const interop::OutputArrayProxy* points)
+{
+    return cvTry([&] {
+        cv::boxPoints(cpp(box), OutProxy(*points));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_boxPoints_Point2f(interop::RotatedRect box, cv::Point2f points[4])
+{
+    return cvTry([&] {
+        cpp(box).points(points);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingCircle_InputArray(
+    const interop::InputArrayProxy* points,
+    interop::Point2f *center,
+    float *radius)
+{
+    return cvTry([&] {
+        cv::Point2f center0;
+        float radius0;
+        cv::minEnclosingCircle(InProxy(*points), center0, radius0);
+        *center = c(center0);
+        *radius = radius0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingCircle_Point(
+    cv::Point *points,
+    int pointsLength,
+    interop::Point2f*center,
+    float *radius)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+        cv::Point2f center0;
+        float radius0;
+        cv::minEnclosingCircle(pointsMat, center0, radius0);
+        *center = c(center0);
+        *radius = radius0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingCircle_Point2f(
+    cv::Point2f *points,
+    int pointsLength,
+    interop::Point2f*center,
+    float *radius)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+        cv::Point2f center0;
+        float radius0;
+        cv::minEnclosingCircle(pointsMat, center0, radius0);
+        *center = c(center0);
+        *radius = radius0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingTriangle_InputOutputArray(
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* triangle,
+    double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::minEnclosingTriangle(InProxy(*points), OutProxy(*triangle));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingTriangle_Point(
+    cv::Point* points,
+    int pointsLength,
+    std::vector<cv::Point2f>* triangle,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+        *returnValue = cv::minEnclosingTriangle(pointsMat, *triangle);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_minEnclosingTriangle_Point2f(
+    cv::Point2f* points,
+    int pointsLength,
+    std::vector<cv::Point2f>* triangle,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+        *returnValue = cv::minEnclosingTriangle(pointsMat, *triangle);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_matchShapes_InputArray(
+    const interop::InputArrayProxy* contour1,
+    const interop::InputArrayProxy* contour2,
+    int method,
+    double parameter,
+    double* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::matchShapes(InProxy(*contour1), InProxy(*contour2), method, parameter);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_matchShapes_Point(
+    cv::Point *contour1,
+    int contour1Length,
+    cv::Point *contour2,
+    int contour2Length,
+    int method,
+    double parameter,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> contour1Mat(contour1Length, 1, contour1);
+        const cv::Mat_<cv::Point> contour2Mat(contour2Length, 1, contour2);
+        *returnValue = cv::matchShapes(contour1Mat, contour2Mat, method, parameter);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexHull_InputArray(
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* hull,
+    int clockwise,
+    int returnPoints)
+{
+    return cvTry([&] {
+        cv::convexHull(InProxy(*points), OutProxy(*hull), clockwise != 0, returnPoints != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexHull_Point_ReturnsPoints(
+    cv::Point *points,
+    int pointsLength,
+    std::vector<cv::Point> *hull,
+    int clockwise)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+        cv::convexHull(pointsMat, *hull, clockwise != 0, true);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexHull_Point2f_ReturnsPoints(
+    cv::Point2f *points,
+    int pointsLength,
+    std::vector<cv::Point2f> *hull,
+    int clockwise)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+        cv::convexHull(pointsMat, *hull, clockwise != 0, true);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexHull_Point_ReturnsIndices(
+    cv::Point *points,
+    int pointsLength,
+    std::vector<int> *hull,
+    int clockwise)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+        cv::convexHull(pointsMat, *hull, clockwise != 0, false);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexHull_Point2f_ReturnsIndices(
+    cv::Point2f *points,
+    int pointsLength,
+    std::vector<int> *hull,
+    int clockwise)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+        cv::convexHull(pointsMat, *hull, clockwise != 0, false);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexityDefects_InputArray(
+    const interop::InputArrayProxy* contour,
+    const interop::InputArrayProxy* convexHull,
+    const interop::OutputArrayProxy* convexityDefects)
+{
+    return cvTry([&] {
+        cv::convexityDefects(InProxy(*contour), InProxy(*convexHull), OutProxy(*convexityDefects));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexityDefects_Point(
+    cv::Point *contour,
+    int contourLength,
+    int *convexHull,
+    int convexHullLength,
+    std::vector<cv::Vec4i> *convexityDefects)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+        const cv::Mat_<int> convexHullMat(convexHullLength, 1,  convexHull);
+        cv::convexityDefects(contourMat, convexHullMat, *convexityDefects);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_convexityDefects_Point2f(
+    cv::Point2f *contour,
+    int contourLength,
+    int *convexHull,
+    int convexHullLength,
+    std::vector<cv::Vec4i> *convexityDefects)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+        const cv::Mat_<int> convexHullMat(convexHullLength, 1, convexHull);
+        cv::convexityDefects(contourMat, convexHullMat, *convexityDefects);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_isContourConvex_InputArray(const interop::InputArrayProxy* contour, int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::isContourConvex(InProxy(*contour)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_isContourConvex_Point(
+    cv::Point *contour,
+    int contourLength,
+    int* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+        *returnValue = cv::isContourConvex(contourMat) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_isContourConvex_Point2f(
+    cv::Point2f *contour,
+    int contourLength,
+    int* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+        *returnValue = cv::isContourConvex(contourMat) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_intersectConvexConvex_InputArray(
+    const interop::InputArrayProxy* p1,
+    const interop::InputArrayProxy* p2,
+    const interop::OutputArrayProxy* p12,
+    int handleNested,
+    float* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::intersectConvexConvex(InProxy(*p1), InProxy(*p2), OutProxy(*p12), handleNested != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_intersectConvexConvex_Point(
+    cv::Point *p1,
+    int p1Length,
+    cv::Point *p2,
+    int p2Length,
+    std::vector<cv::Point> *p12,
+    int handleNested,
+    float* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> p1Vec(p1Length, 1, p1);
+        const cv::Mat_<cv::Point> p2Vec(p2Length, 1, p2);
+        *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, *p12, handleNested != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_intersectConvexConvex_Point2f(
+    cv::Point2f *p1,
+    int p1Length,
+    cv::Point2f *p2,
+    int p2Length,
+    std::vector<cv::Point2f> *p12,
+    int handleNested,
+    float *returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> p1Vec(p1Length, 1, p1);
+        const cv::Mat_<cv::Point2f> p2Vec(p2Length, 1, p2);
+        *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, *p12, handleNested != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipse_InputArray(const interop::InputArrayProxy* points, interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::fitEllipse(InProxy(*points)));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipse_Point(
+    cv::Point *points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipse(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipse_Point2f(
+    cv::Point2f *points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipse(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseAMS_InputArray(const interop::InputArrayProxy* points, interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::fitEllipseAMS(InProxy(*points)));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseAMS_Point(
+    cv::Point* points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipseAMS(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseAMS_Point2f(
+    cv::Point2f* points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipseAMS(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseDirect_InputArray(const interop::InputArrayProxy* points, interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = c(cv::fitEllipseDirect(InProxy(*points)));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseDirect_Point(
+    cv::Point* points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipseDirect(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitEllipseDirect_Point2f(
+    cv::Point2f* points,
+    int pointsLength,
+    interop::RotatedRect* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+        *returnValue = c(cv::fitEllipseDirect(pointsVec));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitLine_InputArray(
+    const interop::InputArrayProxy* points,
+    const interop::OutputArrayProxy* line,
+    int distType,
+    double param,
+    double reps,
+    double aeps)
+{
+    return cvTry([&] {
+        cv::fitLine(InProxy(*points), OutProxy(*line), distType, param, reps, aeps);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitLine_Point(
+    cv::Point *points,
+    int pointsLength,
+    float *line,
+    int distType,
+    double param,
+    double reps,
+    double aeps)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+        cv::Mat_<float> lineVec(4, 1, line);
+        cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitLine_Point2f(
+    cv::Point2f *points,
+    int pointsLength,
+    float *line,
+    int distType,
+    double param,
+    double reps,
+    double aeps)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+        cv::Mat_<float> lineVec(4, 1, line);
+        cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitLine_Point3i(
+    cv::Point3i *points,
+    int pointsLength,
+    float *line,
+    int distType,
+    double param,
+    double reps,
+    double aeps)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point3i> pointsVec(pointsLength, 1, points);
+        cv::Mat_<float> lineVec(6, 1, line);
+        cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_fitLine_Point3f(
+    cv::Point3f *points,
+    int pointsLength,
+    float *line,
+    int distType,
+    double param,
+    double reps,
+    double aeps)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point3f> pointsVec(pointsLength, 1, points);
+        cv::Mat_<float> lineVec(6, 1, line);
+        cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_pointPolygonTest_InputArray(
+    const interop::InputArrayProxy* contour,
+    interop::Point2f pt,
+    int measureDist,
+    double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::pointPolygonTest(InProxy(*contour), cpp(pt), measureDist != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_pointPolygonTest_Point(
+    cv::Point *contour,
+    int contourLength,
+    interop::Point2f pt,
+    int measureDist,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point> contourVec(contourLength, 1, contour);
+        *returnValue = cv::pointPolygonTest(contourVec, cpp(pt), measureDist != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_pointPolygonTest_Point2f(
+    cv::Point2f *contour,
+    int contourLength,
+    interop::Point2f pt,
+    int measureDist,
+    double* returnValue)
+{
+    return cvTry([&] {
+        const cv::Mat_<cv::Point2f> contourVec(contourLength, 1, contour);
+        *returnValue = cv::pointPolygonTest(contourVec, cpp(pt), measureDist != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_rotatedRectangleIntersection_OutputArray(
+    interop::RotatedRect rect1,
+    interop::RotatedRect rect2,
+    const interop::OutputArrayProxy* intersectingRegion,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), OutProxy(*intersectingRegion));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_rotatedRectangleIntersection_vector(
+    interop::RotatedRect rect1,
+    interop::RotatedRect rect2,
+    std::vector<cv::Point2f> *intersectingRegion,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::rotatedRectangleIntersection(cpp(rect1), cpp(rect2), *intersectingRegion);
+    });
+}
+
 #endif // NO_GEOMETRY

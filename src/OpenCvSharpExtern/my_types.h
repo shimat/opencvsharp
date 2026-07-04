@@ -170,6 +170,13 @@ namespace interop
         float distance;
     };
 
+    struct MSTEdge
+    {
+        int source;
+        int target;
+        double weight;
+    };
+
 #pragma endregion
 
     typedef struct Vec2b { uchar val[2]; } Vec2b;
@@ -291,6 +298,7 @@ OCS_INTEROP_BITCAST(TermCriteria, cv::TermCriteria)
 OCS_INTEROP_BITCAST(RotatedRect, cv::RotatedRect)
 OCS_INTEROP_BITCAST(KeyPoint, cv::KeyPoint)
 OCS_INTEROP_BITCAST(DMatch, cv::DMatch)
+OCS_INTEROP_BITCAST(MSTEdge, cv::MSTEdge)
 
 #undef OCS_INTEROP_BITCAST
 

@@ -338,4 +338,282 @@ static partial class NativeMethods
         in InputArrayProxy from, in InputArrayProxy to, in OutputArrayProxy inliers,
         int method, double ransacReprojThreshold, ulong maxIters, double confidence, ulong refineIters,
         out Vec2d returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_approxPolyN(
+        in InputArrayProxy curve, in OutputArrayProxy approxCurve, int nsides, float epsilonPercentage, int ensureConvex);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_minEnclosingConvexPolygon(
+        in InputArrayProxy points, in OutputArrayProxy polygon, int k, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_getClosestEllipsePoints(
+        RotatedRect ellipseParams, in InputArrayProxy points, in OutputArrayProxy closestPts);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_buildMST(
+        int numNodes,
+        [MarshalAs(UnmanagedType.LPArray), In] MSTEdge[] inputEdges, int inputEdgesLength,
+        int algorithm, int root,
+        [MarshalAs(UnmanagedType.LPArray), Out] MSTEdge[] resultingEdges, out int resultingEdgesCount,
+        out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_voxelGridSampling(
+        in OutputArrayProxy sampledPointFlags, in InputArrayProxy inputPts,
+        float length, float width, float height, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_randomSampling_Size(
+        in OutputArrayProxy sampledPts, in InputArrayProxy inputPts, int sampledPtsSize);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_randomSampling_Scale(
+        in OutputArrayProxy sampledPts, in InputArrayProxy inputPts, float sampledScale);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_farthestPointSampling_Size(
+        in OutputArrayProxy sampledPointFlags, in InputArrayProxy inputPts,
+        int sampledPtsSize, float distLowerLimit, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_farthestPointSampling_Scale(
+        in OutputArrayProxy sampledPointFlags, in InputArrayProxy inputPts,
+        float sampledScale, float distLowerLimit, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_normalEstimate(
+        in OutputArrayProxy normals, in OutputArrayProxy curvatures,
+        in InputArrayProxy inputPts, in InputArrayProxy nnIdx, int maxNeighborNum);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_getRotationMatrix2D(Point2f center, double angle, double scale, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_invertAffineTransform(in InputArrayProxy m, in OutputArrayProxy im);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_getPerspectiveTransform1(Point2f[] src, Point2f[] dst, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_getPerspectiveTransform2(in InputArrayProxy src, in InputArrayProxy dst, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_getAffineTransform1(Point2f[] src, Point2f[] dst, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_getAffineTransform2(in InputArrayProxy src, in InputArrayProxy dst, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_moments(in InputArrayProxy arr, int binaryImage, out Moments.NativeStruct returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_approxPolyDP_InputArray(in InputArrayProxy curve, in OutputArrayProxy approxCurve,
+        double epsilon, int closed);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_approxPolyDP_Point(Point[] curve, int curveLength,
+        IntPtr approxCurve, double epsilon, int closed);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_approxPolyDP_Point2f(Point2f[] curve, int curveLength,
+        IntPtr approxCurve, double epsilon, int closed);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_arcLength_InputArray(in InputArrayProxy curve, int closed, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_arcLength_Point(Point[] curve, int curveLength, int closed, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_arcLength_Point2f(Point2f[] curve, int curveLength, int closed, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_boundingRect_InputArray(in InputArrayProxy curve, out Rect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_boundingRect_Point(Point[] curve, int curveLength, out Rect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_boundingRect_Point2f(Point2f[] curve, int curveLength, out Rect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_contourArea_InputArray(in InputArrayProxy contour, int oriented, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_contourArea_Point(
+        [MarshalAs(UnmanagedType.LPArray)] Point[] contour, int contourLength, int oriented, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_contourArea_Point2f(
+        [MarshalAs(UnmanagedType.LPArray)] Point2f[] contour, int contourLength, int oriented, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_minAreaRect_InputArray(in InputArrayProxy points, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minAreaRect_Point(
+        [MarshalAs(UnmanagedType.LPArray)] Point[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minAreaRect_Point2f(
+        [MarshalAs(UnmanagedType.LPArray)] Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_boxPoints_OutputArray(RotatedRect box, in OutputArrayProxy points);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_boxPoints_Point2f(RotatedRect box, [MarshalAs(UnmanagedType.LPArray), Out] Point2f[] points);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_minEnclosingCircle_InputArray(in InputArrayProxy points, out Point2f center,
+        out float radius);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minEnclosingCircle_Point(Point[] points, int pointsLength,
+        out Point2f center, out float radius);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minEnclosingCircle_Point2f(Point2f[] points, int pointsLength,
+        out Point2f center, out float radius);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_minEnclosingTriangle_InputOutputArray(in InputArrayProxy points, in OutputArrayProxy triangle, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minEnclosingTriangle_Point(
+        [MarshalAs(UnmanagedType.LPArray), In] Point[] points, int pointsLength, IntPtr triangle, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_minEnclosingTriangle_Point2f(
+        [MarshalAs(UnmanagedType.LPArray), In] Point2f[] points, int pointsLength, IntPtr triangle, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_matchShapes_InputArray(
+        in InputArrayProxy contour1, in InputArrayProxy contour2, int method, double parameter, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_matchShapes_Point(
+        Point[] contour1, int contour1Length, Point[] contour2, int contour2Length, int method, double parameter, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_convexHull_InputArray(in InputArrayProxy points, in OutputArrayProxy hull,
+        int clockwise, int returnPoints);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexHull_Point_ReturnsPoints(Point[] points, int pointsLength,
+        IntPtr hull, int clockwise);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexHull_Point2f_ReturnsPoints(Point2f[] points, int pointsLength,
+        IntPtr hull, int clockwise);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexHull_Point_ReturnsIndices(Point[] points, int pointsLength,
+        IntPtr hull, int clockwise);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexHull_Point2f_ReturnsIndices(Point2f[] points, int pointsLength,
+        IntPtr hull, int clockwise);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_convexityDefects_InputArray(in InputArrayProxy contour, in InputArrayProxy convexHull,
+        in OutputArrayProxy convexityDefects);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexityDefects_Point(Point[] contour, int contourLength, int[] convexHull,
+        int convexHullLength, IntPtr convexityDefects);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_convexityDefects_Point2f(Point2f[] contour, int contourLength,
+        int[] convexHull, int convexHullLength, IntPtr convexityDefects);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_isContourConvex_InputArray(in InputArrayProxy contour, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_isContourConvex_Point(Point[] contour, int contourLength, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_isContourConvex_Point2f(Point2f[] contour, int contourLength, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_intersectConvexConvex_InputArray(in InputArrayProxy p1, in InputArrayProxy p2,
+        in OutputArrayProxy p12, int handleNested, out float returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_intersectConvexConvex_Point(Point[] p1, int p1Length, Point[] p2,
+        int p2Length, IntPtr p12, int handleNested, out float returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_intersectConvexConvex_Point2f(Point2f[] p1, int p1Length, Point2f[] p2,
+        int p2Length, IntPtr p12, int handleNested, out float returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_fitEllipse_InputArray(in InputArrayProxy points, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipse_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipse_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_fitEllipseAMS_InputArray(in InputArrayProxy points, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipseAMS_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipseAMS_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_fitEllipseDirect_InputArray(in InputArrayProxy points, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipseDirect_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitEllipseDirect_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_fitLine_InputArray(in InputArrayProxy points, in OutputArrayProxy line,
+        int distType, double param, double reps, double aeps);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitLine_Point(Point[] points, int pointsLength, [In, Out] float[] line,
+        int distType,
+        double param, double reps, double aeps);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitLine_Point2f(Point2f[] points, int pointsLength, [In, Out] float[] line,
+        int distType, double param, double reps, double aeps);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitLine_Point3i(Point3i[] points, int pointsLength, [In, Out] float[] line,
+        int distType, double param, double reps, double aeps);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_fitLine_Point3f(Point3f[] points, int pointsLength, [In, Out] float[] line,
+        int distType, double param, double reps, double aeps);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_pointPolygonTest_InputArray(
+        in InputArrayProxy contour, Point2f pt, int measureDist, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_pointPolygonTest_Point(Point[] contour, int contourLength, Point2f pt,
+        int measureDist, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_pointPolygonTest_Point2f(Point2f[] contour, int contourLength,
+        Point2f pt, int measureDist, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_rotatedRectangleIntersection_OutputArray(
+        RotatedRect rect1, RotatedRect rect2, in OutputArrayProxy intersectingRegion, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_rotatedRectangleIntersection_vector(
+        RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion, out int returnValue);
 }

@@ -146,23 +146,20 @@ public class Net : CvObject
 
     /// <summary>
     /// Read deep learning network represented in one of the supported formats.
-    /// 
-    /// This function automatically detects an origin framework of trained model 
-    /// and calls an appropriate function such @ref readNetFromCaffe, @ref readNetFromTensorflow,
+    ///
+    /// This function automatically detects an origin framework of trained model
+    /// and calls an appropriate function such @ref readNetFromTensorflow, @ref readNetFromONNX,
+    /// or @ref readNetFromModelOptimizer. The Caffe, Darknet and Torch parsers were removed in OpenCV 5.
     /// </summary>
     /// <param name="model">Binary file contains trained weights. The following file
     /// *                  extensions are expected for models from different frameworks:
-    /// *                  * `*.caffemodel` (Caffe, http://caffe.berkeleyvision.org/)
     /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
-    /// *                  * `*.t7` | `*.net` (Torch, http://torch.ch/)
-    /// *                  * `*.weights` (Darknet, https://pjreddie.com/darknet/)
-    /// *                  * `*.bin` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+    /// *                  * `*.onnx` (ONNX, https://onnx.ai/)
+    /// *                  * `*.bin` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
     /// <param name="config">Text file contains network configuration. It could be a
     /// *                   file with the following extensions:
-    /// *                  * `*.prototxt` (Caffe, http://caffe.berkeleyvision.org/)
     /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
-    /// *                  * `*.cfg` (Darknet, https://pjreddie.com/darknet/)
-    /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+    /// *                  * `*.xml` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
     /// <param name="framework">Explicit framework name tag to determine a format.</param>
     /// <returns></returns>
     /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
