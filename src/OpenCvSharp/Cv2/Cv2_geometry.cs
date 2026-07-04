@@ -2732,6 +2732,7 @@ static partial class Cv2
             NativeMethods.geometry_minEnclosingTriangle_InputOutputArray(points.Proxy, triangle.Proxy, out var ret));
 
         GC.KeepAlive(points.Source);
+        GC.KeepAlive(triangle.Source);
         return ret;
     }
 
