@@ -2651,6 +2651,8 @@ static partial class Cv2
     {
         NativeMethods.HandleException(
             NativeMethods.geometry_boxPoints_OutputArray(box, points.Proxy));
+
+        GC.KeepAlive(points.Source);
     }
 
 
