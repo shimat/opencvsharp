@@ -616,4 +616,157 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_rotatedRectangleIntersection_vector(
         RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion, out int returnValue);
+
+    // SACSegmentation
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_createSACSegmentation(
+        int sacModelType, int sacMethod, double threshold, int maxIterations, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_Ptr_SACSegmentation_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_Ptr_SACSegmentation_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_SACSegmentation_segment(
+        OpenCvSafeHandle obj, in InputArrayProxy inputPts, in OutputArrayProxy labels, in OutputArrayProxy modelsCoefficients,
+        out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setSacModelType(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getSacModelType(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setSacMethodType(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getSacMethodType(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setDistanceThreshold(OpenCvSafeHandle obj, double value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getDistanceThreshold(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setRadiusLimits(OpenCvSafeHandle obj, double radiusMin, double radiusMax);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getRadiusLimits(OpenCvSafeHandle obj, out double radiusMin, out double radiusMax);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setMaxIterations(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getMaxIterations(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setConfidence(OpenCvSafeHandle obj, double value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getConfidence(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setNumberOfModelsExpected(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getNumberOfModelsExpected(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setParallel(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_isParallel(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setRandomGeneratorState(OpenCvSafeHandle obj, ulong value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_getRandomGeneratorState(OpenCvSafeHandle obj, out ulong returnValue);
+
+    // LibraryImport does not support marshaling delegate parameters, so this one uses classic DllImport.
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus geometry_SACSegmentation_setCustomModelConstraints(
+        OpenCvSafeHandle obj, SacModelConstraintNativeCallback? callback);
+
+    // RegionGrowing3D
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_createRegionGrowing3D(out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_Ptr_RegionGrowing3D_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_Ptr_RegionGrowing3D_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_RegionGrowing3D_segment(
+        OpenCvSafeHandle obj, IntPtr regionsIdx, in OutputArrayProxy labels,
+        in InputArrayProxy inputPts, in InputArrayProxy normals, in InputArrayProxy nnIdx,
+        out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setMinSize(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getMinSize(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setMaxSize(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getMaxSize(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setSmoothModeFlag(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getSmoothModeFlag(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setSmoothnessThreshold(OpenCvSafeHandle obj, double value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getSmoothnessThreshold(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setCurvatureThreshold(OpenCvSafeHandle obj, double value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getCurvatureThreshold(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setMaxNumberOfNeighbors(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getMaxNumberOfNeighbors(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setNumberOfRegions(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getNumberOfRegions(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_setNeedSort(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_RegionGrowing3D_getNeedSort(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_RegionGrowing3D_setSeeds(OpenCvSafeHandle obj, in InputArrayProxy seeds);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_RegionGrowing3D_getSeeds(OpenCvSafeHandle obj, in OutputArrayProxy seeds);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_RegionGrowing3D_setCurvatures(OpenCvSafeHandle obj, in InputArrayProxy curvatures);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_RegionGrowing3D_getCurvatures(OpenCvSafeHandle obj, in OutputArrayProxy curvatures);
 }
