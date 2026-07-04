@@ -1916,4 +1916,370 @@ CVAPI(ExceptionStatus) geometry_rotatedRectangleIntersection_vector(
     });
 }
 
+
+// SACSegmentation
+
+typedef int (*SacModelConstraintNativeCallback)(const double *coefficients, int length);
+
+CVAPI(ExceptionStatus) geometry_createSACSegmentation(
+    int sacModelType,
+    int sacMethod,
+    double threshold,
+    int maxIterations,
+    cv::Ptr<cv::SACSegmentation> **returnValue)
+{
+    return cvTry([&] {
+    *returnValue = clone(cv::SACSegmentation::create(
+        static_cast<cv::SacModelType>(sacModelType), static_cast<cv::SacMethod>(sacMethod), threshold, maxIterations));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_Ptr_SACSegmentation_delete(cv::Ptr<cv::SACSegmentation> *obj)
+{
+    return cvTry([&] {
+    delete obj;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_Ptr_SACSegmentation_get(cv::Ptr<cv::SACSegmentation> *ptr, cv::SACSegmentation **returnValue)
+{
+    return cvTry([&] {
+    *returnValue = ptr->get();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_segment(
+    cv::SACSegmentation *obj,
+    const interop::InputArrayProxy* inputPts,
+    const interop::OutputArrayProxy* labels,
+    const interop::OutputArrayProxy* modelsCoefficients,
+    int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->segment(InProxy(*inputPts), OutProxy(*labels), OutProxy(*modelsCoefficients));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setSacModelType(cv::SACSegmentation *obj, int value)
+{
+    return cvTry([&] {
+    obj->setSacModelType(static_cast<cv::SacModelType>(value));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getSacModelType(cv::SACSegmentation *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = static_cast<int>(obj->getSacModelType());
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setSacMethodType(cv::SACSegmentation *obj, int value)
+{
+    return cvTry([&] {
+    obj->setSacMethodType(static_cast<cv::SacMethod>(value));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getSacMethodType(cv::SACSegmentation *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = static_cast<int>(obj->getSacMethodType());
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setDistanceThreshold(cv::SACSegmentation *obj, double value)
+{
+    return cvTry([&] {
+    obj->setDistanceThreshold(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getDistanceThreshold(cv::SACSegmentation *obj, double *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getDistanceThreshold();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setRadiusLimits(cv::SACSegmentation *obj, double radiusMin, double radiusMax)
+{
+    return cvTry([&] {
+    obj->setRadiusLimits(radiusMin, radiusMax);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getRadiusLimits(cv::SACSegmentation *obj, double *radiusMin, double *radiusMax)
+{
+    return cvTry([&] {
+    obj->getRadiusLimits(*radiusMin, *radiusMax);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setMaxIterations(cv::SACSegmentation *obj, int value)
+{
+    return cvTry([&] {
+    obj->setMaxIterations(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getMaxIterations(cv::SACSegmentation *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getMaxIterations();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setConfidence(cv::SACSegmentation *obj, double value)
+{
+    return cvTry([&] {
+    obj->setConfidence(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getConfidence(cv::SACSegmentation *obj, double *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getConfidence();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setNumberOfModelsExpected(cv::SACSegmentation *obj, int value)
+{
+    return cvTry([&] {
+    obj->setNumberOfModelsExpected(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getNumberOfModelsExpected(cv::SACSegmentation *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getNumberOfModelsExpected();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setParallel(cv::SACSegmentation *obj, int value)
+{
+    return cvTry([&] {
+    obj->setParallel(value != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_isParallel(cv::SACSegmentation *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->isParallel() ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setRandomGeneratorState(cv::SACSegmentation *obj, uint64_t value)
+{
+    return cvTry([&] {
+    obj->setRandomGeneratorState(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_getRandomGeneratorState(cv::SACSegmentation *obj, uint64_t *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getRandomGeneratorState();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_SACSegmentation_setCustomModelConstraints(
+    cv::SACSegmentation *obj,
+    SacModelConstraintNativeCallback callback)
+{
+    return cvTry([&] {
+    if (callback == nullptr)
+    {
+        obj->setCustomModelConstraints(cv::SACSegmentation::ModelConstraintFunction());
+    }
+    else
+    {
+        obj->setCustomModelConstraints([callback](const std::vector<double> &coefficients) -> bool {
+            return callback(coefficients.data(), static_cast<int>(coefficients.size())) != 0;
+        });
+    }
+    });
+}
+
+
+// RegionGrowing3D
+
+CVAPI(ExceptionStatus) geometry_createRegionGrowing3D(cv::Ptr<cv::RegionGrowing3D> **returnValue)
+{
+    return cvTry([&] {
+    *returnValue = clone(cv::RegionGrowing3D::create());
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_Ptr_RegionGrowing3D_delete(cv::Ptr<cv::RegionGrowing3D> *obj)
+{
+    return cvTry([&] {
+    delete obj;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_Ptr_RegionGrowing3D_get(cv::Ptr<cv::RegionGrowing3D> *ptr, cv::RegionGrowing3D **returnValue)
+{
+    return cvTry([&] {
+    *returnValue = ptr->get();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_segment(
+    cv::RegionGrowing3D *obj,
+    std::vector<std::vector<int>> *regionsIdx,
+    const interop::OutputArrayProxy* labels,
+    const interop::InputArrayProxy* inputPts,
+    const interop::InputArrayProxy* normals,
+    const interop::InputArrayProxy* nnIdx,
+    int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->segment(*regionsIdx, OutProxy(*labels), InProxy(*inputPts), InProxy(*normals), InProxy(*nnIdx));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMinSize(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setMinSize(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMinSize(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getMinSize();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMaxSize(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setMaxSize(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMaxSize(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getMaxSize();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSmoothModeFlag(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setSmoothModeFlag(value != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSmoothModeFlag(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getSmoothModeFlag() ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSmoothnessThreshold(cv::RegionGrowing3D *obj, double value)
+{
+    return cvTry([&] {
+    obj->setSmoothnessThreshold(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSmoothnessThreshold(cv::RegionGrowing3D *obj, double *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getSmoothnessThreshold();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setCurvatureThreshold(cv::RegionGrowing3D *obj, double value)
+{
+    return cvTry([&] {
+    obj->setCurvatureThreshold(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getCurvatureThreshold(cv::RegionGrowing3D *obj, double *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getCurvatureThreshold();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMaxNumberOfNeighbors(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setMaxNumberOfNeighbors(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMaxNumberOfNeighbors(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getMaxNumberOfNeighbors();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setNumberOfRegions(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setNumberOfRegions(value);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getNumberOfRegions(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getNumberOfRegions();
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setNeedSort(cv::RegionGrowing3D *obj, int value)
+{
+    return cvTry([&] {
+    obj->setNeedSort(value != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getNeedSort(cv::RegionGrowing3D *obj, int *returnValue)
+{
+    return cvTry([&] {
+    *returnValue = obj->getNeedSort() ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSeeds(cv::RegionGrowing3D *obj, const interop::InputArrayProxy* seeds)
+{
+    return cvTry([&] {
+    obj->setSeeds(InProxy(*seeds));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSeeds(cv::RegionGrowing3D *obj, const interop::OutputArrayProxy* seeds)
+{
+    return cvTry([&] {
+    obj->getSeeds(OutProxy(*seeds));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setCurvatures(cv::RegionGrowing3D *obj, const interop::InputArrayProxy* curvatures)
+{
+    return cvTry([&] {
+    obj->setCurvatures(InProxy(*curvatures));
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getCurvatures(cv::RegionGrowing3D *obj, const interop::OutputArrayProxy* curvatures)
+{
+    return cvTry([&] {
+    obj->getCurvatures(OutProxy(*curvatures));
+    });
+}
+
 #endif // NO_GEOMETRY
