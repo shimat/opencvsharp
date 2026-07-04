@@ -47,9 +47,15 @@
 //  - 2D (opencv2/geometry/2d.hpp): convexHull, minAreaRect, fitEllipse, boxPoints,
 //    minEnclosingCircle/Triangle, Subdiv2D, ...
 //  - 3D (opencv2/geometry/3d.hpp): solvePnP, findHomography, triangulatePoints, ...
+//  - point cloud sampling (opencv2/geometry/segment.hpp): voxelGridSampling,
+//    randomSampling, farthestPointSampling, normalEstimate, ... (pulled in by 3d.hpp)
 // opencv2/opencv.hpp does not pull opencv2/geometry.hpp (and the legacy calib3d
 // umbrella that used to is neutralized above), so include it explicitly.
 #include <opencv2/geometry.hpp>
+
+// opencv2/geometry/mst.hpp (generic graph Minimum Spanning Tree, cv::buildMST) is
+// not pulled in by opencv2/geometry.hpp itself, so include it explicitly too.
+#include <opencv2/geometry/mst.hpp>
 
 // OpenCV 5 moved CascadeClassifier / HOGDescriptor / groupRectangles out of the
 // main objdetect module into the contrib xobjdetect module (still in the cv::

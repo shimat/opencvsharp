@@ -1,3 +1,4 @@
+using System.Linq;
 using Xunit;
 
 #pragma warning disable CA5394 // Do not use insecure randomness
@@ -609,5 +610,161 @@ public class GeometryFunctionsTest : TestBase
         Cv2.FishEye.DistortPoints(undistorted, distorted, kUndistorted, k, d);
 
         Assert.Equal(pts.Length, (int)distorted.Total());
+    }
+
+    [Fact]
+    public void ApproxPolyN()
+    {
+        // Densely sample a square contour so approxPolyN must contract it back to ~4 vertices.
+        var pts = new List<Point2f>();
+        for (var i = 0; i <= 10; i++) pts.Add(new Point2f(i * 10f, 0));
+        for (var i = 0; i <= 10; i++) pts.Add(new Point2f(100, i * 10f));
+        for (var i = 0; i <= 10; i++) pts.Add(new Point2f(100 - (i * 10f), 100));
+        for (var i = 0; i <= 10; i++) pts.Add(new Point2f(0, 100 - (i * 10f)));
+
+        using var curve = Mat.FromPixelData(pts.Count, 1, MatType.CV_32FC2, pts.ToArray());
+        using var approxCurve = new Mat();
+
+        Cv2.ApproxPolyN(curve, approxCurve, 4);
+
+        Assert.Equal(4, (int)approxCurve.Total());
+    }
+
+    [Fact]
+    public void MinEnclosingConvexPolygon()
+    {
+        var pts = new Point2f[20];
+        for (var i = 0; i < pts.Length; i++)
+        {
+            var angle = 2 * Math.PI * i / pts.Length;
+            pts[i] = new Point2f((float)(50 * Math.Cos(angle)), (float)(50 * Math.Sin(angle)));
+        }
+        using var points = Mat.FromPixelData(pts.Length, 1, MatType.CV_32FC2, pts);
+        using var polygon = new Mat();
+
+        var area = Cv2.MinEnclosingConvexPolygon(points, polygon, 6);
+
+        Assert.True(area > 0);
+        Assert.True((int)polygon.Total() <= 6);
+    }
+
+    [Fact]
+    public void GetClosestEllipsePoints()
+    {
+        var ellipse = new RotatedRect(new Point2f(0, 0), new Size2f(2, 2), 0); // unit circle
+        var pts = new[] { new Point2f(2, 0) };
+        using var points = Mat.FromPixelData(pts.Length, 1, MatType.CV_32FC2, pts);
+        using var closest = new Mat();
+
+        Cv2.GetClosestEllipsePoints(ellipse, points, closest);
+
+        Assert.Equal(1, (int)closest.Total());
+        var closestPt = closest.Get<Point2f>(0);
+        Assert.True(Math.Abs(closestPt.X - 1.0) < 1e-2);
+        Assert.True(Math.Abs(closestPt.Y) < 1e-2);
+    }
+
+    [Fact]
+    public void BuildMST()
+    {
+        var edges = new[]
+        {
+            new MSTEdge(0, 1, 1.0),
+            new MSTEdge(1, 2, 2.0),
+            new MSTEdge(2, 3, 3.0),
+            new MSTEdge(0, 3, 10.0),
+            new MSTEdge(0, 2, 15.0)
+        };
+
+        var mst = Cv2.BuildMST(4, edges, MSTAlgorithm.Kruskal);
+
+        Assert.NotNull(mst);
+        Assert.Equal(3, mst!.Length);
+        Assert.Equal(6.0, mst.Sum(e => e.Weight), 6);
+    }
+
+    [Fact]
+    public void VoxelGridSampling()
+    {
+        // Two dense clusters far apart; a large-enough voxel collapses each cluster to one point.
+        var pts = new List<Point3f>();
+        var rng = new Random(17);
+        for (var i = 0; i < 50; i++)
+            pts.Add(new Point3f((float)rng.NextDouble() * 0.01f, 0, 0));
+        for (var i = 0; i < 50; i++)
+            pts.Add(new Point3f(10 + ((float)rng.NextDouble() * 0.01f), 0, 0));
+
+        using var inputPts = Mat.FromPixelData(pts.Count, 1, MatType.CV_32FC3, pts.ToArray());
+        using var flags = new Mat();
+
+        var sampledCount = Cv2.VoxelGridSampling(flags, inputPts, 1.0f, 1.0f, 1.0f);
+
+        Assert.Equal(2, sampledCount);
+    }
+
+    [Fact]
+    public void RandomSampling()
+    {
+        var pts = new Point3f[100];
+        var rng = new Random(19);
+        for (var i = 0; i < pts.Length; i++)
+            pts[i] = new Point3f((float)rng.NextDouble(), (float)rng.NextDouble(), (float)rng.NextDouble());
+
+        using var inputPts = Mat.FromPixelData(pts.Length, 1, MatType.CV_32FC3, pts);
+        using var sampled = new Mat();
+
+        Cv2.RandomSampling(sampled, inputPts, 10);
+
+        // The native function fills sampled_pts as an Nx3 single-channel Mat.
+        Assert.Equal(10, sampled.Rows);
+    }
+
+    [Fact]
+    public void FarthestPointSampling()
+    {
+        var pts = new Point3f[100];
+        var rng = new Random(23);
+        for (var i = 0; i < pts.Length; i++)
+            pts[i] = new Point3f((float)rng.NextDouble(), (float)rng.NextDouble(), (float)rng.NextDouble());
+
+        using var inputPts = Mat.FromPixelData(pts.Length, 1, MatType.CV_32FC3, pts);
+        using var flags = new Mat();
+
+        var sampledCount = Cv2.FarthestPointSampling(flags, inputPts, 10);
+
+        Assert.Equal(10, sampledCount);
+    }
+
+    [Fact]
+    public void NormalEstimate()
+    {
+        var pts = new[]
+        {
+            new Point3f(0, 0, 0),
+            new Point3f(1, 0, 0),
+            new Point3f(0, 1, 0),
+            new Point3f(1, 1, 0),
+            new Point3f(0.5f, 0.5f, 0)
+        };
+        using var inputPts = Mat.FromPixelData(pts.Length, 1, MatType.CV_32FC3, pts);
+
+        var nnIdxData = new int[pts.Length, pts.Length];
+        for (var i = 0; i < pts.Length; i++)
+            for (var j = 0; j < pts.Length; j++)
+                nnIdxData[i, j] = j;
+        using var nnIdx = Mat.FromArray(nnIdxData);
+
+        using var normals = new Mat();
+        using var curvatures = new Mat();
+
+        Cv2.NormalEstimate(normals, curvatures, inputPts, nnIdx);
+
+        // The native function fills normals as an Nx3 single-channel Mat.
+        Assert.Equal(pts.Length, normals.Rows);
+        for (var i = 0; i < pts.Length; i++)
+        {
+            var nz = normals.Get<float>(i, 2);
+            Assert.True(Math.Abs(Math.Abs(nz) - 1.0) < 1e-2, $"normal[{i}].z={nz}");
+        }
     }
 }
