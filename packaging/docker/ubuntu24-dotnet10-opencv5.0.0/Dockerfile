@@ -2,7 +2,7 @@
 ARG OPENCV_VERSION=5.0.0
 
 ########## Build OpenCV ##########
-FROM ubuntu:noble AS opencv-builder
+FROM ubuntu:resolute AS opencv-builder
 
 ARG OPENCV_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
