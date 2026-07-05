@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
 using OpenCvSharp.Analyzers;
 using Xunit;
 
@@ -25,7 +24,7 @@ public class RowAtAnalyzerTests
 
     private static Task Verify(string source, params DiagnosticResult[] expected)
     {
-        var test = new CSharpAnalyzerTest<RowAtAnalyzer, XUnitVerifier>
+        var test = new CSharpAnalyzerTest<RowAtAnalyzer, DefaultVerifier>
         {
             TestCode = MatStub + source,
         };

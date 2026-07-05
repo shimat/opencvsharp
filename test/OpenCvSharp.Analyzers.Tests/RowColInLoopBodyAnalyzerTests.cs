@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
 using OpenCvSharp.Analyzers;
 using Xunit;
 
@@ -22,7 +21,7 @@ public class RowColInLoopBodyAnalyzerTests
 
     private static Task Verify(string source, params DiagnosticResult[] expected)
     {
-        var test = new CSharpAnalyzerTest<RowColInLoopBodyAnalyzer, XUnitVerifier>
+        var test = new CSharpAnalyzerTest<RowColInLoopBodyAnalyzer, DefaultVerifier>
         {
             TestCode = MatStub + source,
         };
