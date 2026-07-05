@@ -324,7 +324,7 @@ static partial class Cv2
     /// <param name="e">Output essential matrix.</param>
     /// <param name="f">Output fundamental matrix.</param>
     /// <param name="perViewErrors">Output per-view RMS reprojection errors.</param>
-    /// <param name="flags">Operation flags.</param>
+    /// <param name="flags">Operation flags. Only <see cref="CalibrationFlags.UseExtrinsicGuess"/> is supported.</param>
     /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
     /// <returns>Overall RMS reprojection error.</returns>
     public static double RegisterCameras(
@@ -333,7 +333,7 @@ static partial class Cv2
         InputArray cameraMatrix1, InputArray distCoeffs1, CameraModel cameraModel1,
         InputArray cameraMatrix2, InputArray distCoeffs2, CameraModel cameraModel2,
         InputOutputArray r, InputOutputArray t, OutputArray e, OutputArray f,
-        OutputArray perViewErrors, int flags = 0, TermCriteria? criteria = null)
+        OutputArray perViewErrors, CalibrationFlags flags = CalibrationFlags.None, TermCriteria? criteria = null)
     {
         if (objectPoints1 is null)
             throw new ArgumentNullException(nameof(objectPoints1));
@@ -356,7 +356,7 @@ static partial class Cv2
                 op1, op1.Length, op2, op2.Length, ip1, ip1.Length, ip2, ip2.Length,
                 cameraMatrix1.Proxy, distCoeffs1.Proxy, (int)cameraModel1,
                 cameraMatrix2.Proxy, distCoeffs2.Proxy, (int)cameraModel2,
-                r.Proxy, t.Proxy, e.Proxy, f.Proxy, perViewErrors.Proxy, flags, criteria0, out var ret));
+                r.Proxy, t.Proxy, e.Proxy, f.Proxy, perViewErrors.Proxy, (int)flags, criteria0, out var ret));
 
         GC.KeepAlive(cameraMatrix1.Source);
         GC.KeepAlive(distCoeffs1.Source);
@@ -390,7 +390,8 @@ static partial class Cv2
     /// <param name="rs">Output per-camera rotation matrices relative to camera 0.</param>
     /// <param name="ts">Output per-camera translation vectors relative to camera 0.</param>
     /// <param name="flagsForIntrinsics">Optional per-camera intrinsics-calibration flags (NUM_CAMERAS x 1, CV_32S).</param>
-    /// <param name="flags">Common multi-view calibration flags.</param>
+    /// <param name="flags">Common multi-view calibration flags.
+    /// Only <see cref="CalibrationFlags.UseIntrinsicGuess"/> and <see cref="CalibrationFlags.UseExtrinsicGuess"/> are supported.</param>
     /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
     /// <returns>Overall RMS reprojection error.</returns>
     public static double CalibrateMultiview(
@@ -401,7 +402,7 @@ static partial class Cv2
         InputArray models,
         out Mat[] ks, out Mat[] distortions, out Mat[] rs, out Mat[] ts,
         InputArray flagsForIntrinsics = default,
-        int flags = 0,
+        CalibrationFlags flags = CalibrationFlags.None,
         TermCriteria? criteria = null)
     {
         if (objPoints is null)
@@ -440,7 +441,7 @@ static partial class Cv2
                 imageSizeArray, imageSizeArray.Length,
                 detectionMask.Proxy, models.Proxy,
                 ksVec.CvPtr, distVec.CvPtr, rsVec.CvPtr, tsVec.CvPtr,
-                flagsForIntrinsics.Proxy, flags, criteria0, out var ret));
+                flagsForIntrinsics.Proxy, (int)flags, criteria0, out var ret));
 
         ks = ksVec.ToArray();
         distortions = distVec.ToArray();
