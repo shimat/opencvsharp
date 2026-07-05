@@ -124,7 +124,8 @@ CVAPI(ExceptionStatus) stitching_FeaturesMatcher_apply2(
     std::vector<double> *out_confidence)
 {
     return cvTry([&] {
-        std::vector<cv::detail::ImageFeatures> featuresVec(featuresSize);
+        std::vector<cv::detail::ImageFeatures> featuresVec;
+        featuresVec.reserve(featuresSize);
         for (int i = 0; i < featuresSize; i++)
         {
             cv::detail::ImageFeatures featuresCpp {
