@@ -33,8 +33,7 @@ public class NormalBayesClassifier : StatModel
     /// <returns></returns>
     public static NormalBayesClassifier Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(smartPtr, out var rawPtr));
@@ -48,8 +47,7 @@ public class NormalBayesClassifier : StatModel
     /// <returns></returns>
     public static NormalBayesClassifier LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(smartPtr, out var rawPtr));

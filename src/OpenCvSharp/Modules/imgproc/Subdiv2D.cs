@@ -139,8 +139,7 @@ public class Subdiv2D : CvObject
     public void Insert(IEnumerable<Point2f> ptVec)
     {
         ThrowIfDisposed();
-        if (ptVec is null)
-            throw new ArgumentNullException(nameof(ptVec));
+        ArgumentNullException.ThrowIfNull(ptVec);
 
         var ptVecArray = ptVec.CastOrToArray();
         NativeMethods.HandleException(

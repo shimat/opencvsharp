@@ -294,8 +294,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     public void SetCostExtractor(HistogramCostExtractor comparer)
     {
         ThrowIfDisposed();
-        if (comparer is null)
-            throw new ArgumentNullException(nameof(comparer));
+        ArgumentNullException.ThrowIfNull(comparer);
         comparer.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -312,8 +311,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     public void SetTransformAlgorithm(ShapeTransformer transformer)
     {
         ThrowIfDisposed();
-        if (transformer is null)
-            throw new ArgumentNullException(nameof(transformer));
+        ArgumentNullException.ThrowIfNull(transformer);
         transformer.ThrowIfDisposed();
 
         var basePtr = transformer.CreateBaseSmartPtr();

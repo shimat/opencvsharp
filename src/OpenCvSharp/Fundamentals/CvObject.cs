@@ -58,7 +58,8 @@ public abstract class CvObject : IDisposable
     /// <param name="safeHandle">The safe handle wrapping the native pointer.</param>
     protected CvObject(OpenCvSafeHandle safeHandle)
     {
-        this.safeHandle = safeHandle ?? throw new ArgumentNullException(nameof(safeHandle));
+        ArgumentNullException.ThrowIfNull(safeHandle);
+        this.safeHandle = safeHandle;
     }
 
     /// <summary>
@@ -68,8 +69,9 @@ public abstract class CvObject : IDisposable
     /// <param name="handle">The safe handle wrapping the native pointer.</param>
     protected void SetSafeHandle(OpenCvSafeHandle handle)
     {
+        ArgumentNullException.ThrowIfNull(handle);
         var old = safeHandle;
-        safeHandle = handle ?? throw new ArgumentNullException(nameof(handle));
+        safeHandle = handle;
 
         // If we're replacing an existing SafeHandle (e.g. derived class overrides base),
         // invalidate the old one so its finalizer won't call the wrong delete function.
@@ -146,8 +148,7 @@ public abstract class CvObject : IDisposable
     /// </summary>
     public void ThrowIfDisposed()
     {
-        if (IsDisposed)
-            throw new ObjectDisposedException(GetType().FullName);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
     }
 
     /// <summary>

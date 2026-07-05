@@ -61,8 +61,7 @@ public class UMat : CvObject
     /// <param name="m"></param>
     protected UMat(UMat m)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -150,8 +149,7 @@ public class UMat : CvObject
     /// <param name="usageFlags">usage flags for allocator</param>
     public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(NativeMethods.core_UMat_new7(m.ptr, rowRange, colRange, (int)usageFlags, out var p));
@@ -170,10 +168,8 @@ public class UMat : CvObject
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
     public UMat(UMat m, params Range[] ranges)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (ranges is null)
-            throw new ArgumentNullException(nameof(ranges));
+        ArgumentNullException.ThrowIfNull(m);
+        ArgumentNullException.ThrowIfNull(ranges);
         if (ranges.Length == 0)
             throw new ArgumentException("empty ranges", nameof(ranges));
         m.ThrowIfDisposed();
@@ -195,8 +191,7 @@ public class UMat : CvObject
     /// <param name="roi">Region of interest.</param>
     public UMat(UMat m, Rect roi)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -213,8 +208,7 @@ public class UMat : CvObject
     /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
     public UMat(IEnumerable<int> sizes, MatType type)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
 
         var sizesArray = sizes.ToArray();
         NativeMethods.HandleException(
@@ -232,8 +226,7 @@ public class UMat : CvObject
     /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
     public UMat(IEnumerable<int> sizes, MatType type, Scalar s)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
         var sizesArray = sizes.ToArray();
         NativeMethods.HandleException(
             NativeMethods.core_UMat_new5(sizesArray.Length, sizesArray, type, s, out var p));
@@ -270,8 +263,7 @@ public class UMat : CvObject
     /// <returns></returns>
     public static UMat Diag(UMat d)
     {
-        if (d is null)
-            throw new ArgumentNullException(nameof(d));
+        ArgumentNullException.ThrowIfNull(d);
 
         NativeMethods.HandleException(
             NativeMethods.core_UMat_diag_static(d.CvPtr, out var ret));
@@ -314,8 +306,7 @@ public class UMat : CvObject
     /// <returns></returns>
     public static UMat Zeros(MatType type, params int[] sizes)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
 
         NativeMethods.HandleException(
             NativeMethods.core_UMat_zeros2(sizes.Length, sizes, type.Value, out var ret));
@@ -357,8 +348,7 @@ public class UMat : CvObject
     /// <returns></returns>
     public static UMat Ones(MatType type, params int[] sizes)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
 
         NativeMethods.HandleException(
             NativeMethods.core_UMat_ones2(sizes.Length, sizes, type, out var ret));
@@ -411,8 +401,7 @@ public class UMat : CvObject
         get => SubMat(rowStart, rowEnd, colStart, colEnd);
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
             //    throw new ArgumentException("Mat type mismatch");
@@ -439,8 +428,7 @@ public class UMat : CvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
             //    throw new ArgumentException("Mat type mismatch");
@@ -467,8 +455,7 @@ public class UMat : CvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
             //    throw new ArgumentException("Mat type mismatch");
@@ -493,8 +480,7 @@ public class UMat : CvObject
         get => SubMat(roi);
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
             //    throw new ArgumentException("Mat type mismatch");
@@ -519,8 +505,7 @@ public class UMat : CvObject
         get => SubMat(ranges);
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
             //    throw new ArgumentException("Mat type mismatch");
@@ -713,8 +698,7 @@ public class UMat : CvObject
     public void CopyTo(UMat m, InputArray mask = default)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -750,8 +734,7 @@ public class UMat : CvObject
     public void AssignTo(UMat m, MatType? type = null)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
 
         NativeMethods.HandleException(
             NativeMethods.core_UMat_assignTo(Handle, m.CvPtr, type?.Value ?? -1));
@@ -817,8 +800,7 @@ public class UMat : CvObject
     /// <returns></returns>
     public UMat Reshape(int cn, params int[] newDims)
     {
-        if (newDims is null)
-            throw new ArgumentNullException(nameof(newDims));
+        ArgumentNullException.ThrowIfNull(newDims);
 
         ThrowIfDisposed();
 
@@ -924,8 +906,7 @@ public class UMat : CvObject
     /// <param name="type">New matrix type.</param>
     public void Create(MatType type, params int[] sizes)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
         if (sizes.Length < 2)
             throw new ArgumentException("sizes.Length < 2");
         NativeMethods.HandleException(
@@ -1032,8 +1013,7 @@ public class UMat : CvObject
     /// <returns></returns>
     public UMat SubMat(params Range[] ranges)
     {
-        if (ranges is null)
-            throw new ArgumentNullException(nameof(ranges));
+        ArgumentNullException.ThrowIfNull(ranges);
 
         ThrowIfDisposed();
 

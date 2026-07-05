@@ -50,8 +50,7 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
     /// <returns></returns>
     public FileNodeIterator ReadRaw(string fmt, IntPtr vec, long maxCount = int.MaxValue)
     {
-        if (fmt is null)
-            throw new ArgumentNullException(nameof(fmt));
+        ArgumentNullException.ThrowIfNull(fmt);
         NativeMethods.HandleException(
             NativeMethods.core_FileNodeIterator_readRaw(Handle, fmt, vec, new IntPtr(maxCount)));
         return this;
@@ -113,10 +112,8 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
     /// <returns></returns>
     public FileNodeIterator ReadRaw(string fmt, byte[] vec, long maxCount = int.MaxValue)
     {
-        if (fmt is null)
-            throw new ArgumentNullException(nameof(fmt));
-        if (vec is null)
-            throw new ArgumentNullException(nameof(vec));
+        ArgumentNullException.ThrowIfNull(fmt);
+        ArgumentNullException.ThrowIfNull(vec);
         unsafe
         {
             fixed (byte* vecPtr = vec)
@@ -155,8 +152,7 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
         
     public long Minus(FileNodeIterator it)
     {
-        if (it is null)
-            throw new ArgumentNullException(nameof(it));
+        ArgumentNullException.ThrowIfNull(it);
         ThrowIfDisposed();
         it.ThrowIfDisposed();
 
@@ -170,8 +166,7 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
         
     public bool LessThan(FileNodeIterator it)
     {
-        if (it is null)
-            throw new ArgumentNullException(nameof(it));
+        ArgumentNullException.ThrowIfNull(it);
         ThrowIfDisposed();
         it.ThrowIfDisposed();
 

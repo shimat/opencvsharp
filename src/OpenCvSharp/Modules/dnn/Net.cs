@@ -64,10 +64,8 @@ public class Net : CvObject
     /// <returns></returns>
     public static Net? ReadFromModelOptimizer(string xml, string bin)
     {
-        if (xml is null) 
-            throw new ArgumentNullException(nameof(xml));
-        if (bin is null) 
-            throw new ArgumentNullException(nameof(bin));
+        ArgumentNullException.ThrowIfNull(xml);
+        ArgumentNullException.ThrowIfNull(bin);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_readFromModelOptimizer(xml, bin, out var p));
@@ -85,8 +83,7 @@ public class Net : CvObject
     /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_readNetFromTensorflow(model, config, (int)engine, out var p));
@@ -103,8 +100,7 @@ public class Net : CvObject
     /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
     public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
     {
-        if (bufferModel is null)
-            throw new ArgumentNullException(nameof(bufferModel));
+        ArgumentNullException.ThrowIfNull(bufferModel);
 
         var ret = ReadNetFromTensorflow(
             new ReadOnlySpan<byte>(bufferModel),
@@ -184,10 +180,8 @@ public class Net : CvObject
     /// <returns></returns>
     public static Net? ReadNetFromModelOptimizer(string xml, string bin)
     {
-        if (xml is null)
-            throw new ArgumentNullException(nameof(xml));
-        if (bin is null)
-            throw new ArgumentNullException(nameof(bin));
+        ArgumentNullException.ThrowIfNull(xml);
+        ArgumentNullException.ThrowIfNull(bin);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_readNetFromModelOptimizer(xml, bin, out var p));
@@ -203,8 +197,7 @@ public class Net : CvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
     {
-        if (onnxFile is null)
-            throw new ArgumentNullException(nameof(onnxFile));
+        ArgumentNullException.ThrowIfNull(onnxFile);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_readNetFromONNX(onnxFile, (int)engine, out var p));
@@ -220,8 +213,7 @@ public class Net : CvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
     {
-        if (onnxFileData is null)
-            throw new ArgumentNullException(nameof(onnxFileData));
+        ArgumentNullException.ThrowIfNull(onnxFileData);
 
         var ret = ReadNetFromONNX(
             new ReadOnlySpan<byte>(onnxFileData), engine);
@@ -261,8 +253,7 @@ public class Net : CvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_readNetFromTFLite(model, (int)engine, out var p));
@@ -278,8 +269,7 @@ public class Net : CvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
     {
-        if (bufferModel is null)
-            throw new ArgumentNullException(nameof(bufferModel));
+        ArgumentNullException.ThrowIfNull(bufferModel);
 
         var ret = ReadNetFromTFLite(new ReadOnlySpan<byte>(bufferModel), engine);
         GC.KeepAlive(bufferModel);
@@ -347,8 +337,7 @@ public class Net : CvObject
     /// <param name="path">path to output file with .dot extension</param>
     public void DumpToFile(string path)
     {
-        if (path is null) 
-            throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_dumpToFile(Handle, path));
     }
@@ -360,8 +349,7 @@ public class Net : CvObject
     /// <returns>id of the layer, or -1 if the layer wasn't found.</returns>
     public int GetLayerId(string layer)
     {
-        if (layer is null)
-            throw new ArgumentNullException(nameof(layer));
+        ArgumentNullException.ThrowIfNull(layer);
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -388,10 +376,8 @@ public class Net : CvObject
     /// <param name="inpPin">descriptor of the second layer input.</param>
     public void Connect(string outPin, string inpPin)
     {
-        if (outPin is null)
-            throw new ArgumentNullException(nameof(outPin));
-        if (inpPin is null)
-            throw new ArgumentNullException(nameof(inpPin));
+        ArgumentNullException.ThrowIfNull(outPin);
+        ArgumentNullException.ThrowIfNull(inpPin);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_connect1(Handle, outPin, inpPin));
@@ -422,8 +408,7 @@ public class Net : CvObject
     /// </remarks>
     public void SetInputsNames(IEnumerable<string> inputBlobNames)
     {
-        if (inputBlobNames is null)
-            throw new ArgumentNullException(nameof(inputBlobNames));
+        ArgumentNullException.ThrowIfNull(inputBlobNames);
 
         var inputBlobNamesArray = inputBlobNames.ToArray();
         NativeMethods.HandleException(
@@ -451,8 +436,7 @@ public class Net : CvObject
     /// If outputName is empty, runs forward pass for the whole network.</param>
     public void Forward(IEnumerable<Mat> outputBlobs, string? outputName = null)
     {
-        if (outputBlobs is null)
-            throw new ArgumentNullException(nameof(outputBlobs));
+        ArgumentNullException.ThrowIfNull(outputBlobs);
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
@@ -468,10 +452,8 @@ public class Net : CvObject
     /// <param name="outBlobNames">names for layers which outputs are needed to get</param>
     public void Forward(IEnumerable<Mat> outputBlobs, IEnumerable<string> outBlobNames)
     {
-        if (outputBlobs is null)
-            throw new ArgumentNullException(nameof(outputBlobs));
-        if (outBlobNames is null)
-            throw new ArgumentNullException(nameof(outBlobNames));
+        ArgumentNullException.ThrowIfNull(outputBlobs);
+        ArgumentNullException.ThrowIfNull(outBlobNames);
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
         var outBlobNamesArray = outBlobNames.ToArray();
@@ -516,8 +498,7 @@ public class Net : CvObject
     /// </remarks>
     public void SetInput(Mat blob, string name = "")
     {
-        if (blob is null)
-            throw new ArgumentNullException(nameof(blob));
+        ArgumentNullException.ThrowIfNull(blob);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_setInput(Handle, blob.CvPtr, name));
@@ -588,10 +569,8 @@ public class Net : CvObject
     /// <param name="shape">the shape of the input blob.</param>
     public void SetInputShape(string inputName, IEnumerable<int> shape)
     {
-        if (inputName is null)
-            throw new ArgumentNullException(nameof(inputName));
-        if (shape is null)
-            throw new ArgumentNullException(nameof(shape));
+        ArgumentNullException.ThrowIfNull(inputName);
+        ArgumentNullException.ThrowIfNull(shape);
         ThrowIfDisposed();
 
         var shapeArray = shape as int[] ?? shape.ToArray();
@@ -621,8 +600,7 @@ public class Net : CvObject
     /// <returns></returns>
     public Mat GetParam(string layerName, int numParam = 0)
     {
-        if (layerName is null)
-            throw new ArgumentNullException(nameof(layerName));
+        ArgumentNullException.ThrowIfNull(layerName);
         return GetParam(GetLayerId(layerName), numParam);
     }
 
@@ -634,8 +612,7 @@ public class Net : CvObject
     /// <param name="blob">the new value.</param>
     public void SetParam(int layer, int numParam, Mat blob)
     {
-        if (blob is null)
-            throw new ArgumentNullException(nameof(blob));
+        ArgumentNullException.ThrowIfNull(blob);
         ThrowIfDisposed();
         blob.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -651,8 +628,7 @@ public class Net : CvObject
     /// <param name="blob">the new value.</param>
     public void SetParam(string layerName, int numParam, Mat blob)
     {
-        if (layerName is null)
-            throw new ArgumentNullException(nameof(layerName));
+        ArgumentNullException.ThrowIfNull(layerName);
         SetParam(GetLayerId(layerName), numParam, blob);
     }
 
@@ -676,8 +652,7 @@ public class Net : CvObject
     /// <returns>count of layers</returns>
     public int GetLayersCount(string layerType)
     {
-        if (layerType is null)
-            throw new ArgumentNullException(nameof(layerType));
+        ArgumentNullException.ThrowIfNull(layerType);
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_getLayersCount(Handle, layerType, out var ret));
@@ -703,8 +678,7 @@ public class Net : CvObject
     /// <param name="path">path to output file with .pbtxt extension.</param>
     public void DumpToPbtxt(string path)
     {
-        if (path is null)
-            throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_dumpToPbtxt(Handle, path));
@@ -823,8 +797,7 @@ public class Net : CvObject
     /// <returns>The index of the registered output.</returns>
     public int RegisterOutput(string outputName, int layerId, int outputPort)
     {
-        if (outputName is null)
-            throw new ArgumentNullException(nameof(outputName));
+        ArgumentNullException.ThrowIfNull(outputName);
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_registerOutput(Handle, outputName, layerId, outputPort, out var ret));
@@ -989,10 +962,8 @@ public class Net : CvObject
     private static int[] EncodeShapes(
         IEnumerable<MatShape> netInputShapes, IEnumerable<MatType> netInputTypes, out int[] types)
     {
-        if (netInputShapes is null)
-            throw new ArgumentNullException(nameof(netInputShapes));
-        if (netInputTypes is null)
-            throw new ArgumentNullException(nameof(netInputTypes));
+        ArgumentNullException.ThrowIfNull(netInputShapes);
+        ArgumentNullException.ThrowIfNull(netInputTypes);
 
         var shapes = netInputShapes as IReadOnlyList<MatShape> ?? netInputShapes.ToArray();
         types = netInputTypes.Select(static t => t.Value).ToArray();

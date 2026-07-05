@@ -32,8 +32,7 @@ public class Model : CvObject
     /// <param name="config">Text file contains network configuration.</param>
     public Model(string model, string? config = null)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Model_new_String(model, config, out var p));
@@ -46,8 +45,7 @@ public class Model : CvObject
     /// <param name="network">Net object.</param>
     public Model(Net network)
     {
-        if (network is null)
-            throw new ArgumentNullException(nameof(network));
+        ArgumentNullException.ThrowIfNull(network);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Model_new_Net(network.CvPtr, out var p));
@@ -62,8 +60,7 @@ public class Model : CvObject
     /// <param name="deleter">native destructor for the concrete model type</param>
     protected void SetHandle(IntPtr p, Func<IntPtr, ExceptionStatus> deleter)
     {
-        if (deleter is null)
-            throw new ArgumentNullException(nameof(deleter));
+        ArgumentNullException.ThrowIfNull(deleter);
         SetSafeHandle(new OpenCvPtrSafeHandle(p, true,
             h => NativeMethods.HandleException(deleter(h))));
     }
@@ -139,8 +136,7 @@ public class Model : CvObject
     /// <param name="outNames">Names for output layers.</param>
     public void SetOutputNames(IEnumerable<string> outNames)
     {
-        if (outNames is null)
-            throw new ArgumentNullException(nameof(outNames));
+        ArgumentNullException.ThrowIfNull(outNames);
         ThrowIfDisposed();
 
         var outNamesArray = outNames as string[] ?? outNames.ToArray();

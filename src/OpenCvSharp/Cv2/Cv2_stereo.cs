@@ -194,18 +194,12 @@ static partial class Cv2
         double alpha, Size newImageSize,
         out Rect validPixROI1, out Rect validPixROI2)
     {
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
-        if (R is null)
-            throw new ArgumentNullException(nameof(R));
-        if (T is null)
-            throw new ArgumentNullException(nameof(T));
+        ArgumentNullException.ThrowIfNull(cameraMatrix1);
+        ArgumentNullException.ThrowIfNull(distCoeffs1);
+        ArgumentNullException.ThrowIfNull(cameraMatrix2);
+        ArgumentNullException.ThrowIfNull(distCoeffs2);
+        ArgumentNullException.ThrowIfNull(R);
+        ArgumentNullException.ThrowIfNull(T);
 
         R1 = new double[3, 3];
         R2 = new double[3, 3];
@@ -292,12 +286,9 @@ static partial class Cv2
         out double[,] H1, out double[,] H2,
         double threshold = 5)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
+        ArgumentNullException.ThrowIfNull(points1);
+        ArgumentNullException.ThrowIfNull(points2);
+        ArgumentNullException.ThrowIfNull(F);
         if (F.GetLength(0) != 3 || F.GetLength(1) != 3)
             throw new ArgumentException("F != double[3,3]");
 
@@ -364,10 +355,8 @@ static partial class Cv2
         OutputArray Q, double alpha, Size newImgSize,
         out Rect roi1, out Rect roi2, StereoRectificationFlags flags)
     {
-        if (imgpt1 is null)
-            throw new ArgumentNullException(nameof(imgpt1));
-        if (imgpt3 is null)
-            throw new ArgumentNullException(nameof(imgpt3));
+        ArgumentNullException.ThrowIfNull(imgpt1);
+        ArgumentNullException.ThrowIfNull(imgpt3);
 
         var imgpt1Ptrs = imgpt1.Select(x => x.CvPtr).ToArray();
         var imgpt3Ptrs = imgpt3.Select(x => x.CvPtr).ToArray();

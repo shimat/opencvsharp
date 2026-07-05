@@ -17,8 +17,7 @@ public class CharucoBoard : CvObject
     /// <param name="dictionary">dictionary of markers</param>
     public CharucoBoard(int squaresX, int squaresY, float squareLength, float markerLength, Dictionary dictionary)
     {
-        if (dictionary is null)
-            throw new ArgumentNullException(nameof(dictionary));
+        ArgumentNullException.ThrowIfNull(dictionary);
         dictionary.ThrowIfDisposed();
 
         NativeMethods.HandleException(

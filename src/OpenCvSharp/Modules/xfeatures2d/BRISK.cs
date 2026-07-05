@@ -47,10 +47,8 @@ public class BRISK : Feature2D
         float dMin = 8.2f,
         IEnumerable<int>? indexChange = null)
     {
-        if (radiusList is null)
-            throw new ArgumentNullException(nameof(radiusList));
-        if (numberList is null)
-            throw new ArgumentNullException(nameof(numberList));
+        ArgumentNullException.ThrowIfNull(radiusList);
+        ArgumentNullException.ThrowIfNull(numberList);
 
         var radiusListArray = radiusList.ToArray();
         var numberListArray = numberList.ToArray();
@@ -88,10 +86,8 @@ public class BRISK : Feature2D
         float dMin = 8.2f,
         IEnumerable<int>? indexChange = null)
     {
-        if (radiusList is null)
-            throw new ArgumentNullException(nameof(radiusList));
-        if (numberList is null)
-            throw new ArgumentNullException(nameof(numberList));
+        ArgumentNullException.ThrowIfNull(radiusList);
+        ArgumentNullException.ThrowIfNull(numberList);
 
         var radiusListArray = radiusList.ToArray();
         var numberListArray = numberList.ToArray();

@@ -534,10 +534,8 @@ public class ImgProcTest : TestBase
 
     private static void TestImage(Mat img, Vec3b[,] expected)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (expected is null)
-            throw new ArgumentNullException(nameof(expected));
+        ArgumentNullException.ThrowIfNull(img);
+        ArgumentNullException.ThrowIfNull(expected);
 
         if (img.Type() != MatType.CV_8UC3)
             throw new ArgumentException("Mat.Type() != 8UC3", nameof(img));

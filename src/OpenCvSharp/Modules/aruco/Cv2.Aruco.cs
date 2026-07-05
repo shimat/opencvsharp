@@ -35,8 +35,7 @@ public static partial class Cv2
         ///  are calculated based on this one to improve visualization.</param>
         public static void DrawDetectedMarkers(InputOutputArray image, Point2f[][] corners, IEnumerable<int>? ids, Scalar borderColor)
         {
-            if (corners is null)
-                throw new ArgumentNullException(nameof(corners));
+            ArgumentNullException.ThrowIfNull(corners);
 
             using var cornersAddress = new ArrayAddress2<Point2f>(corners);
             if (ids is null)
@@ -113,8 +112,7 @@ public static partial class Cv2
         public static void DrawDetectedDiamonds(InputOutputArray image,
             Point2f[][] diamondCorners, IEnumerable<Vec4i>? diamondIds, Scalar borderColor)
         {
-            if (diamondCorners is null)
-                throw new ArgumentNullException(nameof(diamondCorners));
+            ArgumentNullException.ThrowIfNull(diamondCorners);
 
             using var cornersAddress = new ArrayAddress2<Point2f>(diamondCorners);
 
@@ -159,8 +157,7 @@ public static partial class Cv2
         public static void DrawDetectedCornersCharuco(InputOutputArray image,
             Point2f[] charucoCorners, IEnumerable<int>? charucoIds, Scalar cornerColor)
         {
-            if (charucoCorners is null)
-                throw new ArgumentNullException(nameof(charucoCorners));
+            ArgumentNullException.ThrowIfNull(charucoCorners);
 
             using var charucoCornersVec = new StdVector<Point2f>(charucoCorners);
 

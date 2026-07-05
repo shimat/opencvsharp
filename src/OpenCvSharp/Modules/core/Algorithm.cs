@@ -30,8 +30,7 @@ public abstract class Algorithm : CvPtrObject
     public virtual void Write(FileStorage fs)
     {
         ThrowIfDisposed();
-        if (fs is null)
-            throw new ArgumentNullException(nameof(fs));
+        ArgumentNullException.ThrowIfNull(fs);
 
         NativeMethods.HandleException(
             NativeMethods.core_Algorithm_write(Handle, fs.CvPtr));
@@ -45,8 +44,7 @@ public abstract class Algorithm : CvPtrObject
     public virtual void Read(FileNode fn)
     {
         ThrowIfDisposed();
-        if (fn is null)
-            throw new ArgumentNullException(nameof(fn));
+        ArgumentNullException.ThrowIfNull(fn);
 
         NativeMethods.HandleException(
             NativeMethods.core_Algorithm_read(Handle, fn.CvPtr));
@@ -77,8 +75,7 @@ public abstract class Algorithm : CvPtrObject
     public virtual void Save(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
 
         NativeMethods.HandleException(
             NativeMethods.core_Algorithm_save(Handle, fileName));

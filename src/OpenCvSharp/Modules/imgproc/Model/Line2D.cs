@@ -52,8 +52,7 @@ public class Line2D
     /// <param name="line">The returned value from cvFitLine</param>param>
     public Line2D(float[] line)
     {
-        if (line is null)
-            throw new ArgumentNullException(nameof(line));
+        ArgumentNullException.ThrowIfNull(line);
 
         Vx = line[0];
         Vy = line[1];

@@ -280,8 +280,7 @@ namespace OpenCvSharp
 
         public Status EstimateTransform(InputArray images, Rect[][] rois)
         {
-            if (rois is null)
-                throw new ArgumentNullException(nameof(rois));
+            ArgumentNullException.ThrowIfNull(rois);
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
@@ -293,8 +292,7 @@ namespace OpenCvSharp
 
         public Status EstimateTransform(IEnumerable<Mat> images)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(images);
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
@@ -308,10 +306,8 @@ namespace OpenCvSharp
 
         public Status EstimateTransform(IEnumerable<Mat> images, Rect[][] rois)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
-            if (rois is null)
-                throw new ArgumentNullException(nameof(rois));
+            ArgumentNullException.ThrowIfNull(images);
+            ArgumentNullException.ThrowIfNull(rois);
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             using var roisPointer = new ArrayAddress2<Rect>(rois);
@@ -346,8 +342,7 @@ namespace OpenCvSharp
 
         public Status ComposePanorama(IEnumerable<Mat> images, OutputArray pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(images);
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             NativeMethods.HandleException(
@@ -383,8 +378,7 @@ namespace OpenCvSharp
         /// <returns>Status code.</returns>
         public Status Stitch(IEnumerable<Mat> images, OutputArray pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(images);
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
@@ -406,8 +400,7 @@ namespace OpenCvSharp
         /// <returns>Status code.</returns>
         public Status Stitch(InputArray images, Rect[][] rois, OutputArray pano)
         {
-            if (rois is null)
-                throw new ArgumentNullException(nameof(rois));
+            ArgumentNullException.ThrowIfNull(rois);
 
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
@@ -427,10 +420,8 @@ namespace OpenCvSharp
         /// <returns>Status code.</returns>
         public Status Stitch(IEnumerable<Mat> images, Rect[][] rois, OutputArray pano)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
-            if (rois is null)
-                throw new ArgumentNullException(nameof(rois));
+            ArgumentNullException.ThrowIfNull(images);
+            ArgumentNullException.ThrowIfNull(rois);
 
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 

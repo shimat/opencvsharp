@@ -37,7 +37,8 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
     {
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         IsColor = isColor;
@@ -62,7 +63,8 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
     {
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         IsColor = isColor;
@@ -86,9 +88,9 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         NativeMethods.HandleException(
@@ -110,9 +112,9 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         var prmsArr = prms.GetParameters();
@@ -138,9 +140,9 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[] prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         NativeMethods.HandleException(
@@ -164,9 +166,9 @@ public class VideoWriter : CvObject
     /// <returns></returns>
     public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
-        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+        ArgumentNullException.ThrowIfNull(fileName);
+        FileName = fileName;
         Fps = fps;
         FrameSize = frameSize;
         var prmsArr = prms.GetParameters();
@@ -372,8 +374,7 @@ public class VideoWriter : CvObject
     // ReSharper disable once InconsistentNaming
     public static int FourCC(string code)
     {
-        if (code is null)
-            throw new ArgumentNullException(nameof(code));
+        ArgumentNullException.ThrowIfNull(code);
         if (code.Length != 4)
             throw new ArgumentException("code.Length != 4", nameof(code));
 

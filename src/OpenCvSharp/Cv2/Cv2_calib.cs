@@ -28,10 +28,8 @@ static partial class Cv2
         Size imageSize,
         double aspectRatio = 1.0)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
 
         var objectPointsPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
         var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
@@ -58,10 +56,8 @@ static partial class Cv2
         Size imageSize,
         double aspectRatio = 1.0)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
 
         using var opArray = new ArrayAddress2<Point3f>(objectPoints);
         using var ipArray = new ArrayAddress2<Point2f>(imagePoints);
@@ -206,10 +202,8 @@ static partial class Cv2
         CalibrationFlags flags = CalibrationFlags.None,
         TermCriteria? criteria = null)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
@@ -270,14 +264,10 @@ static partial class Cv2
         CalibrationFlags flags = CalibrationFlags.None,
         TermCriteria? criteria = null)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
+        ArgumentNullException.ThrowIfNull(distCoeffs);
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
@@ -335,14 +325,10 @@ static partial class Cv2
         InputOutputArray r, InputOutputArray t, OutputArray e, OutputArray f,
         OutputArray perViewErrors, CalibrationFlags flags = CalibrationFlags.None, TermCriteria? criteria = null)
     {
-        if (objectPoints1 is null)
-            throw new ArgumentNullException(nameof(objectPoints1));
-        if (objectPoints2 is null)
-            throw new ArgumentNullException(nameof(objectPoints2));
-        if (imagePoints1 is null)
-            throw new ArgumentNullException(nameof(imagePoints1));
-        if (imagePoints2 is null)
-            throw new ArgumentNullException(nameof(imagePoints2));
+        ArgumentNullException.ThrowIfNull(objectPoints1);
+        ArgumentNullException.ThrowIfNull(objectPoints2);
+        ArgumentNullException.ThrowIfNull(imagePoints1);
+        ArgumentNullException.ThrowIfNull(imagePoints2);
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, 1e-6));
@@ -405,12 +391,9 @@ static partial class Cv2
         CalibrationFlags flags = CalibrationFlags.None,
         TermCriteria? criteria = null)
     {
-        if (objPoints is null)
-            throw new ArgumentNullException(nameof(objPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (imageSize is null)
-            throw new ArgumentNullException(nameof(imageSize));
+        ArgumentNullException.ThrowIfNull(objPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
+        ArgumentNullException.ThrowIfNull(imageSize);
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
@@ -486,12 +469,9 @@ static partial class Cv2
         CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
         TermCriteria? criteria = null)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints1 is null)
-            throw new ArgumentNullException(nameof(imagePoints1));
-        if (imagePoints2 is null)
-            throw new ArgumentNullException(nameof(imagePoints2));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints1);
+        ArgumentNullException.ThrowIfNull(imagePoints2);
 
         var opPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
         var ip1Ptrs = imagePoints1.Select(x => x.CvPtr).ToArray();
@@ -554,20 +534,13 @@ static partial class Cv2
         CalibrationFlags flags = CalibrationFlags.FixIntrinsic,
         TermCriteria? criteria = null)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints1 is null)
-            throw new ArgumentNullException(nameof(imagePoints1));
-        if (imagePoints2 is null)
-            throw new ArgumentNullException(nameof(imagePoints2));
-        if (cameraMatrix1 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix1));
-        if (distCoeffs1 is null)
-            throw new ArgumentNullException(nameof(distCoeffs1));
-        if (cameraMatrix2 is null)
-            throw new ArgumentNullException(nameof(cameraMatrix2));
-        if (distCoeffs2 is null)
-            throw new ArgumentNullException(nameof(distCoeffs2));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints1);
+        ArgumentNullException.ThrowIfNull(imagePoints2);
+        ArgumentNullException.ThrowIfNull(cameraMatrix1);
+        ArgumentNullException.ThrowIfNull(distCoeffs1);
+        ArgumentNullException.ThrowIfNull(cameraMatrix2);
+        ArgumentNullException.ThrowIfNull(distCoeffs2);
 
         var criteria0 = criteria.GetValueOrDefault(
             new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
@@ -642,14 +615,10 @@ static partial class Cv2
         OutputArray t_cam2gripper,
         HandEyeCalibrationMethod method = HandEyeCalibrationMethod.TSAI)
     {
-        if (R_gripper2base is null)
-            throw new ArgumentNullException(nameof(R_gripper2base));
-        if (t_gripper2base is null)
-            throw new ArgumentNullException(nameof(t_gripper2base));
-        if (R_target2cam is null)
-            throw new ArgumentNullException(nameof(R_target2cam));
-        if (t_target2cam is null)
-            throw new ArgumentNullException(nameof(t_target2cam));
+        ArgumentNullException.ThrowIfNull(R_gripper2base);
+        ArgumentNullException.ThrowIfNull(t_gripper2base);
+        ArgumentNullException.ThrowIfNull(R_target2cam);
+        ArgumentNullException.ThrowIfNull(t_target2cam);
 
         var R_gripper2baseArray = R_gripper2base as Mat[] ?? R_gripper2base.ToArray();
         var t_gripper2baseArray = t_gripper2base as Mat[] ?? t_gripper2base.ToArray();
@@ -726,14 +695,10 @@ static partial class Cv2
         OutputArray t_gripper2cam,
         RobotWorldHandEyeCalibrationMethod method = RobotWorldHandEyeCalibrationMethod.SHAH)
     {
-        if (R_world2cam is null)
-            throw new ArgumentNullException(nameof(R_world2cam));
-        if (t_world2cam is null)
-            throw new ArgumentNullException(nameof(t_world2cam));
-        if (R_base2gripper is null)
-            throw new ArgumentNullException(nameof(R_base2gripper));
-        if (t_base2gripper is null)
-            throw new ArgumentNullException(nameof(t_base2gripper));
+        ArgumentNullException.ThrowIfNull(R_world2cam);
+        ArgumentNullException.ThrowIfNull(t_world2cam);
+        ArgumentNullException.ThrowIfNull(R_base2gripper);
+        ArgumentNullException.ThrowIfNull(t_base2gripper);
         var R_world2camArray = R_world2cam as Mat[] ?? R_world2cam.ToArray();
         var t_world2camArray = t_world2cam as Mat[] ?? t_world2cam.ToArray();
         var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
@@ -805,14 +770,10 @@ static partial class Cv2
         out double[] t_gripper2cam,
         RobotWorldHandEyeCalibrationMethod method = RobotWorldHandEyeCalibrationMethod.SHAH)
     {
-        if (R_world2cam is null)
-            throw new ArgumentNullException(nameof(R_world2cam));
-        if (t_world2cam is null)
-            throw new ArgumentNullException(nameof(t_world2cam));
-        if (R_base2gripper is null)
-            throw new ArgumentNullException(nameof(R_base2gripper));
-        if (t_base2gripper is null)
-            throw new ArgumentNullException(nameof(t_base2gripper));
+        ArgumentNullException.ThrowIfNull(R_world2cam);
+        ArgumentNullException.ThrowIfNull(t_world2cam);
+        ArgumentNullException.ThrowIfNull(R_base2gripper);
+        ArgumentNullException.ThrowIfNull(t_base2gripper);
         var R_world2camArray = R_world2cam as Mat[] ?? R_world2cam.ToArray();
         var t_world2camArray = t_world2cam as Mat[] ?? t_world2cam.ToArray();
         var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();

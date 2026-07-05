@@ -24,24 +24,17 @@ public static class CvExtensions
     public static LineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
         double thetaMin = 0, double thetaMax = Math.PI)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         if (img.Type() != MatType.CV_8UC1)
             throw new ArgumentException("The source matrix must be 8-bit, single-channel image.");
-        if (rho <= 0)
-            throw new ArgumentOutOfRangeException(nameof(rho));
-        if (theta <= 0)
-            throw new ArgumentOutOfRangeException(nameof(theta));
-        if (threshold <= 0)
-            throw new ArgumentOutOfRangeException(nameof(threshold));
-        if (minLineLength <= 0)
-            throw new ArgumentOutOfRangeException(nameof(minLineLength));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(rho);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(theta);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(threshold);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(minLineLength);
         if (thetaMax < thetaMin)
             throw new ArgumentException("thetaMax < thetaMin");
-        if (thetaMax > Math.PI)
-            throw new ArgumentOutOfRangeException(nameof(thetaMax), "thetaMax <= pi");
-        if (thetaMin < 0)
-            throw new ArgumentOutOfRangeException(nameof(thetaMin), "thetaMin >= 0");
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(thetaMax, Math.PI);
+        ArgumentOutOfRangeException.ThrowIfNegative(thetaMin);
 
         unsafe
         {

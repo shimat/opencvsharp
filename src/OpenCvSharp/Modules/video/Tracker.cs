@@ -21,8 +21,7 @@ public abstract class Tracker : Algorithm
     {
         ThrowIfDisposed();
 
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -42,8 +41,7 @@ public abstract class Tracker : Algorithm
     {
         ThrowIfDisposed();
 
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(

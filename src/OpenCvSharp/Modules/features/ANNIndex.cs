@@ -77,8 +77,7 @@ public class ANNIndex : CvPtrObject
     public void Save(string filename, bool prefault = false)
     {
         ThrowIfDisposed();
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         NativeMethods.HandleException(NativeMethods.features_ANNIndex_save(Handle, filename, prefault ? 1 : 0));
     }
@@ -91,8 +90,7 @@ public class ANNIndex : CvPtrObject
     public void Load(string filename, bool prefault = false)
     {
         ThrowIfDisposed();
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         NativeMethods.HandleException(NativeMethods.features_ANNIndex_load(Handle, filename, prefault ? 1 : 0));
     }
@@ -126,8 +124,7 @@ public class ANNIndex : CvPtrObject
     public bool SetOnDiskBuild(string filename)
     {
         ThrowIfDisposed();
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         NativeMethods.HandleException(NativeMethods.features_ANNIndex_setOnDiskBuild(Handle, filename, out var ret));
         return ret != 0;

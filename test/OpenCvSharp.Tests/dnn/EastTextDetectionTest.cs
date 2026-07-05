@@ -29,7 +29,8 @@ public class EastTextDetectionTest : TestBase
     /// <param name="testOutputHelper"></param>
     public EastTextDetectionTest(ITestOutputHelper testOutputHelper)
     {
-        this.testOutputHelper = testOutputHelper ?? throw new ArgumentNullException(nameof(testOutputHelper));
+        ArgumentNullException.ThrowIfNull(testOutputHelper);
+        this.testOutputHelper = testOutputHelper;
             
         testOutputHelper.WriteLine("Downloading EAST Model...");
         PrepareModel(new Uri(ModelUrl), LocalRawModelPath);

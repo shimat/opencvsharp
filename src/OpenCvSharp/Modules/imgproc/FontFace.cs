@@ -28,8 +28,7 @@ public class FontFace : CvObject
     /// ("sans", "italic" or "uni"). An empty string means the default embedded font.</param>
     public FontFace(string fontPathOrName)
     {
-        if (fontPathOrName is null)
-            throw new ArgumentNullException(nameof(fontPathOrName));
+        ArgumentNullException.ThrowIfNull(fontPathOrName);
         NativeMethods.HandleException(
             NativeMethods.imgproc_FontFace_new2(fontPathOrName, out var p));
         if (p == IntPtr.Zero)
@@ -50,8 +49,7 @@ public class FontFace : CvObject
     /// <returns>True on success.</returns>
     public bool Set(string fontPathOrName)
     {
-        if (fontPathOrName is null)
-            throw new ArgumentNullException(nameof(fontPathOrName));
+        ArgumentNullException.ThrowIfNull(fontPathOrName);
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -82,8 +80,7 @@ public class FontFace : CvObject
     /// <returns>True on success.</returns>
     public bool SetInstance(int[] @params)
     {
-        if (@params is null)
-            throw new ArgumentNullException(nameof(@params));
+        ArgumentNullException.ThrowIfNull(@params);
         ThrowIfDisposed();
 
         NativeMethods.HandleException(

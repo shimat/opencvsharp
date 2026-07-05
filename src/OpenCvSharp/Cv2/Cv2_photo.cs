@@ -89,8 +89,7 @@ static partial class Cv2
         int imgToDenoiseIndex, int temporalWindowSize,
         float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
     {
-        if (srcImgs is null)
-            throw new ArgumentNullException(nameof(srcImgs));
+        ArgumentNullException.ThrowIfNull(srcImgs);
 
         var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
@@ -123,8 +122,7 @@ static partial class Cv2
         int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
         int templateWindowSize = 7, int searchWindowSize = 21)
     {
-        if (srcImgs is null)
-            throw new ArgumentNullException(nameof(srcImgs));
+        ArgumentNullException.ThrowIfNull(srcImgs);
         var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
         NativeMethods.HandleException(
@@ -156,10 +154,8 @@ static partial class Cv2
     public static void DenoiseTVL1(
         IEnumerable<Mat> observations, Mat result, double lambda = 1.0, int niters = 30)
     {
-        if (observations is null)
-            throw new ArgumentNullException(nameof(observations));
-        if (result is null) 
-            throw new ArgumentNullException(nameof(result));
+        ArgumentNullException.ThrowIfNull(observations);
+        ArgumentNullException.ThrowIfNull(result);
 
         var observationsPtrs = observations.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(

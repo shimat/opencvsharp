@@ -44,8 +44,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
 
     private static IntPtr New3FromEnumerable(IEnumerable<T> data)
     {
-        if (data is null)
-            throw new ArgumentNullException(nameof(data));
+        ArgumentNullException.ThrowIfNull(data);
         var array = data as T[] ?? data.ToArray();
         return New3(array, (nuint)array.Length);
     }

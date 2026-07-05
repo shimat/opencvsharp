@@ -30,8 +30,7 @@ public class ALIKED : Feature2D
         string modelPath, Size? inputSize = null, bool normalizeDescriptors = true,
         int engine = 2, int backend = 0, int target = 0)
     {
-        if (modelPath is null)
-            throw new ArgumentNullException(nameof(modelPath));
+        ArgumentNullException.ThrowIfNull(modelPath);
         var size = inputSize ?? new Size(640, 640);
 
         NativeMethods.HandleException(
@@ -55,8 +54,7 @@ public class ALIKED : Feature2D
         byte[] modelData, Size? inputSize = null, bool normalizeDescriptors = true,
         int engine = 2, int backend = 0, int target = 0)
     {
-        if (modelData is null)
-            throw new ArgumentNullException(nameof(modelData));
+        ArgumentNullException.ThrowIfNull(modelData);
         var size = inputSize ?? new Size(640, 640);
 
         NativeMethods.HandleException(

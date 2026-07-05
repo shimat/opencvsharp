@@ -64,8 +64,7 @@ public class BarcodeDetector : CvObject
     /// <param name="sizes">box filter sizes, relative to minimum dimension of the image (default [0.01, 0.03, 0.06, 0.08]).</param>
     public void SetDetectorScales(IEnumerable<float> sizes)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
         using var sizesVec = new StdVector<float>(sizes);
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_setDetectorScales(Handle, sizesVec.CvPtr));

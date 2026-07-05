@@ -55,10 +55,8 @@ public class RFFeatureGetter : Algorithm
         int gradNum)
     {
         ThrowIfDisposed();
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (features is null)
-            throw new ArgumentNullException(nameof(features));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(features);
         src.ThrowIfDisposed();
         features.ThrowIfDisposed();
             

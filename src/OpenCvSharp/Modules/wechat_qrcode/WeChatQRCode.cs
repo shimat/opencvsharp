@@ -22,10 +22,8 @@ public class WeChatQRCode : CvObject
         string detectorModelPath = "",
         string superResolutionModelPath = "")
     {
-        if (detectorModelPath is null)
-            throw new ArgumentNullException(nameof(detectorModelPath));
-        if (superResolutionModelPath is null)
-            throw new ArgumentNullException(nameof(superResolutionModelPath));
+        ArgumentNullException.ThrowIfNull(detectorModelPath);
+        ArgumentNullException.ThrowIfNull(superResolutionModelPath);
 
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_create1(

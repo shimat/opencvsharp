@@ -166,8 +166,7 @@ public static class WriteableBitmapConverter
     public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf,
         BitmapPalette? bp)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         
         var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
         ToWriteableBitmap(src, wb);
@@ -192,8 +191,7 @@ public static class WriteableBitmapConverter
     /// <returns>WriteableBitmap</returns>
     public static WriteableBitmap ToWriteableBitmap(this Mat src)
     {
-        if (src is null) 
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         PixelFormat pf = GetOptimumPixelFormats(src.Type());
         Mat swappedMat = SwapChannelsIfNeeded(src);
@@ -216,10 +214,8 @@ public static class WriteableBitmapConverter
     /// <param name="dst">Output WriteableBitmap</param>
     public static void ToWriteableBitmap(Mat src, WriteableBitmap dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
         if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight)
             throw new ArgumentException("size of src must be equal to size of dst");
         //if (src.Depth != BitDepth.U8)
@@ -332,8 +328,7 @@ public static class WriteableBitmapConverter
     /// <returns>IplImage</returns>
     public static Mat ToMat(this WriteableBitmap src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var w = src.PixelWidth;
         var h = src.PixelHeight;
@@ -350,10 +345,8 @@ public static class WriteableBitmapConverter
     /// <param name="dst">Output Mat</param>
     public static void ToMat(this WriteableBitmap src, Mat dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
         if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
             throw new ArgumentException("size of src must be equal to size of dst");
         //if (dst.Depth != BitDepth.U8)

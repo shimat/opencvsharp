@@ -138,8 +138,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(winName))
             throw new ArgumentException("null or empty string.", nameof(winName));
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
+        ArgumentNullException.ThrowIfNull(mat);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_imshow(winName, mat.CvPtr));
@@ -259,8 +258,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (onMouse is null)
-            throw new ArgumentNullException(nameof(onMouse));
+        ArgumentNullException.ThrowIfNull(onMouse);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_setMouseCallback(windowName, onMouse, userData));
@@ -381,10 +379,8 @@ static partial class Cv2
     public static int CreateTrackbar(string trackbarName, string winName,
         ref int value, int count, TrackbarCallbackNative? onChange = null, IntPtr userData = default)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
-        if (winName is null)
-            throw new ArgumentNullException(nameof(winName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
+        ArgumentNullException.ThrowIfNull(winName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, onChange, userData, out var ret));
@@ -413,10 +409,8 @@ static partial class Cv2
     public static int CreateTrackbar(string trackbarName, string winName,
         int count, TrackbarCallbackNative? onChange = null, IntPtr userData = default)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
-        if (winName is null)
-            throw new ArgumentNullException(nameof(winName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
+        ArgumentNullException.ThrowIfNull(winName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_createTrackbar(trackbarName, winName, IntPtr.Zero, count, onChange, userData, out var ret));
@@ -434,8 +428,7 @@ static partial class Cv2
     /// <returns>trackbar position</returns>
     public static int GetTrackbarPos(string trackbarName, string winName)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_getTrackbarPos(trackbarName, winName, out var ret));
@@ -450,8 +443,7 @@ static partial class Cv2
     /// <param name="pos">New position.</param>
     public static void SetTrackbarPos(string trackbarName, string winName, int pos)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_setTrackbarPos(trackbarName, winName, pos));
@@ -466,8 +458,7 @@ static partial class Cv2
     /// <param name="maxVal">New maximum position.</param>
     public static void SetTrackbarMax(string trackbarName, string winName, int maxVal)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_setTrackbarMax(trackbarName, winName, maxVal));
@@ -482,8 +473,7 @@ static partial class Cv2
     /// <param name="minVal">New minimum position.</param>
     public static void SetTrackbarMin(string trackbarName, string winName, int minVal)
     {
-        if (trackbarName is null)
-            throw new ArgumentNullException(nameof(trackbarName));
+        ArgumentNullException.ThrowIfNull(trackbarName);
 
         NativeMethods.HandleException(
             NativeMethods.highgui_setTrackbarMin(trackbarName, winName, minVal));

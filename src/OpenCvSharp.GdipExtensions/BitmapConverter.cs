@@ -21,8 +21,7 @@ public static class BitmapConverter
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             throw new NotSupportedException("Non-Windows OS are not supported");
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var w = src.Width;
         var h = src.Height;
@@ -48,10 +47,8 @@ public static class BitmapConverter
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             throw new NotSupportedException("Non-Windows OS are not supported");
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
         if (dst.IsDisposed)
             throw new ArgumentException("The specified dst is disposed.", nameof(dst));
         if (dst.Depth() != MatType.CV_8U)
@@ -317,8 +314,7 @@ public static class BitmapConverter
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             throw new NotSupportedException("Non-Windows OS are not supported");
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         var pf = src.Channels() switch
         {
             1 => PixelFormat.Format8bppIndexed,
@@ -340,8 +336,7 @@ public static class BitmapConverter
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             throw new NotSupportedException("Non-Windows OS are not supported");
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         src.ThrowIfDisposed();
 
         var bitmap = new Bitmap(src.Width, src.Height, pf);
@@ -360,10 +355,8 @@ public static class BitmapConverter
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             throw new NotSupportedException("Non-Windows OS are not supported");
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
         if (src.IsDisposed)
             throw new ArgumentException("The image is disposed.", nameof(src));
         if (src.Depth() != MatType.CV_8U)

@@ -75,8 +75,7 @@ public class LDA : CvObject
     public void Save(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
         NativeMethods.HandleException(
             NativeMethods.core_LDA_save_String(Handle, fileName));
     }
@@ -88,8 +87,7 @@ public class LDA : CvObject
     public void Load(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
         NativeMethods.HandleException(
             NativeMethods.core_LDA_load_String(Handle, fileName));
     }
@@ -101,8 +99,7 @@ public class LDA : CvObject
     public void Save(FileStorage fs)
     {
         ThrowIfDisposed();
-        if (fs is null)
-            throw new ArgumentNullException(nameof(fs));
+        ArgumentNullException.ThrowIfNull(fs);
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -118,8 +115,7 @@ public class LDA : CvObject
     public void Load(FileStorage node)
     {
         ThrowIfDisposed();
-        if (node is null)
-            throw new ArgumentNullException(nameof(node));
+        ArgumentNullException.ThrowIfNull(node);
         node.ThrowIfDisposed();
 
         NativeMethods.HandleException(

@@ -48,8 +48,7 @@ public static class BitmapSourceConverter
     /// <returns>BitmapSource</returns>
     public static BitmapSource ToBitmapSource(this Bitmap src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         if (Application.Current?.Dispatcher is null)
         {
@@ -104,10 +103,7 @@ public static class BitmapSourceConverter
     /// <returns>IplImage</returns>
     public static Mat ToMat(this BitmapSource src)
     {
-        if (src is null)
-        {
-            throw new ArgumentNullException(nameof(src));
-        }
+        ArgumentNullException.ThrowIfNull(src);
 
         int w = src.PixelWidth;
         int h = src.PixelHeight;
@@ -124,10 +120,8 @@ public static class BitmapSourceConverter
     /// <param name="dst">Output Mat</param>
     public static void ToMat(this BitmapSource src, Mat dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
         if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
             throw new ArgumentException("size of src must be equal to size of dst");
         if (dst.Dims > 2)
@@ -241,8 +235,7 @@ public static class BitmapSourceConverter
     /// <returns></returns>
     public static void CopyFrom(this Mat mat, BitmapSource wb)
     {
-        if (wb is null)
-            throw new ArgumentNullException(nameof(wb));
+        ArgumentNullException.ThrowIfNull(wb);
 
         ToMat(wb, mat);
     }

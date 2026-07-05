@@ -23,8 +23,7 @@ public class ClassificationModel : Model
     /// <param name="config">Text file contains network configuration.</param>
     public ClassificationModel(string model, string? config = null)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_ClassificationModel_new_String(model, config, out var p));
@@ -37,8 +36,7 @@ public class ClassificationModel : Model
     /// <param name="network">Net object.</param>
     public ClassificationModel(Net network)
     {
-        if (network is null)
-            throw new ArgumentNullException(nameof(network));
+        ArgumentNullException.ThrowIfNull(network);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_ClassificationModel_new_Net(network.CvPtr, out var p));

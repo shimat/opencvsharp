@@ -20,7 +20,8 @@ public ref struct ArrayAddress2<T>
     /// <param name="array"></param>
     public ArrayAddress2(T[][] array)
     {
-        this.array = array ?? throw new ArgumentNullException(nameof(array));
+        ArgumentNullException.ThrowIfNull(array);
+        this.array = array;
 
         // Convert T[][] into an array of pinned-row pointers (IntPtr[]).
         ptr = new IntPtr[array.Length];

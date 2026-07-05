@@ -68,8 +68,7 @@ public readonly ref struct MatRowAccessor<T> where T : unmanaged
         get
         {
 #if DEBUG
-            if ((uint)row >= (uint)Count)
-                throw new ArgumentOutOfRangeException(nameof(row));
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)row, (uint)Count, nameof(row));
 #endif
             return new Span<T>((void*)(_data + _step * row), _cols);
         }

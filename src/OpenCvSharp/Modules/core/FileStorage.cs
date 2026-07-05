@@ -39,8 +39,7 @@ public class FileStorage : CvObject
     /// currently and you should use 8-bit encoding instead of it.</param>
     public FileStorage(string source, Modes flags, string? encoding = null)
     {
-        if (source is null)
-            throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out var p));
         InitSafeHandle(p);
@@ -70,8 +69,7 @@ public class FileStorage : CvObject
         get
         {
             ThrowIfDisposed();
-            if (nodeName is null)
-                throw new ArgumentNullException(nameof(nodeName));
+            ArgumentNullException.ThrowIfNull(nodeName);
 
             NativeMethods.HandleException(
                 NativeMethods.core_FileStorage_indexer(Handle, nodeName, out var node));
@@ -131,8 +129,7 @@ public class FileStorage : CvObject
     public virtual bool Open(string fileName, Modes flags, string? encoding = null)
     {
         ThrowIfDisposed();
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_open(Handle, fileName, (int)flags, encoding, out var ret));
         return ret != 0;
@@ -222,8 +219,7 @@ public class FileStorage : CvObject
     /// <param name="len">Number of the uchar elements to write.</param>
     public void WriteRaw(string fmt, IntPtr vec, int len)
     {
-        if (fmt is null) 
-            throw new ArgumentNullException(nameof(fmt));
+        ArgumentNullException.ThrowIfNull(fmt);
         if (vec == IntPtr.Zero) 
             throw new ArgumentException("vec == IntPtr.Zero", nameof(vec));
         ThrowIfDisposed();
@@ -242,8 +238,7 @@ public class FileStorage : CvObject
     /// Else if the comment is multi-line, or if it does not fit at the end of the current line, the comment starts a new line.</param>
     public void WriteComment(string comment, bool append = false)
     {
-        if (comment is null) 
-            throw new ArgumentNullException(nameof(comment));
+        ArgumentNullException.ThrowIfNull(comment);
         ThrowIfDisposed();
             
         NativeMethods.HandleException(
@@ -281,8 +276,7 @@ public class FileStorage : CvObject
     /// <returns></returns>
     public static string GetDefaultObjectName(string fileName)
     {
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(fileName);
 
         using var buf = new StdString();
         NativeMethods.HandleException(
@@ -300,8 +294,7 @@ public class FileStorage : CvObject
     public void Write(string name, int value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_int(Handle, name, value));
@@ -315,8 +308,7 @@ public class FileStorage : CvObject
     public void Write(string name, float value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_float(Handle, name, value));
@@ -330,8 +322,7 @@ public class FileStorage : CvObject
     public void Write(string name, double value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_double(Handle, name, value));
@@ -345,10 +336,8 @@ public class FileStorage : CvObject
     public void Write(string name, string value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_String(Handle, name, value));
@@ -362,10 +351,8 @@ public class FileStorage : CvObject
     public void Write(string name, Mat value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_Mat(Handle, name, value.CvPtr));
@@ -380,10 +367,8 @@ public class FileStorage : CvObject
     public void Write(string name, SparseMat value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
 
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_SparseMat(Handle, name, value.CvPtr));
@@ -398,10 +383,8 @@ public class FileStorage : CvObject
     public void Write(string name, IEnumerable<KeyPoint> value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
 
         using var valueVector = new StdVector<KeyPoint>(value);
         NativeMethods.HandleException(
@@ -416,10 +399,8 @@ public class FileStorage : CvObject
     public void Write(string name, IEnumerable<DMatch> value)
     {
         ThrowIfDisposed();
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
 
         using var valueVector = new StdVector<DMatch>(value);
         NativeMethods.HandleException(
@@ -466,8 +447,7 @@ public class FileStorage : CvObject
     public void WriteScalar(string value)
     {
         ThrowIfDisposed();
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_writeScalar_String(Handle, value));
     }
@@ -482,8 +462,7 @@ public class FileStorage : CvObject
     /// <param name="val"></param>
     public FileStorage Add(string val)
     {
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_shift_String(Handle, val));
@@ -532,8 +511,7 @@ public class FileStorage : CvObject
     /// <param name="val"></param>
     public FileStorage Add(Mat val)
     {
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
         ThrowIfDisposed();
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -547,8 +525,7 @@ public class FileStorage : CvObject
     /// <param name="val"></param>
     public FileStorage Add(SparseMat val)
     {
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
         ThrowIfDisposed();
         val.ThrowIfDisposed();
         NativeMethods.HandleException( 
@@ -598,8 +575,7 @@ public class FileStorage : CvObject
     /// <param name="val"></param>
     public FileStorage Add(IEnumerable<KeyPoint> val)
     {
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
         ThrowIfDisposed();
         using (var valVec = new StdVector<KeyPoint>(val))
         {
@@ -615,8 +591,7 @@ public class FileStorage : CvObject
     /// <param name="val"></param>
     public FileStorage Add(IEnumerable<DMatch> val)
     {
-        if (val is null)
-            throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
         ThrowIfDisposed();
         using (var valVec = new StdVector<DMatch>(val))
         {

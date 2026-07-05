@@ -50,10 +50,8 @@ public class QualityBRISQUE : QualityBase
     /// <returns></returns>
     public static QualityBRISQUE Create(SVM model, Mat range)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
-        if (range is null)
-            throw new ArgumentNullException(nameof(range));
+        ArgumentNullException.ThrowIfNull(model);
+        ArgumentNullException.ThrowIfNull(range);
         model.ThrowIfDisposed();
         range.ThrowIfDisposed();
 

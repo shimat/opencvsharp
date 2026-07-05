@@ -40,8 +40,7 @@ public class SVM : StatModel
     /// <returns></returns>
     public static SVM Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_SVM_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(smartPtr, out var rawPtr));
@@ -55,8 +54,7 @@ public class SVM : StatModel
     /// <returns></returns>
     public static SVM LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_SVM_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(smartPtr, out var rawPtr));
@@ -219,8 +217,7 @@ public class SVM : StatModel
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
 
             NativeMethods.HandleException(
                 NativeMethods.ml_SVM_setClassWeights(Handle, value.CvPtr));

@@ -18,8 +18,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RunByImageBorder(IEnumerable<KeyPoint> keypoints, Size imageSize, int borderSize)
     {
-        if (keypoints is null) 
-            throw new ArgumentNullException(nameof(keypoints));
+        ArgumentNullException.ThrowIfNull(keypoints);
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
@@ -38,8 +37,7 @@ public static class KeyPointsFilter
     public static KeyPoint[] RunByKeypointSize(IEnumerable<KeyPoint> keypoints, float minSize,
         float maxSize = float.MaxValue)
     {
-        if (keypoints is null)
-            throw new ArgumentNullException(nameof(keypoints));
+        ArgumentNullException.ThrowIfNull(keypoints);
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
@@ -56,10 +54,8 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RunByPixelsMask(IEnumerable<KeyPoint> keypoints, Mat mask)
     {
-        if (keypoints is null)
-            throw new ArgumentNullException(nameof(keypoints));
-        if (mask is null) 
-            throw new ArgumentNullException(nameof(mask));
+        ArgumentNullException.ThrowIfNull(keypoints);
+        ArgumentNullException.ThrowIfNull(mask);
         mask.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
@@ -76,8 +72,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RemoveDuplicated(IEnumerable<KeyPoint> keypoints)
     {
-        if (keypoints is null)
-            throw new ArgumentNullException(nameof(keypoints));
+        ArgumentNullException.ThrowIfNull(keypoints);
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
@@ -92,8 +87,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RemoveDuplicatedSorted(IEnumerable<KeyPoint> keypoints)
     {
-        if (keypoints is null)
-            throw new ArgumentNullException(nameof(keypoints));
+        ArgumentNullException.ThrowIfNull(keypoints);
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
@@ -110,8 +104,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RetainBest(IEnumerable<KeyPoint> keypoints, int nPoints)
     {
-        if (keypoints is null)
-            throw new ArgumentNullException(nameof(keypoints));
+        ArgumentNullException.ThrowIfNull(keypoints);
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(

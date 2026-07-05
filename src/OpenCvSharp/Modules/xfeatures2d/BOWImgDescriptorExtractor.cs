@@ -17,10 +17,8 @@ public class BOWImgDescriptorExtractor : CvObject
     /// <param name="dmatcher">Descriptor matcher that is used to find the nearest word of the trained vocabulary for each keypoint descriptor of the image.</param>
     public BOWImgDescriptorExtractor(Feature2D dextractor, DescriptorMatcher dmatcher)
     {
-        if (dextractor is null)
-            throw new ArgumentNullException(nameof(dextractor));
-        if (dmatcher is null)
-            throw new ArgumentNullException(nameof(dmatcher));
+        ArgumentNullException.ThrowIfNull(dextractor);
+        ArgumentNullException.ThrowIfNull(dmatcher);
 
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.RawPtr, dmatcher.RawPtr, out var p));
@@ -36,8 +34,7 @@ public class BOWImgDescriptorExtractor : CvObject
     /// <param name="dmatcher">Descriptor matcher that is used to find the nearest word of the trained vocabulary for each keypoint descriptor of the image.</param>
     public BOWImgDescriptorExtractor(DescriptorMatcher dmatcher)
     {
-        if (dmatcher is null)
-            throw new ArgumentNullException(nameof(dmatcher));
+        ArgumentNullException.ThrowIfNull(dmatcher);
 
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.RawPtr, out var p));
@@ -63,8 +60,7 @@ public class BOWImgDescriptorExtractor : CvObject
     public void SetVocabulary(Mat vocabulary)
     {
         ThrowIfDisposed();
-        if (vocabulary is null)
-            throw new ArgumentNullException(nameof(vocabulary));
+        ArgumentNullException.ThrowIfNull(vocabulary);
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(Handle, vocabulary.CvPtr));
         GC.KeepAlive(vocabulary);
@@ -141,10 +137,8 @@ public class BOWImgDescriptorExtractor : CvObject
     public void Compute2(Mat image, ref KeyPoint[] keypoints, Mat imgDescriptor)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (imgDescriptor is null)
-            throw new ArgumentNullException(nameof(imgDescriptor));
+        ArgumentNullException.ThrowIfNull(image);
+        ArgumentNullException.ThrowIfNull(imgDescriptor);
 
         using (var keypointsVec = new StdVector<KeyPoint>(keypoints))
         {

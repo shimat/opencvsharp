@@ -25,8 +25,7 @@ internal sealed partial class NativeMatExpr : CvObject
     /// <param name="mat"></param>
     internal NativeMatExpr(Mat mat)
     {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
+        ArgumentNullException.ThrowIfNull(mat);
         NativeMethods.HandleException(
             NativeMethods.core_MatExpr_new2(mat.CvPtr, out var p));
         InitSafeHandle(p);
@@ -54,8 +53,7 @@ internal sealed partial class NativeMatExpr : CvObject
     public static implicit operator Mat(NativeMatExpr self)
     {
 #pragma warning disable CA1065 // TODO
-        if (self is null)
-            throw new ArgumentNullException(nameof(self));
+        ArgumentNullException.ThrowIfNull(self);
 #pragma warning restore CA1065 
         return self.ToMat();
     }
@@ -113,8 +111,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator -(NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -127,8 +124,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator ~(NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -141,10 +137,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator +(NativeMatExpr e, Mat m)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(e);
+        ArgumentNullException.ThrowIfNull(m);
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
 
@@ -157,10 +151,8 @@ internal sealed partial class NativeMatExpr : CvObject
         
     public static NativeMatExpr operator +(Mat m, NativeMatExpr e)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(m);
+        ArgumentNullException.ThrowIfNull(e);
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
 
@@ -173,8 +165,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator +(NativeMatExpr e, Scalar s)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -185,8 +176,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator +(Scalar s, NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -197,10 +187,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator +(NativeMatExpr e1, NativeMatExpr e2)
     {
-        if (e1 is null)
-            throw new ArgumentNullException(nameof(e1));
-        if (e2 is null)
-            throw new ArgumentNullException(nameof(e2));
+        ArgumentNullException.ThrowIfNull(e1);
+        ArgumentNullException.ThrowIfNull(e2);
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
 
@@ -217,10 +205,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator -(NativeMatExpr e, Mat m)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(e);
+        ArgumentNullException.ThrowIfNull(m);
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
 
@@ -233,10 +219,8 @@ internal sealed partial class NativeMatExpr : CvObject
         
     public static NativeMatExpr operator -(Mat m, NativeMatExpr e)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(m);
+        ArgumentNullException.ThrowIfNull(e);
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
 
@@ -249,8 +233,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator -(NativeMatExpr e, Scalar s)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -261,8 +244,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator -(Scalar s, NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -273,10 +255,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator -(NativeMatExpr e1, NativeMatExpr e2)
     {
-        if (e1 is null)
-            throw new ArgumentNullException(nameof(e1));
-        if (e2 is null)
-            throw new ArgumentNullException(nameof(e2));
+        ArgumentNullException.ThrowIfNull(e1);
+        ArgumentNullException.ThrowIfNull(e2);
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
 
@@ -293,10 +273,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator *(NativeMatExpr e, Mat m)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(e);
+        ArgumentNullException.ThrowIfNull(m);
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
 
@@ -309,10 +287,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator *(Mat m, NativeMatExpr e)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(m);
+        ArgumentNullException.ThrowIfNull(e);
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
 
@@ -325,8 +301,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator *(NativeMatExpr e, double s)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -337,8 +312,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator *(double s, NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -349,10 +323,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator *(NativeMatExpr e1, NativeMatExpr e2)
     {
-        if (e1 is null)
-            throw new ArgumentNullException(nameof(e1));
-        if (e2 is null)
-            throw new ArgumentNullException(nameof(e2));
+        ArgumentNullException.ThrowIfNull(e1);
+        ArgumentNullException.ThrowIfNull(e2);
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
 
@@ -369,10 +341,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator /(NativeMatExpr e, Mat m)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(e);
+        ArgumentNullException.ThrowIfNull(m);
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
 
@@ -385,10 +355,8 @@ internal sealed partial class NativeMatExpr : CvObject
         
     public static NativeMatExpr operator /(Mat m, NativeMatExpr e)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(m);
+        ArgumentNullException.ThrowIfNull(e);
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
 
@@ -401,8 +369,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator /(NativeMatExpr e, double s)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -413,8 +380,7 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator /(double s, NativeMatExpr e)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -425,10 +391,8 @@ internal sealed partial class NativeMatExpr : CvObject
 
     public static NativeMatExpr operator /(NativeMatExpr e1, NativeMatExpr e2)
     {
-        if (e1 is null)
-            throw new ArgumentNullException(nameof(e1));
-        if (e2 is null)
-            throw new ArgumentNullException(nameof(e2));
+        ArgumentNullException.ThrowIfNull(e1);
+        ArgumentNullException.ThrowIfNull(e2);
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
 
@@ -616,8 +580,7 @@ internal sealed partial class NativeMatExpr : CvObject
     /// <returns></returns>
     public NativeMatExpr Mul(NativeMatExpr e, double scale = 1.0)
     {
-        if (e is null)
-            throw new ArgumentNullException(nameof(e));
+        ArgumentNullException.ThrowIfNull(e);
         ThrowIfDisposed();
         e.ThrowIfDisposed();
 
@@ -638,8 +601,7 @@ internal sealed partial class NativeMatExpr : CvObject
     /// <returns></returns>
     public NativeMatExpr Mul(Mat m, double scale = 1.0)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         ThrowIfDisposed();
         m.ThrowIfDisposed();
 
@@ -658,8 +620,7 @@ internal sealed partial class NativeMatExpr : CvObject
     /// <returns></returns>
     public Mat Cross(Mat m)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
 
         ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -679,8 +640,7 @@ internal sealed partial class NativeMatExpr : CvObject
     /// <returns></returns>
     public double Dot(Mat m)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         ThrowIfDisposed();
         m.ThrowIfDisposed();
 

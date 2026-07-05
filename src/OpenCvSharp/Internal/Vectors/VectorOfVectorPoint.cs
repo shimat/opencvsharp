@@ -19,11 +19,10 @@ public class VectorOfVectorPoint : CvObject, IStdVector<Point[]>
     /// Constructor
     /// </summary>
     /// <param name="size"></param>
-    public VectorOfVectorPoint(nuint size)
+    public VectorOfVectorPoint(int size)
     {
-        if (size < 0)
-            throw new ArgumentOutOfRangeException(nameof(size));
-        var p = NativeMethods.vector_vector_Point_new2(size);
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
+        var p = NativeMethods.vector_vector_Point_new2((nuint)size);
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 

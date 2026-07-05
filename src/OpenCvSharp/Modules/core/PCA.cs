@@ -263,8 +263,7 @@ public class PCA : CvObject
     /// <param name="fs"></param>
     public void Write(FileStorage fs)
     {
-        if (fs is null) 
-            throw new ArgumentNullException(nameof(fs));
+        ArgumentNullException.ThrowIfNull(fs);
         fs.ThrowIfDisposed();
             
         NativeMethods.HandleException(
@@ -280,8 +279,7 @@ public class PCA : CvObject
     /// <param name="fn"></param>
     public void Read(FileNode fn)
     {
-        if (fn is null) 
-            throw new ArgumentNullException(nameof(fn));
+        ArgumentNullException.ThrowIfNull(fn);
         fn.ThrowIfDisposed();
 
         NativeMethods.HandleException(

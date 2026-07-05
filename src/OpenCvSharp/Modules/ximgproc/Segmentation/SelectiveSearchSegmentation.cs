@@ -112,8 +112,7 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddGraphSegmentation(GraphSegmentation g)
     {
         ThrowIfDisposed();
-        if (g is null)
-            throw new ArgumentNullException(nameof(g));
+        ArgumentNullException.ThrowIfNull(g);
         g.ThrowIfDisposed();
 
         if (g.PtrObj == IntPtr.Zero)
@@ -142,8 +141,7 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddStrategy(SelectiveSearchSegmentationStrategy s)
     {
         ThrowIfDisposed();
-        if (s is null)
-            throw new ArgumentNullException(nameof(s));
+        ArgumentNullException.ThrowIfNull(s);
         s.ThrowIfDisposed();
         if (s.PtrObj == IntPtr.Zero)
             throw new ArgumentException("s.PtrObj is zero");

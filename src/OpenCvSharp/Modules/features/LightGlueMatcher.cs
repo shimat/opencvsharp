@@ -23,8 +23,7 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
     public static LightGlueMatcher Create(string modelPath, float scoreThreshold = 0.0f, int backend = 0, int target = 0)
     {
-        if (modelPath is null)
-            throw new ArgumentNullException(nameof(modelPath));
+        ArgumentNullException.ThrowIfNull(modelPath);
 
         NativeMethods.HandleException(
             NativeMethods.features_LightGlueMatcher_create(modelPath, scoreThreshold, backend, target, out var smartPtr));
@@ -42,8 +41,7 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
     public static LightGlueMatcher CreateFromMemory(byte[] modelData, float scoreThreshold = 0.0f, int backend = 0, int target = 0)
     {
-        if (modelData is null)
-            throw new ArgumentNullException(nameof(modelData));
+        ArgumentNullException.ThrowIfNull(modelData);
 
         NativeMethods.HandleException(
             NativeMethods.features_LightGlueMatcher_create_buffer(

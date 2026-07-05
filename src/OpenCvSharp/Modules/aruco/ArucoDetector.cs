@@ -21,8 +21,7 @@ public class ArucoDetector : CvObject
     /// </summary>
     public ArucoDetector(Dictionary dictionary, DetectorParameters detectorParams, RefineParameters refineParams)
     {
-        if (dictionary is null)
-            throw new ArgumentNullException(nameof(dictionary));
+        ArgumentNullException.ThrowIfNull(dictionary);
         dictionary.ThrowIfDisposed();
 
         NativeMethods.HandleException(

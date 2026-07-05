@@ -234,10 +234,8 @@ static partial class Cv2
             out IEnumerable<Mat> rvecs, out IEnumerable<Mat> tvecs,
             FishEyeCalibrationFlags flags = 0, TermCriteria? criteria = null)
         {
-            if (objectPoints is null)
-                throw new ArgumentNullException(nameof(objectPoints));
-            if (imagePoints is null)
-                throw new ArgumentNullException(nameof(imagePoints));
+            ArgumentNullException.ThrowIfNull(objectPoints);
+            ArgumentNullException.ThrowIfNull(imagePoints);
 
             var criteriaVal = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
@@ -339,12 +337,9 @@ static partial class Cv2
             OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
             TermCriteria? criteria = null)
         {
-            if (objectPoints is null)
-                throw new ArgumentNullException(nameof(objectPoints));
-            if (imagePoints1 is null)
-                throw new ArgumentNullException(nameof(imagePoints1));
-            if (imagePoints2 is null)
-                throw new ArgumentNullException(nameof(imagePoints2));
+            ArgumentNullException.ThrowIfNull(objectPoints);
+            ArgumentNullException.ThrowIfNull(imagePoints1);
+            ArgumentNullException.ThrowIfNull(imagePoints2);
 
             var criteriaVal = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));

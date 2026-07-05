@@ -20,8 +20,7 @@ public class TextDetectionModelDB : TextDetectionModel
     /// <param name="config">Text file contains network configuration.</param>
     public TextDetectionModelDB(string model, string? config = null)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_TextDetectionModel_DB_new_String(model, config, out var p));
@@ -34,8 +33,7 @@ public class TextDetectionModelDB : TextDetectionModel
     /// <param name="network">Net object.</param>
     public TextDetectionModelDB(Net network)
     {
-        if (network is null)
-            throw new ArgumentNullException(nameof(network));
+        ArgumentNullException.ThrowIfNull(network);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_TextDetectionModel_DB_new_Net(network.CvPtr, out var p));

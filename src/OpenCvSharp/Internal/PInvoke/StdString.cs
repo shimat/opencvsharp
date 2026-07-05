@@ -23,8 +23,7 @@ public class StdString : CvObject
     /// <param name="str"></param>
     public StdString(string str)
     {
-        if (str is null)
-            throw new ArgumentNullException(nameof(str));
+        ArgumentNullException.ThrowIfNull(str);
 
         var utf8Bytes = Encoding.UTF8.GetBytes(str);
         var p = NativeMethods.string_new2(utf8Bytes);

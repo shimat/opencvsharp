@@ -98,8 +98,7 @@ public class Dictionary : CvObject
     /// <returns></returns>
     public bool Identify(Mat onlyBits, out int idx, out int rotation, double maxCorrectionRate)
     {
-        if (onlyBits is null)
-            throw new ArgumentNullException(nameof(onlyBits));
+        ArgumentNullException.ThrowIfNull(onlyBits);
         onlyBits.ThrowIfDisposed();
         ThrowIfDisposed();
 
@@ -150,8 +149,7 @@ public class Dictionary : CvObject
     /// <returns></returns>
     public static Mat GetByteListFromBits(Mat bits)
     {
-        if (bits is null)
-            throw new ArgumentNullException(nameof(bits));
+        ArgumentNullException.ThrowIfNull(bits);
         bits.ThrowIfDisposed();
 
         var ret = new Mat();
@@ -168,8 +166,7 @@ public class Dictionary : CvObject
     /// <returns></returns>
     public static Mat GetBitsFromByteList(Mat byteList, int markerSize)
     {
-        if (byteList is null)
-            throw new ArgumentNullException(nameof(byteList));
+        ArgumentNullException.ThrowIfNull(byteList);
         byteList.ThrowIfDisposed();
         
         var ret = new Mat();
