@@ -77,16 +77,36 @@ public enum CalibrationFlags
     RationalModel = 0x04000,
 
     /// <summary>
-    /// 
+    /// For pinhole model only. Use thin prism distortion model with coefficients s1..s4.
     /// </summary>
     ThinPrismModel = 0x08000,
 
     /// <summary>
-    /// 
+    /// For pinhole model only. The thin prism distortion coefficients are not changed during the optimization.
+    /// 0 value is used, if UseIntrinsicGuess is not set.
     /// </summary>
-#pragma warning disable CA1069 // Enums should not have duplicate values
-    FixS1S2S3S4 = 0x08000,
-#pragma warning restore CA1069
+    FixS1S2S3S4 = 0x10000,
+
+    /// <summary>
+    /// For pinhole model only. Coefficients tauX and tauY are enabled in camera matrix.
+    /// </summary>
+    TiltedModel = 0x40000,
+
+    /// <summary>
+    /// For pinhole model only. The tauX and tauY coefficients are not changed during the optimization.
+    /// 0 value is used, if UseIntrinsicGuess is not set.
+    /// </summary>
+    FixTauXTauY = 0x80000,
+
+    /// <summary>
+    /// Use QR instead of SVD decomposition for solving. Faster but potentially less precise.
+    /// </summary>
+    UseQr = 0x100000,
+
+    /// <summary>
+    /// For pinhole model only. Tangential distortion coefficients (p1, p2) are set to zeros and stay zero.
+    /// </summary>
+    FixTangentDist = 0x200000,
 
     /// <summary>
     /// If it is set, camera_matrix1,2, as well as dist_coeffs1,2 are fixed, so that only extrinsic parameters are optimized.
@@ -102,4 +122,27 @@ public enum CalibrationFlags
     /// for stereo rectification
     /// </summary>
     ZeroDisparity = 0x00400,
+
+    /// <summary>
+    /// Use LU instead of SVD decomposition for solving. Much faster but potentially less precise.
+    /// </summary>
+    UseLu = 1 << 17,
+
+    /// <summary>
+    /// Disable Schur complement (use Bouguet calibration engine).
+    /// </summary>
+#pragma warning disable CA1069 // Enums should not have duplicate values (matches native CALIB_TILTED_MODEL, per opencv2/calib.hpp)
+    DisableSchurComplement = 1 << 18,
+#pragma warning restore CA1069
+
+    /// <summary>
+    /// For stereo and multi-view calibration. Use user provided extrinsics (R, T) as initial point for optimization.
+    /// </summary>
+    UseExtrinsicGuess = 1 << 22,
+
+    /// <summary>
+    /// For multiview calibration only. Use stereo correspondence approach for initial extrinsics guess.
+    /// Limitation: all cameras should have the same type.
+    /// </summary>
+    StereoRegistration = 1 << 26,
 }
