@@ -131,8 +131,31 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     double *returnValue)
 {
     return cvTry([&] {
+        // Work around an OpenCV 5 upstream regression: cv::fisheye::calibrate's internal
+        // ComputeJacobians/EstimateUncertainties helpers (modules/calib/src/fisheye.cpp) subtract
+        // a `cv::Mat(std::vector<Point2d>)` from the per-view points Mat without transposing it
+        // (their orientation check tests channels() == 1, which is never true for a 2-channel
+        // points Mat). Since OpenCV 5 changed `Mat(vector<T>)` to build a 1xN mat instead of
+        // OpenCV 4's Nx1, a column-shaped (Nx1) per-view Mat now mismatches and throws
+        // StsUnmatchedSizes. Row-shaped (1xN) input sidesteps the bug, so reshape any Nx1 views
+        // to 1xN before calling into OpenCV. reshape() requires a continuous Mat, which an
+        // ROI/submat view is not, so clone those before reshaping.
+        const auto toRow = [](const cv::Mat &m) {
+            if (m.rows <= m.cols)
+                return m;
+            const cv::Mat continuous = m.isContinuous() ? m : m.clone();
+            return continuous.reshape(0, 1);
+        };
+
+        std::vector<cv::Mat> objectPointsRow(objectPoints->size());
+        for (size_t i = 0; i < objectPoints->size(); i++)
+            objectPointsRow[i] = toRow((*objectPoints)[i]);
+        std::vector<cv::Mat> imagePointsRow(imagePoints->size());
+        for (size_t i = 0; i < imagePoints->size(); i++)
+            imagePointsRow[i] = toRow((*imagePoints)[i]);
+
         *returnValue = cv::fisheye::calibrate(
-            *objectPoints, *imagePoints, cpp(imageSize),
+            objectPointsRow, imagePointsRow, cpp(imageSize),
             IoProxy(*K), IoProxy(*D), *rvecs, *tvecs, flags, cpp(criteria));
     });
 }

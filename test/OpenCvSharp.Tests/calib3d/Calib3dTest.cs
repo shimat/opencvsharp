@@ -228,7 +228,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
     }
 
-    [Fact(Skip = "OpenCV 5: fisheye::calibrate throws an internal size-mismatch error. See https://github.com/shimat/opencvsharp/issues/1906")]
+    [Fact]
     public void FishEyeCalibrate()
     {
         var patternSize = new Size(10, 7);
@@ -251,6 +251,51 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         //Assert.Equal(109.35, rms, 2);
         Assert.True(rms > 8, $"rms = {rms}");
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
+        Assert.NotEmpty(rotationVectors);
+        Assert.NotEmpty(translationVectors);
+    }
+
+    [Fact]
+    public void FishEyeCalibrateWithNonContinuousPoints()
+    {
+        var patternSize = new Size(10, 7);
+
+        using var image = LoadImage("calibration/00.jpg");
+        using var corners = new Mat<Point2f>();
+        Cv2.FindChessboardCorners(image, patternSize, corners);
+
+        var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+        var imagePointsArray = corners.ToArray();
+
+        // Build each per-view points Mat as column 0 of a wider (Nx2) Mat, so it is a
+        // non-continuous view. Regression test for the toRow() workaround in
+        // calib_fisheye_calibrate, which used to call reshape() on such a Mat directly
+        // (reshape requires a continuous Mat).
+        using var objectPointsWide = new Mat(objectPointsArray.Length, 2, MatType.CV_32FC3);
+        using var imagePointsWide = new Mat(imagePointsArray.Length, 2, MatType.CV_32FC2);
+        for (var i = 0; i < objectPointsArray.Length; i++)
+        {
+            objectPointsWide.Set(i, 0, objectPointsArray[i]);
+            objectPointsWide.Set(i, 1, objectPointsArray[i]);
+        }
+        for (var i = 0; i < imagePointsArray.Length; i++)
+        {
+            imagePointsWide.Set(i, 0, imagePointsArray[i]);
+            imagePointsWide.Set(i, 1, imagePointsArray[i]);
+        }
+
+        using var objectPoints = objectPointsWide.Col(0);
+        using var imagePoints = imagePointsWide.Col(0);
+        Assert.False(objectPoints.IsContinuous());
+        Assert.False(imagePoints.IsContinuous());
+
+        using var cameraMatrix = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs = new Mat<double>();
+
+        var rms = Cv2.FishEye.Calibrate([objectPoints], [imagePoints], image.Size(), cameraMatrix,
+            distCoeffs, out var rotationVectors, out var translationVectors);
+
+        Assert.True(rms > 8, $"rms = {rms}");
         Assert.NotEmpty(rotationVectors);
         Assert.NotEmpty(translationVectors);
     }
