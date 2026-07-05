@@ -136,7 +136,7 @@ public sealed class Window : IDisposable
     public CvTrackbar CreateTrackbar(string trackbarName, TrackbarCallback callback)
     {
         var trackbar = new CvTrackbar(trackbarName, name, callback);
-        trackbars.Add(trackbarName, trackbar);
+        trackbars[trackbarName] = trackbar;
         return trackbar;
     }
 
@@ -150,8 +150,8 @@ public sealed class Window : IDisposable
     /// <returns></returns>
     public CvTrackbar CreateTrackbar(string trackbarName, int initialPos, int max, TrackbarCallback callback)
     {
-        var trackbar = new CvTrackbar(trackbarName, name, initialPos, max, callback);
-        trackbars.Add(trackbarName, trackbar);
+        var trackbar = new CvTrackbar(trackbarName, name, callback, initialPos, max);
+        trackbars[trackbarName] = trackbar;
         return trackbar;
     }
 
