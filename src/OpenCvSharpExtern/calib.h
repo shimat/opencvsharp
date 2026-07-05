@@ -23,7 +23,7 @@ CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
         for (auto i = 0; i < objectPointsLength; i++)
             objectPointsVec[i] = *objectPoints[i];
         std::vector<cv::Mat> imagePointsVec(imagePointsLength);
-        for (auto i = 0; i < objectPointsLength; i++)
+        for (auto i = 0; i < imagePointsLength; i++)
             imagePointsVec[i] = *imagePoints[i];
 
         const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
