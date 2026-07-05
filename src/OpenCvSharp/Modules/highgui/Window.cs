@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Threading;
 using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Local
@@ -11,8 +13,8 @@ public sealed class Window : IDisposable
 {
     #region Field
 
-    internal static readonly Dictionary<string, Window> Windows = new();
-    private static uint windowCount;
+    internal static readonly ConcurrentDictionary<string, Window> Windows = new();
+    private static int windowCount;
 
     private readonly string name;
     private Mat? image;
@@ -52,8 +54,7 @@ public sealed class Window : IDisposable
 
         trackbars = new Dictionary<string, CvTrackbar>();
 
-        if (!Windows.ContainsKey(name))
-            Windows.Add(name, this);
+        Windows[name] = this;
     }
 
     /// <summary>
@@ -62,7 +63,7 @@ public sealed class Window : IDisposable
     /// <returns></returns>
     private static string DefaultName()
     {
-        return $"window{windowCount++}";
+        return $"window{Interlocked.Increment(ref windowCount) - 1}";
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ public sealed class Window : IDisposable
             return;
         IsDisposed = true;
 
-        Windows.Remove(name);
+        Windows.TryRemove(name, out _);
         trackbars.Clear();
 
         // Destroying the window also releases OpenCV's references to its mouse/trackbar
