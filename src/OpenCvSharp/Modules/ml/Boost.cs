@@ -34,8 +34,7 @@ public class Boost : DTrees
     /// <returns></returns>
     public new static Boost Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_Boost_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
@@ -49,8 +48,7 @@ public class Boost : DTrees
     /// <returns></returns>
     public new static Boost LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_Boost_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));

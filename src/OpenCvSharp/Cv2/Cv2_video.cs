@@ -163,10 +163,8 @@ static partial class Cv2
         OpticalFlowFlags flags = OpticalFlowFlags.None,
         double minEigThreshold = 1e-4)
     {
-        if (prevPts is null)
-            throw new ArgumentNullException(nameof(prevPts));
-        if (nextPts is null)
-            throw new ArgumentNullException(nameof(nextPts));
+        ArgumentNullException.ThrowIfNull(prevPts);
+        ArgumentNullException.ThrowIfNull(nextPts);
 
         var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
         var criteria0 = criteria.GetValueOrDefault(

@@ -24,8 +24,7 @@ public class Tokenizer : CvObject
     /// <returns>A ready-to-use Tokenizer.</returns>
     public static Tokenizer Load(string modelConfig)
     {
-        if (modelConfig is null)
-            throw new ArgumentNullException(nameof(modelConfig));
+        ArgumentNullException.ThrowIfNull(modelConfig);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_Tokenizer_load(modelConfig, out var ptr));
@@ -41,8 +40,7 @@ public class Tokenizer : CvObject
     /// <returns>The token ids.</returns>
     public int[] Encode(string text)
     {
-        if (text is null)
-            throw new ArgumentNullException(nameof(text));
+        ArgumentNullException.ThrowIfNull(text);
         ThrowIfDisposed();
 
         using var vec = new StdVector<int>();
@@ -58,8 +56,7 @@ public class Tokenizer : CvObject
     /// <returns>The decoded UTF-8 string.</returns>
     public string Decode(int[] tokens)
     {
-        if (tokens is null)
-            throw new ArgumentNullException(nameof(tokens));
+        ArgumentNullException.ThrowIfNull(tokens);
         ThrowIfDisposed();
 
         using var stdString = new StdString();

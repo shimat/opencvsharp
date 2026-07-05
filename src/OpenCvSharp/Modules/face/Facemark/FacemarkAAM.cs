@@ -130,8 +130,7 @@ public sealed class FacemarkAAM : Facemark
         /// <param name="fn"></param>
         public void Read(FileNode fn)
         {
-            if (fn is null)
-                throw new ArgumentNullException(nameof(fn));
+            ArgumentNullException.ThrowIfNull(fn);
             var p = ToNative();
             try
             {
@@ -152,8 +151,7 @@ public sealed class FacemarkAAM : Facemark
         /// <param name="fs"></param>
         public void Write(FileStorage fs)
         {
-            if (fs is null)
-                throw new ArgumentNullException(nameof(fs));
+            ArgumentNullException.ThrowIfNull(fs);
             var p = ToNative();
             try
             {

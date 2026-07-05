@@ -41,7 +41,8 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
         PixelConnectivity connectivity = PixelConnectivity.Connectivity8,
         bool leftToRight = false)
     {
-        this.img = img ?? throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
+        this.img = img;
         this.pt1 = pt1;
         this.pt2 = pt2;
         this.connectivity = connectivity;

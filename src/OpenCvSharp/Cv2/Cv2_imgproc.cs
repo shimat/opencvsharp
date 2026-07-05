@@ -549,8 +549,7 @@ static partial class Cv2
     public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
         Size winSize, Size zeroZone, TermCriteria criteria)
     {
-        if (inputCorners is null)
-            throw new ArgumentNullException(nameof(inputCorners));
+        ArgumentNullException.ThrowIfNull(inputCorners);
 
         var inputCornersSrc = inputCorners.ToArray();
         var inputCornersCopy = new Point2f[inputCornersSrc.Length];
@@ -879,8 +878,7 @@ static partial class Cv2
         Scalar? borderValue = null,
         AlgorithmHint hint = AlgorithmHint.Default)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
 
         var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
         var mRow = m.GetLength(0);
@@ -1223,8 +1221,7 @@ static partial class Cv2
     public static void BuildPyramid(InputArray src, VectorOfMat dst,int maxlevel,
          BorderTypes borderType = BorderTypes.Default)
     {
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(dst);
         dst.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.imgproc_buildPyramid(src.Proxy, dst.CvPtr, maxlevel,(int)borderType));
@@ -1268,8 +1265,7 @@ static partial class Cv2
         OutputArray hist, int dims, int[] histSize,
         Rangef[] ranges, bool uniform = true, bool accumulate = false)
     {
-        if (ranges is null)
-            throw new ArgumentNullException(nameof(ranges));
+        ArgumentNullException.ThrowIfNull(ranges);
         var rangesFloat = ranges.Select(r => new [] {r.Start, r.End}).ToArray();
         CalcHist(images, channels, mask, hist, dims, 
             histSize, rangesFloat, uniform, accumulate);
@@ -1292,14 +1288,10 @@ static partial class Cv2
         OutputArray hist, int dims, int[] histSize,
         float[][] ranges, bool uniform = true, bool accumulate = false)
     {
-        if (images is null)
-            throw new ArgumentNullException(nameof(images));
-        if (channels is null)
-            throw new ArgumentNullException(nameof(channels));
-        if (histSize is null)
-            throw new ArgumentNullException(nameof(histSize));
-        if (ranges is null)
-            throw new ArgumentNullException(nameof(ranges));
+        ArgumentNullException.ThrowIfNull(images);
+        ArgumentNullException.ThrowIfNull(channels);
+        ArgumentNullException.ThrowIfNull(histSize);
+        ArgumentNullException.ThrowIfNull(ranges);
 
         var imagesPtr = images.Select(x => x.CvPtr).ToArray();
         using (var rangesPtr = new ArrayAddress2<float>(ranges))
@@ -1327,12 +1319,9 @@ static partial class Cv2
         int[] channels, InputArray hist, OutputArray backProject, 
         Rangef[] ranges, bool uniform = true)
     {
-        if (images is null)
-            throw new ArgumentNullException(nameof(images));
-        if (channels is null)
-            throw new ArgumentNullException(nameof(channels));
-        if (ranges is null)
-            throw new ArgumentNullException(nameof(ranges));
+        ArgumentNullException.ThrowIfNull(images);
+        ArgumentNullException.ThrowIfNull(channels);
+        ArgumentNullException.ThrowIfNull(ranges);
 
         var imagesPtr =images.Select(x => x.CvPtr).ToArray();
         var rangesFloat = ranges.Select(r => new [] {r.Start, r.End}).ToArray();
@@ -2482,8 +2471,7 @@ static partial class Cv2
     public static void Rectangle(
         Mat img, Rect rect, Scalar color, int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_rectangle_Mat_Rect(img.CvPtr, rect, color, thickness, (int) lineType, shift));
@@ -2505,8 +2493,7 @@ static partial class Cv2
         Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_rectangle_Mat_Point(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift));
@@ -2623,8 +2610,7 @@ static partial class Cv2
     public static void FillConvexPoly(Mat img, IEnumerable<Point> pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var ptsArray = pts.ToArray();
@@ -2666,8 +2652,7 @@ static partial class Cv2
         Mat img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
 
         img.ThrowIfDisposed();
         var offset0 = offset.GetValueOrDefault(new Point());
@@ -2733,8 +2718,7 @@ static partial class Cv2
         LineTypes lineType = LineTypes.Link8, 
         int shift = 0)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var ptsList = new List<Point[]>();
@@ -2804,8 +2788,7 @@ static partial class Cv2
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (contours is null)
-            throw new ArgumentNullException(nameof(contours));
+        ArgumentNullException.ThrowIfNull(contours);
 
         var offset0 = offset.GetValueOrDefault(new Point());
         var contoursArray = contours.Select(c => c.ToArray()).ToArray();
@@ -2858,8 +2841,7 @@ static partial class Cv2
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (contours is null)
-            throw new ArgumentNullException(nameof(contours));
+        ArgumentNullException.ThrowIfNull(contours);
 
         var offset0 = offset.GetValueOrDefault(new Point());
         var contoursPtr = contours.Select(x => x.CvPtr).ToArray();
@@ -2961,7 +2943,7 @@ static partial class Cv2
         int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
     {
         if (string.IsNullOrEmpty(text))
-            throw new ArgumentNullException(text);
+            throw new ArgumentNullException(nameof(text));
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_putText(img.Proxy, text, org, (int) fontFace, fontScale, color,
@@ -2983,7 +2965,7 @@ static partial class Cv2
         double fontScale, int thickness, out int baseLine)
     {
         if (string.IsNullOrEmpty(text))
-            throw new ArgumentNullException(text);
+            throw new ArgumentNullException(nameof(text));
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_getTextSize(text, (int)fontFace, fontScale, thickness, out baseLine, out var ret));
@@ -3022,10 +3004,8 @@ static partial class Cv2
         InputOutputArray img, string text, Point org, Scalar color, FontFace fontFace, int size,
         int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
     {
-        if (text is null)
-            throw new ArgumentNullException(nameof(text));
-        if (fontFace is null)
-            throw new ArgumentNullException(nameof(fontFace));
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(fontFace);
         fontFace.ThrowIfDisposed();
 
         var w = wrap ?? new Range(0, 0);
@@ -3054,10 +3034,8 @@ static partial class Cv2
         Size imgsize, string text, Point org, FontFace fontFace, int size,
         int weight = 0, PutTextFlags flags = PutTextFlags.AlignLeft, Range? wrap = null)
     {
-        if (text is null)
-            throw new ArgumentNullException(nameof(text));
-        if (fontFace is null)
-            throw new ArgumentNullException(nameof(fontFace));
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(fontFace);
         fontFace.ThrowIfDisposed();
 
         var w = wrap ?? new Range(0, 0);

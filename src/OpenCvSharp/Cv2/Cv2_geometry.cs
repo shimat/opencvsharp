@@ -37,8 +37,7 @@ static partial class Cv2
     /// <param name="jacobian">Optional output Jacobian matrix, 3x9, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
     public static void Rodrigues(double[] vector, out double[,] matrix, out double[,] jacobian)
     {
-        if (vector is null)
-            throw new ArgumentNullException(nameof(vector));
+        ArgumentNullException.ThrowIfNull(vector);
         if (vector.Length != 3)
             throw new ArgumentException("Length != 3", nameof(vector));
 
@@ -58,8 +57,7 @@ static partial class Cv2
     /// <param name="jacobian">Optional output Jacobian matrix, 3x9, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
     public static void Rodrigues(double[,] matrix, out double[] vector, out double[,] jacobian)
     {
-        if (matrix is null)
-            throw new ArgumentNullException(nameof(matrix));
+        ArgumentNullException.ThrowIfNull(matrix);
         if (matrix.GetLength(0) != 3 || matrix.GetLength(1) != 3)
             throw new ArgumentException("matrix must be double[3,3]");
 
@@ -124,10 +122,8 @@ static partial class Cv2
         int maxIters = 2000,
         double confidence = 0.995)
     {
-        if (srcPoints is null)
-            throw new ArgumentNullException(nameof(srcPoints));
-        if (dstPoints is null)
-            throw new ArgumentNullException(nameof(dstPoints));
+        ArgumentNullException.ThrowIfNull(srcPoints);
+        ArgumentNullException.ThrowIfNull(dstPoints);
 
         var srcPointsArray = srcPoints as Point2d[] ?? srcPoints.ToArray();
         var dstPointsArray = dstPoints as Point2d[] ?? dstPoints.ToArray();
@@ -219,8 +215,7 @@ static partial class Cv2
     public static Vec3d RQDecomp3x3(double[,] src, out double[,] mtxR, out double[,] mtxQ,
         out double[,] qx, out double[,] qy, out double[,] qz)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         if (src.GetLength(0) != 3 || src.GetLength(1) != 3)
             throw new ArgumentException("src must be double[3,3]");
 
@@ -300,8 +295,7 @@ static partial class Cv2
         out double[,] rotMatrixZ,
         out double[] eulerAngles)
     {
-        if (projMatrix is null)
-            throw new ArgumentNullException(nameof(projMatrix));
+        ArgumentNullException.ThrowIfNull(projMatrix);
         var dim0 = projMatrix.GetLength(0);
         var dim1 = projMatrix.GetLength(1);
         if (!((dim0 == 3 && dim1 == 4) || (dim0 == 4 && dim1 == 3)))
@@ -438,14 +432,10 @@ static partial class Cv2
         out double[,] dt3dr1, out double[,] dt3dt1,
         out double[,] dt3dr2, out double[,] dt3dt2)
     {
-        if (rvec1 is null)
-            throw new ArgumentNullException(nameof(rvec1));
-        if (tvec1 is null)
-            throw new ArgumentNullException(nameof(tvec1));
-        if (rvec2 is null)
-            throw new ArgumentNullException(nameof(rvec2));
-        if (tvec2 is null)
-            throw new ArgumentNullException(nameof(tvec2));
+        ArgumentNullException.ThrowIfNull(rvec1);
+        ArgumentNullException.ThrowIfNull(tvec1);
+        ArgumentNullException.ThrowIfNull(rvec2);
+        ArgumentNullException.ThrowIfNull(tvec2);
 
         using var rvec1M = Mat.FromPixelData(3, 1, MatType.CV_64FC1, rvec1);
         using var tvec1M = Mat.FromPixelData(3, 1, MatType.CV_64FC1, tvec1);
@@ -579,18 +569,14 @@ static partial class Cv2
         out double[,] jacobian,
         double aspectRatio = 0)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (rvec is null)
-            throw new ArgumentNullException(nameof(rvec));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(rvec);
         if (rvec.Length != 3)
             throw new ArgumentException($"{nameof(rvec)}.Length != 3");
-        if (tvec is null)
-            throw new ArgumentNullException(nameof(tvec));
+        ArgumentNullException.ThrowIfNull(tvec);
         if (tvec.Length != 3)
             throw new ArgumentException($"{nameof(tvec)}.Length != 3");
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
         if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
             throw new ArgumentException("cameraMatrix must be double[3,3]");
 
@@ -675,12 +661,9 @@ static partial class Cv2
         bool useExtrinsicGuess = false,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
         if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
             throw new ArgumentException("");
 
@@ -814,12 +797,9 @@ static partial class Cv2
         double confidence = 0.99,
         SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
-        if (objectPoints is null)
-            throw new ArgumentNullException(nameof(objectPoints));
-        if (imagePoints is null)
-            throw new ArgumentNullException(nameof(imagePoints));
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
 
         if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
             throw new ArgumentException($"Size of {nameof(cameraMatrix)} must be 3x3");
@@ -890,8 +870,7 @@ static partial class Cv2
         out double fovx, out double fovy, out double focalLength,
         out Point2d principalPoint, out double aspectRatio)
     {
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
         if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
             throw new ArgumentException("cameraMatrix must be 3x3");
 
@@ -961,10 +940,8 @@ static partial class Cv2
         Size imageSize, double alpha, Size newImgSize,
         out Rect validPixROI, bool centerPrincipalPoint = false)
     {
-        if (cameraMatrix is null)
-            throw new ArgumentNullException(nameof(cameraMatrix));
-        if (distCoeffs is null)
-            throw new ArgumentNullException(nameof(distCoeffs));
+        ArgumentNullException.ThrowIfNull(cameraMatrix);
+        ArgumentNullException.ThrowIfNull(distCoeffs);
 
         IntPtr matPtr;
         unsafe
@@ -1007,8 +984,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Vec3f[] ConvertPointsToHomogeneous(IEnumerable<Vec2f> src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var srcA = src as Vec2f[] ?? src.ToArray();
         var dstA = new Vec3f[srcA.Length];
@@ -1025,8 +1001,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Vec4f[] ConvertPointsToHomogeneous(IEnumerable<Vec3f> src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var srcA = src as Vec3f[] ?? src.ToArray();
         var dstA = new Vec4f[srcA.Length];
@@ -1055,8 +1030,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Vec2f[] ConvertPointsFromHomogeneous(IEnumerable<Vec3f> src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var srcA = src as Vec3f[] ?? src.ToArray();
         var dstA = new Vec2f[srcA.Length];
@@ -1073,8 +1047,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Vec3f[] ConvertPointsFromHomogeneous(IEnumerable<Vec4f> src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
 
         var srcA = src as Vec4f[] ?? src.ToArray();
         var dstA = new Vec3f[srcA.Length];
@@ -1151,10 +1124,8 @@ static partial class Cv2
         double param2 = 0.99,
         OutputArray mask = default)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
+        ArgumentNullException.ThrowIfNull(points1);
+        ArgumentNullException.ThrowIfNull(points2);
 
         var points1Array = points1 as Point2f[] ?? points1.ToArray();
         var points2Array = points2 as Point2f[] ?? points2.ToArray();
@@ -1192,10 +1163,8 @@ static partial class Cv2
         double param2 = 0.99,
         OutputArray mask = default)
     {
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
+        ArgumentNullException.ThrowIfNull(points1);
+        ArgumentNullException.ThrowIfNull(points2);
 
         var points1Array = points1 as Point2d[] ?? points1.ToArray();
         var points2Array = points2 as Point2d[] ?? points2.ToArray();
@@ -1263,10 +1232,8 @@ static partial class Cv2
     public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point2d> points,
         int whichImage, double[,] F)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
+        ArgumentNullException.ThrowIfNull(points);
+        ArgumentNullException.ThrowIfNull(F);
         if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
             throw new ArgumentException("F != double[3,3]");
 
@@ -1298,10 +1265,8 @@ static partial class Cv2
     public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point3d> points,
         int whichImage, double[,] F)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
+        ArgumentNullException.ThrowIfNull(points);
+        ArgumentNullException.ThrowIfNull(F);
         if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
             throw new ArgumentException("F != double[3,3]");
 
@@ -1366,14 +1331,10 @@ static partial class Cv2
         IEnumerable<Point2d> projPoints1, 
         IEnumerable<Point2d> projPoints2)
     {
-        if (projMatr1 is null)
-            throw new ArgumentNullException(nameof(projMatr1));
-        if (projMatr2 is null)
-            throw new ArgumentNullException(nameof(projMatr2));
-        if (projPoints1 is null)
-            throw new ArgumentNullException(nameof(projPoints1));
-        if (projPoints2 is null)
-            throw new ArgumentNullException(nameof(projPoints2));
+        ArgumentNullException.ThrowIfNull(projMatr1);
+        ArgumentNullException.ThrowIfNull(projMatr2);
+        ArgumentNullException.ThrowIfNull(projPoints1);
+        ArgumentNullException.ThrowIfNull(projPoints2);
         if (projMatr1.GetLength(0) != 3 && projMatr1.GetLength(1) != 4)
             throw new ArgumentException($"{nameof(projMatr1)} != double[3,4]");
         if (projMatr2.GetLength(0) != 3 && projMatr2.GetLength(1) != 4)
@@ -1438,12 +1399,9 @@ static partial class Cv2
         out Point2d[] newPoints1,
         out Point2d[] newPoints2)
     {
-        if (F is null)
-            throw new ArgumentNullException(nameof(F));
-        if (points1 is null)
-            throw new ArgumentNullException(nameof(points1));
-        if (points2 is null)
-            throw new ArgumentNullException(nameof(points2));
+        ArgumentNullException.ThrowIfNull(F);
+        ArgumentNullException.ThrowIfNull(points1);
+        ArgumentNullException.ThrowIfNull(points2);
 
         var points1Array = points1 as Point2d[] ?? points1.ToArray();
         var points2Array = points2 as Point2d[] ?? points2.ToArray();
@@ -1687,8 +1645,7 @@ static partial class Cv2
     /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
     public static double SampsonDistance(Point3d pt1, Point3d pt2, double[,] f)
     {
-        if (f is null)
-            throw new ArgumentNullException(nameof(f));
+        ArgumentNullException.ThrowIfNull(f);
         if (f.GetLength(0) != 3 || f.GetLength(1) != 3)
             throw new ArgumentException("f should be 3x3 matrix", nameof(f));
 
@@ -1823,10 +1780,8 @@ static partial class Cv2
         OutputArray possibleSolutions,
         InputArray pointsMask = default)
     {
-        if (rotations is null)
-            throw new ArgumentNullException(nameof(rotations));
-        if (normals is null)
-            throw new ArgumentNullException(nameof(normals));
+        ArgumentNullException.ThrowIfNull(rotations);
+        ArgumentNullException.ThrowIfNull(normals);
 
         using var rotationsVec = new VectorOfMat(rotations);
         using var normalsVec = new VectorOfMat(normals);
@@ -2133,10 +2088,8 @@ static partial class Cv2
     /// <returns>The edges of the resulting MST, or null if a valid MST could not be built.</returns>
     public static MSTEdge[]? BuildMST(int numNodes, MSTEdge[] inputEdges, MSTAlgorithm algorithm, int root = 0)
     {
-        if (inputEdges is null)
-            throw new ArgumentNullException(nameof(inputEdges));
-        if (numNodes <= 0)
-            throw new ArgumentOutOfRangeException(nameof(numNodes));
+        ArgumentNullException.ThrowIfNull(inputEdges);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(numNodes);
 
         var resultingEdges = new MSTEdge[numNodes - 1];
         NativeMethods.HandleException(
@@ -2300,10 +2253,8 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetPerspectiveTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
 
         var srcArray = src.ToArray();
         var dstArray = dst.ToArray();
@@ -2339,10 +2290,8 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetAffineTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
 
         var srcArray = src.ToArray();
         var dstArray = dst.ToArray();
@@ -2404,8 +2353,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Point[] ApproxPolyDP(IEnumerable<Point> curve, double epsilon, bool closed)
     {
-        if(curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve as Point[] ?? curve.ToArray();
         using var approxCurveVec = new StdVector<Point>();
         NativeMethods.HandleException(
@@ -2428,8 +2376,7 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static Point2f[] ApproxPolyDP(IEnumerable<Point2f> curve, double epsilon, bool closed)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve as Point2f[] ?? curve.ToArray();
         using var approxCurveVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
@@ -2462,8 +2409,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(IEnumerable<Point> curve, bool closed)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve.ToArray();
             
         NativeMethods.HandleException(
@@ -2480,8 +2426,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(IEnumerable<Point2f> curve, bool closed)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve.ToArray();
 
         NativeMethods.HandleException(
@@ -2511,8 +2456,7 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(IEnumerable<Point> curve)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve.ToArray();
 
         NativeMethods.HandleException(
@@ -2528,8 +2472,7 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(IEnumerable<Point2f> curve)
     {
-        if (curve is null)
-            throw new ArgumentNullException(nameof(curve));
+        ArgumentNullException.ThrowIfNull(curve);
         var curveArray = curve.ToArray();
 
         NativeMethods.HandleException(
@@ -2561,8 +2504,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(IEnumerable<Point> contour, bool oriented = false)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
 
         NativeMethods.HandleException(
@@ -2579,8 +2521,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(IEnumerable<Point2f> contour, bool oriented = false)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
 
         NativeMethods.HandleException(
@@ -2610,8 +2551,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(IEnumerable<Point> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -2627,8 +2567,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(IEnumerable<Point2f> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -2696,8 +2635,7 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(IEnumerable<Point> points, out Point2f center, out float radius)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         NativeMethods.HandleException(
             NativeMethods.geometry_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius));
@@ -2712,8 +2650,7 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(IEnumerable<Point2f> points, out Point2f center, out float radius)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         NativeMethods.HandleException(
             NativeMethods.geometry_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius));
@@ -2745,8 +2682,7 @@ static partial class Cv2
     /// <returns>Triangle area</returns>
     public static double MinEnclosingTriangle(IEnumerable<Point> points, out Point2f[] triangle)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
 
         var pointsArray = points.ToArray();
         using var triangleVec = new StdVector<Point2f>();
@@ -2768,8 +2704,7 @@ static partial class Cv2
     /// <returns>Triangle area</returns>
     public static double MinEnclosingTriangle(IEnumerable<Point2f> points, out Point2f[] triangle)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
 
         var pointsArray = points.ToArray();
         using var triangleVec = new StdVector<Point2f>();
@@ -2813,10 +2748,8 @@ static partial class Cv2
     public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
         ShapeMatchModes method, double parameter = 0)
     {
-        if (contour1 is null)
-            throw new ArgumentNullException(nameof(contour1));
-        if (contour2 is null)
-            throw new ArgumentNullException(nameof(contour2));
+        ArgumentNullException.ThrowIfNull(contour1);
+        ArgumentNullException.ThrowIfNull(contour2);
         var contour1Array = contour1.ToArray();
         var contour2Array = contour2.ToArray();
 
@@ -2864,8 +2797,7 @@ static partial class Cv2
     /// the hull (must have the same type as the input points).</returns>
     public static Point[] ConvexHull(IEnumerable<Point> points, bool clockwise = false)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         using var hullVec = new StdVector<Point>();
@@ -2889,8 +2821,7 @@ static partial class Cv2
     /// the hull (must have the same type as the input points).</returns>
     public static Point2f[] ConvexHull(IEnumerable<Point2f> points, bool clockwise = false)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         using var hullVec = new StdVector<Point2f>();
@@ -2913,8 +2844,7 @@ static partial class Cv2
     /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
     public static int[] ConvexHullIndices(IEnumerable<Point> points, bool clockwise = false)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         using var hullVec = new StdVector<int>();
@@ -2937,8 +2867,7 @@ static partial class Cv2
     /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
     public static int[] ConvexHullIndices(IEnumerable<Point2f> points, bool clockwise = false)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         using var hullVec = new StdVector<int>();
@@ -2990,10 +2919,8 @@ static partial class Cv2
     /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
     public static Vec4i[] ConvexityDefects(IEnumerable<Point> contour, IEnumerable<int> convexHull)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        if (convexHull is null)
-            throw new ArgumentNullException(nameof(convexHull));
+        ArgumentNullException.ThrowIfNull(contour);
+        ArgumentNullException.ThrowIfNull(convexHull);
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
@@ -3022,10 +2949,8 @@ static partial class Cv2
     /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
     public static Vec4i[] ConvexityDefects(IEnumerable<Point2f> contour, IEnumerable<int> convexHull)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
-        if (convexHull is null)
-            throw new ArgumentNullException(nameof(convexHull));
+        ArgumentNullException.ThrowIfNull(contour);
+        ArgumentNullException.ThrowIfNull(convexHull);
 
         var contourArray = contour.ToArray();
         var convexHullArray = convexHull.ToArray();
@@ -3062,8 +2987,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(IEnumerable<Point> contour)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
 
         NativeMethods.HandleException(
@@ -3080,8 +3004,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(IEnumerable<Point2f> contour)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
 
         NativeMethods.HandleException(
@@ -3122,10 +3045,8 @@ static partial class Cv2
     public static float IntersectConvexConvex(IEnumerable<Point> p1, IEnumerable<Point> p2,
         out Point[] p12, bool handleNested = true)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p2));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
@@ -3151,10 +3072,8 @@ static partial class Cv2
     public static float IntersectConvexConvex(IEnumerable<Point2f> p1, IEnumerable<Point2f> p2,
         out Point2f[] p12, bool handleNested = true)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p2));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
 
@@ -3192,8 +3111,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(IEnumerable<Point> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3209,8 +3127,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(IEnumerable<Point2f> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3249,8 +3166,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(IEnumerable<Point> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3270,8 +3186,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(IEnumerable<Point2f> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3310,8 +3225,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(IEnumerable<Point> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3331,8 +3245,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(IEnumerable<Point2f> points)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
 
         NativeMethods.HandleException(
@@ -3386,8 +3299,7 @@ static partial class Cv2
     public static Line2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         var line = new float[4];
         NativeMethods.HandleException(
@@ -3412,8 +3324,7 @@ static partial class Cv2
     public static Line2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         var line = new float[4];
         NativeMethods.HandleException(
@@ -3438,8 +3349,7 @@ static partial class Cv2
     public static Line3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         var line = new float[6];
         NativeMethods.HandleException(
@@ -3464,8 +3374,7 @@ static partial class Cv2
     public static Line3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
         var pointsArray = points.ToArray();
         var line = new float[6];
         NativeMethods.HandleException(
@@ -3501,8 +3410,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double PointPolygonTest(IEnumerable<Point> contour, Point2f pt, bool measureDist)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
         NativeMethods.HandleException(
             NativeMethods.geometry_pointPolygonTest_Point(
@@ -3523,8 +3431,7 @@ static partial class Cv2
     /// <returns>Positive (inside), negative (outside), or zero (on an edge) value.</returns>
     public static double PointPolygonTest(IEnumerable<Point2f> contour, Point2f pt, bool measureDist)
     {
-        if (contour is null)
-            throw new ArgumentNullException(nameof(contour));
+        ArgumentNullException.ThrowIfNull(contour);
         var contourArray = contour.ToArray();
         NativeMethods.HandleException(
             NativeMethods.geometry_pointPolygonTest_Point2f(

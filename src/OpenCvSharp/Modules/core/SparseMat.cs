@@ -42,8 +42,7 @@ public class SparseMat : CvObject
     /// <param name="type">Array type.</param>
     public SparseMat(IEnumerable<int> sizes, MatType type)
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
 
         var sizesArray = sizes as int[] ?? sizes.ToArray();
         NativeMethods.HandleException(
@@ -57,8 +56,7 @@ public class SparseMat : CvObject
     /// <param name="m">cv::Mat object</param>
     public SparseMat(Mat m)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -101,8 +99,7 @@ public class SparseMat : CvObject
     public SparseMat AssignFrom(SparseMat m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
 
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_SparseMat(Handle, m.CvPtr));
@@ -117,8 +114,7 @@ public class SparseMat : CvObject
     public SparseMat AssignFrom(Mat m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
 
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_operatorAssign_Mat(Handle, m.CvPtr));
@@ -144,8 +140,7 @@ public class SparseMat : CvObject
     public void CopyTo(SparseMat m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_copyTo_SparseMat(Handle, m.CvPtr));
         GC.KeepAlive(m);
@@ -158,8 +153,7 @@ public class SparseMat : CvObject
     public void CopyTo(Mat m)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_copyTo_Mat(Handle, m.CvPtr));
         GC.KeepAlive(m);
@@ -171,8 +165,7 @@ public class SparseMat : CvObject
     public void ConvertTo(SparseMat m, MatType rtype, double alpha = 1)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_convertTo_SparseMat(Handle, m.CvPtr, rtype, alpha));
         GC.KeepAlive(m);
@@ -184,8 +177,7 @@ public class SparseMat : CvObject
     public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_convertTo_Mat(Handle, m.CvPtr, rtype, alpha, beta));
         GC.KeepAlive(m);
@@ -207,8 +199,7 @@ public class SparseMat : CvObject
     public void AssignTo(SparseMat m, MatType? type = null)
     {
         ThrowIfDisposed();
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_assignTo(Handle, m.CvPtr, type?.Value ?? -1));
         GC.KeepAlive(m);
@@ -220,8 +211,7 @@ public class SparseMat : CvObject
     public void Create(MatType type, params int[] sizes)
     {
         ThrowIfDisposed();
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
         if (sizes.Length == 1)
             throw new ArgumentException("sizes is empty");
         NativeMethods.HandleException(
@@ -471,8 +461,7 @@ public sealed class SparseMat<T> : SparseMat
     public static new SparseMat<T> FromMat(Mat mat)
 #pragma warning restore CA1000
     {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
+        ArgumentNullException.ThrowIfNull(mat);
         var expected = MatTypeMap.Get<T>();
         if (mat.Type() != expected)
             throw new OpenCvSharpException(

@@ -355,10 +355,8 @@ public static partial class Cv2
         /// <param name="longRange"></param>
         public static void BrightEdges(Mat original, Mat edgeView, int contrast = 1, int shortRange = 3, int longRange = 9)
         {
-            if (original is null)
-                throw new ArgumentNullException(nameof(original));
-            if (edgeView is null)
-                throw new ArgumentNullException(nameof(edgeView));
+            ArgumentNullException.ThrowIfNull(original);
+            ArgumentNullException.ThrowIfNull(edgeView);
             original.ThrowIfDisposed();
             edgeView.ThrowIfDisposed();
 

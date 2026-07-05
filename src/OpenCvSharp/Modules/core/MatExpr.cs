@@ -57,8 +57,7 @@ public sealed class MatExpr
     /// </summary>
     public static MatExpr From(Mat mat)
     {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
+        ArgumentNullException.ThrowIfNull(mat);
         // Capturing 'mat' keeps it alive until the (possibly much later) materialization.
         return new MatExpr(() => new NativeMatExpr(mat));
     }
@@ -242,8 +241,7 @@ public sealed class MatExpr
     /// </summary>
     public MatExpr Min(Mat m) => new(() =>
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         using var l = ToMat();
         using var dst = new Mat();
         Cv2.Min(l, m, dst);
@@ -278,8 +276,7 @@ public sealed class MatExpr
     /// </summary>
     public MatExpr Max(Mat m) => new(() =>
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         using var l = ToMat();
         using var dst = new Mat();
         Cv2.Max(l, m, dst);
@@ -315,8 +312,7 @@ public sealed class MatExpr
     /// </summary>
     public MatExpr Mul(Mat m, double scale = 1.0)
     {
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(m);
         return new MatExpr(() => { using var a = Eval(); return a.Mul(m, scale); });
     }
 
@@ -424,8 +420,7 @@ public sealed class MatExpr
     private static MatExpr Combine(MatExpr a, Mat b, Func<NativeMatExpr, Mat, NativeMatExpr> op)
     {
         NotNull(a);
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
+        ArgumentNullException.ThrowIfNull(b);
         return new MatExpr(() => { using var l = a.Eval(); return op(l, b); });
     }
 
@@ -448,8 +443,7 @@ public sealed class MatExpr
     private static MatExpr CombineMat(MatExpr a, Mat b, Func<Mat, Mat, NativeMatExpr> op)
     {
         NotNull(a);
-        if (b is null)
-            throw new ArgumentNullException(nameof(b));
+        ArgumentNullException.ThrowIfNull(b);
         return new MatExpr(() => { using var l = a.ToMat(); return op(l, b); });
     }
 

@@ -64,8 +64,7 @@ public class SuperResolution : Algorithm
     public virtual void SetInput(FrameSource fs)
     {
         ThrowIfDisposed();
-        if (fs is null)
-            throw new ArgumentNullException(nameof(fs));
+        ArgumentNullException.ThrowIfNull(fs);
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(

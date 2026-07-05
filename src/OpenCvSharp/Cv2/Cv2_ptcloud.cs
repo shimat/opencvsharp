@@ -154,8 +154,7 @@ static partial class Cv2
     /// <param name="rgb">Output per-vertex colors, each value contains 3 floats (optional).</param>
     public static void LoadPointCloud(string filename, OutputArray vertices, OutputArray normals = default, OutputArray rgb = default)
     {
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         NativeMethods.HandleException(
             NativeMethods.ptcloud_loadPointCloud(filename, vertices.Proxy, normals.Proxy, rgb.Proxy));
@@ -171,8 +170,7 @@ static partial class Cv2
     /// <param name="rgb">Per-vertex colors, each value contains 3 floats (optional).</param>
     public static void SavePointCloud(string filename, InputArray vertices, InputArray normals = default, InputArray rgb = default)
     {
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         NativeMethods.HandleException(
             NativeMethods.ptcloud_savePointCloud(filename, vertices.Proxy, normals.Proxy, rgb.Proxy));
@@ -195,8 +193,7 @@ static partial class Cv2
         string filename, OutputArray vertices, out Mat[] indices,
         OutputArray normals = default, OutputArray colors = default, OutputArray texCoords = default)
     {
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
+        ArgumentNullException.ThrowIfNull(filename);
 
         using var indicesVec = new VectorOfMat();
         NativeMethods.HandleException(
@@ -219,10 +216,8 @@ static partial class Cv2
         string filename, InputArray vertices, IEnumerable<Mat> indices,
         InputArray normals = default, InputArray colors = default, InputArray texCoords = default)
     {
-        if (filename is null)
-            throw new ArgumentNullException(nameof(filename));
-        if (indices is null)
-            throw new ArgumentNullException(nameof(indices));
+        ArgumentNullException.ThrowIfNull(filename);
+        ArgumentNullException.ThrowIfNull(indices);
 
         var indicesArray = indices as Mat[] ?? indices.ToArray();
         using var indicesVec = new VectorOfMat(indicesArray);

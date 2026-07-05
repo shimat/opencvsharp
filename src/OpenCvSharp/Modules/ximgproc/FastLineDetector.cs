@@ -106,8 +106,7 @@ public class FastLineDetector : Algorithm
     public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (lines is null)
-            throw new ArgumentNullException(nameof(lines));
+        ArgumentNullException.ThrowIfNull(lines);
 
         using var linesVec = new StdVector<Vec4f>(lines);
         NativeMethods.HandleException(

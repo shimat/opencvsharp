@@ -47,8 +47,7 @@ public class EM : Algorithm
     /// <returns></returns>
     public static EM Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_EM_load(filePath, out var ret));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(ret, out var rawPtr));
@@ -62,8 +61,7 @@ public class EM : Algorithm
     /// <returns></returns>
     public static EM LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_EM_loadFromString(strModel, out var ret));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(ret, out var rawPtr));

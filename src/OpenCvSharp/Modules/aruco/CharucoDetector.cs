@@ -29,8 +29,7 @@ public class CharucoDetector : CvObject
         DetectorParameters? detectorParams = null,
         RefineParameters? refineParams = null)
     {
-        if (board is null)
-            throw new ArgumentNullException(nameof(board));
+        ArgumentNullException.ThrowIfNull(board);
         board.ThrowIfDisposed();
         if (cameraMatrix.IsEmpty != distCoeffs.IsEmpty)
             throw new ArgumentException("cameraMatrix and distCoeffs must both be omitted or both provided.");

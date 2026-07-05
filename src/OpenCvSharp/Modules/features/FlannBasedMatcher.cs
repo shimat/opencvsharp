@@ -82,8 +82,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     public override void Add(IEnumerable<Mat> descriptors)
     {
         ThrowIfDisposed();
-        if (descriptors is null)
-            throw new ArgumentNullException(nameof(descriptors));
+        ArgumentNullException.ThrowIfNull(descriptors);
 
         var descriptorsArray = descriptors.ToArray();
         if (descriptorsArray.Length == 0)

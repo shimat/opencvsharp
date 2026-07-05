@@ -31,8 +31,7 @@ public class DISK : Feature2D
         string modelPath, int maxKeypoints = -1, float scoreThreshold = 0.0f,
         Size imageSize = default, int backendId = 0, int targetId = 0)
     {
-        if (modelPath is null)
-            throw new ArgumentNullException(nameof(modelPath));
+        ArgumentNullException.ThrowIfNull(modelPath);
 
         NativeMethods.HandleException(
             NativeMethods.features_DISK_create(modelPath, maxKeypoints, scoreThreshold, imageSize, backendId, targetId, out var smartPtr));
@@ -55,8 +54,7 @@ public class DISK : Feature2D
         byte[] bufferModel, int maxKeypoints = -1, float scoreThreshold = 0.0f,
         Size imageSize = default, int backendId = 0, int targetId = 0)
     {
-        if (bufferModel is null)
-            throw new ArgumentNullException(nameof(bufferModel));
+        ArgumentNullException.ThrowIfNull(bufferModel);
 
         NativeMethods.HandleException(
             NativeMethods.features_DISK_create_buffer(

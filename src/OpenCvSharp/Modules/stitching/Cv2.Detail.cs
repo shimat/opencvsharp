@@ -24,10 +24,8 @@ public static partial class Cv2
             IEnumerable<Mat> images,
             IEnumerable<Mat>? masks = null)
         {
-            if (featuresFinder is null)
-                throw new ArgumentNullException(nameof(featuresFinder));
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(featuresFinder);
+            ArgumentNullException.ThrowIfNull(images);
             featuresFinder.ThrowIfDisposed();
 
             var imagesArray = images as Mat[] ?? images.ToArray();
@@ -67,8 +65,7 @@ public static partial class Cv2
             InputArray image,
             InputArray mask = default)
         {
-            if (featuresFinder is null)
-                throw new ArgumentNullException(nameof(featuresFinder));
+            ArgumentNullException.ThrowIfNull(featuresFinder);
             featuresFinder.ThrowIfDisposed();
 
             var descriptorsMat = new Mat();

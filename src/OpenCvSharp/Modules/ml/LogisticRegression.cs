@@ -34,8 +34,7 @@ public class LogisticRegression : StatModel
     /// <returns></returns>
     public static LogisticRegression Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_LogisticRegression_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(smartPtr, out var rawPtr));
@@ -49,8 +48,7 @@ public class LogisticRegression : StatModel
     /// <returns></returns>
     public static LogisticRegression LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_LogisticRegression_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(smartPtr, out var rawPtr));

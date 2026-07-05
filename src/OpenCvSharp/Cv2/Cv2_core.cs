@@ -284,8 +284,7 @@ public static partial class Cv2
     /// and the same depth as lut</param>
     public static void LUT(InputArray src, byte[] lut, OutputArray dst)
     {
-        if (lut is null)
-            throw new ArgumentNullException(nameof(lut));
+        ArgumentNullException.ThrowIfNull(lut);
         if (lut.Length != 256)
             throw new ArgumentException("lut.Length != 256");
 
@@ -626,10 +625,8 @@ public static partial class Cv2
     public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
         int[] minIdx, int[] maxIdx, InputArray mask = default)
     {
-        if (minIdx is null)
-            throw new ArgumentNullException(nameof(minIdx));
-        if (maxIdx is null)
-            throw new ArgumentNullException(nameof(maxIdx));
+        ArgumentNullException.ThrowIfNull(minIdx);
+        ArgumentNullException.ThrowIfNull(maxIdx);
 
         NativeMethods.HandleException(
             NativeMethods.core_minMaxIdx2(
@@ -668,8 +665,7 @@ public static partial class Cv2
     {
         if (mv.Length == 0)
             throw new ArgumentException("mv is empty", nameof(mv));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(dst);
 
         Span<IntPtr> handles = mv.Length <= MaxStackAllocHandles
             ? stackalloc IntPtr[mv.Length]
@@ -700,8 +696,7 @@ public static partial class Cv2
     /// The arrays themselves will be reallocated if needed</param>
     public static void Split(Mat src, out Mat[] mv)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         src.ThrowIfDisposed();
 
         using var vec = new VectorOfMat();
@@ -732,8 +727,7 @@ public static partial class Cv2
     /// <param name="fromTo"></param>
     public static void MixChannels(ReadOnlySpan<Mat> src, ReadOnlySpan<Mat> dst, int[] fromTo)
     {
-        if (fromTo is null)
-            throw new ArgumentNullException(nameof(fromTo));
+        ArgumentNullException.ThrowIfNull(fromTo);
         if (src.Length == 0)
             throw new ArgumentException("Length == 0", nameof(src));
         if (dst.Length == 0)
@@ -854,8 +848,7 @@ public static partial class Cv2
     /// <returns></returns>
     public static Mat Repeat(Mat src, int ny, int nx)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -1131,12 +1124,9 @@ public static partial class Cv2
     /// <param name="dst"></param>
     public static void Min(Mat src1, Mat src2, Mat dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src1);
+        ArgumentNullException.ThrowIfNull(src2);
+        ArgumentNullException.ThrowIfNull(dst);
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1157,10 +1147,8 @@ public static partial class Cv2
     /// <param name="dst"></param>
     public static void Min(Mat src1, double src2, Mat dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src1);
+        ArgumentNullException.ThrowIfNull(dst);
         src1.ThrowIfDisposed();
         dst.ThrowIfDisposed();
 
@@ -1195,12 +1183,9 @@ public static partial class Cv2
     /// <param name="dst"></param>
     public static void Max(Mat src1, Mat src2, Mat dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (src2 is null)
-            throw new ArgumentNullException(nameof(src2));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src1);
+        ArgumentNullException.ThrowIfNull(src2);
+        ArgumentNullException.ThrowIfNull(dst);
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1221,10 +1206,8 @@ public static partial class Cv2
     /// <param name="dst"></param>
     public static void Max(Mat src1, double src2, Mat dst)
     {
-        if (src1 is null)
-            throw new ArgumentNullException(nameof(src1));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
+        ArgumentNullException.ThrowIfNull(src1);
+        ArgumentNullException.ThrowIfNull(dst);
         src1.ThrowIfDisposed();
         dst.ThrowIfDisposed();
 
@@ -1521,10 +1504,8 @@ public static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, Mat m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(m);
 
         using var srcMat = Mat.FromArray(src);
         using var dstMat = new Mat<Point2f>();
@@ -1545,10 +1526,8 @@ public static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, Mat m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(m);
 
         using var srcMat = Mat.FromArray(src);
         using var dstMat = new Mat<Point2d>();
@@ -1569,10 +1548,8 @@ public static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, Mat m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(m);
 
         using var srcMat = Mat.FromArray(src);
         using var dstMat = new Mat<Point3f>();
@@ -1593,10 +1570,8 @@ public static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, Mat m)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (m is null)
-            throw new ArgumentNullException(nameof(m));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(m);
 
         using var srcMat = Mat.FromArray(src);
         using var dstMat = new Mat<Point3d>();
@@ -1840,10 +1815,8 @@ public static partial class Cv2
         ReadOnlySpan<Mat> samples, Mat covar, Mat mean,
         CovarFlags flags, MatType? ctype = null)
     {
-        if (covar is null)
-            throw new ArgumentNullException(nameof(covar));
-        if (mean is null)
-            throw new ArgumentNullException(nameof(mean));
+        ArgumentNullException.ThrowIfNull(covar);
+        ArgumentNullException.ThrowIfNull(mean);
         covar.ThrowIfDisposed();
         mean.ThrowIfDisposed();
 
@@ -2754,8 +2727,7 @@ public static partial class Cv2
     /// <returns></returns>
     public static MatExpr Abs(Mat src)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         return MatExpr.From(src).Abs();
     }
         
@@ -2782,10 +2754,8 @@ public static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
     {
-        if (vec is null) 
-            throw new ArgumentNullException(nameof(vec));
-        if (predicate is null) 
-            throw new ArgumentNullException(nameof(predicate));
+        ArgumentNullException.ThrowIfNull(vec);
+        ArgumentNullException.ThrowIfNull(predicate);
 
         var vecArray = vec as T[] ?? vec.ToArray();
         labels = new int[vecArray.Length];

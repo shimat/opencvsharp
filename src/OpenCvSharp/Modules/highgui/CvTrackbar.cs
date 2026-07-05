@@ -50,7 +50,8 @@ public sealed class CvTrackbar
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentException("Null or empty window name.", nameof(windowName));
 
-        Callback = callback ?? throw new ArgumentNullException(nameof(callback));
+        ArgumentNullException.ThrowIfNull(callback);
+        Callback = callback;
         TrackbarName = trackbarName;
         WindowName = windowName;
 

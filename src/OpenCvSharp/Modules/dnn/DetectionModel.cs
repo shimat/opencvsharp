@@ -24,8 +24,7 @@ public class DetectionModel : Model
     /// <param name="config">Text file contains network configuration.</param>
     public DetectionModel(string model, string? config = null)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_new_String(model, config, out var p));
@@ -38,8 +37,7 @@ public class DetectionModel : Model
     /// <param name="network">Net object.</param>
     public DetectionModel(Net network)
     {
-        if (network is null)
-            throw new ArgumentNullException(nameof(network));
+        ArgumentNullException.ThrowIfNull(network);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_DetectionModel_new_Net(network.CvPtr, out var p));

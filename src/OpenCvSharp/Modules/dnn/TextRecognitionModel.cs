@@ -25,8 +25,7 @@ public class TextRecognitionModel : Model
     /// <param name="config">Text file contains network configuration.</param>
     public TextRecognitionModel(string model, string? config = null)
     {
-        if (model is null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_TextRecognitionModel_new_String(model, config, out var p));
@@ -39,8 +38,7 @@ public class TextRecognitionModel : Model
     /// <param name="network">Net object.</param>
     public TextRecognitionModel(Net network)
     {
-        if (network is null)
-            throw new ArgumentNullException(nameof(network));
+        ArgumentNullException.ThrowIfNull(network);
 
         NativeMethods.HandleException(
             NativeMethods.dnn_TextRecognitionModel_new_Net(network.CvPtr, out var p));
@@ -56,8 +54,7 @@ public class TextRecognitionModel : Model
     /// - "CTC-prefix-beam-search" Prefix beam search decoding for the output of CTC-based methods</param>
     public void SetDecodeType(string decodeType)
     {
-        if (decodeType is null)
-            throw new ArgumentNullException(nameof(decodeType));
+        ArgumentNullException.ThrowIfNull(decodeType);
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_TextRecognitionModel_setDecodeType(Handle, decodeType));
@@ -95,8 +92,7 @@ public class TextRecognitionModel : Model
     /// <param name="vocabulary">the associated vocabulary of the network.</param>
     public void SetVocabulary(IEnumerable<string> vocabulary)
     {
-        if (vocabulary is null)
-            throw new ArgumentNullException(nameof(vocabulary));
+        ArgumentNullException.ThrowIfNull(vocabulary);
         ThrowIfDisposed();
 
         var vocabularyArray = vocabulary as string[] ?? vocabulary.ToArray();

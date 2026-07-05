@@ -1751,8 +1751,7 @@ public class HOGDescriptor : CvObject
     public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[]? locations = null)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
         var padding0 = padding.GetValueOrDefault(new Size());
@@ -1781,8 +1780,7 @@ public class HOGDescriptor : CvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1815,8 +1813,7 @@ public class HOGDescriptor : CvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1851,8 +1848,7 @@ public class HOGDescriptor : CvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale=1.05, int groupThreshold = 2)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1884,8 +1880,7 @@ public class HOGDescriptor : CvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale = 1.05, int groupThreshold = 2)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1914,12 +1909,9 @@ public class HOGDescriptor : CvObject
     public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size? paddingTL = null, Size? paddingBR = null)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (grad is null)
-            throw new ArgumentNullException(nameof(grad));
-        if (angleOfs is null)
-            throw new ArgumentNullException(nameof(angleOfs));
+        ArgumentNullException.ThrowIfNull(img);
+        ArgumentNullException.ThrowIfNull(grad);
+        ArgumentNullException.ThrowIfNull(angleOfs);
         img.ThrowIfDisposed();
         grad.ThrowIfDisposed();
         angleOfs.ThrowIfDisposed();
@@ -1952,10 +1944,8 @@ public class HOGDescriptor : CvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
-        if (locations is null)
-            throw new ArgumentNullException(nameof(locations));
+        ArgumentNullException.ThrowIfNull(img);
+        ArgumentNullException.ThrowIfNull(locations);
         img.ThrowIfDisposed();
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1990,8 +1980,7 @@ public class HOGDescriptor : CvObject
         int groupThreshold = 0)
     {
         ThrowIfDisposed();
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
 
         using var flVec = new StdVector<Rect>();

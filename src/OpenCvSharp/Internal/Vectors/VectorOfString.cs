@@ -19,11 +19,10 @@ public class VectorOfString : CvObject, IStdVector<string?>
     /// Constructor
     /// </summary>
     /// <param name="size"></param>
-    public VectorOfString(nuint size)
+    public VectorOfString(int size)
     {
-        if (size < 0)
-            throw new ArgumentOutOfRangeException(nameof(size));
-        var p = NativeMethods.vector_string_new2(size);
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
+        var p = NativeMethods.vector_string_new2((nuint)size);
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 

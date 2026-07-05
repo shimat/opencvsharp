@@ -40,8 +40,7 @@ public class DTrees : StatModel
     /// <returns></returns>
     public static DTrees Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(smartPtr, out var rawPtr));
@@ -55,8 +54,7 @@ public class DTrees : StatModel
     /// <returns></returns>
     public static DTrees LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(smartPtr, out var rawPtr));
@@ -238,8 +236,7 @@ public class DTrees : StatModel
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
 
             NativeMethods.HandleException(
                 NativeMethods.ml_DTrees_setPriors(Handle, value.CvPtr));

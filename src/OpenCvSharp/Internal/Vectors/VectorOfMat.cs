@@ -19,8 +19,7 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
     /// <param name="size"></param>
     public VectorOfMat(int size)
     {
-        if (size < 0)
-            throw new ArgumentOutOfRangeException(nameof(size));
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
         var p = NativeMethods.vector_Mat_new2((uint)size);
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
@@ -31,8 +30,7 @@ public class VectorOfMat : CvObject, IStdVector<Mat>
     /// <param name="mats"></param>
     public VectorOfMat(IEnumerable<Mat> mats)
     {
-        if (mats is null)
-            throw new ArgumentNullException(nameof(mats));
+        ArgumentNullException.ThrowIfNull(mats);
 
         var matsArray = mats.ToArray();
         var matPointers = matsArray.Select(x => x.CvPtr).ToArray();

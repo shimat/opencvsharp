@@ -105,7 +105,7 @@ public class SomeClass : Algorithm
 
     public virtual void SomeMethod(InputArray src) {
         ThrowIfDisposed();
-        if (src is null) throw new ArgumentNullException(nameof(src));
+        ArgumentNullException.ThrowIfNull(src);
         src.ThrowIfDisposed();
         NativeMethods.HandleException(NativeMethods.<module>_SomeClass_someMethod(RawPtr, src.CvPtr));
         GC.KeepAlive(this);

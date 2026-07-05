@@ -32,8 +32,7 @@ public abstract class ShapeTransformer : Algorithm
         IEnumerable<DMatch> matches)
     {
         ThrowIfDisposed();
-        if (matches is null)
-            throw new ArgumentNullException(nameof(matches));
+        ArgumentNullException.ThrowIfNull(matches);
 
         using var matchesVec = new StdVector<DMatch>(matches);
         NativeMethods.HandleException(

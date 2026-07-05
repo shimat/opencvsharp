@@ -65,8 +65,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = StatePre; 
@@ -88,8 +87,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = StatePost;
@@ -111,8 +109,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = TransitionMatrix;
@@ -134,8 +131,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = ControlMatrix;
@@ -157,8 +153,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = MeasurementMatrix;
@@ -180,8 +175,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = ProcessNoiseCov;
@@ -203,8 +197,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = MeasurementNoiseCov;
@@ -226,8 +219,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = ErrorCovPre;
@@ -249,8 +241,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = Gain;
@@ -272,8 +263,7 @@ public class KalmanFilter : CvObject
         }
         set
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             value.ThrowIfDisposed();
 
             using var get = ErrorCovPost;
@@ -322,8 +312,7 @@ public class KalmanFilter : CvObject
     public Mat Correct(Mat measurement)
     {
         ThrowIfDisposed();
-        if (measurement is null)
-            throw new ArgumentNullException(nameof(measurement));
+        ArgumentNullException.ThrowIfNull(measurement);
         measurement.ThrowIfDisposed();
 
         NativeMethods.HandleException(

@@ -29,10 +29,8 @@ public abstract class FeaturesMatcher : CvObject
     {
         ThrowIfDisposed();
 
-        if (features1 is null)
-            throw new ArgumentNullException(nameof(features1));
-        if (features2 is null) 
-            throw new ArgumentNullException(nameof(features2));
+        ArgumentNullException.ThrowIfNull(features1);
+        ArgumentNullException.ThrowIfNull(features2);
         if (features1.Descriptors is null)
             throw new ArgumentException($"{nameof(features1)}.Descriptors is null", nameof(features1));
         if (features2.Descriptors is null)
@@ -87,8 +85,7 @@ public abstract class FeaturesMatcher : CvObject
     public virtual MatchesInfo[] Apply(
         IEnumerable<ImageFeatures> features, Mat? mask = null)
     {
-        if (features is null) 
-            throw new ArgumentNullException(nameof(features));
+        ArgumentNullException.ThrowIfNull(features);
         ThrowIfDisposed();
 
         var featuresArray = features.CastOrToArray();

@@ -69,8 +69,7 @@ public class ObjectnessBING : Algorithm
     public void SetTrainingPath(string trainingPath)
     {
         ThrowIfDisposed();
-        if (trainingPath is null)
-            throw new ArgumentNullException(nameof(trainingPath));
+        ArgumentNullException.ThrowIfNull(trainingPath);
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_setTrainingPath(Handle, trainingPath));
     }
@@ -81,8 +80,7 @@ public class ObjectnessBING : Algorithm
     public void SetBBResDir(string resultsDir)
     {
         ThrowIfDisposed();
-        if (resultsDir is null)
-            throw new ArgumentNullException(nameof(resultsDir));
+        ArgumentNullException.ThrowIfNull(resultsDir);
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_setBBResDir(Handle, resultsDir));
     }

@@ -126,8 +126,7 @@ public record struct Scalar(double Val0, double Val1, double Val2, double Val3)
     /// <param name="rng">.NET random number generator. This method uses Random.NextBytes()</param>
     public static Scalar RandomColor(RandomNumberGenerator rng)
     {
-        if (rng is null) 
-            throw new ArgumentNullException(nameof(rng));
+        ArgumentNullException.ThrowIfNull(rng);
 
         var buf = new byte[3];
         rng.GetBytes(buf);

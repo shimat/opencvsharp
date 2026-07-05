@@ -39,8 +39,7 @@ public class ANN_MLP : StatModel
     /// <returns></returns>
     public static ANN_MLP Load(string filePath)
     {
-        if (filePath is null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
         NativeMethods.HandleException(
             NativeMethods.ml_ANN_MLP_load(filePath, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_get(smartPtr, out var rawPtr));
@@ -54,8 +53,7 @@ public class ANN_MLP : StatModel
     /// <returns></returns>
     public static ANN_MLP LoadFromString(string strModel)
     {
-        if (strModel is null)
-            throw new ArgumentNullException(nameof(strModel));
+        ArgumentNullException.ThrowIfNull(strModel);
         NativeMethods.HandleException(
             NativeMethods.ml_ANN_MLP_loadFromString(strModel, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_get(smartPtr, out var rawPtr));

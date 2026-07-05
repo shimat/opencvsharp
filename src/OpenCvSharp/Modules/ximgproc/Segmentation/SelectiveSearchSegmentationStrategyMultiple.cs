@@ -82,8 +82,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1)
     {
-        if (s1 is null)
-            throw new ArgumentNullException(nameof(s1));
+        ArgumentNullException.ThrowIfNull(s1);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.PtrObj, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
@@ -99,10 +98,8 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2)
     {
-        if (s1 is null)
-            throw new ArgumentNullException(nameof(s1));
-        if (s2 is null)
-            throw new ArgumentNullException(nameof(s2));
+        ArgumentNullException.ThrowIfNull(s1);
+        ArgumentNullException.ThrowIfNull(s2);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.PtrObj, s2.PtrObj, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
@@ -119,12 +116,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3)
     {
-        if (s1 is null)
-            throw new ArgumentNullException(nameof(s1));
-        if (s2 is null)
-            throw new ArgumentNullException(nameof(s2));
-        if (s3 is null)
-            throw new ArgumentNullException(nameof(s3));
+        ArgumentNullException.ThrowIfNull(s1);
+        ArgumentNullException.ThrowIfNull(s2);
+        ArgumentNullException.ThrowIfNull(s3);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.PtrObj, s2.PtrObj, s3.PtrObj, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
@@ -142,14 +136,10 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3, SelectiveSearchSegmentationStrategy s4)
     {
-        if (s1 is null)
-            throw new ArgumentNullException(nameof(s1));
-        if (s2 is null)
-            throw new ArgumentNullException(nameof(s2));
-        if (s3 is null)
-            throw new ArgumentNullException(nameof(s3));
-        if (s4 is null)
-            throw new ArgumentNullException(nameof(s4));
+        ArgumentNullException.ThrowIfNull(s1);
+        ArgumentNullException.ThrowIfNull(s2);
+        ArgumentNullException.ThrowIfNull(s3);
+        ArgumentNullException.ThrowIfNull(s4);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.PtrObj, s2.PtrObj, s3.PtrObj, s4.PtrObj, out var smartPtr));
         NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));

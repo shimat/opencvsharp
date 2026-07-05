@@ -157,10 +157,8 @@ public class DnnSuperResImpl : CvObject
         InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
     {
         ThrowIfDisposed();
-        if (scaleFactors is null) 
-            throw new ArgumentNullException(nameof(scaleFactors));
-        if (nodeNames is null)
-            throw new ArgumentNullException(nameof(nodeNames));
+        ArgumentNullException.ThrowIfNull(scaleFactors);
+        ArgumentNullException.ThrowIfNull(nodeNames);
 
         using var imgsNewVec = new VectorOfMat();
         var scaleFactorsArray = scaleFactors as int[] ?? scaleFactors.ToArray();

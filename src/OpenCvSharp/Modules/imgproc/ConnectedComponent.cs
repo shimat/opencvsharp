@@ -56,12 +56,9 @@ public class ConnectedComponents
     /// <returns>Filtered image.</returns>
     public void FilterByLabels(Mat src, Mat dst, IEnumerable<int> labelValues)
     {
-        if (src is null)
-            throw new ArgumentNullException(nameof(src));
-        if (dst is null)
-            throw new ArgumentNullException(nameof(dst));
-        if (labelValues is null)
-            throw new ArgumentNullException(nameof(labelValues));
+        ArgumentNullException.ThrowIfNull(src);
+        ArgumentNullException.ThrowIfNull(dst);
+        ArgumentNullException.ThrowIfNull(labelValues);
         var labelArray = labelValues.ToArray();
         if (labelArray.Length == 0)
             throw new ArgumentException("empty labelValues");
@@ -93,8 +90,7 @@ public class ConnectedComponents
     /// <returns>Filtered image.</returns>
     public void FilterByBlob(Mat src, Mat dst, Blob blob)
     {
-        if (blob is null)
-            throw new ArgumentNullException(nameof(blob));
+        ArgumentNullException.ThrowIfNull(blob);
         FilterByLabels(src, dst, [blob.Label]);
     }
 
@@ -116,8 +112,7 @@ public class ConnectedComponents
     /// <param name="img">The target image to be drawn.</param>
     public void RenderBlobs(Mat img)
     {
-        if (img is null)
-            throw new ArgumentNullException(nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         if (Blobs is null || Blobs.Count == 0)
             throw new OpenCvSharpException("Blobs is empty");
         if (Labels is null)

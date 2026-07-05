@@ -124,10 +124,8 @@ public static partial class Cv2
         /// <param name="psize">size of block side where dct is computed</param>
         public static void DctDenoising(Mat src, Mat dst, double sigma, int psize = 16)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
+            ArgumentNullException.ThrowIfNull(src);
+            ArgumentNullException.ThrowIfNull(dst);
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             
@@ -151,12 +149,9 @@ public static partial class Cv2
         /// <param name="algorithm">see OpenCvSharp.XPhoto.InpaintTypes</param>
         public static void Inpaint(Mat src, Mat mask, Mat dst, OpenCvSharp.XPhoto.InpaintTypes algorithm)
         {
-            if (src is null)
-                throw new ArgumentNullException(nameof(src));
-            if (mask is null)
-                throw new ArgumentNullException(nameof(mask));
-            if (dst is null)
-                throw new ArgumentNullException(nameof(dst));
+            ArgumentNullException.ThrowIfNull(src);
+            ArgumentNullException.ThrowIfNull(mask);
+            ArgumentNullException.ThrowIfNull(dst);
             src.ThrowIfDisposed();
             mask.ThrowIfDisposed();
             dst.ThrowIfDisposed();

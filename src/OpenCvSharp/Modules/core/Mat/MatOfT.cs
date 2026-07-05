@@ -232,8 +232,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     public static Mat<TElem> FromPixelData(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
 #pragma warning restore CA1000
     {
-        if (sizes is null)
-            throw new ArgumentNullException(nameof(sizes));
+        ArgumentNullException.ThrowIfNull(sizes);
         if (data == IntPtr.Zero)
             throw new ArgumentNullException(nameof(data));
 #pragma warning disable CA1508
@@ -493,8 +492,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// <returns></returns>
     protected Mat<TElem> Wrap(Mat mat)
     {
-        if (mat is null)
-            throw new ArgumentNullException(nameof(mat));
+        ArgumentNullException.ThrowIfNull(mat);
 
         var ret = new Mat<TElem>();
         mat.AssignTo(ret);

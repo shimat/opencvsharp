@@ -270,8 +270,7 @@ public class EdgeDrawing : Algorithm
     public virtual void SetParams(EdgeDrawingParams parameters)
     {
         ThrowIfDisposed();
-        if (parameters is null)
-            throw new ArgumentNullException(nameof(parameters));
+        ArgumentNullException.ThrowIfNull(parameters);
 
         var native = parameters.ToNative();
         NativeMethods.HandleException(

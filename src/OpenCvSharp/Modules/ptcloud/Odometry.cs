@@ -45,8 +45,7 @@ public class Odometry : CvObject
     /// <param name="algtype">odometry algorithm type.</param>
     public Odometry(OdometryType otype, OdometrySettings settings, OdometryAlgoType algtype)
     {
-        if (settings is null)
-            throw new ArgumentNullException(nameof(settings));
+        ArgumentNullException.ThrowIfNull(settings);
         settings.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_Odometry_new3((int)otype, settings.CvPtr, (int)algtype, out var p));
@@ -81,8 +80,7 @@ public class Odometry : CvObject
     public void PrepareFrame(OdometryFrame frame)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
+        ArgumentNullException.ThrowIfNull(frame);
         frame.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_Odometry_prepareFrame(Handle, frame.CvPtr));
@@ -97,10 +95,8 @@ public class Odometry : CvObject
     public void PrepareFrames(OdometryFrame srcFrame, OdometryFrame dstFrame)
     {
         ThrowIfDisposed();
-        if (srcFrame is null)
-            throw new ArgumentNullException(nameof(srcFrame));
-        if (dstFrame is null)
-            throw new ArgumentNullException(nameof(dstFrame));
+        ArgumentNullException.ThrowIfNull(srcFrame);
+        ArgumentNullException.ThrowIfNull(dstFrame);
         srcFrame.ThrowIfDisposed();
         dstFrame.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -119,10 +115,8 @@ public class Odometry : CvObject
     public bool Compute(OdometryFrame srcFrame, OdometryFrame dstFrame, OutputArray Rt)
     {
         ThrowIfDisposed();
-        if (srcFrame is null)
-            throw new ArgumentNullException(nameof(srcFrame));
-        if (dstFrame is null)
-            throw new ArgumentNullException(nameof(dstFrame));
+        ArgumentNullException.ThrowIfNull(srcFrame);
+        ArgumentNullException.ThrowIfNull(dstFrame);
         srcFrame.ThrowIfDisposed();
         dstFrame.ThrowIfDisposed();
         NativeMethods.HandleException(

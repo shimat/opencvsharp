@@ -52,8 +52,7 @@ public static partial class Cv2
         /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
         public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null, EngineType engine = EngineType.Auto)
         {
-            if (bufferModel is null)
-                throw new ArgumentNullException(nameof(bufferModel));
+            ArgumentNullException.ThrowIfNull(bufferModel);
             return Net.ReadNetFromTensorflow(
                 StreamToArray(bufferModel),
                 bufferConfig is null ? null : StreamToArray(bufferConfig),
@@ -129,8 +128,7 @@ public static partial class Cv2
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(Stream onnxFileStream, EngineType engine = EngineType.Auto)
         {
-            if (onnxFileStream is null)
-                throw new ArgumentNullException(nameof(onnxFileStream));
+            ArgumentNullException.ThrowIfNull(onnxFileStream);
             return ReadNetFromONNX(StreamToArray(onnxFileStream), engine);
         }
 
@@ -179,8 +177,7 @@ public static partial class Cv2
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromTFLite(Stream bufferModelStream, EngineType engine = EngineType.Auto)
         {
-            if (bufferModelStream is null)
-                throw new ArgumentNullException(nameof(bufferModelStream));
+            ArgumentNullException.ThrowIfNull(bufferModelStream);
             return Net.ReadNetFromTFLite(StreamToArray(bufferModelStream), engine);
         }
 
@@ -192,8 +189,7 @@ public static partial class Cv2
         // ReSharper disable once InconsistentNaming
         public static Mat? ReadTensorFromONNX(string path)
         {
-            if (path is null)
-                throw new ArgumentNullException(nameof(path));
+            ArgumentNullException.ThrowIfNull(path);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_readTensorFromONNX(path, out var ret));
@@ -219,8 +215,7 @@ public static partial class Cv2
             Mat image, double scaleFactor = 1.0, Size size = default,
             Scalar mean = default, bool swapRB = true, bool crop = true)
         {
-            if (image is null)
-                throw new ArgumentNullException(nameof(image));
+            ArgumentNullException.ThrowIfNull(image);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImage(
@@ -247,8 +242,7 @@ public static partial class Cv2
             IEnumerable<Mat> images, double scaleFactor,
             Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(images);
 
             var imagesPointers = images.Select(x => x.CvPtr).ToArray();
 
@@ -287,8 +281,7 @@ public static partial class Cv2
         /// <returns>4-dimensional Mat.</returns>
         public static Mat BlobFromImagesWithParams(IEnumerable<Mat> images, Image2BlobParams? param = null)
         {
-            if (images is null)
-                throw new ArgumentNullException(nameof(images));
+            ArgumentNullException.ThrowIfNull(images);
             param ??= new Image2BlobParams();
 
             var imagesPointers = images.Select(x => x.CvPtr).ToArray();
@@ -309,8 +302,7 @@ public static partial class Cv2
         /// <returns>array of 2D Mat containing the images extracted from the blob in floating point precision (CV_32F).</returns>
         public static Mat[] ImagesFromBlob(Mat blob)
         {
-            if (blob is null)
-                throw new ArgumentNullException(nameof(blob));
+            ArgumentNullException.ThrowIfNull(blob);
             blob.ThrowIfDisposed();
 
             using var imagesVec = new Internal.Vectors.VectorOfMat();
@@ -327,10 +319,8 @@ public static partial class Cv2
         /// <param name="output">A path to output text file to be created.</param>
         public static void WriteTextGraph(string model, string output)
         {
-            if (model is null)
-                throw new ArgumentNullException(nameof(model));
-            if (output is null)
-                throw new ArgumentNullException(nameof(output));
+            ArgumentNullException.ThrowIfNull(model);
+            ArgumentNullException.ThrowIfNull(output);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_writeTextGraph(model, output));
@@ -352,10 +342,8 @@ public static partial class Cv2
             out int[] indices,
             float eta = 1.0f, int topK = 0)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<Rect>(bboxes);
@@ -384,10 +372,8 @@ public static partial class Cv2
             out int[] indices,
             float eta = 1.0f, int topK = 0)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<Rect2d>(bboxes);
@@ -416,10 +402,8 @@ public static partial class Cv2
             out int[] indices,
             float eta = 1.0f, int topK = 0)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<RotatedRect>(bboxes);
@@ -449,12 +433,9 @@ public static partial class Cv2
             out int[] indices,
             float eta = 1.0f, int topK = 0)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
-            if (classIds is null)
-                throw new ArgumentNullException(nameof(classIds));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
+            ArgumentNullException.ThrowIfNull(classIds);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<Rect>(bboxes);
@@ -485,12 +466,9 @@ public static partial class Cv2
             out int[] indices,
             float eta = 1.0f, int topK = 0)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
-            if (classIds is null)
-                throw new ArgumentNullException(nameof(classIds));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
+            ArgumentNullException.ThrowIfNull(classIds);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<Rect2d>(bboxes);
@@ -524,10 +502,8 @@ public static partial class Cv2
             out int[] indices,
             int topK = 0, float sigma = 0.5f, SoftNMSMethod method = SoftNMSMethod.SOFTNMS_GAUSSIAN)
         {
-            if (bboxes is null)
-                throw new ArgumentNullException(nameof(bboxes));
-            if (scores is null)
-                throw new ArgumentNullException(nameof(scores));
+            ArgumentNullException.ThrowIfNull(bboxes);
+            ArgumentNullException.ThrowIfNull(scores);
 
             // ReSharper disable once IdentifierTypo
             using var bboxesVec = new StdVector<Rect>(bboxes);

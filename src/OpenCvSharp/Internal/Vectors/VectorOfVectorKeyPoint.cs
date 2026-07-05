@@ -21,8 +21,7 @@ public class VectorOfVectorKeyPoint : CvObject, IStdVector<KeyPoint[]>
     /// <param name="values"></param>
     public VectorOfVectorKeyPoint(KeyPoint[][] values)
     {
-        if (values is null)
-            throw new ArgumentNullException(nameof(values));
+        ArgumentNullException.ThrowIfNull(values);
 
         using var aa = new ArrayAddress2<KeyPoint>(values);
         var p = NativeMethods.vector_vector_KeyPoint_new3(

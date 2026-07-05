@@ -69,8 +69,7 @@ public class Volume : CvObject
     public void IntegrateFrame(OdometryFrame frame, InputArray pose)
     {
         ThrowIfDisposed();
-        if (frame is null)
-            throw new ArgumentNullException(nameof(frame));
+        ArgumentNullException.ThrowIfNull(frame);
         frame.ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ptcloud_Volume_integrateFrame(Handle, frame.CvPtr, pose.Proxy));

@@ -81,8 +81,7 @@ public class QRCodeDetector : CvObject
     /// <returns></returns>
     public string Decode(InputArray img, IEnumerable<Point2f> points, OutputArray straightQrCode = default)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
 
         using var pointsVec = new StdVector<Point2f>(points);
         using var resultString = new StdString();
@@ -178,8 +177,7 @@ public class QRCodeDetector : CvObject
     /// <returns></returns>
     protected bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode, bool isOutputStraightQrCode)
     {
-        if (points is null)
-            throw new ArgumentNullException(nameof(points));
+        ArgumentNullException.ThrowIfNull(points);
 
         using var decodedInfoVec = new VectorOfString();
         using var pointsVec = new StdVector<Point2f>(points);

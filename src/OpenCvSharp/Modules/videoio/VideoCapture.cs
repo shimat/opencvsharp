@@ -65,8 +65,7 @@ public class VideoCapture : CvObject
     /// <returns></returns>
     public VideoCapture(int index, VideoCaptureAPIs apiPreference, int[] prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
+        ArgumentNullException.ThrowIfNull(prms);
 
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out var p));
@@ -89,8 +88,7 @@ public class VideoCapture : CvObject
     /// <returns></returns>
     public VideoCapture(int index, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
     {
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
+        ArgumentNullException.ThrowIfNull(prms);
         var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
@@ -161,8 +159,7 @@ public class VideoCapture : CvObject
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
+        ArgumentNullException.ThrowIfNull(prms);
 
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out var p));
@@ -191,8 +188,7 @@ public class VideoCapture : CvObject
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
-        if (prms is null)
-            throw new ArgumentNullException(nameof(prms));
+        ArgumentNullException.ThrowIfNull(prms);
         var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
@@ -1189,8 +1185,7 @@ public class VideoCapture : CvObject
     public bool Retrieve(Mat image, int flag = 0)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -1213,8 +1208,7 @@ public class VideoCapture : CvObject
     public bool Retrieve(Mat image, CameraChannels streamIdx)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -1273,8 +1267,7 @@ public class VideoCapture : CvObject
     public bool Read(Mat image)
     {
         ThrowIfDisposed();
-        if(image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -1396,8 +1389,7 @@ public class VideoCapture : CvObject
         out int[] readyIndex, 
         long timeoutNs = 0)
     {
-        if (streams is null) 
-            throw new ArgumentNullException(nameof(streams));
+        ArgumentNullException.ThrowIfNull(streams);
 
         var streamPtrs = streams.Select(s =>
         {

@@ -30,8 +30,7 @@ public class AffineFeature : Feature2D
         Feature2D backend, int maxTilt = 5, int minTilt = 0,
         float tiltStep = 1.4142135623730951f, float rotateStepBase = 72)
     {
-        if (backend is null)
-            throw new ArgumentNullException(nameof(backend));
+        ArgumentNullException.ThrowIfNull(backend);
 
         NativeMethods.HandleException(
             NativeMethods.features_AffineFeature_create(
@@ -49,10 +48,8 @@ public class AffineFeature : Feature2D
     /// <param name="rolls">Roll (rotation) sampling values, in degrees.</param>
     public void SetViewParams(float[] tilts, float[] rolls)
     {
-        if (tilts is null)
-            throw new ArgumentNullException(nameof(tilts));
-        if (rolls is null)
-            throw new ArgumentNullException(nameof(rolls));
+        ArgumentNullException.ThrowIfNull(tilts);
+        ArgumentNullException.ThrowIfNull(rolls);
         ThrowIfDisposed();
 
         NativeMethods.HandleException(

@@ -90,10 +90,8 @@ public class CascadeClassifier : CvObject
     /// <param name="fn"></param>
     public virtual bool Read(FileNode fn)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
-        if (fn is null)
-            throw new ArgumentNullException(nameof(fn));
+        ObjectDisposedException.ThrowIf(ptr == IntPtr.Zero, this);
+        ArgumentNullException.ThrowIfNull(fn);
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_CascadeClassifier_read(Handle, fn.CvPtr, out var ret));
@@ -122,8 +120,7 @@ public class CascadeClassifier : CvObject
         Size? maxSize = null)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
         var minSize0 = minSize.GetValueOrDefault(new Size());
@@ -165,8 +162,7 @@ public class CascadeClassifier : CvObject
         bool outputRejectLevels = false)
     {
         ThrowIfDisposed();
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
+        ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
         var minSize0 = minSize.GetValueOrDefault(new Size());

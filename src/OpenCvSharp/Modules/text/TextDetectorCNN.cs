@@ -31,8 +31,7 @@ public class TextDetectorCNN : TextDetector
             throw new ArgumentException("empty string", nameof(detectionSizes));
         if (string.IsNullOrEmpty(modelWeightsFilename))
             throw new ArgumentException("empty string", nameof(modelWeightsFilename));
-        if (detectionSizes is null)
-            throw new ArgumentNullException(nameof(detectionSizes));
+        ArgumentNullException.ThrowIfNull(detectionSizes);
 
         var detectionSizesArray = detectionSizes.ToArray();
         NativeMethods.HandleException(

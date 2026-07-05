@@ -257,8 +257,7 @@ public sealed class Window : IDisposable
     /// <param name="images"></param>
     public static void ShowImages(params Mat[] images)
     {
-        if (images is null)
-            throw new ArgumentNullException(nameof(images));
+        ArgumentNullException.ThrowIfNull(images);
 
         ShowImagesAndWaitKey(images.Select(img => new Window { Image = img }));
     }
@@ -271,8 +270,7 @@ public sealed class Window : IDisposable
     /// <param name="images">Pairs of window title and image to display</param>
     public static void ShowImages(params (string Title, Mat Image)[] images)
     {
-        if (images is null)
-            throw new ArgumentNullException(nameof(images));
+        ArgumentNullException.ThrowIfNull(images);
 
         ShowImagesAndWaitKey(images.Select(t => new Window(t.Title, image: t.Image)));
     }
