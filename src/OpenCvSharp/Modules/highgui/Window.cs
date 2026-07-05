@@ -11,10 +11,10 @@ public sealed class Window : IDisposable
 {
     #region Field
 
-    internal static Dictionary<string, Window> Windows = new();
+    internal static readonly Dictionary<string, Window> Windows = new();
     private static uint windowCount;
 
-    private string name;
+    private readonly string name;
     private Mat? image;
     // ReSharper disable once IdentifierTypo
     private readonly Dictionary<string, CvTrackbar> trackbars;
@@ -28,36 +28,6 @@ public sealed class Window : IDisposable
     /// </summary>
     public Window()
         : this(DefaultName(), null, WindowFlags.AutoSize)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    public Window(string name)
-        : this(name, null, WindowFlags.AutoSize)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize.
-    /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
-    public Window(string name, WindowFlags flags = WindowFlags.AutoSize)
-        : this(name, null, flags)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    /// <param name="image">Image to be shown.</param>
-    public Window(string name, Mat image)
-        : this(name, image ?? throw new ArgumentNullException(nameof(image)), WindowFlags.AutoSize)
     {
     }
 
@@ -150,11 +120,7 @@ public sealed class Window : IDisposable
     /// <summary>
     /// Gets window name
     /// </summary>
-    public string Name
-    {
-        get => name;
-        private set => name = value;
-    }
+    public string Name => name;
 
     #endregion
 
@@ -290,21 +256,8 @@ public sealed class Window : IDisposable
     {
         if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (images.Length == 0)
-            return;
 
-        var windows = new List<Window>();
-        foreach (var img in images)
-        {
-            windows.Add(new Window { Image = img });
-        }
-
-        WaitKey();
-
-        foreach (var w in windows)
-        {
-            w.Close();
-        }
+        ShowImagesAndWaitKey(images.Select(img => new Window { Image = img }));
     }
 
     /// <summary>
@@ -317,18 +270,22 @@ public sealed class Window : IDisposable
     {
         if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (images.Length == 0)
+
+        ShowImagesAndWaitKey(images.Select(t => new Window(t.Title, image: t.Image)));
+    }
+
+    /// <summary>
+    /// Opens the given windows, blocks until a key is pressed, then closes them all.
+    /// </summary>
+    private static void ShowImagesAndWaitKey(IEnumerable<Window> windows)
+    {
+        var windowList = windows.ToList();
+        if (windowList.Count == 0)
             return;
 
-        var windows = new List<Window>();
-        foreach (var (title, image) in images)
-        {
-            windows.Add(new Window(title, image: image));
-        }
+        WaitKey();
 
-        Cv2.WaitKey();
-
-        foreach (var w in windows)
+        foreach (var w in windowList)
         {
             w.Close();
         }
