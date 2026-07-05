@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
 using OpenCvSharp.Analyzers;
 using Xunit;
 
@@ -26,7 +25,7 @@ public class RowColNotDisposedAnalyzerTests
 
     private static Task Verify(string source, params DiagnosticResult[] expected)
     {
-        var test = new CSharpAnalyzerTest<RowColNotDisposedAnalyzer, XUnitVerifier>
+        var test = new CSharpAnalyzerTest<RowColNotDisposedAnalyzer, DefaultVerifier>
         {
             TestCode = MatStub + source,
         };

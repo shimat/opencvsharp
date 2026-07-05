@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
 using OpenCvSharp.Analyzers;
 using Xunit;
 
@@ -24,7 +23,7 @@ public class MatPropertyInLoopConditionAnalyzerTests
 
     private static Task Verify(string source, params DiagnosticResult[] expected)
     {
-        var test = new CSharpAnalyzerTest<MatPropertyInLoopConditionAnalyzer, XUnitVerifier>
+        var test = new CSharpAnalyzerTest<MatPropertyInLoopConditionAnalyzer, DefaultVerifier>
         {
             TestCode = MatStub + source,
         };
