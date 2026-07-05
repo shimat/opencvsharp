@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenCvSharp × OpenCV 5.x — API Coverage Audit</title>
+<style>
+  :root{
+    --paper:#EEF1F3;
+    --surface:#FFFFFF;
+    --surface-alt:#F7F9FA;
+    --ink:#16202E;
+    --ink-muted:#56677A;
+    --hairline:#D6DEE4;
+    --accent:#B8792E;
+    --accent-ink:#7A501C;
+    --accent-soft:#F3E6CE;
+    --small:#2E7D5B;    --small-bg:#E3F1E9;
+    --medium:#B8792E;   --medium-bg:#F6E9D3;
+    --large:#B0453F;    --large-bg:#F8E1DF;
+    --font-display:"Archivo Narrow","Roboto Condensed","Arial Narrow",sans-serif;
+    --font-body:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --font-mono:"Cascadia Code","SF Mono",Consolas,Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{background:var(--paper);color:var(--ink);margin:0;}
+  body{
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-ink);}
+  a:focus-visible, button:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .shell{max-width:1180px;margin:0 auto;padding:0 1.5rem 6rem;}
+
+  /* ---- Masthead ---- */
+  .masthead{
+    padding:3.2rem 0 2.2rem;
+    border-bottom:1px solid var(--hairline);
+    display:flex;flex-direction:column;gap:0.9rem;
+  }
+  .eyebrow{
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    font-size:0.78rem;
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2rem,4.4vw,3.1rem);
+    line-height:1.05;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  .dek{
+    max-width:62ch;
+    font-size:1.12rem;
+    color:var(--ink-muted);
+    margin:0;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:1.5rem;
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    color:var(--ink-muted);
+    margin-top:0.4rem;
+  }
+  .meta-row strong{color:var(--ink);font-weight:600;}
+
+  /* ---- Stat strip ---- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;
+    background:var(--hairline);
+    border:1px solid var(--hairline);
+    margin:2.2rem 0;
+  }
+  .stat{
+    background:var(--surface);
+    padding:1.2rem 1.3rem;
+    display:flex;flex-direction:column;gap:0.3rem;
+  }
+  .stat .n{
+    font-family:var(--font-display);
+    font-size:2rem;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    line-height:1;
+  }
+  .stat .n.accent{color:var(--accent-ink);}
+  .stat .lbl{font-size:0.78rem;color:var(--ink-muted);letter-spacing:0.02em;}
+
+  /* ---- Layout: nav + content ---- */
+  .layout{display:grid;grid-template-columns:1fr;gap:2.5rem;margin-top:1rem;}
+  @media(min-width:920px){.layout{grid-template-columns:210px 1fr;align-items:start;}}
+  nav.toc{
+    position:sticky;top:1.2rem;
+    display:flex;flex-direction:column;gap:0.35rem;
+    padding-bottom:1rem;
+  }
+  nav.toc .toc-h{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:0.1em;
+    font-size:0.72rem;color:var(--ink-muted);margin-bottom:0.3rem;
+  }
+  nav.toc a{
+    font-family:var(--font-display);
+    font-size:0.9rem;
+    color:var(--ink);
+    text-decoration:none;
+    padding:0.25rem 0;
+    border-left:2px solid transparent;
+    padding-left:0.6rem;
+  }
+  nav.toc a:hover{border-left-color:var(--accent);color:var(--accent-ink);}
+
+  main{min-width:0;}
+
+  .callout{
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+    border-radius:2px;
+    padding:1.1rem 1.3rem;
+    margin:1.8rem 0 2.4rem;
+    font-size:0.96rem;
+  }
+  .callout h3{
+    font-family:var(--font-display);
+    font-size:0.95rem;text-transform:uppercase;letter-spacing:0.06em;
+    margin:0 0 0.5rem;color:var(--accent-ink);
+  }
+  .callout ul{margin:0.3rem 0 0;padding-left:1.2rem;}
+  .callout li{margin-bottom:0.35rem;}
+  .callout code{font-family:var(--font-mono);font-size:0.85em;}
+
+  section.category{margin:3rem 0;}
+  section.category > h2{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:700;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:0.4rem;
+    margin:0 0 1.3rem;
+    scroll-margin-top:1rem;
+  }
+  section.category > p.lead{
+    color:var(--ink-muted);max-width:70ch;margin:-0.6rem 0 1.4rem;
+  }
+
+  details.module{
+    background:var(--surface);
+    border:1px solid var(--hairline);
+    border-radius:3px;
+    margin-bottom:0.8rem;
+    scroll-margin-top:1rem;
+  }
+  details.module[open]{border-color:#c7d1d8;}
+  details.module summary{
+    list-style:none;
+    cursor:pointer;
+    padding:0.85rem 1.1rem;
+    display:flex;align-items:center;gap:0.8rem;
+    flex-wrap:wrap;
+  }
+  details.module summary::-webkit-details-marker{display:none;}
+  details.module summary::before{
+    content:"▸";
+    font-family:var(--font-display);
+    color:var(--accent-ink);
+    transition:transform 0.15s ease;
+    flex:none;
+  }
+  details.module[open] summary::before{transform:rotate(90deg);}
+  .mod-name{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .mod-verdict{
+    font-size:0.88rem;color:var(--ink-muted);
+    font-family:var(--font-body);
+    flex:1 1 260px;
+  }
+  .badge{
+    font-family:var(--font-display);
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    padding:0.15rem 0.55rem;
+    border-radius:99px;
+    white-space:nowrap;
+  }
+  .badge.covered{background:var(--small-bg);color:var(--small);}
+  .badge.count{background:var(--surface-alt);color:var(--ink-muted);border:1px solid var(--hairline);}
+
+  .mod-body{padding:0 1.1rem 1.1rem;}
+  .table-wrap{overflow-x:auto;border-top:1px solid var(--hairline);}
+  table{border-collapse:collapse;width:100%;font-size:0.88rem;}
+  thead th{
+    text-align:left;
+    font-family:var(--font-display);
+    text-transform:uppercase;letter-spacing:0.04em;font-size:0.72rem;
+    color:var(--ink-muted);
+    padding:0.6rem 0.7rem 0.4rem;
+    border-bottom:1px solid var(--hairline);
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:0.55rem 0.7rem;
+    border-bottom:1px solid #EEF0F2;
+    vertical-align:top;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  td.item{font-weight:600;}
+  td.loc{font-family:var(--font-mono);font-size:0.8rem;color:var(--ink-muted);white-space:nowrap;}
+  td.desc{color:var(--ink-muted);max-width:34ch;}
+
+  .pill{
+    display:inline-block;
+    font-family:var(--font-display);
+    font-size:0.72rem;letter-spacing:0.03em;
+    padding:0.1rem 0.5rem;border-radius:99px;
+    white-space:nowrap;
+  }
+  .pill.small{background:var(--small-bg);color:var(--small);}
+  .pill.medium{background:var(--medium-bg);color:var(--medium);}
+  .pill.large{background:var(--large-bg);color:var(--large);}
+
+  p.note{font-size:0.85rem;color:var(--ink-muted);margin:0.7rem 1.1rem 0.9rem;padding-top:0.6rem;border-top:1px dashed var(--hairline);}
+
+  .quickwins{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:0.8rem;
+  }
+  .qw-card{
+    background:var(--surface);border:1px solid var(--hairline);border-radius:3px;
+    padding:0.9rem 1rem;
+  }
+  .qw-card .qw-mod{
+    font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-ink);
+    text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .qw-card h4{
+    font-family:var(--font-display);font-size:1rem;margin:0.2rem 0 0.3rem;
+  }
+  .qw-card p{margin:0;font-size:0.85rem;color:var(--ink-muted);}
+
+  .newmods{display:flex;flex-direction:column;gap:0.9rem;}
+  .newmod{
+    background:var(--surface);border:1px solid var(--hairline);border-radius:3px;
+    padding:1rem 1.2rem;
+    display:grid;grid-template-columns:120px 1fr auto;gap:1rem;align-items:start;
+  }
+  @media(max-width:640px){.newmod{grid-template-columns:1fr;}}
+  .newmod .nm-name{font-family:var(--font-mono);font-weight:700;}
+  .newmod .nm-desc{color:var(--ink-muted);font-size:0.9rem;}
+  .newmod .nm-flag{font-family:var(--font-display);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-muted);}
+
+  footer{
+    margin-top:4rem;padding-top:1.5rem;border-top:1px solid var(--hairline);
+    color:var(--ink-muted);font-size:0.85rem;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="masthead">
+    <span class="eyebrow">Coverage audit · shimat/opencvsharp</span>
+    <h1>What OpenCV 5.x has that OpenCvSharp doesn't (yet)</h1>
+    <p class="dek">A module-by-module diff between the OpenCV 5.x / opencv_contrib C++ surface and the current OpenCvSharp C# wrapper, prompted by closing out the <code>geometry/segment.hpp</code> gap (SACSegmentation, RegionGrowing3D — PR #2001). Full tracking issue: <a href="https://github.com/shimat/opencvsharp/issues/2019">#2019</a>.</p>
+    <div class="meta-row">
+      <span><strong>Baseline</strong> opencv @ 40738fb · opencv_contrib @ 755e506</span>
+      <span><strong>Branch</strong> main</span>
+      <span><strong>Date</strong> 2026-07-05</span>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><span class="n">31</span><span class="lbl">modules audited</span></div>
+    <div class="stat"><span class="n accent">~150</span><span class="lbl">gap items found</span></div>
+    <div class="stat"><span class="n">4</span><span class="lbl">modules fully covered</span></div>
+    <div class="stat"><span class="n">6</span><span class="lbl">buildable net-new modules</span></div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Section navigation">
+      <span class="toc-h">Contents</span>
+      <a href="#corrections">Corrections &amp; caveats</a>
+      <a href="#new-modules">Net-new modules</a>
+      <a href="#quick-wins">Quick wins</a>
+      <a href="#core">Core &amp; calibration</a>
+      <a href="#media">Media I/O</a>
+      <a href="#dnnml">DNN &amp; ML</a>
+      <a href="#features">Features &amp; matching</a>
+      <a href="#videotrack">Video &amp; tracking</a>
+      <a href="#objdetect">Detection &amp; markers</a>
+      <a href="#face">Face &amp; biometrics</a>
+      <a href="#misc">Photo, shape &amp; text</a>
+      <a href="#stitching">Stitching pipeline</a>
+    </nav>
+
+    <main>
+
+      <div class="callout" id="corrections">
+        <h3>Corrections &amp; caveats</h3>
+        <ul>
+          <li>Several parallel research passes initially reported <code>FaceRecognizerSF</code>, <code>QRCodeEncoder</code>, and aruco's <code>Board</code>/<code>GridBoard</code> as "already wrapped." Direct verification against <code>src/OpenCvSharp/Modules/</code> found none of the four exist — they're listed below as real gaps.</li>
+          <li><code>mcc</code> (Macbeth color-checker detection) showed up as a candidate in objdetect, but <code>cmake/opencv_build_options.cmake</code> explicitly sets <code>BUILD_opencv_mcc OFF</code> — it isn't compiled into this project's native build at all, so it's excluded below rather than listed as a gap.</li>
+          <li><code>freetype</code> and <code>alphamat</code> only build on macOS today — their dependencies (freetype2/harfbuzz, Eigen3) are vendored in <code>vcpkg.json</code> for <code>osx</code> only, not Windows/Linux.</li>
+          <li>CUDA modules, <code>viz</code> (VTK), <code>sfm</code> (Ceres/gflags/glog), <code>cvv</code> (Qt), <code>ovis</code> (OGRE), and the MATLAB/Julia bindings are out of scope everywhere — none of those toolchains are vendored on any CI platform.</li>
+        </ul>
+      </div>
+
+      <section class="category" id="new-modules">
+        <h2>Net-new modules worth adding</h2>
+        <p class="lead">These aren't wrapped at all today, but compile cleanly with the project's existing dependency set — no new vcpkg packages, no CI changes.</p>
+        <div class="newmods">
+          <div class="newmod">
+            <span class="nm-name">rgbd</span>
+            <span class="nm-desc">linemod template-matching detector plus the KinFu / DynaFu / ColoredKinFu / LargeKinfu volumetric-fusion family — all <code>Algorithm</code>-derived with <code>Params</code> structs, same shape as the recently-wrapped ptcloud classes. Needs geometry + ptcloud (both already wrapped); OpenGL/viz interop is optional only.</span>
+            <span class="nm-flag pill large">Large</span>
+          </div>
+          <div class="newmod">
+            <span class="nm-name">xstereo</span>
+            <span class="nm-desc"><code>QuasiDenseStereo</code> — dense stereo matching on top of the already-wrapped stereo + tracking modules.</span>
+            <span class="nm-flag pill medium">Medium</span>
+          </div>
+          <div class="newmod">
+            <span class="nm-name">hfs</span>
+            <span class="nm-desc"><code>HfsSegment</code> real-time superpixel/hierarchical segmentation. CPU path has zero hard dependency (CUDA is optional-only, unlike older OpenCV versions).</span>
+            <span class="nm-flag pill medium">Small–medium</span>
+          </div>
+          <div class="newmod">
+            <span class="nm-name">plot</span>
+            <span class="nm-desc"><code>Plot2d</code> — draws a line/scatter plot straight from a <code>Mat</code>. Pure core+imgproc, no dependency risk.</span>
+            <span class="nm-flag pill medium">Small–medium</span>
+          </div>
+          <div class="newmod">
+            <span class="nm-name">phase_unwrapping</span>
+            <span class="nm-desc"><code>HistogramPhaseUnwrapping</code> for structured-light / interferometry pipelines. No dependency risk.</span>
+            <span class="nm-flag pill medium">Small–medium</span>
+          </div>
+          <div class="newmod">
+            <span class="nm-name">signal</span>
+            <span class="nm-desc">One free function, <code>resampleSignal</code>. Trivial, zero dependencies.</span>
+            <span class="nm-flag pill small">Small</span>
+          </div>
+        </div>
+        <p class="note" style="margin:0.9rem 0 0;padding:0.9rem 0 0;">Also considered and rejected: <code>xobjdetect</code> (only symbol is <code>WBDetector</code>, plain <code>CV_EXPORTS</code> not <code>CV_WRAP</code> — duplicates functionality already covered by <code>CascadeClassifier</code>/<code>HOGDescriptor</code>).</p>
+      </section>
+
+      <section class="category" id="quick-wins">
+        <h2>Quick wins</h2>
+        <p class="lead">Small, self-contained additions across existing modules — a native bridge function plus a thin C# method or property each, no new class scaffolding.</p>
+        <div class="quickwins">
+          <div class="qw-card"><span class="qw-mod">core</span><h4>TickMeter</h4><p>Complete timing-utility class (start/stop/getFPS/…) with zero wrapper presence today — commonly wanted for benchmarking.</p></div>
+          <div class="qw-card"><span class="qw-mod">superres</span><h4>SuperResolution.OpticalFlow</h4><p>Native bridge and P/Invoke are already wired; the C# property body is just commented out as a TODO.</p></div>
+          <div class="qw-card"><span class="qw-mod">imgproc</span><h4>StackBlur, ThresholdWithMask</h4><p>Two small OpenCV-5 free functions with no C# entry point yet.</p></div>
+          <div class="qw-card"><span class="qw-mod">calib</span><h4>FixS1S2S3S4 wrong value</h4><p><code>CalibrationFlags.cs</code> defines it as a duplicate of <code>ThinPrismModel</code> (0x08000) instead of the native 0x10000 — a silent correctness bug, not just a gap. (Fix in progress.)</p></div>
+          <div class="qw-card"><span class="qw-mod">barcode</span><h4>Missing getters</h4><p><code>GetDownsamplingThreshold</code>/<code>GetDetectorScales</code>/<code>GetGradientThreshold</code> — setters exist, getters don't, on both sides.</p></div>
+          <div class="qw-card"><span class="qw-mod">aruco</span><h4>RefineDetectedMarkers</h4><p>Native bridge function already exists; no C# method calls it.</p></div>
+          <div class="qw-card"><span class="qw-mod">img_hash</span><h4>Six one-shot free functions</h4><p><code>averageHash</code>, <code>pHash</code>, <code>blockMeanHash</code>, etc. — the classes are fully wrapped, just not the convenience call-without-instantiating form.</p></div>
+          <div class="qw-card"><span class="qw-mod">wechat_qrcode</span><h4>ScaleFactor accessor</h4><p><code>GetScaleFactor</code>/<code>SetScaleFactor</code> missing entirely.</p></div>
+          <div class="qw-card"><span class="qw-mod">shape</span><h4>Two missing getters</h4><p><code>ShapeContextDistanceExtractor.GetCostExtractor</code>/<code>GetTransformAlgorithm</code> — setters exist, getters don't.</p></div>
+          <div class="qw-card"><span class="qw-mod">flann</span><h4>Index.Load / Release</h4><p>Only <code>Save</code> is wrapped; there's no way to load a previously-saved index or explicitly release one.</p></div>
+        </div>
+      </section>
+
+      <section class="category" id="core">
+        <h2>Core &amp; calibration</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">core</span><span class="mod-verdict">Strong coverage; two complete classes and a dozen small utility functions missing.</span><span class="badge count">14 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">AsyncArray</td><td class="loc">async.hpp:29</td><td class="desc">Full class for async DNN results (get/valid/release) — zero presence today.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">TickMeter</td><td class="loc">utility.hpp:350</td><td class="desc">~14-method timing/FPS utility class — zero presence today.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">hasNonZero</td><td class="loc">core.hpp:519</td><td class="desc">Fast any-nonzero check, alternative to countNonZero.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">finiteMask</td><td class="loc">core.hpp:1682</td><td class="desc">Mask of finite elements, companion to patchNaNs.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">broadcast</td><td class="loc">core.hpp:1097</td><td class="desc">Broadcast an array to a given shape.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">flipND / transposeND</td><td class="loc">core.hpp:1090, 1767</td><td class="desc">N-dimensional flip and transpose-with-axis-order.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">useIPP / setUseIPP / getIppVersion / useIPP_NotExact</td><td class="loc">base.hpp:434-441</td><td class="desc">IPP backend introspection/toggle.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">getCPUFeaturesLine</td><td class="loc">utility.hpp:526</td><td class="desc">Human-readable CPU feature string.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">addSamplesDataSearchSubDirectory</td><td class="loc">utility.hpp:1313</td><td class="desc">Companion to the already-wrapped SearchPath variant.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">FileStorage.GetFormat / FileNode.RawSize</td><td class="loc">persistence.hpp:426, 539</td><td class="desc">Small persistence introspection methods.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">calib · stereo · flann</span><span class="mod-verdict">One silent correctness bug, otherwise small enum/accessor gaps.</span><span class="badge count">9 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">CalibrationFlags.FixS1S2S3S4 — wrong value</td><td class="loc">CalibrationFlags.cs:88</td><td class="desc">C# defines 0x08000 (a duplicate of ThinPrismModel); native CALIB_FIX_S1_S2_S3_S4 is 0x10000. Silently wrong, not just missing.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">8 missing CalibrationFlags values</td><td class="loc">calib.hpp:510-526</td><td class="desc">TILTED_MODEL, FIX_TAUX_TAUY, USE_QR, USE_LU, DISABLE_SCHUR_COMPLEMENT, USE_EXTRINSIC_GUESS, STEREO_REGISTRATION, FIX_TANGENT_DIST.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">calibrateCameraRO</td><td class="loc">calib.hpp:765,778</td><td class="desc">"Releasing object" calibration method with extra outputs.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">StereoSGBMMode: MODE_SGBM_3WAY / MODE_HH4</td><td class="loc">stereo.hpp:350-356</td><td class="desc">Enum only has SGBM/HH; values 2 and 3 are missing.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">HierarchicalClusteringIndexParams</td><td class="loc">miniflann.hpp:122</td><td class="desc">FLANN index type with no C# class or native binding.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">Index.Build / Load / Release / GetDistance / GetAlgorithm</td><td class="loc">miniflann.hpp:157-169</td><td class="desc">Only Save is wrapped on the C# Index class.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">SearchParams 4-arg constructor</td><td class="loc">miniflann.hpp:146</td><td class="desc">explore_all_trees overload missing.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">imgproc</span><span class="mod-verdict">Very well covered — only four small free-function/property gaps.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">CLAHE.BitShift</td><td class="loc">imgproc.hpp:1057,1063</td><td class="desc">New histogram bit-shift parameter; ClipLimit/TilesGridSize/CollectGarbage exist but not this.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">ThresholdWithMask</td><td class="loc">imgproc.hpp:2867</td><td class="desc">threshold() variant restricted to a mask.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">StackBlur</td><td class="loc">imgproc.hpp:1402</td><td class="desc">Fast approximate box-blur alternative.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">PhaseCorrelateIterative</td><td class="loc">imgproc.hpp:2798</td><td class="desc">Iterative variant of PhaseCorrelate with L2size/maxIters.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+          <p class="note">Confirmed present: findContoursLinkRuns, drawFrameAxes, HoughLinesPointSet, warpPolar, blendLinear, cvtColorTwoPlane, demosaicing, grabCut, watershed, distanceTransform, floodFill and the full FontFace/GeneralizedHough/LineSegmentDetector families.</p>
+        </details>
+      </section>
+
+      <section class="category" id="media">
+        <h2>Media I/O</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">imgcodecs</span><span class="mod-verdict">Core still/multi-page I/O is fine; animation and metadata support is entirely missing.</span><span class="badge count">7 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">Animation class + imread/imwrite/imdecode/imencode-animation</td><td class="loc">imgcodecs.hpp:294,453,466,480,500</td><td class="desc">Animated GIF/APNG/WebP/AVIF frame sequences — the whole feature is absent.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">imcount</td><td class="loc">imgcodecs.hpp:511</td><td class="desc">Number of pages/frames in a multi-page image file.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">imreadmulti range overload, imdecodemulti, imencodemulti</td><td class="loc">imgcodecs.hpp:435,654,698</td><td class="desc">Range-limited / buffer-based multi-page variants.</td><td><span class="pill medium">Small–medium</span></td></tr>
+              <tr><td class="item">*WithMetadata variants + ImageMetadataType</td><td class="loc">imgcodecs.hpp:276,411,588,629,682</td><td class="desc">EXIF/XMP/ICC-profile/CICP metadata read/write.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">ImageCollection</td><td class="loc">imgcodecs.hpp:747</td><td class="desc">Lazy-loading multi-page reader with internal caching.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Newer format-specific enum members</td><td class="loc">imgcodecs.hpp:72-265</td><td class="desc">AVIF/JPEG-XL/GIF/TIFF/EXR write flags, BGR/RGB read-mode variants.</td><td><span class="pill small">Small each</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">videoio</span><span class="mod-verdict">Capture/write core is solid; backend-registry introspection and long tails of niche-camera properties are missing.</span><span class="badge count">10 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">videoio_registry namespace</td><td class="loc">registry.hpp:27-76</td><td class="desc">getBackends / hasBackend / getBackendName / plugin-version queries — useful for diagnostics, entirely unwrapped.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">IStreamReader + custom-stream VideoCapture ctor/open</td><td class="loc">videoio.hpp:743-914</td><td class="desc">In-memory / custom-stream capture — whole feature missing.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">VideoCaptureProperties tail (52-73)</td><td class="loc">videoio.hpp:186-207</td><td class="desc">HW-accel-via-OpenCL, open/read timeouts, audio channel props, FFmpeg PTS/DTS. C# stops at HwDevice=51.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">VideoWriterProperties tail (8-15)</td><td class="loc">videoio.hpp:226-233</td><td class="desc">RAW_VIDEO, KEY_INTERVAL, PTS, COLOR_SPACE, ENABLE_ALPHA, etc.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">CAP_OBSENSOR backend + property/generator enums</td><td class="loc">videoio.hpp:121,701-735</td><td class="desc">Orbbec 3D-sensor support entirely absent.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">XIMEA property tail (~120 constants)</td><td class="loc">videoio.hpp:421-586</td><td class="desc">Only the first 21 XIMEA properties (400-420) are wrapped.</td><td><span class="pill large">Large, niche</span></td></tr>
+              <tr><td class="item">ARAVIS / Android / GigE / Images / IntelPerc / OpenNI / DC1394 enum gaps</td><td class="loc">videoio.hpp:279-693</td><td class="desc">Assorted industrial/mobile-camera property and mode enums.</td><td><span class="pill small">Small, niche</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">highgui</span><span class="mod-verdict">Window/trackbar/mouse core is complete. Remaining gaps are Qt control-panel and OpenGL display APIs — both are <span style="font-family:var(--font-mono);">CV_EXPORTS</span>-only upstream (not auto-bound in Python/Java either), so this is a deliberate scope line, not an oversight.</span><span class="badge count">13 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">pollKey / currentUIFramework</td><td class="loc">highgui.hpp:300,256</td><td class="desc">Non-blocking key poll; backend-name introspection.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">createButton</td><td class="loc">highgui.hpp:783</td><td class="desc">Qt control-panel button — native export exists but is commented out (TODO).</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">OpenGL family: setOpenGlDrawCallback / setOpenGlContext / updateWindow / imshow(ogl::Texture2D)</td><td class="loc">highgui.hpp:576-630</td><td class="desc">GL rendering into an HighGUI window; would also need an ogl::Texture2D wrapper.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Qt text/overlay family: fontQt, addText, displayOverlay, displayStatusBar, save/loadWindowParameters</td><td class="loc">highgui.hpp:639-751</td><td class="desc">Qt-backend-only text rendering and window-state persistence.</td><td><span class="pill medium">Small–medium each</span></td></tr>
+              <tr><td class="item">QtFontWeights / QtFontStyles enums</td><td class="loc">highgui.hpp:159,168</td><td class="desc">No C# equivalents.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="dnnml">
+        <h2>DNN &amp; ML</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">dnn</span><span class="mod-verdict">Model/Net/Tokenizer inference paths are well covered; graph-building and async internals are not.</span><span class="badge count">7 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">Layer class</td><td class="loc">dnn.hpp:270</td><td class="desc">Base algorithm for network layers (blobs/finalize/forward/run) — no wrapper at all.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Net.GetLayer / AddLayer / AddLayerToPrev</td><td class="loc">dnn.hpp:623-658</td><td class="desc">Programmatic graph building; depends on Layer above.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">Net.ForwardAsync + AsyncArray</td><td class="loc">dnn.hpp:725</td><td class="desc">Only relevant on non-CPU backends the official runtime doesn't ship — low priority.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Net.ForwardAndRetrieve (multi-layer)</td><td class="loc">dnn.hpp:745</td><td class="desc">Retrieves outputs for multiple named layers in one call.</td><td><span class="pill medium">Small–medium</span></td></tr>
+              <tr><td class="item">DictValue / Dict</td><td class="loc">dict.hpp:60</td><td class="desc">Variant scalar used by LayerParams — relevant mainly for custom-layer registration.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">TextRecognitionModel.Recognize(frame, roiRects[], results)</td><td class="loc">dnn.hpp:1887</td><td class="desc">Batch-ROI overload; only single-frame form is wrapped.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">Image2BlobParams.BlobRectToImageRect(s)</td><td class="loc">dnn.hpp:1382,1389</td><td class="desc">Maps detection rects from blob space back to image space.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">ml</span><span class="mod-verdict">TrainData being a stub blocks the generic training path for every StatModel.</span><span class="badge count">5 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">TrainData</td><td class="loc">ml.hpp:145</td><td class="desc">C# TrainData.cs constructor throws NotImplementedException — blocks StatModel.Train(TrainData,...) for every ml class.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">SVMSGD</td><td class="loc">ml.hpp:1796</td><td class="desc">Stochastic-gradient-descent linear SVM — entirely unwrapped.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">RTrees.GetVotes</td><td class="loc">ml.hpp:1295</td><td class="desc">Small missing accessor.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">randMVNormal / createConcentricSpheresTestSet</td><td class="loc">ml.hpp:1899,1902</td><td class="desc">Test-data-generation free functions.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="features">
+        <h2>Features &amp; matching</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">features</span><span class="mod-verdict">Excellent coverage — only edge-case overloads remain.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">SimpleBlobDetector.CollectContours / GetBlobContours</td><td class="loc">features.hpp:821,839</td><td class="desc">New OpenCV-5 blob-contour collection.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">goodFeaturesToTrack quality/gradientSize overloads</td><td class="loc">features.hpp:186,217</td><td class="desc">Per-corner quality output and explicit Sobel aperture; only the basic overload is wrapped.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">DescriptorMatcher.Create(MatcherType)</td><td class="loc">features.hpp:963,1150</td><td class="desc">C# reimplements the string-name switch manually rather than calling the native enum overload.</td><td><span class="pill small">Small, low priority</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">xfeatures2d</span><span class="mod-verdict">SURF/AKAZE/KAZE/BRISK/AGAST/BOW are solid; roughly a dozen descriptor classes are entirely missing.</span><span class="badge count">19 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">StarDetector / BriefDescriptorExtractor / LUCID / LATCH / FREAK — missing accessors</td><td class="loc">xfeatures2d.hpp:109-241</td><td class="desc">Create() exists for each, but their property getters/setters were never wrapped.</td><td><span class="pill small">Small each</span></td></tr>
+              <tr><td class="item">BEBLID</td><td class="loc">xfeatures2d.hpp:268</td><td class="desc">Boosted binary descriptor — fully missing.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">TEBLID</td><td class="loc">xfeatures2d.hpp:316</td><td class="desc">Triplet-based binary descriptor — fully missing.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">DAISY</td><td class="loc">xfeatures2d.hpp:357</td><td class="desc">9 properties + several compute overloads — fully missing.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">MSDDetector</td><td class="loc">xfeatures2d.hpp:467</td><td class="desc">8 property pairs — fully missing.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">VGG</td><td class="loc">xfeatures2d.hpp:522</td><td class="desc">5 property pairs — fully missing.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">BoostDesc</td><td class="loc">xfeatures2d.hpp:580</td><td class="desc">Fully missing.</td><td><span class="pill medium">Small–medium</span></td></tr>
+              <tr><td class="item">PCTSignatures + PCTSignaturesSQFD</td><td class="loc">xfeatures2d.hpp:621,1034</td><td class="desc">~25 methods/properties across the pair — fully missing.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">HarrisLaplaceFeatureDetector</td><td class="loc">xfeatures2d.hpp:1092</td><td class="desc">Fully missing.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">TBMR</td><td class="loc">xfeatures2d.hpp:1200</td><td class="desc">Tree-based Morse regions detector — fully missing.</td><td><span class="pill medium">Small–medium</span></td></tr>
+              <tr><td class="item">matchGMS / matchLOGOS</td><td class="loc">xfeatures2d.hpp:1505,1520</td><td class="desc">Grid-based / geometric-support match filters.</td><td><span class="pill small">Small each</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="videotrack">
+        <h2>Video &amp; tracking</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">video · tracking · optflow</span><span class="mod-verdict">The three modern DNN trackers and the entire legacy tracker family are unwrapped; RLOF/PCAFlow/GPC optical-flow variants likewise.</span><span class="badge count">14 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">TrackerDaSiamRPN / TrackerNano / TrackerVit</td><td class="loc">video/tracking.hpp:985-1109</td><td class="desc">Modern DNN-based trackers — not bridged or wrapped at all. (GOTURN was removed upstream in 5.x, so no gap there.)</td><td><span class="pill medium">Medium each</span></td></tr>
+              <tr><td class="item">legacy:: tracker family</td><td class="loc">tracking_legacy.hpp:72-490</td><td class="desc">TrackerMIL/Boosting/MedianFlow/TLD/KCF/MOSSE/CSRT plus MultiTracker variants — entire namespace unbridged. Modern (non-legacy) CSRT/KCF/MIL already exist.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Tracker.GetTrackingScore</td><td class="loc">tracking.hpp:941</td><td class="desc">Missing on the wrapped base class.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">DISOpticalFlow / VariationalRefinement / Farneback / SparsePyrLK — OOP form</td><td class="loc">video/tracking.hpp:653-908</td><td class="desc">Only free-function or superres-bound variants exist; the video module's own create()-based classes don't.</td><td><span class="pill medium">Small–medium each</span></td></tr>
+              <tr><td class="item">findTransformECCWithMask / MultiScale + ECCParameters</td><td class="loc">tracking.hpp:422-511</td><td class="desc">New OpenCV-5 ECC alignment additions.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">readOpticalFlow / writeOpticalFlow</td><td class="loc">tracking.hpp:591,601</td><td class="desc">.flo file I/O helpers.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">BackgroundSubtractor.Apply — mask overload</td><td class="loc">background_segm.hpp:87</td><td class="desc">apply(image, knownForegroundMask, fgmask, learningRate) missing.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">Real cv::optflow::DualTVL1OpticalFlow</td><td class="loc">optflow.hpp:218</td><td class="desc">C#'s DualTVL1OpticalFlow actually binds to the cv::superres:: version, not this one — a naming collision, not just a gap.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">RLOF family</td><td class="loc">rlofflow.hpp:64-548</td><td class="desc">RLOFOpticalFlowParameter, Dense/SparseRLOFOpticalFlow, factories.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">OpticalFlowPCAFlow + PCAPrior</td><td class="loc">pcaflow.hpp:74,94</td><td class="desc">Entirely missing.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">GPCForest / GPCTree / GPCTrainingSamples</td><td class="loc">sparse_matching_gpc.hpp:98-301</td><td class="desc">Global Patch Collider — template-heavy, entirely missing.</td><td><span class="pill large">Large</span></td></tr>
+            </tbody>
+          </table></div></div>
+          <p class="note">Also flagged: <code>OpenCvSharp.Tracking.TrackerTypes</code> is a stale enum left over from a pre-legacy-split API and doesn't map to any current factory — worth a cleanup pass on its own.</p>
+        </details>
+      </section>
+
+      <section class="category" id="objdetect">
+        <h2>Detection &amp; markers</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">objdetect</span><span class="mod-verdict">CascadeClassifier/HOGDescriptor/QRCodeDetector core is solid; two whole classes were missed.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">FaceRecognizerSF</td><td class="loc">objdetect/face.hpp:122</td><td class="desc">Face recognition/embedding model (create/feature/match/alignCrop) — completely absent, despite FaceDetectorYN being wrapped.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">QRCodeEncoder + Params</td><td class="loc">objdetect.hpp:152</td><td class="desc">No encoder counterpart to the decoder side.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">QRCodeDetectorAruco + Params</td><td class="loc">objdetect.hpp:268</td><td class="desc">Aruco-based QR detector variant.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">estimateChessboardSharpness / CirclesGridFinderParameters</td><td class="loc">objdetect.hpp:495,518</td><td class="desc">Chessboard-corner sharpness metric; custom params for findCirclesGrid.</td><td><span class="pill small">Small–medium</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">aruco</span><span class="mod-verdict">CharucoBoard/CharucoDetector work, but the base Board type and most of ArucoDetector's own surface are missing. Cross-checked independently three times.</span><span class="badge count">9 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">Board / GridBoard</td><td class="loc">aruco_board.hpp:25,107</td><td class="desc">Base board class and the plain grid-of-markers board — neither exists; CharucoBoard doesn't derive from anything.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">ArucoDetector — most of the class</td><td class="loc">aruco_detector.hpp:300-453</td><td class="desc">Only the single-dictionary constructor and DetectMarkers exist. Missing: RefineDetectedMarkers, DetectMarkersWithConfidence, DetectMarkersMultiDict, multi-dict ctor, Get/SetDictionary(ies), Get/SetDetectorParameters, Get/SetRefineParameters, read/write.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Dictionary gaps</td><td class="loc">aruco_dictionary.hpp:36-155</td><td class="desc">Missing constructors, instance ReadDictionary/WriteDictionary, GetMarkerBits, the extendDictionary free function, and a getPredefinedDictionary(int) overload.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">CharucoBoard / CharucoDetector accessors</td><td class="loc">aruco_board.hpp:167-175, charuco_detector.hpp:51-61</td><td class="desc">GetChessboardCorners, GetNearestMarkerIdx/Corners, and CharucoDetector's Get/Set accessors are missing.</td><td><span class="pill medium">Medium</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">bgsegm</span><span class="mod-verdict">Only MOG and GMG exist — four of six background subtractors are missing entirely, native side included.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">BackgroundSubtractorCNT</td><td class="loc">bgsegm.hpp:250</td><td class="desc">Counting-based subtractor.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">BackgroundSubtractorGSOC</td><td class="loc">bgsegm.hpp:325</td><td class="desc">GSOC algorithm.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">BackgroundSubtractorLSBP + Desc</td><td class="loc">bgsegm.hpp:337,349</td><td class="desc">LSBP algorithm plus its static descriptor helper.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">SyntheticSequenceGenerator</td><td class="loc">bgsegm.hpp:402</td><td class="desc">Test-sequence generator Algorithm subclass.</td><td><span class="pill small">Small–medium</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="face">
+        <h2>Face &amp; biometrics</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">face</span><span class="mod-verdict">FaceRecognizer family and FacemarkLBF/AAM are solid; three whole algorithm families and the training pipeline are missing.</span><span class="badge count">7 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">BIF</td><td class="loc">bif.hpp:57</td><td class="desc">Bio-Inspired Features descriptor for age estimation.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">MACE</td><td class="loc">mace.hpp:71</td><td class="desc">Minimum Average Correlation Energy filter for face verification.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">FacemarkKazemi + createFacemarkKazemi</td><td class="loc">face_alignment.hpp:11</td><td class="desc">Third facemark backend — only AAM/LBF exist today.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">PredictCollector / StandardCollector</td><td class="loc">predict_collector.hpp:61,82</td><td class="desc">Result-collection strategy for FaceRecognizer::predict_collect.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">FacemarkTrain base + dataset utilities</td><td class="loc">facemark_train.hpp:70-256</td><td class="desc">Training pipeline (addTrainingSample/training/setFaceDetector) plus getFacesHAAR, loadDatasetList, loadTrainingData, loadFacePoints, drawFacemarks.</td><td><span class="pill large">Large (class), small (each helper)</span></td></tr>
+              <tr><td class="item">FacemarkAAM.FitConfig + Config struct</td><td class="loc">facemarkAAM.hpp:80,149</td><td class="desc">Fit overload with runtime rotation/translation/scale config.</td><td><span class="pill medium">Medium</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">img_hash</span><span class="mod-verdict">Classes fully wrapped; only the one-shot convenience functions are missing.</span><span class="badge count">6 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">averageHash, blockMeanHash, colorMomentHash, marrHildrethHash, pHash, radialVarianceHash</td><td class="loc">img_hash/*.hpp</td><td class="desc">Free-function one-call form of each already-wrapped hash class.</td><td><span class="pill small">Small each</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">line_descriptor</span><span class="mod-verdict">Only LSDDetector made it in — the module's namesake matching pipeline is entirely unwrapped.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">BinaryDescriptor</td><td class="loc">descriptor.hpp:182</td><td class="desc">LBD line descriptor extractor (detect/compute/octave & band params).</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">BinaryDescriptorMatcher</td><td class="loc">descriptor.hpp:1019</td><td class="desc">match/knnMatch/radiusMatch for line descriptors.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">EDLineDetector</td><td class="loc">descriptor.hpp:460</td><td class="desc">Edge-Drawing based line segment detector.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">drawLineMatches / drawKeylines + DrawLinesMatchesFlags</td><td class="loc">descriptor.hpp:1357-1401</td><td class="desc">Drawing helpers for the above.</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="misc">
+        <h2>Photo, shape &amp; text</h2>
+
+        <details class="module">
+          <summary><span class="mod-name">photo</span><span class="mod-verdict">One whole header unwrapped.</span><span class="badge count">1 item</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">ColorCorrectionModel + 6 enums + gammaCorrection</td><td class="loc">ccm.hpp:26-144</td><td class="desc">Color calibration model — entire header unwrapped.</td><td><span class="pill large">Large</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">text</span><span class="mod-verdict">Tesseract OCR and CNN text detection work today; the ER-filter region pipeline and the HMM/beam-search decoders (the non-Tesseract paths) are entirely unwrapped — roughly 85% of the module's surface by item count.</span><span class="badge count">2 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">ERFilter pipeline</td><td class="loc">erfilter.hpp:66-367</td><td class="desc">ERStat, ERFilter, Callback, createERFilterNM1/2, computeNMChannels, erGrouping, detectRegions.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">OCRHMMDecoder / OCRBeamSearchDecoder</td><td class="loc">ocr.hpp:67-537</td><td class="desc">Two full non-Tesseract OCR decoder classes plus their classifier loaders.</td><td><span class="pill large">Large</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">saliency · shape · superres</span><span class="mod-verdict">All three are essentially done — trivial, single-digit gaps.</span><span class="badge count">4 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">StaticSaliencySpectralResidual.Read / Write</td><td class="loc">saliencySpecializedClasses.hpp:89-90</td><td class="desc">Persistence methods.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">ShapeContextDistanceExtractor.GetCostExtractor / GetTransformAlgorithm</td><td class="loc">shape_distance.hpp:167,182</td><td class="desc">Setters exist, getters don't.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">SuperResolution.OpticalFlow property</td><td class="loc">superres.hpp:163</td><td class="desc">Native + P/Invoke already wired; C# property body is commented out as TODO.</td><td><span class="pill small">Trivial</span></td></tr>
+            </tbody>
+          </table></div></div>
+          <p class="note">Fully covered with no findings: <strong>ptcloud</strong>, <strong>quality</strong>, <strong>xphoto</strong>, <strong>dnn_superres</strong>.</p>
+        </details>
+
+        <details class="module">
+          <summary><span class="mod-name">ximgproc</span><span class="mod-verdict">25 of ~31 sub-headers are fully wrapped; the remaining six are whole unwrapped headers.</span><span class="badge count">6 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">DisparityFilter / DisparityWLSFilter</td><td class="loc">disparity_filter.hpp</td><td class="desc">WLS disparity-map post-filtering, commonly paired with StereoBM/SGBM.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">SparseMatchInterpolator / EdgeAwareInterpolator / RICInterpolator</td><td class="loc">sparse_match_interpolator.hpp</td><td class="desc">Sparse-to-dense flow interpolation, used with DIS/RLOF pipelines.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">ScanSegment</td><td class="loc">scansegment.hpp:23</td><td class="desc">F-DBSCAN superpixel segmentation; sibling SEEDS/SLIC/LSC are already wrapped.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">ContourFitting</td><td class="loc">fourier_descriptors.hpp:20</td><td class="desc">Fourier-descriptor contour fitting/matching.</td><td><span class="pill medium">Medium</span></td></tr>
+              <tr><td class="item">findEllipses</td><td class="loc">find_ellipses.hpp:30</td><td class="desc">AAMED ellipse detection.</td><td><span class="pill small">Small</span></td></tr>
+              <tr><td class="item">RadonTransform</td><td class="loc">radon_transform.hpp:31</td><td class="desc">Radon transform of an image (don't confuse with the already-wrapped HoughPoint2Line).</td><td><span class="pill small">Small</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <section class="category" id="stitching">
+        <h2>Stitching pipeline</h2>
+        <p class="lead">The high-level <span style="font-family:var(--font-mono);">Stitcher</span> class covers the common panorama-stitching path end to end. Its internal <span style="font-family:var(--font-mono);">detail::</span> namespace — the pieces you'd swap out to build a custom pipeline — is largely unwrapped, similar in spirit to dnn's <code>Layer</code> or ml's <code>TrainData</code>: likely a deliberate scope line rather than an oversight, but a real gap for anyone wanting fine control.</p>
+
+        <details class="module">
+          <summary><span class="mod-name">stitching::detail</span><span class="mod-verdict">Five whole class families behind the Stitcher facade.</span><span class="badge count">6 items</span></summary>
+          <div class="mod-body"><div class="table-wrap"><table>
+            <thead><tr><th>Item</th><th>Location</th><th>Description</th><th>Effort</th></tr></thead>
+            <tbody>
+              <tr><td class="item">Warper family</td><td class="loc">warpers.hpp</td><td class="desc">PyRotationWarper/WarperCreator plus ~12 concrete warpers (Plane, Affine, Cylindrical, Spherical, Fisheye, Stereographic, Panini, Mercator, ...).</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Blender family</td><td class="loc">blenders.hpp</td><td class="desc">Blender, FeatherBlender, MultiBandBlender + the Laplacian-pyramid free functions.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">ExposureCompensator family</td><td class="loc">exposure_compensate.hpp</td><td class="desc">7 classes from the base type down to Blocks/Channels compensators.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">SeamFinder family</td><td class="loc">seam_finders.hpp</td><td class="desc">NoSeamFinder, VoronoiSeamFinder, DpSeamFinder, GraphCutSeamFinder.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">Estimator / BundleAdjuster family</td><td class="loc">motion_estimators.hpp</td><td class="desc">Homography/Affine estimators plus 5 bundle-adjuster variants.</td><td><span class="pill large">Large</span></td></tr>
+              <tr><td class="item">BestOf2NearestRangeMatcher / LightGlueFeaturesMatcher / Timelapser family</td><td class="loc">matchers.hpp, timelapsers.hpp</td><td class="desc">Only BestOf2NearestMatcher/AffineBestOf2NearestMatcher exist among the matchers; Timelapser/TimelapserCrop are untouched.</td><td><span class="pill medium">Medium</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </details>
+      </section>
+
+      <footer>
+        Methodology: cross-referenced <code>CV_EXPORTS_W</code>/<code>CV_WRAP</code> declarations in the pinned <code>opencv</code>/<code>opencv_contrib</code> submodules against <code>src/OpenCvSharp/Modules/</code> and the native bridge in <code>src/OpenCvSharpExtern/</code>, using parallel research passes per module with independent cross-checks on the higher-risk claims. Scope excludes CUDA, VTK/viz, Ceres-dependent sfm, Qt-only cvv, and language-binding-generator modules (java/python/js), none of which are part of this project's build. Full tracking issue: <a href="https://github.com/shimat/opencvsharp/issues/2019">#2019</a> (sub-issues #2008–#2018).
+      </footer>
+
+    </main>
+  </div>
+</div>
+</body>
+</html>
