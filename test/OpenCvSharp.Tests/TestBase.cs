@@ -74,11 +74,11 @@ public abstract class TestBase
         }
     }
 
-    protected static void ShowImagesWhenDebugMode(IEnumerable<Mat> mats, IEnumerable<string> names)
+    protected static void ShowImagesWhenDebugMode(params (string Title, Mat Image)[] images)
     {
         if (Debugger.IsAttached)
         {
-            Window.ShowImages(mats, names);
+            Window.ShowImages(images);
         }
     }
 }

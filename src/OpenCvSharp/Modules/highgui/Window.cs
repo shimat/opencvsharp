@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Threading;
 using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Local
@@ -11,10 +13,10 @@ public sealed class Window : IDisposable
 {
     #region Field
 
-    internal static Dictionary<string, Window> Windows = new();
-    private static uint windowCount;
+    internal static readonly ConcurrentDictionary<string, Window> Windows = new();
+    private static int windowCount;
 
-    private string name;
+    private readonly string name;
     private Mat? image;
     // ReSharper disable once IdentifierTypo
     private readonly Dictionary<string, CvTrackbar> trackbars;
@@ -28,36 +30,6 @@ public sealed class Window : IDisposable
     /// </summary>
     public Window()
         : this(DefaultName(), null, WindowFlags.AutoSize)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    public Window(string name)
-        : this(name, null, WindowFlags.AutoSize)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize.
-    /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
-    public Window(string name, WindowFlags flags = WindowFlags.AutoSize)
-        : this(name, null, flags)
-    {
-    }
-
-    /// <summary>
-    /// Creates a window
-    /// </summary>
-    /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-    /// <param name="image">Image to be shown.</param>
-    public Window(string name, Mat image)
-        : this(name, image ?? throw new ArgumentNullException(nameof(image)), WindowFlags.AutoSize)
     {
     }
 
@@ -82,8 +54,7 @@ public sealed class Window : IDisposable
 
         trackbars = new Dictionary<string, CvTrackbar>();
 
-        if (!Windows.ContainsKey(name))
-            Windows.Add(name, this);
+        Windows[name] = this;
     }
 
     /// <summary>
@@ -92,7 +63,7 @@ public sealed class Window : IDisposable
     /// <returns></returns>
     private static string DefaultName()
     {
-        return $"window{windowCount++}";
+        return $"window{Interlocked.Increment(ref windowCount) - 1}";
     }
 
     /// <summary>
@@ -109,7 +80,9 @@ public sealed class Window : IDisposable
             return;
         IsDisposed = true;
 
-        Windows.Remove(name);
+        // Only remove the map entry if it still points at this instance: another Window may have
+        // since reused the same name (see the constructor), and that instance's entry must survive.
+        ((ICollection<KeyValuePair<string, Window>>) Windows).Remove(new KeyValuePair<string, Window>(name, this));
         trackbars.Clear();
 
         // Destroying the window also releases OpenCV's references to its mouse/trackbar
@@ -150,11 +123,7 @@ public sealed class Window : IDisposable
     /// <summary>
     /// Gets window name
     /// </summary>
-    public string Name
-    {
-        get => name;
-        private set => name = value;
-    }
+    public string Name => name;
 
     #endregion
 
@@ -169,7 +138,7 @@ public sealed class Window : IDisposable
     public CvTrackbar CreateTrackbar(string trackbarName, TrackbarCallback callback)
     {
         var trackbar = new CvTrackbar(trackbarName, name, callback);
-        trackbars.Add(trackbarName, trackbar);
+        trackbars[trackbarName] = trackbar;
         return trackbar;
     }
 
@@ -183,8 +152,8 @@ public sealed class Window : IDisposable
     /// <returns></returns>
     public CvTrackbar CreateTrackbar(string trackbarName, int initialPos, int max, TrackbarCallback callback)
     {
-        var trackbar = new CvTrackbar(trackbarName, name, initialPos, max, callback);
-        trackbars.Add(trackbarName, trackbar);
+        var trackbar = new CvTrackbar(trackbarName, name, callback, initialPos, max);
+        trackbars[trackbarName] = trackbar;
         return trackbar;
     }
 
@@ -290,52 +259,36 @@ public sealed class Window : IDisposable
     {
         if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (images.Length == 0)
-            return;
 
-        var windows = new List<Window>();
-        foreach (var img in images)
-        {
-            windows.Add(new Window { Image = img });
-        }
-
-        WaitKey();
-
-        foreach (var w in windows)
-        {
-            w.Close();
-        }
+        ShowImagesAndWaitKey(images.Select(img => new Window { Image = img }));
     }
 
     /// <summary>
-    ///
+    /// Shows each of the given (title, image) pairs in its own window.
+    /// Pairing each title with its image in a single tuple makes a length mismatch
+    /// between titles and images structurally impossible.
     /// </summary>
-    /// <param name="images"></param>
-    /// <param name="names"></param>
-    public static void ShowImages(IEnumerable<Mat> images, IEnumerable<string> names)
+    /// <param name="images">Pairs of window title and image to display</param>
+    public static void ShowImages(params (string Title, Mat Image)[] images)
     {
         if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (names is null)
-            throw new ArgumentNullException(nameof(names));
 
-        var imagesArray = images.ToArray();
-        var namesArray = names.ToArray();
+        ShowImagesAndWaitKey(images.Select(t => new Window(t.Title, image: t.Image)));
+    }
 
-        if (imagesArray.Length == 0)
+    /// <summary>
+    /// Opens the given windows, blocks until a key is pressed, then closes them all.
+    /// </summary>
+    private static void ShowImagesAndWaitKey(IEnumerable<Window> windows)
+    {
+        var windowList = windows.ToList();
+        if (windowList.Count == 0)
             return;
-        if (namesArray.Length < imagesArray.Length)
-            throw new ArgumentException("names.Length < images.Length");
 
-        var windows = new List<Window>();
-        for (var i = 0; i < imagesArray.Length; i++)
-        {
-            windows.Add(new Window(namesArray[i], image: imagesArray[i]));
-        }
+        WaitKey();
 
-        Cv2.WaitKey();
-
-        foreach (var w in windows)
+        foreach (var w in windowList)
         {
             w.Close();
         }

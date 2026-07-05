@@ -70,8 +70,8 @@ public class TrackbarTest : TestBase
 
         for (;;)
         {
-            openCloseTrackbar.Callback.DynamicInvoke(0, null);
-            erodeDilateTrackbar.Callback.DynamicInvoke(0, null);
+            openCloseTrackbar.Callback(0);
+            erodeDilateTrackbar.Callback(0);
 
             var key = Cv2.WaitKey();
 

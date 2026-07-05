@@ -35,7 +35,7 @@ public class XImgProcTest : TestBase
                 5, 0.5,
                 LocalBinarizationMethods.Sauvola,
                 r);
-            ShowImagesWhenDebugMode([dst], [$"r={r}"]);
+            ShowImagesWhenDebugMode(($"r={r}", dst));
         }
     }
 
