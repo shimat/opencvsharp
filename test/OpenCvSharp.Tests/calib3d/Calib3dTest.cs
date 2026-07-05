@@ -228,7 +228,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
     }
 
-    [Fact(Skip = "OpenCV 5: fisheye::calibrate throws an internal size-mismatch error. See https://github.com/shimat/opencvsharp/issues/1906")]
+    [Fact]
     public void FishEyeCalibrate()
     {
         var patternSize = new Size(10, 7);
