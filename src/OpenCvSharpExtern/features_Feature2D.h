@@ -29,9 +29,10 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_Mat2(
     cv::Mat **mask)
 {
     return cvTry([&] {
-        std::vector<cv::Mat> imageVec(imageLength);
+        std::vector<cv::Mat> imageVec;
         std::vector<cv::Mat> maskVec;
 
+        imageVec.reserve(imageLength);
         for (auto i = 0; i < imageLength; i++)
             imageVec.push_back(*images[i]);
 
@@ -77,15 +78,23 @@ CVAPI(ExceptionStatus) features_Feature2D_compute2(
     int descriptorsLength)
 {
     return cvTry([&] {
-        std::vector<cv::Mat> imageVec(imageLength);
-        std::vector<cv::Mat> descriptorsVec(descriptorsLength);
+        std::vector<cv::Mat> imageVec;
+        std::vector<cv::Mat> descriptorsVec;
 
+        imageVec.reserve(imageLength);
         for (auto i = 0; i < imageLength; i++)
             imageVec.push_back(*images[i]);
+        descriptorsVec.reserve(descriptorsLength);
         for (auto i = 0; i < descriptorsLength; i++)
             descriptorsVec.push_back(*descriptors[i]);
 
         detector->compute(imageVec, *keypoints, descriptorsVec);
+
+        // detector->compute() may reallocate the elements of descriptorsVec (a local copy),
+        // so the results must be copied back into the caller-owned Mat objects explicitly.
+        const auto n = std::min(static_cast<size_t>(descriptorsLength), descriptorsVec.size());
+        for (size_t i = 0; i < n; i++)
+            *descriptors[i] = descriptorsVec[i];
     });
 }
 
