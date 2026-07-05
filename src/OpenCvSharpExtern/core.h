@@ -1204,7 +1204,7 @@ static int opencvsharp_silentErrorHandler(int /*status*/, const char* /*funcName
 CVAPI(ExceptionStatus) core_setSilentErrorHandler()
 {
     return cvTry([&] {
-            cv::redirectError(opencvsharp_silentErrorHandler);
+        cv::redirectError(opencvsharp_silentErrorHandler);
     });
 }
 

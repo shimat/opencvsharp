@@ -28,10 +28,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_CalibrateDebevec_setLambda(OpenCvSafeHandle obj, float value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_getSamples(OpenCvSafeHandle obj, out float returnValue);
+    public static partial ExceptionStatus photo_CalibrateDebevec_getSamples(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus photo_CalibrateDebevec_setSamples(OpenCvSafeHandle obj, float value);
+    public static partial ExceptionStatus photo_CalibrateDebevec_setSamples(OpenCvSafeHandle obj, int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_CalibrateDebevec_getRandom(OpenCvSafeHandle obj, out int returnValue);

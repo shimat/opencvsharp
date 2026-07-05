@@ -266,6 +266,33 @@ public class GeometryFunctionsTest : TestBase
     }
 
     [Fact]
+    public void CorrectMatchesArrayOverload()
+    {
+        var f = new double[,]
+        {
+            { 0, 0, 0 },
+            { 0, 0, -1 },
+            { 0, 1, 0 }
+        };
+        var points1 = new[] { new Point2d(100, 100) };
+        var points2 = new[] { new Point2d(100, 105) };
+        var points1Original = (Point2d[])points1.Clone();
+        var points2Original = (Point2d[])points2.Clone();
+
+        Cv2.CorrectMatches(f, points1, points2, out var newPoints1, out var newPoints2);
+
+        // Regression test: the native wrapper used to reshape the input buffers (points1/points2)
+        // instead of the output buffers (newPoints1/newPoints2), so the corrected values were
+        // written back into the caller's input arrays instead of the output arrays.
+        Assert.Equal(points1Original, points1);
+        Assert.Equal(points2Original, points2);
+        Assert.Single(newPoints1);
+        Assert.Single(newPoints2);
+        Assert.NotEqual(new Point2d(0, 0), newPoints1[0]);
+        Assert.NotEqual(new Point2d(0, 0), newPoints2[0]);
+    }
+
+    [Fact]
     public void DecomposeHomographyMat()
     {
         var points1 = new Point2f[] { new(10, 20), new(20, 30), new(30, 40), new(40, 50), new(50, 60) };

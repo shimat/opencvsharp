@@ -11,42 +11,42 @@
 CVAPI(ExceptionStatus) highgui_namedWindow(const char *winname, int flags)
 {
     return cvTry([&] {
-    cv::namedWindow(winname, flags);
+        cv::namedWindow(winname, flags);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_destroyWindow(const char *winName)
 {
     return cvTry([&] {
-    cv::destroyWindow(winName);
+        cv::destroyWindow(winName);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_destroyAllWindows()
 {
     return cvTry([&] {
-    cv::destroyAllWindows();
+        cv::destroyAllWindows();
     });
 }
 
 CVAPI(ExceptionStatus) highgui_startWindowThread(int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::startWindowThread();
+        *returnValue = cv::startWindowThread();
     });
 }
 
 CVAPI(ExceptionStatus) highgui_waitKeyEx(int delay, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::waitKeyEx(delay);
+        *returnValue = cv::waitKeyEx(delay);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_waitKey(int delay, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::waitKey(delay);
+        *returnValue = cv::waitKey(delay);
     });
 }
   
@@ -54,7 +54,7 @@ CVAPI(ExceptionStatus) highgui_waitKey(int delay, int *returnValue)
 CVAPI(ExceptionStatus) highgui_imshow(const char *winname, cv::Mat *mat)
 {
     return cvTry([&] {
-    cv::imshow(winname, *mat);
+        cv::imshow(winname, *mat);
     });
 }
 
@@ -71,7 +71,7 @@ CVAPI(ExceptionStatus) highgui_resizeWindow(
     int height)
 {
     return cvTry([&] {
-    cv::resizeWindow(winName, width, height);
+        cv::resizeWindow(winName, width, height);
     });
 }
 
@@ -81,7 +81,7 @@ CVAPI(ExceptionStatus) highgui_moveWindow(
     int y)
 {
     return cvTry([&] {
-    cv::moveWindow(winName, x, y);
+        cv::moveWindow(winName, x, y);
     });
 }
 
@@ -91,16 +91,16 @@ CVAPI(ExceptionStatus) highgui_setWindowProperty(
     double propValue)
 {
     return cvTry([&] {
-    cv::setWindowProperty(winName, propId, propValue);
+        cv::setWindowProperty(winName, propId, propValue);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_setWindowTitle(const char *winname, const char *title)
 {
     return cvTry([&] {
-    // TODO Resolve:
+        // TODO Resolve:
 #ifndef _WINRT_DLL
-    cv::setWindowTitle(winname, title);
+        cv::setWindowTitle(winname, title);
 #endif
     });
 }
@@ -111,14 +111,14 @@ CVAPI(ExceptionStatus) highgui_getWindowProperty(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getWindowProperty(winName, propId);
+        *returnValue = cv::getWindowProperty(winName, propId);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_getWindowImageRect(const char *winName, interop::Rect *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::getWindowImageRect(winName));
+        *returnValue = c(cv::getWindowImageRect(winName));
     });
 }
 
@@ -128,14 +128,14 @@ CVAPI(ExceptionStatus) highgui_setMouseCallback(
     void* userData)
 {
     return cvTry([&] {
-    cv::setMouseCallback(winName, onMouse, userData);
+        cv::setMouseCallback(winName, onMouse, userData);
     });
 }
 
 CVAPI(ExceptionStatus) highgui_getMouseWheelDelta(int flags, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getMouseWheelDelta(flags);
+        *returnValue = cv::getMouseWheelDelta(flags);
     });
 }
 
@@ -147,7 +147,7 @@ CVAPI(ExceptionStatus) highgui_selectROI1(
     interop::Rect *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::selectROI(windowName, InProxy(*img), showCrosshair != 0, fromCenter != 0));
+        *returnValue = c(cv::selectROI(windowName, InProxy(*img), showCrosshair != 0, fromCenter != 0));
     });
 }
 
@@ -158,7 +158,7 @@ CVAPI(ExceptionStatus) highgui_selectROI2(
     interop::Rect *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::selectROI(InProxy(*img), showCrosshair != 0, fromCenter != 0));
+        *returnValue = c(cv::selectROI(InProxy(*img), showCrosshair != 0, fromCenter != 0));
     });
 }
 
@@ -170,7 +170,7 @@ CVAPI(ExceptionStatus) highgui_selectROIs(
     int fromCenter)
 {
     return cvTry([&] {
-    cv::selectROIs(windowName, InProxy(*img), *boundingBoxes, showCrosshair != 0, fromCenter != 0);
+        cv::selectROIs(windowName, InProxy(*img), *boundingBoxes, showCrosshair != 0, fromCenter != 0);
     });
 }
 
@@ -184,7 +184,7 @@ CVAPI(ExceptionStatus) highgui_createTrackbar(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::createTrackbar(trackbarName, winName, value, count, onChange, userData);
+        *returnValue = cv::createTrackbar(trackbarName, winName, value, count, onChange, userData);
     });
 }
 CVAPI(ExceptionStatus) highgui_getTrackbarPos(
@@ -193,7 +193,7 @@ CVAPI(ExceptionStatus) highgui_getTrackbarPos(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getTrackbarPos(trackbarName, winName);
+        *returnValue = cv::getTrackbarPos(trackbarName, winName);
     });  
 }
 CVAPI(ExceptionStatus) highgui_setTrackbarPos(
@@ -202,7 +202,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarPos(
     int pos)
 {
     return cvTry([&] {
-    cv::setTrackbarPos(trackbarName, winName, pos);
+        cv::setTrackbarPos(trackbarName, winName, pos);
     });
 }
 
@@ -212,7 +212,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMax(
     int maxVal)
 {
     return cvTry([&] {
-    cv::setTrackbarMax(trackbarName, winName, maxVal);
+        cv::setTrackbarMax(trackbarName, winName, maxVal);
     });
 }
 CVAPI(ExceptionStatus) highgui_setTrackbarMin(
@@ -221,7 +221,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMin(
     int minVal)
 {
     return cvTry([&] {
-    cv::setTrackbarMin(trackbarName, winName, minVal);
+        cv::setTrackbarMin(trackbarName, winName, minVal);
     });
 }
 
@@ -234,7 +234,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMin(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::createButton(bar_name, on_change, user_data, type, initial_button_state != 0);
+        *returnValue = cv::createButton(bar_name, on_change, user_data, type, initial_button_state != 0);
     });
 }*/
 
@@ -242,7 +242,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMin(
 CVAPI(ExceptionStatus) highgui_initContainer(::Windows::UI::Xaml::Controls::Panel^ panel)
 {
     return cvTry([&] {
-    cv::winrt_initContainer(panel);
+        cv::winrt_initContainer(panel);
     });
 }
 #endif

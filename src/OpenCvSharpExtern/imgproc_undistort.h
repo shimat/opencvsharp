@@ -17,7 +17,7 @@ CVAPI(ExceptionStatus) imgproc_drawFrameAxes(
     int thickness)
 {
     return cvTry([&] {
-    cv::drawFrameAxes(IoProxy(*image), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*rvec), InProxy(*tvec), length, thickness);
+        cv::drawFrameAxes(IoProxy(*image), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*rvec), InProxy(*tvec), length, thickness);
     });
 }
 
@@ -30,7 +30,7 @@ CVAPI(ExceptionStatus) imgproc_undistort(
     const interop::InputArrayProxy* newCameraMatrix)
 {
     return cvTry([&] {
-    cv::undistort(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*newCameraMatrix));
+        cv::undistort(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*newCameraMatrix));
     });
 }
 
@@ -46,7 +46,7 @@ CVAPI(ExceptionStatus) imgproc_initUndistortRectifyMap(
     const interop::OutputArrayProxy* map2)
 {
     return cvTry([&] {
-    cv::initUndistortRectifyMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*newCameraMatrix), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
+        cv::initUndistortRectifyMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*newCameraMatrix), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
     });
 }
 
@@ -64,7 +64,7 @@ CVAPI(ExceptionStatus) imgproc_initWideAngleProjMap(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::initWideAngleProjMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), cpp(imageSize), destImageWidth, m1type, 
-        OutProxy(*map1), OutProxy(*map2), static_cast<cv::UndistortTypes>(projType), alpha);
+        *returnValue = cv::initWideAngleProjMap(InProxy(*cameraMatrix), InProxy(*distCoeffs), cpp(imageSize), destImageWidth, m1type, 
+            OutProxy(*map1), OutProxy(*map2), static_cast<cv::UndistortTypes>(projType), alpha);
     });
 }

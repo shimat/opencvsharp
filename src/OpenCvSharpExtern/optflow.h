@@ -17,7 +17,7 @@ CVAPI(ExceptionStatus) optflow_calcOpticalFlowSF1(
     int maxFlow)
 {
     return cvTry([&] {
-    cv::optflow::calcOpticalFlowSF(InProxy(*from), InProxy(*to), OutProxy(*flow), layers, averagingBlockSize, maxFlow);
+        cv::optflow::calcOpticalFlowSF(InProxy(*from), InProxy(*to), OutProxy(*flow), layers, averagingBlockSize, maxFlow);
     });
 }
 
@@ -40,9 +40,9 @@ CVAPI(ExceptionStatus) optflow_calcOpticalFlowSF2(
     double speedUpThr)
 {
     return cvTry([&] {
-    cv::optflow::calcOpticalFlowSF(InProxy(*from), InProxy(*to), OutProxy(*flow), layers, averagingBlockSize, maxFlow,
-        sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix, sigmaColorFix,
-        occThr, upscaleAveragingRadius, upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
+        cv::optflow::calcOpticalFlowSF(InProxy(*from), InProxy(*to), OutProxy(*flow), layers, averagingBlockSize, maxFlow,
+            sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix, sigmaColorFix,
+            occThr, upscaleAveragingRadius, upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
     });
 }
 
@@ -58,9 +58,9 @@ CVAPI(ExceptionStatus) optflow_calcOpticalFlowSparseToDense(
     float fgs_sigma)
 {
     return cvTry([&] {
-    cv::optflow::calcOpticalFlowSparseToDense(
-        InProxy(*from), InProxy(*to), OutProxy(*flow),
-        grid_step, k, sigma, use_post_proc != 0, fgs_lambda, fgs_sigma);
+        cv::optflow::calcOpticalFlowSparseToDense(
+            InProxy(*from), InProxy(*to), OutProxy(*flow),
+            grid_step, k, sigma, use_post_proc != 0, fgs_lambda, fgs_sigma);
     });
 }
 

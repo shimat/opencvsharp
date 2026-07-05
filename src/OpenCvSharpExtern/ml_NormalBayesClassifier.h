@@ -16,22 +16,22 @@ CVAPI(ExceptionStatus) ml_NormalBayesClassifier_predictProb(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->predictProb(InProxy(*inputs), OutProxy(*samples), OutProxy(*outputProbs), flags);
+        *returnValue = obj->predictProb(InProxy(*inputs), OutProxy(*samples), OutProxy(*outputProbs), flags);
     });
 }
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_create(cv::Ptr<cv::ml::NormalBayesClassifier> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ml::NormalBayesClassifier::create();
-    *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
+        const auto ptr = cv::ml::NormalBayesClassifier::create();
+        *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_delete(cv::Ptr<cv::ml::NormalBayesClassifier> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -39,24 +39,24 @@ CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_get(cv::Ptr<cv::ml::NormalBa
 
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_load(const char *filePath, cv::Ptr<cv::ml::NormalBayesClassifier> **returnValue)
 {
     return cvTry([&] {
-    const auto  ptr = cv::Algorithm::load<cv::ml::NormalBayesClassifier>(filePath);
-    *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
+        const auto  ptr = cv::Algorithm::load<cv::ml::NormalBayesClassifier>(filePath);
+        *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_loadFromString(const char *strModel, cv::Ptr<cv::ml::NormalBayesClassifier> **returnValue)
 {
     return cvTry([&] {
-    const auto objName = cv::ml::NormalBayesClassifier::create()->getDefaultName();
-    const auto ptr = cv::Algorithm::loadFromString<cv::ml::NormalBayesClassifier>(strModel, objName);
-    *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
+        const auto objName = cv::ml::NormalBayesClassifier::create()->getDefaultName();
+        const auto ptr = cv::Algorithm::loadFromString<cv::ml::NormalBayesClassifier>(strModel, objName);
+        *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
     });
 }
 

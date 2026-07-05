@@ -9,7 +9,7 @@
 CVAPI(ExceptionStatus) core_PCA_new1(cv::PCA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::PCA;
+        *returnValue = new cv::PCA;
     });
 }
 CVAPI(ExceptionStatus) core_PCA_new2(
@@ -20,7 +20,7 @@ CVAPI(ExceptionStatus) core_PCA_new2(
     cv::PCA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, maxComponents);
+        *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, maxComponents);
     });
 }
 CVAPI(ExceptionStatus) core_PCA_new3(
@@ -31,14 +31,14 @@ CVAPI(ExceptionStatus) core_PCA_new3(
     cv::PCA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, retainedVariance);
+        *returnValue = new cv::PCA(InProxy(*data), InProxy(*mean), flags, retainedVariance);
     });
 }
 
 CVAPI(ExceptionStatus) core_PCA_delete(cv::PCA *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -51,7 +51,7 @@ CVAPI(ExceptionStatus) core_PCA_operatorThis(
     int maxComponents)
 {
     return cvTry([&] {
-    (*obj)(InProxy(*data), InProxy(*mean), flags, maxComponents);
+        (*obj)(InProxy(*data), InProxy(*mean), flags, maxComponents);
     });
 }
 
@@ -63,7 +63,7 @@ CVAPI(ExceptionStatus) core_PCA_computeVar(
     double retainedVariance)
 {
     return cvTry([&] {
-    (*obj)(InProxy(*data), InProxy(*mean), flags, retainedVariance);
+        (*obj)(InProxy(*data), InProxy(*mean), flags, retainedVariance);
     });
 }
 
@@ -74,8 +74,8 @@ CVAPI(ExceptionStatus) core_PCA_project1(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->project(InProxy(*vec));
-    *returnValue = new cv::Mat(ret);
+        const auto ret = obj->project(InProxy(*vec));
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -86,7 +86,7 @@ CVAPI(ExceptionStatus) core_PCA_project2(
     const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    obj->project(InProxy(*vec), OutProxy(*result));
+        obj->project(InProxy(*vec), OutProxy(*result));
     });
 }
 
@@ -97,8 +97,8 @@ CVAPI(ExceptionStatus) core_PCA_backProject1(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->backProject(InProxy(*vec));
-    *returnValue = new cv::Mat(ret);
+        const auto ret = obj->backProject(InProxy(*vec));
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -109,7 +109,7 @@ CVAPI(ExceptionStatus) core_PCA_backProject2(
     const interop::OutputArrayProxy* result)
 {
     return cvTry([&] {
-    obj->backProject(InProxy(*vec), OutProxy(*result));
+        obj->backProject(InProxy(*vec), OutProxy(*result));
     });
 }
 
@@ -117,7 +117,7 @@ CVAPI(ExceptionStatus) core_PCA_backProject2(
 CVAPI(ExceptionStatus) core_PCA_eigenvectors(cv::PCA *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Mat(obj->eigenvectors);
+        *returnValue = new cv::Mat(obj->eigenvectors);
     });
 }
 
@@ -125,7 +125,7 @@ CVAPI(ExceptionStatus) core_PCA_eigenvectors(cv::PCA *obj, cv::Mat **returnValue
 CVAPI(ExceptionStatus) core_PCA_eigenvalues(cv::PCA *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Mat(obj->eigenvalues);
+        *returnValue = new cv::Mat(obj->eigenvalues);
     });
 }
 
@@ -133,20 +133,20 @@ CVAPI(ExceptionStatus) core_PCA_eigenvalues(cv::PCA *obj, cv::Mat **returnValue)
 CVAPI(ExceptionStatus) core_PCA_mean(cv::PCA *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Mat(obj->mean);
+        *returnValue = new cv::Mat(obj->mean);
     });
 }
 
 CVAPI(ExceptionStatus) core_PCA_write(cv::PCA *obj, cv::FileStorage *fs)
 {
     return cvTry([&] {
-    obj->write(*fs);
+        obj->write(*fs);
     });    
 }
 
 CVAPI(ExceptionStatus) core_PCA_read(cv::PCA *obj, cv::FileNode *fn)
 {
     return cvTry([&] {
-    obj->read(*fn);
+        obj->read(*fn);
     });
 }

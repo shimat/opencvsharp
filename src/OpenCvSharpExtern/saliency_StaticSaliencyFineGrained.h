@@ -11,22 +11,22 @@
 CVAPI(ExceptionStatus) saliency_Ptr_StaticSaliencyFineGrained_delete(cv::Ptr<cv::saliency::StaticSaliencyFineGrained> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_Ptr_StaticSaliencyFineGrained_get(cv::Ptr<cv::saliency::StaticSaliencyFineGrained> *ptr, cv::saliency::StaticSaliencyFineGrained **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencyFineGrained_create(cv::Ptr<cv::saliency::StaticSaliencyFineGrained> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::saliency::StaticSaliencyFineGrained::create();
-    *returnValue = new cv::Ptr<cv::saliency::StaticSaliencyFineGrained>(p);
+        const auto p = cv::saliency::StaticSaliencyFineGrained::create();
+        *returnValue = new cv::Ptr<cv::saliency::StaticSaliencyFineGrained>(p);
     });
 }
 
@@ -37,7 +37,7 @@ CVAPI(ExceptionStatus) saliency_StaticSaliencyFineGrained_computeSaliency(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
+        *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
     });
 }
 
@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) saliency_StaticSaliencyFineGrained_computeBinaryMap(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeBinaryMap(InProxy(*saliencyMap), OutProxy(*binaryMap)) ? 1 : 0;
+        *returnValue = obj->computeBinaryMap(InProxy(*saliencyMap), OutProxy(*binaryMap)) ? 1 : 0;
     });
 }
 

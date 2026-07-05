@@ -10,39 +10,39 @@
 CVAPI(ExceptionStatus) ml_Boost_getBoostType(cv::ml::Boost *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getBoostType();
+        *returnValue = obj->getBoostType();
     });
 }
 CVAPI(ExceptionStatus) ml_Boost_setBoostType(cv::ml::Boost *obj, int val)
 {
     return cvTry([&] {
-    obj->setBoostType(val);
+        obj->setBoostType(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Boost_getWeakCount(cv::ml::Boost *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getWeakCount();
+        *returnValue = obj->getWeakCount();
     });
 }
 CVAPI(ExceptionStatus) ml_Boost_setWeakCount(cv::ml::Boost *obj, int val)
 {
     return cvTry([&] {
-    obj->setWeakCount(val);
+        obj->setWeakCount(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Boost_getWeightTrimRate(cv::ml::Boost *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getWeightTrimRate();
+        *returnValue = obj->getWeightTrimRate();
     });
 }
 CVAPI(ExceptionStatus) ml_Boost_setWeightTrimRate(cv::ml::Boost *obj, double val)
 {
     return cvTry([&] {
-    obj->setWeightTrimRate(val);
+        obj->setWeightTrimRate(val);
     });
 }
 
@@ -50,39 +50,39 @@ CVAPI(ExceptionStatus) ml_Boost_setWeightTrimRate(cv::ml::Boost *obj, double val
 CVAPI(ExceptionStatus) ml_Boost_create(cv::Ptr<cv::ml::Boost> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ml::Boost::create();
-    *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
+        const auto ptr = cv::ml::Boost::create();
+        *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_Boost_delete(cv::Ptr<cv::ml::Boost> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_Boost_get(cv::Ptr<cv::ml::Boost>* obj, cv::ml::Boost **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) ml_Boost_load(const char *filePath, cv::Ptr<cv::ml::Boost> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::Algorithm::load<cv::ml::Boost>(filePath);
-    *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
+        const auto ptr = cv::Algorithm::load<cv::ml::Boost>(filePath);
+        *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Boost_loadFromString(const char *strModel, cv::Ptr<cv::ml::Boost> **returnValue)
 {
     return cvTry([&] {
-    const auto objName = cv::ml::Boost::create()->getDefaultName();
-    const auto ptr = cv::Algorithm::loadFromString<cv::ml::Boost>(strModel, objName);
-    *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
+        const auto objName = cv::ml::Boost::create()->getDefaultName();
+        const auto ptr = cv::Algorithm::loadFromString<cv::ml::Boost>(strModel, objName);
+        *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
     });
 }
 

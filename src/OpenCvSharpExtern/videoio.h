@@ -14,7 +14,7 @@
 CVAPI(ExceptionStatus) videoio_VideoCapture_new1(cv::VideoCapture **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoCapture;
+        *returnValue = new cv::VideoCapture;
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoCapture_new2(
@@ -23,7 +23,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new2(
     cv::VideoCapture **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoCapture(filename, apiPreference);
+        *returnValue = new cv::VideoCapture(filename, apiPreference);
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoCapture_new3(
@@ -32,7 +32,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new3(
     cv::VideoCapture **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoCapture(device, apiPreference);
+        *returnValue = new cv::VideoCapture(device, apiPreference);
     });
 }
 
@@ -68,7 +68,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new5(
 CVAPI(ExceptionStatus) videoio_VideoCapture_delete(cv::VideoCapture *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -80,7 +80,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_open1(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->open(filename, apiPreference) ? 1 : 0;
+        *returnValue = obj->open(filename, apiPreference) ? 1 : 0;
     });
 }
 
@@ -91,28 +91,28 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_open2(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->open(device, apiPreference) ? 1 : 0;
+        *returnValue = obj->open(device, apiPreference) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_isOpened(cv::VideoCapture *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isOpened() ? 1 : 0;
+        *returnValue = obj->isOpened() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_release(cv::VideoCapture *obj)
 {
     return cvTry([&] {
-    obj->release();
+        obj->release();
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_grab(cv::VideoCapture *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->grab() ? 1 : 0;
+        *returnValue = obj->grab() ? 1 : 0;
     });
 }
 
@@ -123,7 +123,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_retrieve_OutputArray(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->retrieve(OutProxy(*image), flag) ? 1 : 0;
+        *returnValue = obj->retrieve(OutProxy(*image), flag) ? 1 : 0;
     });
 }
 
@@ -134,20 +134,20 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_retrieve_Mat(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->retrieve(*image, flag) ? 1 : 0;
+        *returnValue = obj->retrieve(*image, flag) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_operatorRightShift_Mat(cv::VideoCapture *obj, cv::Mat *image)
 {
     return cvTry([&] {
-    (*obj) >> (*image);
+        (*obj) >> (*image);
     });
 }
 /*CVAPI(ExceptionStatus) videoio_VideoCapture_operatorRightShift_UMat(cv::VideoCapture *obj, cv::UMat *image)
 {
     return cvTry([&] {
-    (*obj) >> (*image);
+        (*obj) >> (*image);
     });
 }*/
 
@@ -157,7 +157,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_read_OutputArray(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->read(OutProxy(*image)) ? 1 : 0;
+        *returnValue = obj->read(OutProxy(*image)) ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoCapture_read_Mat(
@@ -166,7 +166,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_read_Mat(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->read(*image) ? 1 : 0;
+        *returnValue = obj->read(*image) ? 1 : 0;
     });
 }
 
@@ -177,7 +177,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_set(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->set(propId, value) ? 1 : 0;
+        *returnValue = obj->set(propId, value) ? 1 : 0;
     });
 }
 
@@ -187,28 +187,28 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_get(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get(propId);
+        *returnValue = obj->get(propId);
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_getBackendName(cv::VideoCapture *obj, std::string *returnValue)
 {
     return cvTry([&] {
-    returnValue->assign(obj->getBackendName());
+        returnValue->assign(obj->getBackendName());
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_setExceptionMode(cv::VideoCapture *obj, int enable)
 {
     return cvTry([&] {
-    obj->setExceptionMode(enable != 0);
+        obj->setExceptionMode(enable != 0);
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoCapture_getExceptionMode(cv::VideoCapture *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getExceptionMode() ? 1 : 0;
+        *returnValue = obj->getExceptionMode() ? 1 : 0;
     });
 }
 
@@ -220,11 +220,11 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_waitAny(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::VideoCapture> streamsVec(streamsSize);
-    for (size_t i = 0; i < streamsSize; i++)
-        streamsVec[i] = *streams[i];
+        std::vector<cv::VideoCapture> streamsVec(streamsSize);
+        for (size_t i = 0; i < streamsSize; i++)
+            streamsVec[i] = *streams[i];
 
-    *returnValue = cv::VideoCapture::waitAny(streamsVec, *readyIndex, timeoutNs) ? 1 : 0;
+        *returnValue = cv::VideoCapture::waitAny(streamsVec, *readyIndex, timeoutNs) ? 1 : 0;
     });
 }
 
@@ -235,7 +235,7 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_waitAny(
 CVAPI(ExceptionStatus) videoio_VideoWriter_new1(cv::VideoWriter **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoWriter;
+        *returnValue = new cv::VideoWriter;
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoWriter_new2(
@@ -247,7 +247,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new2(
     cv::VideoWriter **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoWriter(filename, fourcc, fps, cpp(frameSize), isColor != 0);
+        *returnValue = new cv::VideoWriter(filename, fourcc, fps, cpp(frameSize), isColor != 0);
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoWriter_new3(
@@ -260,7 +260,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new3(
     cv::VideoWriter **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::VideoWriter(filename, apiPreference, fourcc, fps, cpp(frameSize), isColor != 0);
+        *returnValue = new cv::VideoWriter(filename, apiPreference, fourcc, fps, cpp(frameSize), isColor != 0);
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoWriter_new4(
@@ -298,7 +298,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new5(
 CVAPI(ExceptionStatus) videoio_VideoWriter_delete(cv::VideoWriter *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -312,7 +312,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_open1(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->open(filename, fourcc, fps, cpp(frameSize), isColor != 0) ? 1 : 0;
+        *returnValue = obj->open(filename, fourcc, fps, cpp(frameSize), isColor != 0) ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) videoio_VideoWriter_open2(
@@ -326,35 +326,35 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_open2(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->open(filename, apiPreference, fourcc, fps, cpp(frameSize), isColor != 0) ? 1 : 0;
+        *returnValue = obj->open(filename, apiPreference, fourcc, fps, cpp(frameSize), isColor != 0) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoWriter_isOpened(cv::VideoWriter *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isOpened() ? 1 : 0;
+        *returnValue = obj->isOpened() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoWriter_release(cv::VideoWriter *obj)
 {
     return cvTry([&] {
-    obj->release();
+        obj->release();
     });
 }
 
 /*CVAPI(ExceptionStatus) videoio_VideoWriter_OperatorLeftShift(cv::VideoWriter *obj, cv::Mat *image)
 {
     return cvTry([&] {
-    (*obj) << (*image);
+        (*obj) << (*image);
     });
 }*/
 
 CVAPI(ExceptionStatus) videoio_VideoWriter_write(cv::VideoWriter *obj, const interop::InputArrayProxy* image)
 {
     return cvTry([&] {
-    obj->write(InProxy(*image));
+        obj->write(InProxy(*image));
     });
 }
 
@@ -365,7 +365,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_set(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->set(propId, value) ? 1 : 0;
+        *returnValue = obj->set(propId, value) ? 1 : 0;
     });
 }
 
@@ -375,7 +375,7 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_get(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get(propId);
+        *returnValue = obj->get(propId);
     });
 }
 
@@ -387,14 +387,14 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_fourcc(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::VideoWriter::fourcc(c1, c2, c3, c4);
+        *returnValue = cv::VideoWriter::fourcc(c1, c2, c3, c4);
     });
 }
 
 CVAPI(ExceptionStatus) videoio_VideoWriter_getBackendName(cv::VideoWriter *obj, std::string *returnValue)
 {
     return cvTry([&] {
-    returnValue->assign(obj->getBackendName());
+        returnValue->assign(obj->getBackendName());
     });
 }
 

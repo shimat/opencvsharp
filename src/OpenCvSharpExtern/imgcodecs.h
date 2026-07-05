@@ -85,22 +85,22 @@ CVAPI(ExceptionStatus) imgcodecs_imread(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string acp;
-    cv::Mat ret;
-    if (pathRoundTripsAcp(filename, acp))
-    {
-        ret = cv::imread(acp, flags);
-    }
-    else
-    {
-        imgcodecs_withWideFile(filename,
-            [&](const void *d, int n) { return imgcodecs_decodeGuarded(d, n, flags, &ret); },
-            [&](const std::vector<uchar> &b) { ret = cv::imdecode(b, flags); return true; });
-    }
-    *returnValue = new cv::Mat(ret);
+        std::string acp;
+        cv::Mat ret;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            ret = cv::imread(acp, flags);
+        }
+        else
+        {
+            imgcodecs_withWideFile(filename,
+                [&](const void *d, int n) { return imgcodecs_decodeGuarded(d, n, flags, &ret); },
+                [&](const std::vector<uchar> &b) { ret = cv::imdecode(b, flags); return true; });
+        }
+        *returnValue = new cv::Mat(ret);
 #else
-    const auto ret = cv::imread(filename, flags);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::imread(filename, flags);
+        *returnValue = new cv::Mat(ret);
 #endif
     });
 }
@@ -113,20 +113,20 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string acp;
-    if (pathRoundTripsAcp(filename, acp))
-    {
-        *returnValue = cv::imreadmulti(acp, *mats, flags) ? 1 : 0;
-    }
-    else
-    {
-        const bool ok = imgcodecs_withWideFile(filename,
-            [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, mats); },
-            [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, *mats); });
-        *returnValue = ok ? 1 : 0;
-    }
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::imreadmulti(acp, *mats, flags) ? 1 : 0;
+        }
+        else
+        {
+            const bool ok = imgcodecs_withWideFile(filename,
+                [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, mats); },
+                [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, *mats); });
+            *returnValue = ok ? 1 : 0;
+        }
 #else
-    *returnValue = cv::imreadmulti(filename, *mats, flags) ? 1 : 0;
+        *returnValue = cv::imreadmulti(filename, *mats, flags) ? 1 : 0;
 #endif
     });
 }
@@ -139,24 +139,24 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<int> paramsVec;
-    paramsVec.assign(params, params + paramsLength);
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
 #ifdef _WIN32
-    std::string acp;
-    if (pathRoundTripsAcp(filename, acp))
-    {
-        *returnValue = cv::imwrite(acp, *img, paramsVec) ? 1 : 0;
-    }
-    else
-    {
-        const std::string fn(filename ? filename : "");
-        const auto dot = fn.find_last_of('.');
-        std::vector<uchar> buf;
-        *returnValue = (dot != std::string::npos && cv::imencode(fn.substr(dot), *img, buf, paramsVec)
-            && writeAllBytesWide(filename, buf.data(), buf.size())) ? 1 : 0;
-    }
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::imwrite(acp, *img, paramsVec) ? 1 : 0;
+        }
+        else
+        {
+            const std::string fn(filename ? filename : "");
+            const auto dot = fn.find_last_of('.');
+            std::vector<uchar> buf;
+            *returnValue = (dot != std::string::npos && cv::imencode(fn.substr(dot), *img, buf, paramsVec)
+                && writeAllBytesWide(filename, buf.data(), buf.size())) ? 1 : 0;
+        }
 #else
-    *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+        *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
 #endif
     });
 }
@@ -169,24 +169,24 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<int> paramsVec;
-    paramsVec.assign(params, params + paramsLength);
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
 #ifdef _WIN32
-    std::string acp;
-    if (pathRoundTripsAcp(filename, acp))
-    {
-        *returnValue = cv::imwrite(acp, *img, paramsVec) ? 1 : 0;
-    }
-    else
-    {
-        const std::string fn(filename ? filename : "");
-        const auto dot = fn.find_last_of('.');
-        std::vector<uchar> buf;
-        *returnValue = (dot != std::string::npos && cv::imencodemulti(fn.substr(dot), *img, buf, paramsVec)
-            && writeAllBytesWide(filename, buf.data(), buf.size())) ? 1 : 0;
-    }
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::imwrite(acp, *img, paramsVec) ? 1 : 0;
+        }
+        else
+        {
+            const std::string fn(filename ? filename : "");
+            const auto dot = fn.find_last_of('.');
+            std::vector<uchar> buf;
+            *returnValue = (dot != std::string::npos && cv::imencodemulti(fn.substr(dot), *img, buf, paramsVec)
+                && writeAllBytesWide(filename, buf.data(), buf.size())) ? 1 : 0;
+        }
 #else
-    *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+        *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
 #endif
     });
 }
@@ -197,8 +197,8 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::imdecode(*buf, flags);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::imdecode(*buf, flags);
+        *returnValue = new cv::Mat(ret);
     });
 }
 CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(
@@ -208,10 +208,10 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    //const std::vector<uchar> bufVec(buf, buf + bufLength);
-    const cv::Mat bufMat(1, bufLength, CV_8UC1, buf, cv::Mat::AUTO_STEP);
-    const auto ret = cv::imdecode(bufMat, flags);
-    *returnValue = new cv::Mat(ret);
+        //const std::vector<uchar> bufVec(buf, buf + bufLength);
+        const cv::Mat bufMat(1, bufLength, CV_8UC1, buf, cv::Mat::AUTO_STEP);
+        const auto ret = cv::imdecode(bufMat, flags);
+        *returnValue = new cv::Mat(ret);
     });
 }
 CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(
@@ -220,8 +220,8 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::imdecode(InProxy(*buf), flags);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::imdecode(InProxy(*buf), flags);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -234,10 +234,10 @@ CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<int> paramsVec;
-    if (params != nullptr)
-        paramsVec = std::vector<int>(params, params + paramsLength);
-    *returnValue = cv::imencode(ext, InProxy(*img), *buf, paramsVec) ? 1 : 0;
+        std::vector<int> paramsVec;
+        if (params != nullptr)
+            paramsVec = std::vector<int>(params, params + paramsLength);
+        *returnValue = cv::imencode(ext, InProxy(*img), *buf, paramsVec) ? 1 : 0;
     });
 }
 
@@ -247,22 +247,22 @@ CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *retu
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string acp;
-    if (pathRoundTripsAcp(filename, acp))
-    {
-        *returnValue = cv::haveImageReader(acp) ? 1 : 0;
-    }
-    else
-    {
-        // No narrow path OpenCV can open; probe decodability over the wide-path file instead.
-        cv::Mat probe;
-        imgcodecs_withWideFile(filename,
-            [&](const void *d, int n) { return imgcodecs_decodeGuarded(d, n, cv::IMREAD_UNCHANGED, &probe); },
-            [&](const std::vector<uchar> &b) { probe = cv::imdecode(b, cv::IMREAD_UNCHANGED); return true; });
-        *returnValue = probe.empty() ? 0 : 1;
-    }
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::haveImageReader(acp) ? 1 : 0;
+        }
+        else
+        {
+            // No narrow path OpenCV can open; probe decodability over the wide-path file instead.
+            cv::Mat probe;
+            imgcodecs_withWideFile(filename,
+                [&](const void *d, int n) { return imgcodecs_decodeGuarded(d, n, cv::IMREAD_UNCHANGED, &probe); },
+                [&](const std::vector<uchar> &b) { probe = cv::imdecode(b, cv::IMREAD_UNCHANGED); return true; });
+            *returnValue = probe.empty() ? 0 : 1;
+        }
 #else
-    *returnValue = cv::haveImageReader(filename) ? 1 : 0;
+        *returnValue = cv::haveImageReader(filename) ? 1 : 0;
 #endif
     });
 }
@@ -270,6 +270,6 @@ CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *retu
 CVAPI(ExceptionStatus) imgcodecs_haveImageWriter(const char *filename, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::haveImageWriter(filename) ? 1 : 0;
+        *returnValue = cv::haveImageWriter(filename) ? 1 : 0;
     });
 }

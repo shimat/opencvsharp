@@ -22,35 +22,35 @@ CVAPI(ExceptionStatus) shape_HistogramCostExtractor_buildCostMatrix(
     const interop::OutputArrayProxy* costMatrix)
 {
     return cvTry([&] {
-    obj->buildCostMatrix(InProxy(*descriptors1), InProxy(*descriptors2), OutProxy(*costMatrix));
+        obj->buildCostMatrix(InProxy(*descriptors1), InProxy(*descriptors2), OutProxy(*costMatrix));
     });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setNDummies(cv::HistogramCostExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setNDummies(val);
+        obj->setNDummies(val);
     });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getNDummies(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNDummies();
+        *returnValue = obj->getNDummies();
     });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_setDefaultCost(cv::HistogramCostExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setDefaultCost(val);
+        obj->setDefaultCost(val);
     });
 }
 
 CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(cv::HistogramCostExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getDefaultCost();
+        *returnValue = obj->getDefaultCost();
     });
 }
 
@@ -64,14 +64,14 @@ CVAPI(ExceptionStatus) shape_HistogramCostExtractor_getDefaultCost(cv::Histogram
 CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_delete(cv::Ptr<cv::HistogramCostExtractor> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) shape_Ptr_HistogramCostExtractor_get(cv::Ptr<cv::HistogramCostExtractor> *ptr, cv::HistogramCostExtractor **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -89,22 +89,22 @@ CVAPI(ExceptionStatus) shape_createNormHistogramCostExtractor(
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::createNormHistogramCostExtractor(flag, nDummies, defaultCost);
-    *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
+        const auto ptr = cv::createNormHistogramCostExtractor(flag, nDummies, defaultCost);
+        *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_setNormFlag(cv::HistogramCostExtractor *obj, int flag)
 {
     return cvTry([&] {
-    static_cast<cv::NormHistogramCostExtractor*>(obj)->setNormFlag(flag);
+        static_cast<cv::NormHistogramCostExtractor*>(obj)->setNormFlag(flag);
     });
 }
 
 CVAPI(ExceptionStatus) shape_NormHistogramCostExtractor_getNormFlag(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<cv::NormHistogramCostExtractor*>(obj)->getNormFlag();
+        *returnValue = static_cast<cv::NormHistogramCostExtractor*>(obj)->getNormFlag();
     });
 }
 
@@ -124,22 +124,22 @@ CVAPI(ExceptionStatus) shape_createEMDHistogramCostExtractor(
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::createEMDHistogramCostExtractor(flag, nDummies, defaultCost);
-    *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
+        const auto ptr = cv::createEMDHistogramCostExtractor(flag, nDummies, defaultCost);
+        *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_setNormFlag(cv::HistogramCostExtractor *obj, int flag)
 {
     return cvTry([&] {
-    static_cast<cv::EMDHistogramCostExtractor*>(obj)->setNormFlag(flag);
+        static_cast<cv::EMDHistogramCostExtractor*>(obj)->setNormFlag(flag);
     });
 }
 
 CVAPI(ExceptionStatus) shape_EMDHistogramCostExtractor_getNormFlag(cv::HistogramCostExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<cv::EMDHistogramCostExtractor*>(obj)->getNormFlag();
+        *returnValue = static_cast<cv::EMDHistogramCostExtractor*>(obj)->getNormFlag();
     });
 }
 
@@ -158,8 +158,8 @@ CVAPI(ExceptionStatus) shape_createChiHistogramCostExtractor(
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::createChiHistogramCostExtractor(nDummies, defaultCost);
-    *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
+        const auto ptr = cv::createChiHistogramCostExtractor(nDummies, defaultCost);
+        *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
     });
 }
 
@@ -178,8 +178,8 @@ CVAPI(ExceptionStatus) shape_createEMDL1HistogramCostExtractor(
     cv::Ptr<cv::HistogramCostExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::createEMDL1HistogramCostExtractor(nDummies, defaultCost);
-    *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
+        const auto ptr = cv::createEMDL1HistogramCostExtractor(nDummies, defaultCost);
+        *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(ptr);
     });
 }
 
@@ -196,7 +196,7 @@ CVAPI(ExceptionStatus) shape_EMDL1(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::EMDL1(InProxy(*signature1), InProxy(*signature2));
+        *returnValue = cv::EMDL1(InProxy(*signature1), InProxy(*signature2));
     });
 }
 

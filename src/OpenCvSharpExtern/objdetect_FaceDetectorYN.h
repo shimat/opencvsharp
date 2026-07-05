@@ -24,25 +24,25 @@ CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_create(
     cv::Ptr<cv::FaceDetectorYN>** returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::FaceDetectorYN::create(
-        *model, *config, cpp(*inputSize),
-        scoreThreshold, nmsThreshold, topK,
-        backendId, targetId);
-    *returnValue = clone(p);
+        const auto p = cv::FaceDetectorYN::create(
+            *model, *config, cpp(*inputSize),
+            scoreThreshold, nmsThreshold, topK,
+            backendId, targetId);
+        *returnValue = clone(p);
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_delete(cv::Ptr<cv::FaceDetectorYN>* ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_get(cv::Ptr<cv::FaceDetectorYN>* ptr, cv::FaceDetectorYN** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_detect(
     int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->detect(InProxy(*image), OutProxy(*faces));
+        *returnValue = obj->detect(InProxy(*image), OutProxy(*faces));
     });
 }
 

@@ -11,22 +11,22 @@
 CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_delete(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_Ptr_MotionSaliencyBinWangApr2014_get(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> *ptr, cv::saliency::MotionSaliencyBinWangApr2014 **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_create(cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::saliency::MotionSaliencyBinWangApr2014::create();
-    *returnValue = new cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014>(p);
+        const auto p = cv::saliency::MotionSaliencyBinWangApr2014::create();
+        *returnValue = new cv::Ptr<cv::saliency::MotionSaliencyBinWangApr2014>(p);
     });
 }
 
@@ -37,7 +37,7 @@ CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_computeSaliency(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
+        *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
     });
 }
 
@@ -47,42 +47,42 @@ CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImagesize(
     int H)
 {
     return cvTry([&] {
-    obj->setImagesize(W, H);
+        obj->setImagesize(W, H);
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_init(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->init() ? 1 : 0;
+        *returnValue = obj->init() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageWidth(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getImageWidth();
+        *returnValue = obj->getImageWidth();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageWidth(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
 {
     return cvTry([&] {
-    obj->setImageWidth(val);
+        obj->setImageWidth(val);
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_getImageHeight(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getImageHeight();
+        *returnValue = obj->getImageHeight();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_MotionSaliencyBinWangApr2014_setImageHeight(cv::saliency::MotionSaliencyBinWangApr2014 *obj, int val)
 {
     return cvTry([&] {
-    obj->setImageHeight(val);
+        obj->setImageHeight(val);
     });
 }
 

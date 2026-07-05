@@ -14,36 +14,36 @@ CVAPI(ExceptionStatus) features_ANNIndex_create(
     cv::Ptr<cv::ANNIndex> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ANNIndex::create(dim, static_cast<cv::ANNIndex::Distance>(distType));
-    *returnValue = clone(ptr);
+        const auto ptr = cv::ANNIndex::create(dim, static_cast<cv::ANNIndex::Distance>(distType));
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_ANNIndex_get(cv::Ptr<cv::ANNIndex> *ptr, cv::ANNIndex **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_ANNIndex_delete(cv::Ptr<cv::ANNIndex> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) features_ANNIndex_addItems(cv::ANNIndex *obj, const interop::InputArrayProxy* features)
 {
     return cvTry([&] {
-    obj->addItems(InProxy(*features));
+        obj->addItems(InProxy(*features));
     });
 }
 
 CVAPI(ExceptionStatus) features_ANNIndex_build(cv::ANNIndex *obj, int trees)
 {
     return cvTry([&] {
-    obj->build(trees);
+        obj->build(trees);
     });
 }
 
@@ -56,7 +56,7 @@ CVAPI(ExceptionStatus) features_ANNIndex_knnSearch(
     int search_k)
 {
     return cvTry([&] {
-    obj->knnSearch(InProxy(*query), OutProxy(*indices), OutProxy(*dists), knn, search_k);
+        obj->knnSearch(InProxy(*query), OutProxy(*indices), OutProxy(*dists), knn, search_k);
     });
 }
 
@@ -66,7 +66,7 @@ CVAPI(ExceptionStatus) features_ANNIndex_save(
     int prefault)
 {
     return cvTry([&] {
-    obj->save(cv::String(filename), prefault != 0);
+        obj->save(cv::String(filename), prefault != 0);
     });
 }
 
@@ -76,21 +76,21 @@ CVAPI(ExceptionStatus) features_ANNIndex_load(
     int prefault)
 {
     return cvTry([&] {
-    obj->load(cv::String(filename), prefault != 0);
+        obj->load(cv::String(filename), prefault != 0);
     });
 }
 
 CVAPI(ExceptionStatus) features_ANNIndex_getTreeNumber(cv::ANNIndex *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getTreeNumber();
+        *returnValue = obj->getTreeNumber();
     });
 }
 
 CVAPI(ExceptionStatus) features_ANNIndex_getItemNumber(cv::ANNIndex *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getItemNumber();
+        *returnValue = obj->getItemNumber();
     });
 }
 
@@ -100,14 +100,14 @@ CVAPI(ExceptionStatus) features_ANNIndex_setOnDiskBuild(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->setOnDiskBuild(cv::String(filename)) ? 1 : 0;
+        *returnValue = obj->setOnDiskBuild(cv::String(filename)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) features_ANNIndex_setSeed(cv::ANNIndex *obj, int seed)
 {
     return cvTry([&] {
-    obj->setSeed(seed);
+        obj->setSeed(seed);
     });
 }
 
