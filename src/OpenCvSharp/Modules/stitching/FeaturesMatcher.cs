@@ -85,8 +85,8 @@ public abstract class FeaturesMatcher : CvObject
     public virtual MatchesInfo[] Apply(
         IEnumerable<ImageFeatures> features, Mat? mask = null)
     {
-        ArgumentNullException.ThrowIfNull(features);
         ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(features);
 
         var featuresArray = features.CastOrToArray();
         if (featuresArray.Length == 0)

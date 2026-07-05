@@ -936,12 +936,11 @@ static partial class Cv2
     /// subset of the source image (determined by alpha) to the corrected image.</param>
     /// <returns>optimal new camera matrix</returns>
     public static double[,]? GetOptimalNewCameraMatrix(
-        double[,] cameraMatrix, double[] distCoeffs,
+        double[,] cameraMatrix, double[]? distCoeffs,
         Size imageSize, double alpha, Size newImgSize,
         out Rect validPixROI, bool centerPrincipalPoint = false)
     {
         ArgumentNullException.ThrowIfNull(cameraMatrix);
-        ArgumentNullException.ThrowIfNull(distCoeffs);
 
         IntPtr matPtr;
         unsafe
@@ -950,7 +949,7 @@ static partial class Cv2
             {
                 NativeMethods.HandleException(
                     NativeMethods.geometry_getOptimalNewCameraMatrix_array(
-                        cameraMatrixPtr, distCoeffs, distCoeffs.Length,
+                        cameraMatrixPtr, distCoeffs, distCoeffs?.Length ?? 0,
                         imageSize, alpha, newImgSize,
                         out validPixROI, centerPrincipalPoint ? 1 : 0, out matPtr));
                 if (matPtr == IntPtr.Zero)

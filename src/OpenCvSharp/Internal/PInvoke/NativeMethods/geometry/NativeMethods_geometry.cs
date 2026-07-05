@@ -128,7 +128,7 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe partial ExceptionStatus geometry_getOptimalNewCameraMatrix_array(
         double* cameraMatrix,
-        [In] double[] distCoeffs, int distCoeffsSize,
+        [In] double[]? distCoeffs, int distCoeffsSize,
         Size imageSize, double alpha, Size newImgSize,
         out Rect validPixROI, int centerPrincipalPoint,
         out IntPtr returnValue);
