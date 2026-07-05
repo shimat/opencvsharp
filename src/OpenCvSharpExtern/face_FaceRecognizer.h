@@ -351,13 +351,7 @@ CVAPI(ExceptionStatus) face_LBPHFaceRecognizer_setThreshold(cv::face::LBPHFaceRe
 CVAPI(ExceptionStatus) face_LBPHFaceRecognizer_getHistograms(cv::face::LBPHFaceRecognizer *obj, std::vector<cv::Mat> *dst)
 {
     return cvTry([&] {
-        auto result = obj->getHistograms();
-        dst->clear();
-        dst->reserve(result.size());
-        for (size_t i = 0; i < result.size(); i++)
-        {
-            dst->at(i) = result[i];
-        }
+        *dst = obj->getHistograms();
     });
 }
 CVAPI(ExceptionStatus) face_LBPHFaceRecognizer_getLabels(cv::face::LBPHFaceRecognizer *obj, cv::Mat *dst)
