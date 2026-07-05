@@ -80,7 +80,9 @@ public sealed class Window : IDisposable
             return;
         IsDisposed = true;
 
-        Windows.TryRemove(name, out _);
+        // Only remove the map entry if it still points at this instance: another Window may have
+        // since reused the same name (see the constructor), and that instance's entry must survive.
+        ((ICollection<KeyValuePair<string, Window>>) Windows).Remove(new KeyValuePair<string, Window>(name, this));
         trackbars.Clear();
 
         // Destroying the window also releases OpenCV's references to its mouse/trackbar
