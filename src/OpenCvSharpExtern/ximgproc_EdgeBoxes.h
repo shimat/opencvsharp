@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) ximgproc_EdgeBoxes_getBoundingBoxes(
     std::vector<cv::Rect> *boxes)
 {
     return cvTry([&] {
-    obj->getBoundingBoxes(InProxy(*edge_map), InProxy(*orientation_map), *boxes);
+        obj->getBoundingBoxes(InProxy(*edge_map), InProxy(*orientation_map), *boxes);
     });
 }
 
@@ -62,22 +62,22 @@ CVAPI(ExceptionStatus) ximgproc_createEdgeBoxes(
     cv::Ptr<cv::ximgproc::EdgeBoxes> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::ximgproc::createEdgeBoxes(alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr,
-        clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa));
+        *returnValue = clone(cv::ximgproc::createEdgeBoxes(alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr,
+            clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_delete(cv::Ptr<cv::ximgproc::EdgeBoxes> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_get(cv::Ptr<cv::ximgproc::EdgeBoxes> *ptr, cv::ximgproc::EdgeBoxes **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 

@@ -14,39 +14,39 @@
 CVAPI(ExceptionStatus) superres_FrameSource_nextFrame(cv::superres::FrameSource *obj, const interop::OutputArrayProxy* frame)
 {
     return cvTry([&] {
-    obj->nextFrame(OutProxy(*frame));
+        obj->nextFrame(OutProxy(*frame));
     });
 }
 
 CVAPI(ExceptionStatus) superres_FrameSource_reset(cv::superres::FrameSource *obj)
 {
     return cvTry([&] {
-    obj->reset();
+        obj->reset();
     });
 }
 
 CVAPI(ExceptionStatus) superres_createFrameSource_Empty(cv::Ptr<cv::superres::FrameSource> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createFrameSource_Empty() );
+        *returnValue = clone( cv::superres::createFrameSource_Empty() );
     });
 }
 CVAPI(ExceptionStatus) superres_createFrameSource_Video(const char *fileName, cv::Ptr<cv::superres::FrameSource> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createFrameSource_Video(fileName) );
+        *returnValue = clone( cv::superres::createFrameSource_Video(fileName) );
     });
 }
 CVAPI(ExceptionStatus) superres_createFrameSource_Video_CUDA(const char *fileName, cv::Ptr<cv::superres::FrameSource> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createFrameSource_Video_CUDA(fileName) );
+        *returnValue = clone( cv::superres::createFrameSource_Video_CUDA(fileName) );
     });
 }
 CVAPI(ExceptionStatus) superres_createFrameSource_Camera(int deviceId, cv::Ptr<cv::superres::FrameSource> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createFrameSource_Camera(deviceId) );
+        *returnValue = clone( cv::superres::createFrameSource_Camera(deviceId) );
     });
 }
 
@@ -54,14 +54,14 @@ CVAPI(ExceptionStatus) superres_createFrameSource_Camera(int deviceId, cv::Ptr<c
 CVAPI(ExceptionStatus) superres_Ptr_FrameSource_delete(cv::Ptr<cv::superres::FrameSource> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameSource> *obj, cv::superres::FrameSource **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
@@ -72,41 +72,41 @@ CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameS
 CVAPI(ExceptionStatus) superres_SuperResolution_setInput(cv::superres::SuperResolution *obj, cv::Ptr<cv::superres::FrameSource> *frameSource)
 {
     return cvTry([&] {
-    obj->setInput(*frameSource);
+        obj->setInput(*frameSource);
     });
 }
 
 CVAPI(ExceptionStatus) superres_SuperResolution_nextFrame(cv::superres::SuperResolution *obj, const interop::OutputArrayProxy* frame)
 {
     return cvTry([&] {
-    obj->nextFrame(OutProxy(*frame));
+        obj->nextFrame(OutProxy(*frame));
     });
 }
 
 CVAPI(ExceptionStatus) superres_SuperResolution_reset(cv::superres::SuperResolution *obj)
 {
     return cvTry([&] {
-    obj->reset();
+        obj->reset();
     });
 }
 
 CVAPI(ExceptionStatus) superres_SuperResolution_collectGarbage(cv::superres::SuperResolution *obj)
 {
     return cvTry([&] {
-    obj->collectGarbage();
+        obj->collectGarbage();
     });
 }
 
 CVAPI(ExceptionStatus) superres_createSuperResolution_BTVL1(cv::Ptr<cv::superres::SuperResolution> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createSuperResolution_BTVL1() );
+        *returnValue = clone( cv::superres::createSuperResolution_BTVL1() );
     });
 }
 CVAPI(ExceptionStatus) superres_createSuperResolution_BTVL1_CUDA(cv::Ptr<cv::superres::SuperResolution> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone( cv::superres::createSuperResolution_BTVL1_CUDA() );
+        *returnValue = clone( cv::superres::createSuperResolution_BTVL1_CUDA() );
     });
 }
 
@@ -114,14 +114,14 @@ CVAPI(ExceptionStatus) superres_createSuperResolution_BTVL1_CUDA(cv::Ptr<cv::sup
 CVAPI(ExceptionStatus) superres_Ptr_SuperResolution_get(cv::Ptr<cv::superres::SuperResolution> *obj, cv::superres::SuperResolution **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_SuperResolution_delete(cv::Ptr<cv::superres::SuperResolution> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -147,13 +147,13 @@ CVAPI(ExceptionStatus) superres_SuperResolution_setTemporalAreaRadius(cv::superr
 CVAPI(ExceptionStatus) superres_SuperResolution_getOpticalFlow(cv::superres::SuperResolution *obj, cv::Ptr<cv::superres::DenseOpticalFlowExt> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Ptr<cv::superres::DenseOpticalFlowExt>(obj->getOpticalFlow());
+        *returnValue = new cv::Ptr<cv::superres::DenseOpticalFlowExt>(obj->getOpticalFlow());
     });
 }
 CVAPI(ExceptionStatus) superres_SuperResolution_setOpticalFlow(cv::superres::SuperResolution *obj, cv::Ptr<cv::superres::DenseOpticalFlowExt> *val)
 {
     return cvTry([&] {
-    obj->setOpticalFlow(*val);
+        obj->setOpticalFlow(*val);
     });
 }
 
@@ -167,14 +167,14 @@ CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(
     const interop::OutputArrayProxy* flow2)
 {
     return cvTry([&] {
-    obj->calc(InProxy(*frame0), InProxy(*frame1), OutProxy(*flow1), OutProxy(*flow2));
+        obj->calc(InProxy(*frame0), InProxy(*frame1), OutProxy(*flow1), OutProxy(*flow2));
     });
 }
 
 CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_collectGarbage(cv::superres::DenseOpticalFlowExt* obj)
 {
     return cvTry([&] {
-    obj->collectGarbage();
+        obj->collectGarbage();
     });
 }
 
@@ -183,13 +183,13 @@ CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_collectGarbage(cv::superres:
 CVAPI(ExceptionStatus) superres_createOptFlow_Farneback(cv::Ptr<cv::superres::FarnebackOpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_Farneback());
+        *returnValue = clone(cv::superres::createOptFlow_Farneback());
     });
 }
 CVAPI(ExceptionStatus) superres_createOptFlow_Farneback_CUDA(cv::Ptr<cv::superres::FarnebackOpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_Farneback_CUDA());
+        *returnValue = clone(cv::superres::createOptFlow_Farneback_CUDA());
     });
 }
 
@@ -197,14 +197,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Farneback_CUDA(cv::Ptr<cv::superre
 CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_get(cv::Ptr<cv::superres::FarnebackOpticalFlow> *obj, cv::superres::FarnebackOpticalFlow **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_delete(cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -230,13 +230,13 @@ CVAPI(ExceptionStatus) superres_FarnebackOpticalFlow_setFlags(cv::superres::Farn
 CVAPI(ExceptionStatus) superres_createOptFlow_DualTVL1(cv::Ptr<cv::superres::DualTVL1OpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_DualTVL1());
+        *returnValue = clone(cv::superres::createOptFlow_DualTVL1());
     });
 }
 CVAPI(ExceptionStatus) superres_createOptFlow_DualTVL1_CUDA(cv::Ptr<cv::superres::DualTVL1OpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_DualTVL1_CUDA());
+        *returnValue = clone(cv::superres::createOptFlow_DualTVL1_CUDA());
     });
 }
 
@@ -244,14 +244,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_DualTVL1_CUDA(cv::Ptr<cv::superres
 CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_get(cv::Ptr<cv::superres::DualTVL1OpticalFlow> *obj, cv::superres::DualTVL1OpticalFlow **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_delete(cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -279,7 +279,7 @@ CVAPI(ExceptionStatus) superres_DualTVL1OpticalFlow_setUseInitialFlow(cv::superr
 CVAPI(ExceptionStatus) superres_createOptFlow_Brox_CUDA(cv::Ptr<cv::superres::BroxOpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_Brox_CUDA());
+        *returnValue = clone(cv::superres::createOptFlow_Brox_CUDA());
     });
 }
 
@@ -287,14 +287,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Brox_CUDA(cv::Ptr<cv::superres::Br
 CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_get(cv::Ptr<cv::superres::BroxOpticalFlow> *obj, cv::superres::BroxOpticalFlow **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_delete(cv::Ptr<cv::superres::BroxOpticalFlow> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -318,7 +318,7 @@ CVAPI(ExceptionStatus) superres_BroxOpticalFlow_setSolverIterations(cv::superres
 CVAPI(ExceptionStatus) superres_createOptFlow_PyrLK_CUDA(cv::Ptr<cv::superres::PyrLKOpticalFlow> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::superres::createOptFlow_PyrLK_CUDA());
+        *returnValue = clone(cv::superres::createOptFlow_PyrLK_CUDA());
     });
 }
 
@@ -326,14 +326,14 @@ CVAPI(ExceptionStatus) superres_createOptFlow_PyrLK_CUDA(cv::Ptr<cv::superres::P
 CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_get(cv::Ptr<cv::superres::PyrLKOpticalFlow> *obj, cv::superres::PyrLKOpticalFlow **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_delete(cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 

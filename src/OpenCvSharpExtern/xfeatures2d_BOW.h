@@ -18,29 +18,29 @@
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_add(cv::xfeatures2d::BOWTrainer *obj, cv::Mat *descriptors)
 {
     return cvTry([&] {
-    obj->add(*descriptors);
+        obj->add(*descriptors);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_getDescriptors(cv::xfeatures2d::BOWTrainer *obj, std::vector<cv::Mat> *descriptors)
 {
     return cvTry([&] {
-    const std::vector<cv::Mat> d = obj->getDescriptors();
-    std::copy(d.begin(), d.end(), std::back_inserter(*descriptors));
+        const std::vector<cv::Mat> d = obj->getDescriptors();
+        std::copy(d.begin(), d.end(), std::back_inserter(*descriptors));
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_descriptorsCount(cv::xfeatures2d::BOWTrainer *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->descriptorsCount();
+        *returnValue = obj->descriptorsCount();
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWTrainer_clear(cv::xfeatures2d::BOWTrainer *obj)
 {
     return cvTry([&] {
-    obj->clear();
+        obj->clear();
     });
 }
 
@@ -55,22 +55,22 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_new(
     cv::xfeatures2d::BOWKMeansTrainer **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::xfeatures2d::BOWKMeansTrainer(clusterCount, cpp(termcrit), attempts, flags);
+        *returnValue = new cv::xfeatures2d::BOWKMeansTrainer(clusterCount, cpp(termcrit), attempts, flags);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_delete(cv::xfeatures2d::BOWKMeansTrainer *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster1(cv::xfeatures2d::BOWKMeansTrainer *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat m = obj->cluster();
-    *returnValue = new cv::Mat(m);
+        const cv::Mat m = obj->cluster();
+        *returnValue = new cv::Mat(m);
     });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster2(
@@ -79,8 +79,8 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWKMeansTrainer_cluster2(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat m = obj->cluster(*descriptors);
-    *returnValue = new cv::Mat(m);
+        const cv::Mat m = obj->cluster(*descriptors);
+        *returnValue = new cv::Mat(m);
     });
 }
 
@@ -95,13 +95,13 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_Ptr(
     cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dextractor, *dmatcher);
+        *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dextractor, *dmatcher);
     });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_Ptr(cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dmatcher);
+        *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(*dmatcher);
     });
 }
 
@@ -111,40 +111,40 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new1_RawPtr(
     cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
-    // do not delete dextractor and dmatcher
-    const cv::Ptr<cv::DescriptorExtractor> dextractorPtr(dextractor, DescriptorExtractorDeleter);
-    const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
-    *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
+        // do not delete dextractor and dmatcher
+        const cv::Ptr<cv::DescriptorExtractor> dextractorPtr(dextractor, DescriptorExtractorDeleter);
+        const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
+        *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_new2_RawPtr(cv::DescriptorMatcher *dmatcher, cv::xfeatures2d::BOWImgDescriptorExtractor **returnValue)
 {
     return cvTry([&] {
-    // do not delete dmatcher
-    const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
-    *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dmatcherPtr);
+        // do not delete dmatcher
+        const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
+        *returnValue = new cv::xfeatures2d::BOWImgDescriptorExtractor(dmatcherPtr);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_delete(cv::xfeatures2d::BOWImgDescriptorExtractor *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_setVocabulary(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat *vocabulary)
 {
     return cvTry([&] {
-    obj->setVocabulary(*vocabulary);
+        obj->setVocabulary(*vocabulary);
     });
 }
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_getVocabulary(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    cv::Mat m = obj->getVocabulary();
-    *returnValue = new cv::Mat(m);
+        cv::Mat m = obj->getVocabulary();
+        *returnValue = new cv::Mat(m);
     });
 }
 
@@ -157,7 +157,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute11(
     cv::Mat* descriptors)
 {
     return cvTry([&] {
-    obj->compute(InProxy(*image), *keypoints, OutProxy(*imgDescriptor), pointIdxsOfClusters, descriptors);
+        obj->compute(InProxy(*image), *keypoints, OutProxy(*imgDescriptor), pointIdxsOfClusters, descriptors);
     });
 }
 
@@ -168,7 +168,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute12(
     std::vector<std::vector<int> >* pointIdxsOfClusters)
 {
     return cvTry([&] {
-    obj->compute(InProxy(*keypointDescriptors), OutProxy(*imgDescriptor), pointIdxsOfClusters);
+        obj->compute(InProxy(*keypointDescriptors), OutProxy(*imgDescriptor), pointIdxsOfClusters);
     });
 }
 
@@ -179,21 +179,21 @@ CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_compute2(
     cv::Mat *imgDescriptor)
 {
     return cvTry([&] {
-    obj->compute2(*image, *keypoints, *imgDescriptor);
+        obj->compute2(*image, *keypoints, *imgDescriptor);
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_descriptorSize(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->descriptorSize();
+        *returnValue = obj->descriptorSize();
     });
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BOWImgDescriptorExtractor_descriptorType(cv::xfeatures2d::BOWImgDescriptorExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->descriptorType();
+        *returnValue = obj->descriptorType();
     });
 }
 

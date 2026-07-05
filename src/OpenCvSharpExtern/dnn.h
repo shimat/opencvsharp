@@ -74,27 +74,27 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    const bool hasConfig = (config != nullptr && config[0] != '\0');
-    std::string modelAcp, configAcp;
-    cv::dnn::Net net;
-    if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
-    {
-        net = cv::dnn::readNetFromTensorflow(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), engine);
-    }
-    else
-    {
-        const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
-        const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
-        net = cv::dnn::readNetFromTensorflow(
-            reinterpret_cast<const char*>(modelBuf.data()), modelBuf.size(),
-            hasConfig ? reinterpret_cast<const char*>(configBuf.data()) : nullptr, hasConfig ? configBuf.size() : 0,
-            engine);
-    }
-    *returnValue = new cv::dnn::Net(net);
+        const bool hasConfig = (config != nullptr && config[0] != '\0');
+        std::string modelAcp, configAcp;
+        cv::dnn::Net net;
+        if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
+        {
+            net = cv::dnn::readNetFromTensorflow(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), engine);
+        }
+        else
+        {
+            const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
+            const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
+            net = cv::dnn::readNetFromTensorflow(
+                reinterpret_cast<const char*>(modelBuf.data()), modelBuf.size(),
+                hasConfig ? reinterpret_cast<const char*>(configBuf.data()) : nullptr, hasConfig ? configBuf.size() : 0,
+                engine);
+        }
+        *returnValue = new cv::dnn::Net(net);
 #else
-    const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-    const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
-    *returnValue = new cv::dnn::Net(net);
+        const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
+        const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
+        *returnValue = new cv::dnn::Net(net);
 #endif
     });
 }
@@ -108,8 +108,8 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(
     cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
-    const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
-    *returnValue = new cv::dnn::Net(net);
+        const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
+        *returnValue = new cv::dnn::Net(net);
     });
 }
 
@@ -121,7 +121,7 @@ CVAPI(ExceptionStatus) dnn_readNet(
     cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::dnn::Net(dnn_readNetGated(model, config, framework, engine));
+        *returnValue = new cv::dnn::Net(dnn_readNetGated(model, config, framework, engine));
     });
 }
 
@@ -132,22 +132,22 @@ CVAPI(ExceptionStatus) dnn_readNetFromModelOptimizer(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string xmlAcp, binAcp;
-    cv::dnn::Net net;
-    if (pathRoundTripsAcp(xml, xmlAcp) && pathRoundTripsAcp(bin, binAcp))
-    {
-        net = cv::dnn::readNetFromModelOptimizer(cv::String(xmlAcp), cv::String(binAcp));
-    }
-    else
-    {
-        const std::vector<uchar> xmlBuf = dnn_readFileWideOrThrow(xml);
-        const std::vector<uchar> binBuf = dnn_readFileWideOrThrow(bin);
-        net = cv::dnn::readNetFromModelOptimizer(xmlBuf.data(), xmlBuf.size(), binBuf.data(), binBuf.size());
-    }
-    *returnValue = new cv::dnn::Net(net);
+        std::string xmlAcp, binAcp;
+        cv::dnn::Net net;
+        if (pathRoundTripsAcp(xml, xmlAcp) && pathRoundTripsAcp(bin, binAcp))
+        {
+            net = cv::dnn::readNetFromModelOptimizer(cv::String(xmlAcp), cv::String(binAcp));
+        }
+        else
+        {
+            const std::vector<uchar> xmlBuf = dnn_readFileWideOrThrow(xml);
+            const std::vector<uchar> binBuf = dnn_readFileWideOrThrow(bin);
+            net = cv::dnn::readNetFromModelOptimizer(xmlBuf.data(), xmlBuf.size(), binBuf.data(), binBuf.size());
+        }
+        *returnValue = new cv::dnn::Net(net);
 #else
-    const auto net = cv::dnn::readNetFromModelOptimizer(xml, bin);
-    *returnValue = new cv::dnn::Net(net);
+        const auto net = cv::dnn::readNetFromModelOptimizer(xml, bin);
+        *returnValue = new cv::dnn::Net(net);
 #endif
     });
 }
@@ -159,22 +159,22 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string acp;
-    cv::dnn::Net net;
-    if (pathRoundTripsAcp(onnxFile, acp))
-    {
-        net = cv::dnn::readNetFromONNX(cv::String(acp), engine);
-    }
-    else
-    {
-        const std::vector<uchar> buf = dnn_readFileWideOrThrow(onnxFile);
-        net = cv::dnn::readNetFromONNX(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
-    }
-    *returnValue = new cv::dnn::Net(net);
+        std::string acp;
+        cv::dnn::Net net;
+        if (pathRoundTripsAcp(onnxFile, acp))
+        {
+            net = cv::dnn::readNetFromONNX(cv::String(acp), engine);
+        }
+        else
+        {
+            const std::vector<uchar> buf = dnn_readFileWideOrThrow(onnxFile);
+            net = cv::dnn::readNetFromONNX(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
+        }
+        *returnValue = new cv::dnn::Net(net);
 #else
-    // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
-    const auto net = cv::dnn::readNetFromONNX(cv::String(onnxFile), engine);
-    *returnValue = new cv::dnn::Net(net);
+        // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
+        const auto net = cv::dnn::readNetFromONNX(cv::String(onnxFile), engine);
+        *returnValue = new cv::dnn::Net(net);
 #endif
     });
 }
@@ -186,8 +186,8 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(
     cv::dnn::Net** returnValue)
 {
     return cvTry([&] {
-    const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer, engine);
-    *returnValue = new cv::dnn::Net(net);
+        const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer, engine);
+        *returnValue = new cv::dnn::Net(net);
     });
 }
 
@@ -195,8 +195,8 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(
 CVAPI(ExceptionStatus) dnn_readTensorFromONNX(const char *path, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::dnn::readTensorFromONNX(path);
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::dnn::readTensorFromONNX(path);
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -210,8 +210,8 @@ CVAPI(ExceptionStatus) dnn_blobFromImage(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto blob = cv::dnn::blobFromImage(*image, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
-    *returnValue = new cv::Mat(blob);
+        const auto blob = cv::dnn::blobFromImage(*image, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
+        *returnValue = new cv::Mat(blob);
     });
 }
 
@@ -226,18 +226,18 @@ CVAPI(ExceptionStatus) dnn_blobFromImages(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesLength, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesLength, imagesVec);
 
-    const auto blob = cv::dnn::blobFromImages(imagesVec, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
-    *returnValue = new cv::Mat(blob);
+        const auto blob = cv::dnn::blobFromImages(imagesVec, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
+        *returnValue = new cv::Mat(blob);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_writeTextGraph(const char *model, const char *output)
 {
     return cvTry([&] {
-    cv::dnn::writeTextGraph(model, output);
+        cv::dnn::writeTextGraph(model, output);
     });
 }
 
@@ -251,7 +251,7 @@ CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect(
     const int top_k)
 {
     return cvTry([&] {
-    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+        cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
@@ -265,7 +265,7 @@ CVAPI(ExceptionStatus) dnn_NMSBoxes_Rect2d(
     const int top_k)
 {
     return cvTry([&] {
-    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+        cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
@@ -279,45 +279,45 @@ CVAPI(ExceptionStatus) dnn_NMSBoxes_RotatedRect(
     const int top_k)
 {
     return cvTry([&] {
-    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+        cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
 {
     return cvTry([&] {
-    cv::dnn::resetMyriadDevice();
+        cv::dnn::resetMyriadDevice();
     });
 }
 
 CVAPI(ExceptionStatus) dnn_getAvailableTargets(const int be, std::vector<int> *targets)
 {
     return cvTry([&] {
-    const auto v = cv::dnn::getAvailableTargets(static_cast<cv::dnn::Backend>(be));
-    targets->clear();
-    for (const auto t : v)
-        targets->push_back(static_cast<int>(t));
+        const auto v = cv::dnn::getAvailableTargets(static_cast<cv::dnn::Backend>(be));
+        targets->clear();
+        for (const auto t : v)
+            targets->push_back(static_cast<int>(t));
     });
 }
 
 CVAPI(ExceptionStatus) dnn_getAvailableBackends(std::vector<int> *backends, std::vector<int> *targets)
 {
     return cvTry([&] {
-    const auto v = cv::dnn::getAvailableBackends();
-    backends->clear();
-    targets->clear();
-    for (const auto &p : v)
-    {
-        backends->push_back(static_cast<int>(p.first));
-        targets->push_back(static_cast<int>(p.second));
-    }
+        const auto v = cv::dnn::getAvailableBackends();
+        backends->clear();
+        targets->clear();
+        for (const auto &p : v)
+        {
+            backends->push_back(static_cast<int>(p.first));
+            targets->push_back(static_cast<int>(p.second));
+        }
     });
 }
 
 CVAPI(ExceptionStatus) dnn_enableModelDiagnostics(const int isDiagnosticsMode)
 {
     return cvTry([&] {
-    cv::dnn::enableModelDiagnostics(isDiagnosticsMode != 0);
+        cv::dnn::enableModelDiagnostics(isDiagnosticsMode != 0);
     });
 }
 
@@ -328,22 +328,22 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    std::string acp;
-    cv::dnn::Net net;
-    if (pathRoundTripsAcp(model, acp))
-    {
-        net = cv::dnn::readNetFromTFLite(cv::String(acp), engine);
-    }
-    else
-    {
-        const std::vector<uchar> buf = dnn_readFileWideOrThrow(model);
-        net = cv::dnn::readNetFromTFLite(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
-    }
-    *returnValue = new cv::dnn::Net(net);
+        std::string acp;
+        cv::dnn::Net net;
+        if (pathRoundTripsAcp(model, acp))
+        {
+            net = cv::dnn::readNetFromTFLite(cv::String(acp), engine);
+        }
+        else
+        {
+            const std::vector<uchar> buf = dnn_readFileWideOrThrow(model);
+            net = cv::dnn::readNetFromTFLite(reinterpret_cast<const char*>(buf.data()), buf.size(), engine);
+        }
+        *returnValue = new cv::dnn::Net(net);
 #else
-    // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
-    const auto net = cv::dnn::readNetFromTFLite(cv::String(model), engine);
-    *returnValue = new cv::dnn::Net(net);
+        // Wrap in cv::String to disambiguate from the (const char* buffer, size_t, int) overload.
+        const auto net = cv::dnn::readNetFromTFLite(cv::String(model), engine);
+        *returnValue = new cv::dnn::Net(net);
 #endif
     });
 }
@@ -355,8 +355,8 @@ CVAPI(ExceptionStatus) dnn_readNetFromTFLite_InputArray(
     cv::dnn::Net **returnValue)
 {
     return cvTry([&] {
-    const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel, engine);
-    *returnValue = new cv::dnn::Net(net);
+        const auto net = cv::dnn::readNetFromTFLite(bufferModel, lenModel, engine);
+        *returnValue = new cv::dnn::Net(net);
     });
 }
 
@@ -373,11 +373,11 @@ CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::dnn::Image2BlobParams param(
-        cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
-        static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
-    const auto blob = cv::dnn::blobFromImageWithParams(InProxy(*image), param);
-    *returnValue = new cv::Mat(blob);
+        const cv::dnn::Image2BlobParams param(
+            cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+        const auto blob = cv::dnn::blobFromImageWithParams(InProxy(*image), param);
+        *returnValue = new cv::Mat(blob);
     });
 }
 
@@ -395,20 +395,20 @@ CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesLength, imagesVec);
-    const cv::dnn::Image2BlobParams param(
-        cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
-        static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
-    const auto blob = cv::dnn::blobFromImagesWithParams(imagesVec, param);
-    *returnValue = new cv::Mat(blob);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesLength, imagesVec);
+        const cv::dnn::Image2BlobParams param(
+            cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+        const auto blob = cv::dnn::blobFromImagesWithParams(imagesVec, param);
+        *returnValue = new cv::Mat(blob);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_imagesFromBlob(cv::Mat *blob, std::vector<cv::Mat> *images)
 {
     return cvTry([&] {
-    cv::dnn::imagesFromBlob(*blob, *images);
+        cv::dnn::imagesFromBlob(*blob, *images);
     });
 }
 
@@ -423,7 +423,7 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect(
     const int top_k)
 {
     return cvTry([&] {
-    cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
+        cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
@@ -438,7 +438,7 @@ CVAPI(ExceptionStatus) dnn_NMSBoxesBatched_Rect2d(
     const int top_k)
 {
     return cvTry([&] {
-    cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
+        cv::dnn::NMSBoxesBatched(*bboxes, *scores, *classIds, score_threshold, nms_threshold, *indices, eta, top_k);
     });
 }
 
@@ -454,9 +454,9 @@ CVAPI(ExceptionStatus) dnn_softNMSBoxes_Rect(
     const int method)
 {
     return cvTry([&] {
-    cv::dnn::softNMSBoxes(
-        *bboxes, *scores, *updated_scores, score_threshold, nms_threshold, *indices,
-        top_k, sigma, static_cast<cv::dnn::SoftNMSMethod>(method));
+        cv::dnn::softNMSBoxes(
+            *bboxes, *scores, *updated_scores, score_threshold, nms_threshold, *indices,
+            top_k, sigma, static_cast<cv::dnn::SoftNMSMethod>(method));
     });
 }
 

@@ -17,29 +17,29 @@ CVAPI(ExceptionStatus) quality_QualityBase_compute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    const auto ret = obj->compute(InProxy(*img));
-    *returnValue = c(ret);
+        const auto ret = obj->compute(InProxy(*img));
+        *returnValue = c(ret);
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityBase_getQualityMap(cv::quality::QualityBase *obj, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->getQualityMap(OutProxy(*dst));
+        obj->getQualityMap(OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityBase_clear(cv::quality::QualityBase *obj)
 {
     return cvTry([&] {
-    obj->clear();
+        obj->clear();
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityBase_empty(cv::quality::QualityBase *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->empty() ? 1 : 0;
+        *returnValue = obj->empty() ? 1 : 0;
     });
 }
 
@@ -53,22 +53,22 @@ CVAPI(ExceptionStatus) quality_createQualityPSNR(
     cv::Ptr<cv::quality::QualityPSNR> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualityPSNR::create(InProxy(*ref), maxPixelValue);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualityPSNR::create(InProxy(*ref), maxPixelValue);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR>* ptr, cv::quality::QualityPSNR **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -80,26 +80,26 @@ CVAPI(ExceptionStatus) quality_QualityPSNR_staticCompute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    cv::Scalar ret;
-    if (qualityMap == nullptr)
-        ret = cv::quality::QualityPSNR::compute(InProxy(*ref), InProxy(*cmp), cv::noArray(), maxPixelValue);
-    else
-        ret = cv::quality::QualityPSNR::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap), maxPixelValue);
-    *returnValue = c(ret);
+        cv::Scalar ret;
+        if (qualityMap == nullptr)
+            ret = cv::quality::QualityPSNR::compute(InProxy(*ref), InProxy(*cmp), cv::noArray(), maxPixelValue);
+        else
+            ret = cv::quality::QualityPSNR::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap), maxPixelValue);
+        *returnValue = c(ret);
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityPSNR_getMaxPixelValue(cv::quality::QualityPSNR *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxPixelValue();
+        *returnValue = obj->getMaxPixelValue();
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityPSNR_setMaxPixelValue(cv::quality::QualityPSNR *obj, double val)
 {
     return cvTry([&] {
-    obj->setMaxPixelValue(val);
+        obj->setMaxPixelValue(val);
     });
 }
 
@@ -110,22 +110,22 @@ CVAPI(ExceptionStatus) quality_QualityPSNR_setMaxPixelValue(cv::quality::Quality
 CVAPI(ExceptionStatus) quality_createQualitySSIM(const interop::InputArrayProxy* ref, cv::Ptr<cv::quality::QualitySSIM> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualitySSIM::create(InProxy(*ref));
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualitySSIM::create(InProxy(*ref));
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_get(cv::Ptr<cv::quality::QualitySSIM>* ptr, cv::quality::QualitySSIM **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -136,12 +136,12 @@ CVAPI(ExceptionStatus) quality_QualitySSIM_staticCompute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    cv::Scalar ret;
-    if (qualityMap == nullptr)
-        ret = cv::quality::QualitySSIM::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
-    else
-        ret = cv::quality::QualitySSIM::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
-    *returnValue = c(ret);
+        cv::Scalar ret;
+        if (qualityMap == nullptr)
+            ret = cv::quality::QualitySSIM::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
+        else
+            ret = cv::quality::QualitySSIM::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
+        *returnValue = c(ret);
     });
 }
 
@@ -152,22 +152,22 @@ CVAPI(ExceptionStatus) quality_QualitySSIM_staticCompute(
 CVAPI(ExceptionStatus) quality_createQualityGMSD(const interop::InputArrayProxy* ref, cv::Ptr<cv::quality::QualityGMSD> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualityGMSD::create(InProxy(*ref));
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualityGMSD::create(InProxy(*ref));
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_get(cv::Ptr<cv::quality::QualityGMSD>* ptr, cv::quality::QualityGMSD **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -178,12 +178,12 @@ CVAPI(ExceptionStatus) quality_QualityGMSD_staticCompute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    cv::Scalar ret;
-    if (qualityMap == nullptr)
-        ret = cv::quality::QualityGMSD::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
-    else
-        ret = cv::quality::QualityGMSD::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
-    *returnValue = c(ret);
+        cv::Scalar ret;
+        if (qualityMap == nullptr)
+            ret = cv::quality::QualityGMSD::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
+        else
+            ret = cv::quality::QualityGMSD::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
+        *returnValue = c(ret);
     });
 }
 
@@ -194,22 +194,22 @@ CVAPI(ExceptionStatus) quality_QualityGMSD_staticCompute(
 CVAPI(ExceptionStatus) quality_createQualityMSE(const interop::InputArrayProxy* ref, cv::Ptr<cv::quality::QualityMSE> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualityMSE::create(InProxy(*ref));
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualityMSE::create(InProxy(*ref));
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_get(cv::Ptr<cv::quality::QualityMSE>* ptr, cv::quality::QualityMSE **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -220,12 +220,12 @@ CVAPI(ExceptionStatus) quality_QualityMSE_staticCompute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    cv::Scalar ret;
-    if (qualityMap == nullptr)
-        ret = cv::quality::QualityMSE::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
-    else
-        ret = cv::quality::QualityMSE::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
-    *returnValue = c(ret);
+        cv::Scalar ret;
+        if (qualityMap == nullptr)
+            ret = cv::quality::QualityMSE::compute(InProxy(*ref), InProxy(*cmp), cv::noArray());
+        else
+            ret = cv::quality::QualityMSE::compute(InProxy(*ref), InProxy(*cmp), OutProxy(*qualityMap));
+        *returnValue = c(ret);
     });
 }
 
@@ -239,8 +239,8 @@ CVAPI(ExceptionStatus) quality_createQualityBRISQUE1(
     cv::Ptr<cv::quality::QualityBRISQUE> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualityBRISQUE::create(modelFilePath, rangeFilePath);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualityBRISQUE::create(modelFilePath, rangeFilePath);
+        *returnValue = clone(ptr);
     });
 }
 
@@ -250,22 +250,22 @@ CVAPI(ExceptionStatus) quality_createQualityBRISQUE2(
     cv::Ptr<cv::quality::QualityBRISQUE> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::quality::QualityBRISQUE::create(model, *range);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::quality::QualityBRISQUE::create(model, *range);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_get(cv::Ptr<cv::quality::QualityBRISQUE>* ptr, cv::quality::QualityBRISQUE **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -276,15 +276,15 @@ CVAPI(ExceptionStatus) quality_QualityBRISQUE_staticCompute(
     interop::Scalar *returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::quality::QualityBRISQUE::compute(InProxy(*ref), modelFilePath, rangeFilePath);
-    *returnValue = c(ret);
+        const auto ret = cv::quality::QualityBRISQUE::compute(InProxy(*ref), modelFilePath, rangeFilePath);
+        *returnValue = c(ret);
     });
 }
 
 CVAPI(ExceptionStatus) quality_QualityBRISQUE_computeFeatures(const interop::InputArrayProxy* img, const interop::OutputArrayProxy* features)
 {
     return cvTry([&] {
-    cv::quality::QualityBRISQUE::computeFeatures(InProxy(*img), OutProxy(*features));
+        cv::quality::QualityBRISQUE::computeFeatures(InProxy(*img), OutProxy(*features));
     });
 }
 

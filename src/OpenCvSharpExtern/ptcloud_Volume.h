@@ -14,14 +14,14 @@ CVAPI(ExceptionStatus) ptcloud_Volume_new(
     cv::Volume **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Volume(static_cast<cv::VolumeType>(vtype), *settings);
+        *returnValue = new cv::Volume(static_cast<cv::VolumeType>(vtype), *settings);
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_delete(cv::Volume *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -31,7 +31,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_integrateFrame(
     const interop::InputArrayProxy* pose)
 {
     return cvTry([&] {
-    obj->integrate(*frame, InProxy(*pose));
+        obj->integrate(*frame, InProxy(*pose));
     });
 }
 
@@ -41,7 +41,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_integrate(
     const interop::InputArrayProxy* pose)
 {
     return cvTry([&] {
-    obj->integrate(InProxy(*depth), InProxy(*pose));
+        obj->integrate(InProxy(*depth), InProxy(*pose));
     });
 }
 
@@ -52,7 +52,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_integrateColor(
     const interop::InputArrayProxy* pose)
 {
     return cvTry([&] {
-    obj->integrate(InProxy(*depth), InProxy(*image), InProxy(*pose));
+        obj->integrate(InProxy(*depth), InProxy(*image), InProxy(*pose));
     });
 }
 
@@ -63,7 +63,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_raycast(
     const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->raycast(InProxy(*cameraPose), OutProxy(*points), OutProxy(*normals));
+        obj->raycast(InProxy(*cameraPose), OutProxy(*points), OutProxy(*normals));
     });
 }
 
@@ -75,7 +75,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_raycastColor(
     const interop::OutputArrayProxy* colors)
 {
     return cvTry([&] {
-    obj->raycast(InProxy(*cameraPose), OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
+        obj->raycast(InProxy(*cameraPose), OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
     });
 }
 
@@ -89,7 +89,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_raycastEx(
     const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->raycast(InProxy(*cameraPose), height, width, InProxy(*K), OutProxy(*points), OutProxy(*normals));
+        obj->raycast(InProxy(*cameraPose), height, width, InProxy(*K), OutProxy(*points), OutProxy(*normals));
     });
 }
 
@@ -104,7 +104,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_raycastExColor(
     const interop::OutputArrayProxy* colors)
 {
     return cvTry([&] {
-    obj->raycast(InProxy(*cameraPose), height, width, InProxy(*K), OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
+        obj->raycast(InProxy(*cameraPose), height, width, InProxy(*K), OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
     });
 }
 
@@ -114,7 +114,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_fetchNormals(
     const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->fetchNormals(InProxy(*points), OutProxy(*normals));
+        obj->fetchNormals(InProxy(*points), OutProxy(*normals));
     });
 }
 
@@ -124,7 +124,7 @@ CVAPI(ExceptionStatus) ptcloud_Volume_fetchPointsNormals(
     const interop::OutputArrayProxy* normals)
 {
     return cvTry([&] {
-    obj->fetchPointsNormals(OutProxy(*points), OutProxy(*normals));
+        obj->fetchPointsNormals(OutProxy(*points), OutProxy(*normals));
     });
 }
 
@@ -135,28 +135,28 @@ CVAPI(ExceptionStatus) ptcloud_Volume_fetchPointsNormalsColors(
     const interop::OutputArrayProxy* colors)
 {
     return cvTry([&] {
-    obj->fetchPointsNormalsColors(OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
+        obj->fetchPointsNormalsColors(OutProxy(*points), OutProxy(*normals), OutProxy(*colors));
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_reset(cv::Volume *obj)
 {
     return cvTry([&] {
-    obj->reset();
+        obj->reset();
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_getVisibleBlocks(cv::Volume *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getVisibleBlocks();
+        *returnValue = obj->getVisibleBlocks();
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_getTotalVolumeUnits(cv::Volume *obj, size_t *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getTotalVolumeUnits();
+        *returnValue = obj->getTotalVolumeUnits();
     });
 }
 
@@ -166,21 +166,21 @@ CVAPI(ExceptionStatus) ptcloud_Volume_getBoundingBox(
     int precision)
 {
     return cvTry([&] {
-    obj->getBoundingBox(OutProxy(*bb), precision);
+        obj->getBoundingBox(OutProxy(*bb), precision);
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_setEnableGrowth(cv::Volume *obj, int v)
 {
     return cvTry([&] {
-    obj->setEnableGrowth(v != 0);
+        obj->setEnableGrowth(v != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Volume_getEnableGrowth(cv::Volume *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getEnableGrowth() ? 1 : 0;
+        *returnValue = obj->getEnableGrowth() ? 1 : 0;
     });
 }
 

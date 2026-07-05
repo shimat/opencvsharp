@@ -11,21 +11,21 @@
 CVAPI(ExceptionStatus) imgproc_FontFace_new1(cv::FontFace **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::FontFace();
+        *returnValue = new cv::FontFace();
     });
 }
 
 CVAPI(ExceptionStatus) imgproc_FontFace_new2(const char *fontPathOrName, cv::FontFace **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::FontFace(cv::String(fontPathOrName));
+        *returnValue = new cv::FontFace(cv::String(fontPathOrName));
     });
 }
 
 CVAPI(ExceptionStatus) imgproc_FontFace_delete(cv::FontFace *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -35,14 +35,14 @@ CVAPI(ExceptionStatus) imgproc_FontFace_set(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->set(cv::String(fontPathOrName)) ? 1 : 0;
+        *returnValue = obj->set(cv::String(fontPathOrName)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) imgproc_FontFace_getName(cv::FontFace *obj, std::string *returnValue)
 {
     return cvTry([&] {
-    returnValue->assign(obj->getName());
+        returnValue->assign(obj->getName());
     });
 }
 
@@ -53,8 +53,8 @@ CVAPI(ExceptionStatus) imgproc_FontFace_setInstance(
     int *returnValue)
 {
     return cvTry([&] {
-    const std::vector<int> v(params, params + paramsLength);
-    *returnValue = obj->setInstance(v) ? 1 : 0;
+        const std::vector<int> v(params, params + paramsLength);
+        *returnValue = obj->setInstance(v) ? 1 : 0;
     });
 }
 
@@ -64,7 +64,7 @@ CVAPI(ExceptionStatus) imgproc_FontFace_getInstance(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getInstance(*params) ? 1 : 0;
+        *returnValue = obj->getInstance(*params) ? 1 : 0;
     });
 }
 
@@ -106,10 +106,10 @@ CVAPI(ExceptionStatus) imgproc_getTextSize_FontFace(
     interop::Rect *returnValue)
 {
     return cvTry([&] {
-    const auto r = cv::getTextSize(
-        cpp(imgsize), cv::String(text), cpp(org), *fface, size, weight,
-        static_cast<cv::PutTextFlags>(flags), cv::Range(wrapStart, wrapEnd));
-    *returnValue = c(r);
+        const auto r = cv::getTextSize(
+            cpp(imgsize), cv::String(text), cpp(org), *fface, size, weight,
+            static_cast<cv::PutTextFlags>(flags), cv::Range(wrapStart, wrapEnd));
+        *returnValue = c(r);
     });
 }
 

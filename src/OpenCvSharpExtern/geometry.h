@@ -31,7 +31,7 @@ CVAPI(ExceptionStatus) geometry_Rodrigues(
     const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::Rodrigues(InProxy(*src), OutProxy(*dst), OutProxy(*jacobian));
+        cv::Rodrigues(InProxy(*src), OutProxy(*dst), OutProxy(*jacobian));
     });
 }
 
@@ -47,8 +47,8 @@ CVAPI(ExceptionStatus) geometry_findHomography_InputArray(
     cv::Mat** returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -65,11 +65,11 @@ CVAPI(ExceptionStatus) geometry_findHomography_vector(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
-    const cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
+        const cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
+        const cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
 
-    const auto ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, OutProxy(*mask), maxIters, confidence);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -81,22 +81,22 @@ CVAPI(ExceptionStatus) geometry_findHomography_UsacParams(
     cv::Mat** returnValue)
 {
     return cvTry([&] {
-    cv::UsacParams p;
-    p.confidence = params->confidence;
-    p.isParallel = params->isParallel != 0;
-    p.loIterations = params->loIterations;
-    p.loMethod = params->loMethod;
-    p.loSampleSize = params->loSampleSize;
-    p.maxIterations = params->maxIterations;
-    p.neighborsSearch = params->neighborsSearch;
-    p.randomGeneratorState = params->randomGeneratorState;
-    p.sampler = params->sampler;
-    p.score = params->score;
-    p.threshold = params->threshold;
-    p.final_polisher = params->finalPolisher;
-    p.final_polisher_iterations = params->finalPolisherIterations;
-    const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), OutProxy(*mask), p);
-    *returnValue = new cv::Mat(ret);
+        cv::UsacParams p;
+        p.confidence = params->confidence;
+        p.isParallel = params->isParallel != 0;
+        p.loIterations = params->loIterations;
+        p.loMethod = params->loMethod;
+        p.loSampleSize = params->loSampleSize;
+        p.maxIterations = params->maxIterations;
+        p.neighborsSearch = params->neighborsSearch;
+        p.randomGeneratorState = params->randomGeneratorState;
+        p.sampler = params->sampler;
+        p.score = params->score;
+        p.threshold = params->threshold;
+        p.final_polisher = params->finalPolisher;
+        p.final_polisher_iterations = params->finalPolisherIterations;
+        const auto ret = cv::findHomography(InProxy(*srcPoints), InProxy(*dstPoints), OutProxy(*mask), p);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -108,22 +108,22 @@ CVAPI(ExceptionStatus) geometry_findFundamentalMat_UsacParams(
     cv::Mat** returnValue)
 {
     return cvTry([&] {
-    cv::UsacParams p;
-    p.confidence = params->confidence;
-    p.isParallel = params->isParallel != 0;
-    p.loIterations = params->loIterations;
-    p.loMethod = params->loMethod;
-    p.loSampleSize = params->loSampleSize;
-    p.maxIterations = params->maxIterations;
-    p.neighborsSearch = params->neighborsSearch;
-    p.randomGeneratorState = params->randomGeneratorState;
-    p.sampler = params->sampler;
-    p.score = params->score;
-    p.threshold = params->threshold;
-    p.final_polisher = params->finalPolisher;
-    p.final_polisher_iterations = params->finalPolisherIterations;
-    const auto ret = cv::findFundamentalMat(InProxy(*points1), InProxy(*points2), OutProxy(*mask), p);
-    *returnValue = new cv::Mat(ret);
+        cv::UsacParams p;
+        p.confidence = params->confidence;
+        p.isParallel = params->isParallel != 0;
+        p.loIterations = params->loIterations;
+        p.loMethod = params->loMethod;
+        p.loSampleSize = params->loSampleSize;
+        p.maxIterations = params->maxIterations;
+        p.neighborsSearch = params->neighborsSearch;
+        p.randomGeneratorState = params->randomGeneratorState;
+        p.sampler = params->sampler;
+        p.score = params->score;
+        p.threshold = params->threshold;
+        p.final_polisher = params->finalPolisher;
+        p.final_polisher_iterations = params->finalPolisherIterations;
+        const auto ret = cv::findFundamentalMat(InProxy(*points1), InProxy(*points2), OutProxy(*mask), p);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -138,7 +138,7 @@ CVAPI(ExceptionStatus) geometry_RQDecomp3x3_InputArray(
     cv::Vec3d *outVec)
 {
     return cvTry([&] {
-    *outVec = cv::RQDecomp3x3(InProxy(*src), OutProxy(*mtxR), OutProxy(*mtxQ), OutProxy(*qx), OutProxy(*qy), OutProxy(*qz));
+        *outVec = cv::RQDecomp3x3(InProxy(*src), OutProxy(*mtxR), OutProxy(*mtxQ), OutProxy(*qx), OutProxy(*qy), OutProxy(*qz));
     });
 }
 
@@ -152,7 +152,7 @@ CVAPI(ExceptionStatus) geometry_RQDecomp3x3_Mat(
     cv::Vec3d *outVec)
 {
     return cvTry([&] {
-    *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, *qx, *qy, *qz);
+        *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, *qx, *qy, *qz);
     });
 }
 
@@ -168,8 +168,8 @@ CVAPI(ExceptionStatus) geometry_decomposeProjectionMatrix_InputArray(
     const interop::OutputArrayProxy* eulerAngles)
 {
     return cvTry([&] {
-    cv::decomposeProjectionMatrix(InProxy(*projMatrix), OutProxy(*cameraMatrix), OutProxy(*rotMatrix),
-        OutProxy(*transVect), OutProxy(*rotMatrixX), OutProxy(*rotMatrixY), OutProxy(*rotMatrixZ), OutProxy(*eulerAngles));
+        cv::decomposeProjectionMatrix(InProxy(*projMatrix), OutProxy(*cameraMatrix), OutProxy(*rotMatrix),
+            OutProxy(*transVect), OutProxy(*rotMatrixX), OutProxy(*rotMatrixY), OutProxy(*rotMatrixZ), OutProxy(*eulerAngles));
     });
 }
 
@@ -184,8 +184,8 @@ CVAPI(ExceptionStatus) geometry_decomposeProjectionMatrix_Mat(
     cv::Mat *eulerAngles)
 {
     return cvTry([&] {
-    cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
-        *transVect, *rotMatrixX, *rotMatrixY, *rotMatrixZ, *eulerAngles);
+        cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
+            *transVect, *rotMatrixX, *rotMatrixY, *rotMatrixZ, *eulerAngles);
     });
 }
 
@@ -197,7 +197,7 @@ CVAPI(ExceptionStatus) geometry_matMulDeriv(
     const interop::OutputArrayProxy* dABdB)
 {
     return cvTry([&] {
-    cv::matMulDeriv(InProxy(*a), InProxy(*b), OutProxy(*dABdA), OutProxy(*dABdB));
+        cv::matMulDeriv(InProxy(*a), InProxy(*b), OutProxy(*dABdA), OutProxy(*dABdB));
     });
 }
 
@@ -219,9 +219,9 @@ CVAPI(ExceptionStatus) geometry_composeRT_InputArray(
     const interop::OutputArrayProxy* dt3dt2)
 {
     return cvTry([&] {
-    cv::composeRT(InProxy(*rvec1), InProxy(*tvec1), InProxy(*rvec2), InProxy(*tvec2), OutProxy(*rvec3), OutProxy(*tvec3),
-        OutProxy(*dr3dr1), OutProxy(*dr3dt1), OutProxy(*dr3dr2), OutProxy(*dr3dt2),
-        OutProxy(*dt3dr1), OutProxy(*dt3dt1), OutProxy(*dt3dr2), OutProxy(*dt3dt2));
+        cv::composeRT(InProxy(*rvec1), InProxy(*tvec1), InProxy(*rvec2), InProxy(*tvec2), OutProxy(*rvec3), OutProxy(*tvec3),
+            OutProxy(*dr3dr1), OutProxy(*dr3dt1), OutProxy(*dr3dr2), OutProxy(*dr3dt2),
+            OutProxy(*dt3dr1), OutProxy(*dt3dt1), OutProxy(*dt3dr2), OutProxy(*dt3dt2));
     });
 }
 
@@ -243,9 +243,9 @@ CVAPI(ExceptionStatus) geometry_composeRT_Mat(
     cv::Mat *dt3dt2)
 {
     return cvTry([&] {
-    cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
-        entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2),
-        entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+        cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
+            entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2),
+            entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
     });
 }
 
@@ -261,8 +261,8 @@ CVAPI(ExceptionStatus) geometry_projectPoints_InputArray(
     double aspectRatio)
 {
     return cvTry([&] {
-    cv::projectPoints(InProxy(*objectPoints), InProxy(*rvec), InProxy(*tvec), InProxy(*cameraMatrix), InProxy(*distCoeffs),
-        OutProxy(*imagePoints), OutProxy(*jacobian), aspectRatio);
+        cv::projectPoints(InProxy(*objectPoints), InProxy(*rvec), InProxy(*tvec), InProxy(*cameraMatrix), InProxy(*distCoeffs),
+            OutProxy(*imagePoints), OutProxy(*jacobian), aspectRatio);
     });
 }
 
@@ -277,8 +277,8 @@ CVAPI(ExceptionStatus) geometry_projectPoints_Mat(
     double aspectRatio)
 {
     return cvTry([&] {
-    cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
-        *imagePoints, *jacobian, aspectRatio);
+        cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
+            *imagePoints, *jacobian, aspectRatio);
     });
 }
 
@@ -294,7 +294,7 @@ CVAPI(ExceptionStatus) geometry_solvePnP_InputArray(
     int flags)
 {
     return cvTry([&] {
-    cv::solvePnP(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec), useExtrinsicGuess != 0, flags);
+        cv::solvePnP(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec), useExtrinsicGuess != 0, flags);
     });
 }
 
@@ -312,17 +312,17 @@ CVAPI(ExceptionStatus) geometry_solvePnP_vector(
     int flags)
 {
     return cvTry([&] {
-    const cv::Mat objectPointsMat(objectPointsLength, 1, CV_32FC3, objectPoints);
-    const cv::Mat imagePointsMat(imagePointsLength, 1, CV_32FC2, imagePoints);
-    cv::Mat distCoeffsMat;
-    if (distCoeffs != nullptr)
-        distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
+        const cv::Mat objectPointsMat(objectPointsLength, 1, CV_32FC3, objectPoints);
+        const cv::Mat imagePointsMat(imagePointsLength, 1, CV_32FC2, imagePoints);
+        cv::Mat distCoeffsMat;
+        if (distCoeffs != nullptr)
+            distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
 
-    const cv::Matx<double, 3, 3> cameraMatrixMat(cameraMatrix);
-    cv::Matx<double, 3, 1> rvecMat(rvec), tvecMat(tvec);
-    cv::solvePnP(objectPointsMat, imagePointsMat, cameraMatrixMat, distCoeffsMat, rvecMat, tvecMat, useExtrinsicGuess != 0, flags);
-    memcpy(rvec, rvecMat.val, sizeof(double) * 3);
-    memcpy(tvec, tvecMat.val, sizeof(double) * 3);
+        const cv::Matx<double, 3, 3> cameraMatrixMat(cameraMatrix);
+        cv::Matx<double, 3, 1> rvecMat(rvec), tvecMat(tvec);
+        cv::solvePnP(objectPointsMat, imagePointsMat, cameraMatrixMat, distCoeffsMat, rvecMat, tvecMat, useExtrinsicGuess != 0, flags);
+        memcpy(rvec, rvecMat.val, sizeof(double) * 3);
+        memcpy(tvec, tvecMat.val, sizeof(double) * 3);
     });
 }
 
@@ -342,9 +342,9 @@ CVAPI(ExceptionStatus) geometry_solvePnPRansac_InputArray(
     int flags)
 {
     return cvTry([&] {
-    cv::solvePnPRansac(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec),
-        useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
-        OutProxy(*inliers), flags);
+        cv::solvePnPRansac(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), OutProxy(*rvec), OutProxy(*tvec),
+            useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
+            OutProxy(*inliers), flags);
     });
 }
 
@@ -366,20 +366,20 @@ CVAPI(ExceptionStatus) geometry_solvePnPRansac_vector(
     int flags)
 {
     return cvTry([&] {
-    const cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
-    const cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
-    cv::Mat distCoeffsMat;
-    if (distCoeffs != nullptr)
-        distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
+        const cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
+        const cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
+        cv::Mat distCoeffsMat;
+        if (distCoeffs != nullptr)
+            distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
 
-    cv::Matx<double, 3, 1> rvecM, tvecM;
+        cv::Matx<double, 3, 1> rvecM, tvecM;
 
-    cv::solvePnPRansac(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM,
-        useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
-        *inliers, flags);
+        cv::solvePnPRansac(objectPointsMat, imagePointsMat, *cameraMatrix, distCoeffsMat, rvecM, tvecM,
+            useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
+            *inliers, flags);
 
-    memcpy(rvec, rvecM.val, sizeof(double) * 3);
-    memcpy(tvec, tvecM.val, sizeof(double) * 3);
+        memcpy(rvec, rvecM.val, sizeof(double) * 3);
+        memcpy(tvec, tvecM.val, sizeof(double) * 3);
     });
 }
 
@@ -396,15 +396,15 @@ CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_InputArray(
     double *aspectRatio)
 {
     return cvTry([&] {
-    double fovx0, fovy0, focalLength0, aspectRatio0;
-    cv::Point2d principalPoint0;
-    cv::calibrationMatrixValues(InProxy(*cameraMatrix), cpp(imageSize), apertureWidth, apertureHeight,
-        fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
-    *fovx = fovx0;
-    *fovy = fovy0;
-    *principalPoint = principalPoint0;
-    *focalLength = focalLength0;
-    *aspectRatio = aspectRatio0;
+        double fovx0, fovy0, focalLength0, aspectRatio0;
+        cv::Point2d principalPoint0;
+        cv::calibrationMatrixValues(InProxy(*cameraMatrix), cpp(imageSize), apertureWidth, apertureHeight,
+            fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
+        *fovx = fovx0;
+        *fovy = fovy0;
+        *principalPoint = principalPoint0;
+        *focalLength = focalLength0;
+        *aspectRatio = aspectRatio0;
     });
 }
 
@@ -420,16 +420,16 @@ CVAPI(ExceptionStatus) geometry_calibrationMatrixValues_array(
     double *aspectRatio)
 {
     return cvTry([&] {
-    const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
-    double fovx0, fovy0, focalLength0, aspectRatio0;
-    cv::Point2d principalPoint0;
-    cv::calibrationMatrixValues(cameraMatrixM, cpp(imageSize), apertureWidth, apertureHeight,
-        fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
-    *fovx = fovx0;
-    *fovy = fovy0;
-    *principalPoint = principalPoint0;
-    *focalLength = focalLength0;
-    *aspectRatio = aspectRatio0;
+        const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+        double fovx0, fovy0, focalLength0, aspectRatio0;
+        cv::Point2d principalPoint0;
+        cv::calibrationMatrixValues(cameraMatrixM, cpp(imageSize), apertureWidth, apertureHeight,
+            fovx0, fovy0, focalLength0, principalPoint0, aspectRatio0);
+        *fovx = fovx0;
+        *fovy = fovy0;
+        *principalPoint = principalPoint0;
+        *focalLength = focalLength0;
+        *aspectRatio = aspectRatio0;
     });
 }
 
@@ -445,11 +445,11 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_InputArray(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    cv::Rect _validPixROI;
-    const auto mat = cv::getOptimalNewCameraMatrix(InProxy(*cameraMatrix), InProxy(*distCoeffs),
-        cpp(imageSize), alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
-    *validPixROI = c(_validPixROI);
-    *returnValue = new cv::Mat(mat);
+        cv::Rect _validPixROI;
+        const auto mat = cv::getOptimalNewCameraMatrix(InProxy(*cameraMatrix), InProxy(*distCoeffs),
+            cpp(imageSize), alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
+        *validPixROI = c(_validPixROI);
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -465,14 +465,14 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_array(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
-    const auto distCoeffsM = (distCoeffs == nullptr) ? cv::Mat() : cv::Mat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
+        const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+        const auto distCoeffsM = (distCoeffs == nullptr) ? cv::Mat() : cv::Mat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
 
-    cv::Rect _validPixROI;
-    const auto mat = cv::getOptimalNewCameraMatrix(cameraMatrixM, distCoeffsM, cpp(imageSize),
-        alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
-    *validPixROI = c(_validPixROI);
-    *returnValue = new cv::Mat(mat);
+        cv::Rect _validPixROI;
+        const auto mat = cv::getOptimalNewCameraMatrix(cameraMatrixM, distCoeffsM, cpp(imageSize),
+            alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
+        *validPixROI = c(_validPixROI);
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -480,7 +480,7 @@ CVAPI(ExceptionStatus) geometry_getOptimalNewCameraMatrix_array(
 CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_InputArray(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsToHomogeneous(InProxy(*src), OutProxy(*dst));
+        cv::convertPointsToHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -490,9 +490,9 @@ CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array1(
     int length)
 {
     return cvTry([&] {
-    const cv::Mat srcMat(length, 1, CV_64FC2, src);
-    cv::Mat dstMat(length, 1, CV_64FC3, dst);
-    cv::convertPointsFromHomogeneous(srcMat, dstMat);
+        const cv::Mat srcMat(length, 1, CV_64FC2, src);
+        cv::Mat dstMat(length, 1, CV_64FC3, dst);
+        cv::convertPointsFromHomogeneous(srcMat, dstMat);
     });
 }
 
@@ -502,9 +502,9 @@ CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array2(
     int length)
 {
     return cvTry([&] {
-    const cv::Mat srcMat(length, 1, CV_64FC3, src);
-    cv::Mat dstMat(length, 1, CV_64FC4, dst);
-    cv::convertPointsFromHomogeneous(srcMat, dstMat);
+        const cv::Mat srcMat(length, 1, CV_64FC3, src);
+        cv::Mat dstMat(length, 1, CV_64FC4, dst);
+        cv::convertPointsFromHomogeneous(srcMat, dstMat);
     });
 }
 
@@ -512,7 +512,7 @@ CVAPI(ExceptionStatus) geometry_convertPointsToHomogeneous_array2(
 CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_InputArray(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsFromHomogeneous(InProxy(*src), OutProxy(*dst));
+        cv::convertPointsFromHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -522,9 +522,9 @@ CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array1(
     int length)
 {
     return cvTry([&] {
-    const cv::Mat srcMat(length, 1, CV_64FC3, src);
-    cv::Mat dstMat(length, 1, CV_64FC2, dst);
-    cv::convertPointsFromHomogeneous(srcMat, dstMat);
+        const cv::Mat srcMat(length, 1, CV_64FC3, src);
+        cv::Mat dstMat(length, 1, CV_64FC2, dst);
+        cv::convertPointsFromHomogeneous(srcMat, dstMat);
     });
 }
 
@@ -534,9 +534,9 @@ CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array2(
     int length)
 {
     return cvTry([&] {
-    const cv::Mat srcMat(length, 1, CV_64FC4, src);
-    cv::Mat dstMat(length, 1, CV_64FC3, dst);
-    cv::convertPointsFromHomogeneous(srcMat, dstMat);
+        const cv::Mat srcMat(length, 1, CV_64FC4, src);
+        cv::Mat dstMat(length, 1, CV_64FC3, dst);
+        cv::convertPointsFromHomogeneous(srcMat, dstMat);
     });
 }
 
@@ -544,7 +544,7 @@ CVAPI(ExceptionStatus) geometry_convertPointsFromHomogeneous_array2(
 CVAPI(ExceptionStatus) geometry_convertPointsHomogeneous(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    cv::convertPointsHomogeneous(InProxy(*src), OutProxy(*dst));
+        cv::convertPointsHomogeneous(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -559,9 +559,9 @@ CVAPI(ExceptionStatus) geometry_findFundamentalMat_InputArray(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::findFundamentalMat(
-        InProxy(*points1), InProxy(*points2), method, param1, param2, OutProxy(*mask));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::findFundamentalMat(
+            InProxy(*points1), InProxy(*points2), method, param1, param2, OutProxy(*mask));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -577,11 +577,11 @@ CVAPI(ExceptionStatus) geometry_findFundamentalMat_arrayF64(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
-    const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
-    const auto mat = cv::findFundamentalMat(
-        points1M, points2M, method, param1, param2, OutProxy(*mask));
-    *returnValue = new cv::Mat(mat);
+        const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
+        const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
+        const auto mat = cv::findFundamentalMat(
+            points1M, points2M, method, param1, param2, OutProxy(*mask));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -597,11 +597,11 @@ CVAPI(ExceptionStatus) geometry_findFundamentalMat_arrayF32(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const cv::Mat points1M(points1Size, 1, CV_32FC2, points1);
-    const cv::Mat points2M(points2Size, 1, CV_32FC2, points2);
-    const auto mat = cv::findFundamentalMat(
-        points1M, points2M, method, param1, param2, OutProxy(*mask));
-    *returnValue = new cv::Mat(mat);
+        const cv::Mat points1M(points1Size, 1, CV_32FC2, points1);
+        const cv::Mat points2M(points2Size, 1, CV_32FC2, points2);
+        const auto mat = cv::findFundamentalMat(
+            points1M, points2M, method, param1, param2, OutProxy(*mask));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -613,7 +613,7 @@ CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_InputArray(
     const interop::OutputArrayProxy* lines)
 {
     return cvTry([&] {
-    cv::computeCorrespondEpilines(InProxy(*points), whichImage, InProxy(*F), OutProxy(*lines));
+        cv::computeCorrespondEpilines(InProxy(*points), whichImage, InProxy(*F), OutProxy(*lines));
     });
 }
 
@@ -625,10 +625,10 @@ CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array2d(
     cv::Point3f *lines)
 {
     return cvTry([&] {
-    const cv::Mat_<cv::Point2d> pointsM(pointsSize, 1, points);
-    const cv::Mat_<double> FM(3, 3, F);
-    cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
-    cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
+        const cv::Mat_<cv::Point2d> pointsM(pointsSize, 1, points);
+        const cv::Mat_<double> FM(3, 3, F);
+        cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
+        cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
     });
 }
 
@@ -640,10 +640,10 @@ CVAPI(ExceptionStatus) geometry_computeCorrespondEpilines_array3d(
     cv::Point3f *lines)
 {
     return cvTry([&] {
-    const cv::Mat_<cv::Point3d> pointsM(pointsSize, 1, points);
-    const cv::Mat_<double> FM(3, 3, F);
-    cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
-    cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
+        const cv::Mat_<cv::Point3d> pointsM(pointsSize, 1, points);
+        const cv::Mat_<double> FM(3, 3, F);
+        cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
+        cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
     });
 }
 
@@ -656,7 +656,7 @@ CVAPI(ExceptionStatus) geometry_triangulatePoints_InputArray(
     const interop::OutputArrayProxy* points4D)
 {
     return cvTry([&] {
-    cv::triangulatePoints(InProxy(*projMatr1), InProxy(*projMatr2), InProxy(*projPoints1), InProxy(*projPoints2), OutProxy(*points4D));
+        cv::triangulatePoints(InProxy(*projMatr1), InProxy(*projMatr2), InProxy(*projPoints1), InProxy(*projPoints2), OutProxy(*points4D));
     });
 }
 
@@ -670,13 +670,13 @@ CVAPI(ExceptionStatus) geometry_triangulatePoints_array(
     cv::Vec4d *points4D)
 {
     return cvTry([&] {
-    const cv::Mat_<double> projMatr1M(3, 4, projMatr1);
-    const cv::Mat_<double> projMatr2M(3, 4, projMatr2);
-    const cv::Mat_<cv::Point2d> projPoints1M(projPoints1Size, 1, projPoints1);
-    const cv::Mat_<cv::Point2d> projPoints2M(projPoints2Size, 1, projPoints2);
-    cv::Mat_<cv::Vec4d> points4DM(1, projPoints1Size, points4D);
-    cv::triangulatePoints(projMatr1M, projMatr2M,
-        projPoints1M, projPoints2M, points4DM);
+        const cv::Mat_<double> projMatr1M(3, 4, projMatr1);
+        const cv::Mat_<double> projMatr2M(3, 4, projMatr2);
+        const cv::Mat_<cv::Point2d> projPoints1M(projPoints1Size, 1, projPoints1);
+        const cv::Mat_<cv::Point2d> projPoints2M(projPoints2Size, 1, projPoints2);
+        cv::Mat_<cv::Vec4d> points4DM(1, projPoints1Size, points4D);
+        cv::triangulatePoints(projMatr1M, projMatr2M,
+            projPoints1M, projPoints2M, points4DM);
     });
 }
 
@@ -689,7 +689,7 @@ CVAPI(ExceptionStatus) geometry_correctMatches_InputArray(
     const interop::OutputArrayProxy* newPoints2)
 {
     return cvTry([&] {
-    cv::correctMatches(InProxy(*F), InProxy(*points1), InProxy(*points2), OutProxy(*newPoints1), OutProxy(*newPoints2));
+        cv::correctMatches(InProxy(*F), InProxy(*points1), InProxy(*points2), OutProxy(*newPoints1), OutProxy(*newPoints2));
     });
 }
 
@@ -703,16 +703,16 @@ CVAPI(ExceptionStatus) geometry_correctMatches_array(
     cv::Point2d *newPoints2)
 {
     return cvTry([&] {
-    cv::Mat_<double> FM(3, 3, F);
-    cv::Mat_<cv::Point2d> points1M(points1Size, 1, points1);
-    cv::Mat_<cv::Point2d> points2M(points2Size, 1, points2);
-    cv::Mat_<double> points1MM = points1M.reshape(2);
-    cv::Mat_<double> points2MM = points2M.reshape(2);
-    cv::Mat_<cv::Point2d> newPoints1M(points1Size, 1, newPoints1);
-    cv::Mat_<cv::Point2d> newPoints2M(points2Size, 1, newPoints2);
-    cv::Mat_<double> newPoints1MM = points1M.reshape(2);
-    cv::Mat_<double> newPoints2MM = points2M.reshape(2);
-    cv::correctMatches(FM, points1MM, points2MM, newPoints1MM, newPoints2MM);
+        cv::Mat_<double> FM(3, 3, F);
+        cv::Mat_<cv::Point2d> points1M(points1Size, 1, points1);
+        cv::Mat_<cv::Point2d> points2M(points2Size, 1, points2);
+        cv::Mat_<double> points1MM = points1M.reshape(2);
+        cv::Mat_<double> points2MM = points2M.reshape(2);
+        cv::Mat_<cv::Point2d> newPoints1M(points1Size, 1, newPoints1);
+        cv::Mat_<cv::Point2d> newPoints2M(points2Size, 1, newPoints2);
+        cv::Mat_<double> newPoints1MM = points1M.reshape(2);
+        cv::Mat_<double> newPoints2MM = points2M.reshape(2);
+        cv::correctMatches(FM, points1MM, points2MM, newPoints1MM, newPoints2MM);
     });
 }
 
@@ -727,7 +727,7 @@ CVAPI(ExceptionStatus) geometry_estimateAffine3D(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::estimateAffine3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence);
+        *returnValue = cv::estimateAffine3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence);
     });
 }
 
@@ -740,7 +740,7 @@ CVAPI(ExceptionStatus) geometry_sampsonDistance_InputArray(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::sampsonDistance(InProxy(*pt1), InProxy(*pt2), InProxy(*F));
+        *returnValue = cv::sampsonDistance(InProxy(*pt1), InProxy(*pt2), InProxy(*F));
     });
 }
 
@@ -751,12 +751,12 @@ CVAPI(ExceptionStatus) geometry_sampsonDistance_Point3d(
     double *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Point3d> f(9);
-    for (size_t i = 0; i < 9; i++)
-    {
-        f[i] = cpp(F[i]);
-    }
-    *returnValue = cv::sampsonDistance(cv::Mat(cpp(pt1)), cv::Mat(cpp(pt2)), f);
+        std::vector<cv::Point3d> f(9);
+        for (size_t i = 0; i < 9; i++)
+        {
+            f[i] = cpp(F[i]);
+        }
+        *returnValue = cv::sampsonDistance(cv::Mat(cpp(pt1)), cv::Mat(cpp(pt2)), f);
     });
 }
 
@@ -773,9 +773,9 @@ CVAPI(ExceptionStatus) geometry_estimateAffine2D(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto result = cv::estimateAffine2D(
-        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
-    *returnValue = new cv::Mat(result);
+        const auto result = cv::estimateAffine2D(
+            InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+        *returnValue = new cv::Mat(result);
     });
 }
 
@@ -792,9 +792,9 @@ CVAPI(ExceptionStatus) geometry_estimateAffinePartial2D(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto result = cv::estimateAffinePartial2D(
-        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
-    *returnValue = new cv::Mat(result);
+        const auto result = cv::estimateAffinePartial2D(
+            InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+        *returnValue = new cv::Mat(result);
     });
 }
 
@@ -808,7 +808,7 @@ CVAPI(ExceptionStatus) geometry_decomposeHomographyMat(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::decomposeHomographyMat(InProxy(*H), InProxy(*K), *rotations, *translations, *normals);
+        *returnValue = cv::decomposeHomographyMat(InProxy(*H), InProxy(*K), *rotations, *translations, *normals);
     });
 }
 
@@ -822,7 +822,7 @@ CVAPI(ExceptionStatus) geometry_filterHomographyDecompByVisibleRefpoints(
     const interop::InputArrayProxy* pointsMask)
 {
     return cvTry([&] {
-    cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, InProxy(*beforePoints), InProxy(*afterPoints), OutProxy(*possibleSolutions), InProxy(*pointsMask));
+        cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, InProxy(*beforePoints), InProxy(*afterPoints), OutProxy(*possibleSolutions), InProxy(*pointsMask));
     });
 }
 
@@ -834,8 +834,8 @@ CVAPI(ExceptionStatus) geometry_getDefaultNewCameraMatrix(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto result = cv::getDefaultNewCameraMatrix(InProxy(*cameraMatrix), cpp(imgsize), centerPrincipalPoint != 0);
-    *returnValue = new cv::Mat(result);
+        const auto result = cv::getDefaultNewCameraMatrix(InProxy(*cameraMatrix), cpp(imgsize), centerPrincipalPoint != 0);
+        *returnValue = new cv::Mat(result);
     });
 }
 
@@ -849,7 +849,7 @@ CVAPI(ExceptionStatus) geometry_undistortPoints(
     const interop::InputArrayProxy* P)
 {
     return cvTry([&] {
-    cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P));
+        cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P));
     });
 }
 
@@ -864,7 +864,7 @@ CVAPI(ExceptionStatus) geometry_undistortPointsIter(
     interop::TermCriteria criteria)
 {
     return cvTry([&] {
-    cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P), cpp(criteria));
+        cv::undistortPoints(InProxy(*src), OutProxy(*dst), InProxy(*cameraMatrix), InProxy(*distCoeffs), InProxy(*R), InProxy(*P), cpp(criteria));
     });
 }
 
@@ -880,7 +880,7 @@ CVAPI(ExceptionStatus) geometry_recoverPose_InputArray1(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), IoProxy(*mask));
+        *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), IoProxy(*mask));
     });
 }
 
@@ -897,7 +897,7 @@ CVAPI(ExceptionStatus) geometry_recoverPose_InputArray2(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), OutProxy(*R), OutProxy(*t), focal, cpp(pp), IoProxy(*mask));
+        *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), OutProxy(*R), OutProxy(*t), focal, cpp(pp), IoProxy(*mask));
     });
 }
 
@@ -915,7 +915,7 @@ CVAPI(ExceptionStatus) geometry_recoverPose_InputArray3(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), distanceTresh, IoProxy(*mask), OutProxy(*triangulatedPoints));
+        *returnValue = cv::recoverPose(InProxy(*E), InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), OutProxy(*R), OutProxy(*t), distanceTresh, IoProxy(*mask), OutProxy(*triangulatedPoints));
     });
 }
 
@@ -931,9 +931,9 @@ CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray1(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::findEssentialMat(
-        InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), method, prob, threshold, 1000, OutProxy(*mask));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::findEssentialMat(
+            InProxy(*points1), InProxy(*points2), InProxy(*cameraMatrix), method, prob, threshold, 1000, OutProxy(*mask));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -949,9 +949,9 @@ CVAPI(ExceptionStatus) geometry_findEssentialMat_InputArray2(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::findEssentialMat(
-        InProxy(*points1), InProxy(*points2), focal, cpp(pp), method, prob, threshold, 1000, OutProxy(*mask));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::findEssentialMat(
+            InProxy(*points1), InProxy(*points2), focal, cpp(pp), method, prob, threshold, 1000, OutProxy(*mask));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -966,7 +966,7 @@ CVAPI(ExceptionStatus) geometry_solvePnPRefineLM(
     interop::TermCriteria criteria)
 {
     return cvTry([&] {
-    cv::solvePnPRefineLM(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria));
+        cv::solvePnPRefineLM(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria));
     });
 }
 
@@ -981,7 +981,7 @@ CVAPI(ExceptionStatus) geometry_solvePnPRefineVVS(
     double vvsLambda)
 {
     return cvTry([&] {
-    cv::solvePnPRefineVVS(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria), vvsLambda);
+        cv::solvePnPRefineVVS(InProxy(*objectPoints), InProxy(*imagePoints), InProxy(*cameraMatrix), InProxy(*distCoeffs), IoProxy(*rvec), IoProxy(*tvec), cpp(criteria), vvsLambda);
     });
 }
 
@@ -992,7 +992,7 @@ CVAPI(ExceptionStatus) geometry_decomposeEssentialMat(
     const interop::OutputArrayProxy* t)
 {
     return cvTry([&] {
-    cv::decomposeEssentialMat(InProxy(*e), OutProxy(*r1), OutProxy(*r2), OutProxy(*t));
+        cv::decomposeEssentialMat(InProxy(*e), OutProxy(*r1), OutProxy(*r2), OutProxy(*t));
     });
 }
 
@@ -1006,7 +1006,7 @@ CVAPI(ExceptionStatus) geometry_estimateTranslation3D(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::estimateTranslation3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence) ? 1 : 0;
+        *returnValue = cv::estimateTranslation3D(InProxy(*src), InProxy(*dst), OutProxy(*out), OutProxy(*inliers), ransacThreshold, confidence) ? 1 : 0;
     });
 }
 
@@ -1022,9 +1022,9 @@ CVAPI(ExceptionStatus) geometry_estimateTranslation2D(
     cv::Vec2d *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::estimateTranslation2D(
-        InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold,
-        static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+        *returnValue = cv::estimateTranslation2D(
+            InProxy(*from), InProxy(*to), OutProxy(*inliers), method, ransacReprojThreshold,
+            static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     });
 }
 
@@ -1929,22 +1929,22 @@ CVAPI(ExceptionStatus) geometry_createSACSegmentation(
     cv::Ptr<cv::SACSegmentation> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::SACSegmentation::create(
-        static_cast<cv::SacModelType>(sacModelType), static_cast<cv::SacMethod>(sacMethod), threshold, maxIterations));
+        *returnValue = clone(cv::SACSegmentation::create(
+            static_cast<cv::SacModelType>(sacModelType), static_cast<cv::SacMethod>(sacMethod), threshold, maxIterations));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_Ptr_SACSegmentation_delete(cv::Ptr<cv::SACSegmentation> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_Ptr_SACSegmentation_get(cv::Ptr<cv::SACSegmentation> *ptr, cv::SACSegmentation **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -1956,133 +1956,133 @@ CVAPI(ExceptionStatus) geometry_SACSegmentation_segment(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->segment(InProxy(*inputPts), OutProxy(*labels), OutProxy(*modelsCoefficients));
+        *returnValue = obj->segment(InProxy(*inputPts), OutProxy(*labels), OutProxy(*modelsCoefficients));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setSacModelType(cv::SACSegmentation *obj, int value)
 {
     return cvTry([&] {
-    obj->setSacModelType(static_cast<cv::SacModelType>(value));
+        obj->setSacModelType(static_cast<cv::SacModelType>(value));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getSacModelType(cv::SACSegmentation *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->getSacModelType());
+        *returnValue = static_cast<int>(obj->getSacModelType());
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setSacMethodType(cv::SACSegmentation *obj, int value)
 {
     return cvTry([&] {
-    obj->setSacMethodType(static_cast<cv::SacMethod>(value));
+        obj->setSacMethodType(static_cast<cv::SacMethod>(value));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getSacMethodType(cv::SACSegmentation *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->getSacMethodType());
+        *returnValue = static_cast<int>(obj->getSacMethodType());
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setDistanceThreshold(cv::SACSegmentation *obj, double value)
 {
     return cvTry([&] {
-    obj->setDistanceThreshold(value);
+        obj->setDistanceThreshold(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getDistanceThreshold(cv::SACSegmentation *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getDistanceThreshold();
+        *returnValue = obj->getDistanceThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setRadiusLimits(cv::SACSegmentation *obj, double radiusMin, double radiusMax)
 {
     return cvTry([&] {
-    obj->setRadiusLimits(radiusMin, radiusMax);
+        obj->setRadiusLimits(radiusMin, radiusMax);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getRadiusLimits(cv::SACSegmentation *obj, double *radiusMin, double *radiusMax)
 {
     return cvTry([&] {
-    obj->getRadiusLimits(*radiusMin, *radiusMax);
+        obj->getRadiusLimits(*radiusMin, *radiusMax);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setMaxIterations(cv::SACSegmentation *obj, int value)
 {
     return cvTry([&] {
-    obj->setMaxIterations(value);
+        obj->setMaxIterations(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getMaxIterations(cv::SACSegmentation *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxIterations();
+        *returnValue = obj->getMaxIterations();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setConfidence(cv::SACSegmentation *obj, double value)
 {
     return cvTry([&] {
-    obj->setConfidence(value);
+        obj->setConfidence(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getConfidence(cv::SACSegmentation *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getConfidence();
+        *returnValue = obj->getConfidence();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setNumberOfModelsExpected(cv::SACSegmentation *obj, int value)
 {
     return cvTry([&] {
-    obj->setNumberOfModelsExpected(value);
+        obj->setNumberOfModelsExpected(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getNumberOfModelsExpected(cv::SACSegmentation *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumberOfModelsExpected();
+        *returnValue = obj->getNumberOfModelsExpected();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setParallel(cv::SACSegmentation *obj, int value)
 {
     return cvTry([&] {
-    obj->setParallel(value != 0);
+        obj->setParallel(value != 0);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_isParallel(cv::SACSegmentation *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isParallel() ? 1 : 0;
+        *returnValue = obj->isParallel() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setRandomGeneratorState(cv::SACSegmentation *obj, uint64_t value)
 {
     return cvTry([&] {
-    obj->setRandomGeneratorState(value);
+        obj->setRandomGeneratorState(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_getRandomGeneratorState(cv::SACSegmentation *obj, uint64_t *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getRandomGeneratorState();
+        *returnValue = obj->getRandomGeneratorState();
     });
 }
 
@@ -2091,16 +2091,16 @@ CVAPI(ExceptionStatus) geometry_SACSegmentation_setCustomModelConstraints(
     SacModelConstraintNativeCallback callback)
 {
     return cvTry([&] {
-    if (callback == nullptr)
-    {
-        obj->setCustomModelConstraints(cv::SACSegmentation::ModelConstraintFunction());
-    }
-    else
-    {
-        obj->setCustomModelConstraints([callback](const std::vector<double> &coefficients) -> bool {
-            return callback(coefficients.data(), static_cast<int>(coefficients.size())) != 0;
-        });
-    }
+        if (callback == nullptr)
+        {
+            obj->setCustomModelConstraints(cv::SACSegmentation::ModelConstraintFunction());
+        }
+        else
+        {
+            obj->setCustomModelConstraints([callback](const std::vector<double> &coefficients) -> bool {
+                return callback(coefficients.data(), static_cast<int>(coefficients.size())) != 0;
+            });
+        }
     });
 }
 
@@ -2110,21 +2110,21 @@ CVAPI(ExceptionStatus) geometry_SACSegmentation_setCustomModelConstraints(
 CVAPI(ExceptionStatus) geometry_createRegionGrowing3D(cv::Ptr<cv::RegionGrowing3D> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = clone(cv::RegionGrowing3D::create());
+        *returnValue = clone(cv::RegionGrowing3D::create());
     });
 }
 
 CVAPI(ExceptionStatus) geometry_Ptr_RegionGrowing3D_delete(cv::Ptr<cv::RegionGrowing3D> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_Ptr_RegionGrowing3D_get(cv::Ptr<cv::RegionGrowing3D> *ptr, cv::RegionGrowing3D **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -2138,147 +2138,147 @@ CVAPI(ExceptionStatus) geometry_RegionGrowing3D_segment(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->segment(*regionsIdx, OutProxy(*labels), InProxy(*inputPts), InProxy(*normals), InProxy(*nnIdx));
+        *returnValue = obj->segment(*regionsIdx, OutProxy(*labels), InProxy(*inputPts), InProxy(*normals), InProxy(*nnIdx));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMinSize(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setMinSize(value);
+        obj->setMinSize(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMinSize(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMinSize();
+        *returnValue = obj->getMinSize();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMaxSize(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setMaxSize(value);
+        obj->setMaxSize(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMaxSize(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxSize();
+        *returnValue = obj->getMaxSize();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSmoothModeFlag(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setSmoothModeFlag(value != 0);
+        obj->setSmoothModeFlag(value != 0);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSmoothModeFlag(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSmoothModeFlag() ? 1 : 0;
+        *returnValue = obj->getSmoothModeFlag() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSmoothnessThreshold(cv::RegionGrowing3D *obj, double value)
 {
     return cvTry([&] {
-    obj->setSmoothnessThreshold(value);
+        obj->setSmoothnessThreshold(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSmoothnessThreshold(cv::RegionGrowing3D *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSmoothnessThreshold();
+        *returnValue = obj->getSmoothnessThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setCurvatureThreshold(cv::RegionGrowing3D *obj, double value)
 {
     return cvTry([&] {
-    obj->setCurvatureThreshold(value);
+        obj->setCurvatureThreshold(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getCurvatureThreshold(cv::RegionGrowing3D *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getCurvatureThreshold();
+        *returnValue = obj->getCurvatureThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setMaxNumberOfNeighbors(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setMaxNumberOfNeighbors(value);
+        obj->setMaxNumberOfNeighbors(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getMaxNumberOfNeighbors(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxNumberOfNeighbors();
+        *returnValue = obj->getMaxNumberOfNeighbors();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setNumberOfRegions(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setNumberOfRegions(value);
+        obj->setNumberOfRegions(value);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getNumberOfRegions(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumberOfRegions();
+        *returnValue = obj->getNumberOfRegions();
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setNeedSort(cv::RegionGrowing3D *obj, int value)
 {
     return cvTry([&] {
-    obj->setNeedSort(value != 0);
+        obj->setNeedSort(value != 0);
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getNeedSort(cv::RegionGrowing3D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNeedSort() ? 1 : 0;
+        *returnValue = obj->getNeedSort() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setSeeds(cv::RegionGrowing3D *obj, const interop::InputArrayProxy* seeds)
 {
     return cvTry([&] {
-    obj->setSeeds(InProxy(*seeds));
+        obj->setSeeds(InProxy(*seeds));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getSeeds(cv::RegionGrowing3D *obj, const interop::OutputArrayProxy* seeds)
 {
     return cvTry([&] {
-    obj->getSeeds(OutProxy(*seeds));
+        obj->getSeeds(OutProxy(*seeds));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_setCurvatures(cv::RegionGrowing3D *obj, const interop::InputArrayProxy* curvatures)
 {
     return cvTry([&] {
-    obj->setCurvatures(InProxy(*curvatures));
+        obj->setCurvatures(InProxy(*curvatures));
     });
 }
 
 CVAPI(ExceptionStatus) geometry_RegionGrowing3D_getCurvatures(cv::RegionGrowing3D *obj, const interop::OutputArrayProxy* curvatures)
 {
     return cvTry([&] {
-    obj->getCurvatures(OutProxy(*curvatures));
+        obj->getCurvatures(OutProxy(*curvatures));
     });
 }
 

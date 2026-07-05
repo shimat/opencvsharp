@@ -10,18 +10,18 @@ CVAPI(ExceptionStatus) wechat_qrcode_create1(
     cv::wechat_qrcode::WeChatQRCode **returnValue)
 {
     return cvTry([&] {
-    // OpenCV 5: WeChatQRCode takes one ONNX detector model path and one ONNX super-resolution
-    // model path (Caffe prototxt/caffemodel pairs dropped).
-    *returnValue = new cv::wechat_qrcode::WeChatQRCode(
-        detector_model_path == nullptr ? std::string() : std::string(detector_model_path),
-        super_resolution_model_path == nullptr ? std::string() : std::string(super_resolution_model_path));
+        // OpenCV 5: WeChatQRCode takes one ONNX detector model path and one ONNX super-resolution
+        // model path (Caffe prototxt/caffemodel pairs dropped).
+        *returnValue = new cv::wechat_qrcode::WeChatQRCode(
+            detector_model_path == nullptr ? std::string() : std::string(detector_model_path),
+            super_resolution_model_path == nullptr ? std::string() : std::string(super_resolution_model_path));
     });
 }
 
 CVAPI(ExceptionStatus) wechat_qrcode_delete(cv::wechat_qrcode::WeChatQRCode* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -33,7 +33,7 @@ CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(
     std::vector<std::string>* texts)
 {
     return cvTry([&] {
-    *texts = obj->detectAndDecode(InProxy(*inputImage), *points);
+        *texts = obj->detectAndDecode(InProxy(*inputImage), *points);
     });
 }
 
@@ -44,16 +44,16 @@ CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode_points(
     std::vector<std::string>* texts)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> matPoints;
-    *texts = obj->detectAndDecode(InProxy(*inputImage), matPoints);
-    points->clear();
-    for (const auto& mat : matPoints)
-    {
-        std::vector<cv::Point2f> pts;
-        for (int i = 0; i < mat.rows; i++)
-            pts.emplace_back(mat.at<float>(i, 0), mat.at<float>(i, 1));
-        points->push_back(std::move(pts));
-    }
+        std::vector<cv::Mat> matPoints;
+        *texts = obj->detectAndDecode(InProxy(*inputImage), matPoints);
+        points->clear();
+        for (const auto& mat : matPoints)
+        {
+            std::vector<cv::Point2f> pts;
+            for (int i = 0; i < mat.rows; i++)
+                pts.emplace_back(mat.at<float>(i, 0), mat.at<float>(i, 1));
+            points->push_back(std::move(pts));
+        }
     });
 }
 

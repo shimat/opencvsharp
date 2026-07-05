@@ -17,7 +17,7 @@ CVAPI(ExceptionStatus) xphoto_inpaint(
     int algorithm)
 {
     return cvTry([&] {
-    cv::xphoto::inpaint(*src, *mask, *dst, static_cast<const cv::xphoto::InpaintTypes>(algorithm));
+        cv::xphoto::inpaint(*src, *mask, *dst, static_cast<const cv::xphoto::InpaintTypes>(algorithm));
     });
 }
 
@@ -33,28 +33,28 @@ CVAPI(ExceptionStatus) xphoto_applyChannelGains(
     float gainR)
 {
     return cvTry([&] {
-    cv::xphoto::applyChannelGains(InProxy(*src), OutProxy(*dst), gainB, gainG, gainR);
+        cv::xphoto::applyChannelGains(InProxy(*src), OutProxy(*dst), gainB, gainG, gainR);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_createGrayworldWB(cv::Ptr<cv::xphoto::GrayworldWB> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::xphoto::createGrayworldWB();
-    *returnValue = new cv::Ptr<cv::xphoto::GrayworldWB>(ptr);
+        const auto ptr = cv::xphoto::createGrayworldWB();
+        *returnValue = new cv::Ptr<cv::xphoto::GrayworldWB>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_Ptr_GrayworldWB_delete(cv::Ptr<cv::xphoto::GrayworldWB> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 CVAPI(ExceptionStatus) xphoto_Ptr_GrayworldWB_get(cv::Ptr<cv::xphoto::GrayworldWB>* ptr, cv::xphoto::GrayworldWB **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -64,42 +64,42 @@ CVAPI(ExceptionStatus) xphoto_GrayworldWB_balanceWhite(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
+        ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_get(cv::xphoto::GrayworldWB* ptr, float* returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getSaturationThreshold();
+        *returnValue = ptr->getSaturationThreshold();
     });
 }
 CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_set(cv::xphoto::GrayworldWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setSaturationThreshold(val);
+        ptr->setSaturationThreshold(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_createLearningBasedWB(const char* path_to_model, cv::Ptr<cv::xphoto::LearningBasedWB> **returnValue)
 {
     return cvTry([&] {
-    const std::string str_path_to_model(path_to_model);
-    const auto ptr = cv::xphoto::createLearningBasedWB(str_path_to_model);
-    *returnValue = new cv::Ptr<cv::xphoto::LearningBasedWB>(ptr);
+        const std::string str_path_to_model(path_to_model);
+        const auto ptr = cv::xphoto::createLearningBasedWB(str_path_to_model);
+        *returnValue = new cv::Ptr<cv::xphoto::LearningBasedWB>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_Ptr_LearningBasedWB_delete(cv::Ptr<cv::xphoto::LearningBasedWB> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 CVAPI(ExceptionStatus) xphoto_Ptr_LearningBasedWB_get(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, cv::xphoto::LearningBasedWB **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -109,7 +109,7 @@ CVAPI(ExceptionStatus) xphoto_LearningBasedWB_balanceWhite(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
+        ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -119,67 +119,67 @@ CVAPI(ExceptionStatus) xphoto_LearningBasedWB_extractSimpleFeatures(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    ptr->extractSimpleFeatures(InProxy(*src), OutProxy(*dst));
+        ptr->extractSimpleFeatures(InProxy(*src), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_get(cv::xphoto::LearningBasedWB* ptr, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getRangeMaxVal();
+        *returnValue = ptr->getRangeMaxVal();
     });
 }
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_set(cv::xphoto::LearningBasedWB* ptr, int val)
 {
     return cvTry([&] {
-    ptr->setRangeMaxVal(val);
+        ptr->setRangeMaxVal(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_get(cv::xphoto::LearningBasedWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getSaturationThreshold();
+        *returnValue = ptr->getSaturationThreshold();
     });
 }
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_set(cv::xphoto::LearningBasedWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setSaturationThreshold(val);
+        ptr->setSaturationThreshold(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_get(cv::xphoto::LearningBasedWB* ptr, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getHistBinNum();
+        *returnValue = ptr->getHistBinNum();
     });
 }
 CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_set(cv::xphoto::LearningBasedWB* ptr, int val)
 {
     return cvTry([&] {
-    ptr->setHistBinNum(val);
+        ptr->setHistBinNum(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_createSimpleWB(cv::Ptr<cv::xphoto::SimpleWB> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::xphoto::createSimpleWB();
-    *returnValue = new cv::Ptr<cv::xphoto::SimpleWB>(ptr);
+        const auto ptr = cv::xphoto::createSimpleWB();
+        *returnValue = new cv::Ptr<cv::xphoto::SimpleWB>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_Ptr_SimpleWB_delete(cv::Ptr<cv::xphoto::SimpleWB> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 CVAPI(ExceptionStatus) xphoto_Ptr_SimpleWB_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, cv::xphoto::SimpleWB **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -189,72 +189,72 @@ CVAPI(ExceptionStatus) xphoto_SimpleWB_balanceWhite(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
+        ptr->balanceWhite(InProxy(*src), OutProxy(*dst));
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getInputMax();
+        *returnValue = ptr->getInputMax();
     });
 }
 CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_set(cv::xphoto::SimpleWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setInputMax(val);
+        ptr->setInputMax(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getInputMin();
+        *returnValue = ptr->getInputMin();
     });
 }
 CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_set(cv::xphoto::SimpleWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setInputMin(val);
+        ptr->setInputMin(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getOutputMax();
+        *returnValue = ptr->getOutputMax();
     });
 }
 CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_set(cv::xphoto::SimpleWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setOutputMax(val);
+        ptr->setOutputMax(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getOutputMin();
+        *returnValue = ptr->getOutputMin();
     });
 }
 CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_set(cv::xphoto::SimpleWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setOutputMin(val);
+        ptr->setOutputMin(val);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_SimpleWB_P_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->getP();
+        *returnValue = ptr->getP();
     });
 }
 CVAPI(ExceptionStatus) xphoto_SimpleWB_P_set(cv::xphoto::SimpleWB* ptr, float val)
 {
     return cvTry([&] {
-    ptr->setP(val);
+        ptr->setP(val);
     });
 }
 
@@ -279,9 +279,9 @@ CVAPI(ExceptionStatus) xphoto_bm3dDenoising1(
     int transformType)
 {
     return cvTry([&] {
-    cv::xphoto::bm3dDenoising(
-        InProxy(*src), IoProxy(*dstStep1), OutProxy(*dstStep2), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, 
-        groupSize, slidingStep, beta, normType, step, transformType);
+        cv::xphoto::bm3dDenoising(
+            InProxy(*src), IoProxy(*dstStep1), OutProxy(*dstStep2), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, 
+            groupSize, slidingStep, beta, normType, step, transformType);
     });
 }
 
@@ -301,9 +301,9 @@ CVAPI(ExceptionStatus) xphoto_bm3dDenoising2(
     int transformType)
 {
     return cvTry([&] {
-    cv::xphoto::bm3dDenoising(
-        InProxy(*src), OutProxy(*dst), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, 
-        groupSize, slidingStep, beta, normType, step, transformType);
+        cv::xphoto::bm3dDenoising(
+            InProxy(*src), OutProxy(*dst), h, templateWindowSize, searchWindowSize, blockMatchingStep1, blockMatchingStep2, 
+            groupSize, slidingStep, beta, normType, step, transformType);
     });
 }
 
@@ -318,7 +318,7 @@ CVAPI(ExceptionStatus) xphoto_dctDenoising(
     const int psize)
 {
     return cvTry([&] {
-    cv::xphoto::dctDenoising(*src, *dst, sigma, psize);
+        cv::xphoto::dctDenoising(*src, *dst, sigma, psize);
     });
 }
 
@@ -334,10 +334,10 @@ CVAPI(ExceptionStatus) xphoto_oilPainting(
     int code)
 {
     return cvTry([&] {
-    if (code >= 0)
-        cv::xphoto::oilPainting(InProxy(*src), OutProxy(*dst), size, dynRatio, code);
-    else
-        cv::xphoto::oilPainting(InProxy(*src), OutProxy(*dst), size, dynRatio);
+        if (code >= 0)
+            cv::xphoto::oilPainting(InProxy(*src), OutProxy(*dst), size, dynRatio, code);
+        else
+            cv::xphoto::oilPainting(InProxy(*src), OutProxy(*dst), size, dynRatio);
     });
 }
 
@@ -348,52 +348,52 @@ CVAPI(ExceptionStatus) xphoto_oilPainting(
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSaturation(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSaturation();
+        *returnValue = obj->getSaturation();
     });
 }
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSaturation(cv::xphoto::TonemapDurand *obj, float saturation)
 {
     return cvTry([&] {
-    obj->setSaturation(saturation);
+        obj->setSaturation(saturation);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_getContrast(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getContrast();
+        *returnValue = obj->getContrast();
     });
 }
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_setContrast(cv::xphoto::TonemapDurand *obj, float contrast)
 {
     return cvTry([&] {
-    obj->setContrast(contrast);
+        obj->setContrast(contrast);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaSpace(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSigmaSpace();
+        *returnValue = obj->getSigmaSpace();
     });
 }
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaSpace(cv::xphoto::TonemapDurand *obj, float sigma_space)
 {
     return cvTry([&] {
-    obj->setSigmaSpace(sigma_space);
+        obj->setSigmaSpace(sigma_space);
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaColor(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSigmaColor();
+        *returnValue = obj->getSigmaColor();
     });
 }
 CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaColor(cv::xphoto::TonemapDurand *obj, float sigma_color)
 {
     return cvTry([&] {
-    obj->setSigmaColor(sigma_color);
+        obj->setSigmaColor(sigma_color);
     });
 }
 
@@ -406,22 +406,22 @@ CVAPI(ExceptionStatus) xphoto_createTonemapDurand(
     cv::Ptr<cv::xphoto::TonemapDurand> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::xphoto::createTonemapDurand(gamma, contrast, saturation, sigma_space, sigma_color);
-    *returnValue = clone(p);
+        const auto p = cv::xphoto::createTonemapDurand(gamma, contrast, saturation, sigma_space, sigma_color);
+        *returnValue = clone(p);
     });  
 }
 
 CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_delete(cv::Ptr<cv::xphoto::TonemapDurand> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapDurand> *ptr, cv::xphoto::TonemapDurand **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 

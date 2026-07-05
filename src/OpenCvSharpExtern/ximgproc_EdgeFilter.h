@@ -13,14 +13,14 @@
 CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_delete(cv::Ptr<cv::ximgproc::DTFilter>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_get(cv::Ptr<cv::ximgproc::DTFilter>* ptr, cv::ximgproc::DTFilter** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -31,7 +31,7 @@ CVAPI(ExceptionStatus) ximgproc_DTFilter_filter(
     int dDepth)
 {
     return cvTry([&] {
-    obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
+        obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
     });
 }
 
@@ -44,8 +44,8 @@ CVAPI(ExceptionStatus) ximgproc_createDTFilter(
     cv::Ptr<cv::ximgproc::DTFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createDTFilter(InProxy(*guide), sigmaSpatial, sigmaColor, mode, numIters);
-    *returnValue = new cv::Ptr<cv::ximgproc::DTFilter>(ptr);
+        const auto ptr = cv::ximgproc::createDTFilter(InProxy(*guide), sigmaSpatial, sigmaColor, mode, numIters);
+        *returnValue = new cv::Ptr<cv::ximgproc::DTFilter>(ptr);
     });
 }
 
@@ -59,7 +59,7 @@ CVAPI(ExceptionStatus) ximgproc_dtFilter(
     int numIters)
 {
     return cvTry([&] {
-    cv::ximgproc::dtFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), sigmaSpatial, sigmaColor, mode, numIters);
+        cv::ximgproc::dtFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), sigmaSpatial, sigmaColor, mode, numIters);
     });
 }
 
@@ -69,14 +69,14 @@ CVAPI(ExceptionStatus) ximgproc_dtFilter(
 CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_delete(cv::Ptr<cv::ximgproc::GuidedFilter>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_get(cv::Ptr<cv::ximgproc::GuidedFilter>* ptr, cv::ximgproc::GuidedFilter** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -87,7 +87,7 @@ CVAPI(ExceptionStatus) ximgproc_GuidedFilter_filter(
     int dDepth)
 {
     return cvTry([&] {
-    obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
+        obj->filter(InProxy(*src), OutProxy(*dst), dDepth);
     });
 }
 
@@ -98,8 +98,8 @@ CVAPI(ExceptionStatus) ximgproc_createGuidedFilter(
     cv::Ptr<cv::ximgproc::GuidedFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createGuidedFilter(InProxy(*guide), radius, eps);
-    *returnValue = new cv::Ptr<cv::ximgproc::GuidedFilter>(ptr);
+        const auto ptr = cv::ximgproc::createGuidedFilter(InProxy(*guide), radius, eps);
+        *returnValue = new cv::Ptr<cv::ximgproc::GuidedFilter>(ptr);
     });
 }
 
@@ -112,7 +112,7 @@ CVAPI(ExceptionStatus) ximgproc_guidedFilter(
     int dDepth)
 {
     return cvTry([&] {
-    cv::ximgproc::guidedFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), radius, eps, dDepth);
+        cv::ximgproc::guidedFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst), radius, eps, dDepth);
     });
 }
 
@@ -122,14 +122,14 @@ CVAPI(ExceptionStatus) ximgproc_guidedFilter(
 CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_delete(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_get(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* ptr, cv::ximgproc::AdaptiveManifoldFilter** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -140,87 +140,87 @@ CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_filter(
     const interop::InputArrayProxy* joint)
 {
     return cvTry([&] {
-    obj->filter(InProxy(*src), OutProxy(*dst), InProxy(*joint));
+        obj->filter(InProxy(*src), OutProxy(*dst), InProxy(*joint));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_collectGarbage(cv::ximgproc::AdaptiveManifoldFilter* obj)
 {
     return cvTry([&] {
-    obj->collectGarbage();
+        obj->collectGarbage();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaS(cv::ximgproc::AdaptiveManifoldFilter* obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSigmaS();
+        *returnValue = obj->getSigmaS();
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaS(cv::ximgproc::AdaptiveManifoldFilter* obj, double val)
 {
     return cvTry([&] {
-    obj->setSigmaS(val);
+        obj->setSigmaS(val);
     });    
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaR(cv::ximgproc::AdaptiveManifoldFilter* obj, double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSigmaR();
+        *returnValue = obj->getSigmaR();
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaR(cv::ximgproc::AdaptiveManifoldFilter* obj, double val)
 {
     return cvTry([&] {
-    obj->setSigmaR(val);
+        obj->setSigmaR(val);
     });    
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getTreeHeight(cv::ximgproc::AdaptiveManifoldFilter* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getTreeHeight();
+        *returnValue = obj->getTreeHeight();
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setTreeHeight(cv::ximgproc::AdaptiveManifoldFilter* obj, int val)
 {
     return cvTry([&] {
-    obj->setTreeHeight(val);
+        obj->setTreeHeight(val);
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getPCAIterations(cv::ximgproc::AdaptiveManifoldFilter* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getPCAIterations();
+        *returnValue = obj->getPCAIterations();
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setPCAIterations(cv::ximgproc::AdaptiveManifoldFilter* obj, int val)
 {
     return cvTry([&] {
-    obj->setPCAIterations(val);
+        obj->setPCAIterations(val);
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(cv::ximgproc::AdaptiveManifoldFilter* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getAdjustOutliers();
+        *returnValue = obj->getAdjustOutliers();
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(cv::ximgproc::AdaptiveManifoldFilter* obj, int val)
 {
     return cvTry([&] {
-    obj->setAdjustOutliers(val);
+        obj->setAdjustOutliers(val);
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getUseRNG(cv::ximgproc::AdaptiveManifoldFilter* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getUseRNG() ? 1 : 0;
+        *returnValue = obj->getUseRNG() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setUseRNG(cv::ximgproc::AdaptiveManifoldFilter* obj, int val)
 {
     return cvTry([&] {
-    obj->setUseRNG(val != 0);
+        obj->setUseRNG(val != 0);
     });
 }
 
@@ -231,8 +231,8 @@ CVAPI(ExceptionStatus) ximgproc_createAMFilter(
     cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createAMFilter(sigma_s, sigma_r, adjust_outliers != 0);
-    *returnValue = new cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>(ptr);
+        const auto ptr = cv::ximgproc::createAMFilter(sigma_s, sigma_r, adjust_outliers != 0);
+        *returnValue = new cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>(ptr);
     });
 }
 
@@ -245,7 +245,7 @@ CVAPI(ExceptionStatus) ximgproc_amFilter(
     int adjust_outliers)
 {
     return cvTry([&] {
-    cv::ximgproc::amFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), sigma_s, sigma_r, adjust_outliers != 0);
+        cv::ximgproc::amFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), sigma_s, sigma_r, adjust_outliers != 0);
     });
 }
 
@@ -262,7 +262,7 @@ CVAPI(ExceptionStatus) ximgproc_jointBilateralFilter(
     int borderType)
 {
     return cvTry([&] {
-    cv::ximgproc::jointBilateralFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, borderType);
+        cv::ximgproc::jointBilateralFilter(InProxy(*joint), InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, borderType);
     });
 }
 
@@ -275,7 +275,7 @@ CVAPI(ExceptionStatus) ximgproc_bilateralTextureFilter(
     double sigmaAvg)
 {
     return cvTry([&] {
-    cv::ximgproc::bilateralTextureFilter(InProxy(*src), OutProxy(*dst), fr, numIter, sigmaAlpha, sigmaAvg);
+        cv::ximgproc::bilateralTextureFilter(InProxy(*src), OutProxy(*dst), fr, numIter, sigmaAlpha, sigmaAvg);
     });
 }
 
@@ -289,7 +289,7 @@ CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(
     int borderType)
 {
     return cvTry([&] {
-    cv::ximgproc::rollingGuidanceFilter(InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, numOfIter, borderType);
+        cv::ximgproc::rollingGuidanceFilter(InProxy(*src), OutProxy(*dst), d, sigmaColor, sigmaSpace, numOfIter, borderType);
     });
 }
 
@@ -300,14 +300,14 @@ CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_delete(cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_get(cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* ptr, cv::ximgproc::FastBilateralSolverFilter** returnValue)
 {
     return cvTry([&] {
-    * returnValue = ptr->get();
+        * returnValue = ptr->get();
     });
 }
 
@@ -318,7 +318,7 @@ CVAPI(ExceptionStatus) ximgproc_FastBilateralSolverFilter_filter(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->filter(InProxy(*src), InProxy(*confidence) , OutProxy(*dst));
+        obj->filter(InProxy(*src), InProxy(*confidence) , OutProxy(*dst));
     });
 }
 
@@ -333,8 +333,8 @@ CVAPI(ExceptionStatus) ximgproc_createFastBilateralSolverFilter(
     cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createFastBilateralSolverFilter(InProxy(*guide), sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
-    *returnValue = new cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>(ptr);
+        const auto ptr = cv::ximgproc::createFastBilateralSolverFilter(InProxy(*guide), sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
+        *returnValue = new cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>(ptr);
     });
 }
 
@@ -351,8 +351,8 @@ CVAPI(ExceptionStatus) ximgproc_fastBilateralSolverFilter(
     double max_tol)
 {
     return cvTry([&] {
-    cv::ximgproc::fastBilateralSolverFilter(InProxy(*guide), InProxy(*src), InProxy(*confidence), OutProxy(*dst),
-        sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
+        cv::ximgproc::fastBilateralSolverFilter(InProxy(*guide), InProxy(*src), InProxy(*confidence), OutProxy(*dst),
+            sigma_spatial, sigma_luma, sigma_chroma, lambda, num_iter, max_tol);
     });
 }
 
@@ -363,14 +363,14 @@ CVAPI(ExceptionStatus) ximgproc_fastBilateralSolverFilter(
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_delete(cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_get(cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* ptr, cv::ximgproc::FastGlobalSmootherFilter** returnValue)
 {
     return cvTry([&] {
-    * returnValue = ptr->get();
+        * returnValue = ptr->get();
     });
 }
 
@@ -380,7 +380,7 @@ CVAPI(ExceptionStatus) ximgproc_FastGlobalSmootherFilter_filter(
     const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-    obj->filter(InProxy(*src), OutProxy(*dst));
+        obj->filter(InProxy(*src), OutProxy(*dst));
     });
 }
 
@@ -393,8 +393,8 @@ CVAPI(ExceptionStatus) ximgproc_createFastGlobalSmootherFilter(
     cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createFastGlobalSmootherFilter(InProxy(*guide), lambda, sigma_color, lambda_attenuation, num_iter);
-    *returnValue = new cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>(ptr);
+        const auto ptr = cv::ximgproc::createFastGlobalSmootherFilter(InProxy(*guide), lambda, sigma_color, lambda_attenuation, num_iter);
+        *returnValue = new cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>(ptr);
     });
 }
 
@@ -408,8 +408,8 @@ CVAPI(ExceptionStatus) ximgproc_fastGlobalSmootherFilter(
     int num_iter)
 {
     return cvTry([&] {
-    cv::ximgproc::fastGlobalSmootherFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst),
-        lambda, sigma_color, lambda_attenuation, num_iter);
+        cv::ximgproc::fastGlobalSmootherFilter(InProxy(*guide), InProxy(*src), OutProxy(*dst),
+            lambda, sigma_color, lambda_attenuation, num_iter);
     });
 }
 
@@ -420,7 +420,7 @@ CVAPI(ExceptionStatus) ximgproc_l0Smooth(
     double kappa)
 {
     return cvTry([&] {
-    cv::ximgproc::l0Smooth(InProxy(*src), OutProxy(*dst), lambda, kappa);
+        cv::ximgproc::l0Smooth(InProxy(*src), OutProxy(*dst), lambda, kappa);
     });
 }
 

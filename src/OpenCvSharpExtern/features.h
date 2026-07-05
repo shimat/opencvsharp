@@ -18,8 +18,8 @@ CVAPI(ExceptionStatus) features_drawKeypoints(
     int flags)
 {
     return cvTry([&] {
-    const std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
-    cv::drawKeypoints(InProxy(*image), keypointsVec, IoProxy(*outImage), cpp(color), static_cast<cv::DrawMatchesFlags>(flags));
+        const std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
+        cv::drawKeypoints(InProxy(*image), keypointsVec, IoProxy(*outImage), cpp(color), static_cast<cv::DrawMatchesFlags>(flags));
     });
 }
 
@@ -41,14 +41,14 @@ CVAPI(ExceptionStatus) features_drawMatches(
     int flags)
 {
     return cvTry([&] {
-    const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
-    const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
-    const std::vector<cv::DMatch> matches1to2Vec(matches1to2, matches1to2 + matches1to2Length);
-    std::vector<char> matchesMaskVec;
-    if (matchesMask != nullptr)
-        matchesMaskVec = std::vector<char>(matchesMask, matchesMask + matchesMaskLength);
-    cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec, *outImg,
-        cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
+        const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
+        const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
+        const std::vector<cv::DMatch> matches1to2Vec(matches1to2, matches1to2 + matches1to2Length);
+        std::vector<char> matchesMaskVec;
+        if (matchesMask != nullptr)
+            matchesMaskVec = std::vector<char>(matchesMask, matchesMask + matchesMaskLength);
+        cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec, *outImg,
+            cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
     });
 }
 
@@ -71,28 +71,28 @@ CVAPI(ExceptionStatus) features_drawMatchesKnn(
     int flags)
 {
     return cvTry([&] {
-    const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
-    const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
-    std::vector<std::vector<cv::DMatch> > matches1to2Vec(matches1to2Size1);
-    for (int i = 0; i < matches1to2Size1; i++)
-    {
-        cv::DMatch *p = matches1to2[i];
-        matches1to2Vec[i] = std::vector<cv::DMatch>(p, p + matches1to2Size2[i]);
-    }
-
-    std::vector<std::vector<char> > matchesMaskVec;
-    if (matchesMask != nullptr)
-    {
-        matchesMaskVec = std::vector<std::vector<char> >(matchesMaskSize1);
-        for (int i = 0; i < matchesMaskSize1; i++)
+        const std::vector<cv::KeyPoint> keypoints1Vec(keypoints1, keypoints1 + keypoints1Length);
+        const std::vector<cv::KeyPoint> keypoints2Vec(keypoints2, keypoints2 + keypoints2Length);
+        std::vector<std::vector<cv::DMatch> > matches1to2Vec(matches1to2Size1);
+        for (int i = 0; i < matches1to2Size1; i++)
         {
-            char *p = matchesMask[i];
-            matchesMaskVec[i] = std::vector<char>(p, p + matchesMaskSize2[i]);
+            cv::DMatch *p = matches1to2[i];
+            matches1to2Vec[i] = std::vector<cv::DMatch>(p, p + matches1to2Size2[i]);
         }
-    }
 
-    cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec,
-        *outImg, cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
+        std::vector<std::vector<char> > matchesMaskVec;
+        if (matchesMask != nullptr)
+        {
+            matchesMaskVec = std::vector<std::vector<char> >(matchesMaskSize1);
+            for (int i = 0; i < matchesMaskSize1; i++)
+            {
+                char *p = matchesMask[i];
+                matchesMaskVec[i] = std::vector<char>(p, p + matchesMaskSize2[i]);
+            }
+        }
+
+        cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec,
+            *outImg, cpp(matchColor), cpp(singlePointColor), matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
     });
 }
 
@@ -108,9 +108,9 @@ CVAPI(ExceptionStatus) features_evaluateFeatureDetector(
     const Ptr<FeatureDetector>& fdetector = Ptr<FeatureDetector>()*/)
 {
     return cvTry([&] {
-    cv::evaluateFeatureDetector(
-        *img1, *img2, *H1to2, keypoints1, keypoints2,
-        *repeatability, *correspCount);
+        cv::evaluateFeatureDetector(
+            *img1, *img2, *H1to2, keypoints1, keypoints2,
+            *repeatability, *correspCount);
     });
 }
 
@@ -124,20 +124,20 @@ CVAPI(ExceptionStatus) features_computeRecallPrecisionCurve(
     std::vector<cv::Point2f> *recallPrecisionCurve)
 {
     return cvTry([&] {
-    std::vector<std::vector<cv::DMatch> > matches1to2Vec;
-    std::vector<std::vector<uchar> > correctMatches1to2MaskVec;
-    matches1to2Vec.reserve(matches1to2Size1);
-    for (int i = 0; i < matches1to2Size1; i++)
-    {
-        matches1to2Vec.emplace_back(matches1to2[i], matches1to2[i] + matches1to2Size2[i]);
-    }
-    correctMatches1to2MaskVec.reserve(correctMatches1to2MaskSize1);
-    for (int i = 0; i < correctMatches1to2MaskSize1; i++)
-    {
-        correctMatches1to2MaskVec.emplace_back(correctMatches1to2Mask[i], correctMatches1to2Mask[i] + correctMatches1to2MaskSize2[i]);
-    }
-    cv::computeRecallPrecisionCurve(
-        matches1to2Vec, correctMatches1to2MaskVec, *recallPrecisionCurve);
+        std::vector<std::vector<cv::DMatch> > matches1to2Vec;
+        std::vector<std::vector<uchar> > correctMatches1to2MaskVec;
+        matches1to2Vec.reserve(matches1to2Size1);
+        for (int i = 0; i < matches1to2Size1; i++)
+        {
+            matches1to2Vec.emplace_back(matches1to2[i], matches1to2[i] + matches1to2Size2[i]);
+        }
+        correctMatches1to2MaskVec.reserve(correctMatches1to2MaskSize1);
+        for (int i = 0; i < correctMatches1to2MaskSize1; i++)
+        {
+            correctMatches1to2MaskVec.emplace_back(correctMatches1to2Mask[i], correctMatches1to2Mask[i] + correctMatches1to2MaskSize2[i]);
+        }
+        cv::computeRecallPrecisionCurve(
+            matches1to2Vec, correctMatches1to2MaskVec, *recallPrecisionCurve);
     });
 }
 
@@ -148,9 +148,9 @@ CVAPI(ExceptionStatus) features_getRecall(
     float *returnValue)
 {
     return cvTry([&] {
-    const std::vector<cv::Point2f> recallPrecisionCurveVec(
-        recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
-    *returnValue = cv::getRecall(recallPrecisionCurveVec, l_precision);
+        const std::vector<cv::Point2f> recallPrecisionCurveVec(
+            recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
+        *returnValue = cv::getRecall(recallPrecisionCurveVec, l_precision);
     });
 }
 
@@ -161,9 +161,9 @@ CVAPI(ExceptionStatus) features_getNearestPoint(
     int *returnValue)
 {
     return cvTry([&] {
-    const std::vector<cv::Point2f> recallPrecisionCurveVec(
-        recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
-    *returnValue = cv::getNearestPoint(recallPrecisionCurveVec, l_precision);
+        const std::vector<cv::Point2f> recallPrecisionCurveVec(
+            recallPrecisionCurve, recallPrecisionCurve + recallPrecisionCurveSize);
+        *returnValue = cv::getNearestPoint(recallPrecisionCurveVec, l_precision);
     });
 }
 
@@ -176,7 +176,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByImageBorder(
     int borderSize)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::runByImageBorder(*keypoints, cpp(imageSize), borderSize);
+        cv::KeyPointsFilter::runByImageBorder(*keypoints, cpp(imageSize), borderSize);
     });
 }
 
@@ -186,7 +186,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByKeypointSize(
     float maxSize)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::runByKeypointSize(*keypoints, minSize, maxSize);
+        cv::KeyPointsFilter::runByKeypointSize(*keypoints, minSize, maxSize);
     });
 }
 
@@ -194,7 +194,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask(
     std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::runByPixelsMask(*keypoints, *mask);
+        cv::KeyPointsFilter::runByPixelsMask(*keypoints, *mask);
     });
 }
 
@@ -202,7 +202,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_removeDuplicated(
     std::vector<cv::KeyPoint> *keypoints)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::removeDuplicated(*keypoints);
+        cv::KeyPointsFilter::removeDuplicated(*keypoints);
     });
 }
 
@@ -210,7 +210,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_removeDuplicatedSorted(
     std::vector<cv::KeyPoint> *keypoints)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::removeDuplicatedSorted(*keypoints);
+        cv::KeyPointsFilter::removeDuplicatedSorted(*keypoints);
     });
 }
 
@@ -218,7 +218,7 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_retainBest(
     std::vector<cv::KeyPoint> *keypoints, int nPoints)
 {
     return cvTry([&] {
-    cv::KeyPointsFilter::retainBest(*keypoints, nPoints);
+        cv::KeyPointsFilter::retainBest(*keypoints, nPoints);
     });
 }
 

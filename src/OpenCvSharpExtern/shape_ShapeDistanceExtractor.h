@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) shape_ShapeDistanceExtractor_computeDistance(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeDistance(InProxy(*contour1), InProxy(*contour2));
+        *returnValue = obj->computeDistance(InProxy(*contour1), InProxy(*contour2));
     });
 }
 
@@ -25,14 +25,14 @@ CVAPI(ExceptionStatus) shape_ShapeDistanceExtractor_computeDistance(
 CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_get(cv::Ptr<cv::ShapeContextDistanceExtractor> *obj, cv::ShapeContextDistanceExtractor **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_delete(cv::Ptr<cv::ShapeContextDistanceExtractor> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -40,104 +40,104 @@ CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_delete(cv::Ptr<cv
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setAngularBins(cv::ShapeContextDistanceExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setAngularBins(val);
+        obj->setAngularBins(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getAngularBins(cv::ShapeContextDistanceExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getAngularBins();
+        *returnValue = obj->getAngularBins();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setRadialBins(cv::ShapeContextDistanceExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setRadialBins(val);
+        obj->setRadialBins(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getRadialBins(cv::ShapeContextDistanceExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getRadialBins();
+        *returnValue = obj->getRadialBins();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setInnerRadius(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setInnerRadius(val);
+        obj->setInnerRadius(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getInnerRadius(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getInnerRadius();
+        *returnValue = obj->getInnerRadius();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setOuterRadius(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setOuterRadius(val);
+        obj->setOuterRadius(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getOuterRadius(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getOuterRadius();
+        *returnValue = obj->getOuterRadius();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setRotationInvariant(cv::ShapeContextDistanceExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setRotationInvariant(val != 0);
+        obj->setRotationInvariant(val != 0);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getRotationInvariant(cv::ShapeContextDistanceExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getRotationInvariant() ? 1 : 0;
+        *returnValue = obj->getRotationInvariant() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setShapeContextWeight(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setShapeContextWeight(val);
+        obj->setShapeContextWeight(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getShapeContextWeight(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getShapeContextWeight();
+        *returnValue = obj->getShapeContextWeight();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setImageAppearanceWeight(val);
+        obj->setImageAppearanceWeight(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getImageAppearanceWeight();
+        *returnValue = obj->getImageAppearanceWeight();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setBendingEnergyWeight(val);
+        obj->setBendingEnergyWeight(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getBendingEnergyWeight();
+        *returnValue = obj->getBendingEnergyWeight();
     });
 }
 
@@ -147,7 +147,7 @@ CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setImages(
     const interop::InputArrayProxy* image2)
 {
     return cvTry([&] {
-    obj->setImages(InProxy(*image1), InProxy(*image2));
+        obj->setImages(InProxy(*image1), InProxy(*image2));
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getImages(
@@ -156,40 +156,40 @@ CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getImages(
     const interop::OutputArrayProxy* image2)
 {
     return cvTry([&] {
-    obj->getImages(OutProxy(*image1), OutProxy(*image2));
+        obj->getImages(OutProxy(*image1), OutProxy(*image2));
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setIterations(cv::ShapeContextDistanceExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setIterations(val);
+        obj->setIterations(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getIterations(cv::ShapeContextDistanceExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getIterations();
+        *returnValue = obj->getIterations();
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setCostExtractor(cv::ShapeContextDistanceExtractor *obj, cv::Ptr<cv::HistogramCostExtractor> *comparer)
 {
     return cvTry([&] {
-    obj->setCostExtractor(*comparer);
+        obj->setCostExtractor(*comparer);
     });
 }
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setStdDev(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setStdDev(val);
+        obj->setStdDev(val);
     });
 }
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getStdDev(cv::ShapeContextDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getStdDev();
+        *returnValue = obj->getStdDev();
     });
 }
 
@@ -206,9 +206,9 @@ CVAPI(ExceptionStatus) shape_createShapeContextDistanceExtractor(
     cv::Ptr<cv::ShapeContextDistanceExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::createShapeContextDistanceExtractor(
-        nAngularBins, nRadialBins, innerRadius, outerRadius, iterations);
-    *returnValue = clone(p);
+        const auto p = cv::createShapeContextDistanceExtractor(
+            nAngularBins, nRadialBins, innerRadius, outerRadius, iterations);
+        *returnValue = clone(p);
     });
 }
 
@@ -219,14 +219,14 @@ CVAPI(ExceptionStatus) shape_createShapeContextDistanceExtractor(
 CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_get(cv::Ptr<cv::HausdorffDistanceExtractor> *obj, cv::HausdorffDistanceExtractor **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_delete(cv::Ptr<cv::HausdorffDistanceExtractor> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -234,26 +234,26 @@ CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_delete(cv::Ptr<cv::H
 CVAPI(ExceptionStatus) shape_HausdorffDistanceExtractor_setDistanceFlag(cv::HausdorffDistanceExtractor *obj, int val)
 {
     return cvTry([&] {
-    obj->setDistanceFlag(val);
+        obj->setDistanceFlag(val);
     });
 }
 CVAPI(ExceptionStatus) shape_HausdorffDistanceExtractor_getDistanceFlag(cv::HausdorffDistanceExtractor *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getDistanceFlag();
+        *returnValue = obj->getDistanceFlag();
     });
 }
 
 CVAPI(ExceptionStatus) shape_HausdorffDistanceExtractor_setRankProportion(cv::HausdorffDistanceExtractor *obj, float val)
 {
     return cvTry([&] {
-    obj->setRankProportion(val);
+        obj->setRankProportion(val);
     });
 }
 CVAPI(ExceptionStatus) shape_HausdorffDistanceExtractor_getRankProportion(cv::HausdorffDistanceExtractor *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getRankProportion();
+        *returnValue = obj->getRankProportion();
     });
 }
 
@@ -264,9 +264,9 @@ CVAPI(ExceptionStatus) shape_createHausdorffDistanceExtractor(
     cv::Ptr<cv::HausdorffDistanceExtractor> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::createHausdorffDistanceExtractor(
-        distanceFlag, rankProp);
-    *returnValue = clone(p);
+        const auto p = cv::createHausdorffDistanceExtractor(
+            distanceFlag, rankProp);
+        *returnValue = clone(p);
     });
 }
 

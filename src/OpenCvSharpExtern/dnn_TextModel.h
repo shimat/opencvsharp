@@ -22,10 +22,10 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_new_String(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    *returnValue = new cv::dnn::TextRecognitionModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+        *returnValue = new cv::dnn::TextRecognitionModel(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
-    const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-    *returnValue = new cv::dnn::TextRecognitionModel(model, configStr);
+        const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
+        *returnValue = new cv::dnn::TextRecognitionModel(model, configStr);
 #endif
     });
 }
@@ -33,28 +33,28 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_new_String(
 CVAPI(ExceptionStatus) dnn_TextRecognitionModel_new_Net(cv::dnn::Net *network, cv::dnn::TextRecognitionModel **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::dnn::TextRecognitionModel(*network);
+        *returnValue = new cv::dnn::TextRecognitionModel(*network);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextRecognitionModel_delete(cv::dnn::TextRecognitionModel *model)
 {
     return cvTry([&] {
-    delete model;
+        delete model;
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextRecognitionModel_setDecodeType(cv::dnn::TextRecognitionModel *model, const char *decodeType)
 {
     return cvTry([&] {
-    model->setDecodeType(decodeType);
+        model->setDecodeType(decodeType);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextRecognitionModel_getDecodeType(cv::dnn::TextRecognitionModel *model, std::string *outString)
 {
     return cvTry([&] {
-    outString->assign(model->getDecodeType());
+        outString->assign(model->getDecodeType());
     });
 }
 
@@ -64,7 +64,7 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_setDecodeOptsCTCPrefixBeamSearch
     const int vocPruneSize)
 {
     return cvTry([&] {
-    model->setDecodeOptsCTCPrefixBeamSearch(beamSize, vocPruneSize);
+        model->setDecodeOptsCTCPrefixBeamSearch(beamSize, vocPruneSize);
     });
 }
 
@@ -74,20 +74,20 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_setVocabulary(
     const int vocabularyLength)
 {
     return cvTry([&] {
-    std::vector<std::string> vocabularyVec(vocabularyLength);
-    for (auto i = 0; i < vocabularyLength; i++)
-    {
-        vocabularyVec[i] = vocabulary[i];
-    }
-    model->setVocabulary(vocabularyVec);
+        std::vector<std::string> vocabularyVec(vocabularyLength);
+        for (auto i = 0; i < vocabularyLength; i++)
+        {
+            vocabularyVec[i] = vocabulary[i];
+        }
+        model->setVocabulary(vocabularyVec);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextRecognitionModel_getVocabulary(cv::dnn::TextRecognitionModel *model, std::vector<std::string> *outVec)
 {
     return cvTry([&] {
-    const auto result = model->getVocabulary();
-    outVec->assign(result.begin(), result.end());
+        const auto result = model->getVocabulary();
+        outVec->assign(result.begin(), result.end());
     });
 }
 
@@ -97,7 +97,7 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_recognize(
     std::string *outString)
 {
     return cvTry([&] {
-    outString->assign(model->recognize(InProxy(*frame)));
+        outString->assign(model->recognize(InProxy(*frame)));
     });
 }
 
@@ -112,7 +112,7 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_detect(
     std::vector<float> *confidences)
 {
     return cvTry([&] {
-    model->detect(InProxy(*frame), *detections, *confidences);
+        model->detect(InProxy(*frame), *detections, *confidences);
     });
 }
 
@@ -123,7 +123,7 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_detectTextRectangles(
     std::vector<float> *confidences)
 {
     return cvTry([&] {
-    model->detectTextRectangles(InProxy(*frame), *detections, *confidences);
+        model->detectTextRectangles(InProxy(*frame), *detections, *confidences);
     });
 }
 
@@ -138,10 +138,10 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_new_String(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    *returnValue = new cv::dnn::TextDetectionModel_EAST(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+        *returnValue = new cv::dnn::TextDetectionModel_EAST(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
-    const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-    *returnValue = new cv::dnn::TextDetectionModel_EAST(model, configStr);
+        const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
+        *returnValue = new cv::dnn::TextDetectionModel_EAST(model, configStr);
 #endif
     });
 }
@@ -149,42 +149,42 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_new_String(
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_new_Net(cv::dnn::Net *network, cv::dnn::TextDetectionModel_EAST **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::dnn::TextDetectionModel_EAST(*network);
+        *returnValue = new cv::dnn::TextDetectionModel_EAST(*network);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_delete(cv::dnn::TextDetectionModel_EAST *model)
 {
     return cvTry([&] {
-    delete model;
+        delete model;
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_setConfidenceThreshold(cv::dnn::TextDetectionModel_EAST *model, const float confThreshold)
 {
     return cvTry([&] {
-    model->setConfidenceThreshold(confThreshold);
+        model->setConfidenceThreshold(confThreshold);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_getConfidenceThreshold(cv::dnn::TextDetectionModel_EAST *model, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getConfidenceThreshold();
+        *returnValue = model->getConfidenceThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_setNMSThreshold(cv::dnn::TextDetectionModel_EAST *model, const float nmsThreshold)
 {
     return cvTry([&] {
-    model->setNMSThreshold(nmsThreshold);
+        model->setNMSThreshold(nmsThreshold);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_EAST_getNMSThreshold(cv::dnn::TextDetectionModel_EAST *model, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getNMSThreshold();
+        *returnValue = model->getNMSThreshold();
     });
 }
 
@@ -199,10 +199,10 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_new_String(
 {
     return cvTry([&] {
 #ifdef _WIN32
-    *returnValue = new cv::dnn::TextDetectionModel_DB(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
+        *returnValue = new cv::dnn::TextDetectionModel_DB(dnn_readNetGated(model, config, "", cv::dnn::ENGINE_AUTO));
 #else
-    const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-    *returnValue = new cv::dnn::TextDetectionModel_DB(model, configStr);
+        const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
+        *returnValue = new cv::dnn::TextDetectionModel_DB(model, configStr);
 #endif
     });
 }
@@ -210,70 +210,70 @@ CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_new_String(
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_new_Net(cv::dnn::Net *network, cv::dnn::TextDetectionModel_DB **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::dnn::TextDetectionModel_DB(*network);
+        *returnValue = new cv::dnn::TextDetectionModel_DB(*network);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_delete(cv::dnn::TextDetectionModel_DB *model)
 {
     return cvTry([&] {
-    delete model;
+        delete model;
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_setBinaryThreshold(cv::dnn::TextDetectionModel_DB *model, const float binaryThreshold)
 {
     return cvTry([&] {
-    model->setBinaryThreshold(binaryThreshold);
+        model->setBinaryThreshold(binaryThreshold);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_getBinaryThreshold(cv::dnn::TextDetectionModel_DB *model, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getBinaryThreshold();
+        *returnValue = model->getBinaryThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_setPolygonThreshold(cv::dnn::TextDetectionModel_DB *model, const float polygonThreshold)
 {
     return cvTry([&] {
-    model->setPolygonThreshold(polygonThreshold);
+        model->setPolygonThreshold(polygonThreshold);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_getPolygonThreshold(cv::dnn::TextDetectionModel_DB *model, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getPolygonThreshold();
+        *returnValue = model->getPolygonThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_setUnclipRatio(cv::dnn::TextDetectionModel_DB *model, const double unclipRatio)
 {
     return cvTry([&] {
-    model->setUnclipRatio(unclipRatio);
+        model->setUnclipRatio(unclipRatio);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_getUnclipRatio(cv::dnn::TextDetectionModel_DB *model, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getUnclipRatio();
+        *returnValue = model->getUnclipRatio();
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_setMaxCandidates(cv::dnn::TextDetectionModel_DB *model, const int maxCandidates)
 {
     return cvTry([&] {
-    model->setMaxCandidates(maxCandidates);
+        model->setMaxCandidates(maxCandidates);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_TextDetectionModel_DB_getMaxCandidates(cv::dnn::TextDetectionModel_DB *model, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = model->getMaxCandidates();
+        *returnValue = model->getMaxCandidates();
     });
 }
 

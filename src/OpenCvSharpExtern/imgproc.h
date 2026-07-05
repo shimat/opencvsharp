@@ -13,8 +13,8 @@ CVAPI(ExceptionStatus) imgproc_getGaussianKernel(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::getGaussianKernel(ksize, sigma, ktype);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::getGaussianKernel(ksize, sigma, ktype);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -43,8 +43,8 @@ CVAPI(ExceptionStatus) imgproc_getGaborKernel(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -55,8 +55,8 @@ CVAPI(ExceptionStatus) imgproc_getStructuringElement(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
-    *returnValue = new cv::Mat(ret);
+        const auto ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
+        *returnValue = new cv::Mat(ret);
     });
 }
 
@@ -1152,7 +1152,7 @@ CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Point(
     int shift)
 {
     return cvTry([&] {
-    cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
+        cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
     });
 }
 CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Rect(
@@ -1164,7 +1164,7 @@ CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Rect(
     int shift)
 {
     return cvTry([&] {
-    cv::rectangle(*img, cpp(rect), cpp(color), thickness, lineType, shift);
+        cv::rectangle(*img, cpp(rect), cpp(color), thickness, lineType, shift);
     });
 }
 
@@ -1233,7 +1233,7 @@ CVAPI(ExceptionStatus) imgproc_fillConvexPoly_Mat(
     int shift)
 {
     return cvTry([&] {
-    cv::fillConvexPoly(*img, pts, npts, cpp(color), lineType, shift);
+        cv::fillConvexPoly(*img, pts, npts, cpp(color), lineType, shift);
     });
 }
 CVAPI(ExceptionStatus) imgproc_fillConvexPoly_InputOutputArray(
@@ -1259,7 +1259,7 @@ CVAPI(ExceptionStatus) imgproc_fillPoly_Mat(
     interop::Point offset)
 {
     return cvTry([&] {
-    cv::fillPoly(*img, pts, npts, ncontours, cpp(color), lineType, shift, cpp(offset));
+        cv::fillPoly(*img, pts, npts, ncontours, cpp(color), lineType, shift, cpp(offset));
     });
 }
 CVAPI(ExceptionStatus) imgproc_fillPoly_InputOutputArray(
@@ -1287,8 +1287,8 @@ CVAPI(ExceptionStatus) imgproc_polylines_Mat(
     int shift)
 {
     return cvTry([&] {
-    cv::polylines(
-        *img, pts, npts, ncontours, isClosed != 0, cpp(color), thickness, lineType, shift);
+        cv::polylines(
+            *img, pts, npts, ncontours, isClosed != 0, cpp(color), thickness, lineType, shift);
     });
 }
 CVAPI(ExceptionStatus) imgproc_polylines_InputOutputArray(
@@ -1364,11 +1364,11 @@ CVAPI(ExceptionStatus) imgproc_clipLine1(
     int* returnValue)
 {
     return cvTry([&] {
-    auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
-    const auto result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
-    *pt1 = c(pt1c);
-    *pt2 = c(pt2c);
-    *returnValue = result ? 1 : 0;
+        auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+        const auto result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
+        *pt1 = c(pt1c);
+        *pt2 = c(pt2c);
+        *returnValue = result ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) imgproc_clipLine2(
@@ -1378,11 +1378,11 @@ CVAPI(ExceptionStatus) imgproc_clipLine2(
     int* returnValue)
 {
     return cvTry([&] {
-    auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
-    const auto result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
-    *pt1 = c(pt1c);
-    *pt2 = c(pt2c);
-    *returnValue = result ? 1 : 0;
+        auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+        const auto result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
+        *pt1 = c(pt1c);
+        *pt2 = c(pt2c);
+        *returnValue = result ? 1 : 0;
     });
 }
 
@@ -1396,7 +1396,7 @@ CVAPI(ExceptionStatus) imgproc_ellipse2Poly_int(
     std::vector<cv::Point>* pts)
 {
     return cvTry([&] {
-    cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
+        cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
     });
 }
 
@@ -1410,7 +1410,7 @@ CVAPI(ExceptionStatus) imgproc_ellipse2Poly_double(
     std::vector<cv::Point2d>* pts)
 {
     return cvTry([&] {
-    cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
+        cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
     });
 }
 
@@ -1439,7 +1439,7 @@ CVAPI(ExceptionStatus) imgproc_getTextSize(
     interop::Size *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));
+        *returnValue = c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));
     });
 }
 
@@ -1450,7 +1450,7 @@ CVAPI(ExceptionStatus) imgproc_getFontScaleFromHeight(
     double* returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::getFontScaleFromHeight(fontFace, pixelHeight, thickness);
+        *returnValue = cv::getFontScaleFromHeight(fontFace, pixelHeight, thickness);
     });
 }
 
