@@ -46,16 +46,16 @@ CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::CalibrateDebevec *ob
     });
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, int *returnValue)
 {
     return cvTry([&] {
-        *returnValue = obj->getLambda();
+        *returnValue = obj->getSamples();
     });
 }
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, float value)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, int value)
 {
     return cvTry([&] {
-        obj->setLambda(value);
+        obj->setSamples(value);
     });
 }
 

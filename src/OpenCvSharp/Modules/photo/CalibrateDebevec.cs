@@ -48,9 +48,9 @@ public class CalibrateDebevec : CalibrateCRF
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-    public float Samples
+    public int Samples
     {
         get
         {
