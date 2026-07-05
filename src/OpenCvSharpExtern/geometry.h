@@ -703,16 +703,12 @@ CVAPI(ExceptionStatus) geometry_correctMatches_array(
     cv::Point2d *newPoints2)
 {
     return cvTry([&] {
-        cv::Mat_<double> FM(3, 3, F);
-        cv::Mat_<cv::Point2d> points1M(points1Size, 1, points1);
-        cv::Mat_<cv::Point2d> points2M(points2Size, 1, points2);
-        cv::Mat_<double> points1MM = points1M.reshape(2);
-        cv::Mat_<double> points2MM = points2M.reshape(2);
-        cv::Mat_<cv::Point2d> newPoints1M(points1Size, 1, newPoints1);
-        cv::Mat_<cv::Point2d> newPoints2M(points2Size, 1, newPoints2);
-        cv::Mat_<double> newPoints1MM = points1M.reshape(2);
-        cv::Mat_<double> newPoints2MM = points2M.reshape(2);
-        cv::correctMatches(FM, points1MM, points2MM, newPoints1MM, newPoints2MM);
+        const cv::Mat FM(3, 3, CV_64FC1, F);
+        const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
+        const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
+        cv::Mat newPoints1M(points1Size, 1, CV_64FC2, newPoints1);
+        cv::Mat newPoints2M(points2Size, 1, CV_64FC2, newPoints2);
+        cv::correctMatches(FM, points1M, points2M, newPoints1M, newPoints2M);
     });
 }
 
