@@ -15,7 +15,7 @@ CVAPI(ExceptionStatus) optflow_motempl_updateMotionHistory(
     double duration)
 {
     return cvTry([&] {
-    cv::motempl::updateMotionHistory(InProxy(*silhouette), IoProxy(*mhi), timestamp, duration);
+        cv::motempl::updateMotionHistory(InProxy(*silhouette), IoProxy(*mhi), timestamp, duration);
     });
 }
 
@@ -28,7 +28,7 @@ CVAPI(ExceptionStatus) optflow_motempl_calcMotionGradient(
     int apertureSize)
 {
     return cvTry([&] {
-    cv::motempl::calcMotionGradient(InProxy(*mhi), OutProxy(*mask), OutProxy(*orientation), delta1, delta2, apertureSize);
+        cv::motempl::calcMotionGradient(InProxy(*mhi), OutProxy(*mask), OutProxy(*orientation), delta1, delta2, apertureSize);
     });
 }
 
@@ -41,7 +41,7 @@ CVAPI(ExceptionStatus) optflow_motempl_calcGlobalOrientation(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::motempl::calcGlobalOrientation(InProxy(*orientation), InProxy(*mask), InProxy(*mhi), timestamp, duration);
+        *returnValue = cv::motempl::calcGlobalOrientation(InProxy(*orientation), InProxy(*mask), InProxy(*mhi), timestamp, duration);
     });
 }
 
@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) optflow_motempl_segmentMotion(
     double segThresh)
 {
     return cvTry([&] {
-    cv::motempl::segmentMotion(InProxy(*mhi), OutProxy(*segmask), *boundingRects, timestamp, segThresh);
+        cv::motempl::segmentMotion(InProxy(*mhi), OutProxy(*segmask), *boundingRects, timestamp, segThresh);
     });
 }
 

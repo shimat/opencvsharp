@@ -21,7 +21,7 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run1(
     int component_level)
 {
     return cvTry([&] {
-    obj->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
+        obj->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
     });
 }
 
@@ -36,7 +36,7 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
     int component_level)
 {
     return cvTry([&] {
-    obj->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
+        obj->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
     });
 }
 
@@ -48,8 +48,8 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
     std::string *dst)
 {
     return cvTry([&] {
-    const auto result = (*obj)->run(InProxy(*image), min_confidence, component_level);
-    dst->assign(result);
+        const auto result = (*obj)->run(InProxy(*image), min_confidence, component_level);
+        dst->assign(result);
     });
 }*/
 
@@ -62,15 +62,15 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
     std::string *dst)
 {
     return cvTry([&] {
-    const auto result = (*obj)->run(InProxy(*image), InProxy(*mask), min_confidence, component_level);
-    dst->assign(result);
+        const auto result = (*obj)->run(InProxy(*image), InProxy(*mask), min_confidence, component_level);
+        dst->assign(result);
     });
 }*/
 
 CVAPI(ExceptionStatus) text_OCRTesseract_setWhiteList(cv::text::OCRTesseract* obj, const char *char_whitelist)
 {
     return cvTry([&] {
-    obj->setWhiteList(char_whitelist);
+        obj->setWhiteList(char_whitelist);
     });
 }
 
@@ -83,22 +83,22 @@ CVAPI(ExceptionStatus) text_OCRTesseract_create(
     cv::Ptr<cv::text::OCRTesseract> **returnValue)
 {
     return cvTry([&] {
-    const auto result = cv::text::OCRTesseract::create(datapath, language, char_whitelist, oem, psmode);
-    *returnValue = clone(result);
+        const auto result = cv::text::OCRTesseract::create(datapath, language, char_whitelist, oem, psmode);
+        *returnValue = clone(result);
     });
 }
 
 CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_get(cv::Ptr<cv::text::OCRTesseract> *ptr, cv::text::OCRTesseract **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_delete(cv::Ptr<cv::text::OCRTesseract> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -112,7 +112,7 @@ CVAPI(ExceptionStatus) text_detectTextSWT(
     const interop::OutputArrayProxy* chainBBs)
 {
     return cvTry([&] {
-    cv::text::detectTextSWT(InProxy(*input), *result, dark_on_light != 0, OutProxy(*draw), OutProxy(*chainBBs));
+        cv::text::detectTextSWT(InProxy(*input), *result, dark_on_light != 0, OutProxy(*draw), OutProxy(*chainBBs));
     });    
 }
 

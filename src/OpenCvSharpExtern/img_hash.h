@@ -15,7 +15,7 @@ CVAPI(ExceptionStatus) img_hash_ImgHashBase_compute(
     const interop::OutputArrayProxy* outputArr)
 {
     return cvTry([&] {
-    obj->compute(InProxy(*inputArr), OutProxy(*outputArr));
+        obj->compute(InProxy(*inputArr), OutProxy(*outputArr));
     });
 }
 
@@ -26,7 +26,7 @@ CVAPI(ExceptionStatus) img_hash_ImgHashBase_compare(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compare(InProxy(*hashOne), InProxy(*hashTwo));
+        *returnValue = obj->compare(InProxy(*hashOne), InProxy(*hashTwo));
     });
 }
 
@@ -36,22 +36,22 @@ CVAPI(ExceptionStatus) img_hash_ImgHashBase_compare(
 CVAPI(ExceptionStatus) img_hash_AverageHash_create(cv::Ptr<cv::img_hash::AverageHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::AverageHash::create();
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::AverageHash::create();
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_AverageHash_delete(cv::Ptr<cv::img_hash::AverageHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_AverageHash_get(cv::Ptr<cv::img_hash::AverageHash> *ptr, cv::img_hash::AverageHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -61,38 +61,38 @@ CVAPI(ExceptionStatus) img_hash_Ptr_AverageHash_get(cv::Ptr<cv::img_hash::Averag
 CVAPI(ExceptionStatus) img_hash_BlockMeanHash_create(const int mode, cv::Ptr<cv::img_hash::BlockMeanHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::BlockMeanHash::create(mode);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::BlockMeanHash::create(mode);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_BlockMeanHash_delete(cv::Ptr<cv::img_hash::BlockMeanHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_BlockMeanHash_get(cv::Ptr<cv::img_hash::BlockMeanHash> *ptr, cv::img_hash::BlockMeanHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_BlockMeanHash_setMode(cv::img_hash::BlockMeanHash *obj, const int mode)
 {
     return cvTry([&] {
-    obj->setMode(mode);
+        obj->setMode(mode);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_BlockMeanHash_getMean(cv::img_hash::BlockMeanHash *obj, std::vector<double> *outVec)
 {
     return cvTry([&] {
-    const auto mean = obj->getMean();
-    outVec->clear();
-    outVec->assign(mean.begin(), mean.end());
+        const auto mean = obj->getMean();
+        outVec->clear();
+        outVec->assign(mean.begin(), mean.end());
     });
 }
 
@@ -102,22 +102,22 @@ CVAPI(ExceptionStatus) img_hash_BlockMeanHash_getMean(cv::img_hash::BlockMeanHas
 CVAPI(ExceptionStatus) img_hash_ColorMomentHash_create(cv::Ptr<cv::img_hash::ColorMomentHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::ColorMomentHash::create();
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::ColorMomentHash::create();
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_ColorMomentHash_delete(cv::Ptr<cv::img_hash::ColorMomentHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_ColorMomentHash_get(cv::Ptr<cv::img_hash::ColorMomentHash> *ptr, cv::img_hash::ColorMomentHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -130,22 +130,22 @@ CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_create(
     cv::Ptr<cv::img_hash::MarrHildrethHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::MarrHildrethHash::create(alpha, scale);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::MarrHildrethHash::create(alpha, scale);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_MarrHildrethHash_delete(cv::Ptr<cv::img_hash::MarrHildrethHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_MarrHildrethHash_get(cv::Ptr<cv::img_hash::MarrHildrethHash> *ptr, cv::img_hash::MarrHildrethHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -155,21 +155,21 @@ CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_setKernelParam(
     const float scale)
 {
     return cvTry([&] {
-    obj->setKernelParam(alpha, scale);
+        obj->setKernelParam(alpha, scale);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_getAlpha(cv::img_hash::MarrHildrethHash *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getAlpha();
+        *returnValue = obj->getAlpha();
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_getScale(cv::img_hash::MarrHildrethHash *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getScale();
+        *returnValue = obj->getScale();
     });
 }
 
@@ -179,22 +179,22 @@ CVAPI(ExceptionStatus) img_hash_MarrHildrethHash_getScale(cv::img_hash::MarrHild
 CVAPI(ExceptionStatus) img_hash_PHash_create(cv::Ptr<cv::img_hash::PHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::PHash::create();
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::PHash::create();
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_PHash_delete(cv::Ptr<cv::img_hash::PHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_PHash_get(cv::Ptr<cv::img_hash::PHash> *ptr, cv::img_hash::PHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
@@ -207,50 +207,50 @@ CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_create(
     cv::Ptr<cv::img_hash::RadialVarianceHash> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::img_hash::RadialVarianceHash::create(sigma, numOfAngleLine);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::img_hash::RadialVarianceHash::create(sigma, numOfAngleLine);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_RadialVarianceHash_delete(cv::Ptr<cv::img_hash::RadialVarianceHash> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_Ptr_RadialVarianceHash_get(cv::Ptr<cv::img_hash::RadialVarianceHash> *ptr, cv::img_hash::RadialVarianceHash **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_setNumOfAngleLine(cv::img_hash::RadialVarianceHash *obj, const int value)
 {
     return cvTry([&] {
-    obj->setNumOfAngleLine(value);
+        obj->setNumOfAngleLine(value);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_setSigma(cv::img_hash::RadialVarianceHash *obj, const double value)
 {
     return cvTry([&] {
-    obj->setSigma(value);
+        obj->setSigma(value);
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_getNumOfAngleLine(cv::img_hash::RadialVarianceHash *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumOfAngleLine();
+        *returnValue = obj->getNumOfAngleLine();
     });
 }
 
 CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_getSigma(cv::img_hash::RadialVarianceHash *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getSigma();
+        *returnValue = obj->getSigma();
     });
 }
 

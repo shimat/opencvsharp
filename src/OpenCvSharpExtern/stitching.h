@@ -11,22 +11,22 @@
 CVAPI(ExceptionStatus) stitching_Stitcher_create(int mode, cv::Ptr<cv::Stitcher> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::Stitcher::create(static_cast<cv::Stitcher::Mode>(mode));
-    *returnValue = clone(ptr);
+        const auto ptr = cv::Stitcher::create(static_cast<cv::Stitcher::Mode>(mode));
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Ptr_Stitcher_delete(cv::Ptr<cv::Stitcher> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Ptr_Stitcher_get(cv::Ptr<cv::Stitcher> *obj, cv::Stitcher **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
@@ -35,78 +35,78 @@ CVAPI(ExceptionStatus) stitching_Ptr_Stitcher_get(cv::Ptr<cv::Stitcher> *obj, cv
 CVAPI(ExceptionStatus) stitching_Stitcher_registrationResol(cv::Stitcher *obj, double *returnValue)
 { 
     return cvTry([&] {
-    *returnValue = obj->registrationResol();
+        *returnValue = obj->registrationResol();
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setRegistrationResol(cv::Stitcher *obj, const double resol_mpx)
 {
     return cvTry([&] {
-    obj->setRegistrationResol(resol_mpx);
+        obj->setRegistrationResol(resol_mpx);
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_seamEstimationResol(cv::Stitcher *obj, double *returnValue) 
 {
     return cvTry([&] {
-    *returnValue = obj->seamEstimationResol();
+        *returnValue = obj->seamEstimationResol();
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setSeamEstimationResol(cv::Stitcher *obj, const double resol_mpx)
 {
     return cvTry([&] {
-    obj->setSeamEstimationResol(resol_mpx); 
+        obj->setSeamEstimationResol(resol_mpx); 
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_compositingResol(cv::Stitcher *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compositingResol();
+        *returnValue = obj->compositingResol();
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setCompositingResol(cv::Stitcher *obj, const double resol_mpx)
 { 
     return cvTry([&] {
-    obj->setCompositingResol(resol_mpx);
+        obj->setCompositingResol(resol_mpx);
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_panoConfidenceThresh(cv::Stitcher *obj, double *returnValue) 
 { 
     return cvTry([&] {
-    *returnValue = obj->panoConfidenceThresh();
+        *returnValue = obj->panoConfidenceThresh();
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setPanoConfidenceThresh(cv::Stitcher *obj, const double conf_thresh)
 {
     return cvTry([&] {
-    obj->setPanoConfidenceThresh(conf_thresh);
+        obj->setPanoConfidenceThresh(conf_thresh);
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_waveCorrection(cv::Stitcher *obj, int *returnValue) 
 { 
     return cvTry([&] {
-    *returnValue = obj->waveCorrection() ? 1 : 0; 
+        *returnValue = obj->waveCorrection() ? 1 : 0; 
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setWaveCorrection(cv::Stitcher *obj, const int flag)
 {
     return cvTry([&] {
-    obj->setWaveCorrection(flag != 0); 
+        obj->setWaveCorrection(flag != 0); 
     });
 }
 
 CVAPI(ExceptionStatus) stitching_Stitcher_waveCorrectKind(cv::Stitcher *obj, int *returnValue) 
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->waveCorrectKind());
+        *returnValue = static_cast<int>(obj->waveCorrectKind());
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_setWaveCorrectKind(cv::Stitcher *obj, int kind) 
 { 
     return cvTry([&] {
-    obj->setWaveCorrectKind(static_cast<cv::detail::WaveCorrectKind>(kind)); 
+        obj->setWaveCorrectKind(static_cast<cv::detail::WaveCorrectKind>(kind)); 
     });
 }
 
@@ -118,7 +118,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray1(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images)));
+        *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray2(
@@ -130,10 +130,10 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_InputArray2(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<std::vector<cv::Rect> > roisVec;
-    toRectVec(rois, roisSize1, roisSize2, roisVec);
+        std::vector<std::vector<cv::Rect> > roisVec;
+        toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images), roisVec));
+        *returnValue = static_cast<int>(obj->estimateTransform(InProxy(*images), roisVec));
     });
 }
 
@@ -144,10 +144,10 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray1(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesSize, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesSize, imagesVec);
 
-    *returnValue = static_cast<int>(obj->estimateTransform(imagesVec));
+        *returnValue = static_cast<int>(obj->estimateTransform(imagesVec));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray2(
@@ -160,13 +160,13 @@ CVAPI(ExceptionStatus) stitching_Stitcher_estimateTransform_MatArray2(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesSize, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesSize, imagesVec);
 
-    std::vector<std::vector<cv::Rect> > roisVec;
-    toRectVec(rois, roisSize1, roisSize2, roisVec);
+        std::vector<std::vector<cv::Rect> > roisVec;
+        toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->estimateTransform(imagesVec, roisVec));
+        *returnValue = static_cast<int>(obj->estimateTransform(imagesVec, roisVec));
     });
 }
 
@@ -176,7 +176,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama1(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->composePanorama(OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->composePanorama(OutProxy(*pano)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_InputArray(
@@ -186,7 +186,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_InputArray(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->composePanorama(InProxy(*images), OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->composePanorama(InProxy(*images), OutProxy(*pano)));
     });
 }
 CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_MatArray(
@@ -197,10 +197,10 @@ CVAPI(ExceptionStatus) stitching_Stitcher_composePanorama2_MatArray(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesSize, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesSize, imagesVec);
 
-    *returnValue = static_cast<int>(obj->composePanorama(imagesVec, OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->composePanorama(imagesVec, OutProxy(*pano)));
     });
 }
 
@@ -211,7 +211,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_InputArray(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->stitch(InProxy(*images), OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->stitch(InProxy(*images), OutProxy(*pano)));
     });
 }
 
@@ -223,10 +223,10 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_MatArray(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesSize, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesSize, imagesVec);
 
-    *returnValue = static_cast<int>(obj->stitch(imagesVec, OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->stitch(imagesVec, OutProxy(*pano)));
     });
 }
 
@@ -240,10 +240,10 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_InputArray(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<std::vector<cv::Rect> > roisVec;
-    toRectVec(rois, roisSize1, roisSize2, roisVec);
+        std::vector<std::vector<cv::Rect> > roisVec;
+        toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->stitch(InProxy(*images), roisVec, OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->stitch(InProxy(*images), roisVec, OutProxy(*pano)));
     });
 }
 
@@ -258,13 +258,13 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
     int *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imagesVec;
-    toVec(images, imagesSize, imagesVec);
+        std::vector<cv::Mat> imagesVec;
+        toVec(images, imagesSize, imagesVec);
 
-    std::vector<std::vector<cv::Rect> > roisVec;
-    toRectVec(rois, roisSize1, roisSize2, roisVec);
+        std::vector<std::vector<cv::Rect> > roisVec;
+        toRectVec(rois, roisSize1, roisSize2, roisVec);
 
-    *returnValue = static_cast<int>(obj->stitch(imagesVec, roisVec, OutProxy(*pano)));
+        *returnValue = static_cast<int>(obj->stitch(imagesVec, roisVec, OutProxy(*pano)));
     });
 }
 
@@ -273,8 +273,8 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch2_MatArray(
 CVAPI(ExceptionStatus) stitching_Stitcher_component(cv::Stitcher *obj, std::vector<int>* returnValue) 
 { 
     return cvTry([&] {
-    const auto component = obj->component();
-    std::copy(component.begin(), component.end(), std::back_inserter(*returnValue));
+        const auto component = obj->component();
+        std::copy(component.begin(), component.end(), std::back_inserter(*returnValue));
     });
 }
 
@@ -283,7 +283,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_component(cv::Stitcher *obj, std::vect
 CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->workScale();
+        *returnValue = obj->workScale();
     });
 }
 

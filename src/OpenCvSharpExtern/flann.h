@@ -17,14 +17,14 @@ CVAPI(ExceptionStatus) flann_Index_new(
     cv::flann::Index **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::flann::Index(InProxy(*features), *params, distType);
+        *returnValue = new cv::flann::Index(InProxy(*features), *params, distType);
     });
 }
 
 CVAPI(ExceptionStatus) flann_Index_delete(cv::flann::Index* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
@@ -38,12 +38,12 @@ CVAPI(ExceptionStatus) flann_Index_knnSearch1(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    const std::vector<float> queries_vec(queries, queries + queries_length);
-    std::vector<int> indices_vec(knn);
-    std::vector<float> dists_vec(knn);
-    obj->knnSearch(queries_vec, indices_vec, dists_vec, knn, *params);
-    memcpy(indices, &indices_vec[0], sizeof(int) * knn);
-    memcpy(dists, &dists_vec[0], sizeof(float) * knn);
+        const std::vector<float> queries_vec(queries, queries + queries_length);
+        std::vector<int> indices_vec(knn);
+        std::vector<float> dists_vec(knn);
+        obj->knnSearch(queries_vec, indices_vec, dists_vec, knn, *params);
+        memcpy(indices, &indices_vec[0], sizeof(int) * knn);
+        memcpy(dists, &dists_vec[0], sizeof(float) * knn);
     });
 }
 CVAPI(ExceptionStatus) flann_Index_knnSearch2(
@@ -55,7 +55,7 @@ CVAPI(ExceptionStatus) flann_Index_knnSearch2(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    obj->knnSearch(*queries, *indices, *dists, knn, *params);
+        obj->knnSearch(*queries, *indices, *dists, knn, *params);
     });
 }
 CVAPI(ExceptionStatus) flann_Index_knnSearch3(
@@ -67,11 +67,11 @@ CVAPI(ExceptionStatus) flann_Index_knnSearch3(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    cv::Mat indices_mat(1, knn, CV_32SC1);
-    cv::Mat dists_mat(1, knn, CV_32FC1);
-    obj->knnSearch(*queries, indices_mat, dists_mat, knn, *params);
-    memcpy(indices, indices_mat.ptr<int>(0), sizeof(int) * knn);
-    memcpy(dists, dists_mat.ptr<float>(0), sizeof(float) * knn);
+        cv::Mat indices_mat(1, knn, CV_32SC1);
+        cv::Mat dists_mat(1, knn, CV_32FC1);
+        obj->knnSearch(*queries, indices_mat, dists_mat, knn, *params);
+        memcpy(indices, indices_mat.ptr<int>(0), sizeof(int) * knn);
+        memcpy(dists, dists_mat.ptr<float>(0), sizeof(float) * knn);
     });
 }
 
@@ -88,12 +88,12 @@ CVAPI(ExceptionStatus) flann_Index_radiusSearch1(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    const std::vector<float> queries_vec(queries, queries + queries_length);
-    std::vector<int> indices_vec(indices_length);
-    std::vector<float> dists_vec(dists_length);
-    obj->radiusSearch(queries_vec, indices_vec, dists_vec, radius, maxResults, *params);
-    memcpy(indices, &indices_vec[0], sizeof(int) * indices_length);
-    memcpy(dists, &dists_vec[0], sizeof(float) * dists_length);
+        const std::vector<float> queries_vec(queries, queries + queries_length);
+        std::vector<int> indices_vec(indices_length);
+        std::vector<float> dists_vec(dists_length);
+        obj->radiusSearch(queries_vec, indices_vec, dists_vec, radius, maxResults, *params);
+        memcpy(indices, &indices_vec[0], sizeof(int) * indices_length);
+        memcpy(dists, &dists_vec[0], sizeof(float) * dists_length);
     });
 }
 CVAPI(ExceptionStatus) flann_Index_radiusSearch2(
@@ -106,7 +106,7 @@ CVAPI(ExceptionStatus) flann_Index_radiusSearch2(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    obj->radiusSearch(*queries, *indices, *dists, radius, maxResults, *params);
+        obj->radiusSearch(*queries, *indices, *dists, radius, maxResults, *params);
     });
 }
 CVAPI(ExceptionStatus) flann_Index_radiusSearch3(
@@ -121,18 +121,18 @@ CVAPI(ExceptionStatus) flann_Index_radiusSearch3(
     cv::flann::SearchParams* params)
 {
     return cvTry([&] {
-    cv::Mat indices_mat(1, indices_length, CV_32SC1);
-    cv::Mat dists_mat(1, dists_length, CV_32FC1);
-    obj->radiusSearch(*queries, indices_mat, dists_mat, radius, maxResults, *params);
-    memcpy(indices, indices_mat.ptr<int>(0), sizeof(int) * indices_length);
-    memcpy(dists, dists_mat.ptr<float>(0), sizeof(float) * dists_length);
+        cv::Mat indices_mat(1, indices_length, CV_32SC1);
+        cv::Mat dists_mat(1, dists_length, CV_32FC1);
+        obj->radiusSearch(*queries, indices_mat, dists_mat, radius, maxResults, *params);
+        memcpy(indices, indices_mat.ptr<int>(0), sizeof(int) * indices_length);
+        memcpy(dists, dists_mat.ptr<float>(0), sizeof(float) * dists_length);
     });
 }
 
 CVAPI(ExceptionStatus) flann_Index_save(cv::flann::Index* obj, const char* filename)
 {
     return cvTry([&] {
-    obj->save(filename);
+        obj->save(filename);
     });
 }
 

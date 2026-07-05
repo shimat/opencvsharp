@@ -17,7 +17,7 @@ CVAPI(ExceptionStatus) photo_inpaint(
     int flags)
 {
     return cvTry([&] {
-    cv::inpaint(InProxy(*src), InProxy(*inpaintMask), OutProxy(*dst), inpaintRadius, flags);
+        cv::inpaint(InProxy(*src), InProxy(*inpaintMask), OutProxy(*dst), inpaintRadius, flags);
     });
 }
 
@@ -29,7 +29,7 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoising(
     int searchWindowSize)
 {
     return cvTry([&] {
-    cv::fastNlMeansDenoising(InProxy(*src), OutProxy(*dst), h, templateWindowSize, searchWindowSize);
+        cv::fastNlMeansDenoising(InProxy(*src), OutProxy(*dst), h, templateWindowSize, searchWindowSize);
     });
 }
 
@@ -42,7 +42,7 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingColored(
     int searchWindowSize)
 {
     return cvTry([&] {
-    cv::fastNlMeansDenoisingColored(InProxy(*src), OutProxy(*dst), h, hColor, templateWindowSize, searchWindowSize);
+        cv::fastNlMeansDenoisingColored(InProxy(*src), OutProxy(*dst), h, hColor, templateWindowSize, searchWindowSize);
     });
 }
 
@@ -58,12 +58,12 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingMulti(
 {
     return cvTry([&] {
 
-    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
-    for (int i = 0; i < srcImgsLength; i++)
-        srcImgsVec[i] = *srcImgs[i];
+        std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+        for (int i = 0; i < srcImgsLength; i++)
+            srcImgsVec[i] = *srcImgs[i];
 
-    cv::fastNlMeansDenoisingMulti(
-        srcImgsVec, OutProxy(*dst), imgToDenoiseIndex, temporalWindowSize, h, templateWindowSize, searchWindowSize);
+        cv::fastNlMeansDenoisingMulti(
+            srcImgsVec, OutProxy(*dst), imgToDenoiseIndex, temporalWindowSize, h, templateWindowSize, searchWindowSize);
 
     });
 }
@@ -81,12 +81,12 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingColoredMulti(
 {
     return cvTry([&] {
 
-    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
-    for (int i = 0; i < srcImgsLength; i++)
-        srcImgsVec[i] = *srcImgs[i];
+        std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+        for (int i = 0; i < srcImgsLength; i++)
+            srcImgsVec[i] = *srcImgs[i];
 
-    cv::fastNlMeansDenoisingColoredMulti(
-        srcImgsVec, OutProxy(*dst), imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+        cv::fastNlMeansDenoisingColoredMulti(
+            srcImgsVec, OutProxy(*dst), imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
 
     });
 }
@@ -99,12 +99,12 @@ CVAPI(ExceptionStatus) photo_denoise_TVL1(
     int niters)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> observationsVec(observationsSize);
-    for (int i = 0; i < observationsSize; i++)
-    {
-        observationsVec[i] = *observations[i];
-    }
-    cv::denoise_TVL1(observationsVec, *result, lambda, niters);
+        std::vector<cv::Mat> observationsVec(observationsSize);
+        for (int i = 0; i < observationsSize; i++)
+        {
+            observationsVec[i] = *observations[i];
+        }
+        cv::denoise_TVL1(observationsVec, *result, lambda, niters);
     });
 }
 
@@ -116,7 +116,7 @@ CVAPI(ExceptionStatus) photo_decolor(
     const interop::OutputArrayProxy* color_boost)
 {
     return cvTry([&] {
-    cv::decolor(InProxy(*src), OutProxy(*grayscale), OutProxy(*color_boost));
+        cv::decolor(InProxy(*src), OutProxy(*grayscale), OutProxy(*color_boost));
     });
 }
 
@@ -129,7 +129,7 @@ CVAPI(ExceptionStatus) photo_seamlessClone(
     int flags)
 {
     return cvTry([&] {
-    cv::seamlessClone(InProxy(*src), InProxy(*dst), InProxy(*mask), cpp(p), OutProxy(*blend), flags);
+        cv::seamlessClone(InProxy(*src), InProxy(*dst), InProxy(*mask), cpp(p), OutProxy(*blend), flags);
     });
 }
 
@@ -142,7 +142,7 @@ CVAPI(ExceptionStatus) photo_colorChange(
     float blue_mul)
 {
     return cvTry([&] {
-    cv::colorChange(InProxy(*src), InProxy(*mask), OutProxy(*dst), red_mul, green_mul, blue_mul);
+        cv::colorChange(InProxy(*src), InProxy(*mask), OutProxy(*dst), red_mul, green_mul, blue_mul);
     });
 }
 
@@ -154,7 +154,7 @@ CVAPI(ExceptionStatus) photo_illuminationChange(
     float beta = 0.4f)
 {
     return cvTry([&] {
-    cv::illuminationChange(InProxy(*src), InProxy(*mask), OutProxy(*dst), alpha, beta);
+        cv::illuminationChange(InProxy(*src), InProxy(*mask), OutProxy(*dst), alpha, beta);
     });
 }
 
@@ -167,7 +167,7 @@ CVAPI(ExceptionStatus) photo_textureFlattening(
     int kernel_size)
 {
     return cvTry([&] {
-    cv::textureFlattening(InProxy(*src), InProxy(*mask), OutProxy(*dst), low_threshold, high_threshold, kernel_size);
+        cv::textureFlattening(InProxy(*src), InProxy(*mask), OutProxy(*dst), low_threshold, high_threshold, kernel_size);
     });
 }
 
@@ -179,7 +179,7 @@ CVAPI(ExceptionStatus) photo_edgePreservingFilter(
     float sigma_r)
 {
     return cvTry([&] {
-    cv::edgePreservingFilter(InProxy(*src), OutProxy(*dst), flags, sigma_s, sigma_r);
+        cv::edgePreservingFilter(InProxy(*src), OutProxy(*dst), flags, sigma_s, sigma_r);
     });
 }
 
@@ -190,7 +190,7 @@ CVAPI(ExceptionStatus) photo_detailEnhance(
     float sigma_r)
 {
     return cvTry([&] {
-    cv::detailEnhance(InProxy(*src), OutProxy(*dst), sigma_s, sigma_r);
+        cv::detailEnhance(InProxy(*src), OutProxy(*dst), sigma_s, sigma_r);
     });
 }
 
@@ -203,7 +203,7 @@ CVAPI(ExceptionStatus) photo_pencilSketch(
     float shade_factor)
 {
     return cvTry([&] {
-    cv::pencilSketch(InProxy(*src), OutProxy(*dst1), OutProxy(*dst2), sigma_s, sigma_r, shade_factor);
+        cv::pencilSketch(InProxy(*src), OutProxy(*dst1), OutProxy(*dst2), sigma_s, sigma_r, shade_factor);
     });
 }
 
@@ -214,7 +214,7 @@ CVAPI(ExceptionStatus) photo_stylization(
     float sigma_r)
 {
     return cvTry([&] {
-    cv::stylization(InProxy(*src), OutProxy(*dst), sigma_s, sigma_r);
+        cv::stylization(InProxy(*src), OutProxy(*dst), sigma_s, sigma_r);
     });
 }
 

@@ -10,35 +10,35 @@
 CVAPI(ExceptionStatus) ml_StatModel_clear(cv::ml::StatModel *obj)
 {
     return cvTry([&] {
-    obj->clear();
+        obj->clear();
     });
 }
 
 CVAPI(ExceptionStatus) ml_StatModel_getVarCount(cv::ml::StatModel *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getVarCount();
+        *returnValue = obj->getVarCount();
     });
 }
 
 CVAPI(ExceptionStatus) ml_StatModel_empty(cv::ml::StatModel *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->empty() ? 1 : 0;
+        *returnValue = obj->empty() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) ml_StatModel_isTrained(cv::ml::StatModel *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isTrained() ? 1 : 0;
+        *returnValue = obj->isTrained() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isClassifier() ? 1 : 0;
+        *returnValue = obj->isClassifier() ? 1 : 0;
     });
 }
 
@@ -49,7 +49,7 @@ CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *re
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->train(*trainData, flags) ? 1 : 0;
+        *returnValue = obj->train(*trainData, flags) ? 1 : 0;
     });
 }*/
 
@@ -61,7 +61,7 @@ CVAPI(ExceptionStatus) ml_StatModel_train2(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->train(InProxy(*samples), layout, InProxy(*responses)) ? 1 : 0;
+        *returnValue = obj->train(InProxy(*samples), layout, InProxy(*responses)) ? 1 : 0;
     });
 }
 
@@ -73,7 +73,7 @@ CVAPI(ExceptionStatus) ml_StatModel_train2(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->calcError(*data, test != 0, OutProxy(*resp));
+        *returnValue = obj->calcError(*data, test != 0, OutProxy(*resp));
     });
 }*/
 
@@ -85,7 +85,7 @@ CVAPI(ExceptionStatus) ml_StatModel_predict(
     float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->predict(InProxy(*samples), OutProxy(*results), flags);
+        *returnValue = obj->predict(InProxy(*samples), OutProxy(*results), flags);
     });
 }
 

@@ -9,7 +9,7 @@
 CVAPI(ExceptionStatus) core_LDA_new1(int num_components, cv::LDA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::LDA(num_components);
+        *returnValue = new cv::LDA(num_components);
     });
 }
 
@@ -20,42 +20,42 @@ CVAPI(ExceptionStatus) core_LDA_new2(
     cv::LDA **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::LDA(InProxy(*src), InProxy(*labels), num_components);
+        *returnValue = new cv::LDA(InProxy(*src), InProxy(*labels), num_components);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_delete(cv::LDA *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_save_String(cv::LDA *obj, const char *filename)
 {
     return cvTry([&] {
-    obj->save(filename);
+        obj->save(filename);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_load_String(cv::LDA *obj, const char *filename)
 {
     return cvTry([&] {
-    obj->load(filename);
+        obj->load(filename);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_save_FileStorage(cv::LDA *obj, cv::FileStorage *fs)
 {
     return cvTry([&] {
-    obj->save(*fs);
+        obj->save(*fs);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_load_FileStorage(cv::LDA *obj, cv::FileStorage *node)
 {
     return cvTry([&] {
-    obj->load(*node);
+        obj->load(*node);
     });
 }
 
@@ -65,7 +65,7 @@ CVAPI(ExceptionStatus) core_LDA_compute(
     const interop::InputArrayProxy* labels)
 {
     return cvTry([&] {
-    obj->compute(InProxy(*src), InProxy(*labels));
+        obj->compute(InProxy(*src), InProxy(*labels));
     });
 }
 
@@ -75,8 +75,8 @@ CVAPI(ExceptionStatus) core_LDA_project(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = obj->project(InProxy(*src));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = obj->project(InProxy(*src));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -86,24 +86,24 @@ CVAPI(ExceptionStatus) core_LDA_reconstruct(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = obj->reconstruct(InProxy(*src));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = obj->reconstruct(InProxy(*src));
+        *returnValue = new cv::Mat(mat);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_eigenvectors(cv::LDA *obj, cv::Mat **returnValue)
 { 
     return cvTry([&] {
-    const auto mat = obj->eigenvectors();
-    *returnValue = new cv::Mat(mat);
+        const auto mat = obj->eigenvectors();
+        *returnValue = new cv::Mat(mat);
     });
 }
 
 CVAPI(ExceptionStatus) core_LDA_eigenvalues(cv::LDA *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = obj->eigenvalues();
-    *returnValue = new cv::Mat(mat);
+        const auto mat = obj->eigenvalues();
+        *returnValue = new cv::Mat(mat);
     });
 }
 
@@ -114,8 +114,8 @@ CVAPI(ExceptionStatus) core_LDA_subspaceProject(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::LDA::subspaceProject(InProxy(*W), InProxy(*mean), InProxy(*src));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::LDA::subspaceProject(InProxy(*W), InProxy(*mean), InProxy(*src));
+        *returnValue = new cv::Mat(mat);
     });
 }
 CVAPI(ExceptionStatus) core_LDA_subspaceReconstruct(
@@ -125,7 +125,7 @@ CVAPI(ExceptionStatus) core_LDA_subspaceReconstruct(
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto mat = cv::LDA::subspaceReconstruct(InProxy(*W), InProxy(*mean), InProxy(*src));
-    *returnValue = new cv::Mat(mat);
+        const auto mat = cv::LDA::subspaceReconstruct(InProxy(*W), InProxy(*mean), InProxy(*src));
+        *returnValue = new cv::Mat(mat);
     });
 }

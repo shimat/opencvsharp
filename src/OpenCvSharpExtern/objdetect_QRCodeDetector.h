@@ -13,28 +13,28 @@
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_new(cv::QRCodeDetector **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::QRCodeDetector();
+        *returnValue = new cv::QRCodeDetector();
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_delete(cv::QRCodeDetector *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_setEpsX(cv::QRCodeDetector *obj, double epsX)
 {
     return cvTry([&] {
-    obj->setEpsX(epsX);
+        obj->setEpsX(epsX);
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_setEpsY(cv::QRCodeDetector *obj, double epsY)
 {
     return cvTry([&] {
-    obj->setEpsY(epsY);
+        obj->setEpsY(epsY);
     });
 }
 
@@ -45,7 +45,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detect(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->detect(InProxy(*img), *points) ? 1 : 0;
+        *returnValue = obj->detect(InProxy(*img), *points) ? 1 : 0;
     });
 }
 
@@ -57,7 +57,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decode(
     std::string *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->decode(InProxy(*img), *points, OutProxy(*straight_qrcode));
+        *returnValue = obj->decode(InProxy(*img), *points, OutProxy(*straight_qrcode));
     });
 }
 
@@ -69,7 +69,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectAndDecode(
     std::string *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->detectAndDecode(InProxy(*img), *points, OutProxy(*straight_qrcode));
+        *returnValue = obj->detectAndDecode(InProxy(*img), *points, OutProxy(*straight_qrcode));
     });
 }
 
@@ -80,7 +80,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectMulti(
     int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->detectMulti(InProxy(*img), *points) ? 1 : 0;
+        *returnValue = obj->detectMulti(InProxy(*img), *points) ? 1 : 0;
     });
 }
 
@@ -93,7 +93,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti(
     int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->decodeMulti(InProxy(*img), *points, *decoded_info, *straight_qrcode) ? 1 : 0;
+        *returnValue = obj->decodeMulti(InProxy(*img), *points, *decoded_info, *straight_qrcode) ? 1 : 0;
     });
 }
 
@@ -105,7 +105,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
     int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->decodeMulti(InProxy(*img), *points, *decoded_info) ? 1 : 0;
+        *returnValue = obj->decodeMulti(InProxy(*img), *points, *decoded_info) ? 1 : 0;
     });
 }
 

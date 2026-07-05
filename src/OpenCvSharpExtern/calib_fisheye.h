@@ -18,7 +18,7 @@
     const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), affine, InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
+        cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), affine, InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
     });
 }*/
 
@@ -33,7 +33,7 @@ CVAPI(ExceptionStatus) calib_fisheye_projectPoints2(
     const interop::OutputArrayProxy* jacobian)
 {
     return cvTry([&] {
-    cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), InProxy(*rvec), InProxy(*tvec), InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
+        cv::fisheye::projectPoints(InProxy(*objectPoints), OutProxy(*imagePoints), InProxy(*rvec), InProxy(*tvec), InProxy(*K), InProxy(*D), alpha, OutProxy(*jacobian));
     });
 }
 
@@ -45,7 +45,7 @@ CVAPI(ExceptionStatus) calib_fisheye_distortPoints(
     double alpha)
 {
     return cvTry([&] {
-    cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*K), InProxy(*D), alpha);
+        cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*K), InProxy(*D), alpha);
     });
 }
 
@@ -58,7 +58,7 @@ CVAPI(ExceptionStatus) calib_fisheye_distortPoints2(
     double alpha)
 {
     return cvTry([&] {
-    cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*Kundistorted), InProxy(*K), InProxy(*D), alpha);
+        cv::fisheye::distortPoints(InProxy(*undistorted), OutProxy(*distorted), InProxy(*Kundistorted), InProxy(*K), InProxy(*D), alpha);
     });
 }
 
@@ -71,7 +71,7 @@ CVAPI(ExceptionStatus) calib_fisheye_undistortPoints(
     const interop::InputArrayProxy* P)
 {
     return cvTry([&] {
-    cv::fisheye::undistortPoints(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P));
+        cv::fisheye::undistortPoints(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P));
     });
 }
 
@@ -86,7 +86,7 @@ CVAPI(ExceptionStatus) calib_fisheye_initUndistortRectifyMap(
     const interop::OutputArrayProxy* map2)
 {
     return cvTry([&] {
-    cv::fisheye::initUndistortRectifyMap(InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
+        cv::fisheye::initUndistortRectifyMap(InProxy(*K), InProxy(*D), InProxy(*R), InProxy(*P), cpp(size), m1type, OutProxy(*map1), OutProxy(*map2));
     });
 }
 
@@ -99,7 +99,7 @@ CVAPI(ExceptionStatus) calib_fisheye_undistortImage(
     interop::Size newSize)
 {
     return cvTry([&] {
-    cv::fisheye::undistortImage(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*Knew), cpp(newSize));
+        cv::fisheye::undistortImage(InProxy(*distorted), OutProxy(*undistorted), InProxy(*K), InProxy(*D), InProxy(*Knew), cpp(newSize));
     });
 }
 
@@ -114,7 +114,7 @@ CVAPI(ExceptionStatus) calib_fisheye_estimateNewCameraMatrixForUndistortRectify(
     double fov_scale)
 {
     return cvTry([&] {
-    cv::fisheye::estimateNewCameraMatrixForUndistortRectify(InProxy(*K), InProxy(*D), cpp(image_size), InProxy(*R), OutProxy(*P), balance, cpp(newSize), fov_scale);
+        cv::fisheye::estimateNewCameraMatrixForUndistortRectify(InProxy(*K), InProxy(*D), cpp(image_size), InProxy(*R), OutProxy(*P), balance, cpp(newSize), fov_scale);
     });
 }
 
@@ -131,26 +131,26 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
     double *returnValue)
 {
     return cvTry([&] {
-    // Work around an OpenCV 5 upstream regression: cv::fisheye::calibrate's internal
-    // ComputeJacobians/EstimateUncertainties helpers (modules/calib/src/fisheye.cpp) subtract
-    // a `cv::Mat(std::vector<Point2d>)` from the per-view points Mat without transposing it
-    // (their orientation check tests channels() == 1, which is never true for a 2-channel
-    // points Mat). Since OpenCV 5 changed `Mat(vector<T>)` to build a 1xN mat instead of
-    // OpenCV 4's Nx1, a column-shaped (Nx1) per-view Mat now mismatches and throws
-    // StsUnmatchedSizes. Row-shaped (1xN) input sidesteps the bug, so reshape any Nx1 views
-    // to 1xN before calling into OpenCV (reshape is a metadata-only view for continuous mats).
-    const auto toRow = [](const cv::Mat &m) { return m.rows > m.cols ? m.reshape(0, 1) : m; };
+        // Work around an OpenCV 5 upstream regression: cv::fisheye::calibrate's internal
+        // ComputeJacobians/EstimateUncertainties helpers (modules/calib/src/fisheye.cpp) subtract
+        // a `cv::Mat(std::vector<Point2d>)` from the per-view points Mat without transposing it
+        // (their orientation check tests channels() == 1, which is never true for a 2-channel
+        // points Mat). Since OpenCV 5 changed `Mat(vector<T>)` to build a 1xN mat instead of
+        // OpenCV 4's Nx1, a column-shaped (Nx1) per-view Mat now mismatches and throws
+        // StsUnmatchedSizes. Row-shaped (1xN) input sidesteps the bug, so reshape any Nx1 views
+        // to 1xN before calling into OpenCV (reshape is a metadata-only view for continuous mats).
+        const auto toRow = [](const cv::Mat &m) { return m.rows > m.cols ? m.reshape(0, 1) : m; };
 
-    std::vector<cv::Mat> objectPointsRow(objectPoints->size());
-    for (size_t i = 0; i < objectPoints->size(); i++)
-        objectPointsRow[i] = toRow((*objectPoints)[i]);
-    std::vector<cv::Mat> imagePointsRow(imagePoints->size());
-    for (size_t i = 0; i < imagePoints->size(); i++)
-        imagePointsRow[i] = toRow((*imagePoints)[i]);
+        std::vector<cv::Mat> objectPointsRow(objectPoints->size());
+        for (size_t i = 0; i < objectPoints->size(); i++)
+            objectPointsRow[i] = toRow((*objectPoints)[i]);
+        std::vector<cv::Mat> imagePointsRow(imagePoints->size());
+        for (size_t i = 0; i < imagePoints->size(); i++)
+            imagePointsRow[i] = toRow((*imagePoints)[i]);
 
-    *returnValue = cv::fisheye::calibrate(
-        objectPointsRow, imagePointsRow, cpp(imageSize),
-        IoProxy(*K), IoProxy(*D), *rvecs, *tvecs, flags, cpp(criteria));
+        *returnValue = cv::fisheye::calibrate(
+            objectPointsRow, imagePointsRow, cpp(imageSize),
+            IoProxy(*K), IoProxy(*D), *rvecs, *tvecs, flags, cpp(criteria));
     });
 }
 
@@ -173,7 +173,7 @@ CVAPI(ExceptionStatus) calib_fisheye_stereoRectify(
     double fov_scale)
 {
     return cvTry([&] {
-    cv::fisheye::stereoRectify(InProxy(*K1), InProxy(*D1), InProxy(*K2), InProxy(*D2), cpp(imageSize), InProxy(*R), InProxy(*tvec), OutProxy(*R1), OutProxy(*R2), OutProxy(*P1), OutProxy(*P2), OutProxy(*Q), flags, cpp(newImageSize), balance, fov_scale);
+        cv::fisheye::stereoRectify(InProxy(*K1), InProxy(*D1), InProxy(*K2), InProxy(*D2), cpp(imageSize), InProxy(*R), InProxy(*tvec), OutProxy(*R1), OutProxy(*R2), OutProxy(*P1), OutProxy(*P2), OutProxy(*Q), flags, cpp(newImageSize), balance, fov_scale);
     });
 }
 
@@ -193,11 +193,11 @@ CVAPI(ExceptionStatus) calib_fisheye_stereoCalibrate(
     double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = cv::fisheye::stereoCalibrate(
-        *objectPoints, *imagePoints1, *imagePoints2,
-        IoProxy(*K1), IoProxy(*D1),
-        IoProxy(*K2), IoProxy(*D2),
-        cpp(imageSize), OutProxy(*R), OutProxy(*T), flags, cpp(criteria));
+        *returnValue = cv::fisheye::stereoCalibrate(
+            *objectPoints, *imagePoints1, *imagePoints2,
+            IoProxy(*K1), IoProxy(*D1),
+            IoProxy(*K2), IoProxy(*D2),
+            cpp(imageSize), OutProxy(*R), OutProxy(*T), flags, cpp(criteria));
     });
 }
 

@@ -11,22 +11,22 @@
 CVAPI(ExceptionStatus) saliency_Ptr_StaticSaliencySpectralResidual_delete(cv::Ptr<cv::saliency::StaticSaliencySpectralResidual> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_Ptr_StaticSaliencySpectralResidual_get(cv::Ptr<cv::saliency::StaticSaliencySpectralResidual> *ptr, cv::saliency::StaticSaliencySpectralResidual **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_create(cv::Ptr<cv::saliency::StaticSaliencySpectralResidual> **returnValue)
 {
     return cvTry([&] {
-    const auto p = cv::saliency::StaticSaliencySpectralResidual::create();
-    *returnValue = new cv::Ptr<cv::saliency::StaticSaliencySpectralResidual>(p);
+        const auto p = cv::saliency::StaticSaliencySpectralResidual::create();
+        *returnValue = new cv::Ptr<cv::saliency::StaticSaliencySpectralResidual>(p);
     });
 }
 
@@ -37,7 +37,7 @@ CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_computeSaliency(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
+        *returnValue = obj->computeSaliency(InProxy(*image), OutProxy(*saliencyMap)) ? 1 : 0;
     });
 }
 
@@ -48,35 +48,35 @@ CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_computeBinaryMap(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->computeBinaryMap(InProxy(*saliencyMap), OutProxy(*binaryMap)) ? 1 : 0;
+        *returnValue = obj->computeBinaryMap(InProxy(*saliencyMap), OutProxy(*binaryMap)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_getImageWidth(cv::saliency::StaticSaliencySpectralResidual *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getImageWidth();
+        *returnValue = obj->getImageWidth();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_setImageWidth(cv::saliency::StaticSaliencySpectralResidual *obj, int val)
 {
     return cvTry([&] {
-    obj->setImageWidth(val);
+        obj->setImageWidth(val);
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_getImageHeight(cv::saliency::StaticSaliencySpectralResidual *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getImageHeight();
+        *returnValue = obj->getImageHeight();
     });
 }
 
 CVAPI(ExceptionStatus) saliency_StaticSaliencySpectralResidual_setImageHeight(cv::saliency::StaticSaliencySpectralResidual *obj, int val)
 {
     return cvTry([&] {
-    obj->setImageHeight(val);
+        obj->setImageHeight(val);
     });
 }
 

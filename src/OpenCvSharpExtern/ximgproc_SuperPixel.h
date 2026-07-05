@@ -13,35 +13,35 @@
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelLSC_delete(cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelLSC_get(cv::Ptr<cv::ximgproc::SuperpixelLSC>* ptr, cv::ximgproc::SuperpixelLSC** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getNumberOfSuperpixels(cv::ximgproc::SuperpixelLSC* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumberOfSuperpixels();
+        *returnValue = obj->getNumberOfSuperpixels();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_iterate(cv::ximgproc::SuperpixelLSC* obj, int num_iterations)
 {
     return cvTry([&] {
-    obj->iterate(num_iterations);
+        obj->iterate(num_iterations);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getLabels(cv::ximgproc::SuperpixelLSC* obj, const interop::OutputArrayProxy* labels_out)
 {
     return cvTry([&] {
-    obj->getLabels(OutProxy(*labels_out));
+        obj->getLabels(OutProxy(*labels_out));
     });
 }
 
@@ -51,14 +51,14 @@ CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getLabelContourMask(
     int thick_line)
 {
     return cvTry([&] {
-    obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
+        obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_enforceLabelConnectivity(cv::ximgproc::SuperpixelLSC* obj, int min_element_size)
 {
     return cvTry([&] {
-    obj->enforceLabelConnectivity(min_element_size);
+        obj->enforceLabelConnectivity(min_element_size);
     });
 }
 
@@ -69,8 +69,8 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelLSC(
     cv::Ptr<cv::ximgproc::SuperpixelLSC>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createSuperpixelLSC(InProxy(*image), region_size, ratio);
-    *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelLSC>(ptr);
+        const auto ptr = cv::ximgproc::createSuperpixelLSC(InProxy(*image), region_size, ratio);
+        *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelLSC>(ptr);
     });
 }
 
@@ -80,21 +80,21 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelLSC(
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSEEDS_delete(cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSEEDS_get(cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* ptr, cv::ximgproc::SuperpixelSEEDS** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(cv::ximgproc::SuperpixelSEEDS* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumberOfSuperpixels();
+        *returnValue = obj->getNumberOfSuperpixels();
     });
 }
 
@@ -104,14 +104,14 @@ CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_iterate(
     int num_iterations)
 {
     return cvTry([&] {
-    obj->iterate(InProxy(*img), num_iterations);
+        obj->iterate(InProxy(*img), num_iterations);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getLabels(cv::ximgproc::SuperpixelSEEDS* obj, const interop::OutputArrayProxy* labels_out)
 {
     return cvTry([&] {
-    obj->getLabels(OutProxy(*labels_out));
+        obj->getLabels(OutProxy(*labels_out));
     });
 }
 
@@ -121,7 +121,7 @@ CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getLabelContourMask(
     int thick_line)
 {
     return cvTry([&] {
-    obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
+        obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
     });
 }
 
@@ -137,9 +137,9 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSEEDS(
     cv::Ptr<cv::ximgproc::SuperpixelSEEDS>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createSuperpixelSEEDS(
-        image_width, image_height, image_channels, num_superpixels, num_levels, prior, histogram_bins, double_step);
-    *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSEEDS>(ptr);
+        const auto ptr = cv::ximgproc::createSuperpixelSEEDS(
+            image_width, image_height, image_channels, num_superpixels, num_levels, prior, histogram_bins, double_step);
+        *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSEEDS>(ptr);
     });
 }
 
@@ -149,35 +149,35 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSEEDS(
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSLIC_delete(cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSLIC_get(cv::Ptr<cv::ximgproc::SuperpixelSLIC>* ptr, cv::ximgproc::SuperpixelSLIC** returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(cv::ximgproc::SuperpixelSLIC* obj, int* returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNumberOfSuperpixels();
+        *returnValue = obj->getNumberOfSuperpixels();
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_iterate(cv::ximgproc::SuperpixelSLIC* obj, int num_iterations)
 {
     return cvTry([&] {
-    obj->iterate(num_iterations);
+        obj->iterate(num_iterations);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getLabels(cv::ximgproc::SuperpixelSLIC* obj, const interop::OutputArrayProxy* labels_out)
 {
     return cvTry([&] {
-    obj->getLabels(OutProxy(*labels_out));
+        obj->getLabels(OutProxy(*labels_out));
     });
 }
 
@@ -187,14 +187,14 @@ CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getLabelContourMask(
     int thick_line)
 {
     return cvTry([&] {
-    obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
+        obj->getLabelContourMask(OutProxy(*image), thick_line != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_enforceLabelConnectivity(cv::ximgproc::SuperpixelSLIC* obj, int min_element_size)
 {
     return cvTry([&] {
-    obj->enforceLabelConnectivity(min_element_size);
+        obj->enforceLabelConnectivity(min_element_size);
     });
 }
 
@@ -206,9 +206,9 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSLIC(
     cv::Ptr<cv::ximgproc::SuperpixelSLIC>** returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ximgproc::createSuperpixelSLIC(
-        InProxy(*image), algorithm, region_size, ruler);
-    *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSLIC>(ptr);
+        const auto ptr = cv::ximgproc::createSuperpixelSLIC(
+            InProxy(*image), algorithm, region_size, ruler);
+        *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSLIC>(ptr);
     });
 }
 

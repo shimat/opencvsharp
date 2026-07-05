@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) ptcloud_loadPointCloud(
     const interop::OutputArrayProxy* rgb)
 {
     return cvTry([&] {
-    cv::loadPointCloud(filename, OutProxy(*vertices), OutProxy(*normals), OutProxy(*rgb));
+        cv::loadPointCloud(filename, OutProxy(*vertices), OutProxy(*normals), OutProxy(*rgb));
     });
 }
 
@@ -27,7 +27,7 @@ CVAPI(ExceptionStatus) ptcloud_savePointCloud(
     const interop::InputArrayProxy* rgb)
 {
     return cvTry([&] {
-    cv::savePointCloud(filename, InProxy(*vertices), InProxy(*normals), InProxy(*rgb));
+        cv::savePointCloud(filename, InProxy(*vertices), InProxy(*normals), InProxy(*rgb));
     });
 }
 
@@ -40,7 +40,7 @@ CVAPI(ExceptionStatus) ptcloud_loadMesh(
     const interop::OutputArrayProxy* texCoords)
 {
     return cvTry([&] {
-    cv::loadMesh(filename, OutProxy(*vertices), *indices, OutProxy(*normals), OutProxy(*colors), OutProxy(*texCoords));
+        cv::loadMesh(filename, OutProxy(*vertices), *indices, OutProxy(*normals), OutProxy(*colors), OutProxy(*texCoords));
     });
 }
 
@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) ptcloud_saveMesh(
     const interop::InputArrayProxy* texCoords)
 {
     return cvTry([&] {
-    cv::saveMesh(filename, InProxy(*vertices), *indices, InProxy(*normals), InProxy(*colors), InProxy(*texCoords));
+        cv::saveMesh(filename, InProxy(*vertices), *indices, InProxy(*normals), InProxy(*colors), InProxy(*texCoords));
     });
 }
 

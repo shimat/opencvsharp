@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) text_TextDetector_detect(
     std::vector<float> *confidence)
 {
     return cvTry([&] {
-    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
+        (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
     });
 }
 
@@ -27,7 +27,7 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_detect(
     std::vector<float> *confidence)
 {
     return cvTry([&] {
-    (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
+        (*obj)->detect(InProxy(*inputImage), *Bbox, *confidence);
     });
 }
 
@@ -39,16 +39,16 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_create1(
     cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Size> detectionSizesVec;
-    if (detectionSizes != nullptr)
-    {
-        detectionSizesVec.resize(detectionSizesLength);
-        for (int i = 0; i < detectionSizesLength; i++)
-            detectionSizesVec[i] = cpp(detectionSizes[i]);
-    }
+        std::vector<cv::Size> detectionSizesVec;
+        if (detectionSizes != nullptr)
+        {
+            detectionSizesVec.resize(detectionSizesLength);
+            for (int i = 0; i < detectionSizesLength; i++)
+                detectionSizesVec[i] = cpp(detectionSizes[i]);
+        }
 
-    const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename, detectionSizesVec);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename, detectionSizesVec);
+        *returnValue = clone(ptr);
     });
 }
 
@@ -58,15 +58,15 @@ CVAPI(ExceptionStatus) text_TextDetectorCNN_create2(
     cv::Ptr<cv::text::TextDetectorCNN> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::text::TextDetectorCNN::create(modelArchFilename, modelWeightsFilename);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) text_Ptr_TextDetectorCNN_delete(cv::Ptr<cv::text::TextDetectorCNN> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 

@@ -12,14 +12,14 @@
 CVAPI(ExceptionStatus) ptcloud_Odometry_new1(cv::Odometry **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Odometry();
+        *returnValue = new cv::Odometry();
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Odometry_new2(int otype, cv::Odometry **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Odometry(static_cast<cv::OdometryType>(otype));
+        *returnValue = new cv::Odometry(static_cast<cv::OdometryType>(otype));
     });
 }
 
@@ -30,21 +30,21 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_new3(
     cv::Odometry **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Odometry(static_cast<cv::OdometryType>(otype), *settings, static_cast<cv::OdometryAlgoType>(algtype));
+        *returnValue = new cv::Odometry(static_cast<cv::OdometryType>(otype), *settings, static_cast<cv::OdometryAlgoType>(algtype));
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Odometry_delete(cv::Odometry *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Odometry_prepareFrame(cv::Odometry *obj, cv::OdometryFrame *frame)
 {
     return cvTry([&] {
-    obj->prepareFrame(*frame);
+        obj->prepareFrame(*frame);
     });
 }
 
@@ -54,7 +54,7 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_prepareFrames(
     cv::OdometryFrame *dstFrame)
 {
     return cvTry([&] {
-    obj->prepareFrames(*srcFrame, *dstFrame);
+        obj->prepareFrames(*srcFrame, *dstFrame);
     });
 }
 
@@ -66,7 +66,7 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_compute_Frame(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compute(*srcFrame, *dstFrame, OutProxy(*Rt)) ? 1 : 0;
+        *returnValue = obj->compute(*srcFrame, *dstFrame, OutProxy(*Rt)) ? 1 : 0;
     });
 }
 
@@ -78,7 +78,7 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_compute_Depth(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compute(InProxy(*srcDepth), InProxy(*dstDepth), OutProxy(*Rt)) ? 1 : 0;
+        *returnValue = obj->compute(InProxy(*srcDepth), InProxy(*dstDepth), OutProxy(*Rt)) ? 1 : 0;
     });
 }
 
@@ -92,14 +92,14 @@ CVAPI(ExceptionStatus) ptcloud_Odometry_compute_DepthRGB(
     int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->compute(InProxy(*srcDepth), InProxy(*srcRGB), InProxy(*dstDepth), InProxy(*dstRGB), OutProxy(*Rt)) ? 1 : 0;
+        *returnValue = obj->compute(InProxy(*srcDepth), InProxy(*srcRGB), InProxy(*dstDepth), InProxy(*dstRGB), OutProxy(*Rt)) ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Odometry_getNormalsComputer(cv::Odometry *obj, cv::Ptr<cv::RgbdNormals> **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::Ptr<cv::RgbdNormals>(obj->getNormalsComputer());
+        *returnValue = new cv::Ptr<cv::RgbdNormals>(obj->getNormalsComputer());
     });
 }
 

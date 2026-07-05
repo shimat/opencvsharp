@@ -17,7 +17,7 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_Mat1(
     cv::Mat *mask)
 {
     return cvTry([&] {
-    detector->detect(*image, *keypoints, entity(mask));
+        detector->detect(*image, *keypoints, entity(mask));
     });
 }
 
@@ -29,20 +29,21 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_Mat2(
     cv::Mat **mask)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imageVec(imageLength);
-    std::vector<cv::Mat> maskVec;
+        std::vector<cv::Mat> imageVec;
+        std::vector<cv::Mat> maskVec;
 
-    for (auto i = 0; i < imageLength; i++)
-        imageVec.push_back(*images[i]);
-
-    if (mask != nullptr)
-    {
-        maskVec.reserve(imageLength);
+        imageVec.reserve(imageLength);
         for (auto i = 0; i < imageLength; i++)
-            maskVec.push_back(*mask[i]);
-    }
+            imageVec.push_back(*images[i]);
 
-    detector->detect(imageVec, *keypoints, maskVec);
+        if (mask != nullptr)
+        {
+            maskVec.reserve(imageLength);
+            for (auto i = 0; i < imageLength; i++)
+                maskVec.push_back(*mask[i]);
+        }
+
+        detector->detect(imageVec, *keypoints, maskVec);
     });
 }
 
@@ -53,7 +54,7 @@ CVAPI(ExceptionStatus) features_Feature2D_detect_InputArray(
     const interop::InputArrayProxy* mask)
 {
     return cvTry([&] {
-    obj->detect(InProxy(*image), *keypoints, InProxy(*mask));
+        obj->detect(InProxy(*image), *keypoints, InProxy(*mask));
     });
 }
 
@@ -64,7 +65,7 @@ CVAPI(ExceptionStatus) features_Feature2D_compute1(
     const interop::OutputArrayProxy* descriptors)
 {
     return cvTry([&] {
-    obj->compute(InProxy(*image), *keypoints, OutProxy(*descriptors));
+        obj->compute(InProxy(*image), *keypoints, OutProxy(*descriptors));
     });
 }
 
@@ -77,15 +78,23 @@ CVAPI(ExceptionStatus) features_Feature2D_compute2(
     int descriptorsLength)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> imageVec(imageLength);
-    std::vector<cv::Mat> descriptorsVec(descriptorsLength);
+        std::vector<cv::Mat> imageVec;
+        std::vector<cv::Mat> descriptorsVec;
 
-    for (auto i = 0; i < imageLength; i++)
-        imageVec.push_back(*images[i]);
-    for (auto i = 0; i < descriptorsLength; i++)
-        descriptorsVec.push_back(*descriptors[i]);
+        imageVec.reserve(imageLength);
+        for (auto i = 0; i < imageLength; i++)
+            imageVec.push_back(*images[i]);
+        descriptorsVec.reserve(descriptorsLength);
+        for (auto i = 0; i < descriptorsLength; i++)
+            descriptorsVec.push_back(*descriptors[i]);
 
-    detector->compute(imageVec, *keypoints, descriptorsVec);
+        detector->compute(imageVec, *keypoints, descriptorsVec);
+
+        // detector->compute() may reallocate the elements of descriptorsVec (a local copy),
+        // so the results must be copied back into the caller-owned Mat objects explicitly.
+        const auto n = std::min(static_cast<size_t>(descriptorsLength), descriptorsVec.size());
+        for (size_t i = 0; i < n; i++)
+            *descriptors[i] = descriptorsVec[i];
     });
 }
 
@@ -98,54 +107,54 @@ CVAPI(ExceptionStatus) features_Feature2D_detectAndCompute(
     int useProvidedKeypoints)
 {
     return cvTry([&] {
-    detector->detectAndCompute(InProxy(*image), InProxy(*mask), *keypoints, OutProxy(*descriptors), useProvidedKeypoints != 0);
+        detector->detectAndCompute(InProxy(*image), InProxy(*mask), *keypoints, OutProxy(*descriptors), useProvidedKeypoints != 0);
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_descriptorSize(cv::Feature2D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->descriptorSize();
+        *returnValue = obj->descriptorSize();
     });
 }
 CVAPI(ExceptionStatus) features_Feature2D_descriptorType(cv::Feature2D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->descriptorType();
+        *returnValue = obj->descriptorType();
     });
 }
 CVAPI(ExceptionStatus) features_Feature2D_defaultNorm(cv::Feature2D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->defaultNorm();
+        *returnValue = obj->defaultNorm();
     });
 }
 CVAPI(ExceptionStatus) features_Feature2D_empty(cv::Feature2D *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->empty() ? 1 : 0;
+        *returnValue = obj->empty() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_write(cv::Feature2D *obj, const char *fileName)
 {
     return cvTry([&] {
-    const cv::String fileNameString(fileName);
-    obj->write(fileNameString);
+        const cv::String fileNameString(fileName);
+        obj->write(fileNameString);
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_read(cv::Feature2D *obj, const char *fileName)
 {
     return cvTry([&] {
-    obj->read(fileName);
+        obj->read(fileName);
     });
 }
 
 CVAPI(ExceptionStatus) features_Feature2D_getDefaultName(cv::Feature2D *obj, std::string *returnValue)
 {
     return cvTry([&] {
-    returnValue->assign(obj->getDefaultName());
+        returnValue->assign(obj->getDefaultName());
     });
 }
 
@@ -162,16 +171,16 @@ CVAPI(ExceptionStatus) features_SIFT_create(
     cv::Ptr<cv::SIFT> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::SIFT::create(
-        nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::SIFT::create(
+            nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_SIFT_delete(cv::Ptr<cv::SIFT> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -193,132 +202,132 @@ CVAPI(ExceptionStatus) features_ORB_create(
     cv::Ptr<cv::ORB> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::ORB::create(
-        nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, static_cast<cv::ORB::ScoreType>(scoreType), patchSize, fastThreshold);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::ORB::create(
+            nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, static_cast<cv::ORB::ScoreType>(scoreType), patchSize, fastThreshold);
+        *returnValue = clone(ptr);
     });
 }
 CVAPI(ExceptionStatus) features_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setMaxFeatures(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setMaxFeatures(val);
+        obj->setMaxFeatures(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getMaxFeatures(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxFeatures();
+        *returnValue = obj->getMaxFeatures();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setScaleFactor(cv::ORB *obj, double val)
 {
     return cvTry([&] {
-    obj->setScaleFactor(val);
+        obj->setScaleFactor(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getScaleFactor(cv::ORB *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getScaleFactor();
+        *returnValue = obj->getScaleFactor();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setNLevels(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setNLevels(val);
+        obj->setNLevels(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getNLevels(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNLevels();
+        *returnValue = obj->getNLevels();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setEdgeThreshold(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setEdgeThreshold(val);
+        obj->setEdgeThreshold(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getEdgeThreshold(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getEdgeThreshold();
+        *returnValue = obj->getEdgeThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setFirstLevel(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setFirstLevel(val);
+        obj->setFirstLevel(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getFirstLevel(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getFirstLevel();
+        *returnValue = obj->getFirstLevel();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setWTA_K(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setWTA_K(val);
+        obj->setWTA_K(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getWTA_K(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getWTA_K();
+        *returnValue = obj->getWTA_K();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setScoreType(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setScoreType(static_cast<cv::ORB::ScoreType>(val));
+        obj->setScoreType(static_cast<cv::ORB::ScoreType>(val));
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getScoreType(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->getScoreType());
+        *returnValue = static_cast<int>(obj->getScoreType());
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setPatchSize(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setPatchSize(val);
+        obj->setPatchSize(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getPatchSize(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getPatchSize();
+        *returnValue = obj->getPatchSize();
     });
 }
 
 CVAPI(ExceptionStatus) features_ORB_setFastThreshold(cv::ORB *obj, int val)
 {
     return cvTry([&] {
-    obj->setFastThreshold(val);
+        obj->setFastThreshold(val);
     });
 }
 CVAPI(ExceptionStatus) features_ORB_getFastThreshold(cv::ORB *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getFastThreshold();
+        *returnValue = obj->getFastThreshold();
     });
 }
 
@@ -339,15 +348,15 @@ CVAPI(ExceptionStatus) features_MSER_create(
     cv::Ptr<cv::MSER> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::MSER::create(delta, minArea, maxArea, maxVariation, minDiversity, maxEvolution,
-        areaThreshold, minMargin, edgeBlurSize);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::MSER::create(delta, minArea, maxArea, maxVariation, minDiversity, maxEvolution,
+            areaThreshold, minMargin, edgeBlurSize);
+        *returnValue = clone(ptr);
     });
 }
 CVAPI(ExceptionStatus) features_Ptr_MSER_delete(cv::Ptr<cv::MSER> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -358,59 +367,59 @@ CVAPI(ExceptionStatus) features_MSER_detectRegions(
     std::vector<cv::Rect> *bboxes)
 {
     return cvTry([&] {
-    obj->detectRegions(InProxy(*image), *msers, *bboxes);
+        obj->detectRegions(InProxy(*image), *msers, *bboxes);
     });
 }
 
 CVAPI(ExceptionStatus) features_MSER_setDelta(cv::MSER *obj, int delta)
 {
     return cvTry([&] {
-    obj->setDelta(delta);
+        obj->setDelta(delta);
     });
 }
 CVAPI(ExceptionStatus) features_MSER_getDelta(cv::MSER *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getDelta();
+        *returnValue = obj->getDelta();
     });
 }
 
 CVAPI(ExceptionStatus) features_MSER_setMinArea(cv::MSER *obj, int minArea)
 {
     return cvTry([&] {
-    obj->setMinArea(minArea);
+        obj->setMinArea(minArea);
     });
 }
 CVAPI(ExceptionStatus) features_MSER_getMinArea(cv::MSER *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMinArea();
+        *returnValue = obj->getMinArea();
     });
 }
 
 CVAPI(ExceptionStatus) features_MSER_setMaxArea(cv::MSER *obj, int maxArea)
 {
     return cvTry([&] {
-    obj->setMaxArea(maxArea);
+        obj->setMaxArea(maxArea);
     });
 }
 CVAPI(ExceptionStatus) features_MSER_getMaxArea(cv::MSER *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxArea();
+        *returnValue = obj->getMaxArea();
     });
 }
 
 CVAPI(ExceptionStatus) features_MSER_setPass2Only(cv::MSER *obj, int f)
 {
     return cvTry([&] {
-    obj->setPass2Only(f != 0);
+        obj->setPass2Only(f != 0);
     });
 }
 CVAPI(ExceptionStatus) features_MSER_getPass2Only(cv::MSER *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getPass2Only() ? 1 : 0;
+        *returnValue = obj->getPass2Only() ? 1 : 0;
     });
 }
 
@@ -425,7 +434,7 @@ CVAPI(ExceptionStatus) features_FAST1(
     int nonmaxSupression)
 {
     return cvTry([&] {
-    cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0);
+        cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0);
     });
 }
 
@@ -437,7 +446,7 @@ CVAPI(ExceptionStatus) features_FAST2(
     int type)
 {
     return cvTry([&] {
-    cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
+        cv::FAST(InProxy(*image), *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
     });
 }
 
@@ -448,53 +457,53 @@ CVAPI(ExceptionStatus) features_FastFeatureDetector_create(
     cv::Ptr<cv::FastFeatureDetector> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
+        *returnValue = clone(ptr);
     });
 }
 CVAPI(ExceptionStatus) features_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::FastFeatureDetector> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) features_FastFeatureDetector_setThreshold(cv::FastFeatureDetector *obj, int threshold)
 {
     return cvTry([&] {
-    obj->setThreshold(threshold);
+        obj->setThreshold(threshold);
     });
 }
 CVAPI(ExceptionStatus) features_FastFeatureDetector_getThreshold(cv::FastFeatureDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getThreshold();
+        *returnValue = obj->getThreshold();
     });
 }
 
 CVAPI(ExceptionStatus) features_FastFeatureDetector_setNonmaxSuppression(cv::FastFeatureDetector *obj, int f)
 {
     return cvTry([&] {
-    obj->setNonmaxSuppression(f != 0);
+        obj->setNonmaxSuppression(f != 0);
     });
 }
 CVAPI(ExceptionStatus) features_FastFeatureDetector_getNonmaxSuppression(cv::FastFeatureDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
+        *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) features_FastFeatureDetector_setType(cv::FastFeatureDetector *obj, int type)
 {
     return cvTry([&] {
-    obj->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
+        obj->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
     });
 }
 CVAPI(ExceptionStatus) features_FastFeatureDetector_getType(cv::FastFeatureDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = static_cast<int>(obj->getType());
+        *returnValue = static_cast<int>(obj->getType());
     });
 }
 
@@ -513,94 +522,94 @@ CVAPI(ExceptionStatus) features_GFTTDetector_create(
     cv::Ptr<cv::GFTTDetector> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::GFTTDetector::create(
-        maxCorners, qualityLevel, minDistance,
-        blockSize, useHarrisDetector != 0, k);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::GFTTDetector::create(
+            maxCorners, qualityLevel, minDistance,
+            blockSize, useHarrisDetector != 0, k);
+        *returnValue = clone(ptr);
     });
 }
 CVAPI(ExceptionStatus) features_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetector> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setMaxFeatures(cv::GFTTDetector *obj, int maxFeatures)
 {
     return cvTry([&] {
-    obj->setMaxFeatures(maxFeatures);
+        obj->setMaxFeatures(maxFeatures);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getMaxFeatures(cv::GFTTDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxFeatures();
+        *returnValue = obj->getMaxFeatures();
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setQualityLevel(cv::GFTTDetector *obj, double qlevel)
 {
     return cvTry([&] {
-    obj->setQualityLevel(qlevel);
+        obj->setQualityLevel(qlevel);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getQualityLevel(cv::GFTTDetector *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getQualityLevel();
+        *returnValue = obj->getQualityLevel();
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setMinDistance(cv::GFTTDetector *obj, double minDistance)
 {
     return cvTry([&] {
-    obj->setMinDistance(minDistance);
+        obj->setMinDistance(minDistance);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getMinDistance(cv::GFTTDetector *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMinDistance();
+        *returnValue = obj->getMinDistance();
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setBlockSize(cv::GFTTDetector *obj, int blockSize)
 {
     return cvTry([&] {
-    obj->setBlockSize(blockSize);
+        obj->setBlockSize(blockSize);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getBlockSize(cv::GFTTDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getBlockSize();
+        *returnValue = obj->getBlockSize();
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setHarrisDetector(cv::GFTTDetector *obj, int val)
 {
     return cvTry([&] {
-    obj->setHarrisDetector(val != 0);
+        obj->setHarrisDetector(val != 0);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getHarrisDetector(cv::GFTTDetector *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getHarrisDetector() ? 1 : 0;
+        *returnValue = obj->getHarrisDetector() ? 1 : 0;
     });
 }
 
 CVAPI(ExceptionStatus) features_GFTTDetector_setK(cv::GFTTDetector *obj, double k)
 {
     return cvTry([&] {
-    obj->setK(k);
+        obj->setK(k);
     });
 }
 CVAPI(ExceptionStatus) features_GFTTDetector_getK(cv::GFTTDetector *obj, double *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getK();
+        *returnValue = obj->getK();
     });
 }
 
@@ -636,38 +645,38 @@ CVAPI(ExceptionStatus) features_SimpleBlobDetector_create(
     SimpleBlobDetector_Params *p, cv::Ptr<cv::SimpleBlobDetector> **returnValue)
 {
     return cvTry([&] {
-    cv::SimpleBlobDetector::Params p2;
-    if (p != nullptr)
-    {
-        p2.thresholdStep = p->thresholdStep;
-        p2.minThreshold = p->minThreshold;
-        p2.maxThreshold = p->maxThreshold;
-        p2.minRepeatability = static_cast<size_t>(p->minRepeatability);
-        p2.minDistBetweenBlobs = p->minDistBetweenBlobs;
-        p2.filterByColor = p->filterByColor != 0;
-        p2.blobColor = p->blobColor;
-        p2.filterByArea = p->filterByArea != 0;
-        p2.minArea = p->minArea;
-        p2.maxArea = p->maxArea;
-        p2.filterByCircularity = p->filterByCircularity != 0;
-        p2.minCircularity = p->minCircularity;
-        p2.maxCircularity = p->maxCircularity;
-        p2.filterByInertia = p->filterByInertia != 0;
-        p2.minInertiaRatio = p->minInertiaRatio;
-        p2.maxInertiaRatio = p->maxInertiaRatio;
-        p2.filterByConvexity = p->filterByConvexity != 0;
-        p2.minConvexity = p->minConvexity;
-        p2.maxConvexity = p->maxConvexity;
-    }
-    const auto ptr = cv::SimpleBlobDetector::create(p2);
-    *returnValue = clone(ptr);
+        cv::SimpleBlobDetector::Params p2;
+        if (p != nullptr)
+        {
+            p2.thresholdStep = p->thresholdStep;
+            p2.minThreshold = p->minThreshold;
+            p2.maxThreshold = p->maxThreshold;
+            p2.minRepeatability = static_cast<size_t>(p->minRepeatability);
+            p2.minDistBetweenBlobs = p->minDistBetweenBlobs;
+            p2.filterByColor = p->filterByColor != 0;
+            p2.blobColor = p->blobColor;
+            p2.filterByArea = p->filterByArea != 0;
+            p2.minArea = p->minArea;
+            p2.maxArea = p->maxArea;
+            p2.filterByCircularity = p->filterByCircularity != 0;
+            p2.minCircularity = p->minCircularity;
+            p2.maxCircularity = p->maxCircularity;
+            p2.filterByInertia = p->filterByInertia != 0;
+            p2.minInertiaRatio = p->minInertiaRatio;
+            p2.maxInertiaRatio = p->maxInertiaRatio;
+            p2.filterByConvexity = p->filterByConvexity != 0;
+            p2.minConvexity = p->minConvexity;
+            p2.maxConvexity = p->maxConvexity;
+        }
+        const auto ptr = cv::SimpleBlobDetector::create(p2);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::SimpleBlobDetector> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -678,7 +687,7 @@ CVAPI(ExceptionStatus) features_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::Simple
 CVAPI(ExceptionStatus) features_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D> *obj, cv::Feature2D **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
@@ -694,8 +703,8 @@ CVAPI(ExceptionStatus) features_AffineFeature_create(
     cv::Ptr<cv::AffineFeature> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::AffineFeature::create(*backend, maxTilt, minTilt, tiltStep, rotateStepBase);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::AffineFeature::create(*backend, maxTilt, minTilt, tiltStep, rotateStepBase);
+        *returnValue = clone(ptr);
     });
 }
 
@@ -707,9 +716,9 @@ CVAPI(ExceptionStatus) features_AffineFeature_setViewParams(
     int rollsLength)
 {
     return cvTry([&] {
-    const std::vector<float> tiltsVec(tilts, tilts + tiltsLength);
-    const std::vector<float> rollsVec(rolls, rolls + rollsLength);
-    obj->setViewParams(tiltsVec, rollsVec);
+        const std::vector<float> tiltsVec(tilts, tilts + tiltsLength);
+        const std::vector<float> rollsVec(rolls, rolls + rollsLength);
+        obj->setViewParams(tiltsVec, rollsVec);
     });
 }
 
@@ -719,14 +728,14 @@ CVAPI(ExceptionStatus) features_AffineFeature_getViewParams(
     std::vector<float> *rolls)
 {
     return cvTry([&] {
-    obj->getViewParams(*tilts, *rolls);
+        obj->getViewParams(*tilts, *rolls);
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_AffineFeature_delete(cv::Ptr<cv::AffineFeature> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -747,8 +756,8 @@ CVAPI(ExceptionStatus) features_DISK_create(
     cv::Ptr<cv::DISK> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::DISK::create(cv::String(modelPath), maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
-    *returnValue = clone(ptr);
+        const auto ptr = cv::DISK::create(cv::String(modelPath), maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
+        *returnValue = clone(ptr);
     });
 }
 
@@ -763,53 +772,53 @@ CVAPI(ExceptionStatus) features_DISK_create_buffer(
     cv::Ptr<cv::DISK> **returnValue)
 {
     return cvTry([&] {
-    const std::vector<uchar> buf(bufferModel, bufferModel + bufferModelLength);
-    const auto ptr = cv::DISK::create(buf, maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
-    *returnValue = clone(ptr);
+        const std::vector<uchar> buf(bufferModel, bufferModel + bufferModelLength);
+        const auto ptr = cv::DISK::create(buf, maxKeypoints, scoreThreshold, cpp(imageSize), backendId, targetId);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) features_DISK_setMaxKeypoints(cv::DISK *obj, int maxKeypoints)
 {
     return cvTry([&] {
-    obj->setMaxKeypoints(maxKeypoints);
+        obj->setMaxKeypoints(maxKeypoints);
     });
 }
 CVAPI(ExceptionStatus) features_DISK_getMaxKeypoints(cv::DISK *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxKeypoints();
+        *returnValue = obj->getMaxKeypoints();
     });
 }
 CVAPI(ExceptionStatus) features_DISK_setScoreThreshold(cv::DISK *obj, float threshold)
 {
     return cvTry([&] {
-    obj->setScoreThreshold(threshold);
+        obj->setScoreThreshold(threshold);
     });
 }
 CVAPI(ExceptionStatus) features_DISK_getScoreThreshold(cv::DISK *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getScoreThreshold();
+        *returnValue = obj->getScoreThreshold();
     });
 }
 CVAPI(ExceptionStatus) features_DISK_setImageSize(cv::DISK *obj, interop::Size size)
 {
     return cvTry([&] {
-    obj->setImageSize(cpp(size));
+        obj->setImageSize(cpp(size));
     });
 }
 CVAPI(ExceptionStatus) features_DISK_getImageSize(cv::DISK *obj, interop::Size *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(obj->getImageSize());
+        *returnValue = c(obj->getImageSize());
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_DISK_delete(cv::Ptr<cv::DISK> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 
@@ -828,14 +837,14 @@ CVAPI(ExceptionStatus) features_ALIKED_create(
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     return cvTry([&] {
-    cv::ALIKED::Params params;
-    params.inputSize = cpp(inputSize);
-    params.normalizeDescriptors = normalizeDescriptors != 0;
-    params.engine = engine;
-    params.backend = backend;
-    params.target = target;
-    const auto ptr = cv::ALIKED::create(cv::String(modelPath), params);
-    *returnValue = clone(ptr);
+        cv::ALIKED::Params params;
+        params.inputSize = cpp(inputSize);
+        params.normalizeDescriptors = normalizeDescriptors != 0;
+        params.engine = engine;
+        params.backend = backend;
+        params.target = target;
+        const auto ptr = cv::ALIKED::create(cv::String(modelPath), params);
+        *returnValue = clone(ptr);
     });
 }
 
@@ -850,22 +859,22 @@ CVAPI(ExceptionStatus) features_ALIKED_create_buffer(
     cv::Ptr<cv::ALIKED> **returnValue)
 {
     return cvTry([&] {
-    const std::vector<uchar> buf(modelData, modelData + modelDataLength);
-    cv::ALIKED::Params params;
-    params.inputSize = cpp(inputSize);
-    params.normalizeDescriptors = normalizeDescriptors != 0;
-    params.engine = engine;
-    params.backend = backend;
-    params.target = target;
-    const auto ptr = cv::ALIKED::create(buf, params);
-    *returnValue = clone(ptr);
+        const std::vector<uchar> buf(modelData, modelData + modelDataLength);
+        cv::ALIKED::Params params;
+        params.inputSize = cpp(inputSize);
+        params.normalizeDescriptors = normalizeDescriptors != 0;
+        params.engine = engine;
+        params.backend = backend;
+        params.target = target;
+        const auto ptr = cv::ALIKED::create(buf, params);
+        *returnValue = clone(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) features_Ptr_ALIKED_delete(cv::Ptr<cv::ALIKED> *ptr)
 {
     return cvTry([&] {
-    delete ptr;
+        delete ptr;
     });
 }
 

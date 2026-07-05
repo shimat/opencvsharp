@@ -34,17 +34,17 @@ CVAPI(ExceptionStatus) calib_registerCameras(
     double *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> op1(objectPoints1Size), op2(objectPoints2Size), ip1(imagePoints1Size), ip2(imagePoints2Size);
-    for (int i = 0; i < objectPoints1Size; i++) op1[i] = *objectPoints1[i];
-    for (int i = 0; i < objectPoints2Size; i++) op2[i] = *objectPoints2[i];
-    for (int i = 0; i < imagePoints1Size; i++) ip1[i] = *imagePoints1[i];
-    for (int i = 0; i < imagePoints2Size; i++) ip2[i] = *imagePoints2[i];
+        std::vector<cv::Mat> op1(objectPoints1Size), op2(objectPoints2Size), ip1(imagePoints1Size), ip2(imagePoints2Size);
+        for (int i = 0; i < objectPoints1Size; i++) op1[i] = *objectPoints1[i];
+        for (int i = 0; i < objectPoints2Size; i++) op2[i] = *objectPoints2[i];
+        for (int i = 0; i < imagePoints1Size; i++) ip1[i] = *imagePoints1[i];
+        for (int i = 0; i < imagePoints2Size; i++) ip2[i] = *imagePoints2[i];
 
-    *returnValue = cv::registerCameras(
-        op1, op2, ip1, ip2,
-        InProxy(*cameraMatrix1), InProxy(*distCoeffs1), static_cast<cv::CameraModel>(cameraModel1),
-        InProxy(*cameraMatrix2), InProxy(*distCoeffs2), static_cast<cv::CameraModel>(cameraModel2),
-        IoProxy(*R), IoProxy(*T), OutProxy(*E), OutProxy(*F), OutProxy(*perViewErrors), flags, cpp(criteria));
+        *returnValue = cv::registerCameras(
+            op1, op2, ip1, ip2,
+            InProxy(*cameraMatrix1), InProxy(*distCoeffs1), static_cast<cv::CameraModel>(cameraModel1),
+            InProxy(*cameraMatrix2), InProxy(*distCoeffs2), static_cast<cv::CameraModel>(cameraModel2),
+            IoProxy(*R), IoProxy(*T), OutProxy(*E), OutProxy(*F), OutProxy(*perViewErrors), flags, cpp(criteria));
     });
 }
 
@@ -71,28 +71,28 @@ CVAPI(ExceptionStatus) calib_calibrateMultiview(
     double *returnValue)
 {
     return cvTry([&] {
-    std::vector<cv::Mat> objPointsVec(objPointsSize);
-    for (int i = 0; i < objPointsSize; i++)
-        objPointsVec[i] = *objPoints[i];
+        std::vector<cv::Mat> objPointsVec(objPointsSize);
+        for (int i = 0; i < objPointsSize; i++)
+            objPointsVec[i] = *objPoints[i];
 
-    std::vector<std::vector<cv::Mat>> imagePointsVec(numCameras);
-    int idx = 0;
-    for (int c = 0; c < numCameras; c++)
-    {
-        imagePointsVec[c].resize(framesPerCamera[c]);
-        for (int f = 0; f < framesPerCamera[c]; f++)
-            imagePointsVec[c][f] = *imagePoints[idx++];
-    }
+        std::vector<std::vector<cv::Mat>> imagePointsVec(numCameras);
+        int idx = 0;
+        for (int c = 0; c < numCameras; c++)
+        {
+            imagePointsVec[c].resize(framesPerCamera[c]);
+            for (int f = 0; f < framesPerCamera[c]; f++)
+                imagePointsVec[c][f] = *imagePoints[idx++];
+        }
 
-    std::vector<cv::Size> imageSizeVec(imageSizeSize);
-    for (int i = 0; i < imageSizeSize; i++)
-        imageSizeVec[i] = cpp(imageSize[i]);
+        std::vector<cv::Size> imageSizeVec(imageSizeSize);
+        for (int i = 0; i < imageSizeSize; i++)
+            imageSizeVec[i] = cpp(imageSize[i]);
 
-    *returnValue = cv::calibrateMultiview(
-        objPointsVec, imagePointsVec, imageSizeVec,
-        InProxy(*detectionMask), InProxy(*models),
-        *Ks, *distortions, *Rs, *Ts,
-        InProxy(*flagsForIntrinsics), flags, cpp(criteria));
+        *returnValue = cv::calibrateMultiview(
+            objPointsVec, imagePointsVec, imageSizeVec,
+            InProxy(*detectionMask), InProxy(*models),
+            *Ks, *distortions, *Rs, *Ts,
+            InProxy(*flagsForIntrinsics), flags, cpp(criteria));
     });
 }
 

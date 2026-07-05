@@ -43,4 +43,41 @@ public class ORBTest : TestBase
             testOutputHelper.WriteLine($"descriptor has {descriptor.Rows} items.");
         }
     }
+
+    [Fact]
+    public void DetectMultipleImages()
+    {
+        using var gray1 = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var gray2 = LoadImage("building.jpg", ImreadModes.Grayscale);
+        using var orb = ORB.Create(500);
+
+        var keyPointsPerImage = orb.Detect(new[] { gray1, gray2 });
+
+        // Regression test: the native imageVec used to be pre-sized *and* push_back'd,
+        // doubling its length with leading empty Mats in front of the real images.
+        Assert.Equal(2, keyPointsPerImage.Length);
+        Assert.NotEmpty(keyPointsPerImage[0]);
+        Assert.NotEmpty(keyPointsPerImage[1]);
+    }
+
+    [Fact]
+    public void ComputeMultipleImages()
+    {
+        using var gray1 = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var gray2 = LoadImage("building.jpg", ImreadModes.Grayscale);
+        using var orb = ORB.Create(500);
+        var images = new[] { gray1, gray2 };
+
+        var keyPoints = orb.Detect(images);
+        using var descriptor1 = new Mat();
+        using var descriptor2 = new Mat();
+        var descriptors = new[] { descriptor1, descriptor2 };
+
+        orb.Compute(images, ref keyPoints, descriptors);
+
+        // Regression test: descriptorsVec had the same pre-size + push_back doubling bug.
+        Assert.Equal(2, keyPoints.Length);
+        Assert.True(descriptor1.Rows > 0);
+        Assert.True(descriptor2.Rows > 0);
+    }
 }

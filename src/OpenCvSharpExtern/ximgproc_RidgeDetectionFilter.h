@@ -16,9 +16,9 @@ CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_create(
     cv::Ptr<cv::ximgproc::RidgeDetectionFilter> **returnValue)
 {
     return cvTry([&] {
-    auto obj = cv::ximgproc::RidgeDetectionFilter::create(
-        ddepth, dx, dy, ksize, out_dtype, scale, delta, borderType);
-    *returnValue = clone(obj);
+        auto obj = cv::ximgproc::RidgeDetectionFilter::create(
+            ddepth, dx, dy, ksize, out_dtype, scale, delta, borderType);
+        *returnValue = clone(obj);
     });
 }
 
@@ -28,21 +28,21 @@ CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
     const interop::OutputArrayProxy* out)
 {
     return cvTry([&] {
-    obj->getRidgeFilteredImage(InProxy(*_img), OutProxy(*out));
+        obj->getRidgeFilteredImage(InProxy(*_img), OutProxy(*out));
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_delete(cv::Ptr<cv::ximgproc::RidgeDetectionFilter> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_get(cv::Ptr<cv::ximgproc::RidgeDetectionFilter> *ptr, cv::ximgproc::RidgeDetectionFilter **returnValue)
 {
     return cvTry([&] {
-    *returnValue = ptr->get();
+        *returnValue = ptr->get();
     });
 }
 

@@ -18,33 +18,33 @@
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_new(cv::CascadeClassifier **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::CascadeClassifier;
+        *returnValue = new cv::CascadeClassifier;
     });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_newFromFile(const char *fileName, cv::CascadeClassifier **returnValue)
 {
     return cvTry([&] {
-    *returnValue = new cv::CascadeClassifier(fileName);
+        *returnValue = new cv::CascadeClassifier(fileName);
     });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_delete(cv::CascadeClassifier *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_empty(cv::CascadeClassifier *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->empty() ? 1 : 0;
+        *returnValue = obj->empty() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_load(
     cv::CascadeClassifier *obj, const char *fileName, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->load(fileName) ? 1 : 0;
+        *returnValue = obj->load(fileName) ? 1 : 0;
     });
 }
 
@@ -62,8 +62,8 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale1(
     double scaleFactor, int minNeighbors, int flags, interop::Size minSize, interop::Size maxSize)
 {
     return cvTry([&] {
-    obj->detectMultiScale(*image, *objects,
-        scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize));
+        obj->detectMultiScale(*image, *objects,
+            scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize));
     });
 }
 
@@ -77,8 +77,8 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale2(
     interop::Size minSize, interop::Size maxSize, int outputRejectLevels)
 {
     return cvTry([&] {
-    obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
-        scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize), outputRejectLevels != 0);
+        obj->detectMultiScale(*image, *objects, *rejectLevels, *levelWeights,
+            scaleFactor, minNeighbors, flags, cpp(minSize), cpp(maxSize), outputRejectLevels != 0);
     });
 }
 
@@ -86,19 +86,19 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale2(
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_isOldFormatCascade(cv::CascadeClassifier *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->isOldFormatCascade() ? 1 : 0;
+        *returnValue = obj->isOldFormatCascade() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getOriginalWindowSize(cv::CascadeClassifier *obj, interop::Size *returnValue)
 {
     return cvTry([&] {
-    *returnValue = c(obj->getOriginalWindowSize());
+        *returnValue = c(obj->getOriginalWindowSize());
     });
 }
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_getFeatureType(cv::CascadeClassifier *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getFeatureType();
+        *returnValue = obj->getFeatureType();
     });
 }
 
@@ -108,35 +108,35 @@ CVAPI(ExceptionStatus) objdetect_groupRectangles1(
     std::vector<cv::Rect> *rectList, int groupThreshold, double eps)
 {
     return cvTry([&] {
-    cv::groupRectangles(*rectList, groupThreshold, eps);
+        cv::groupRectangles(*rectList, groupThreshold, eps);
     });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles2(
     std::vector<cv::Rect> *rectList, std::vector<int> *weights, int groupThreshold, double eps)
 {
     return cvTry([&] {
-    cv::groupRectangles(*rectList, *weights, groupThreshold, eps);
+        cv::groupRectangles(*rectList, *weights, groupThreshold, eps);
     });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles3(
     std::vector<cv::Rect> *rectList, int groupThreshold, double eps, std::vector<int> *weights, std::vector<double> *levelWeights)
 {
     return cvTry([&] {
-    cv::groupRectangles(*rectList, groupThreshold, eps, weights, levelWeights);
+        cv::groupRectangles(*rectList, groupThreshold, eps, weights, levelWeights);
     });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles4(
     std::vector<cv::Rect> *rectList, std::vector<int> *rejectLevels, std::vector<double> *levelWeights, int groupThreshold, double eps)
 {
     return cvTry([&] {
-    cv::groupRectangles(*rectList, *rejectLevels, *levelWeights, groupThreshold, eps);
+        cv::groupRectangles(*rectList, *rejectLevels, *levelWeights, groupThreshold, eps);
     });
 }
 CVAPI(ExceptionStatus) objdetect_groupRectangles_meanshift(
     std::vector<cv::Rect> *rectList, std::vector<double> *foundWeights, std::vector<double> *foundScales, double detectThreshold, interop::Size winDetSize)
 {
     return cvTry([&] {
-    cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));
+        cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));
     });
 }
 

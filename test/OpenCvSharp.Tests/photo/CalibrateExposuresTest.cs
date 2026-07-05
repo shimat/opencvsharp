@@ -38,6 +38,20 @@ public class CalibrateExposuresTest : TestBase
     }
 
     [Fact]
+    public void CalibrateDebevecSamplesProperty()
+    {
+        using var calibrator = CalibrateDebevec.Create(samples: 42);
+
+        // Regression test: getSamples/setSamples used to delegate to getLambda/setLambda
+        // by mistake, so this property silently aliased Lambda instead of Samples.
+        Assert.Equal(42, calibrator.Samples);
+
+        calibrator.Samples = 99;
+        Assert.Equal(99, calibrator.Samples);
+        Assert.NotEqual(99f, calibrator.Lambda);
+    }
+
+    [Fact]
     public void CalibrateRobertsonProcess()
     {
         var images = CreateExposureImages();

@@ -59,209 +59,209 @@ DTrees_Split c(const cv::ml::DTrees::Split obj)
 CVAPI(ExceptionStatus) ml_DTrees_getMaxCategories(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxCategories();
+        *returnValue = obj->getMaxCategories();
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setMaxCategories(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setMaxCategories(val);
+        obj->setMaxCategories(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getMaxDepth(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMaxDepth();
+        *returnValue = obj->getMaxDepth();
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setMaxDepth(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setMaxDepth(val);
+        obj->setMaxDepth(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getMinSampleCount(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getMinSampleCount();
+        *returnValue = obj->getMinSampleCount();
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setMinSampleCount(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setMinSampleCount(val);
+        obj->setMinSampleCount(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getCVFolds(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getCVFolds();
+        *returnValue = obj->getCVFolds();
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setCVFolds(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setCVFolds(val);
+        obj->setCVFolds(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getUseSurrogates(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getUseSurrogates() ? 1 : 0;
+        *returnValue = obj->getUseSurrogates() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setUseSurrogates(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setUseSurrogates(val != 0);
+        obj->setUseSurrogates(val != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getUse1SERule(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getUse1SERule() ? 1 : 0;
+        *returnValue = obj->getUse1SERule() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setUse1SERule(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setUse1SERule(val != 0);
+        obj->setUse1SERule(val != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getTruncatePrunedTree(cv::ml::DTrees *obj, int *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getTruncatePrunedTree() ? 1 : 0;
+        *returnValue = obj->getTruncatePrunedTree() ? 1 : 0;
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setTruncatePrunedTree(cv::ml::DTrees *obj, int val)
 {
     return cvTry([&] {
-    obj->setTruncatePrunedTree(val != 0);
+        obj->setTruncatePrunedTree(val != 0);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getRegressionAccuracy(cv::ml::DTrees *obj, float *returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->getRegressionAccuracy();
+        *returnValue = obj->getRegressionAccuracy();
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setRegressionAccuracy(cv::ml::DTrees *obj, float val)
 {
     return cvTry([&] {
-    obj->setRegressionAccuracy(val);
+        obj->setRegressionAccuracy(val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getPriors(cv::ml::DTrees *obj, cv::Mat **returnValue)
 {
     return cvTry([&] {
-    const auto m = obj->getPriors();
-    *returnValue = new cv::Mat(m);
+        const auto m = obj->getPriors();
+        *returnValue = new cv::Mat(m);
     });
 }
 CVAPI(ExceptionStatus) ml_DTrees_setPriors(cv::ml::DTrees *obj, cv::Mat *val)
 {
     return cvTry([&] {
-    obj->setPriors(*val);
+        obj->setPriors(*val);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getRoots(cv::ml::DTrees *obj, std::vector<int> *result)
 { 
     return cvTry([&] {
-    const auto& org = obj->getRoots();
+        const auto& org = obj->getRoots();
 
-    result->clear();
-    for (auto i : org)
-    {
-        result->push_back(i);
-    }
+        result->clear();
+        for (auto i : org)
+        {
+            result->push_back(i);
+        }
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getNodes(cv::ml::DTrees *obj, std::vector<DTrees_Node> *result)
 {
     return cvTry([&] {
-    const auto& org = obj->getNodes();
+        const auto& org = obj->getNodes();
 
-    result->clear();
-    for (const auto& i : org)
-    {
-        result->push_back(c(i));
-    }
+        result->clear();
+        for (const auto& i : org)
+        {
+            result->push_back(c(i));
+        }
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getSplits(cv::ml::DTrees *obj, std::vector<DTrees_Split> *result)
 {
     return cvTry([&] {
-    const auto& org = obj->getSplits();
+        const auto& org = obj->getSplits();
 
-    result->clear();
-    for (const auto& i : org)
-    {
-        result->push_back(c(i));
-    }
+        result->clear();
+        for (const auto& i : org)
+        {
+            result->push_back(c(i));
+        }
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_getSubsets(cv::ml::DTrees *obj, std::vector<int> *result)
 {
     return cvTry([&] {
-    const auto& org = obj->getSubsets();
+        const auto& org = obj->getSubsets();
 
-    result->clear();
-    for (auto i : org)
-    {
-        result->push_back(i);
-    }
+        result->clear();
+        for (auto i : org)
+        {
+            result->push_back(i);
+        }
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_create(cv::Ptr<cv::ml::DTrees> **returnValue)
 {
     return cvTry([&] {
-    const auto  ptr = cv::ml::DTrees::create();
-    *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
+        const auto  ptr = cv::ml::DTrees::create();
+        *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_DTrees_delete(cv::Ptr<cv::ml::DTrees> *obj)
 {
     return cvTry([&] {
-    delete obj;
+        delete obj;
     });
 }
 
 CVAPI(ExceptionStatus) ml_Ptr_DTrees_get(cv::Ptr<cv::ml::DTrees> *obj, cv::ml::DTrees **returnValue)
 {
     return cvTry([&] {
-    *returnValue = obj->get();
+        *returnValue = obj->get();
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_load(const char *filePath, cv::Ptr<cv::ml::DTrees> **returnValue)
 {
     return cvTry([&] {
-    const auto ptr = cv::Algorithm::load<cv::ml::DTrees>(filePath);
-    *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
+        const auto ptr = cv::Algorithm::load<cv::ml::DTrees>(filePath);
+        *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
     });
 }
 
 CVAPI(ExceptionStatus) ml_DTrees_loadFromString(const char *strModel, cv::Ptr<cv::ml::DTrees> **returnValue)
 {
     return cvTry([&] {
-    const auto objName = cv::ml::DTrees::create()->getDefaultName();
-    const auto  ptr = cv::Algorithm::loadFromString<cv::ml::DTrees>(strModel, objName);
-    *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
+        const auto objName = cv::ml::DTrees::create()->getDefaultName();
+        const auto  ptr = cv::Algorithm::loadFromString<cv::ml::DTrees>(strModel, objName);
+        *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
     });
 }
 
