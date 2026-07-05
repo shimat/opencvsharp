@@ -138,8 +138,14 @@ CVAPI(ExceptionStatus) calib_fisheye_calibrate(
         // points Mat). Since OpenCV 5 changed `Mat(vector<T>)` to build a 1xN mat instead of
         // OpenCV 4's Nx1, a column-shaped (Nx1) per-view Mat now mismatches and throws
         // StsUnmatchedSizes. Row-shaped (1xN) input sidesteps the bug, so reshape any Nx1 views
-        // to 1xN before calling into OpenCV (reshape is a metadata-only view for continuous mats).
-        const auto toRow = [](const cv::Mat &m) { return m.rows > m.cols ? m.reshape(0, 1) : m; };
+        // to 1xN before calling into OpenCV. reshape() requires a continuous Mat, which an
+        // ROI/submat view is not, so clone those before reshaping.
+        const auto toRow = [](const cv::Mat &m) {
+            if (m.rows <= m.cols)
+                return m;
+            const cv::Mat continuous = m.isContinuous() ? m : m.clone();
+            return continuous.reshape(0, 1);
+        };
 
         std::vector<cv::Mat> objectPointsRow(objectPoints->size());
         for (size_t i = 0; i < objectPoints->size(); i++)
