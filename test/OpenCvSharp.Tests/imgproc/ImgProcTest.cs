@@ -725,7 +725,7 @@ public class ImgProcTest : TestBase
                 Cv2.Line(view, line.P1, line.P2, Scalar.Red);
             }
 
-            Window.ShowImages([src, binary, view], ["src", "binary", "lines"]);
+            Window.ShowImages(("src", src), ("binary", binary), ("lines", view));
         }
     }
 

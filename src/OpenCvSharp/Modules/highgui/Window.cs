@@ -308,29 +308,22 @@ public sealed class Window : IDisposable
     }
 
     /// <summary>
-    ///
+    /// Shows each of the given (title, image) pairs in its own window.
+    /// Pairing each title with its image in a single tuple makes a length mismatch
+    /// between titles and images structurally impossible.
     /// </summary>
-    /// <param name="images"></param>
-    /// <param name="names"></param>
-    public static void ShowImages(IEnumerable<Mat> images, IEnumerable<string> names)
+    /// <param name="images">Pairs of window title and image to display</param>
+    public static void ShowImages(params (string Title, Mat Image)[] images)
     {
         if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (names is null)
-            throw new ArgumentNullException(nameof(names));
-
-        var imagesArray = images.ToArray();
-        var namesArray = names.ToArray();
-
-        if (imagesArray.Length == 0)
+        if (images.Length == 0)
             return;
-        if (namesArray.Length < imagesArray.Length)
-            throw new ArgumentException("names.Length < images.Length");
 
         var windows = new List<Window>();
-        for (var i = 0; i < imagesArray.Length; i++)
+        foreach (var (title, image) in images)
         {
-            windows.Add(new Window(namesArray[i], image: imagesArray[i]));
+            windows.Add(new Window(title, image: image));
         }
 
         Cv2.WaitKey();
