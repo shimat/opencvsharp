@@ -139,7 +139,13 @@ RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
     dotnet build -c Release -f net8.0
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --blame-crash --logger "console;verbosity=detailed" --logger "trx;LogFileName=test-results.trx" < /dev/null; \
+    mkdir -p /testoutput; \
+    cp -r /opencvsharp/test/OpenCvSharp.Tests/TestResults /testoutput/ 2>/dev/null || true
+
+########## DEBUG ONLY: export test output (temporary, not for merge) ##########
+FROM scratch AS test-output-export
+COPY --from=test-dotnet /testoutput /
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
