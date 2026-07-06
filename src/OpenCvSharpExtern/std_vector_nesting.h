@@ -30,8 +30,10 @@ CVAPI(void) vector_vector_uchar_copy(std::vector<std::vector<uchar> >* vec, ucha
     for (size_t i = 0; i < vec->size(); i++)
     {
         auto& elem = vec->at(i);
+        if (elem.empty())
+            continue;
         void* src = &elem[0];
-        const auto length = sizeof(int) * elem.size();
+        const auto length = sizeof(uchar) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
@@ -68,6 +70,8 @@ CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> >* vec, int** ds
     for (size_t i = 0; i < vec->size(); i++)
     {
         auto& elem = vec->at(i);
+        if (elem.empty())
+            continue;
         void* src = &elem[0];
         const auto length = sizeof(int) * elem.size();
         memcpy(dst[i], src, length);
@@ -106,6 +110,8 @@ CVAPI(void) vector_vector_double_copy(std::vector<std::vector<double> >* vec, do
     for (size_t i = 0; i < vec->size(); i++)
     {
         std::vector<double>& elem = vec->at(i);
+        if (elem.empty())
+            continue;
         void* src = &elem[0];
         const size_t length = sizeof(double) * elem.size();
         memcpy(dst[i], src, length);
