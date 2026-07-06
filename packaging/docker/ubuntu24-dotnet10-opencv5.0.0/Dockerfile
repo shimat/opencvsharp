@@ -110,7 +110,11 @@ RUN --mount=type=cache,target=/root/.ccache \
 
 ########## Test native .so file ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
-RUN apt-get update && apt-get -y install --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
+# libopenblas0/liblapacke: runtime deps of libOpenCvSharpExtern.so (linked against
+# OpenBLAS/LAPACKE in the opencv-builder stage). Installed fresh here (rather than
+# relying on the /usr/lib copy below) because the update-alternatives symlinks that
+# make libopenblas.so.0 resolvable live outside /usr/lib and would otherwise be lost.
+RUN apt-get update && apt-get -y install --no-install-recommends gcc libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 RUN echo "\n\
 #include <stdio.h> \n\
@@ -125,6 +129,9 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
+# See test-native above for why these are installed fresh instead of relying on
+# the /usr/lib copy.
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY src/ /opencvsharp/src/
 COPY test/ /opencvsharp/test/
@@ -136,9 +143,13 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
+# See test-native above for why these are installed fresh instead of relying on
+# the /usr/lib copy.
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY --from=opencvsharp-builder /artifacts /artifacts
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS final
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY --from=opencvsharp-builder /artifacts /artifacts
