@@ -2,7 +2,7 @@
 ARG OPENCV_VERSION=5.0.0
 
 ########## Build OpenCV (slim) ##########
-FROM ubuntu:noble AS opencv-builder
+FROM ubuntu:resolute AS opencv-builder
 
 ARG OPENCV_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,6 +31,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
       libtiff-dev \
       libopenjp2-7-dev \
       zlib1g-dev \
+      libopenblas-dev \
+      liblapacke-dev \
       pkg-config
 
 # Copy cmake options (needed before OpenCV configure)
@@ -90,7 +92,16 @@ RUN --mount=type=cache,target=/root/.ccache \
 
 ########## Smoke test native .so file ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
-RUN apt-get update && apt-get -y install --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
+# libopenblas0/liblapacke: runtime deps of libOpenCvSharpExtern.so (linked against
+# OpenBLAS/LAPACKE in the opencv-builder stage). Installed fresh here (rather than
+# relying on the /usr/lib copy below) because the update-alternatives symlinks that
+# make libopenblas.so.0 resolvable live outside /usr/lib and would otherwise be lost.
+RUN apt-get update && apt-get -y install --no-install-recommends gcc libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# OpenBLAS's own pthread-based internal thread pool crashes (SIGABRT) when called
+# concurrently from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher
+# matches image pairs on multiple threads, each hitting LAPACK/SVD). Force OpenBLAS to
+# stay single-threaded internally; OpenCV's own parallelism is unaffected.
+ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 RUN echo "\n\
 #include <stdio.h> \n\
@@ -105,9 +116,19 @@ int main(){ \n\
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
+# See test-native above for why these are installed fresh instead of relying on
+# the /usr/lib copy.
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
+# from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
+ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY --from=opencvsharp-builder /artifacts /artifacts
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS final
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
+# from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
+ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY --from=opencvsharp-builder /artifacts /artifacts
