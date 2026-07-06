@@ -28,7 +28,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
       git \
       ccache \
       libtbb-dev \
-      libatlas-base-dev \
+      libopenblas-dev \
+      liblapacke-dev \
       libgtk-3-dev \
       libavcodec-dev \
       libavformat-dev \

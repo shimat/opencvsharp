@@ -31,6 +31,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
       libtiff-dev \
       libopenjp2-7-dev \
       zlib1g-dev \
+      libopenblas-dev \
+      liblapacke-dev \
       pkg-config
 
 # Copy cmake options (needed before OpenCV configure)
