@@ -45,16 +45,23 @@ jobs:
         with:
           context: .
           file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
-          target: test-dotnet
+          target: test-output-export
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-          outputs: type=cacheonly
+          outputs: type=local,dest=./test-dotnet-output
           cache-from: |
             type=gha,scope=full-test-dotnet-${{ github.ref_name }}
             type=gha,scope=full-test-dotnet-main
             type=gha,scope=full-${{ github.ref_name }}
             type=gha,scope=full-main
           cache-to: type=gha,mode=min,scope=full-test-dotnet-${{ github.ref_name }}
+
+      - name: Upload test output (debug)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-dotnet-output-debug
+          path: ./test-dotnet-output
 
       - name: Build with Docker (full)
         uses: docker/build-push-action@v7
