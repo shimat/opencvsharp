@@ -31,6 +31,10 @@ CVAPI(void) vector_string_delete(std::vector<std::string>* vector)
 {
     delete vector;
 }
+CVAPI(void) vector_string_pushBack(std::vector<std::string>* vector, const char* value)
+{
+    vector->emplace_back(value);
+}
 #pragma endregion
 
 #pragma region Generated blittable std::vector<T> wrappers

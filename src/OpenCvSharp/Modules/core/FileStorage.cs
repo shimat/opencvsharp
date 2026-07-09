@@ -60,7 +60,8 @@ public class FileStorage : CvObject
     #region Properties
 
     /// <summary>
-    /// Returns the specified element of the top-level mapping
+    /// Returns the specified element of the top-level mapping, or null if the key is not
+    /// present (or is explicitly stored as a "none" value).
     /// </summary>
     /// <param name="nodeName"></param>
     /// <returns></returns>
@@ -74,9 +75,7 @@ public class FileStorage : CvObject
             NativeMethods.HandleException(
                 NativeMethods.core_FileStorage_indexer(Handle, nodeName, out var node));
 
-            if (node == IntPtr.Zero)
-                return null;
-            return new FileNode(node);
+            return FileNode.FromRawPtrOrNull(node);
         }
     }
 
@@ -148,6 +147,18 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
+    /// Returns the current format (one of the Modes.Format* flags).
+    /// </summary>
+    /// <returns></returns>
+    public virtual Modes GetFormat()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_getFormat(Handle, out var ret));
+        return (Modes)ret;
+    }
+
+    /// <summary>
     /// Closes the file and releases all the memory buffers
     /// </summary>
     public virtual void Release()
@@ -188,9 +199,7 @@ public class FileStorage : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_getFirstTopLevelNode(Handle, out var node));
 
-        if (node == IntPtr.Zero)
-            return null;
-        return new FileNode(node);
+        return FileNode.FromRawPtrOrNull(node);
     }
 
     /// <summary>
@@ -206,27 +215,24 @@ public class FileStorage : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_root(Handle, streamIdx, out var node));
 
-        if (node == IntPtr.Zero)
-            return null;
-        return new FileNode(node);
+        return FileNode.FromRawPtrOrNull(node);
     }
 
     /// <summary>
     /// Writes one or more numbers of the specified format to the currently written structure
     /// </summary>
     /// <param name="fmt">Specification of each array element, see @ref format_spec "format specification"</param>
-    /// <param name="vec">Pointer to the written array.</param>
-    /// <param name="len">Number of the uchar elements to write.</param>
-    public void WriteRaw(string fmt, IntPtr vec, int len)
+    /// <param name="vec">The bytes to write.</param>
+    public unsafe void WriteRaw(string fmt, ReadOnlySpan<byte> vec)
     {
         ArgumentNullException.ThrowIfNull(fmt);
-        if (vec == IntPtr.Zero) 
-            throw new ArgumentException("vec == IntPtr.Zero", nameof(vec));
         ThrowIfDisposed();
-            
-        NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeRaw(Handle, fmt, vec, new IntPtr(len)));
 
+        fixed (byte* p = vec)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_writeRaw(Handle, fmt, (IntPtr)p, new IntPtr(vec.Length)));
+        }
     }
 
     /// <summary>
@@ -247,16 +253,18 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    /// Starts to write a nested structure (sequence or a mapping).
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="flags"></param>
-    /// <param name="typeName"></param>
-    public void StartWriteStruct(string name, int flags, string typeName)
+    /// <param name="name">name of the structure. When writing to sequences (a.k.a. "arrays"), pass an empty string.</param>
+    /// <param name="flags">structure type, one of <see cref="FileNode.Types.Map"/>/<see cref="FileNode.Types.Seq"/>,
+    /// optionally combined with <see cref="FileNode.Types.Flow"/> for a compact YAML representation.</param>
+    /// <param name="typeName">optional name of an object class this structure stores.</param>
+    public void StartWriteStruct(string name, FileNode.Types flags, string? typeName = null)
     {
         ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_startWriteStruct(Handle, name, flags, typeName));
+            NativeMethods.core_FileStorage_startWriteStruct(Handle, name, (int)flags, typeName ?? string.Empty));
     }
 
     /// <summary>
@@ -267,6 +275,53 @@ public class FileStorage : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_endWriteStruct(Handle));
+    }
+
+    /// <summary>
+    /// Starts writing a nested structure (sequence or mapping) and returns a disposable scope
+    /// that calls <see cref="EndWriteStruct"/> automatically, so the structure can be written
+    /// inside a <c>using</c> block instead of manually pairing
+    /// <see cref="StartWriteStruct"/>/<see cref="EndWriteStruct"/> calls.
+    /// </summary>
+    /// <param name="name">name of the structure. When writing to sequences (a.k.a. "arrays"), pass an empty string.</param>
+    /// <param name="flags">structure type, one of <see cref="FileNode.Types.Map"/>/<see cref="FileNode.Types.Seq"/>,
+    /// optionally combined with <see cref="FileNode.Types.Flow"/> for a compact YAML representation.</param>
+    /// <param name="typeName">optional name of an object class this structure stores.</param>
+    /// <example>
+    /// <code>
+    /// using (fs.WriteStruct("camera", FileNode.Types.Map))
+    /// {
+    ///     fs.Write("fx", 800.0);
+    ///     fs.Write("fy", 800.0);
+    /// }
+    /// </code>
+    /// </example>
+    public StructScope WriteStruct(string name, FileNode.Types flags, string? typeName = null)
+    {
+        StartWriteStruct(name, flags, typeName);
+        return new StructScope(this);
+    }
+
+    /// <summary>
+    /// Disposable scope returned by <see cref="WriteStruct"/>. Disposing it calls
+    /// <see cref="EndWriteStruct"/> on the owning <see cref="FileStorage"/>.
+    /// </summary>
+    public readonly struct StructScope : IDisposable
+    {
+        private readonly FileStorage fileStorage;
+
+        internal StructScope(FileStorage fileStorage)
+        {
+            this.fileStorage = fileStorage;
+        }
+
+        /// <summary>
+        /// Ends the structure (calls <see cref="FileStorage.EndWriteStruct"/>).
+        /// </summary>
+        public void Dispose()
+        {
+            fileStorage.EndWriteStruct();
+        }
     }
 
     /// <summary>
@@ -301,7 +356,35 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, bool value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_bool(Handle, name, value ? 1 : 0));
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, long value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_int64(Handle, name, value));
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
@@ -392,7 +475,7 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
@@ -405,6 +488,22 @@ public class FileStorage : CvObject
         using var valueVector = new StdVector<DMatch>(value);
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_write_vectorOfDMatch(Handle, name, valueVector.CvPtr));
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, IEnumerable<string> value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
+
+        using var valueVector = new VectorOfString(value);
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_vectorOfString(Handle, name, valueVector.CvPtr));
     }
 
     /// <summary>

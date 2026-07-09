@@ -27,6 +27,21 @@ public class VectorOfString : CvObject, IStdVector<string?>
     }
 
     /// <summary>
+    /// Creates a vector populated from <paramref name="data"/>.
+    /// </summary>
+    /// <param name="data"></param>
+    public VectorOfString(IEnumerable<string> data)
+    {
+        ArgumentNullException.ThrowIfNull(data);
+        var p = NativeMethods.vector_string_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+        foreach (var s in data)
+        {
+            NativeMethods.vector_string_pushBack(Handle, s);
+        }
+    }
+
+    /// <summary>
     /// Releases unmanaged resources
     /// </summary>
     protected override void DisposeUnmanaged()

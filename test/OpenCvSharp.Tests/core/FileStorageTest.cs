@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
@@ -73,6 +74,7 @@ public class FileStorageTest : TestBase
         using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
         {
             Assert.True(fs.IsOpened());
+            Assert.Equal(FileStorage.Modes.FormatYaml, fs.GetFormat());
 
             // sequence
             using (var node = fs["sequence"])
@@ -120,6 +122,7 @@ public class FileStorageTest : TestBase
                 Assert.Equal(map.@int, node["int"].ReadInt());
                 Assert.Equal(map.@double, node["double"].ReadDouble());
                 Assert.Equal(map.@string, node["string"].ReadString());
+                Assert.True(node.RawSize > 0);
             }
                 
             // map_sequence
@@ -341,5 +344,164 @@ public class FileStorageTest : TestBase
         }
 #pragma warning restore CS8602
 #pragma warning restore CS8604
+    }
+
+    [Fact]
+    public void WriteBoolInt64AndStringArray()
+    {
+        const string fileName = "fs_bool_int64_strings.yml";
+        string[] labels = ["cat", "dog", "bird"];
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("flagTrue", true);
+            fs.Write("flagFalse", false);
+            fs.Write("bigNumber", 9_000_000_000_000L);
+            fs.Write("labels", labels);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.True(fs["flagTrue"]!.ReadInt() != 0);
+            Assert.True(fs["flagFalse"]!.ReadInt() == 0);
+            Assert.Equal(9_000_000_000_000L, fs["bigNumber"]!.ToInt64());
+            Assert.Equal(9_000_000_000_000L, fs["bigNumber"]!.ReadInt64());
+
+            using var labelsNode = fs["labels"];
+            Assert.NotNull(labelsNode);
+            Assert.Equal(FileNode.Types.Seq, labelsNode.Type);
+            Assert.Equal(labels, labelsNode.Select(n => n.ReadString()));
+        }
+    }
+
+    [Fact]
+    public void KeysReturnsMappingKeys()
+    {
+        const string fileName = "fs_keys.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("alpha", 1);
+            fs.Write("beta", 2);
+            fs.Write("gamma", 3);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Equal(["alpha", "beta", "gamma"], root.Keys);
+        }
+    }
+
+    [Fact]
+    public void MissingKeyIndexerReturnsNull()
+    {
+        const string fileName = "fs_missing_key.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("present", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.NotNull(fs["present"]);
+            Assert.Null(fs["definitely_not_present"]);
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Null(root["definitely_not_present"]);
+        }
+    }
+
+    [Fact]
+    public void WriteRawAndReadRawRoundTrip()
+    {
+        const string fileName = "fs_raw.yml";
+        byte[] source = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.StartWriteStruct("raw", FileNode.Types.Seq | FileNode.Types.Flow);
+            fs.WriteRaw("u", source.AsSpan());
+            fs.EndWriteStruct();
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var node = fs["raw"];
+            Assert.NotNull(node);
+            var buffer = new byte[source.Length];
+            node.ReadRaw("u", buffer);
+            Assert.Equal(source, buffer);
+        }
+    }
+
+    [Fact]
+    public void WriteStructScopeMatchesManualStartEnd()
+    {
+        const string fileName = "fs_write_struct_scope.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            using (fs.WriteStruct("camera", FileNode.Types.Map))
+            {
+                fs.Write("fx", 800.0);
+                fs.Write("fy", 800.0);
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(FileNode.Types.Map, camera.Type);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+            Assert.Equal(800.0, camera["fy"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
+    public void ToJsonNodeConvertsScalarsSequencesAndMappings()
+    {
+        const string fileName = "fs_to_json_node.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("name", "widget");
+            fs.Write("count", 3);
+            fs.Write("ratio", 1.5);
+            using (fs.WriteStruct("tags", FileNode.Types.Seq))
+            {
+                fs.Add("red").Add("green").Add("blue");
+            }
+            using (fs.WriteStruct("nested", FileNode.Types.Map))
+            {
+                fs.Write("enabled", true);
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            var json = root.ToJsonNode();
+            Assert.NotNull(json);
+
+            Assert.Equal("widget", json!["name"]!.GetValue<string>());
+            Assert.Equal(3L, json["count"]!.GetValue<long>());
+            Assert.Equal(1.5, json["ratio"]!.GetValue<double>());
+
+            var tags = Assert.IsType<JsonArray>(json["tags"]);
+            Assert.Equal(["red", "green", "blue"], tags.Select(n => n!.GetValue<string>()));
+
+            var nested = Assert.IsType<JsonObject>(json["nested"]);
+            Assert.Equal(1L, nested["enabled"]!.GetValue<long>()); // bool round-trips as int (0/1) in FileStorage
+
+            // The resulting tree is a plain JsonNode graph, usable with System.Text.Json as normal.
+            var roundTripped = json.ToJsonString();
+            Assert.Contains("widget", roundTripped, StringComparison.Ordinal);
+        }
     }
 }
