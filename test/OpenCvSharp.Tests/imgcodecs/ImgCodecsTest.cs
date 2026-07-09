@@ -526,6 +526,44 @@ public class ImgCodecsTest : TestBase
         Assert.Equal(1L, Cv2.ImCount("_data/image/lenna.png"));
     }
 
+    // Regression test for the Windows non-ANSI (wide-path) route: imcount used to fall back to
+    // decoding every frame via imdecodemulti just to count them; it now writes to an ACP-safe temp
+    // file and lets cv::imcount do its usual cheap header-only count against that.
+    [Fact]
+    public void ImCountMultiPageTiffUnicodeFileName()
+    {
+        string[] files = ["multipage_p1.tif", "multipage_p2.tif"];
+        const string tiffPath = "_data/image/imcount_multi♥😀.tiff";
+        try
+        {
+            using var pages = new VectorOfMatForTest(files.Select(f => LoadImage(f)));
+            Assert.True(Cv2.ImWrite(tiffPath, pages.Mats));
+
+            Assert.Equal(2L, Cv2.ImCount(tiffPath));
+        }
+        finally
+        {
+            if (File.Exists(tiffPath)) File.Delete(tiffPath);
+        }
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void ImReadMultiEmptyOrNullFileNameThrows(string? filename)
+    {
+        Assert.Throws<ArgumentNullException>(() => Cv2.ImReadMulti(filename!, out _));
+        Assert.Throws<ArgumentNullException>(() => Cv2.ImReadMulti(filename!, out _, 0, 1));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void ImCountEmptyOrNullFileNameThrows(string? filename)
+    {
+        Assert.Throws<ArgumentNullException>(() => Cv2.ImCount(filename!));
+    }
+
     [Fact]
     public void ImReadMultiRange()
     {
@@ -743,6 +781,182 @@ public class ImgCodecsTest : TestBase
         {
             if (File.Exists(tiffPath)) File.Delete(tiffPath);
         }
+    }
+
+    // Regression test for a fixed native bug: on the Windows non-ANSI (wide-path) route, the range
+    // slice used to self-assign via std::vector::assign(first, last) with iterators into itself,
+    // which is undefined behavior. This exercises that branch specifically.
+    [Fact]
+    public void ImReadMultiRangeUnicodeFileName()
+    {
+        string[] files = ["multipage_p1.tif", "multipage_p2.tif"];
+        const string tiffPath = "_data/image/imreadmulti_range♥😀.tiff";
+        try
+        {
+            using var pages = new VectorOfMatForTest(files.Select(f => LoadImage(f)));
+            Assert.True(Cv2.ImWrite(tiffPath, pages.Mats));
+
+            Assert.True(Cv2.ImReadMulti(tiffPath, out var readPages, 1, 1));
+            try
+            {
+                Assert.Single(readPages);
+                ImageEquals(pages.Mats[1], readPages[0]);
+            }
+            finally
+            {
+                foreach (var p in readPages) p.Dispose();
+            }
+        }
+        finally
+        {
+            if (File.Exists(tiffPath)) File.Delete(tiffPath);
+        }
+    }
+
+    [Fact]
+    public void ImEncodeDecodeWithMetadataRoundTrip()
+    {
+        using var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+        var exifBytes = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2 };
+        using var exifMat = new Mat(1, exifBytes.Length, MatType.CV_8UC1);
+        exifMat.SetArray(exifBytes);
+
+        Assert.True(Cv2.ImEncodeWithMetadata(
+            ".jpg", mat, [ImageMetadataType.Exif], [exifMat], out var buf));
+        Assert.NotEmpty(buf);
+
+        using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
+        bufMat.SetArray(buf);
+
+        using var decoded = Cv2.ImDecodeWithMetadata(
+            bufMat, out var metadataTypes, out var metadata, ImreadModes.Unchanged);
+        try
+        {
+            Assert.False(decoded.Empty());
+            Assert.Contains(ImageMetadataType.Exif, metadataTypes);
+        }
+        finally
+        {
+            foreach (var m in metadata) m.Dispose();
+        }
+    }
+
+    [Fact]
+    public void ImWriteWithMetadataMismatchedCountsThrows()
+    {
+        using var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+        using var exifMat = new Mat(1, 4, MatType.CV_8UC1);
+
+        Assert.Throws<ArgumentException>(() => Cv2.ImWriteWithMetadata(
+            "unused.jpg", mat, [ImageMetadataType.Exif, ImageMetadataType.Xmp], [exifMat]));
+    }
+
+    [Fact]
+    public void ImEncodeWithMetadataMismatchedCountsThrows()
+    {
+        using var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+        using var exifMat = new Mat(1, 4, MatType.CV_8UC1);
+
+        Assert.Throws<ArgumentException>(() => Cv2.ImEncodeWithMetadata(
+            ".jpg", mat, [ImageMetadataType.Exif, ImageMetadataType.Xmp], [exifMat], out _));
+    }
+
+    [Fact]
+    public void ImWriteDisposedMatThrows()
+    {
+        var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+        mat.Dispose();
+
+        Assert.Throws<ObjectDisposedException>(() => Cv2.ImWrite("unused.png", mat));
+    }
+
+    [Fact]
+    public void ImWriteAndImEncodeParamsOverloadsReturnFailureCorrectly()
+    {
+        using var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+
+        // Invalid directory -> imwrite must fail, and the params-array overload must surface that.
+        var wrote = Cv2.ImWrite(
+            "_data/does_not_exist_dir/out.png", mat, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+        Assert.False(wrote);
+
+        var encoded = Cv2.ImEncode(
+            ".png", mat, out var buf, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+        Assert.True(encoded);
+        Assert.NotEmpty(buf);
+    }
+
+    [Fact]
+    public void ImCountUndecodableFileReturnsZero()
+    {
+        const string path = "_data/image/imcount_notimage.png";
+        try
+        {
+            File.WriteAllText(path, "this is not an image");
+            Assert.Equal(0L, Cv2.ImCount(path));
+        }
+        finally
+        {
+            if (File.Exists(path)) File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void ImDecodeMultiGarbageBufferReturnsFalse()
+    {
+        using var bufMat = new Mat(1, 16, MatType.CV_8UC1);
+        bufMat.SetArray(Enumerable.Repeat((byte) 123, 16).ToArray());
+
+        Assert.False(Cv2.ImDecodeMulti(bufMat, ImreadModes.AnyColor, out var mats));
+        Assert.Empty(mats);
+    }
+
+    [Fact]
+    public void ImageCollectionDefaultConstructorThenInit()
+    {
+        string[] files = ["multipage_p1.tif", "multipage_p2.tif"];
+        const string tiffPath = "imagecollection_init.tiff";
+        try
+        {
+            using var pages = new VectorOfMatForTest(files.Select(f => LoadImage(f)));
+            Assert.True(Cv2.ImWrite(tiffPath, pages.Mats));
+
+            using var collection = new ImageCollection();
+            collection.Init(tiffPath);
+            Assert.Equal(2L, collection.Size);
+
+            using var page0 = collection[0];
+            Assert.False(page0.Empty());
+        }
+        finally
+        {
+            if (File.Exists(tiffPath)) File.Delete(tiffPath);
+        }
+    }
+
+    [Fact]
+    public void AnimationBgColorAndStillImage()
+    {
+        using var animation = new Animation(bgColor: new Scalar(10, 20, 30));
+        Assert.Equal(new Scalar(10, 20, 30), animation.BgColor);
+
+        using var still = new Mat(4, 4, MatType.CV_8UC3, Scalar.Red);
+        animation.StillImage = still;
+        using var read = animation.StillImage;
+        Assert.False(read.Empty());
+        Assert.Equal(4, read.Rows);
+        Assert.Equal(4, read.Cols);
+    }
+
+    [Fact]
+    public void AnimationLoopCountClampsOutOfRangeToZero()
+    {
+        // Per cv::Animation's own constructor contract: negative or >0xffff loop counts reset to 0.
+        using var negative = new Animation(loopCount: -1);
+        Assert.Equal(0, negative.LoopCount);
+
+        using var tooLarge = new Animation(loopCount: 0x10000);
+        Assert.Equal(0, tooLarge.LoopCount);
     }
 
     // Small helper to keep a VectorOfMat's backing Mat[] alive alongside the test Mats.

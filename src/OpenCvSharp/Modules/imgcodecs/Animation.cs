@@ -96,7 +96,8 @@ public class Animation : CvObject
     }
 
     /// <summary>
-    /// Frames of the animation.
+    /// Frames of the animation. The getter returns freshly-copied <see cref="Mat"/> headers that the
+    /// caller owns and is responsible for disposing.
     /// </summary>
     public Mat[] Frames
     {
@@ -123,7 +124,8 @@ public class Animation : CvObject
 
     /// <summary>
     /// Image that can be used for the format in addition to the animation, or if animation is not supported
-    /// in the reader (like in PNG).
+    /// in the reader (like in PNG). The getter returns a freshly-copied <see cref="Mat"/> header that the
+    /// caller owns and is responsible for disposing.
     /// </summary>
     public Mat StillImage
     {

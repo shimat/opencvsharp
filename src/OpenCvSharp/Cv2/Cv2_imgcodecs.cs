@@ -32,7 +32,8 @@ static partial class Cv2
     /// <returns></returns>
     public static bool ImReadMulti(string filename, out Mat[] mats, ImreadModes flags = ImreadModes.AnyColor)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
@@ -52,7 +53,8 @@ static partial class Cv2
     /// <returns></returns>
     public static bool ImReadMulti(string filename, out Mat[] mats, int start, int count, ImreadModes flags = ImreadModes.AnyColor)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
@@ -71,7 +73,8 @@ static partial class Cv2
     /// <returns></returns>
     public static long ImCount(string filename, ImreadModes flags = ImreadModes.Color)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imcount(filename, (int) flags, out var ret));
@@ -88,7 +91,8 @@ static partial class Cv2
     /// <returns>The loaded image. If the image cannot be read, the function returns an empty matrix.</returns>
     public static Mat ImReadWithMetadata(string filename, out ImageMetadataType[] metadataTypes, out Mat[] metadata, ImreadModes flags = ImreadModes.Color)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         using var metadataTypesVec = new StdVector<int>();
         using var metadataVec = new VectorOfMat();
@@ -114,11 +118,16 @@ static partial class Cv2
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
         ArgumentNullException.ThrowIfNull(img);
+        img.ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(metadataTypes);
         ArgumentNullException.ThrowIfNull(metadata);
+        var metadataArray = metadata.ToArray();
+        if (metadataTypes.Length != metadataArray.Length)
+            throw new ArgumentException(
+                $"{nameof(metadataTypes)} and {nameof(metadata)} must have the same number of elements.", nameof(metadata));
         prms ??= [];
 
-        using var metadataVec = new VectorOfMat(metadata);
+        using var metadataVec = new VectorOfMat(metadataArray);
         var metadataTypesInt = Array.ConvertAll(metadataTypes, t => (int) t);
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imwriteWithMetadata(
@@ -137,7 +146,8 @@ static partial class Cv2
     /// <returns>true if the file was successfully loaded and frames were extracted; false otherwise.</returns>
     public static bool ImReadAnimation(string filename, Animation animation, int start = 0, int count = short.MaxValue)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
         ArgumentNullException.ThrowIfNull(animation);
 
         NativeMethods.HandleException(
@@ -220,6 +230,7 @@ static partial class Cv2
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
         ArgumentNullException.ThrowIfNull(img);
+        img.ThrowIfDisposed();
         prms ??= [];
 
         NativeMethods.HandleException(
@@ -238,16 +249,10 @@ static partial class Cv2
     public static bool ImWrite(string fileName, Mat img, params ImageEncodingParam[] prms)
     {
         ArgumentNullException.ThrowIfNull(prms);
-        if (prms.Length <= 0) 
+        if (prms.Length <= 0)
             return ImWrite(fileName, img);
 
-        var p = new List<int>();
-        foreach (var item in prms)
-        {
-            p.Add((int) item.EncodingId);
-            p.Add(item.Value);
-        }
-        return ImWrite(fileName, img, p.ToArray());
+        return ImWrite(fileName, img, ToParamsArray(prms));
     }
 
     /// <summary>
@@ -262,12 +267,15 @@ static partial class Cv2
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
         ArgumentNullException.ThrowIfNull(img);
+        var imgArray = img.ToArray();
+        foreach (var m in imgArray)
+            m.ThrowIfDisposed();
         prms ??= [];
 
-        using var imgVec = new VectorOfMat(img);
+        using var imgVec = new VectorOfMat(imgArray);
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imwrite_multi(fileName, imgVec.CvPtr, prms, prms.Length, out var ret));
-        GC.KeepAlive(img);
+        GC.KeepAlive(imgArray);
         return ret != 0;
     }
 
@@ -284,13 +292,21 @@ static partial class Cv2
         if (prms.Length <= 0)
             return ImWrite(fileName, img);
 
-        var p = new List<int>();
-        foreach (var item in prms)
+        return ImWrite(fileName, img, ToParamsArray(prms));
+    }
+
+    /// <summary>
+    /// Flattens (EncodingId, Value) pairs into the paramId/paramValue-interleaved array cv::imwrite/cv::imencode expect.
+    /// </summary>
+    private static int[] ToParamsArray(ImageEncodingParam[] prms)
+    {
+        var p = new int[prms.Length * 2];
+        for (var i = 0; i < prms.Length; i++)
         {
-            p.Add((int)item.EncodingId);
-            p.Add(item.Value);
+            p[i * 2] = (int) prms[i].EncodingId;
+            p[i * 2 + 1] = prms[i].Value;
         }
-        return ImWrite(fileName, img, p.ToArray());
+        return p;
     }
 
     /// <summary>
@@ -333,6 +349,9 @@ static partial class Cv2
     public static Mat ImDecode(byte[] buf, ImreadModes flags)
     {
         ArgumentNullException.ThrowIfNull(buf);
+        if (buf.Length == 0)
+            throw new ArgumentException("Empty buffer", nameof(buf));
+
         var ret = ImDecode(new ReadOnlySpan<byte>(buf), flags);
         GC.KeepAlive(buf);
         return ret;
@@ -426,16 +445,10 @@ static partial class Cv2
     /// <param name="img">The image to be written</param>
     /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    public static void ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
+    public static bool ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
     {
         ArgumentNullException.ThrowIfNull(prms);
-        var p = new List<int>();
-        foreach (var item in prms)
-        {
-            p.Add((int)item.EncodingId);
-            p.Add(item.Value);
-        }
-        ImEncode(ext, img, out buf, p.ToArray());
+        return ImEncode(ext, img, out buf, ToParamsArray(prms));
     }
 
     /// <summary>
@@ -454,9 +467,13 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(ext));
         ArgumentNullException.ThrowIfNull(metadataTypes);
         ArgumentNullException.ThrowIfNull(metadata);
+        var metadataArray = metadata.ToArray();
+        if (metadataTypes.Length != metadataArray.Length)
+            throw new ArgumentException(
+                $"{nameof(metadataTypes)} and {nameof(metadata)} must have the same number of elements.", nameof(metadata));
         prms ??= [];
 
-        using var metadataVec = new VectorOfMat(metadata);
+        using var metadataVec = new VectorOfMat(metadataArray);
         using var bufVec = new StdVector<byte>();
         var metadataTypesInt = Array.ConvertAll(metadataTypes, t => (int) t);
         NativeMethods.HandleException(

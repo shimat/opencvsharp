@@ -145,11 +145,18 @@ CVAPI(ExceptionStatus) imgcodecs_imcount(
         }
         else
         {
-            std::vector<cv::Mat> mats;
-            const bool ok = imgcodecs_withWideFile(filename,
-                [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, &mats); },
-                [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, mats); });
-            *returnValue = ok ? mats.size() : 0;
+            // cv::imcount only scans the header (cheap) when given a real file path, but it has no
+            // buffer overload, so decoding via imdecodemulti (like the other wide-path fallbacks do)
+            // would materialize every frame just to count them. Write the bytes to an ACP-safe temp
+            // file instead and let cv::imcount do its usual header-only count against that.
+            *returnValue = 0;
+            std::vector<uchar> buf;
+            if (readAllBytesWide(filename, buf) && !buf.empty())
+            {
+                withTempAcpFile(buf, [&](const std::string &acpPath) {
+                    *returnValue = cv::imcount(acpPath, flags);
+                });
+            }
         }
 #else
         *returnValue = cv::imcount(filename, flags);
@@ -179,9 +186,13 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti_range(
                 [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, *mats); });
             if (ok && (start != 0 || count != static_cast<int>(mats->size())))
             {
-                const int first = std::clamp(start, 0, static_cast<int>(mats->size()));
-                const int last = std::clamp(start + count, first, static_cast<int>(mats->size()));
-                mats->assign(mats->begin() + first, mats->begin() + last);
+                // Build the slice in a temporary and swap it in: assign(first, last) with iterators
+                // into *mats itself is undefined behavior (self-referential range).
+                const long long sz = static_cast<long long>(mats->size());
+                const long long first = std::clamp<long long>(start, 0, sz);
+                const long long last = std::clamp<long long>(static_cast<long long>(start) + count, first, sz);
+                std::vector<cv::Mat> sub(mats->begin() + first, mats->begin() + last);
+                mats->swap(sub);
             }
             *returnValue = ok ? 1 : 0;
         }

@@ -114,6 +114,49 @@ static bool writeAllBytesWide(const char *utf8Path, const uchar *data, size_t si
         file.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(size));
     return file.good();
 }
+
+// Materializes 'bytes' to a temp file (created via the Windows temp-path APIs, so its path is always
+// ACP-representable) and invokes fn(acpPath) with that path; the temp file is deleted afterward
+// regardless of outcome. Lets callers that only have narrow-string (ACP) OpenCV entry points (e.g.
+// cv::imcount, which scans just the header instead of decoding every frame like cv::imdecodemulti
+// does) run them against a non-ANSI source file. Returns false if the temp file could not be
+// created/written or its path was somehow not ACP-representable; 'fn' is not called in that case.
+template <typename TFunc>
+static bool withTempAcpFile(const std::vector<uchar> &bytes, TFunc fn)
+{
+    wchar_t tempDir[MAX_PATH];
+    if (GetTempPathW(MAX_PATH, tempDir) == 0)
+        return false;
+    wchar_t tempFile[MAX_PATH];
+    if (GetTempFileNameW(tempDir, L"cvc", 0, tempFile) == 0)
+        return false;
+
+    {
+        std::ofstream file(tempFile, std::ios::binary);
+        if (!file || (!bytes.empty() && !file.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()))))
+        {
+            DeleteFileW(tempFile);
+            return false;
+        }
+    }
+
+    std::string acp;
+    BOOL usedDefault = FALSE;
+    const int len = WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, tempFile, -1, nullptr, 0, nullptr, &usedDefault);
+    bool ok = false;
+    if (len > 0)
+    {
+        acp.resize(static_cast<size_t>(len - 1));
+        WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, tempFile, -1, len > 1 ? &acp[0] : nullptr, len, nullptr, &usedDefault);
+        if (!usedDefault)
+        {
+            fn(acp);
+            ok = true;
+        }
+    }
+    DeleteFileW(tempFile);
+    return ok;
+}
 #endif
 
 #if defined WIN32 || defined _WIN32

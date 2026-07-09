@@ -29,7 +29,8 @@ public class ImageCollection : CvObject, IEnumerable<Mat>
     /// <param name="flags">Flag that can take values of @ref cv::ImreadModes.</param>
     public ImageCollection(string filename, ImreadModes flags = ImreadModes.Color)
     {
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_ImageCollection_new2(filename, (int) flags, out var p));
@@ -50,7 +51,8 @@ public class ImageCollection : CvObject, IEnumerable<Mat>
     public void Init(string filename, ImreadModes flags = ImreadModes.Color)
     {
         ThrowIfDisposed();
-        ArgumentNullException.ThrowIfNull(filename);
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
 
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_ImageCollection_init(CvPtr, filename, (int) flags));
@@ -73,7 +75,8 @@ public class ImageCollection : CvObject, IEnumerable<Mat>
     }
 
     /// <summary>
-    /// Decodes and returns the page at the given index.
+    /// Decodes and returns the page at the given index. Each call returns a freshly-copied
+    /// <see cref="Mat"/> header that the caller owns and is responsible for disposing.
     /// </summary>
     /// <param name="index">Zero-based page index.</param>
     public Mat At(int index)
@@ -86,7 +89,8 @@ public class ImageCollection : CvObject, IEnumerable<Mat>
     }
 
     /// <summary>
-    /// Decodes and returns the page at the given index.
+    /// Decodes and returns the page at the given index. Each call returns a freshly-copied
+    /// <see cref="Mat"/> header that the caller owns and is responsible for disposing.
     /// </summary>
     /// <param name="index">Zero-based page index.</param>
     public Mat this[int index] => At(index);
@@ -105,6 +109,8 @@ public class ImageCollection : CvObject, IEnumerable<Mat>
 
     /// <summary>
     /// Enumerates the pages of the collection in order (index 0, 1, 2, ...).
+    /// Each yielded <see cref="Mat"/> is owned by the caller, which is responsible for disposing it
+    /// (e.g. wrap the loop body in a <c>using</c> statement).
     /// </summary>
     public IEnumerator<Mat> GetEnumerator()
     {
