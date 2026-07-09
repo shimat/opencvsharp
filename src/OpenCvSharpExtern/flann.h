@@ -28,6 +28,56 @@ CVAPI(ExceptionStatus) flann_Index_delete(cv::flann::Index* obj)
     });
 }
 
+CVAPI(ExceptionStatus) flann_Index_new0(cv::flann::Index **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::flann::Index();
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Index_build(
+    cv::flann::Index* obj,
+    const interop::InputArrayProxy* features,
+    cv::flann::IndexParams* params,
+    cvflann::flann_distance_t distType)
+{
+    return cvTry([&] {
+        obj->build(InProxy(*features), *params, distType);
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Index_load(
+    cv::flann::Index* obj,
+    const interop::InputArrayProxy* features,
+    const char* filename,
+    int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->load(InProxy(*features), filename) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Index_release(cv::flann::Index* obj)
+{
+    return cvTry([&] {
+        obj->release();
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Index_getDistance(cv::flann::Index* obj, cvflann::flann_distance_t *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getDistance();
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Index_getAlgorithm(cv::flann::Index* obj, cvflann::flann_algorithm_t *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getAlgorithm();
+    });
+}
+
 CVAPI(ExceptionStatus) flann_Index_knnSearch1(
     cv::flann::Index* obj,
     float* queries,

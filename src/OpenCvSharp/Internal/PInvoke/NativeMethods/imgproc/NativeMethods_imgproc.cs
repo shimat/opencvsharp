@@ -50,6 +50,9 @@ static partial class NativeMethods
     internal static partial ExceptionStatus imgproc_blur(in InputArrayProxy src, in OutputArrayProxy dst, Size ksize, Point anchor, int borderType);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_stackBlur(in InputArrayProxy src, in OutputArrayProxy dst, Size ksize);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_filter2D(in InputArrayProxy src, in OutputArrayProxy dst, MatType ddepth, in InputArrayProxy kernel, Point anchor,
         double delta, int borderType);
 
@@ -196,14 +199,22 @@ static partial class NativeMethods
     internal static partial ExceptionStatus imgproc_accumulateWeighted(in InputArrayProxy src, in InputOutputArrayProxy dst, double alpha, in InputArrayProxy mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus imgproc_phaseCorrelate(in InputArrayProxy src1, in InputArrayProxy src2, in InputArrayProxy window, 
+    internal static partial ExceptionStatus imgproc_phaseCorrelate(in InputArrayProxy src1, in InputArrayProxy src2, in InputArrayProxy window,
         out double response, out Point2d returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_phaseCorrelateIterative(in InputArrayProxy src1, in InputArrayProxy src2,
+        int l2size, int maxIters, out Point2d returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_createHanningWindow(in OutputArrayProxy dst, Size winSize, MatType type);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_threshold(in InputArrayProxy src, in OutputArrayProxy dst, double thresh, double maxval, int type, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_thresholdWithMask(in InputArrayProxy src, in InputOutputArrayProxy dst, in InputArrayProxy mask,
+        double thresh, double maxval, int type, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_adaptiveThreshold(in InputArrayProxy src, in OutputArrayProxy dst,

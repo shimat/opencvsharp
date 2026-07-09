@@ -167,6 +167,34 @@ CVAPI(ExceptionStatus) flann_Ptr_KMeansIndexParams_delete(cv::Ptr<cv::flann::KMe
 }
 
 
+// cv::flann::HierarchicalClusteringIndexParams
+
+CVAPI(ExceptionStatus) flann_Ptr_HierarchicalClusteringIndexParams_new(
+    int branching, cvflann::flann_centers_init_t centers_init, int trees, int leaf_size,
+    cv::Ptr<cv::flann::HierarchicalClusteringIndexParams> **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::Ptr<cv::flann::HierarchicalClusteringIndexParams>(
+            new cv::flann::HierarchicalClusteringIndexParams(branching, centers_init, trees, leaf_size));
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_HierarchicalClusteringIndexParams_get(
+    cv::Ptr<cv::flann::HierarchicalClusteringIndexParams> *ptr, cv::flann::HierarchicalClusteringIndexParams **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = ptr->get();
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_HierarchicalClusteringIndexParams_delete(cv::Ptr<cv::flann::HierarchicalClusteringIndexParams> *obj)
+{
+    return cvTry([&] {
+        delete obj;
+    });
+}
+
+
 // cv::flann::LshIndexParams
 
 CVAPI(ExceptionStatus) flann_Ptr_LshIndexParams_new(
@@ -276,6 +304,15 @@ CVAPI(ExceptionStatus) flann_Ptr_SearchParams_new(int checks, float eps, int sor
 {
     return cvTry([&] {
         *returnValue = new cv::Ptr<cv::flann::SearchParams>(new cv::flann::SearchParams(checks, eps, (sorted != 0)));
+    });
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_SearchParams_new2(
+    int checks, float eps, int sorted, int explore_all_trees, cv::Ptr<cv::flann::SearchParams> **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::Ptr<cv::flann::SearchParams>(
+            new cv::flann::SearchParams(checks, eps, (sorted != 0), (explore_all_trees != 0)));
     });
 }
 

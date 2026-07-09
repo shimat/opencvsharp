@@ -166,6 +166,13 @@ CVAPI(ExceptionStatus) core_sum(const interop::InputArrayProxy* src, interop::Sc
     });
 }
 
+CVAPI(ExceptionStatus) core_hasNonZero(const interop::InputArrayProxy* src, int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::hasNonZero(InProxy(*src)) ? 1 : 0;
+    });
+}
+
 CVAPI(ExceptionStatus) core_countNonZero(const interop::InputArrayProxy* src, int* returnValue)
 {
     return cvTry([&] {
@@ -404,6 +411,21 @@ CVAPI(ExceptionStatus) core_flip(const interop::InputArrayProxy* src, const inte
 {
     return cvTry([&] {
         cv::flip(InProxy(*src), OutProxy(*dst), flipCode);
+    });
+}
+
+CVAPI(ExceptionStatus) core_flipND(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int axis)
+{
+    return cvTry([&] {
+        cv::flipND(InProxy(*src), OutProxy(*dst), axis);
+    });
+}
+
+CVAPI(ExceptionStatus) core_broadcast(
+    const interop::InputArrayProxy* src, const interop::InputArrayProxy* shape, const interop::OutputArrayProxy* dst)
+{
+    return cvTry([&] {
+        cv::broadcast(InProxy(*src), InProxy(*shape), OutProxy(*dst));
     });
 }
 
@@ -709,6 +731,13 @@ CVAPI(ExceptionStatus) core_patchNaNs(const interop::InputOutputArrayProxy* a, d
     });
 }
 
+CVAPI(ExceptionStatus) core_finiteMask(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* mask)
+{
+    return cvTry([&] {
+        cv::finiteMask(InProxy(*src), OutProxy(*mask));
+    });
+}
+
 CVAPI(ExceptionStatus) core_gemm(
     const interop::InputArrayProxy* src1,
     const interop::InputArrayProxy* src2,
@@ -745,6 +774,15 @@ CVAPI(ExceptionStatus) core_transpose(const interop::InputArrayProxy* src, const
 {
     return cvTry([&] {
         cv::transpose(InProxy(*src), OutProxy(*dst));
+    });
+}
+
+CVAPI(ExceptionStatus) core_transposeND(
+    const interop::InputArrayProxy* src, const int* order, int orderLength, const interop::OutputArrayProxy* dst)
+{
+    return cvTry([&] {
+        const std::vector<int> orderVec(order, order + orderLength);
+        cv::transposeND(InProxy(*src), orderVec, OutProxy(*dst));
     });
 }
 
@@ -1342,6 +1380,37 @@ CVAPI(ExceptionStatus) core_useOptimized(int *returnValue)
 {
     return cvTry([&] {
         *returnValue = cv::useOptimized() ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) core_useIPP(int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::ipp::useIPP() ? 1 : 0;
+    });
+}
+CVAPI(ExceptionStatus) core_setUseIPP(int flag)
+{
+    return cvTry([&] {
+        cv::ipp::setUseIPP(flag != 0);
+    });
+}
+CVAPI(ExceptionStatus) core_getIppVersion(std::string *buf)
+{
+    return cvTry([&] {
+        buf->assign(cv::ipp::getIppVersion());
+    });
+}
+CVAPI(ExceptionStatus) core_useIPP_NotExact(int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::ipp::useIPP_NotExact() ? 1 : 0;
+    });
+}
+CVAPI(ExceptionStatus) core_setUseIPP_NotExact(int flag)
+{
+    return cvTry([&] {
+        cv::ipp::setUseIPP_NotExact(flag != 0);
     });
 }
 

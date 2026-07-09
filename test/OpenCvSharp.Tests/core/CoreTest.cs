@@ -619,6 +619,16 @@ public class CoreTest : TestBase
     }
 
     [Fact]
+    public void HasNonZero()
+    {
+        using var zeros = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 0, 0, 0, 0 });
+        Assert.False(Cv2.HasNonZero(zeros));
+
+        using var withNonZero = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 0, 1, 0, 0 });
+        Assert.True(Cv2.HasNonZero(withNonZero));
+    }
+
+    [Fact]
     public void FindNonZero()
     {
         using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 0, 1, 0, 1 });
@@ -639,6 +649,33 @@ public class CoreTest : TestBase
         Assert.Equal(4, dst.At<byte>(0, 1));
         Assert.Equal(1, dst.At<byte>(1, 0));
         Assert.Equal(2, dst.At<byte>(1, 1));
+    }
+
+    [Fact]
+    public void FlipND()
+    {
+        using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var dst = new Mat();
+        Cv2.FlipND(src, dst, 0);
+
+        Assert.Equal(3, dst.At<byte>(0, 0));
+        Assert.Equal(4, dst.At<byte>(0, 1));
+        Assert.Equal(1, dst.At<byte>(1, 0));
+        Assert.Equal(2, dst.At<byte>(1, 1));
+    }
+
+    [Fact]
+    public void Broadcast()
+    {
+        using var src = Mat.FromPixelData(1, 3, MatType.CV_32FC1, new float[] { 1, 2, 3 });
+        int[] shapeData = [3, 3];
+        using var shape = Mat.FromPixelData(1, 2, MatType.CV_32SC1, shapeData);
+        using var dst = new Mat();
+        Cv2.Broadcast(src, shape, dst);
+
+        Assert.Equal(new Size(3, 3), dst.Size());
+        Assert.Equal(1.0f, dst.At<float>(2, 0), 3);
+        Assert.Equal(3.0f, dst.At<float>(2, 2), 3);
     }
 
     [Fact]
@@ -815,6 +852,68 @@ public class CoreTest : TestBase
 
         Assert.Equal(0.0, a.At<float>(0, 1), 3);
         Assert.Equal(1.0, a.At<float>(0, 0), 3);
+    }
+
+    [Fact]
+    public void FiniteMask()
+    {
+        using var src = Mat.FromPixelData(1, 3, MatType.CV_32FC1, new[] { 1.0f, float.NaN, float.PositiveInfinity });
+        using var mask = new Mat();
+        Cv2.FiniteMask(src, mask);
+
+        Assert.Equal(255, mask.At<byte>(0, 0));
+        Assert.Equal(0, mask.At<byte>(0, 1));
+        Assert.Equal(0, mask.At<byte>(0, 2));
+    }
+
+    [Fact]
+    public void TransposeND()
+    {
+        using var src = Mat.FromPixelData(2, 3, MatType.CV_32FC1, new float[] { 1, 2, 3, 4, 5, 6 });
+        using var dst = new Mat();
+        Cv2.TransposeND(src, [1, 0], dst);
+
+        Assert.Equal(new Size(2, 3), dst.Size());
+        Assert.Equal(1.0f, dst.At<float>(0, 0), 3);
+        Assert.Equal(4.0f, dst.At<float>(0, 1), 3);
+    }
+
+    [Fact]
+    public void UseIPP()
+    {
+        var original = Cv2.UseIPP();
+        try
+        {
+            Cv2.SetUseIPP(false);
+            Assert.False(Cv2.UseIPP());
+            Cv2.SetUseIPP(true);
+            Assert.True(Cv2.UseIPP());
+        }
+        finally
+        {
+            Cv2.SetUseIPP(original);
+        }
+    }
+
+    [Fact]
+    public void GetIppVersion()
+    {
+        Assert.NotNull(Cv2.GetIppVersion());
+    }
+
+    [Fact]
+    public void UseIppNotExact()
+    {
+        var original = Cv2.UseIppNotExact();
+        try
+        {
+            Cv2.SetUseIppNotExact(!original);
+            Assert.Equal(!original, Cv2.UseIppNotExact());
+        }
+        finally
+        {
+            Cv2.SetUseIppNotExact(original);
+        }
     }
 
     [Fact]

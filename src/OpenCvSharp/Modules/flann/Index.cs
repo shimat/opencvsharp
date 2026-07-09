@@ -8,6 +8,18 @@ namespace OpenCvSharp.Flann;
 public class Index : CvObject
 {
     /// <summary>
+    /// Constructs an empty index. Call <see cref="Build"/> or <see cref="Load"/> before searching.
+    /// </summary>
+    public Index()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_new0(out var p));
+        if (p == IntPtr.Zero)
+            throw new OpenCvSharpException("Failed to create Index");
+        InitSafeHandle(p);
+    }
+
+    /// <summary>
     /// Constructs a nearest neighbor search index for a given dataset.
     /// </summary>
     /// <param name="features">features – Matrix of type CV _ 32F containing the features(points) to index. The size of the matrix is num _ features x feature _ dimensionality.</param>
@@ -35,6 +47,70 @@ public class Index : CvObject
     {
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
             static h => NativeMethods.HandleException(NativeMethods.flann_Index_delete(h))));
+    }
+
+    /// <summary>
+    /// Builds the index using the specified dataset and parameters.
+    /// </summary>
+    /// <param name="features">Matrix of type CV_32F containing the features(points) to index.</param>
+    /// <param name="params">Structure containing the index parameters.</param>
+    /// <param name="distType"></param>
+    public void Build(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
+    {
+        ArgumentNullException.ThrowIfNull(@params);
+
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_build(Handle, features.Proxy, @params.CvPtr, (int)distType));
+
+        GC.KeepAlive(features.Source);
+        GC.KeepAlive(@params);
+    }
+
+    /// <summary>
+    /// Loads a previously saved index from a file.
+    /// </summary>
+    /// <param name="features">The dataset that was used to build the saved index.</param>
+    /// <param name="filename">The file to load the index from.</param>
+    /// <returns>true if the load succeeded.</returns>
+    public bool Load(InputArray features, string filename)
+    {
+        if (string.IsNullOrEmpty(filename))
+            throw new ArgumentNullException(nameof(filename));
+
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_load(Handle, features.Proxy, filename, out var ret));
+
+        GC.KeepAlive(features.Source);
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Releases the inner search structures. Reserved for future use.
+    /// </summary>
+    public void Release()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_release(Handle));
+    }
+
+    /// <summary>
+    /// The distance metric used by the index.
+    /// </summary>
+    public FlannDistance GetDistance()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_getDistance(Handle, out var ret));
+        return (FlannDistance)ret;
+    }
+
+    /// <summary>
+    /// The algorithm used by the index.
+    /// </summary>
+    public FlannAlgorithm GetAlgorithm()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.flann_Index_getAlgorithm(Handle, out var ret));
+        return (FlannAlgorithm)ret;
     }
 
     /// <summary>
