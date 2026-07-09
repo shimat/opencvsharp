@@ -131,9 +131,16 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti(
     });
 }
 
+// cv::imcount only scans the header (cheap) when given a real file path it can fopen, and it has no
+// buffer overload. On Windows, if 'filename' can't be represented in the process ANSI code page,
+// *acpOk is set to 0 and *returnValue to 0 without calling cv::imcount at all; the managed caller is
+// expected to retry by copying the source file to an ASCII-safe temp path (plain managed File I/O
+// handles arbitrary Unicode paths natively - no wide-path plumbing needed on this side) and calling
+// this function again with that path.
 CVAPI(ExceptionStatus) imgcodecs_imcount(
     const char *filename,
     int flags,
+    int *acpOk,
     size_t *returnValue)
 {
     return cvTry([&] {
@@ -141,24 +148,16 @@ CVAPI(ExceptionStatus) imgcodecs_imcount(
         std::string acp;
         if (pathRoundTripsAcp(filename, acp))
         {
+            *acpOk = 1;
             *returnValue = cv::imcount(acp, flags);
         }
         else
         {
-            // cv::imcount only scans the header (cheap) when given a real file path, but it has no
-            // buffer overload, so decoding via imdecodemulti (like the other wide-path fallbacks do)
-            // would materialize every frame just to count them. Write the bytes to an ACP-safe temp
-            // file instead and let cv::imcount do its usual header-only count against that.
+            *acpOk = 0;
             *returnValue = 0;
-            std::vector<uchar> buf;
-            if (readAllBytesWide(filename, buf) && !buf.empty())
-            {
-                withTempAcpFile(buf, [&](const std::string &acpPath) {
-                    *returnValue = cv::imcount(acpPath, flags);
-                });
-            }
         }
 #else
+        *acpOk = 1;
         *returnValue = cv::imcount(filename, flags);
 #endif
     });
@@ -170,43 +169,39 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti_range(
     int start,
     int count,
     int flags,
+    int *acpOk,
     int *returnValue)
 {
     return cvTry([&] {
 #ifdef _WIN32
+        // On a non-representable path, do nothing and report acpOk=0; the managed caller retries by
+        // copying the source to an ASCII-safe temp path (plain managed File I/O handles arbitrary
+        // Unicode paths natively) and calling this function again with that path.
         std::string acp;
         if (pathRoundTripsAcp(filename, acp))
         {
+            *acpOk = 1;
             *returnValue = cv::imreadmulti(acp, *mats, start, count, flags) ? 1 : 0;
         }
         else
         {
-            const bool ok = imgcodecs_withWideFile(filename,
-                [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, mats); },
-                [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, *mats); });
-            if (ok && (start != 0 || count != static_cast<int>(mats->size())))
-            {
-                // Build the slice in a temporary and swap it in: assign(first, last) with iterators
-                // into *mats itself is undefined behavior (self-referential range).
-                const long long sz = static_cast<long long>(mats->size());
-                const long long first = std::clamp<long long>(start, 0, sz);
-                const long long last = std::clamp<long long>(static_cast<long long>(start) + count, first, sz);
-                std::vector<cv::Mat> sub(mats->begin() + first, mats->begin() + last);
-                mats->swap(sub);
-            }
-            *returnValue = ok ? 1 : 0;
+            *acpOk = 0;
+            *returnValue = 0;
         }
 #else
+        *acpOk = 1;
         *returnValue = cv::imreadmulti(filename, *mats, start, count, flags) ? 1 : 0;
 #endif
     });
 }
 
+// See imgcodecs_imreadmulti_range for the acpOk/managed-retry contract.
 CVAPI(ExceptionStatus) imgcodecs_imreadWithMetadata(
     const char *filename,
     std::vector<int> *metadataTypes,
     std::vector<cv::Mat> *metadata,
     int flags,
+    int *acpOk,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
@@ -215,15 +210,15 @@ CVAPI(ExceptionStatus) imgcodecs_imreadWithMetadata(
         std::string acp;
         if (pathRoundTripsAcp(filename, acp))
         {
+            *acpOk = 1;
             ret = cv::imreadWithMetadata(acp, *metadataTypes, *metadata, flags);
         }
         else
         {
-            std::vector<uchar> buf;
-            if (readAllBytesWide(filename, buf) && !buf.empty())
-                ret = cv::imdecodeWithMetadata(buf, *metadataTypes, *metadata, flags);
+            *acpOk = 0;
         }
 #else
+        *acpOk = 1;
         ret = cv::imreadWithMetadata(filename, *metadataTypes, *metadata, flags);
 #endif
         *returnValue = new cv::Mat(ret);
@@ -298,13 +293,32 @@ CVAPI(ExceptionStatus) imgcodecs_imwriteWithMetadata(
     std::vector<cv::Mat> *metadata,
     int *params,
     int paramsLength,
+    int *acpOk,
     int *returnValue)
 {
     return cvTry([&] {
         const std::vector<int> metadataTypesVec(metadataTypes, metadataTypes + metadataTypesLength);
         const std::vector<int> paramsVec(params, params + paramsLength);
         cv::_InputArray metadataArr(*metadata);
+#ifdef _WIN32
+        // On a non-representable path, do nothing and report acpOk=0; the managed caller retries by
+        // writing to an ASCII-safe temp path and moving it to the real destination (plain managed
+        // File I/O handles arbitrary Unicode destination paths natively).
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imwriteWithMetadata(acp, *img, metadataTypesVec, metadataArr, paramsVec) ? 1 : 0;
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
         *returnValue = cv::imwriteWithMetadata(filename, *img, metadataTypesVec, metadataArr, paramsVec) ? 1 : 0;
+#endif
     });
 }
 

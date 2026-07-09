@@ -6,6 +6,59 @@ namespace OpenCvSharp;
 static partial class Cv2
 {
     /// <summary>
+    /// Copies 'filename' to an ASCII-safe temp path (managed file I/O handles arbitrary Unicode
+    /// source paths natively, unlike OpenCV's narrow-string file APIs on Windows) and invokes
+    /// 'action' with that path; the temp file is deleted afterward. Used to retry a read-side native
+    /// call that reported it could not open the original path directly (Windows non-ANSI paths only;
+    /// see e.g. imgcodecs_imcount's acpOk contract).
+    /// </summary>
+    private static T RetryViaTempCopy<T>(string filename, T notFoundResult, Func<string, T> action)
+    {
+        if (!File.Exists(filename))
+            return notFoundResult;
+
+        var tempPath = Path.GetTempFileName();
+        try
+        {
+            File.Copy(filename, tempPath, overwrite: true);
+            return action(tempPath);
+        }
+        finally
+        {
+            File.Delete(tempPath);
+        }
+    }
+
+    /// <summary>
+    /// Invokes 'action' with an ASCII-safe temp path for it to write to, then moves that temp file to
+    /// 'filename' (managed file I/O handles arbitrary Unicode destination paths natively, unlike
+    /// OpenCV's narrow-string file APIs on Windows) if 'action' reports success. The temp file is
+    /// deleted if 'action' reports failure or throws. Used to retry a write-side native call that
+    /// reported it could not open the original path directly (Windows non-ANSI paths only).
+    /// </summary>
+    /// <remarks>
+    /// Unlike the read side, the temp path here keeps 'filename'-s extension: cv::imwrite and its
+    /// siblings pick the output codec from the destination path's extension (not the content), so a
+    /// generic .tmp path (as Path.GetTempFileName returns) would fail to resolve an encoder.
+    /// </remarks>
+    private static bool RetryViaTempMove(string filename, Func<string, bool> action)
+    {
+        var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + Path.GetExtension(filename));
+        try
+        {
+            if (!action(tempPath))
+                return false;
+            File.Move(tempPath, filename, overwrite: true);
+            return true;
+        }
+        finally
+        {
+            if (File.Exists(tempPath))
+                File.Delete(tempPath);
+        }
+    }
+
+    /// <summary>
     /// Loads an image from a file.
     /// </summary>
     /// <param name="fileName">Name of file to be loaded.</param>
@@ -58,7 +111,16 @@ static partial class Cv2
 
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imreadmulti_range(filename, matsVec.CvPtr, start, count, (int) flags, out var ret));
+            NativeMethods.imgcodecs_imreadmulti_range(filename, matsVec.CvPtr, start, count, (int) flags, out var acpOk, out var ret));
+        if (acpOk == 0)
+        {
+            ret = RetryViaTempCopy(filename, 0, tempPath =>
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.imgcodecs_imreadmulti_range(tempPath, matsVec.CvPtr, start, count, (int) flags, out _, out var tempRet));
+                return tempRet;
+            });
+        }
         mats = matsVec.ToArray();
         return ret != 0;
     }
@@ -77,8 +139,16 @@ static partial class Cv2
             throw new ArgumentNullException(nameof(filename));
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imcount(filename, (int) flags, out var ret));
-        return ret.ToInt64();
+            NativeMethods.imgcodecs_imcount(filename, (int) flags, out var acpOk, out var ret));
+        if (acpOk != 0)
+            return ret.ToInt64();
+
+        return RetryViaTempCopy(filename, 0L, tempPath =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.imgcodecs_imcount(tempPath, (int) flags, out _, out var tempRet));
+            return tempRet.ToInt64();
+        });
     }
 
     /// <summary>
@@ -97,7 +167,16 @@ static partial class Cv2
         using var metadataTypesVec = new StdVector<int>();
         using var metadataVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imreadWithMetadata(filename, metadataTypesVec.CvPtr, metadataVec.CvPtr, (int) flags, out var ret));
+            NativeMethods.imgcodecs_imreadWithMetadata(filename, metadataTypesVec.CvPtr, metadataVec.CvPtr, (int) flags, out var acpOk, out var ret));
+        if (acpOk == 0)
+        {
+            ret = RetryViaTempCopy(filename, IntPtr.Zero, tempPath =>
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.imgcodecs_imreadWithMetadata(tempPath, metadataTypesVec.CvPtr, metadataVec.CvPtr, (int) flags, out _, out var tempRet));
+                return tempRet;
+            });
+        }
         metadataTypes = Array.ConvertAll(metadataTypesVec.ToArray(), t => (ImageMetadataType) t);
         metadata = metadataVec.ToArray();
         return new Mat(ret);
@@ -125,15 +204,29 @@ static partial class Cv2
         if (metadataTypes.Length != metadataArray.Length)
             throw new ArgumentException(
                 $"{nameof(metadataTypes)} and {nameof(metadata)} must have the same number of elements.", nameof(metadata));
+        foreach (var m in metadataArray)
+            m.ThrowIfDisposed();
         prms ??= [];
 
         using var metadataVec = new VectorOfMat(metadataArray);
         var metadataTypesInt = Array.ConvertAll(metadataTypes, t => (int) t);
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imwriteWithMetadata(
-                fileName, img.CvPtr, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, prms, prms.Length, out var ret));
+                fileName, img.CvPtr, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, prms, prms.Length, out var acpOk, out var ret));
         GC.KeepAlive(img);
-        return ret != 0;
+        GC.KeepAlive(metadataArray);
+        if (acpOk != 0)
+            return ret != 0;
+
+        return RetryViaTempMove(fileName, tempPath =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.imgcodecs_imwriteWithMetadata(
+                    tempPath, img.CvPtr, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, prms, prms.Length, out _, out var tempRet));
+            GC.KeepAlive(img);
+            GC.KeepAlive(metadataArray);
+            return tempRet != 0;
+        });
     }
 
     /// <summary>
@@ -151,9 +244,18 @@ static partial class Cv2
         ArgumentNullException.ThrowIfNull(animation);
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imreadanimation(filename, animation.CvPtr, start, count, out var ret));
+            NativeMethods.imgcodecs_imreadanimation(filename, animation.CvPtr, start, count, out var acpOk, out var ret));
         GC.KeepAlive(animation);
-        return ret != 0;
+        if (acpOk != 0)
+            return ret != 0;
+
+        return RetryViaTempCopy(filename, 0, tempPath =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.imgcodecs_imreadanimation(tempPath, animation.CvPtr, start, count, out _, out var tempRet));
+            GC.KeepAlive(animation);
+            return tempRet;
+        }) != 0;
     }
 
     /// <summary>
@@ -190,9 +292,18 @@ static partial class Cv2
         prms ??= [];
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imwriteanimation(fileName, animation.CvPtr, prms, prms.Length, out var ret));
+            NativeMethods.imgcodecs_imwriteanimation(fileName, animation.CvPtr, prms, prms.Length, out var acpOk, out var ret));
         GC.KeepAlive(animation);
-        return ret != 0;
+        if (acpOk != 0)
+            return ret != 0;
+
+        return RetryViaTempMove(fileName, tempPath =>
+        {
+            NativeMethods.HandleException(
+                NativeMethods.imgcodecs_imwriteanimation(tempPath, animation.CvPtr, prms, prms.Length, out _, out var tempRet));
+            GC.KeepAlive(animation);
+            return tempRet != 0;
+        });
     }
 
     /// <summary>
@@ -471,6 +582,8 @@ static partial class Cv2
         if (metadataTypes.Length != metadataArray.Length)
             throw new ArgumentException(
                 $"{nameof(metadataTypes)} and {nameof(metadata)} must have the same number of elements.", nameof(metadata));
+        foreach (var m in metadataArray)
+            m.ThrowIfDisposed();
         prms ??= [];
 
         using var metadataVec = new VectorOfMat(metadataArray);
@@ -480,6 +593,7 @@ static partial class Cv2
             NativeMethods.imgcodecs_imencodeWithMetadata(
                 ext, img.Proxy, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(img.Source);
+        GC.KeepAlive(metadataArray);
         buf = bufVec.ToArray();
         return ret != 0;
     }

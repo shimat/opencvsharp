@@ -66,15 +66,34 @@ CVAPI(ExceptionStatus) imgcodecs_Animation_set_still_image(cv::Animation *obj, c
     return cvTry([&] { obj->still_image = *image; });
 }
 
+// On Windows, if 'filename' can't be represented in the process ANSI code page, *acpOk is set to 0
+// (and *returnValue to 0) without calling cv::imreadanimation at all; the managed caller retries by
+// copying the source to an ASCII-safe temp path and calling this function again with that path.
 CVAPI(ExceptionStatus) imgcodecs_imreadanimation(
     const char *filename,
     cv::Animation *animation,
     int start,
     int count,
+    int *acpOk,
     int *returnValue)
 {
     return cvTry([&] {
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imreadanimation(acp, *animation, start, count) ? 1 : 0;
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
         *returnValue = cv::imreadanimation(filename, *animation, start, count) ? 1 : 0;
+#endif
     });
 }
 
@@ -90,18 +109,36 @@ CVAPI(ExceptionStatus) imgcodecs_imdecodeanimation(
     });
 }
 
+// See imgcodecs_imreadanimation for the acpOk/managed-retry contract (write side retries by writing
+// to an ASCII-safe temp path and moving it to the real destination).
 CVAPI(ExceptionStatus) imgcodecs_imwriteanimation(
     const char *filename,
     cv::Animation *animation,
     int *params,
     int paramsLength,
+    int *acpOk,
     int *returnValue)
 {
     return cvTry([&] {
         std::vector<int> paramsVec;
         if (params != nullptr)
             paramsVec = std::vector<int>(params, params + paramsLength);
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imwriteanimation(acp, *animation, paramsVec) ? 1 : 0;
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
         *returnValue = cv::imwriteanimation(filename, *animation, paramsVec) ? 1 : 0;
+#endif
     });
 }
 

@@ -20,27 +20,31 @@ static partial class NativeMethods
     public static partial ExceptionStatus imgcodecs_imreadmulti(
         [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr mats, int flags, out int returnValue);
 
+    // acpOk is 0 (and returnValue 0) on Windows when 'fileName' can't be represented in the process
+    // ANSI code page; the managed caller retries via an ASCII-safe temp copy.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imreadmulti_range(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr mats, int start, int count, int flags, out int returnValue);
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr mats, int start, int count, int flags, out int acpOk, out int returnValue);
 
-    // imcount (UTF-8 everywhere; native reads via a wide path on Windows)
+    // imcount (UTF-8 everywhere). On Windows, acpOk is 0 (and returnValue 0) when the path can't be
+    // represented in the process ANSI code page; the managed caller retries via an ASCII-safe temp copy.
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imcount(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, int flags, out IntPtr returnValue);
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, int flags, out int acpOk, out IntPtr returnValue);
 
     // imreadWithMetadata / imwriteWithMetadata / imdecodeWithMetadata / imencodeWithMetadata
 
+    // acpOk/managed-retry contract: see imgcodecs_imreadmulti_range.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imreadWithMetadata(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr metadataTypes, IntPtr metadata, int flags, out IntPtr returnValue);
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr metadataTypes, IntPtr metadata, int flags, out int acpOk, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwriteWithMetadata(
         [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr img,
         [In] int[] metadataTypes, int metadataTypesLength, IntPtr metadata,
-        [In] int[] @params, int paramsLength, out int returnValue);
+        [In] int[] @params, int paramsLength, out int acpOk, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgcodecs_imdecodeWithMetadata(
@@ -143,9 +147,10 @@ static partial class NativeMethods
 
     // imreadanimation / imdecodeanimation / imwriteanimation / imencodeanimation
 
+    // acpOk/managed-retry contract: see imgcodecs_imreadmulti_range.
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imreadanimation(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, int start, int count, out int returnValue);
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, int start, int count, out int acpOk, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgcodecs_imdecodeanimation(
@@ -153,7 +158,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imwriteanimation(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, [In] int[] @params, int paramsLength, out int returnValue);
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, [In] int[] @params, int paramsLength, out int acpOk, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgcodecs_imencodeanimation(

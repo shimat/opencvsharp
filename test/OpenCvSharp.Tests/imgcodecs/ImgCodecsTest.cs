@@ -670,6 +670,42 @@ public class ImgCodecsTest : TestBase
         }
     }
 
+    // Regression test for the managed-retry non-ANSI path: imwriteWithMetadata/imreadWithMetadata
+    // report acpOk=0 on a non-representable filename instead of writing/reading anything themselves;
+    // Cv2 retries by writing to (resp. copying from) an ASCII-safe temp path.
+    [Fact]
+    public void ImWriteReadWithMetadataUnicodeFileNameRoundTrip()
+    {
+        const string fileName = "_data/image/imwrite_metadata♥😀.jpg";
+        try
+        {
+            using var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+            var exifBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            using var exifMat = new Mat(1, exifBytes.Length, MatType.CV_8UC1);
+            exifMat.SetArray(exifBytes);
+
+            Assert.True(Cv2.ImWriteWithMetadata(
+                fileName, mat, [ImageMetadataType.Exif], [exifMat]));
+            Assert.True(File.Exists(fileName));
+
+            using var read = Cv2.ImReadWithMetadata(
+                fileName, out var metadataTypes, out var metadata, ImreadModes.Unchanged);
+            try
+            {
+                Assert.False(read.Empty());
+                Assert.Contains(ImageMetadataType.Exif, metadataTypes);
+            }
+            finally
+            {
+                foreach (var m in metadata) m.Dispose();
+            }
+        }
+        finally
+        {
+            if (File.Exists(fileName)) File.Delete(fileName);
+        }
+    }
+
     [Fact]
     public void AnimationWriteReadRoundTrip()
     {
@@ -698,6 +734,42 @@ public class ImgCodecsTest : TestBase
                 Assert.Equal(2, read.Frames.Length);
                 Assert.Equal(10, read.Frames[0].Rows);
                 Assert.Equal(20, read.Frames[0].Cols);
+            }
+            finally
+            {
+                foreach (var f in read.Frames) f.Dispose();
+            }
+        }
+        finally
+        {
+            if (File.Exists(fileName)) File.Delete(fileName);
+        }
+    }
+
+    // Regression test for the managed-retry non-ANSI path on imreadanimation/imwriteanimation.
+    [Fact]
+    public void AnimationWriteReadUnicodeFileNameRoundTrip()
+    {
+        const string fileName = "_data/image/test_animation♥😀.gif";
+        try
+        {
+            using var frame1 = new Mat(10, 20, MatType.CV_8UC3, Scalar.Red);
+            using var frame2 = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue);
+
+            using var written = new Animation(loopCount: 3)
+            {
+                Frames = [frame1, frame2],
+                Durations = [100, 200]
+            };
+
+            Assert.True(Cv2.ImWriteAnimation(fileName, written));
+            Assert.True(File.Exists(fileName));
+
+            using var read = new Animation();
+            Assert.True(Cv2.ImReadAnimation(fileName, read));
+            try
+            {
+                Assert.Equal(2, read.Frames.Length);
             }
             finally
             {
