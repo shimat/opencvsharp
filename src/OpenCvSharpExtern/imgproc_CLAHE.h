@@ -77,3 +77,17 @@ CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
         obj->collectGarbage();
     });
 }
+
+CVAPI(ExceptionStatus) imgproc_CLAHE_setBitShift(cv::CLAHE *obj, int bitShift)
+{
+    return cvTry([&] {
+        obj->setBitShift(bitShift);
+    });
+}
+
+CVAPI(ExceptionStatus) imgproc_CLAHE_getBitShift(cv::CLAHE *obj, int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getBitShift();
+    });
+}

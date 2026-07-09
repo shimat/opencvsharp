@@ -228,6 +228,65 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
     }
 
+    // The "releasing object" method (calibrateCameraRO) needs multiple independent views to
+    // usefully solve for per-point corrections, so this uses synthetic multi-view data
+    // (projected from a known camera) rather than the single real calibration photo in the
+    // fixture set, following the same Rodrigues/ProjectPoints-based synthesis as CalibrateHandEye.
+    [Fact]
+    public void CalibrateCameraRO()
+    {
+        var patternSize = new Size(10, 7);
+        var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+
+        var trueCameraMatrix = new double[,]
+        {
+            { 800, 0, 320 },
+            { 0, 800, 240 },
+            { 0, 0, 1 }
+        };
+        var trueDistCoeffs = new double[] { 0, 0, 0, 0, 0 };
+
+        var views = new (double[] rvec, double[] tvec)[]
+        {
+            (new double[] { 0.10, 0.05, 0.00 }, new double[] { 0.0, 0.0, 8.0 }),
+            (new double[] { 0.15, -0.05, 0.05 }, new double[] { 0.5, 0.2, 8.5 }),
+            (new double[] { -0.10, 0.10, -0.05 }, new double[] { -0.3, -0.2, 9.0 }),
+        };
+
+        var objectPoints = new List<Mat>();
+        var imagePoints = new List<Mat>();
+        try
+        {
+            foreach (var (rvec, tvec) in views)
+            {
+                Cv2.ProjectPoints(objectPointsArray, rvec, tvec, trueCameraMatrix, trueDistCoeffs, out var imagePointsArray, out _);
+                objectPoints.Add(Mat<Point3f>.FromArray(objectPointsArray));
+                imagePoints.Add(Mat<Point2f>.FromArray(imagePointsArray));
+            }
+
+            using var cameraMatrix = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+            using var distCoeffs = new Mat<double>();
+            using var newObjPoints = new Mat();
+
+            var iFixedPoint = patternSize.Width - 1;
+            var rms = Cv2.CalibrateCameraRO(
+                objectPoints, imagePoints, new Size(640, 480), iFixedPoint,
+                cameraMatrix, distCoeffs, out var rvecs, out var tvecs, newObjPoints);
+
+            Assert.False(double.IsNaN(rms));
+            Assert.False(double.IsInfinity(rms));
+            Assert.Equal(views.Length, rvecs.Length);
+            Assert.Equal(views.Length, tvecs.Length);
+            Assert.False(newObjPoints.Empty());
+            Assert.Equal(objectPointsArray.Length, (int)newObjPoints.Total());
+        }
+        finally
+        {
+            foreach (var m in objectPoints) m.Dispose();
+            foreach (var m in imagePoints) m.Dispose();
+        }
+    }
+
     [Fact]
     public void FishEyeCalibrate()
     {

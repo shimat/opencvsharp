@@ -24,4 +24,13 @@ public class StereoSGBMTest : TestBase
             Window.ShowImages(disparityU8);
         }
     }
+
+    [Fact]
+    public void ModeValues()
+    {
+        Assert.Equal(0, (int)StereoSGBMMode.SGBM);
+        Assert.Equal(1, (int)StereoSGBMMode.HH);
+        Assert.Equal(2, (int)StereoSGBMMode.SGBM3Way);
+        Assert.Equal(3, (int)StereoSGBMMode.HH4);
+    }
 }

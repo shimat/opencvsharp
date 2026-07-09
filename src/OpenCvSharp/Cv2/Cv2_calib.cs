@@ -216,7 +216,7 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.calib_calibrateCamera_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
-                imagePointsPtrs, objectPointsPtrs.Length,
+                imagePointsPtrs, imagePointsPtrs.Length,
                 imageSize, cameraMatrix.Proxy, distCoeffs.Proxy,
                 rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
         GC.KeepAlive(cameraMatrix.Source);
@@ -293,6 +293,66 @@ static partial class Cv2
                 return ret;
             }
         }
+    }
+
+    /// <summary>
+    /// Finds intrinsic and extrinsic camera parameters, additionally allowing one point of the
+    /// calibration pattern object to be optimized ("releasing object" method). Useful when the
+    /// calibration pattern is not perfectly rigid/planar.
+    /// </summary>
+    /// <param name="objectPoints">Vector of vectors of calibration pattern points, as in CalibrateCamera.</param>
+    /// <param name="imagePoints">Vector of vectors of the projections of calibration pattern points.</param>
+    /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
+    /// <param name="iFixedPoint">The index of the object point to be fixed. It must be within [1, objectPoints[0].Count - 2].
+    /// It is ignored with <see cref="CalibrationFlags.FixK3"/> or if the calibration pattern is a non-planar rig.</param>
+    /// <param name="cameraMatrix">Output 3x3 floating-point camera matrix.</param>
+    /// <param name="distCoeffs">Output vector of distortion coefficients.</param>
+    /// <param name="rvecs">Output vector of rotation vectors estimated for each pattern view.</param>
+    /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
+    /// <param name="newObjPoints">The updated output vector of calibration pattern points, where the coordinates
+    /// of the fixed point (index iFixedPoint) are unchanged.</param>
+    /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
+    /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+    /// <returns>Root mean square (RMS) re-projection error.</returns>
+    public static double CalibrateCameraRO(
+        IEnumerable<Mat> objectPoints,
+        IEnumerable<Mat> imagePoints,
+        Size imageSize,
+        int iFixedPoint,
+        InputOutputArray cameraMatrix,
+        InputOutputArray distCoeffs,
+        out Mat[] rvecs,
+        out Mat[] tvecs,
+        OutputArray newObjPoints,
+        CalibrationFlags flags = CalibrationFlags.None,
+        TermCriteria? criteria = null)
+    {
+        ArgumentNullException.ThrowIfNull(objectPoints);
+        ArgumentNullException.ThrowIfNull(imagePoints);
+
+        var criteria0 = criteria.GetValueOrDefault(
+            new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
+
+        var objectPointsPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
+        var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
+
+        using var rvecsVec = new VectorOfMat();
+        using var tvecsVec = new VectorOfMat();
+        NativeMethods.HandleException(
+            NativeMethods.calib_calibrateCameraRO_InputArray(
+                objectPointsPtrs, objectPointsPtrs.Length,
+                imagePointsPtrs, imagePointsPtrs.Length,
+                imageSize, iFixedPoint, cameraMatrix.Proxy, distCoeffs.Proxy,
+                rvecsVec.CvPtr, tvecsVec.CvPtr, newObjPoints.Proxy, (int) flags, criteria0, out var ret));
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(newObjPoints.Source);
+        GC.KeepAlive(objectPoints);
+        GC.KeepAlive(imagePoints);
+        rvecs = rvecsVec.ToArray();
+        tvecs = tvecsVec.ToArray();
+
+        return ret;
     }
 
     /// <summary>

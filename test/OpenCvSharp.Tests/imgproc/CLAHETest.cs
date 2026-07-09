@@ -33,4 +33,14 @@ public class CLAHETest : TestBase
         clahe.TilesGridSize = value;
         Assert.Equal(value, clahe.TilesGridSize);
     }
+
+    [Fact]
+    public void BitShift()
+    {
+        using var clahe = Cv2.CreateCLAHE();
+        Assert.Equal(0, clahe.BitShift);
+
+        clahe.BitShift = 2;
+        Assert.Equal(2, clahe.BitShift);
+    }
 }

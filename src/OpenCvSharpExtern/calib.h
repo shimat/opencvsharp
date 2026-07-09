@@ -154,6 +154,35 @@ CVAPI(ExceptionStatus) calib_calibrateCamera_InputArray(
     });
 }
 
+CVAPI(ExceptionStatus) calib_calibrateCameraRO_InputArray(
+    cv::Mat **objectPoints,
+    int objectPointsSize,
+    cv::Mat **imagePoints,
+    int imagePointsSize,
+    interop::Size imageSize,
+    int iFixedPoint,
+    const interop::InputOutputArrayProxy* cameraMatrix,
+    const interop::InputOutputArrayProxy* distCoeffs,
+    std::vector<cv::Mat> *rvecs,
+    std::vector<cv::Mat> *tvecs,
+    const interop::OutputArrayProxy* newObjPoints,
+    int flags,
+    interop::TermCriteria criteria,
+    double *returnValue)
+{
+    return cvTry([&] {
+        std::vector<cv::Mat> objectPointsVec(objectPointsSize);
+        for (auto i = 0; i < objectPointsSize; i++)
+            objectPointsVec[i] = *objectPoints[i];
+        std::vector<cv::Mat> imagePointsVec(imagePointsSize);
+        for (auto i = 0; i < imagePointsSize; i++)
+            imagePointsVec[i] = *imagePoints[i];
+
+        *returnValue = cv::calibrateCameraRO(objectPointsVec, imagePointsVec, cpp(imageSize), iFixedPoint,
+            IoProxy(*cameraMatrix), IoProxy(*distCoeffs), *rvecs, *tvecs, OutProxy(*newObjPoints), flags, cpp(criteria));
+    });
+}
+
 CVAPI(ExceptionStatus) calib_calibrateCamera_vector(
     cv::Point3f **objectPoints,
     int opSize1,

@@ -12,6 +12,8 @@ public enum StereoSGBMMode
 {
     SGBM = 0,
     HH   = 1,
+    SGBM3Way = 2,
+    HH4 = 3,
 }
 
 /// <summary>

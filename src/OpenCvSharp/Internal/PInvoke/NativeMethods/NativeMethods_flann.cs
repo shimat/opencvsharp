@@ -20,6 +20,26 @@ static partial class NativeMethods
     public static partial ExceptionStatus flann_Index_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Index_new0(out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus flann_Index_build(
+        OpenCvSafeHandle obj, in InputArrayProxy features, IntPtr @params, int distType);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus flann_Index_load(
+        OpenCvSafeHandle obj, in InputArrayProxy features, [MarshalAs(UnmanagedType.LPStr)] string filename, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Index_release(OpenCvSafeHandle obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Index_getDistance(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Index_getAlgorithm(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Index_knnSearch1(
         OpenCvSafeHandle obj, [In] float[] queries, int queriesLength, [Out] int[] indices, [Out] float[] dists, int knn, IntPtr @params);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -119,6 +139,20 @@ static partial class NativeMethods
 
     #endregion
 
+    #region HierarchicalClusteringIndexParams
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Ptr_HierarchicalClusteringIndexParams_new(
+        int branching, FlannCentersInit centersInit, int trees, int leafSize, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Ptr_HierarchicalClusteringIndexParams_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Ptr_HierarchicalClusteringIndexParams_delete(IntPtr obj);
+
+    #endregion
+
     #region LshIndexParams
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -179,6 +213,9 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Ptr_SearchParams_new(int checks, float eps, int sorted, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus flann_Ptr_SearchParams_new2(int checks, float eps, int sorted, int exploreAllTrees, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus flann_Ptr_SearchParams_get(IntPtr ptr, out IntPtr returnValue);

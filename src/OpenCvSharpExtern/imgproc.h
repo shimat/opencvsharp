@@ -137,6 +137,16 @@ CVAPI(ExceptionStatus) imgproc_blur(
     });
 }
 
+CVAPI(ExceptionStatus) imgproc_stackBlur(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    interop::Size ksize)
+{
+    return cvTry([&] {
+        cv::stackBlur(InProxy(*src), OutProxy(*dst), cpp(ksize));
+    });
+}
+
 CVAPI(ExceptionStatus) imgproc_filter2D(
     const interop::InputArrayProxy* src,
     const interop::OutputArrayProxy* dst,
@@ -658,6 +668,19 @@ CVAPI(ExceptionStatus) imgproc_phaseCorrelate(
     });
 }
 
+CVAPI(ExceptionStatus) imgproc_phaseCorrelateIterative(
+    const interop::InputArrayProxy* src1,
+    const interop::InputArrayProxy* src2,
+    int l2size,
+    int maxIters,
+    interop::Point2d* returnValue)
+{
+    return cvTry([&] {
+        const auto p = cv::phaseCorrelateIterative(InProxy(*src1), InProxy(*src2), l2size, maxIters);
+        *returnValue = { p.x, p.y };
+    });
+}
+
 CVAPI(ExceptionStatus) imgproc_createHanningWindow(
     const interop::OutputArrayProxy* dst,
     interop::Size winSize,
@@ -678,6 +701,20 @@ CVAPI(ExceptionStatus) imgproc_threshold(
 {
     return cvTry([&] {
         *returnValue = cv::threshold(InProxy(*src), OutProxy(*dst), thresh, maxVal, type);
+    });
+}
+
+CVAPI(ExceptionStatus) imgproc_thresholdWithMask(
+    const interop::InputArrayProxy* src,
+    const interop::InputOutputArrayProxy* dst,
+    const interop::InputArrayProxy* mask,
+    double thresh,
+    double maxVal,
+    int type,
+    double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::thresholdWithMask(InProxy(*src), IoProxy(*dst), InProxy(*mask), thresh, maxVal, type);
     });
 }
 

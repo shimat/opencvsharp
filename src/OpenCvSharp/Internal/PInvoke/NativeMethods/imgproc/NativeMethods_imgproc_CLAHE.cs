@@ -42,4 +42,10 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_CLAHE_collectGarbage(OpenCvSafeHandle obj);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgproc_CLAHE_setBitShift(OpenCvSafeHandle obj, int bitShift);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgproc_CLAHE_getBitShift(OpenCvSafeHandle obj, out int returnValue);
+
 }

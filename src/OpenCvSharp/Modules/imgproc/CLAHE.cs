@@ -95,7 +95,27 @@ public sealed class CLAHE : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the bit shift parameter for histogram bins (default is 0).
+    /// </summary>
+    public int BitShift
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_CLAHE_getBitShift(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_CLAHE_setBitShift(Handle, value));
+        }
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     public void CollectGarbage()
     {
