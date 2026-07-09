@@ -216,7 +216,7 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.calib_calibrateCamera_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
-                imagePointsPtrs, objectPointsPtrs.Length,
+                imagePointsPtrs, imagePointsPtrs.Length,
                 imageSize, cameraMatrix.Proxy, distCoeffs.Proxy,
                 rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
         GC.KeepAlive(cameraMatrix.Source);
@@ -341,7 +341,7 @@ static partial class Cv2
         NativeMethods.HandleException(
             NativeMethods.calib_calibrateCameraRO_InputArray(
                 objectPointsPtrs, objectPointsPtrs.Length,
-                imagePointsPtrs, objectPointsPtrs.Length,
+                imagePointsPtrs, imagePointsPtrs.Length,
                 imageSize, iFixedPoint, cameraMatrix.Proxy, distCoeffs.Proxy,
                 rvecsVec.CvPtr, tvecsVec.CvPtr, newObjPoints.Proxy, (int) flags, criteria0, out var ret));
         GC.KeepAlive(cameraMatrix.Source);

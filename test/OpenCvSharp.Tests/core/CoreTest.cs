@@ -884,6 +884,13 @@ public class CoreTest : TestBase
         var original = Cv2.UseIPP();
         try
         {
+            Cv2.SetUseIPP(true);
+            if (!Cv2.UseIPP())
+            {
+                // IPP is not compiled into this OpenCV build (e.g. arm64), so the flag is a no-op.
+                Assert.Skip("IPP is not available in this OpenCV build.");
+            }
+
             Cv2.SetUseIPP(false);
             Assert.False(Cv2.UseIPP());
             Cv2.SetUseIPP(true);
@@ -908,6 +915,12 @@ public class CoreTest : TestBase
         try
         {
             Cv2.SetUseIppNotExact(!original);
+            if (Cv2.UseIppNotExact() == original)
+            {
+                // IPP is not compiled into this OpenCV build (e.g. arm64), so the flag is a no-op.
+                Assert.Skip("IPP is not available in this OpenCV build.");
+            }
+
             Assert.Equal(!original, Cv2.UseIppNotExact());
         }
         finally
