@@ -463,6 +463,37 @@ public class FileStorageTest : TestBase
     }
 
     [Fact]
+    public void WriteStructScopeDisposeIsIdempotent()
+    {
+        const string fileName = "fs_write_struct_scope_double_dispose.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("before", 1);
+
+            // A double Dispose() (e.g. an explicit call inside a using block) must not end the
+            // structure twice - otherwise it would unbalance FileStorage's write-struct nesting
+            // and corrupt whatever comes after it, such as "after" below.
+            var scope = fs.WriteStruct("camera", FileNode.Types.Map);
+            fs.Write("fx", 800.0);
+            scope.Dispose();
+            scope.Dispose();
+
+            fs.Write("after", 2);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(1, fs["before"]!.ReadInt());
+            Assert.Equal(2, fs["after"]!.ReadInt());
+
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
     public void ToJsonNodeConvertsScalarsSequencesAndMappings()
     {
         const string fileName = "fs_to_json_node.yml";
