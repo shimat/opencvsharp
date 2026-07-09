@@ -1236,6 +1236,16 @@ public class FileStorage : CvObject
         FormatYaml = (2 << 3),
 
         /// <summary>
+        /// flag, JSON format
+        /// </summary>
+        FormatJson = (3 << 3),
+
+        /// <summary>
+        /// flag, legacy YAML 1.0 format (strict headers, booleans as ints)
+        /// </summary>
+        FormatYaml10 = (4 << 3),
+
+        /// <summary>
         /// flag, write rawdata in Base64 by default. (consider using WRITE_BASE64)
         /// </summary>
         Base64 = 64, 

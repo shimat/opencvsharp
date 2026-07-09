@@ -375,6 +375,31 @@ public class FileStorageTest : TestBase
     }
 
     [Fact]
+    public void WriteStringArrayRejectsNullElement()
+    {
+        const string fileName = "fs_string_array_null_element.yml";
+        using var fs = new FileStorage(fileName, FileStorage.Modes.Write);
+
+        Assert.Throws<ArgumentException>(() => fs.Write("labels", new[] { "cat", null!, "bird" }));
+    }
+
+    [Fact]
+    public void GetFormatRecognizesJson()
+    {
+        const string fileName = "fs_format.json";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("x", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(FileStorage.Modes.FormatJson, fs.GetFormat());
+        }
+    }
+
+    [Fact]
     public void KeysReturnsMappingKeys()
     {
         const string fileName = "fs_keys.yml";

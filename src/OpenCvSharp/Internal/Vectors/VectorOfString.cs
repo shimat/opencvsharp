@@ -37,6 +37,8 @@ public class VectorOfString : CvObject, IStdVector<string?>
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         foreach (var s in data)
         {
+            if (s is null)
+                throw new ArgumentException("Collection must not contain null elements.", nameof(data));
             NativeMethods.vector_string_pushBack(Handle, s);
         }
     }
