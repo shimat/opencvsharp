@@ -655,6 +655,46 @@ public class FileStorageTest : TestBase
     }
 
     [Fact]
+    public void WriteJsonNodeHandlesProgrammaticNumericJsonValueTypes()
+    {
+        // Unlike a JsonNode.Parse()-produced value (backed by a flexible JsonElement),
+        // JsonValue.Create(T) - what a plain `new JsonObject { ["x"] = 3 }` assignment does under
+        // the hood - preserves the exact CLR type it was created from, so this must be covered
+        // independently of the JsonNode.Parse-based round-trip test above.
+        const string fileName = "fs_write_json_node_numeric_types.yml";
+
+        var obj = new JsonObject
+        {
+            ["intValue"] = 3,
+            ["longValue"] = 9_000_000_000L,
+            ["shortValue"] = (short)7,
+            ["byteValue"] = (byte)8,
+            ["floatValue"] = 1.5f,
+            ["doubleValue"] = 2.5,
+            ["boolValue"] = true,
+            ["stringValue"] = "text",
+        };
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            foreach (var (key, value) in obj)
+                fs.Write(key, value);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(3, fs["intValue"]!.ReadInt());
+            Assert.Equal(9_000_000_000L, fs["longValue"]!.ReadInt64());
+            Assert.Equal(7, fs["shortValue"]!.ReadInt());
+            Assert.Equal(8, fs["byteValue"]!.ReadInt());
+            Assert.Equal(1.5, fs["floatValue"]!.ReadDouble(), 3);
+            Assert.Equal(2.5, fs["doubleValue"]!.ReadDouble(), 3);
+            Assert.True(fs["boolValue"]!.ReadInt() != 0);
+            Assert.Equal("text", fs["stringValue"]!.ReadString());
+        }
+    }
+
+    [Fact]
     public void GetPathNavigatesNestedStructure()
     {
         const string fileName = "fs_get_path.yml";

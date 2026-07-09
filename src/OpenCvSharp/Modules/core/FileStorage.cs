@@ -606,8 +606,25 @@ public class FileStorage : CvObject
     private void WriteJsonScalar(string name, JsonValue value)
     {
         if (value.TryGetValue(out bool b)) { Write(name, b); return; }
+
+        // JsonValue.Create(T) preserves the exact CLR type it was created from - TryGetValue<T>
+        // does a strict type match for it, unlike a JsonNode.Parse()-produced JsonValue (backed by
+        // JsonElement, which freely widens across numeric types). So a value created via e.g.
+        // JsonValue.Create(3) (int) or a plain `new JsonObject { ["x"] = 3 }` assignment fails
+        // TryGetValue<long>/<double> and must be probed by its exact CLR type instead.
         if (value.TryGetValue(out long l)) { Write(name, l); return; }
+        if (value.TryGetValue(out int i)) { Write(name, (long)i); return; }
+        if (value.TryGetValue(out short sh)) { Write(name, (long)sh); return; }
+        if (value.TryGetValue(out sbyte sb)) { Write(name, (long)sb); return; }
+        if (value.TryGetValue(out byte by)) { Write(name, (long)by); return; }
+        if (value.TryGetValue(out ushort us)) { Write(name, (long)us); return; }
+        if (value.TryGetValue(out uint ui)) { Write(name, (long)ui); return; }
+        if (value.TryGetValue(out ulong ul)) { Write(name, unchecked((long)ul)); return; }
+
         if (value.TryGetValue(out double d)) { Write(name, d); return; }
+        if (value.TryGetValue(out float f)) { Write(name, (double)f); return; }
+        if (value.TryGetValue(out decimal dec)) { Write(name, (double)dec); return; }
+
         if (value.TryGetValue(out string? s)) { Write(name, s!); return; }
         throw new NotSupportedException($"Unsupported JsonValue underlying type for key '{name}'.");
     }
