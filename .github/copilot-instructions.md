@@ -166,6 +166,16 @@ Place each submodule facade in its module folder as `Cv2.<Sub>.cs` (e.g. `Module
 
 See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, std::vector methods, nested Params struct with bool fields, and VectorOfVec6d.
 
+## Enum member naming
+
+C++ enum members are `ALL_CAPS_WITH_UNDERSCORES` (e.g. `IMWRITE_JPEG_QUALITY`, `NORM_L2SQR`). When wrapping them as a C# enum, **default to PascalCase**, stripping the module/family prefix (`IMWRITE_JPEG_QUALITY` → `JpegQuality`). Keep the original casing (or a near-verbatim form) only when one of these narrow exceptions applies:
+
+1. **The value itself is an unbreakable acronym/abbreviation.** Test: read it aloud — do you spell out the letters (like an acronym) rather than pronounce it as a word? If so, PascalCasing it (`Exif`, `L2Sqr`) destroys the acronym for no benefit. Keep it verbatim (`EXIF`, `L2SQR`). Precedent: `NormTypes.INF`/`L1`/`L2SQR`, `ImageMetadataType.EXIF`/`XMP`/`ICCP`/`CICP`.
+2. **The value has no natural word boundaries — it's an opaque code, not a phrase.** Test: does inserting word breaks add any information, or does it just capitalize letters arbitrarily? If the latter, keep it verbatim. Precedent: `ColorConversionCodes.BGR2GRAY` (whole body kept verbatim, only the `COLOR_` prefix stripped), `FASTType.TYPE_5_8`.
+3. **The prefix identifies a specific vendor/backend and is semantically load-bearing.** Test: does stripping the prefix delete information a reader needs (which camera SDK/backend this property belongs to)? If so, keep the prefix verbatim; the suffix can still be PascalCased normally. Precedent: `VideoCaptureProperties`' `XI_`/`OPENNI_`/`PVAPI_`/`GIGA_`/`IOS_`-prefixed members.
+
+When none of the three applies, PascalCase — don't keep a verbatim name "to be safe." The exceptions are narrow and should be justifiable by one of the tests above, not a default.
+
 ## Repository structure
 
 OpenCvSharp has three layers:
