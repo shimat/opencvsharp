@@ -20,6 +20,52 @@ static partial class NativeMethods
     public static partial ExceptionStatus imgcodecs_imreadmulti(
         [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr mats, int flags, out int returnValue);
 
+    // acpOk is 0 (and returnValue 0) on Windows when 'fileName' can't be represented in the process
+    // ANSI code page; the managed caller retries via an ASCII-safe temp copy.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imreadmulti_range(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr mats, int start, int count, int flags, out int acpOk, out int returnValue);
+
+    // imcount (UTF-8 everywhere). On Windows, acpOk is 0 (and returnValue 0) when the path can't be
+    // represented in the process ANSI code page; the managed caller retries via an ASCII-safe temp copy.
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imcount(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, int flags, out int acpOk, out IntPtr returnValue);
+
+    // imreadWithMetadata / imwriteWithMetadata / imdecodeWithMetadata / imencodeWithMetadata
+
+    // acpOk/managed-retry contract: see imgcodecs_imreadmulti_range.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imreadWithMetadata(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr metadataTypes, IntPtr metadata, int flags, out int acpOk, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imwriteWithMetadata(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr img,
+        [In] int[] metadataTypes, int metadataTypesLength, IntPtr metadata,
+        [In] int[] @params, int paramsLength, out int acpOk, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgcodecs_imdecodeWithMetadata(
+        in InputArrayProxy buf, IntPtr metadataTypes, IntPtr metadata, int flags, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgcodecs_imencodeWithMetadata(
+        [MarshalAs(UnmanagedType.LPStr)] string ext, in InputArrayProxy img,
+        [In] int[] metadataTypes, int metadataTypesLength, IntPtr metadata, IntPtr buf,
+        [In] int[] @params, int paramsLength, out int returnValue);
+
+    // imdecodemulti / imencodemulti
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgcodecs_imdecodemulti(
+        in InputArrayProxy buf, int flags, IntPtr mats, Range range, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imencodemulti(
+        [MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr imgs, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
+
     // imwrite (UTF-8 everywhere; the native side converts to a wide path on Windows so non-ANSI names work)
 
     [LibraryImport(DllExtern, EntryPoint = "imgcodecs_imwrite"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -60,6 +106,88 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgcodecs_imencode_vector(
         [MarshalAs(UnmanagedType.LPStr)] string ext, in InputArrayProxy img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
+
+    // Animation
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_new(int loopCount, Scalar bgColor, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_get_loop_count(IntPtr obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_set_loop_count(IntPtr obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_get_bgcolor(IntPtr obj, out Scalar returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_set_bgcolor(IntPtr obj, Scalar value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_get_durations(IntPtr obj, IntPtr outVec);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_set_durations(IntPtr obj, [In] int[] data, int length);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_get_frames(IntPtr obj, IntPtr outVec);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_set_frames(IntPtr obj, IntPtr frames);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_get_still_image(IntPtr obj, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_Animation_set_still_image(IntPtr obj, IntPtr image);
+
+    // imreadanimation / imdecodeanimation / imwriteanimation / imencodeanimation
+
+    // acpOk/managed-retry contract: see imgcodecs_imreadmulti_range.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imreadanimation(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, int start, int count, out int acpOk, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgcodecs_imdecodeanimation(
+        in InputArrayProxy buf, IntPtr animation, int start, int count, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imwriteanimation(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, IntPtr animation, [In] int[] @params, int paramsLength, out int acpOk, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_imencodeanimation(
+        [MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr animation, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
+
+    // ImageCollection
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_new1(out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_new2(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, int flags, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_init(
+        IntPtr obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, int flags);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_size(IntPtr obj, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_at(IntPtr obj, int index, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus imgcodecs_ImageCollection_releaseCache(IntPtr obj, int index);
 
     // haveImageReader (UTF-8 everywhere; native probes via a wide path on Windows)
 

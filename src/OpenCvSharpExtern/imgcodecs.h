@@ -131,6 +131,100 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti(
     });
 }
 
+// cv::imcount only scans the header (cheap) when given a real file path it can fopen, and it has no
+// buffer overload. On Windows, if 'filename' can't be represented in the process ANSI code page,
+// *acpOk is set to 0 and *returnValue to 0 without calling cv::imcount at all; the managed caller is
+// expected to retry by copying the source file to an ASCII-safe temp path (plain managed File I/O
+// handles arbitrary Unicode paths natively - no wide-path plumbing needed on this side) and calling
+// this function again with that path.
+CVAPI(ExceptionStatus) imgcodecs_imcount(
+    const char *filename,
+    int flags,
+    int *acpOk,
+    size_t *returnValue)
+{
+    return cvTry([&] {
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imcount(acp, flags);
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
+        *returnValue = cv::imcount(filename, flags);
+#endif
+    });
+}
+
+CVAPI(ExceptionStatus) imgcodecs_imreadmulti_range(
+    const char *filename,
+    std::vector<cv::Mat> *mats,
+    int start,
+    int count,
+    int flags,
+    int *acpOk,
+    int *returnValue)
+{
+    return cvTry([&] {
+#ifdef _WIN32
+        // On a non-representable path, do nothing and report acpOk=0; the managed caller retries by
+        // copying the source to an ASCII-safe temp path (plain managed File I/O handles arbitrary
+        // Unicode paths natively) and calling this function again with that path.
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imreadmulti(acp, *mats, start, count, flags) ? 1 : 0;
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
+        *returnValue = cv::imreadmulti(filename, *mats, start, count, flags) ? 1 : 0;
+#endif
+    });
+}
+
+// See imgcodecs_imreadmulti_range for the acpOk/managed-retry contract.
+CVAPI(ExceptionStatus) imgcodecs_imreadWithMetadata(
+    const char *filename,
+    std::vector<int> *metadataTypes,
+    std::vector<cv::Mat> *metadata,
+    int flags,
+    int *acpOk,
+    cv::Mat **returnValue)
+{
+    return cvTry([&] {
+        cv::Mat ret;
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            ret = cv::imreadWithMetadata(acp, *metadataTypes, *metadata, flags);
+        }
+        else
+        {
+            *acpOk = 0;
+        }
+#else
+        *acpOk = 1;
+        ret = cv::imreadWithMetadata(filename, *metadataTypes, *metadata, flags);
+#endif
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imwrite(
     const char *filename,
     cv::Mat *img,
@@ -191,6 +285,43 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imwriteWithMetadata(
+    const char *filename,
+    cv::Mat *img,
+    int *metadataTypes,
+    int metadataTypesLength,
+    std::vector<cv::Mat> *metadata,
+    int *params,
+    int paramsLength,
+    int *acpOk,
+    int *returnValue)
+{
+    return cvTry([&] {
+        const std::vector<int> metadataTypesVec(metadataTypes, metadataTypes + metadataTypesLength);
+        const std::vector<int> paramsVec(params, params + paramsLength);
+        cv::_InputArray metadataArr(*metadata);
+#ifdef _WIN32
+        // On a non-representable path, do nothing and report acpOk=0; the managed caller retries by
+        // writing to an ASCII-safe temp path and moving it to the real destination (plain managed
+        // File I/O handles arbitrary Unicode destination paths natively).
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *acpOk = 1;
+            *returnValue = cv::imwriteWithMetadata(acp, *img, metadataTypesVec, metadataArr, paramsVec) ? 1 : 0;
+        }
+        else
+        {
+            *acpOk = 0;
+            *returnValue = 0;
+        }
+#else
+        *acpOk = 1;
+        *returnValue = cv::imwriteWithMetadata(filename, *img, metadataTypesVec, metadataArr, paramsVec) ? 1 : 0;
+#endif
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(
     cv::Mat *buf,
     int flags,
@@ -225,6 +356,32 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imdecodemulti(
+    const interop::InputArrayProxy* buf,
+    int flags,
+    std::vector<cv::Mat> *mats,
+    interop::Range range,
+    int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::imdecodemulti(InProxy(*buf), flags, *mats, cpp(range)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) imgcodecs_imdecodeWithMetadata(
+    const interop::InputArrayProxy* buf,
+    std::vector<int> *metadataTypes,
+    std::vector<cv::Mat> *metadata,
+    int flags,
+    cv::Mat **returnValue)
+{
+    return cvTry([&] {
+        cv::_OutputArray metadataArr(*metadata);
+        const auto ret = cv::imdecodeWithMetadata(InProxy(*buf), *metadataTypes, metadataArr, flags);
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
     const char *ext,
     const interop::InputArrayProxy* img,
@@ -241,7 +398,42 @@ CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imencodeWithMetadata(
+    const char *ext,
+    const interop::InputArrayProxy* img,
+    int *metadataTypes,
+    int metadataTypesLength,
+    std::vector<cv::Mat> *metadata,
+    std::vector<uchar> *buf,
+    int *params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        const std::vector<int> metadataTypesVec(metadataTypes, metadataTypes + metadataTypesLength);
+        std::vector<int> paramsVec;
+        if (params != nullptr)
+            paramsVec = std::vector<int>(params, params + paramsLength);
+        cv::_InputArray metadataArr(*metadata);
+        *returnValue = cv::imencodeWithMetadata(ext, InProxy(*img), metadataTypesVec, metadataArr, *buf, paramsVec) ? 1 : 0;
+    });
+}
 
+CVAPI(ExceptionStatus) imgcodecs_imencodemulti(
+    const char *ext,
+    std::vector<cv::Mat> *imgs,
+    std::vector<uchar> *buf,
+    int *params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        std::vector<int> paramsVec;
+        if (params != nullptr)
+            paramsVec = std::vector<int>(params, params + paramsLength);
+        *returnValue = cv::imencodemulti(ext, *imgs, *buf, paramsVec) ? 1 : 0;
+    });
+}
 
 CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *returnValue)
 {

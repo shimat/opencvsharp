@@ -72,5 +72,10 @@ public enum ImreadModes
     /// <summary>
     /// If set, do not rotate the image according to EXIF's orientation flag.
     /// </summary>
-    IgnoreOrientation = 128 
+    IgnoreOrientation = 128,
+
+    /// <summary>
+    /// If set, always convert image to the 3 channel RGB color image.
+    /// </summary>
+    ColorRgb = 256
 };
