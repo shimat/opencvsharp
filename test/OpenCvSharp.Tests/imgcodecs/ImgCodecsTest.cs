@@ -649,7 +649,7 @@ public class ImgCodecsTest : TestBase
             exifMat.SetArray(exifBytes);
 
             Assert.True(Cv2.ImWriteWithMetadata(
-                fileName, mat, [ImageMetadataType.Exif], [exifMat]));
+                fileName, mat, [ImageMetadataType.EXIF], [exifMat]));
             Assert.True(File.Exists(fileName));
 
             using var read = Cv2.ImReadWithMetadata(
@@ -657,7 +657,7 @@ public class ImgCodecsTest : TestBase
             try
             {
                 Assert.False(read.Empty());
-                Assert.Contains(ImageMetadataType.Exif, metadataTypes);
+                Assert.Contains(ImageMetadataType.EXIF, metadataTypes);
             }
             finally
             {
@@ -685,7 +685,7 @@ public class ImgCodecsTest : TestBase
             exifMat.SetArray(exifBytes);
 
             Assert.True(Cv2.ImWriteWithMetadata(
-                fileName, mat, [ImageMetadataType.Exif], [exifMat]));
+                fileName, mat, [ImageMetadataType.EXIF], [exifMat]));
             Assert.True(File.Exists(fileName));
 
             using var read = Cv2.ImReadWithMetadata(
@@ -693,7 +693,7 @@ public class ImgCodecsTest : TestBase
             try
             {
                 Assert.False(read.Empty());
-                Assert.Contains(ImageMetadataType.Exif, metadataTypes);
+                Assert.Contains(ImageMetadataType.EXIF, metadataTypes);
             }
             finally
             {
@@ -894,7 +894,7 @@ public class ImgCodecsTest : TestBase
         exifMat.SetArray(exifBytes);
 
         Assert.True(Cv2.ImEncodeWithMetadata(
-            ".jpg", mat, [ImageMetadataType.Exif], [exifMat], out var buf));
+            ".jpg", mat, [ImageMetadataType.EXIF], [exifMat], out var buf));
         Assert.NotEmpty(buf);
 
         using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
@@ -905,7 +905,7 @@ public class ImgCodecsTest : TestBase
         try
         {
             Assert.False(decoded.Empty());
-            Assert.Contains(ImageMetadataType.Exif, metadataTypes);
+            Assert.Contains(ImageMetadataType.EXIF, metadataTypes);
         }
         finally
         {
@@ -920,7 +920,7 @@ public class ImgCodecsTest : TestBase
         using var exifMat = new Mat(1, 4, MatType.CV_8UC1);
 
         Assert.Throws<ArgumentException>(() => Cv2.ImWriteWithMetadata(
-            "unused.jpg", mat, [ImageMetadataType.Exif, ImageMetadataType.Xmp], [exifMat]));
+            "unused.jpg", mat, [ImageMetadataType.EXIF, ImageMetadataType.XMP], [exifMat]));
     }
 
     [Fact]
@@ -930,7 +930,7 @@ public class ImgCodecsTest : TestBase
         using var exifMat = new Mat(1, 4, MatType.CV_8UC1);
 
         Assert.Throws<ArgumentException>(() => Cv2.ImEncodeWithMetadata(
-            ".jpg", mat, [ImageMetadataType.Exif, ImageMetadataType.Xmp], [exifMat], out _));
+            ".jpg", mat, [ImageMetadataType.EXIF, ImageMetadataType.XMP], [exifMat], out _));
     }
 
     [Fact]
