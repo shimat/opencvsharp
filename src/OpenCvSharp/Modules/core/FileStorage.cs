@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -76,6 +77,41 @@ public class FileStorage : CvObject
                 NativeMethods.core_FileStorage_indexer(Handle, nodeName, out var node));
 
             return FileNode.FromRawPtrOrNull(node);
+        }
+    }
+
+    /// <summary>
+    /// Navigates a chain of mapping keys (<see cref="string"/>) and/or sequence indices
+    /// (<see cref="int"/>) starting from the top-level mapping, disposing every intermediate
+    /// <see cref="FileNode"/> along the way. Equivalent to repeated indexer chaining (e.g.
+    /// <c>fs["a"][2]["b"]</c>), except that the indexer chain leaves every intermediate node
+    /// unreferenced - each one is still a real native allocation that would otherwise sit
+    /// around until the GC finalizes it.
+    /// </summary>
+    /// <param name="path">One or more mapping keys / sequence indices to follow, in order.
+    /// The first segment must be a string (a key of the top-level mapping).</param>
+    /// <returns>The node at the end of the path, or null if any segment along the way is missing.</returns>
+    public FileNode? GetPath(params object[] path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (path.Length == 0)
+            throw new ArgumentException("Path must contain at least one key or index.", nameof(path));
+        if (path[0] is not string firstKey)
+            throw new ArgumentException("The first path segment must be a string (top-level mapping key).", nameof(path));
+
+        ThrowIfDisposed();
+
+        var first = this[firstKey];
+        if (first is null || path.Length == 1)
+            return first;
+
+        try
+        {
+            return first.GetPath(path[1..]);
+        }
+        finally
+        {
+            first.Dispose();
         }
     }
 
@@ -521,7 +557,63 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    /// Writes a <see cref="JsonNode"/> tree (scalars, arrays, objects) under the given key,
+    /// recursively, via the ordinary <see cref="Write(string,int)"/>/<see cref="WriteStruct"/>
+    /// calls - the counterpart to <see cref="FileNode.ToJsonNode"/>. Native FileStorage remains
+    /// the actual XML/YAML/JSON engine; this only lets callers build the data to write using
+    /// <see cref="System.Text.Json"/> types instead of one-call-per-value/struct-scope calls.
+    /// </summary>
+    /// <param name="name">Key to write the value under (top level or inside an open mapping).
+    /// Pass an empty string for an anonymous element inside an open sequence.</param>
+    /// <param name="value">The value to write. A JSON null throws, since FileStorage has no
+    /// native representation for an explicit null scalar.</param>
+    public void Write(string name, JsonNode? value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        switch (value)
+        {
+            case null:
+                throw new NotSupportedException(
+                    $"Cannot write a JSON null for key '{name}': FileStorage has no representation for an explicit null value.");
+
+            case JsonObject obj:
+                using (WriteStruct(name, FileNode.Types.Map))
+                {
+                    foreach (var (key, child) in obj)
+                        Write(key, child);
+                }
+                break;
+
+            case JsonArray array:
+                using (WriteStruct(name, FileNode.Types.Seq))
+                {
+                    foreach (var item in array)
+                        Write(string.Empty, item);
+                }
+                break;
+
+            case JsonValue scalar:
+                WriteJsonScalar(name, scalar);
+                break;
+
+            default:
+                throw new NotSupportedException($"Unsupported JsonNode type '{value.GetType()}' for key '{name}'.");
+        }
+    }
+
+    private void WriteJsonScalar(string name, JsonValue value)
+    {
+        if (value.TryGetValue(out bool b)) { Write(name, b); return; }
+        if (value.TryGetValue(out long l)) { Write(name, l); return; }
+        if (value.TryGetValue(out double d)) { Write(name, d); return; }
+        if (value.TryGetValue(out string? s)) { Write(name, s!); return; }
+        throw new NotSupportedException($"Unsupported JsonValue underlying type for key '{name}'.");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <param name="value"></param>
     public void WriteScalar(int value)

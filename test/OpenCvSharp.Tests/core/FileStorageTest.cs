@@ -593,4 +593,118 @@ public class FileStorageTest : TestBase
             Assert.Contains("widget", roundTripped, StringComparison.Ordinal);
         }
     }
+
+    [Fact]
+    public void WriteJsonNodeRoundTripsThroughToJsonNode()
+    {
+        const string fileName = "fs_write_json_node.yml";
+
+        var source = JsonNode.Parse("""
+            {
+                "name": "widget",
+                "count": 3,
+                "ratio": 1.5,
+                "enabled": true,
+                "tags": ["red", "green", "blue"],
+                "nested": { "x": 1, "y": 2 },
+                "matrix": [[1, 2], [3, 4]]
+            }
+            """)!;
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            foreach (var (key, value) in source.AsObject())
+                fs.Write(key, value);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            var json = root.ToJsonNode();
+            Assert.NotNull(json);
+
+            Assert.Equal("widget", json!["name"]!.GetValue<string>());
+            Assert.Equal(3L, json["count"]!.GetValue<long>());
+            Assert.Equal(1.5, json["ratio"]!.GetValue<double>());
+            Assert.Equal(1L, json["enabled"]!.GetValue<long>()); // bool round-trips as int (0/1) in FileStorage
+
+            var tags = Assert.IsType<JsonArray>(json["tags"]);
+            Assert.Equal(["red", "green", "blue"], tags.Select(n => n!.GetValue<string>()));
+
+            var nested = Assert.IsType<JsonObject>(json["nested"]);
+            Assert.Equal(1L, nested["x"]!.GetValue<long>());
+            Assert.Equal(2L, nested["y"]!.GetValue<long>());
+
+            var matrix = Assert.IsType<JsonArray>(json["matrix"]);
+            Assert.Equal(2, matrix.Count);
+            var row0 = Assert.IsType<JsonArray>(matrix[0]);
+            Assert.Equal([1L, 2L], row0.Select(n => n!.GetValue<long>()));
+            var row1 = Assert.IsType<JsonArray>(matrix[1]);
+            Assert.Equal([3L, 4L], row1.Select(n => n!.GetValue<long>()));
+        }
+    }
+
+    [Fact]
+    public void WriteJsonNodeNullThrows()
+    {
+        const string fileName = "fs_write_json_node_null.yml";
+        using var fs = new FileStorage(fileName, FileStorage.Modes.Write);
+
+        Assert.Throws<NotSupportedException>(() => fs.Write("x", (JsonNode?)null));
+    }
+
+    [Fact]
+    public void GetPathNavigatesNestedStructure()
+    {
+        const string fileName = "fs_get_path.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            using (fs.WriteStruct("a", FileNode.Types.Map))
+            {
+                using (fs.WriteStruct("b", FileNode.Types.Seq))
+                {
+                    fs.Add(10).Add(20).Add(30);
+                }
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var value = fs.GetPath("a", "b", 1);
+            Assert.NotNull(value);
+            Assert.Equal(20, value.ReadInt());
+
+            Assert.Null(fs.GetPath("a", "missing"));
+            Assert.Null(fs.GetPath("missing"));
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            using var viaFileNode = root.GetPath("a", "b", 2);
+            Assert.NotNull(viaFileNode);
+            Assert.Equal(30, viaFileNode.ReadInt());
+        }
+    }
+
+    [Fact]
+    public void GetPathRejectsEmptyOrInvalidSegments()
+    {
+        const string fileName = "fs_get_path_invalid.yml";
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("a", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Throws<ArgumentException>(() => fs.GetPath());
+            Assert.Throws<ArgumentException>(() => fs.GetPath(42)); // first segment must be a string
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Throws<ArgumentException>(() => root.GetPath());
+            Assert.Throws<ArgumentException>(() => root.GetPath(3.14)); // unsupported segment type
+        }
+    }
 }

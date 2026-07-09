@@ -316,6 +316,50 @@ public class FileNode : CvObject, IEnumerable<FileNode>
     }
 
     /// <summary>
+    /// Navigates a chain of mapping keys (<see cref="string"/>) and/or sequence indices
+    /// (<see cref="int"/>), disposing every intermediate <see cref="FileNode"/> along the way.
+    /// Equivalent to repeated indexer chaining (e.g. <c>node["a"][2]["b"]</c>), except that the
+    /// indexer chain leaves every intermediate node unreferenced - each one is still a real
+    /// native allocation that would otherwise sit around until the GC finalizes it.
+    /// </summary>
+    /// <param name="path">One or more mapping keys / sequence indices to follow, in order.</param>
+    /// <returns>The node at the end of the path, or null if any segment along the way is missing.</returns>
+    public FileNode? GetPath(params object[] path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (path.Length == 0)
+            throw new ArgumentException("Path must contain at least one key or index.", nameof(path));
+
+        ThrowIfDisposed();
+
+        var current = this;
+        var ownsCurrent = false;
+
+        foreach (var segment in path)
+        {
+            var next = segment switch
+            {
+                string key => current[key],
+                int index => current[index],
+                _ => throw new ArgumentException(
+                    $"Path segments must be string (mapping key) or int (sequence index), got '{segment?.GetType()}'.",
+                    nameof(path)),
+            };
+
+            if (ownsCurrent)
+                current.Dispose();
+
+            if (next is null)
+                return null;
+
+            current = next;
+            ownsCurrent = true;
+        }
+
+        return current;
+    }
+
+    /// <summary>
     /// Returns true if the node is empty
     /// </summary>
     /// <returns></returns>
