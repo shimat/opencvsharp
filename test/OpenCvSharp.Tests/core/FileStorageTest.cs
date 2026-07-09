@@ -494,6 +494,39 @@ public class FileStorageTest : TestBase
     }
 
     [Fact]
+    public void WriteStructScopeDisposeIsIdempotentAcrossAliases()
+    {
+        // StructScope is a class specifically so that two variables referencing the same scope
+        // (not just the same variable disposed twice) share one "disposed" flag. If it were a
+        // struct, this alias would be an independent copy with its own flag, and disposing both
+        // would end the structure twice.
+        const string fileName = "fs_write_struct_scope_alias_dispose.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("before", 1);
+
+            var scope = fs.WriteStruct("camera", FileNode.Types.Map);
+            var alias = scope;
+            fs.Write("fx", 800.0);
+            scope.Dispose();
+            alias.Dispose();
+
+            fs.Write("after", 2);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(1, fs["before"]!.ReadInt());
+            Assert.Equal(2, fs["after"]!.ReadInt());
+
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
     public void ToJsonNodeConvertsScalarsSequencesAndMappings()
     {
         const string fileName = "fs_to_json_node.yml";

@@ -306,7 +306,16 @@ public class FileStorage : CvObject
     /// Disposable scope returned by <see cref="WriteStruct"/>. Disposing it calls
     /// <see cref="EndWriteStruct"/> on the owning <see cref="FileStorage"/>.
     /// </summary>
-    public struct StructScope : IDisposable
+    /// <remarks>
+    /// This is deliberately a class, not a struct: EndWriteStruct() has an ordered, one-shot
+    /// unmanaged side effect (it closes the innermost open structure in the underlying
+    /// cv::FileStorage), so calling it twice corrupts whatever is written afterwards. A struct
+    /// can't guarantee that - copying it (e.g. `var b = a;`) produces an independent instance
+    /// with its own disposed flag, so guarding with a field only protects the single-variable
+    /// case, not a copy disposed separately. As a class, every reference shares the same
+    /// disposed flag, so Dispose() is idempotent no matter how many variables point to it.
+    /// </remarks>
+    public sealed class StructScope : IDisposable
     {
         private readonly FileStorage fileStorage;
         private bool disposed;
@@ -314,12 +323,11 @@ public class FileStorage : CvObject
         internal StructScope(FileStorage fileStorage)
         {
             this.fileStorage = fileStorage;
-            disposed = false;
         }
 
         /// <summary>
         /// Ends the structure (calls <see cref="FileStorage.EndWriteStruct"/>). Idempotent:
-        /// calling this more than once on the same scope only ends the structure once.
+        /// calling this more than once only ends the structure once.
         /// </summary>
         public void Dispose()
         {
