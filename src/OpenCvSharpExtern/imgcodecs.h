@@ -131,6 +131,94 @@ CVAPI(ExceptionStatus) imgcodecs_imreadmulti(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imcount(
+    const char *filename,
+    int flags,
+    size_t *returnValue)
+{
+    return cvTry([&] {
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::imcount(acp, flags);
+        }
+        else
+        {
+            std::vector<cv::Mat> mats;
+            const bool ok = imgcodecs_withWideFile(filename,
+                [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, &mats); },
+                [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, mats); });
+            *returnValue = ok ? mats.size() : 0;
+        }
+#else
+        *returnValue = cv::imcount(filename, flags);
+#endif
+    });
+}
+
+CVAPI(ExceptionStatus) imgcodecs_imreadmulti_range(
+    const char *filename,
+    std::vector<cv::Mat> *mats,
+    int start,
+    int count,
+    int flags,
+    int *returnValue)
+{
+    return cvTry([&] {
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            *returnValue = cv::imreadmulti(acp, *mats, start, count, flags) ? 1 : 0;
+        }
+        else
+        {
+            const bool ok = imgcodecs_withWideFile(filename,
+                [&](const void *d, int n) { return imgcodecs_decodeMultiGuarded(d, n, flags, mats); },
+                [&](const std::vector<uchar> &b) { return cv::imdecodemulti(b, flags, *mats); });
+            if (ok && (start != 0 || count != static_cast<int>(mats->size())))
+            {
+                const int first = std::clamp(start, 0, static_cast<int>(mats->size()));
+                const int last = std::clamp(start + count, first, static_cast<int>(mats->size()));
+                mats->assign(mats->begin() + first, mats->begin() + last);
+            }
+            *returnValue = ok ? 1 : 0;
+        }
+#else
+        *returnValue = cv::imreadmulti(filename, *mats, start, count, flags) ? 1 : 0;
+#endif
+    });
+}
+
+CVAPI(ExceptionStatus) imgcodecs_imreadWithMetadata(
+    const char *filename,
+    std::vector<int> *metadataTypes,
+    std::vector<cv::Mat> *metadata,
+    int flags,
+    cv::Mat **returnValue)
+{
+    return cvTry([&] {
+        cv::Mat ret;
+#ifdef _WIN32
+        std::string acp;
+        if (pathRoundTripsAcp(filename, acp))
+        {
+            ret = cv::imreadWithMetadata(acp, *metadataTypes, *metadata, flags);
+        }
+        else
+        {
+            std::vector<uchar> buf;
+            if (readAllBytesWide(filename, buf) && !buf.empty())
+                ret = cv::imdecodeWithMetadata(buf, *metadataTypes, *metadata, flags);
+        }
+#else
+        ret = cv::imreadWithMetadata(filename, *metadataTypes, *metadata, flags);
+#endif
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imwrite(
     const char *filename,
     cv::Mat *img,
@@ -191,6 +279,24 @@ CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imwriteWithMetadata(
+    const char *filename,
+    cv::Mat *img,
+    int *metadataTypes,
+    int metadataTypesLength,
+    std::vector<cv::Mat> *metadata,
+    int *params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        const std::vector<int> metadataTypesVec(metadataTypes, metadataTypes + metadataTypesLength);
+        const std::vector<int> paramsVec(params, params + paramsLength);
+        cv::_InputArray metadataArr(*metadata);
+        *returnValue = cv::imwriteWithMetadata(filename, *img, metadataTypesVec, metadataArr, paramsVec) ? 1 : 0;
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(
     cv::Mat *buf,
     int flags,
@@ -225,6 +331,32 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imdecodemulti(
+    const interop::InputArrayProxy* buf,
+    int flags,
+    std::vector<cv::Mat> *mats,
+    interop::Range range,
+    int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::imdecodemulti(InProxy(*buf), flags, *mats, cpp(range)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) imgcodecs_imdecodeWithMetadata(
+    const interop::InputArrayProxy* buf,
+    std::vector<int> *metadataTypes,
+    std::vector<cv::Mat> *metadata,
+    int flags,
+    cv::Mat **returnValue)
+{
+    return cvTry([&] {
+        cv::_OutputArray metadataArr(*metadata);
+        const auto ret = cv::imdecodeWithMetadata(InProxy(*buf), *metadataTypes, metadataArr, flags);
+        *returnValue = new cv::Mat(ret);
+    });
+}
+
 CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
     const char *ext,
     const interop::InputArrayProxy* img,
@@ -241,7 +373,42 @@ CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
     });
 }
 
+CVAPI(ExceptionStatus) imgcodecs_imencodeWithMetadata(
+    const char *ext,
+    const interop::InputArrayProxy* img,
+    int *metadataTypes,
+    int metadataTypesLength,
+    std::vector<cv::Mat> *metadata,
+    std::vector<uchar> *buf,
+    int *params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        const std::vector<int> metadataTypesVec(metadataTypes, metadataTypes + metadataTypesLength);
+        std::vector<int> paramsVec;
+        if (params != nullptr)
+            paramsVec = std::vector<int>(params, params + paramsLength);
+        cv::_InputArray metadataArr(*metadata);
+        *returnValue = cv::imencodeWithMetadata(ext, InProxy(*img), metadataTypesVec, metadataArr, *buf, paramsVec) ? 1 : 0;
+    });
+}
 
+CVAPI(ExceptionStatus) imgcodecs_imencodemulti(
+    const char *ext,
+    std::vector<cv::Mat> *imgs,
+    std::vector<uchar> *buf,
+    int *params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        std::vector<int> paramsVec;
+        if (params != nullptr)
+            paramsVec = std::vector<int>(params, params + paramsLength);
+        *returnValue = cv::imencodemulti(ext, *imgs, *buf, paramsVec) ? 1 : 0;
+    });
+}
 
 CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *returnValue)
 {
