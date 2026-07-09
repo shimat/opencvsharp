@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
@@ -73,6 +74,7 @@ public class FileStorageTest : TestBase
         using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
         {
             Assert.True(fs.IsOpened());
+            Assert.Equal(FileStorage.Modes.FormatYaml, fs.GetFormat());
 
             // sequence
             using (var node = fs["sequence"])
@@ -120,6 +122,7 @@ public class FileStorageTest : TestBase
                 Assert.Equal(map.@int, node["int"].ReadInt());
                 Assert.Equal(map.@double, node["double"].ReadDouble());
                 Assert.Equal(map.@string, node["string"].ReadString());
+                Assert.True(node.RawSize > 0);
             }
                 
             // map_sequence
@@ -341,5 +344,407 @@ public class FileStorageTest : TestBase
         }
 #pragma warning restore CS8602
 #pragma warning restore CS8604
+    }
+
+    [Fact]
+    public void WriteBoolInt64AndStringArray()
+    {
+        const string fileName = "fs_bool_int64_strings.yml";
+        string[] labels = ["cat", "dog", "bird"];
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("flagTrue", true);
+            fs.Write("flagFalse", false);
+            fs.Write("bigNumber", 9_000_000_000_000L);
+            fs.Write("labels", labels);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.True(fs["flagTrue"]!.ReadInt() != 0);
+            Assert.True(fs["flagFalse"]!.ReadInt() == 0);
+            Assert.Equal(9_000_000_000_000L, fs["bigNumber"]!.ToInt64());
+            Assert.Equal(9_000_000_000_000L, fs["bigNumber"]!.ReadInt64());
+
+            using var labelsNode = fs["labels"];
+            Assert.NotNull(labelsNode);
+            Assert.Equal(FileNode.Types.Seq, labelsNode.Type);
+            Assert.Equal(labels, labelsNode.Select(n => n.ReadString()));
+        }
+    }
+
+    [Fact]
+    public void WriteStringArrayRejectsNullElement()
+    {
+        const string fileName = "fs_string_array_null_element.yml";
+        using var fs = new FileStorage(fileName, FileStorage.Modes.Write);
+
+        Assert.Throws<ArgumentException>(() => fs.Write("labels", new[] { "cat", null!, "bird" }));
+    }
+
+    [Fact]
+    public void GetFormatRecognizesJson()
+    {
+        const string fileName = "fs_format.json";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("x", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(FileStorage.Modes.FormatJson, fs.GetFormat());
+        }
+    }
+
+    [Fact]
+    public void KeysReturnsMappingKeys()
+    {
+        const string fileName = "fs_keys.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("alpha", 1);
+            fs.Write("beta", 2);
+            fs.Write("gamma", 3);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Equal(["alpha", "beta", "gamma"], root.Keys);
+        }
+    }
+
+    [Fact]
+    public void MissingKeyIndexerReturnsNull()
+    {
+        const string fileName = "fs_missing_key.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("present", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.NotNull(fs["present"]);
+            Assert.Null(fs["definitely_not_present"]);
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Null(root["definitely_not_present"]);
+        }
+    }
+
+    [Fact]
+    public void WriteRawAndReadRawRoundTrip()
+    {
+        const string fileName = "fs_raw.yml";
+        byte[] source = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.StartWriteStruct("raw", FileNode.Types.Seq | FileNode.Types.Flow);
+            fs.WriteRaw("u", source.AsSpan());
+            fs.EndWriteStruct();
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var node = fs["raw"];
+            Assert.NotNull(node);
+            var buffer = new byte[source.Length];
+            node.ReadRaw("u", buffer);
+            Assert.Equal(source, buffer);
+        }
+    }
+
+    [Fact]
+    public void WriteStructScopeMatchesManualStartEnd()
+    {
+        const string fileName = "fs_write_struct_scope.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            using (fs.WriteStruct("camera", FileNode.Types.Map))
+            {
+                fs.Write("fx", 800.0);
+                fs.Write("fy", 800.0);
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(FileNode.Types.Map, camera.Type);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+            Assert.Equal(800.0, camera["fy"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
+    public void WriteStructScopeDisposeIsIdempotent()
+    {
+        const string fileName = "fs_write_struct_scope_double_dispose.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("before", 1);
+
+            // A double Dispose() (e.g. an explicit call inside a using block) must not end the
+            // structure twice - otherwise it would unbalance FileStorage's write-struct nesting
+            // and corrupt whatever comes after it, such as "after" below.
+            var scope = fs.WriteStruct("camera", FileNode.Types.Map);
+            fs.Write("fx", 800.0);
+            scope.Dispose();
+            scope.Dispose();
+
+            fs.Write("after", 2);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(1, fs["before"]!.ReadInt());
+            Assert.Equal(2, fs["after"]!.ReadInt());
+
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
+    public void WriteStructScopeDisposeIsIdempotentAcrossAliases()
+    {
+        // StructScope is a class specifically so that two variables referencing the same scope
+        // (not just the same variable disposed twice) share one "disposed" flag. If it were a
+        // struct, this alias would be an independent copy with its own flag, and disposing both
+        // would end the structure twice.
+        const string fileName = "fs_write_struct_scope_alias_dispose.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("before", 1);
+
+            var scope = fs.WriteStruct("camera", FileNode.Types.Map);
+            var alias = scope;
+            fs.Write("fx", 800.0);
+            scope.Dispose();
+            alias.Dispose();
+
+            fs.Write("after", 2);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(1, fs["before"]!.ReadInt());
+            Assert.Equal(2, fs["after"]!.ReadInt());
+
+            using var camera = fs["camera"];
+            Assert.NotNull(camera);
+            Assert.Equal(800.0, camera["fx"]!.ReadDouble());
+        }
+    }
+
+    [Fact]
+    public void ToJsonNodeConvertsScalarsSequencesAndMappings()
+    {
+        const string fileName = "fs_to_json_node.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("name", "widget");
+            fs.Write("count", 3);
+            fs.Write("ratio", 1.5);
+            using (fs.WriteStruct("tags", FileNode.Types.Seq))
+            {
+                fs.Add("red").Add("green").Add("blue");
+            }
+            using (fs.WriteStruct("nested", FileNode.Types.Map))
+            {
+                fs.Write("enabled", true);
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            var json = root.ToJsonNode();
+            Assert.NotNull(json);
+
+            Assert.Equal("widget", json!["name"]!.GetValue<string>());
+            Assert.Equal(3L, json["count"]!.GetValue<long>());
+            Assert.Equal(1.5, json["ratio"]!.GetValue<double>());
+
+            var tags = Assert.IsType<JsonArray>(json["tags"]);
+            Assert.Equal(["red", "green", "blue"], tags.Select(n => n!.GetValue<string>()));
+
+            var nested = Assert.IsType<JsonObject>(json["nested"]);
+            Assert.Equal(1L, nested["enabled"]!.GetValue<long>()); // bool round-trips as int (0/1) in FileStorage
+
+            // The resulting tree is a plain JsonNode graph, usable with System.Text.Json as normal.
+            var roundTripped = json.ToJsonString();
+            Assert.Contains("widget", roundTripped, StringComparison.Ordinal);
+        }
+    }
+
+    [Fact]
+    public void WriteJsonNodeRoundTripsThroughToJsonNode()
+    {
+        const string fileName = "fs_write_json_node.yml";
+
+        var source = JsonNode.Parse("""
+            {
+                "name": "widget",
+                "count": 3,
+                "ratio": 1.5,
+                "enabled": true,
+                "tags": ["red", "green", "blue"],
+                "nested": { "x": 1, "y": 2 },
+                "matrix": [[1, 2], [3, 4]]
+            }
+            """)!;
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            foreach (var (key, value) in source.AsObject())
+                fs.Write(key, value);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            var json = root.ToJsonNode();
+            Assert.NotNull(json);
+
+            Assert.Equal("widget", json!["name"]!.GetValue<string>());
+            Assert.Equal(3L, json["count"]!.GetValue<long>());
+            Assert.Equal(1.5, json["ratio"]!.GetValue<double>());
+            Assert.Equal(1L, json["enabled"]!.GetValue<long>()); // bool round-trips as int (0/1) in FileStorage
+
+            var tags = Assert.IsType<JsonArray>(json["tags"]);
+            Assert.Equal(["red", "green", "blue"], tags.Select(n => n!.GetValue<string>()));
+
+            var nested = Assert.IsType<JsonObject>(json["nested"]);
+            Assert.Equal(1L, nested["x"]!.GetValue<long>());
+            Assert.Equal(2L, nested["y"]!.GetValue<long>());
+
+            var matrix = Assert.IsType<JsonArray>(json["matrix"]);
+            Assert.Equal(2, matrix.Count);
+            var row0 = Assert.IsType<JsonArray>(matrix[0]);
+            Assert.Equal([1L, 2L], row0.Select(n => n!.GetValue<long>()));
+            var row1 = Assert.IsType<JsonArray>(matrix[1]);
+            Assert.Equal([3L, 4L], row1.Select(n => n!.GetValue<long>()));
+        }
+    }
+
+    [Fact]
+    public void WriteJsonNodeNullThrows()
+    {
+        const string fileName = "fs_write_json_node_null.yml";
+        using var fs = new FileStorage(fileName, FileStorage.Modes.Write);
+
+        Assert.Throws<NotSupportedException>(() => fs.Write("x", (JsonNode?)null));
+    }
+
+    [Fact]
+    public void WriteJsonNodeHandlesProgrammaticNumericJsonValueTypes()
+    {
+        // Unlike a JsonNode.Parse()-produced value (backed by a flexible JsonElement),
+        // JsonValue.Create(T) - what a plain `new JsonObject { ["x"] = 3 }` assignment does under
+        // the hood - preserves the exact CLR type it was created from, so this must be covered
+        // independently of the JsonNode.Parse-based round-trip test above.
+        const string fileName = "fs_write_json_node_numeric_types.yml";
+
+        var obj = new JsonObject
+        {
+            ["intValue"] = 3,
+            ["longValue"] = 9_000_000_000L,
+            ["shortValue"] = (short)7,
+            ["byteValue"] = (byte)8,
+            ["floatValue"] = 1.5f,
+            ["doubleValue"] = 2.5,
+            ["boolValue"] = true,
+            ["stringValue"] = "text",
+        };
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            foreach (var (key, value) in obj)
+                fs.Write(key, value);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Equal(3, fs["intValue"]!.ReadInt());
+            Assert.Equal(9_000_000_000L, fs["longValue"]!.ReadInt64());
+            Assert.Equal(7, fs["shortValue"]!.ReadInt());
+            Assert.Equal(8, fs["byteValue"]!.ReadInt());
+            Assert.Equal(1.5, fs["floatValue"]!.ReadDouble(), 3);
+            Assert.Equal(2.5, fs["doubleValue"]!.ReadDouble(), 3);
+            Assert.True(fs["boolValue"]!.ReadInt() != 0);
+            Assert.Equal("text", fs["stringValue"]!.ReadString());
+        }
+    }
+
+    [Fact]
+    public void GetPathNavigatesNestedStructure()
+    {
+        const string fileName = "fs_get_path.yml";
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            using (fs.WriteStruct("a", FileNode.Types.Map))
+            {
+                using (fs.WriteStruct("b", FileNode.Types.Seq))
+                {
+                    fs.Add(10).Add(20).Add(30);
+                }
+            }
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            using var value = fs.GetPath("a", "b", 1);
+            Assert.NotNull(value);
+            Assert.Equal(20, value.ReadInt());
+
+            Assert.Null(fs.GetPath("a", "missing"));
+            Assert.Null(fs.GetPath("missing"));
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            using var viaFileNode = root.GetPath("a", "b", 2);
+            Assert.NotNull(viaFileNode);
+            Assert.Equal(30, viaFileNode.ReadInt());
+        }
+    }
+
+    [Fact]
+    public void GetPathRejectsEmptyOrInvalidSegments()
+    {
+        const string fileName = "fs_get_path_invalid.yml";
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("a", 1);
+        }
+
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
+        {
+            Assert.Throws<ArgumentException>(() => fs.GetPath());
+            Assert.Throws<ArgumentException>(() => fs.GetPath(42)); // first segment must be a string
+
+            using var root = fs.Root();
+            Assert.NotNull(root);
+            Assert.Throws<ArgumentException>(() => root.GetPath());
+            Assert.Throws<ArgumentException>(() => root.GetPath(3.14)); // unsupported segment type
+        }
     }
 }

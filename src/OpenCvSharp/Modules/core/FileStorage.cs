@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -60,7 +61,8 @@ public class FileStorage : CvObject
     #region Properties
 
     /// <summary>
-    /// Returns the specified element of the top-level mapping
+    /// Returns the specified element of the top-level mapping, or null if the key is not
+    /// present (or is explicitly stored as a "none" value).
     /// </summary>
     /// <param name="nodeName"></param>
     /// <returns></returns>
@@ -74,9 +76,42 @@ public class FileStorage : CvObject
             NativeMethods.HandleException(
                 NativeMethods.core_FileStorage_indexer(Handle, nodeName, out var node));
 
-            if (node == IntPtr.Zero)
-                return null;
-            return new FileNode(node);
+            return FileNode.FromRawPtrOrNull(node);
+        }
+    }
+
+    /// <summary>
+    /// Navigates a chain of mapping keys (<see cref="string"/>) and/or sequence indices
+    /// (<see cref="int"/>) starting from the top-level mapping, disposing every intermediate
+    /// <see cref="FileNode"/> along the way. Equivalent to repeated indexer chaining (e.g.
+    /// <c>fs["a"][2]["b"]</c>), except that the indexer chain leaves every intermediate node
+    /// unreferenced - each one is still a real native allocation that would otherwise sit
+    /// around until the GC finalizes it.
+    /// </summary>
+    /// <param name="path">One or more mapping keys / sequence indices to follow, in order.
+    /// The first segment must be a string (a key of the top-level mapping).</param>
+    /// <returns>The node at the end of the path, or null if any segment along the way is missing.</returns>
+    public FileNode? GetPath(params object[] path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (path.Length == 0)
+            throw new ArgumentException("Path must contain at least one key or index.", nameof(path));
+        if (path[0] is not string firstKey)
+            throw new ArgumentException("The first path segment must be a string (top-level mapping key).", nameof(path));
+
+        ThrowIfDisposed();
+
+        var first = this[firstKey];
+        if (first is null || path.Length == 1)
+            return first;
+
+        try
+        {
+            return first.GetPath(path[1..]);
+        }
+        finally
+        {
+            first.Dispose();
         }
     }
 
@@ -148,6 +183,18 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
+    /// Returns the current format (one of the Modes.Format* flags).
+    /// </summary>
+    /// <returns></returns>
+    public virtual Modes GetFormat()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_getFormat(Handle, out var ret));
+        return (Modes)ret;
+    }
+
+    /// <summary>
     /// Closes the file and releases all the memory buffers
     /// </summary>
     public virtual void Release()
@@ -188,9 +235,7 @@ public class FileStorage : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_getFirstTopLevelNode(Handle, out var node));
 
-        if (node == IntPtr.Zero)
-            return null;
-        return new FileNode(node);
+        return FileNode.FromRawPtrOrNull(node);
     }
 
     /// <summary>
@@ -206,27 +251,24 @@ public class FileStorage : CvObject
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_root(Handle, streamIdx, out var node));
 
-        if (node == IntPtr.Zero)
-            return null;
-        return new FileNode(node);
+        return FileNode.FromRawPtrOrNull(node);
     }
 
     /// <summary>
     /// Writes one or more numbers of the specified format to the currently written structure
     /// </summary>
     /// <param name="fmt">Specification of each array element, see @ref format_spec "format specification"</param>
-    /// <param name="vec">Pointer to the written array.</param>
-    /// <param name="len">Number of the uchar elements to write.</param>
-    public void WriteRaw(string fmt, IntPtr vec, int len)
+    /// <param name="vec">The bytes to write.</param>
+    public unsafe void WriteRaw(string fmt, ReadOnlySpan<byte> vec)
     {
         ArgumentNullException.ThrowIfNull(fmt);
-        if (vec == IntPtr.Zero) 
-            throw new ArgumentException("vec == IntPtr.Zero", nameof(vec));
         ThrowIfDisposed();
-            
-        NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeRaw(Handle, fmt, vec, new IntPtr(len)));
 
+        fixed (byte* p = vec)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_writeRaw(Handle, fmt, (IntPtr)p, new IntPtr(vec.Length)));
+        }
     }
 
     /// <summary>
@@ -247,16 +289,18 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    /// Starts to write a nested structure (sequence or a mapping).
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="flags"></param>
-    /// <param name="typeName"></param>
-    public void StartWriteStruct(string name, int flags, string typeName)
+    /// <param name="name">name of the structure. When writing to sequences (a.k.a. "arrays"), pass an empty string.</param>
+    /// <param name="flags">structure type, one of <see cref="FileNode.Types.Map"/>/<see cref="FileNode.Types.Seq"/>,
+    /// optionally combined with <see cref="FileNode.Types.Flow"/> for a compact YAML representation.</param>
+    /// <param name="typeName">optional name of an object class this structure stores.</param>
+    public void StartWriteStruct(string name, FileNode.Types flags, string? typeName = null)
     {
         ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_startWriteStruct(Handle, name, flags, typeName));
+            NativeMethods.core_FileStorage_startWriteStruct(Handle, name, (int)flags, typeName ?? string.Empty));
     }
 
     /// <summary>
@@ -267,6 +311,67 @@ public class FileStorage : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_endWriteStruct(Handle));
+    }
+
+    /// <summary>
+    /// Starts writing a nested structure (sequence or mapping) and returns a disposable scope
+    /// that calls <see cref="EndWriteStruct"/> automatically, so the structure can be written
+    /// inside a <c>using</c> block instead of manually pairing
+    /// <see cref="StartWriteStruct"/>/<see cref="EndWriteStruct"/> calls.
+    /// </summary>
+    /// <param name="name">name of the structure. When writing to sequences (a.k.a. "arrays"), pass an empty string.</param>
+    /// <param name="flags">structure type, one of <see cref="FileNode.Types.Map"/>/<see cref="FileNode.Types.Seq"/>,
+    /// optionally combined with <see cref="FileNode.Types.Flow"/> for a compact YAML representation.</param>
+    /// <param name="typeName">optional name of an object class this structure stores.</param>
+    /// <example>
+    /// <code>
+    /// using (fs.WriteStruct("camera", FileNode.Types.Map))
+    /// {
+    ///     fs.Write("fx", 800.0);
+    ///     fs.Write("fy", 800.0);
+    /// }
+    /// </code>
+    /// </example>
+    public StructScope WriteStruct(string name, FileNode.Types flags, string? typeName = null)
+    {
+        StartWriteStruct(name, flags, typeName);
+        return new StructScope(this);
+    }
+
+    /// <summary>
+    /// Disposable scope returned by <see cref="WriteStruct"/>. Disposing it calls
+    /// <see cref="EndWriteStruct"/> on the owning <see cref="FileStorage"/>.
+    /// </summary>
+    /// <remarks>
+    /// This is deliberately a class, not a struct: EndWriteStruct() has an ordered, one-shot
+    /// unmanaged side effect (it closes the innermost open structure in the underlying
+    /// cv::FileStorage), so calling it twice corrupts whatever is written afterwards. A struct
+    /// can't guarantee that - copying it (e.g. `var b = a;`) produces an independent instance
+    /// with its own disposed flag, so guarding with a field only protects the single-variable
+    /// case, not a copy disposed separately. As a class, every reference shares the same
+    /// disposed flag, so Dispose() is idempotent no matter how many variables point to it.
+    /// </remarks>
+    public sealed class StructScope : IDisposable
+    {
+        private readonly FileStorage fileStorage;
+        private bool disposed;
+
+        internal StructScope(FileStorage fileStorage)
+        {
+            this.fileStorage = fileStorage;
+        }
+
+        /// <summary>
+        /// Ends the structure (calls <see cref="FileStorage.EndWriteStruct"/>). Idempotent:
+        /// calling this more than once only ends the structure once.
+        /// </summary>
+        public void Dispose()
+        {
+            if (disposed)
+                return;
+            disposed = true;
+            fileStorage.EndWriteStruct();
+        }
     }
 
     /// <summary>
@@ -301,7 +406,35 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, bool value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_bool(Handle, name, value ? 1 : 0));
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, long value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_int64(Handle, name, value));
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
@@ -392,7 +525,7 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
@@ -408,7 +541,96 @@ public class FileStorage : CvObject
     }
 
     /// <summary>
-    /// 
+    ///
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    public void Write(string name, IEnumerable<string> value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(value);
+
+        using var valueVector = new VectorOfString(value);
+        NativeMethods.HandleException(
+            NativeMethods.core_FileStorage_write_vectorOfString(Handle, name, valueVector.CvPtr));
+    }
+
+    /// <summary>
+    /// Writes a <see cref="JsonNode"/> tree (scalars, arrays, objects) under the given key,
+    /// recursively, via the ordinary <see cref="Write(string,int)"/>/<see cref="WriteStruct"/>
+    /// calls - the counterpart to <see cref="FileNode.ToJsonNode"/>. Native FileStorage remains
+    /// the actual XML/YAML/JSON engine; this only lets callers build the data to write using
+    /// <see cref="System.Text.Json"/> types instead of one-call-per-value/struct-scope calls.
+    /// </summary>
+    /// <param name="name">Key to write the value under (top level or inside an open mapping).
+    /// Pass an empty string for an anonymous element inside an open sequence.</param>
+    /// <param name="value">The value to write. A JSON null throws, since FileStorage has no
+    /// native representation for an explicit null scalar.</param>
+    public void Write(string name, JsonNode? value)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(name);
+
+        switch (value)
+        {
+            case null:
+                throw new NotSupportedException(
+                    $"Cannot write a JSON null for key '{name}': FileStorage has no representation for an explicit null value.");
+
+            case JsonObject obj:
+                using (WriteStruct(name, FileNode.Types.Map))
+                {
+                    foreach (var (key, child) in obj)
+                        Write(key, child);
+                }
+                break;
+
+            case JsonArray array:
+                using (WriteStruct(name, FileNode.Types.Seq))
+                {
+                    foreach (var item in array)
+                        Write(string.Empty, item);
+                }
+                break;
+
+            case JsonValue scalar:
+                WriteJsonScalar(name, scalar);
+                break;
+
+            default:
+                throw new NotSupportedException($"Unsupported JsonNode type '{value.GetType()}' for key '{name}'.");
+        }
+    }
+
+    private void WriteJsonScalar(string name, JsonValue value)
+    {
+        if (value.TryGetValue(out bool b)) { Write(name, b); return; }
+
+        // JsonValue.Create(T) preserves the exact CLR type it was created from - TryGetValue<T>
+        // does a strict type match for it, unlike a JsonNode.Parse()-produced JsonValue (backed by
+        // JsonElement, which freely widens across numeric types). So a value created via e.g.
+        // JsonValue.Create(3) (int) or a plain `new JsonObject { ["x"] = 3 }` assignment fails
+        // TryGetValue<long>/<double> and must be probed by its exact CLR type instead.
+        if (value.TryGetValue(out long l)) { Write(name, l); return; }
+        if (value.TryGetValue(out int i)) { Write(name, (long)i); return; }
+        if (value.TryGetValue(out short sh)) { Write(name, (long)sh); return; }
+        if (value.TryGetValue(out sbyte sb)) { Write(name, (long)sb); return; }
+        if (value.TryGetValue(out byte by)) { Write(name, (long)by); return; }
+        if (value.TryGetValue(out ushort us)) { Write(name, (long)us); return; }
+        if (value.TryGetValue(out uint ui)) { Write(name, (long)ui); return; }
+        if (value.TryGetValue(out ulong ul)) { Write(name, unchecked((long)ul)); return; }
+
+        if (value.TryGetValue(out double d)) { Write(name, d); return; }
+        if (value.TryGetValue(out float f)) { Write(name, (double)f); return; }
+        if (value.TryGetValue(out decimal dec)) { Write(name, (double)dec); return; }
+
+        if (value.TryGetValue(out string? s)) { Write(name, s!); return; }
+        throw new NotSupportedException($"Unsupported JsonValue underlying type for key '{name}'.");
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <param name="value"></param>
     public void WriteScalar(int value)
@@ -1121,6 +1343,16 @@ public class FileStorage : CvObject
         /// flag, YAML format
         /// </summary>
         FormatYaml = (2 << 3),
+
+        /// <summary>
+        /// flag, JSON format
+        /// </summary>
+        FormatJson = (3 << 3),
+
+        /// <summary>
+        /// flag, legacy YAML 1.0 format (strict headers, booleans as ints)
+        /// </summary>
+        FormatYaml10 = (4 << 3),
 
         /// <summary>
         /// flag, write rawdata in Base64 by default. (consider using WRITE_BASE64)

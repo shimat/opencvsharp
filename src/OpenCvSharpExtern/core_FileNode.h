@@ -98,10 +98,29 @@ CVAPI(ExceptionStatus) core_FileNode_name(cv::FileNode *obj, std::string *buf)
         buf->assign(obj->name());
     });
 }
+CVAPI(ExceptionStatus) core_FileNode_keys(cv::FileNode *obj, std::vector<std::string> *returnValue)
+{
+    return cvTry([&] {
+        const auto v = obj->keys();
+        returnValue->clear();
+        returnValue->resize(v.size());
+        for (size_t i = 0; i < v.size(); i++)
+        {
+            returnValue->at(i) = v[i];
+        }
+    });
+}
+
 CVAPI(ExceptionStatus) core_FileNode_size(cv::FileNode *obj, size_t *returnValue)
 {
     return cvTry([&] {
         *returnValue = obj->size();
+    });
+}
+CVAPI(ExceptionStatus) core_FileNode_rawSize(cv::FileNode *obj, size_t *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->rawSize();
     });
 }
 
@@ -109,6 +128,12 @@ CVAPI(ExceptionStatus) core_FileNode_toInt(cv::FileNode *obj, int *returnValue)
 {
     return cvTry([&] {
         *returnValue = static_cast<int>(*obj);
+    });
+}
+CVAPI(ExceptionStatus) core_FileNode_toInt64(cv::FileNode *obj, int64_t *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = static_cast<int64_t>(*obj);
     });
 }
 CVAPI(ExceptionStatus) core_FileNode_toFloat(cv::FileNode *obj, float *returnValue)
@@ -160,6 +185,14 @@ CVAPI(ExceptionStatus) core_FileNode_read_int(cv::FileNode *node, int *value, in
 {
     return cvTry([&] {
         int temp;
+        cv::read(*node, temp, default_value);
+        *value = temp;
+    });
+}
+CVAPI(ExceptionStatus) core_FileNode_read_int64(cv::FileNode *node, int64_t *value, int64_t default_value)
+{
+    return cvTry([&] {
+        int64_t temp;
         cv::read(*node, temp, default_value);
         *value = temp;
     });

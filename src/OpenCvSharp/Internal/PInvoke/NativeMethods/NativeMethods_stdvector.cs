@@ -450,6 +450,9 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_string_delete(IntPtr vector);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_string_pushBack(OpenCvSafeHandle vector, [MarshalAs(UnmanagedType.LPStr)] string value);
     #endregion
     #region vector<cv::line_descriptor::KeyLine>
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

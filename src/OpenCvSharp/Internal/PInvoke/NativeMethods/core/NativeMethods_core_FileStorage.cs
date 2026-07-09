@@ -79,8 +79,20 @@ static partial class NativeMethods
     public static partial ExceptionStatus core_FileStorage_state(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_FileStorage_getFormat(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_int(
         OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_FileStorage_write_bool(
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_FileStorage_write_int64(
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, long value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus core_FileStorage_write_vectorOfString(
+        OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_FileStorage_write_float(
         OpenCvSafeHandle fs, [MarshalAs(UnmanagedType.LPStr)] string name, float value);

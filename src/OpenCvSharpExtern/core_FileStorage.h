@@ -136,10 +136,37 @@ CVAPI(ExceptionStatus) core_FileStorage_state(cv::FileStorage *obj, int *returnV
     });
 }
 
+CVAPI(ExceptionStatus) core_FileStorage_getFormat(cv::FileStorage *obj, int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getFormat();
+    });
+}
+
 CVAPI(ExceptionStatus) core_FileStorage_write_int(cv::FileStorage *fs, const char *name, int value)
 {
     return cvTry([&] {
         cv::write(*fs, cv::String(name), value);
+    });
+}
+CVAPI(ExceptionStatus) core_FileStorage_write_bool(cv::FileStorage *fs, const char *name, int value)
+{
+    return cvTry([&] {
+        cv::write(*fs, cv::String(name), value != 0);
+    });
+}
+CVAPI(ExceptionStatus) core_FileStorage_write_int64(cv::FileStorage *fs, const char *name, int64_t value)
+{
+    return cvTry([&] {
+        cv::write(*fs, cv::String(name), value);
+    });
+}
+CVAPI(ExceptionStatus) core_FileStorage_write_vectorOfString(cv::FileStorage *fs, const char *name, const std::vector<std::string> *value)
+{
+    return cvTry([&] {
+        // No free-function cv::write(FileStorage&, name, vector<String>) overload exists;
+        // this is the member function form (matches CV_WRAP'd FileStorage::write).
+        fs->write(cv::String(name), *value);
     });
 }
 CVAPI(ExceptionStatus) core_FileStorage_write_float(cv::FileStorage *fs, const char *name, float value)
@@ -157,7 +184,12 @@ CVAPI(ExceptionStatus) core_FileStorage_write_double(cv::FileStorage *fs, const 
 CVAPI(ExceptionStatus) core_FileStorage_write_String(cv::FileStorage *fs, const char *name, const char *value)
 {
     return cvTry([&] {
-        cv::write(*fs, cv::String(name), value);
+        // Must wrap as cv::String explicitly: passing the raw const char* lets C++ overload
+        // resolution prefer the standard pointer-to-bool conversion (matching
+        // cv::write(FileStorage&, const String&, bool)) over the user-defined const char* ->
+        // String conversion needed for cv::write(FileStorage&, const String&, const String&),
+        // silently writing "true"/"false" instead of the string content for any value.
+        cv::write(*fs, cv::String(name), cv::String(value));
     });
 }
 CVAPI(ExceptionStatus) core_FileStorage_write_Mat(cv::FileStorage *fs, const char *name, const cv::Mat *value)
