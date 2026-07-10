@@ -12,10 +12,10 @@
 #pragma region BriefDescriptorExtractor
 
 CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_create(
-    int bytes, cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> **returnValue)
+    int bytes, int useOrientation, cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> **returnValue)
 {
     return cvTry([&] {
-        const auto ptr = cv::xfeatures2d::BriefDescriptorExtractor::create(bytes);
+        const auto ptr = cv::xfeatures2d::BriefDescriptorExtractor::create(bytes, useOrientation != 0);
         *returnValue = clone(ptr);
     });
 }

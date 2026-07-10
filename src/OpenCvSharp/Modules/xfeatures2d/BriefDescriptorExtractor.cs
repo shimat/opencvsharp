@@ -27,10 +27,11 @@ public class BriefDescriptorExtractor : DescriptorExtractor
     /// bytes is a length of descriptor in bytes. It can be equal 16, 32 or 64 bytes.
     /// </summary>
     /// <param name="bytes"></param>
-    public static BriefDescriptorExtractor Create(int bytes = 32)
+    /// <param name="useOrientation">Sample patterns using keypoints orientation, disabled by default.</param>
+    public static BriefDescriptorExtractor Create(int bytes = 32, bool useOrientation = false)
     {
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes, out var ptr));
+            NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes, useOrientation ? 1 : 0, out var ptr));
         NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get(ptr, out var rawPtr));
         return new BriefDescriptorExtractor(ptr, rawPtr);
     }

@@ -13,7 +13,7 @@ static partial class NativeMethods
     // BriefDescriptorExtractor
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_create(int bytes, out IntPtr returnValue);
+    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_create(int bytes, int useOrientation, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_BriefDescriptorExtractor_delete(IntPtr obj);

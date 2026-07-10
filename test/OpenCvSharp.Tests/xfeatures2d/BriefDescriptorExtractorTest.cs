@@ -40,4 +40,13 @@ public class BriefDescriptorExtractorTest : TestBase
         alg.UseOrientation = true;
         Assert.True(alg.UseOrientation);
     }
+
+    [Fact]
+    public void CreateWithUseOrientation()
+    {
+        using var alg = BriefDescriptorExtractor.Create(64, useOrientation: true);
+
+        Assert.Equal(64, alg.DescriptorSize);
+        Assert.True(alg.UseOrientation);
+    }
 }

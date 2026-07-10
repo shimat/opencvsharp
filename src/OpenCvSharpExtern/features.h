@@ -191,17 +191,18 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByKeypointSize(
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask(
-    std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
+    std::vector<cv::KeyPoint> *keypoints, const interop::InputArrayProxy *mask)
 {
     return cvTry([&] {
-        cv::KeyPointsFilter::runByPixelsMask(*keypoints, *mask);
+        const cv::Mat maskMat = static_cast<const cv::_InputArray&>(InProxy(*mask)).getMat();
+        cv::KeyPointsFilter::runByPixelsMask(*keypoints, maskMat);
     });
 }
 
 CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask2VectorPoint(
     std::vector<cv::KeyPoint> *keypoints,
     cv::Point **removeFrom, int removeFromSize1, int *removeFromSize2,
-    cv::Mat *mask,
+    const interop::InputArrayProxy *mask,
     std::vector<std::vector<cv::Point> > *removeFromResult)
 {
     return cvTry([&] {
@@ -210,7 +211,8 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask2VectorPoint(
         {
             removeFromVec.emplace_back(removeFrom[i], removeFrom[i] + removeFromSize2[i]);
         }
-        cv::KeyPointsFilter::runByPixelsMask2VectorPoint(*keypoints, removeFromVec, *mask);
+        const cv::Mat maskMat = static_cast<const cv::_InputArray&>(InProxy(*mask)).getMat();
+        cv::KeyPointsFilter::runByPixelsMask2VectorPoint(*keypoints, removeFromVec, maskMat);
         *removeFromResult = removeFromVec;
     });
 }

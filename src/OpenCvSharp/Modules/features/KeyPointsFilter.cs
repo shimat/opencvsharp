@@ -53,16 +53,14 @@ public static class KeyPointsFilter
     /// <param name="keypoints"></param>
     /// <param name="mask"></param>
     /// <returns></returns>
-    public static KeyPoint[] RunByPixelsMask(IEnumerable<KeyPoint> keypoints, Mat mask)
+    public static KeyPoint[] RunByPixelsMask(IEnumerable<KeyPoint> keypoints, InputArray mask)
     {
         ArgumentNullException.ThrowIfNull(keypoints);
-        ArgumentNullException.ThrowIfNull(mask);
-        mask.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         NativeMethods.HandleException(
-            NativeMethods.features_KeyPointsFilter_runByPixelsMask(keypointsVec.CvPtr, mask.CvPtr));
-        GC.KeepAlive(mask);
+            NativeMethods.features_KeyPointsFilter_runByPixelsMask(keypointsVec.CvPtr, mask.Proxy));
+        GC.KeepAlive(mask.Source);
         return keypointsVec.ToArray();
     }
 
@@ -74,12 +72,10 @@ public static class KeyPointsFilter
     /// <param name="mask"></param>
     /// <returns></returns>
     public static (KeyPoint[] Keypoints, Point[][] RemoveFrom) RunByPixelsMask2VectorPoint(
-        IEnumerable<KeyPoint> keypoints, IEnumerable<IEnumerable<Point>> removeFrom, Mat mask)
+        IEnumerable<KeyPoint> keypoints, IEnumerable<IEnumerable<Point>> removeFrom, InputArray mask)
     {
         ArgumentNullException.ThrowIfNull(keypoints);
         ArgumentNullException.ThrowIfNull(removeFrom);
-        ArgumentNullException.ThrowIfNull(mask);
-        mask.ThrowIfDisposed();
 
         using var keypointsVec = new StdVector<KeyPoint>(keypoints);
         using var removeFromPtr = new ArrayAddress2<Point>(removeFrom);
@@ -87,8 +83,8 @@ public static class KeyPointsFilter
         NativeMethods.HandleException(
             NativeMethods.features_KeyPointsFilter_runByPixelsMask2VectorPoint(
                 keypointsVec.CvPtr, removeFromPtr.GetPointer(), removeFromPtr.GetDim1Length(), removeFromPtr.GetDim2Lengths(),
-                mask.CvPtr, removeFromResultVec.CvPtr));
-        GC.KeepAlive(mask);
+                mask.Proxy, removeFromResultVec.CvPtr));
+        GC.KeepAlive(mask.Source);
         return (keypointsVec.ToArray(), removeFromResultVec.ToArray());
     }
 
