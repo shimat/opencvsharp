@@ -10,3 +10,5 @@
 #include "ml_NormalBayesClassifier.h"
 #include "ml_RTrees.h"
 #include "ml_SVM.h"
+#include "ml_SVMSGD.h"
+#include "ml_TrainData.h"

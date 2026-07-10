@@ -153,6 +153,20 @@ static partial class NativeMethods
         IntPtr[] images, int imagesLength, Scalar scalefactor, Size size, Scalar mean,
         int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
 
+    // Image2BlobParams.BlobRectToImageRect / BlobRectsToImageRects
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Image2BlobParams_blobRectToImageRect(
+        Scalar scalefactor, Size paramSize, Scalar mean,
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue,
+        Rect rBlob, Size size, out Rect returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Image2BlobParams_blobRectsToImageRects(
+        Scalar scalefactor, Size paramSize, Scalar mean,
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue,
+        [In] Rect[] rBlob, int rBlobLength, Size size, IntPtr outVec);
+
     // imagesFromBlob
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

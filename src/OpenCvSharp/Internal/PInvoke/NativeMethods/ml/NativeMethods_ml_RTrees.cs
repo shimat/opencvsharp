@@ -29,6 +29,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_RTrees_getVarImportance(OpenCvSafeHandle obj, out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus ml_RTrees_getVotes(
+        OpenCvSafeHandle obj, in InputArrayProxy samples, in OutputArrayProxy results, int flags);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus ml_RTrees_create(out IntPtr returnValue);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

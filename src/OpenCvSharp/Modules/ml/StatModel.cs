@@ -70,7 +70,13 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual bool Train(TrainData trainData, int flags = 0)
     {
-        throw new NotImplementedException();
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(trainData);
+
+        NativeMethods.HandleException(
+            NativeMethods.ml_StatModel_train1(Handle, trainData.SmartPtr, flags, out var ret));
+        GC.KeepAlive(trainData);
+        return ret != 0;
     }
 
     /// <summary>
@@ -105,7 +111,14 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual float CalcError(TrainData data, bool test, OutputArray resp)
     {
-        throw new NotImplementedException();
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(data);
+
+        NativeMethods.HandleException(
+            NativeMethods.ml_StatModel_calcError(Handle, data.SmartPtr, test, resp.Proxy, out var ret));
+        GC.KeepAlive(data);
+        GC.KeepAlive(resp.Source);
+        return ret;
     }
 
     /// <summary>

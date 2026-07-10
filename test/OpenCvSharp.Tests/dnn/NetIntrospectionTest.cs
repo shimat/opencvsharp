@@ -190,6 +190,45 @@ public class NetIntrospectionTest : TestBase
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
+    public void GetLayerByIdAndName()
+    {
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        Assert.NotNull(net);
+
+        var names = net!.GetLayerNames();
+        Assert.NotEmpty(names);
+        var name = names.First(n => !string.IsNullOrEmpty(n))!;
+
+        var id = net.GetLayerId(name);
+        using var layerById = net.GetLayer(id);
+        Assert.Equal(name, layerById.Name);
+
+        using var layerByName = net.GetLayer(name);
+        Assert.Equal(name, layerByName.Name);
+        Assert.Equal(layerById.Type, layerByName.Type);
+    }
+
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
+    public void ForwardAndRetrieveReturnsOutputsPerLayer()
+    {
+        // OpenCV 5's new dnn engine (the default/Auto engine) rejects forward() calls that name
+        // a specific output layer ("doesn't support inference until a specified layer"); only the
+        // classic engine supports it, matching EngineSelectionTest's precedent for classic-only features.
+        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Classic);
+        Assert.NotNull(net);
+
+        using var input = new Mat(MnistInputShape, MatType.CV_32F, Scalar.All(0));
+        net!.SetInput(input);
+
+        var names = net.GetUnconnectedOutLayersNames().Where(n => !string.IsNullOrEmpty(n)).Cast<string>().ToArray();
+        Assert.NotEmpty(names);
+
+        var results = net.ForwardAndRetrieve(names);
+        Assert.Equal(names.Length, results.Length);
+        Assert.All(results, layerOutputs => Assert.NotEmpty(layerOutputs));
+    }
+
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetLayersShapesIsConsistentAcrossLayers()
     {
         using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);

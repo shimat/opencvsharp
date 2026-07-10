@@ -289,7 +289,7 @@ public class SVM : StatModel
     /// to such proportion in the whole train dataset.</param>
     /// <returns></returns>
     public bool TrainAuto(
-        TrainData data, 
+        TrainData data,
         int kFold = 10,
         ParamGrid? cGrid = null,
         ParamGrid? gammaGrid = null,
@@ -299,14 +299,23 @@ public class SVM : StatModel
         ParamGrid? degreeGrid = null,
         bool balanced = false)
     {
-        throw new NotImplementedException();
-        /*
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(data);
+
         var cGridValue = cGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.C));
         var gammaGridValue = gammaGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Gamma));
         var pGridValue = pGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.P));
         var nuGridValue = nuGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Nu));
         var coeffGridValue = coeffGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Coef));
-        var degreeGridValue = degreeGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Degree));*/
+        var degreeGridValue = degreeGrid.GetValueOrDefault(GetDefaultGrid(ParamTypes.Degree));
+
+        NativeMethods.HandleException(
+            NativeMethods.ml_SVM_trainAuto(
+                Handle, data.SmartPtr, kFold,
+                cGridValue, gammaGridValue, pGridValue, nuGridValue, coeffGridValue, degreeGridValue,
+                balanced, out var ret));
+        GC.KeepAlive(data);
+        return ret != 0;
     }
 
     /// <summary>

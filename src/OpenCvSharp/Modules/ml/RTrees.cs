@@ -126,9 +126,9 @@ public class RTrees : DTrees
     #region Methods
 
     /// <summary>
-    /// Returns the variable importance array. 
-    /// The method returns the variable importance vector, computed at the training 
-    /// stage when CalculateVarImportance is set to true. If this flag was set to false, 
+    /// Returns the variable importance array.
+    /// The method returns the variable importance vector, computed at the training
+    /// stage when CalculateVarImportance is set to true. If this flag was set to false,
     /// the empty matrix is returned.
     /// </summary>
     /// <returns></returns>
@@ -138,6 +138,22 @@ public class RTrees : DTrees
         NativeMethods.HandleException(
             NativeMethods.ml_RTrees_getVarImportance(Handle, out var ret));
         return new Mat(ret);
+    }
+
+    /// <summary>
+    /// Returns the class probabilities for each sample, as voted by each of the trees.
+    /// </summary>
+    /// <param name="samples">Array containing the samples for which votes will be calculated.</param>
+    /// <param name="results">Array where the result of the calculation will be written.</param>
+    /// <param name="flags">Flags for defining the type of RTrees.</param>
+    public void GetVotes(InputArray samples, OutputArray results, int flags)
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.ml_RTrees_getVotes(Handle, samples.Proxy, results.Proxy, flags));
+        GC.KeepAlive(samples.Source);
+        GC.KeepAlive(results.Source);
     }
 
     #endregion

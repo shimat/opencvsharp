@@ -42,7 +42,7 @@ CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *re
     });
 }
 
-/*CVAPI(ExceptionStatus) ml_StatModel_train1(
+CVAPI(ExceptionStatus) ml_StatModel_train1(
     cv::ml::StatModel *obj,
     cv::Ptr<cv::ml::TrainData> *trainData,
     int flags,
@@ -51,7 +51,7 @@ CVAPI(ExceptionStatus) ml_StatModel_isClassifier(cv::ml::StatModel *obj, int *re
     return cvTry([&] {
         *returnValue = obj->train(*trainData, flags) ? 1 : 0;
     });
-}*/
+}
 
 CVAPI(ExceptionStatus) ml_StatModel_train2(
     cv::ml::StatModel *obj,
@@ -65,7 +65,7 @@ CVAPI(ExceptionStatus) ml_StatModel_train2(
     });
 }
 
-/*CVAPI(ExceptionStatus) ml_StatModel_calcError(
+CVAPI(ExceptionStatus) ml_StatModel_calcError(
     cv::ml::StatModel *obj,
     cv::Ptr<cv::ml::TrainData> *data,
     int test,
@@ -75,7 +75,7 @@ CVAPI(ExceptionStatus) ml_StatModel_train2(
     return cvTry([&] {
         *returnValue = obj->calcError(*data, test != 0, OutProxy(*resp));
     });
-}*/
+}
 
 CVAPI(ExceptionStatus) ml_StatModel_predict(
     cv::ml::StatModel *obj,

@@ -159,6 +159,27 @@ CVAPI(ExceptionStatus) ml_SVM_getDecisionFunction(
 }
 
 
+CVAPI(ExceptionStatus) ml_SVM_trainAuto(
+    cv::ml::SVM *obj,
+    cv::Ptr<cv::ml::TrainData> *data,
+    int kFold,
+    ParamGridStruct cGrid,
+    ParamGridStruct gammaGrid,
+    ParamGridStruct pGrid,
+    ParamGridStruct nuGrid,
+    ParamGridStruct coeffGrid,
+    ParamGridStruct degreeGrid,
+    int balanced,
+    int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->trainAuto(
+            *data, kFold,
+            cpp(cGrid), cpp(gammaGrid), cpp(pGrid), cpp(nuGrid), cpp(coeffGrid), cpp(degreeGrid),
+            balanced != 0) ? 1 : 0;
+    });
+}
+
 // static
 
 CVAPI(ExceptionStatus) ml_SVM_getDefaultGrid(int param_id, ParamGridStruct *returnValue)

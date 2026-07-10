@@ -25,8 +25,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus ml_StatModel_isClassifier(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ml_StatModel_train1(
+        OpenCvSafeHandle obj, IntPtr trainData, int flags, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus ml_StatModel_train2(
         OpenCvSafeHandle obj, in InputArrayProxy samples, int layout, in InputArrayProxy responses, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus ml_StatModel_calcError(
+        OpenCvSafeHandle obj, IntPtr data, [MarshalAs(UnmanagedType.Bool)] bool test, in OutputArrayProxy resp, out float returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus ml_StatModel_predict(
