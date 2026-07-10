@@ -135,6 +135,8 @@ CVAPI(ExceptionStatus) ml_SVMSGD_load(const char *filePath, cv::Ptr<cv::ml::SVMS
 {
     return cvTry([&] {
         const auto ptr = cv::Algorithm::load<cv::ml::SVMSGD>(filePath);
+        if (ptr.empty())
+            CV_Error(cv::Error::StsError, cv::format("Failed to load SVMSGD model from: %s", filePath));
         *returnValue = new cv::Ptr<cv::ml::SVMSGD>(ptr);
     });
 }
@@ -142,8 +144,9 @@ CVAPI(ExceptionStatus) ml_SVMSGD_load(const char *filePath, cv::Ptr<cv::ml::SVMS
 CVAPI(ExceptionStatus) ml_SVMSGD_loadFromString(const char *strModel, cv::Ptr<cv::ml::SVMSGD> **returnValue)
 {
     return cvTry([&] {
-        const auto objName = cv::ml::SVMSGD::create()->getDefaultName();
-        const auto ptr = cv::Algorithm::loadFromString<cv::ml::SVMSGD>(strModel, objName);
+        const auto ptr = cv::Algorithm::loadFromString<cv::ml::SVMSGD>(strModel);
+        if (ptr.empty())
+            CV_Error(cv::Error::StsError, "Failed to load SVMSGD model from string");
         *returnValue = new cv::Ptr<cv::ml::SVMSGD>(ptr);
     });
 }
