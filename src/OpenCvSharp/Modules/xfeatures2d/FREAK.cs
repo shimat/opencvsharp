@@ -41,4 +41,84 @@ public class FREAK : Feature2D
         NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr, out var rawPtr));
         return new FREAK(ptr, rawPtr);
     }
+
+    /// <summary>
+    /// Enable orientation normalization.
+    /// </summary>
+    public bool OrientationNormalized
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_getOrientationNormalized(Handle, out var ret));
+            return ret != 0;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_setOrientationNormalized(Handle, value ? 1 : 0));
+        }
+    }
+
+    /// <summary>
+    /// Enable scale normalization.
+    /// </summary>
+    public bool ScaleNormalized
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_getScaleNormalized(Handle, out var ret));
+            return ret != 0;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_setScaleNormalized(Handle, value ? 1 : 0));
+        }
+    }
+
+    /// <summary>
+    /// Scaling of the description pattern.
+    /// </summary>
+    public double PatternScale
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_getPatternScale(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_setPatternScale(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Number of octaves covered by the detected keypoints.
+    /// </summary>
+    public int NOctaves
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_getNOctaves(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_setNOctaves(Handle, value));
+        }
+    }
 }

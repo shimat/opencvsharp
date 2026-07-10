@@ -46,4 +46,16 @@ public class LUCIDTest : TestBase
             Assert.Equal(6, defnorm);
         }
     }
+
+    [Fact]
+    public void Properties()
+    {
+        using var alg = LUCID.Create();
+
+        alg.LucidKernel = 2;
+        Assert.Equal(2, alg.LucidKernel);
+
+        alg.BlurKernel = 3;
+        Assert.Equal(3, alg.BlurKernel);
+    }
 }

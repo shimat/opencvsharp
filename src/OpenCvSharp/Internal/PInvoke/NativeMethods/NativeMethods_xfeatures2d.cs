@@ -33,6 +33,16 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_BriefDescriptorExtractor_get(IntPtr ptr, out IntPtr returnValue);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_setDescriptorSize(OpenCvSafeHandle obj, int bytes);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_getDescriptorSize(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_setUseOrientation(OpenCvSafeHandle obj, int useOrientation);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_BriefDescriptorExtractor_getUseOrientation(OpenCvSafeHandle obj, out int returnValue);
+
 
     // FREAK
 
@@ -47,17 +57,62 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_FREAK_get(IntPtr ptr, out IntPtr returnValue);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_setOrientationNormalized(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_getOrientationNormalized(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_setScaleNormalized(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_getScaleNormalized(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_setPatternScale(OpenCvSafeHandle obj, double val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_getPatternScale(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_setNOctaves(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_FREAK_getNOctaves(OpenCvSafeHandle obj, out int returnValue);
+
     // StarDetector
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_StarDetector_create(
         int maxSize, int responseThreshold,
-        int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize, 
+        int lineThresholdProjected, int lineThresholdBinarized, int suppressNonmaxSize,
         out IntPtr returnValue);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_StarDetector_delete(IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_StarDetector_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_setMaxSize(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_getMaxSize(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_setResponseThreshold(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_getResponseThreshold(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_setLineThresholdProjected(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_getLineThresholdProjected(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_setLineThresholdBinarized(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_getLineThresholdBinarized(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_setSuppressNonmaxSize(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_StarDetector_getSuppressNonmaxSize(OpenCvSafeHandle obj, out int returnValue);
 
 
     // LUCID
@@ -71,6 +126,16 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_LUCID_get(IntPtr ptr, out IntPtr returnValue);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LUCID_setLucidKernel(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LUCID_getLucidKernel(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LUCID_setBlurKernel(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LUCID_getBlurKernel(OpenCvSafeHandle obj, out int returnValue);
+
 
     // LATCH
 
@@ -83,6 +148,26 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus xfeatures2d_Ptr_LATCH_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_setBytes(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_getBytes(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_setRotationInvariance(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_getRotationInvariance(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_setHalfSSDsize(OpenCvSafeHandle obj, int val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_getHalfSSDsize(OpenCvSafeHandle obj, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_setSigma(OpenCvSafeHandle obj, double val);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus xfeatures2d_LATCH_getSigma(OpenCvSafeHandle obj, out double returnValue);
 
 
     // SURF

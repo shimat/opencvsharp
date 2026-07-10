@@ -41,4 +41,85 @@ public class LATCH : Feature2D
         NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr, out var rawPtr));
         return new LATCH(ptr, rawPtr);
     }
+
+    /// <summary>
+    /// The size of the descriptor - can be 64, 32, 16, 8, 4, 2 or 1.
+    /// </summary>
+    public int Bytes
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_getBytes(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_setBytes(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Whether or not the descriptor should compensate for orientation changes.
+    /// </summary>
+    public bool RotationInvariance
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_getRotationInvariance(Handle, out var ret));
+            return ret != 0;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_setRotationInvariance(Handle, value ? 1 : 0));
+        }
+    }
+
+    /// <summary>
+    /// The size of half of the mini-patches size.
+    /// </summary>
+    public int HalfSSDsize
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_getHalfSSDsize(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_setHalfSSDsize(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Sigma value for GaussianBlur smoothing of the source image. Source image will be used
+    /// without smoothing in case sigma value is 0.
+    /// </summary>
+    public double Sigma
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_getSigma(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_setSigma(Handle, value));
+        }
+    }
 }

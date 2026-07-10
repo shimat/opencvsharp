@@ -46,4 +46,22 @@ public class LATCHTest : TestBase
             Assert.Equal(6, defnorm);
         }
     }
+
+    [Fact]
+    public void Properties()
+    {
+        using var alg = LATCH.Create();
+
+        alg.Bytes = 16;
+        Assert.Equal(16, alg.Bytes);
+
+        alg.RotationInvariance = false;
+        Assert.False(alg.RotationInvariance);
+
+        alg.HalfSSDsize = 4;
+        Assert.Equal(4, alg.HalfSSDsize);
+
+        alg.Sigma = 1.5;
+        Assert.Equal(1.5, alg.Sigma, 6);
+    }
 }

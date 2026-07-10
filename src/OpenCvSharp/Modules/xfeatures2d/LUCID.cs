@@ -32,4 +32,44 @@ public class LUCID : Feature2D
         NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LUCID_get(ptr, out var rawPtr));
         return new LUCID(ptr, rawPtr);
     }
+
+    /// <summary>
+    /// Kernel for descriptor construction, where 1=3x3, 2=5x5, 3=7x7 and so forth.
+    /// </summary>
+    public int LucidKernel
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LUCID_getLucidKernel(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LUCID_setLucidKernel(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Kernel for blurring image prior to descriptor construction, where 1=3x3, 2=5x5, 3=7x7 and so forth.
+    /// </summary>
+    public int BlurKernel
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LUCID_getBlurKernel(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LUCID_setBlurKernel(Handle, value));
+        }
+    }
 }
