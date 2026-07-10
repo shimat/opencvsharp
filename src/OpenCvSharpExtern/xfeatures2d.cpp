@@ -7,3 +7,4 @@
 #include "xfeatures2d_VGG.h"
 #include "xfeatures2d_HarrisLaplace.h"
 #include "xfeatures2d_DAISY.h"
+#include "xfeatures2d_PCTSignatures.h"
