@@ -101,6 +101,17 @@ CVAPI(ExceptionStatus) dnn_TextRecognitionModel_recognize(
     });
 }
 
+CVAPI(ExceptionStatus) dnn_TextRecognitionModel_recognize_batch(
+    cv::dnn::TextRecognitionModel *model,
+    const interop::InputArrayProxy* frame,
+    const interop::InputArrayProxy* roiRects,
+    std::vector<std::string> *outVec)
+{
+    return cvTry([&] {
+        model->recognize(InProxy(*frame), InProxy(*roiRects), *outVec);
+    });
+}
+
 // ----------------------------------------------------------------------------
 // TextDetectionModel (base; methods are shared by EAST and DB via upcast)
 // ----------------------------------------------------------------------------

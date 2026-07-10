@@ -68,6 +68,12 @@ static partial class NativeMethods
     internal static partial ExceptionStatus ml_SVM_getDecisionFunction(
         OpenCvSafeHandle obj, int i, in OutputArrayProxy alpha, in OutputArrayProxy svidx, out double returnValue);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus ml_SVM_trainAuto(
+        OpenCvSafeHandle obj, IntPtr data, int kFold,
+        ParamGrid cGrid, ParamGrid gammaGrid, ParamGrid pGrid, ParamGrid nuGrid, ParamGrid coeffGrid, ParamGrid degreeGrid,
+        [MarshalAs(UnmanagedType.Bool)] bool balanced, out int returnValue);
+
     // static
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

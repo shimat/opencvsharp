@@ -128,4 +128,24 @@ public class TextRecognitionModel : Model
         GC.KeepAlive(frame.Source);
         return result.ToString();
     }
+
+    /// <summary>
+    /// Given the @p input frame, create input blob, run net and return recognition result for each ROI.
+    /// </summary>
+    /// <param name="frame">The input image.</param>
+    /// <param name="roiRects">List of text detection regions of interest. ROIs are cropped as the network inputs.</param>
+    /// <returns>A set of text recognition results, one per ROI.</returns>
+    public string?[] Recognize(InputArray frame, IEnumerable<Rect> roiRects)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(roiRects);
+
+        var roiRectsMat = InputArray.Create(roiRects.ToArray());
+        using var resultVec = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_TextRecognitionModel_recognize_batch(Handle, frame.Proxy, roiRectsMat.Proxy, resultVec.CvPtr));
+        GC.KeepAlive(frame.Source);
+        GC.KeepAlive(roiRectsMat.Source);
+        return resultVec.ToArray();
+    }
 }

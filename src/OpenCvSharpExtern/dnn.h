@@ -405,6 +405,58 @@ CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
     });
 }
 
+CVAPI(ExceptionStatus) dnn_Image2BlobParams_blobRectToImageRect(
+    const interop::Scalar scalefactor,
+    const interop::Size paramSize,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int ddepth,
+    const int datalayout,
+    const int paddingmode,
+    const interop::Scalar borderValue,
+    const interop::Rect rBlob,
+    const interop::Size size,
+    interop::Rect *returnValue)
+{
+    return cvTry([&] {
+        cv::dnn::Image2BlobParams param(
+            cpp(scalefactor), cpp(paramSize), cpp(mean), swapRB != 0, ddepth,
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+        *returnValue = c(param.blobRectToImageRect(cpp(rBlob), cpp(size)));
+    });
+}
+
+CVAPI(ExceptionStatus) dnn_Image2BlobParams_blobRectsToImageRects(
+    const interop::Scalar scalefactor,
+    const interop::Size paramSize,
+    const interop::Scalar mean,
+    const int swapRB,
+    const int ddepth,
+    const int datalayout,
+    const int paddingmode,
+    const interop::Scalar borderValue,
+    const interop::Rect *rBlob,
+    const int rBlobLength,
+    const interop::Size size,
+    std::vector<cv::Rect> *outVec)
+{
+    return cvTry([&] {
+        cv::dnn::Image2BlobParams param(
+            cpp(scalefactor), cpp(paramSize), cpp(mean), swapRB != 0, ddepth,
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+
+        std::vector<cv::Rect> rBlobVec(rBlobLength);
+        for (auto i = 0; i < rBlobLength; i++)
+        {
+            rBlobVec[i] = cpp(rBlob[i]);
+        }
+
+        std::vector<cv::Rect> rImgVec;
+        param.blobRectsToImageRects(rBlobVec, rImgVec, cpp(size));
+        outVec->assign(rImgVec.begin(), rImgVec.end());
+    });
+}
+
 CVAPI(ExceptionStatus) dnn_imagesFromBlob(cv::Mat *blob, std::vector<cv::Mat> *images)
 {
     return cvTry([&] {

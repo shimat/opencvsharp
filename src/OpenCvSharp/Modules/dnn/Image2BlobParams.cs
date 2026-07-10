@@ -1,3 +1,6 @@
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
@@ -82,5 +85,39 @@ public class Image2BlobParams
         DataLayout = dataLayout;
         PaddingMode = paddingMode;
         BorderValue = borderValue;
+    }
+
+    /// <summary>
+    /// Get rectangle coordinates in original image system from rectangle in blob coordinates.
+    /// </summary>
+    /// <param name="rBlob">rect in blob coordinates.</param>
+    /// <param name="size">original input image size.</param>
+    /// <returns>rectangle in original image coordinates.</returns>
+    public Rect BlobRectToImageRect(Rect rBlob, Size size)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Image2BlobParams_blobRectToImageRect(
+                ScaleFactor, Size, Mean, SwapRB ? 1 : 0, (int)Depth, (int)DataLayout, (int)PaddingMode, BorderValue,
+                rBlob, size, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Get rectangle coordinates in original image system from rectangles in blob coordinates.
+    /// </summary>
+    /// <param name="rBlob">rect in blob coordinates.</param>
+    /// <param name="size">original input image size.</param>
+    /// <returns>rectangles in original image coordinates.</returns>
+    public Rect[] BlobRectsToImageRects(IEnumerable<Rect> rBlob, Size size)
+    {
+        ArgumentNullException.ThrowIfNull(rBlob);
+
+        var rBlobArray = rBlob.ToArray();
+        using var outVec = new StdVector<Rect>();
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Image2BlobParams_blobRectsToImageRects(
+                ScaleFactor, Size, Mean, SwapRB ? 1 : 0, (int)Depth, (int)DataLayout, (int)PaddingMode, BorderValue,
+                rBlobArray, rBlobArray.Length, size, outVec.CvPtr));
+        return outVec.ToArray();
     }
 }

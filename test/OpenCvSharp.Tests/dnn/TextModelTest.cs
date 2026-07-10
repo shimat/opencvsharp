@@ -72,6 +72,12 @@ public class TextModelTest : TestBase
         // proves the InputArray (frame) param is marshalled correctly.
         using var image = LoadImage("lenna.png", ImreadModes.Grayscale);
         Assert.ThrowsAny<Exception>(() => model.Recognize(image));
+
+        // Same smoke test for the batch-ROI overload: verifies the roiRects InputArrayOfArrays
+        // and the vector<string> results are marshalled correctly, even though the empty Net
+        // still has no forward pass to run.
+        var roiRects = new[] { new Rect(0, 0, 10, 10) };
+        Assert.ThrowsAny<Exception>(() => model.Recognize(image, roiRects));
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]

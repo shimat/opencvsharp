@@ -60,6 +60,14 @@ CVAPI(ExceptionStatus) dnn_Net_getLayerId(cv::dnn::Net* net, const char *layer, 
     });
 }
 
+CVAPI(ExceptionStatus) dnn_Net_getLayer(cv::dnn::Net* net, int layerId, cv::Ptr<cv::dnn::Layer> **returnValue)
+{
+    return cvTry([&] {
+        const auto layer = net->getLayer(layerId);
+        *returnValue = new cv::Ptr<cv::dnn::Layer>(layer);
+    });
+}
+
 CVAPI(ExceptionStatus) dnn_Net_getLayerNames(cv::dnn::Net* net, std::vector<cv::String> *outVec)
 {
     return cvTry([&] {
@@ -138,6 +146,31 @@ CVAPI(ExceptionStatus) dnn_Net_forward3(
         for (auto i = 0; i < outputBlobsLength; i++)
         {
             *outputBlobs[i] = outputBlobsVec[i];
+        }
+    });
+}
+
+CVAPI(ExceptionStatus) dnn_Net_forwardAndRetrieve(
+    cv::dnn::Net* net, const char **outBlobNames, int outBlobNamesLength,
+    std::vector<cv::Mat> *outFlatBlobs, std::vector<int> *outCounts)
+{
+    return cvTry([&] {
+        std::vector<cv::String> outBlobNamesVec(outBlobNamesLength);
+        for (auto i = 0; i < outBlobNamesLength; i++)
+        {
+            outBlobNamesVec[i] = outBlobNames[i];
+        }
+
+        std::vector<std::vector<cv::Mat>> outputBlobs;
+        net->forward(outputBlobs, outBlobNamesVec);
+
+        for (const auto& layerBlobs : outputBlobs)
+        {
+            outCounts->push_back(static_cast<int>(layerBlobs.size()));
+            for (const auto& m : layerBlobs)
+            {
+                outFlatBlobs->push_back(m);
+            }
         }
     });
 }

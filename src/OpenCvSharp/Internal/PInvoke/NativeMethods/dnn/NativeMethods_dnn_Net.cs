@@ -34,6 +34,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_Net_getLayerId(OpenCvSafeHandle net, [MarshalAs(UnmanagedType.LPStr)] string layer, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_getLayer(OpenCvSafeHandle net, int layerId, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_getLayerNames(OpenCvSafeHandle net, IntPtr outVec);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -57,6 +60,12 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_Net_forward3(
         OpenCvSafeHandle net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] outBlobNames, int outBlobNamesLength);
         
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_forwardAndRetrieve(
+        OpenCvSafeHandle net,
+        [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] outBlobNames, int outBlobNamesLength,
+        IntPtr outFlatBlobs, IntPtr outCounts);
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_setPreferableBackend(OpenCvSafeHandle net, int backendId);
 

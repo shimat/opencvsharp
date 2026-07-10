@@ -358,7 +358,33 @@ public class Net : CvObject
     }
 
     /// <summary>
-    /// 
+    /// Returns pointer to layer with specified id which the network use.
+    /// </summary>
+    /// <param name="layerId"></param>
+    /// <returns></returns>
+    public Layer GetLayer(int layerId)
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_getLayer(Handle, layerId, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.dnn_Ptr_Layer_get(smartPtr, out var rawPtr));
+        return new Layer(smartPtr, rawPtr);
+    }
+
+    /// <summary>
+    /// Returns pointer to layer with specified name which the network use.
+    /// </summary>
+    /// <param name="layerName"></param>
+    /// <returns></returns>
+    public Layer GetLayer(string layerName)
+    {
+        ArgumentNullException.ThrowIfNull(layerName);
+        return GetLayer(GetLayerId(layerName));
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <returns></returns>
     public string?[] GetLayerNames()
@@ -462,6 +488,37 @@ public class Net : CvObject
                 Handle, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length));
 
         GC.KeepAlive(outputBlobs);
+    }
+
+    /// <summary>
+    /// Runs forward pass to compute outputs of layers listed in @p outBlobNames, retrieving
+    /// all output blobs for each layer specified in @p outBlobNames.
+    /// </summary>
+    /// <param name="outBlobNames">names for layers which outputs are needed to get</param>
+    /// <returns>for each requested layer, an array containing all of that layer's output blobs.</returns>
+    public Mat[][] ForwardAndRetrieve(IEnumerable<string> outBlobNames)
+    {
+        ArgumentNullException.ThrowIfNull(outBlobNames);
+
+        var outBlobNamesArray = outBlobNames.ToArray();
+        using var flatBlobs = new VectorOfMat();
+        using var counts = new StdVector<int>();
+
+        NativeMethods.HandleException(
+            NativeMethods.dnn_Net_forwardAndRetrieve(
+                Handle, outBlobNamesArray, outBlobNamesArray.Length, flatBlobs.CvPtr, counts.CvPtr));
+
+        var flat = flatBlobs.ToArray();
+        var countsArray = counts.ToArray();
+        var result = new Mat[countsArray.Length][];
+        var offset = 0;
+        for (var i = 0; i < countsArray.Length; i++)
+        {
+            result[i] = new Mat[countsArray[i]];
+            Array.Copy(flat, offset, result[i], 0, countsArray[i]);
+            offset += countsArray[i];
+        }
+        return result;
     }
 
     /// <summary>

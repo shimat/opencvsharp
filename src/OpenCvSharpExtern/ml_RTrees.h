@@ -55,6 +55,14 @@ CVAPI(ExceptionStatus) ml_RTrees_getVarImportance(cv::ml::RTrees *obj, cv::Mat *
     });
 }
 
+CVAPI(ExceptionStatus) ml_RTrees_getVotes(
+    cv::ml::RTrees *obj, const interop::InputArrayProxy *samples, const interop::OutputArrayProxy *results, int flags)
+{
+    return cvTry([&] {
+        obj->getVotes(InProxy(*samples), OutProxy(*results), flags);
+    });
+}
+
 CVAPI(ExceptionStatus) ml_RTrees_create(cv::Ptr<cv::ml::RTrees> **returnValue)
 {
     return cvTry([&] {

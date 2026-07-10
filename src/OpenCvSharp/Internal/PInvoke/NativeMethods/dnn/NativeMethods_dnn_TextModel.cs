@@ -48,6 +48,10 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus dnn_TextRecognitionModel_recognize(OpenCvSafeHandle model, in InputArrayProxy frame, IntPtr outString);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus dnn_TextRecognitionModel_recognize_batch(
+        OpenCvSafeHandle model, in InputArrayProxy frame, in InputArrayProxy roiRects, IntPtr outVec);
+
     // ------------------------------------------------------------------------
     // TextDetectionModel (base; shared by EAST and DB)
     // ------------------------------------------------------------------------
