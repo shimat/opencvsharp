@@ -93,6 +93,19 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Returns the HighGUI backend name in use: could be COCOA, GTK2/3, QT, WAYLAND or WIN32.
+    /// Returns an empty string if there is no available UI backend.
+    /// </summary>
+    /// <returns></returns>
+    public static string CurrentUIFramework()
+    {
+        using var returnString = new StdString();
+        NativeMethods.HandleException(
+            NativeMethods.highgui_currentUIFramework(returnString.CvPtr));
+        return returnString.ToString();
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
@@ -118,7 +131,7 @@ static partial class Cv2
     }
 
     /// <summary>
-    /// Waits for a pressed key. 
+    /// Waits for a pressed key.
     /// </summary>
     /// <param name="delay">Delay in milliseconds. 0 is the special value that means ”forever”</param>
     /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
@@ -126,6 +139,17 @@ static partial class Cv2
     {
         NativeMethods.HandleException(
             NativeMethods.highgui_waitKey(delay, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Polls for a pressed key without waiting. To wait until a key is pressed, use WaitKey instead.
+    /// </summary>
+    /// <returns>Returns the code of the pressed key or -1 if no key was pressed since the last invocation.</returns>
+    public static int PollKey()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.highgui_pollKey(out var ret));
         return ret;
     }
 

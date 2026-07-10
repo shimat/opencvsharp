@@ -18,6 +18,20 @@ public class HighGuiTest : TestBase
         Assert.Equal(-1, val);
     }
 
+    [Fact]
+    public void PollKey()
+    {
+        int val = Cv2.PollKey();
+        Assert.Equal(-1, val);
+    }
+
+    [Fact]
+    public void CurrentUIFramework()
+    {
+        string framework = Cv2.CurrentUIFramework();
+        Assert.NotNull(framework);
+    }
+
     [ExplicitFact]
     public void Window()
     {

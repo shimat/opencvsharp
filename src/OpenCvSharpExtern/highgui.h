@@ -29,6 +29,13 @@ CVAPI(ExceptionStatus) highgui_destroyAllWindows()
     });
 }
 
+CVAPI(ExceptionStatus) highgui_currentUIFramework(std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::currentUIFramework());
+    });
+}
+
 CVAPI(ExceptionStatus) highgui_startWindowThread(int *returnValue)
 {
     return cvTry([&] {
@@ -49,7 +56,14 @@ CVAPI(ExceptionStatus) highgui_waitKey(int delay, int *returnValue)
         *returnValue = cv::waitKey(delay);
     });
 }
-  
+
+CVAPI(ExceptionStatus) highgui_pollKey(int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::pollKey();
+    });
+}
+
 
 CVAPI(ExceptionStatus) highgui_imshow(const char *winname, cv::Mat *mat)
 {
