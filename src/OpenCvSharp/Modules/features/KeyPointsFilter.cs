@@ -1,4 +1,5 @@
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -63,6 +64,32 @@ public static class KeyPointsFilter
             NativeMethods.features_KeyPointsFilter_runByPixelsMask(keypointsVec.CvPtr, mask.CvPtr));
         GC.KeepAlive(mask);
         return keypointsVec.ToArray();
+    }
+
+    /// <summary>
+    /// Remove objects from some image and a vector of points by mask for pixels of this image.
+    /// </summary>
+    /// <param name="keypoints"></param>
+    /// <param name="removeFrom"></param>
+    /// <param name="mask"></param>
+    /// <returns></returns>
+    public static (KeyPoint[] Keypoints, Point[][] RemoveFrom) RunByPixelsMask2VectorPoint(
+        IEnumerable<KeyPoint> keypoints, IEnumerable<IEnumerable<Point>> removeFrom, Mat mask)
+    {
+        ArgumentNullException.ThrowIfNull(keypoints);
+        ArgumentNullException.ThrowIfNull(removeFrom);
+        ArgumentNullException.ThrowIfNull(mask);
+        mask.ThrowIfDisposed();
+
+        using var keypointsVec = new StdVector<KeyPoint>(keypoints);
+        using var removeFromPtr = new ArrayAddress2<Point>(removeFrom);
+        using var removeFromResultVec = new VectorOfVectorPoint();
+        NativeMethods.HandleException(
+            NativeMethods.features_KeyPointsFilter_runByPixelsMask2VectorPoint(
+                keypointsVec.CvPtr, removeFromPtr.GetPointer(), removeFromPtr.GetDim1Length(), removeFromPtr.GetDim2Lengths(),
+                mask.CvPtr, removeFromResultVec.CvPtr));
+        GC.KeepAlive(mask);
+        return (keypointsVec.ToArray(), removeFromResultVec.ToArray());
     }
 
     /// <summary>

@@ -611,6 +611,67 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// finds the strong enough corners where the cornerMinEigenVal() or cornerHarris() report the local maxima
+    /// </summary>
+    /// <param name="src">Input 8-bit or floating-point 32-bit, single-channel image.</param>
+    /// <param name="maxCorners">Maximum number of corners to return. If there are more corners than are found,
+    /// the strongest of them is returned.</param>
+    /// <param name="qualityLevel">Parameter characterizing the minimal accepted quality of image corners.</param>
+    /// <param name="minDistance">Minimum possible Euclidean distance between the returned corners.</param>
+    /// <param name="mask">Optional region of interest. If the image is not empty
+    ///  (it needs to have the type CV_8UC1 and the same size as image ), it specifies the region
+    /// in which the corners are detected.</param>
+    /// <param name="blockSize">Size of an average block for computing a derivative covariation matrix over each pixel neighborhood.</param>
+    /// <param name="gradientSize">Aperture parameter for the Sobel operator used for derivatives computation.</param>
+    /// <param name="useHarrisDetector">Parameter indicating whether to use a Harris detector</param>
+    /// <param name="k">Free parameter of the Harris detector.</param>
+    /// <returns>Output vector of detected corners.</returns>
+    public static Point2f[] GoodFeaturesToTrack(InputArray src,
+        int maxCorners, double qualityLevel, double minDistance,
+        InputArray mask, int blockSize, int gradientSize, bool useHarrisDetector, double k)
+    {
+        using var vector = new StdVector<Point2f>();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_goodFeaturesToTrack_gradientSize(src.Proxy, vector.CvPtr, maxCorners, qualityLevel,
+                minDistance, mask.Proxy, blockSize, gradientSize, useHarrisDetector ? 1 : 0, k));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
+        return vector.ToArray();
+    }
+
+    /// <summary>
+    /// Same as GoodFeaturesToTrack, but returns also quality measure of the detected corners.
+    /// </summary>
+    /// <param name="src">Input 8-bit or floating-point 32-bit, single-channel image.</param>
+    /// <param name="maxCorners">Maximum number of corners to return. If there are more corners than are found,
+    /// the strongest of them is returned.</param>
+    /// <param name="qualityLevel">Parameter characterizing the minimal accepted quality of image corners.</param>
+    /// <param name="minDistance">Minimum possible Euclidean distance between the returned corners.</param>
+    /// <param name="mask">Region of interest. If the image is not empty
+    ///  (it needs to have the type CV_8UC1 and the same size as image ), it specifies the region
+    /// in which the corners are detected.</param>
+    /// <param name="cornersQuality">Output vector of quality measure of the detected corners.</param>
+    /// <param name="blockSize">Size of an average block for computing a derivative covariation matrix over each pixel neighborhood.</param>
+    /// <param name="gradientSize">Aperture parameter for the Sobel operator used for derivatives computation.</param>
+    /// <param name="useHarrisDetector">Parameter indicating whether to use a Harris detector</param>
+    /// <param name="k">Free parameter of the Harris detector.</param>
+    /// <returns>Output vector of detected corners.</returns>
+    public static Point2f[] GoodFeaturesToTrackWithQuality(InputArray src,
+        int maxCorners, double qualityLevel, double minDistance,
+        InputArray mask, OutputArray cornersQuality, int blockSize = 3, int gradientSize = 3,
+        bool useHarrisDetector = false, double k = 0.04)
+    {
+        using var vector = new StdVector<Point2f>();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_goodFeaturesToTrackWithQuality(src.Proxy, vector.CvPtr, maxCorners, qualityLevel,
+                minDistance, mask.Proxy, cornersQuality.Proxy, blockSize, gradientSize, useHarrisDetector ? 1 : 0, k));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(mask.Source);
+        GC.KeepAlive(cornersQuality.Source);
+        return vector.ToArray();
+    }
+
+    /// <summary>
     /// Finds lines in a binary image using standard Hough transform.
     /// </summary>
     /// <param name="image">The 8-bit, single-channel, binary source image. The image may be modified by the function</param>

@@ -1414,6 +1414,29 @@ public class ImgProcTest : TestBase
     }
 
     [Fact]
+    public void GoodFeaturesToTrackWithGradientSize()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var mask = new Mat();
+        var corners = Cv2.GoodFeaturesToTrack(src, 100, 0.01, 10, mask, 3, 3, false, 0.04);
+
+        Assert.True(corners.Length > 0);
+    }
+
+    [Fact]
+    public void GoodFeaturesToTrackWithQuality()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var mask = new Mat();
+        using var cornersQuality = new Mat();
+        var corners = Cv2.GoodFeaturesToTrackWithQuality(src, 100, 0.01, 10, mask, cornersQuality);
+
+        Assert.True(corners.Length > 0);
+        Assert.False(cornersQuality.Empty());
+        Assert.Equal(corners.Length, (int)cornersQuality.Total());
+    }
+
+    [Fact]
     public void GrabCut()
     {
         using var color = LoadImage("lenna.png", ImreadModes.Color);

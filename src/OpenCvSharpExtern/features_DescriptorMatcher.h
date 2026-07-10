@@ -171,6 +171,16 @@ CVAPI(ExceptionStatus) features_DescriptorMatcher_create(
     });
 }
 
+CVAPI(ExceptionStatus) features_DescriptorMatcher_create_MatcherType(
+    int matcherType, cv::Ptr<cv::DescriptorMatcher> **returnValue)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::DescriptorMatcher> ret = cv::DescriptorMatcher::create(
+            static_cast<cv::DescriptorMatcher::MatcherType>(matcherType));
+        *returnValue = new cv::Ptr<cv::DescriptorMatcher>(ret);
+    });
+}
+
 CVAPI(ExceptionStatus) features_Ptr_DescriptorMatcher_get(
     cv::Ptr<cv::DescriptorMatcher> *ptr, cv::DescriptorMatcher **returnValue)
 {

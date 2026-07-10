@@ -242,6 +242,10 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Ptr_SimpleBlobDetector_delete(IntPtr ptr);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_SimpleBlobDetector_getBlobContours(
+        OpenCvSafeHandle obj, IntPtr returnValue);
+
     #endregion
 
 

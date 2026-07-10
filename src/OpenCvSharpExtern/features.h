@@ -198,6 +198,23 @@ CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask(
     });
 }
 
+CVAPI(ExceptionStatus) features_KeyPointsFilter_runByPixelsMask2VectorPoint(
+    std::vector<cv::KeyPoint> *keypoints,
+    cv::Point **removeFrom, int removeFromSize1, int *removeFromSize2,
+    cv::Mat *mask,
+    std::vector<std::vector<cv::Point> > *removeFromResult)
+{
+    return cvTry([&] {
+        std::vector<std::vector<cv::Point> > removeFromVec;
+        for (auto i = 0; i < removeFromSize1; i++)
+        {
+            removeFromVec.emplace_back(removeFrom[i], removeFrom[i] + removeFromSize2[i]);
+        }
+        cv::KeyPointsFilter::runByPixelsMask2VectorPoint(*keypoints, removeFromVec, *mask);
+        *removeFromResult = removeFromVec;
+    });
+}
+
 CVAPI(ExceptionStatus) features_KeyPointsFilter_removeDuplicated(
     std::vector<cv::KeyPoint> *keypoints)
 {

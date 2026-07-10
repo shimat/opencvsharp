@@ -8,9 +8,44 @@ namespace OpenCvSharp;
 /// </summary>
 public class DescriptorMatcher : Algorithm
 {
+    /// <summary>
+    /// Descriptor matcher type, mirroring cv::DescriptorMatcher::MatcherType.
+    /// </summary>
+    public enum MatcherType
+    {
+        /// <summary>
+        /// FlannBasedMatcher
+        /// </summary>
+        FlannBased = 1,
+
+        /// <summary>
+        /// BFMatcher with NormTypes.L2
+        /// </summary>
+        BruteForce = 2,
+
+        /// <summary>
+        /// BFMatcher with NormTypes.L1
+        /// </summary>
+        BruteForceL1 = 3,
+
+        /// <summary>
+        /// BFMatcher with NormTypes.Hamming
+        /// </summary>
+        BruteForceHamming = 4,
+
+        /// <summary>
+        /// BFMatcher with NormTypes.Hamming2
+        /// </summary>
+        BruteForceHammingLut = 5,
+
+        /// <summary>
+        /// BFMatcher with NormTypes.L2SQR
+        /// </summary>
+        BruteForceSL2 = 6
+    }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     protected DescriptorMatcher(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
         : base(smartPtr, rawPtr, release) { }
@@ -60,6 +95,18 @@ public class DescriptorMatcher : Algorithm
             default:
                 throw new OpenCvSharpException($"Unknown matcher name '{descriptorMatcherType}'");
         }
+    }
+
+    /// <summary>
+    /// Creates a descriptor matcher of a given type with the default parameters (using default constructor).
+    /// </summary>
+    /// <param name="matcherType"></param>
+    /// <returns></returns>
+    public static DescriptorMatcher Create(MatcherType matcherType)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.features_DescriptorMatcher_create_MatcherType((int)matcherType, out var ptr));
+        return FromPtr(ptr);
     }
 
     /// <summary>

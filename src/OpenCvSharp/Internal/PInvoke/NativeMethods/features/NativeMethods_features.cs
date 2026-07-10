@@ -66,6 +66,11 @@ static partial class NativeMethods
         IntPtr keypoints, IntPtr mask);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_KeyPointsFilter_runByPixelsMask2VectorPoint(
+        IntPtr keypoints, IntPtr[] removeFrom, int removeFromSize1, int[] removeFromSize2,
+        IntPtr mask, IntPtr removeFromResult);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_KeyPointsFilter_removeDuplicated(
         IntPtr keypoints);
 

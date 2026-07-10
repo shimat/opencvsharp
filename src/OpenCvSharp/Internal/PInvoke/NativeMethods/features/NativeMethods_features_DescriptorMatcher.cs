@@ -66,6 +66,10 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string descriptorMatcherType, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus features_DescriptorMatcher_create_MatcherType(
+        int matcherType, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_Ptr_DescriptorMatcher_get(IntPtr ptr, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
