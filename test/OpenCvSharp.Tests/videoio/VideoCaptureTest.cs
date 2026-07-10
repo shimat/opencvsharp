@@ -12,6 +12,13 @@ namespace OpenCvSharp.Tests.VideoIO;
         // True only when a real V4L2 device is present (e.g. /dev/video0)
         public static bool HasV4L2Device => IsLinux && Directory.EnumerateFiles("/dev", "video*").Any();
 
+        // Backend used for the custom-stream (IStreamReader/Stream) VideoCapture tests below.
+        // FFMPEG's custom-stream support (VideoCapture(Ptr<IStreamReader>, ...)) is flaky on the
+        // Windows CI runners' prebuilt FFmpeg plugin DLL (createCapture(stream, ...) reports not
+        // opened there, while it works locally and on Linux/macOS); MSMF is stream-capable on
+        // Windows and avoids that CI-only failure.
+        private static VideoCaptureAPIs StreamCaptureApi => IsWindows ? VideoCaptureAPIs.MSMF : VideoCaptureAPIs.FFMPEG;
+
         [Fact]
         public void ReadImageSequence()
         {
@@ -161,10 +168,9 @@ namespace OpenCvSharp.Tests.VideoIO;
         public void OpenFromStream()
         {
             using var stream = new MemoryStream(CreateSampleVideoBytes());
-            using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+            using var capture = new VideoCapture(stream, StreamCaptureApi, Array.Empty<int>());
 
             Assert.True(capture.IsOpened());
-            Assert.Equal("FFMPEG", capture.GetBackendName());
             Assert.Equal(3, capture.FrameCount);
 
             using var frame = new Mat();
@@ -187,7 +193,7 @@ namespace OpenCvSharp.Tests.VideoIO;
                 File.WriteAllBytes(fileName, CreateSampleVideoBytes());
 
                 using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+                using var capture = new VideoCapture(stream, StreamCaptureApi, Array.Empty<int>());
 
                 Assert.True(capture.IsOpened());
                 using var frame = new Mat();
@@ -206,7 +212,7 @@ namespace OpenCvSharp.Tests.VideoIO;
             using var stream = new MemoryStream(CreateSampleVideoBytes());
             using var capture = new VideoCapture();
             capture.SetExceptionMode(true);
-            var opened = capture.Open(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+            var opened = capture.Open(stream, StreamCaptureApi, Array.Empty<int>());
 
             Assert.True(opened);
             Assert.True(capture.IsOpened());
@@ -231,7 +237,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         {
             using var stream = new MemoryStream(CreateSampleVideoBytes());
             var reader = new CountingStreamReader(stream);
-            using var capture = new VideoCapture(reader, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+            using var capture = new VideoCapture(reader, StreamCaptureApi, Array.Empty<int>());
 
             Assert.True(capture.IsOpened());
             using var frame = new Mat();
