@@ -1,63 +1,11 @@
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
 
 static partial class Cv2
 {
-    /// <summary>
-    /// Copies 'filename' to an ASCII-safe temp path (managed file I/O handles arbitrary Unicode
-    /// source paths natively, unlike OpenCV's narrow-string file APIs on Windows) and invokes
-    /// 'action' with that path; the temp file is deleted afterward. Used to retry a read-side native
-    /// call that reported it could not open the original path directly (Windows non-ANSI paths only;
-    /// see e.g. imgcodecs_imcount's acpOk contract).
-    /// </summary>
-    private static T RetryViaTempCopy<T>(string filename, T notFoundResult, Func<string, T> action)
-    {
-        if (!File.Exists(filename))
-            return notFoundResult;
-
-        var tempPath = Path.GetTempFileName();
-        try
-        {
-            File.Copy(filename, tempPath, overwrite: true);
-            return action(tempPath);
-        }
-        finally
-        {
-            File.Delete(tempPath);
-        }
-    }
-
-    /// <summary>
-    /// Invokes 'action' with an ASCII-safe temp path for it to write to, then moves that temp file to
-    /// 'filename' (managed file I/O handles arbitrary Unicode destination paths natively, unlike
-    /// OpenCV's narrow-string file APIs on Windows) if 'action' reports success. The temp file is
-    /// deleted if 'action' reports failure or throws. Used to retry a write-side native call that
-    /// reported it could not open the original path directly (Windows non-ANSI paths only).
-    /// </summary>
-    /// <remarks>
-    /// Unlike the read side, the temp path here keeps 'filename'-s extension: cv::imwrite and its
-    /// siblings pick the output codec from the destination path's extension (not the content), so a
-    /// generic .tmp path (as Path.GetTempFileName returns) would fail to resolve an encoder.
-    /// </remarks>
-    private static bool RetryViaTempMove(string filename, Func<string, bool> action)
-    {
-        var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + Path.GetExtension(filename));
-        try
-        {
-            if (!action(tempPath))
-                return false;
-            File.Move(tempPath, filename, overwrite: true);
-            return true;
-        }
-        finally
-        {
-            if (File.Exists(tempPath))
-                File.Delete(tempPath);
-        }
-    }
-
     /// <summary>
     /// Loads an image from a file.
     /// </summary>
@@ -114,7 +62,7 @@ static partial class Cv2
             NativeMethods.imgcodecs_imreadmulti_range(filename, matsVec.CvPtr, start, count, (int) flags, out var acpOk, out var ret));
         if (acpOk == 0)
         {
-            ret = RetryViaTempCopy(filename, 0, tempPath =>
+            ret = NonAnsiPathRetry.ViaTempCopy(filename, 0, tempPath =>
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgcodecs_imreadmulti_range(tempPath, matsVec.CvPtr, start, count, (int) flags, out _, out var tempRet));
@@ -143,7 +91,7 @@ static partial class Cv2
         if (acpOk != 0)
             return ret.ToInt64();
 
-        return RetryViaTempCopy(filename, 0L, tempPath =>
+        return NonAnsiPathRetry.ViaTempCopy(filename, 0L, tempPath =>
         {
             NativeMethods.HandleException(
                 NativeMethods.imgcodecs_imcount(tempPath, (int) flags, out _, out var tempRet));
@@ -170,7 +118,7 @@ static partial class Cv2
             NativeMethods.imgcodecs_imreadWithMetadata(filename, metadataTypesVec.CvPtr, metadataVec.CvPtr, (int) flags, out var acpOk, out var ret));
         if (acpOk == 0)
         {
-            ret = RetryViaTempCopy(filename, IntPtr.Zero, tempPath =>
+            ret = NonAnsiPathRetry.ViaTempCopy(filename, IntPtr.Zero, tempPath =>
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgcodecs_imreadWithMetadata(tempPath, metadataTypesVec.CvPtr, metadataVec.CvPtr, (int) flags, out _, out var tempRet));
@@ -218,7 +166,7 @@ static partial class Cv2
         if (acpOk != 0)
             return ret != 0;
 
-        return RetryViaTempMove(fileName, tempPath =>
+        return NonAnsiPathRetry.ViaTempMove(fileName, tempPath =>
         {
             NativeMethods.HandleException(
                 NativeMethods.imgcodecs_imwriteWithMetadata(
@@ -249,7 +197,7 @@ static partial class Cv2
         if (acpOk != 0)
             return ret != 0;
 
-        return RetryViaTempCopy(filename, 0, tempPath =>
+        return NonAnsiPathRetry.ViaTempCopy(filename, 0, tempPath =>
         {
             NativeMethods.HandleException(
                 NativeMethods.imgcodecs_imreadanimation(tempPath, animation.CvPtr, start, count, out _, out var tempRet));
@@ -297,7 +245,7 @@ static partial class Cv2
         if (acpOk != 0)
             return ret != 0;
 
-        return RetryViaTempMove(fileName, tempPath =>
+        return NonAnsiPathRetry.ViaTempMove(fileName, tempPath =>
         {
             NativeMethods.HandleException(
                 NativeMethods.imgcodecs_imwriteanimation(tempPath, animation.CvPtr, prms, prms.Length, out _, out var tempRet));

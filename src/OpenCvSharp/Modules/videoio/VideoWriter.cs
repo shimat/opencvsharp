@@ -5,6 +5,12 @@ namespace OpenCvSharp;
 /// <summary>
 /// AVI Video File Writer
 /// </summary>
+/// <remarks>
+/// On Windows, a destination path containing characters that can't be represented in the process's
+/// ANSI code page may fail to open even though the parent directory exists. Unlike <see cref="VideoCapture"/>,
+/// there is no stream-based constructor to work around this (the underlying cv::VideoWriter has no
+/// custom-stream write API); write to an ASCII-safe path instead.
+/// </remarks>
 public class VideoWriter : CvObject
 {
     #region Init and Disposal
@@ -283,6 +289,98 @@ public class VideoWriter : CvObject
     }
 
     /// <summary>
+    /// Creates video writer structure.
+    /// </summary>
+    /// <param name="fileName">Name of the output video file. </param>
+    /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc.
+    /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+    /// <param name="fps">Frame rate of the created video stream. </param>
+    /// <param name="frameSize">Size of video frames. </param>
+    /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
+    /// see cv::VideoWriterProperties</param>
+    /// <returns></returns>
+    public bool Open(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
+    {
+        ThrowIfDisposed();
+        if (string.IsNullOrEmpty(fileName))
+            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+
+        FileName = fileName;
+        Fps = fps;
+        FrameSize = frameSize;
+
+        NativeMethods.HandleException(
+            NativeMethods.videoio_VideoWriter_open3(Handle, fileName, fourcc, fps, frameSize, prms, prms.Length, out var ret));
+
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Creates video writer structure.
+    /// </summary>
+    /// <param name="fileName">Name of the output video file. </param>
+    /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc.
+    /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+    /// <param name="fps">Frame rate of the created video stream. </param>
+    /// <param name="frameSize">Size of video frames. </param>
+    /// <param name="prms">Parameters of VideoWriter for hardware acceleration</param>
+    /// <returns></returns>
+    public bool Open(string fileName, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
+    {
+        ArgumentNullException.ThrowIfNull(prms);
+        return Open(fileName, fourcc, fps, frameSize, prms.GetParameters());
+    }
+
+    /// <summary>
+    /// Creates video writer structure.
+    /// </summary>
+    /// <param name="fileName">Name of the output video file. </param>
+    /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
+    /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc.
+    /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+    /// <param name="fps">Frame rate of the created video stream. </param>
+    /// <param name="frameSize">Size of video frames. </param>
+    /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
+    /// see cv::VideoWriterProperties</param>
+    /// <returns></returns>
+    public bool Open(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[] prms)
+    {
+        ThrowIfDisposed();
+        if (string.IsNullOrEmpty(fileName))
+            throw new ArgumentNullException(nameof(fileName));
+        ArgumentNullException.ThrowIfNull(prms);
+
+        FileName = fileName;
+        Fps = fps;
+        FrameSize = frameSize;
+
+        NativeMethods.HandleException(
+            NativeMethods.videoio_VideoWriter_open4(Handle, fileName, (int)apiPreference, fourcc, fps, frameSize, prms, prms.Length, out var ret));
+
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Creates video writer structure.
+    /// </summary>
+    /// <param name="fileName">Name of the output video file. </param>
+    /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
+    /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc.
+    /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+    /// <param name="fps">Frame rate of the created video stream. </param>
+    /// <param name="frameSize">Size of video frames. </param>
+    /// <param name="prms">Parameters of VideoWriter for hardware acceleration</param>
+    /// <returns></returns>
+    public bool Open(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
+    {
+        ArgumentNullException.ThrowIfNull(prms);
+        return Open(fileName, apiPreference, fourcc, fps, frameSize, prms.GetParameters());
+    }
+
+    /// <summary>
     /// Returns true if video writer has been successfully initialized.
     /// </summary>
     /// <returns></returns>
@@ -306,18 +404,21 @@ public class VideoWriter : CvObject
     }
 
     /// <summary>
-    /// Writes/appends one frame to video file. 
+    /// Writes/appends one frame to video file.
     /// </summary>
     /// <param name="image">the written frame.</param>
-    /// <returns></returns>
-    public void Write(InputArray image)
+    /// <returns>`true` if the frame was written successfully by the underlying backend, `false` otherwise
+    /// (for example, on network errors when streaming, encoder failures, or unsupported input frames).
+    /// Backends that do not surface per-frame status from their native API report `true` on best-effort success.</returns>
+    public bool Write(InputArray image)
     {
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_write(Handle, image.Proxy));
+            NativeMethods.videoio_VideoWriter_write(Handle, image.Proxy, out var ret));
 
         GC.KeepAlive(image.Source);
+        return ret != 0;
     }
 
     /// <summary>

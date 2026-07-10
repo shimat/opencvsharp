@@ -132,4 +132,108 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.IsOpened());
             Assert.True(capture.Grab());
         }
+
+        private static byte[] CreateSampleMp4()
+        {
+            const string fileName = "temp_stream_source.mp4";
+            try
+            {
+                using var image = LoadImage("lenna.png");
+                using (var writer = new VideoWriter(fileName, VideoCaptureAPIs.FFMPEG, FourCC.MP4V, 10, image.Size()))
+                {
+                    Assert.True(writer.IsOpened());
+                    writer.Write(image);
+                    writer.Write(image);
+                    writer.Write(image);
+                }
+                return File.ReadAllBytes(fileName);
+            }
+            finally
+            {
+                if (File.Exists(fileName))
+                    File.Delete(fileName);
+            }
+        }
+
+        [Fact]
+        public void OpenFromStream()
+        {
+            using var stream = new MemoryStream(CreateSampleMp4());
+            using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+
+            Assert.True(capture.IsOpened());
+            Assert.Equal("FFMPEG", capture.GetBackendName());
+            Assert.Equal(3, capture.FrameCount);
+
+            using var frame = new Mat();
+            Assert.True(capture.Read(frame));
+            Assert.False(frame.Empty());
+        }
+
+        [Fact]
+        public void OpenNonAsciiPathViaFileStream()
+        {
+            // On Windows, the narrow-string VideoCapture(string) constructor can fail to open a path
+            // containing characters that aren't representable in the process's ANSI code page, even
+            // though the file exists. Wrapping the path in a FileStream (which uses Unicode file APIs)
+            // works around that without buffering the whole file into memory.
+            var dir = Path.Combine(Path.GetTempPath(), "非ASCIIパステスト");
+            Directory.CreateDirectory(dir);
+            var fileName = Path.Combine(dir, "動画.mp4");
+            try
+            {
+                File.WriteAllBytes(fileName, CreateSampleMp4());
+
+                using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+
+                Assert.True(capture.IsOpened());
+                using var frame = new Mat();
+                Assert.True(capture.Read(frame));
+                Assert.False(frame.Empty());
+            }
+            finally
+            {
+                try { Directory.Delete(dir, true); } catch (IOException) { /* best-effort cleanup */ }
+            }
+        }
+
+        [Fact]
+        public void OpenMethodFromStream()
+        {
+            using var stream = new MemoryStream(CreateSampleMp4());
+            using var capture = new VideoCapture();
+            var opened = capture.Open(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+
+            Assert.True(opened);
+            Assert.True(capture.IsOpened());
+            Assert.Equal(3, capture.FrameCount);
+        }
+
+        private sealed class CountingStreamReader(Stream inner) : IStreamReader
+        {
+            public int ReadCount { get; private set; }
+
+            public long Read(Span<byte> buffer)
+            {
+                ReadCount++;
+                return inner.Read(buffer);
+            }
+
+            public long Seek(long offset, SeekOrigin origin) => inner.Seek(offset, origin);
+        }
+
+        [Fact]
+        public void OpenFromCustomStreamReader()
+        {
+            using var stream = new MemoryStream(CreateSampleMp4());
+            var reader = new CountingStreamReader(stream);
+            using var capture = new VideoCapture(reader, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
+
+            Assert.True(capture.IsOpened());
+            using var frame = new Mat();
+            Assert.True(capture.Read(frame));
+            Assert.False(frame.Empty());
+            Assert.True(reader.ReadCount > 0);
+        }
     }

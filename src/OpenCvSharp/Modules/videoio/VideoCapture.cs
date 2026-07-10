@@ -14,6 +14,11 @@ public class VideoCapture : CvObject
     /// </summary>
     private CaptureType captureType;
 
+    /// <summary>
+    /// Keeps the stream-reader callback delegates alive for as long as this VideoCapture may call back into them.
+    /// </summary>
+    private StreamReaderBridge? streamReaderBridge;
+
     #region Init and Disposal
 
     /// <summary>
@@ -102,6 +107,76 @@ public class VideoCapture : CvObject
     }
 
     /// <summary>
+    /// Opens a video using a custom data stream.
+    /// </summary>
+    /// <param name="source">Custom stream reader providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+    /// See cv::VideoCaptureProperties</param>
+    /// <returns></returns>
+    public VideoCapture(IStreamReader source, VideoCaptureAPIs apiPreference, int[] prms)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(prms);
+
+        streamReaderBridge = new StreamReaderBridge(source);
+
+        NativeMethods.HandleException(
+            NativeMethods.videoio_VideoCapture_new6(
+                streamReaderBridge.ReadCallback, streamReaderBridge.SeekCallback, IntPtr.Zero,
+                (int)apiPreference, prms, prms.Length, out var p));
+
+        if (p == IntPtr.Zero)
+            throw new OpenCvSharpException("Failed to create VideoCapture");
+
+        captureType = CaptureType.File;
+        InitSafeHandle(p);
+    }
+
+    /// <summary>
+    /// Opens a video using a custom data stream.
+    /// </summary>
+    /// <param name="source">Custom stream reader providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
+    /// <returns></returns>
+    public VideoCapture(IStreamReader source, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+        : this(source, apiPreference, (prms ?? throw new ArgumentNullException(nameof(prms))).GetParameters())
+    {
+    }
+
+    /// <summary>
+    /// Opens a video using an in-memory or otherwise custom <see cref="Stream"/> (e.g. a MemoryStream or network stream).
+    /// The caller remains responsible for disposing the stream; VideoCapture does not take ownership of it.
+    /// </summary>
+    /// <param name="source">Stream providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+    /// See cv::VideoCaptureProperties</param>
+    /// <returns></returns>
+    public VideoCapture(Stream source, VideoCaptureAPIs apiPreference, int[] prms)
+        : this(new StreamReaderStreamAdapter(source ?? throw new ArgumentNullException(nameof(source))), apiPreference, prms)
+    {
+    }
+
+    /// <summary>
+    /// Opens a video using an in-memory or otherwise custom <see cref="Stream"/> (e.g. a MemoryStream or network stream).
+    /// The caller remains responsible for disposing the stream; VideoCapture does not take ownership of it.
+    /// </summary>
+    /// <param name="source">Stream providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
+    /// <returns></returns>
+    public VideoCapture(Stream source, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+        : this(new StreamReaderStreamAdapter(source ?? throw new ArgumentNullException(nameof(source))), apiPreference, prms)
+    {
+    }
+
+    /// <summary>
     /// Opens a camera for video capturing
     /// </summary>
     /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
@@ -122,7 +197,11 @@ public class VideoCapture : CvObject
     /// - or image sequence (e.g. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     /// - or URL of video stream (e.g. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
-    /// documentation of source stream to know the right URL.</param>
+    /// documentation of source stream to know the right URL.
+    /// On Windows, a path containing characters that can't be represented in the process's ANSI code
+    /// page may fail to open here even though the file exists; use the <see cref="Stream"/>-based
+    /// constructor instead (e.g. wrap the path in a <see cref="FileStream"/>) to open it via Unicode
+    /// file APIs.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
     /// <returns></returns>
@@ -136,7 +215,7 @@ public class VideoCapture : CvObject
 
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
-            
+
         captureType = CaptureType.File;
         InitSafeHandle(p);
     }
@@ -149,10 +228,14 @@ public class VideoCapture : CvObject
     /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
-    /// documentation of source stream to know the right URL.</param>
+    /// documentation of source stream to know the right URL.
+    /// On Windows, a path containing characters that can't be represented in the process's ANSI code
+    /// page may fail to open here even though the file exists; use the <see cref="Stream"/>-based
+    /// constructor instead (e.g. wrap the path in a <see cref="FileStream"/>) to open it via Unicode
+    /// file APIs.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
-    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`. 
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
     /// See cv::VideoCaptureProperties</param>
     /// <returns></returns>
     public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, int[] prms)
@@ -185,20 +268,8 @@ public class VideoCapture : CvObject
     /// <param name="prms">Parameters of VideoCature for hardware acceleration</param>
     /// <returns></returns>
     public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+        : this(fileName, apiPreference, (prms ?? throw new ArgumentNullException(nameof(prms))).GetParameters())
     {
-        if (string.IsNullOrEmpty(fileName))
-            throw new ArgumentNullException(nameof(fileName));
-        ArgumentNullException.ThrowIfNull(prms);
-        var prmsArray = prms.GetParameters();
-
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prmsArray, prmsArray.Length, out var p));
-
-        if (p == IntPtr.Zero)
-            throw new OpenCvSharpException("Failed to create VideoCapture");
-
-        captureType = CaptureType.File;
-        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -1045,7 +1116,11 @@ public class VideoCapture : CvObject
     /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
-    /// documentation of source stream to know the right URL.</param>
+    /// documentation of source stream to know the right URL.
+    /// On Windows, a path containing characters that can't be represented in the process's ANSI code
+    /// page may fail to open here even though the file exists; use the <see cref="Stream"/>-based
+    /// Open overload instead (e.g. wrap the path in a <see cref="FileStream"/>) to open it via Unicode
+    /// file APIs.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
     /// <returns>`true` if the file has been successfully opened</returns>
@@ -1056,11 +1131,59 @@ public class VideoCapture : CvObject
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_open1(Handle, fileName, (int)apiPreference, out var ret));
 
-        if (ret == 0) 
+        if (ret == 0)
             return false;
 
         captureType = CaptureType.File;
         return true;
+    }
+
+    /// <summary>
+    /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
+    /// </summary>
+    /// <param name="fileName">it can be:
+    /// - name of video file (eg. `video.avi`)
+    /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+    /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+    /// documentation of source stream to know the right URL.</param>
+    /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+    /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+    /// See cv::VideoCaptureProperties</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(string fileName, VideoCaptureAPIs apiPreference, int[] prms)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(prms);
+
+        NativeMethods.HandleException(
+            NativeMethods.videoio_VideoCapture_open4(Handle, fileName, (int)apiPreference, prms, prms.Length, out var ret));
+
+        if (ret == 0)
+            return false;
+
+        captureType = CaptureType.File;
+        return true;
+    }
+
+    /// <summary>
+    /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
+    /// </summary>
+    /// <param name="fileName">it can be:
+    /// - name of video file (eg. `video.avi`)
+    /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+    /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+    /// documentation of source stream to know the right URL.</param>
+    /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+    /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(string fileName, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+    {
+        ArgumentNullException.ThrowIfNull(prms);
+        return Open(fileName, apiPreference, prms.GetParameters());
     }
 
     /// <summary>
@@ -1083,6 +1206,81 @@ public class VideoCapture : CvObject
 
         captureType = CaptureType.Camera;
         return true;
+    }
+
+    /// <summary>
+    /// Opens a video using a custom data stream.
+    /// </summary>
+    /// <param name="source">Custom stream reader providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+    /// See cv::VideoCaptureProperties</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(IStreamReader source, VideoCaptureAPIs apiPreference, int[] prms)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(prms);
+
+        streamReaderBridge = new StreamReaderBridge(source);
+
+        NativeMethods.HandleException(
+            NativeMethods.videoio_VideoCapture_open3(
+                Handle, streamReaderBridge.ReadCallback, streamReaderBridge.SeekCallback, IntPtr.Zero,
+                (int)apiPreference, prms, prms.Length, out var ret));
+
+        if (ret == 0)
+            return false;
+
+        captureType = CaptureType.File;
+        return true;
+    }
+
+    /// <summary>
+    /// Opens a video using a custom data stream.
+    /// </summary>
+    /// <param name="source">Custom stream reader providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(IStreamReader source, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+    {
+        ArgumentNullException.ThrowIfNull(prms);
+        return Open(source, apiPreference, prms.GetParameters());
+    }
+
+    /// <summary>
+    /// Opens a video using an in-memory or otherwise custom <see cref="Stream"/> (e.g. a MemoryStream or network stream).
+    /// The caller remains responsible for disposing the stream; VideoCapture does not take ownership of it.
+    /// </summary>
+    /// <param name="source">Stream providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+    /// See cv::VideoCaptureProperties</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(Stream source, VideoCaptureAPIs apiPreference, int[] prms)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        return Open(new StreamReaderStreamAdapter(source), apiPreference, prms);
+    }
+
+    /// <summary>
+    /// Opens a video using an in-memory or otherwise custom <see cref="Stream"/> (e.g. a MemoryStream or network stream).
+    /// The caller remains responsible for disposing the stream; VideoCapture does not take ownership of it.
+    /// </summary>
+    /// <param name="source">Stream providing the encoded video data.</param>
+    /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+    /// if multiple are available: e.g. cv::CAP_FFMPEG.</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
+    /// <returns>`true` if the file has been successfully opened</returns>
+    public bool Open(Stream source, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(prms);
+        return Open(new StreamReaderStreamAdapter(source), apiPreference, prms.GetParameters());
     }
 
     /// <summary>

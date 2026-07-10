@@ -126,12 +126,17 @@ public enum VideoCaptureAPIs
     /// <summary>
     /// OpenNI2 (for Asus Xtion and Occipital Structure sensors)
     /// </summary>
-    OPENNI2_ASUS = 1610, 
+    OPENNI2_ASUS = 1610,
+
+    /// <summary>
+    /// OpenNI2 (for Orbbec Astra)
+    /// </summary>
+    OPENNI2_ASTRA = 1620,
 
     /// <summary>
     /// gPhoto2 connection
     /// </summary>
-    GPHOTO2 = 1700, 
+    GPHOTO2 = 1700,
 
     /// <summary>
     /// GStreamer
@@ -172,4 +177,11 @@ public enum VideoCaptureAPIs
     /// uEye Camera API
     /// </summary>
     CAP_UEYE = 2500,
+
+    /// <summary>
+    /// For Orbbec 3D-Sensor device/module (Astra+, Femto, Astra2, Gemini2, Gemini2L, Gemini2XL, Gemini330, Femto Mega)
+    /// attention: Astra2 cameras currently only support Windows and Linux kernel versions no higher than 4.15,
+    /// and higher versions of Linux kernel may have exceptions.
+    /// </summary>
+    OBSENSOR = 2600,
 }
