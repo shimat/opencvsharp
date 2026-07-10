@@ -133,13 +133,15 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.Grab());
         }
 
-        private static byte[] CreateSampleMp4()
+        private static byte[] CreateSampleVideoBytes()
         {
-            const string fileName = "temp_stream_source.mp4";
+            // OPENCV_MJPEG is a built-in codec (no external plugin DLL required), so this is stable
+            // across all CI platforms, unlike relying on an FFmpeg-specific fourcc/container combination.
+            const string fileName = "temp_stream_source.avi";
             try
             {
                 using var image = LoadImage("lenna.png");
-                using (var writer = new VideoWriter(fileName, VideoCaptureAPIs.FFMPEG, FourCC.MP4V, 10, image.Size()))
+                using (var writer = new VideoWriter(fileName, VideoCaptureAPIs.OPENCV_MJPEG, FourCC.MJPG, 10, image.Size()))
                 {
                     Assert.True(writer.IsOpened());
                     Assert.True(writer.Write(image));
@@ -158,7 +160,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         [Fact]
         public void OpenFromStream()
         {
-            using var stream = new MemoryStream(CreateSampleMp4());
+            using var stream = new MemoryStream(CreateSampleVideoBytes());
             using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
 
             Assert.True(capture.IsOpened());
@@ -179,10 +181,10 @@ namespace OpenCvSharp.Tests.VideoIO;
             // works around that without buffering the whole file into memory.
             var dir = Path.Combine(Path.GetTempPath(), "非ASCIIパステスト");
             Directory.CreateDirectory(dir);
-            var fileName = Path.Combine(dir, "動画.mp4");
+            var fileName = Path.Combine(dir, "動画.avi");
             try
             {
-                File.WriteAllBytes(fileName, CreateSampleMp4());
+                File.WriteAllBytes(fileName, CreateSampleVideoBytes());
 
                 using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 using var capture = new VideoCapture(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
@@ -201,7 +203,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         [Fact]
         public void OpenMethodFromStream()
         {
-            using var stream = new MemoryStream(CreateSampleMp4());
+            using var stream = new MemoryStream(CreateSampleVideoBytes());
             using var capture = new VideoCapture();
             var opened = capture.Open(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
 
@@ -226,7 +228,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         [Fact]
         public void OpenFromCustomStreamReader()
         {
-            using var stream = new MemoryStream(CreateSampleMp4());
+            using var stream = new MemoryStream(CreateSampleVideoBytes());
             var reader = new CountingStreamReader(stream);
             using var capture = new VideoCapture(reader, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
 

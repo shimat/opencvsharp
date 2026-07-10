@@ -1,9 +1,10 @@
 #pragma once
 
 #include "include_opencv.h"
-#include <opencv2/videoio/registry.hpp>
 
 #ifndef NO_VIDEOIO
+
+#include <opencv2/videoio/registry.hpp>
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
