@@ -3,3 +3,6 @@
 #include "xfeatures2d_BOW.h"
 #include "xfeatures2d_BEBLID.h"
 #include "xfeatures2d_Match.h"
+#include "xfeatures2d_MSDDetector.h"
+#include "xfeatures2d_VGG.h"
+#include "xfeatures2d_HarrisLaplace.h"
