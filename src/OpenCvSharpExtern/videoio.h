@@ -4,10 +4,147 @@
 
 #ifndef NO_VIDEOIO
 
+#include <opencv2/videoio/registry.hpp>
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
+
+#pragma region IStreamReader
+
+// Bridges a managed IStreamReader implementation to cv::IStreamReader via two C-style callbacks.
+// The managed side is responsible for keeping the callback delegates alive for as long as the
+// owning cv::VideoCapture may still invoke them.
+class ManagedStreamReader final : public cv::IStreamReader
+{
+public:
+    using ReadCallback = long long(*)(void* userData, unsigned char* buffer, long long size);
+    using SeekCallback = long long(*)(void* userData, long long offset, int origin);
+
+    ManagedStreamReader(const ReadCallback readCallback, const SeekCallback seekCallback, void* userData)
+        : readCallback_(readCallback), seekCallback_(seekCallback), userData_(userData)
+    {
+    }
+
+    long long read(char* buffer, const long long size) override
+    {
+        return readCallback_(userData_, reinterpret_cast<unsigned char*>(buffer), size);
+    }
+
+    long long seek(const long long offset, const int origin) override
+    {
+        return seekCallback_(userData_, offset, origin);
+    }
+
+private:
+    ReadCallback readCallback_;
+    SeekCallback seekCallback_;
+    void* userData_;
+};
+
+#pragma endregion
+
+#pragma region VideoIORegistry
+
+CVAPI(ExceptionStatus) videoio_registry_getBackendName(int api, std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::videoio_registry::getBackendName(static_cast<cv::VideoCaptureAPIs>(api)));
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getBackends(std::vector<int> *returnValue)
+{
+    return cvTry([&] {
+        const auto backends = cv::videoio_registry::getBackends();
+        returnValue->assign(backends.begin(), backends.end());
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getCameraBackends(std::vector<int> *returnValue)
+{
+    return cvTry([&] {
+        const auto backends = cv::videoio_registry::getCameraBackends();
+        returnValue->assign(backends.begin(), backends.end());
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getStreamBackends(std::vector<int> *returnValue)
+{
+    return cvTry([&] {
+        const auto backends = cv::videoio_registry::getStreamBackends();
+        returnValue->assign(backends.begin(), backends.end());
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getStreamBufferedBackends(std::vector<int> *returnValue)
+{
+    return cvTry([&] {
+        const auto backends = cv::videoio_registry::getStreamBufferedBackends();
+        returnValue->assign(backends.begin(), backends.end());
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getWriterBackends(std::vector<int> *returnValue)
+{
+    return cvTry([&] {
+        const auto backends = cv::videoio_registry::getWriterBackends();
+        returnValue->assign(backends.begin(), backends.end());
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_hasBackend(int api, int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::videoio_registry::hasBackend(static_cast<cv::VideoCaptureAPIs>(api)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_isBackendBuiltIn(int api, int *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::videoio_registry::isBackendBuiltIn(static_cast<cv::VideoCaptureAPIs>(api)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getCameraBackendPluginVersion(
+    int api, int *versionAbi, int *versionApi, std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::videoio_registry::getCameraBackendPluginVersion(
+            static_cast<cv::VideoCaptureAPIs>(api), *versionAbi, *versionApi));
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getStreamBackendPluginVersion(
+    int api, int *versionAbi, int *versionApi, std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::videoio_registry::getStreamBackendPluginVersion(
+            static_cast<cv::VideoCaptureAPIs>(api), *versionAbi, *versionApi));
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getStreamBufferedBackendPluginVersion(
+    int api, int *versionAbi, int *versionApi, std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::videoio_registry::getStreamBufferedBackendPluginVersion(
+            static_cast<cv::VideoCaptureAPIs>(api), *versionAbi, *versionApi));
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_registry_getWriterBackendPluginVersion(
+    int api, int *versionAbi, int *versionApi, std::string *returnValue)
+{
+    return cvTry([&] {
+        returnValue->assign(cv::videoio_registry::getWriterBackendPluginVersion(
+            static_cast<cv::VideoCaptureAPIs>(api), *versionAbi, *versionApi));
+    });
+}
+
+#pragma endregion
 
 #pragma region VideoCapture
 
@@ -65,6 +202,24 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new5(
 }
 
 
+CVAPI(ExceptionStatus) videoio_VideoCapture_new6(
+    ManagedStreamReader::ReadCallback readCallback,
+    ManagedStreamReader::SeekCallback seekCallback,
+    void* userData,
+    int apiPreference,
+    int* params,
+    int paramsLength,
+    cv::VideoCapture** returnValue)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::IStreamReader> reader = cv::makePtr<ManagedStreamReader>(readCallback, seekCallback, userData);
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        *returnValue = new cv::VideoCapture(reader, apiPreference, paramsVec);
+    });
+}
+
+
 CVAPI(ExceptionStatus) videoio_VideoCapture_delete(cv::VideoCapture *obj)
 {
     return cvTry([&] {
@@ -92,6 +247,39 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_open2(
 {
     return cvTry([&] {
         *returnValue = obj->open(device, apiPreference) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_VideoCapture_open3(
+    cv::VideoCapture *obj,
+    ManagedStreamReader::ReadCallback readCallback,
+    ManagedStreamReader::SeekCallback seekCallback,
+    void* userData,
+    int apiPreference,
+    int* params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::IStreamReader> reader = cv::makePtr<ManagedStreamReader>(readCallback, seekCallback, userData);
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        *returnValue = obj->open(reader, apiPreference, paramsVec) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) videoio_VideoCapture_open4(
+    cv::VideoCapture *obj,
+    const char *filename,
+    int apiPreference,
+    int* params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        *returnValue = obj->open(std::string(filename), apiPreference, paramsVec) ? 1 : 0;
     });
 }
 
@@ -330,6 +518,24 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_open2(
     });
 }
 
+CVAPI(ExceptionStatus) videoio_VideoWriter_open4(
+    cv::VideoWriter *obj,
+    const char* filename,
+    int apiPreference,
+    int fourcc,
+    double fps,
+    interop::Size frameSize,
+    int* params,
+    int paramsLength,
+    int *returnValue)
+{
+    return cvTry([&] {
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        *returnValue = obj->open(filename, apiPreference, fourcc, fps, cpp(frameSize), paramsVec) ? 1 : 0;
+    });
+}
+
 CVAPI(ExceptionStatus) videoio_VideoWriter_isOpened(cv::VideoWriter *obj, int *returnValue)
 {
     return cvTry([&] {
@@ -351,10 +557,10 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_release(cv::VideoWriter *obj)
     });
 }*/
 
-CVAPI(ExceptionStatus) videoio_VideoWriter_write(cv::VideoWriter *obj, const interop::InputArrayProxy* image)
+CVAPI(ExceptionStatus) videoio_VideoWriter_write(cv::VideoWriter *obj, const interop::InputArrayProxy* image, int *returnValue)
 {
     return cvTry([&] {
-        obj->write(InProxy(*image));
+        *returnValue = obj->write(InProxy(*image)) ? 1 : 0;
     });
 }
 
