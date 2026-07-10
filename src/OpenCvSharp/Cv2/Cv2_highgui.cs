@@ -144,6 +144,7 @@ static partial class Cv2
 
     /// <summary>
     /// Polls for a pressed key without waiting. To wait until a key is pressed, use WaitKey instead.
+    /// Only works if there is at least one HighGUI window created and active.
     /// </summary>
     /// <returns>Returns the code of the pressed key or -1 if no key was pressed since the last invocation.</returns>
     public static int PollKey()
