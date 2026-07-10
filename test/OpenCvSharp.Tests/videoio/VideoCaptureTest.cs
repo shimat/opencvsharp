@@ -205,6 +205,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         {
             using var stream = new MemoryStream(CreateSampleVideoBytes());
             using var capture = new VideoCapture();
+            capture.SetExceptionMode(true);
             var opened = capture.Open(stream, VideoCaptureAPIs.FFMPEG, Array.Empty<int>());
 
             Assert.True(opened);

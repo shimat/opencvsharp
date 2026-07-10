@@ -1130,6 +1130,8 @@ public class VideoCapture : CvObject
     public bool Open(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
     {
         ThrowIfDisposed();
+        if (string.IsNullOrEmpty(fileName))
+            throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_open1(Handle, fileName, (int)apiPreference, out var ret));
@@ -1163,6 +1165,8 @@ public class VideoCapture : CvObject
     public bool Open(string fileName, VideoCaptureAPIs apiPreference, int[] prms)
     {
         ThrowIfDisposed();
+        if (string.IsNullOrEmpty(fileName))
+            throw new ArgumentNullException(nameof(fileName));
         ArgumentNullException.ThrowIfNull(prms);
 
         NativeMethods.HandleException(
