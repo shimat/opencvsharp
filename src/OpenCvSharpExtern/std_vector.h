@@ -131,6 +131,12 @@ CV_VECTOR_CORE(DMatch, cv::DMatch)
 CV_VECTOR_NEW2(DMatch, cv::DMatch)
 CV_VECTOR_NEW3(DMatch, cv::DMatch)
 
+// cv::Elliptic_KeyPoint is not trivially copyable (virtual destructor), so AffineFeature2D's
+// bridge converts to/from interop::EllipticKeyPoint at the boundary instead of using
+// cv::Elliptic_KeyPoint directly as a vector element.
+CV_VECTOR_CORE(EllipticKeyPoint, interop::EllipticKeyPoint)
+CV_VECTOR_NEW3(EllipticKeyPoint, interop::EllipticKeyPoint)
+
 #undef CV_VECTOR_NEW3
 #undef CV_VECTOR_NEW2
 #undef CV_VECTOR_CORE

@@ -8,3 +8,4 @@
 #include "xfeatures2d_HarrisLaplace.h"
 #include "xfeatures2d_DAISY.h"
 #include "xfeatures2d_PCTSignatures.h"
+#include "xfeatures2d_AffineFeature2D.h"

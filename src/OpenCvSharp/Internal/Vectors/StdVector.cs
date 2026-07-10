@@ -136,6 +136,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec4i)) return NativeMethods.vector_Vec4i_new1();
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_new1();
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_new1();
+        if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_new1();
         throw Unsupported();
     }
 
@@ -174,6 +175,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(DMatch)) return NativeMethods.vector_DMatch_new3((DMatch[])(object)data, length);
         if (typeof(T) == typeof(Vec4f)) return NativeMethods.vector_Vec4f_new3((Vec4f[])(object)data, length);
         if (typeof(T) == typeof(Vec4i)) return NativeMethods.vector_Vec4i_new3((Vec4i[])(object)data, length);
+        if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_new3((XFeatures2D.EllipticKeyPoint[])(object)data, length);
         throw new NotSupportedException($"std::vector<{typeof(T)}> cannot be constructed from data.");
     }
 
@@ -199,6 +201,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec4i)) return NativeMethods.vector_Vec4i_getSize(ptr);
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_getSize(ptr);
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_getSize(ptr);
+        if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_getSize(ptr);
         throw Unsupported();
     }
 
@@ -224,6 +227,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec4i)) return NativeMethods.vector_Vec4i_getPointer(ptr);
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_getPointer(ptr);
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_getPointer(ptr);
+        if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_getPointer(ptr);
         throw Unsupported();
     }
 
@@ -249,6 +253,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec4i)) { NativeMethods.vector_Vec4i_delete(ptr); return; }
         if (typeof(T) == typeof(Vec6f)) { NativeMethods.vector_Vec6f_delete(ptr); return; }
         if (typeof(T) == typeof(Vec6d)) { NativeMethods.vector_Vec6d_delete(ptr); return; }
+        if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) { NativeMethods.vector_EllipticKeyPoint_delete(ptr); return; }
         throw Unsupported();
     }
 }
