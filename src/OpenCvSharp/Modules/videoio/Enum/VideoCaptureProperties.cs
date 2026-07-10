@@ -513,17 +513,17 @@ public enum VideoCaptureProperties
     /// <summary>
     ///
     /// </summary>
-    OpenNI_DepthGeneratorBaseline = OpenNI_ImageGenerator + OpenNI_Baseline,
+    OpenNI_DepthGeneratorBaseline = OpenNI_DepthGenerator + OpenNI_Baseline,
 
     /// <summary>
     ///
     /// </summary>
-    OpenNI_DepthGeneratorFocalLength = OpenNI_ImageGenerator + OpenNI_FocalLength,
+    OpenNI_DepthGeneratorFocalLength = OpenNI_DepthGenerator + OpenNI_FocalLength,
 
     /// <summary>
     ///
     /// </summary>
-    OpenNI_DepthGeneratorRegistrationON = OpenNI_ImageGenerator + OpenNI_Registration,
+    OpenNI_DepthGeneratorRegistrationON = OpenNI_DepthGenerator + OpenNI_Registration,
 
     /// <summary>
     ///

@@ -59,14 +59,14 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_new2(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string filename, int apiPreference, out IntPtr returnValue);
+        [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_new3(int device, int apiPreference, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_new4(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string filename, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
+        [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_new5(int device, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
@@ -82,7 +82,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_open1(
-        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string filename, int apiPreference, out int returnValue);
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_open2(OpenCvSafeHandle obj, int device, int apiPreference, out int returnValue);
@@ -96,7 +96,7 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_open4(
-        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPUTF8Str)] string filename, int apiPreference,
+        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference,
         [In] int[] @params, int paramsLength, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -182,11 +182,6 @@ static partial class NativeMethods
     public static partial ExceptionStatus videoio_VideoWriter_open2(
         OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference,
         int fourcc, double fps, Size frameSize, int isColor, out int returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus videoio_VideoWriter_open3(
-        OpenCvSafeHandle obj, [MarshalAs(UnmanagedType.LPStr)] string filename,
-        int fourcc, double fps, Size frameSize, [In] int[] @params, int paramsLength, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoWriter_open4(

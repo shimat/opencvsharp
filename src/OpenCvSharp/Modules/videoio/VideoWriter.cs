@@ -300,21 +300,7 @@ public class VideoWriter : CvObject
     /// see cv::VideoWriterProperties</param>
     /// <returns></returns>
     public bool Open(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
-    {
-        ThrowIfDisposed();
-        if (string.IsNullOrEmpty(fileName))
-            throw new ArgumentNullException(nameof(fileName));
-        ArgumentNullException.ThrowIfNull(prms);
-
-        FileName = fileName;
-        Fps = fps;
-        FrameSize = frameSize;
-
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_open3(Handle, fileName, fourcc, fps, frameSize, prms, prms.Length, out var ret));
-
-        return ret != 0;
-    }
+        => Open(fileName, VideoCaptureAPIs.ANY, fourcc, fps, frameSize, prms);
 
     /// <summary>
     /// Creates video writer structure.

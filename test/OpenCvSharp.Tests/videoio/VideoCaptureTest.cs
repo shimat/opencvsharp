@@ -142,9 +142,9 @@ namespace OpenCvSharp.Tests.VideoIO;
                 using (var writer = new VideoWriter(fileName, VideoCaptureAPIs.FFMPEG, FourCC.MP4V, 10, image.Size()))
                 {
                     Assert.True(writer.IsOpened());
-                    writer.Write(image);
-                    writer.Write(image);
-                    writer.Write(image);
+                    Assert.True(writer.Write(image));
+                    Assert.True(writer.Write(image));
+                    Assert.True(writer.Write(image));
                 }
                 return File.ReadAllBytes(fileName);
             }

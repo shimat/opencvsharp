@@ -11,8 +11,26 @@ public static partial class Cv2
     /// cv::videoio_registry functions.
     /// This section contains API description how to query/configure available Video I/O backends.
     /// </summary>
-    public static partial class VideoIO
+    public static partial class VideoIORegistry
     {
+        private delegate ExceptionStatus BackendsNative(IntPtr returnValue);
+
+        private delegate ExceptionStatus PluginVersionNative(int api, out int versionAbi, out int versionApi, IntPtr returnValue);
+
+        private static VideoCaptureAPIs[] GetBackendsCore(BackendsNative native)
+        {
+            using var vec = new StdVector<int>();
+            NativeMethods.HandleException(native(vec.CvPtr));
+            return vec.ToArray<VideoCaptureAPIs>();
+        }
+
+        private static string GetPluginVersionCore(PluginVersionNative native, VideoCaptureAPIs api, out int versionAbi, out int versionApi)
+        {
+            using var returnString = new StdString();
+            NativeMethods.HandleException(native((int)api, out versionAbi, out versionApi, returnString.CvPtr));
+            return returnString.ToString();
+        }
+
         /// <summary>
         /// Returns backend API name or "UnknownVideoAPI(xxx)"
         /// </summary>
@@ -30,61 +48,31 @@ public static partial class Cv2
         /// Returns list of all available backends
         /// </summary>
         /// <returns></returns>
-        public static VideoCaptureAPIs[] GetBackends()
-        {
-            using var vec = new StdVector<int>();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getBackends(vec.CvPtr));
-            return Array.ConvertAll(vec.ToArray(), v => (VideoCaptureAPIs)v);
-        }
+        public static VideoCaptureAPIs[] GetBackends() => GetBackendsCore(NativeMethods.videoio_registry_getBackends);
 
         /// <summary>
         /// Returns list of available backends which works via VideoCapture(int index)
         /// </summary>
         /// <returns></returns>
-        public static VideoCaptureAPIs[] GetCameraBackends()
-        {
-            using var vec = new StdVector<int>();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getCameraBackends(vec.CvPtr));
-            return Array.ConvertAll(vec.ToArray(), v => (VideoCaptureAPIs)v);
-        }
+        public static VideoCaptureAPIs[] GetCameraBackends() => GetBackendsCore(NativeMethods.videoio_registry_getCameraBackends);
 
         /// <summary>
         /// Returns list of available backends which works via VideoCapture(filename)
         /// </summary>
         /// <returns></returns>
-        public static VideoCaptureAPIs[] GetStreamBackends()
-        {
-            using var vec = new StdVector<int>();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getStreamBackends(vec.CvPtr));
-            return Array.ConvertAll(vec.ToArray(), v => (VideoCaptureAPIs)v);
-        }
+        public static VideoCaptureAPIs[] GetStreamBackends() => GetBackendsCore(NativeMethods.videoio_registry_getStreamBackends);
 
         /// <summary>
         /// Returns list of available backends which works via VideoCapture(buffer)
         /// </summary>
         /// <returns></returns>
-        public static VideoCaptureAPIs[] GetStreamBufferedBackends()
-        {
-            using var vec = new StdVector<int>();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getStreamBufferedBackends(vec.CvPtr));
-            return Array.ConvertAll(vec.ToArray(), v => (VideoCaptureAPIs)v);
-        }
+        public static VideoCaptureAPIs[] GetStreamBufferedBackends() => GetBackendsCore(NativeMethods.videoio_registry_getStreamBufferedBackends);
 
         /// <summary>
         /// Returns list of available backends which works via VideoWriter()
         /// </summary>
         /// <returns></returns>
-        public static VideoCaptureAPIs[] GetWriterBackends()
-        {
-            using var vec = new StdVector<int>();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getWriterBackends(vec.CvPtr));
-            return Array.ConvertAll(vec.ToArray(), v => (VideoCaptureAPIs)v);
-        }
+        public static VideoCaptureAPIs[] GetWriterBackends() => GetBackendsCore(NativeMethods.videoio_registry_getWriterBackends);
 
         /// <summary>
         /// Returns true if backend is available
@@ -118,13 +106,7 @@ public static partial class Cv2
         /// <param name="versionApi"></param>
         /// <returns></returns>
         public static string GetCameraBackendPluginVersion(VideoCaptureAPIs api, out int versionAbi, out int versionApi)
-        {
-            using var returnString = new StdString();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getCameraBackendPluginVersion(
-                    (int)api, out versionAbi, out versionApi, returnString.CvPtr));
-            return returnString.ToString();
-        }
+            => GetPluginVersionCore(NativeMethods.videoio_registry_getCameraBackendPluginVersion, api, out versionAbi, out versionApi);
 
         /// <summary>
         /// Returns description and ABI/API version of videoio plugin's stream capture interface
@@ -134,13 +116,7 @@ public static partial class Cv2
         /// <param name="versionApi"></param>
         /// <returns></returns>
         public static string GetStreamBackendPluginVersion(VideoCaptureAPIs api, out int versionAbi, out int versionApi)
-        {
-            using var returnString = new StdString();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getStreamBackendPluginVersion(
-                    (int)api, out versionAbi, out versionApi, returnString.CvPtr));
-            return returnString.ToString();
-        }
+            => GetPluginVersionCore(NativeMethods.videoio_registry_getStreamBackendPluginVersion, api, out versionAbi, out versionApi);
 
         /// <summary>
         /// Returns description and ABI/API version of videoio plugin's buffer capture interface
@@ -150,13 +126,7 @@ public static partial class Cv2
         /// <param name="versionApi"></param>
         /// <returns></returns>
         public static string GetStreamBufferedBackendPluginVersion(VideoCaptureAPIs api, out int versionAbi, out int versionApi)
-        {
-            using var returnString = new StdString();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getStreamBufferedBackendPluginVersion(
-                    (int)api, out versionAbi, out versionApi, returnString.CvPtr));
-            return returnString.ToString();
-        }
+            => GetPluginVersionCore(NativeMethods.videoio_registry_getStreamBufferedBackendPluginVersion, api, out versionAbi, out versionApi);
 
         /// <summary>
         /// Returns description and ABI/API version of videoio plugin's writer interface
@@ -166,12 +136,6 @@ public static partial class Cv2
         /// <param name="versionApi"></param>
         /// <returns></returns>
         public static string GetWriterBackendPluginVersion(VideoCaptureAPIs api, out int versionAbi, out int versionApi)
-        {
-            using var returnString = new StdString();
-            NativeMethods.HandleException(
-                NativeMethods.videoio_registry_getWriterBackendPluginVersion(
-                    (int)api, out versionAbi, out versionApi, returnString.CvPtr));
-            return returnString.ToString();
-        }
+            => GetPluginVersionCore(NativeMethods.videoio_registry_getWriterBackendPluginVersion, api, out versionAbi, out versionApi);
     }
 }

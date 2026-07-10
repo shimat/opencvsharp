@@ -44,7 +44,12 @@ internal sealed class StreamReaderBridge
             unsafe
             {
                 var span = new Span<byte>((void*)buffer, checked((int)size));
-                return source.Read(span);
+                var read = source.Read(span);
+                // Defensive: a misbehaving IStreamReader implementation must not be able to make native
+                // code believe it received more bytes than actually fit in the buffer it handed us.
+                if (read < 0 || read > span.Length)
+                    return -1;
+                return read;
             }
         }
         catch

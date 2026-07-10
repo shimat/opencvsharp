@@ -2,7 +2,7 @@ namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
 /// Helpers for retrying a native narrow-string file API call whose path could not be represented in the
-/// process ANSI code page on Windows (see e.g. imgcodecs_imcount's / videoio's acpOk contract).
+/// process ANSI code page on Windows (see e.g. imgcodecs_imcount's acpOk contract).
 /// </summary>
 internal static class NonAnsiPathRetry
 {
@@ -38,9 +38,8 @@ internal static class NonAnsiPathRetry
     /// </summary>
     /// <remarks>
     /// Unlike the read side, the temp path here keeps 'filename'-s extension: encoder-selection-by-path
-    /// APIs such as cv::imwrite and cv::VideoWriter pick the output codec from the destination path's
-    /// extension (not the content), so a generic .tmp path (as Path.GetTempFileName returns) would fail
-    /// to resolve an encoder.
+    /// APIs such as cv::imwrite pick the output codec from the destination path's extension (not the
+    /// content), so a generic .tmp path (as Path.GetTempFileName returns) would fail to resolve an encoder.
     /// </remarks>
     public static bool ViaTempMove(string filename, Func<string, bool> action)
     {

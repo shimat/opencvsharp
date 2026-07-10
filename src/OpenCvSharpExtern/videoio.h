@@ -517,23 +517,6 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_open2(
     });
 }
 
-CVAPI(ExceptionStatus) videoio_VideoWriter_open3(
-    cv::VideoWriter *obj,
-    const char* filename,
-    int fourcc,
-    double fps,
-    interop::Size frameSize,
-    int* params,
-    int paramsLength,
-    int *returnValue)
-{
-    return cvTry([&] {
-        std::vector<int> paramsVec;
-        paramsVec.assign(params, params + paramsLength);
-        *returnValue = obj->open(filename, fourcc, fps, cpp(frameSize), paramsVec) ? 1 : 0;
-    });
-}
-
 CVAPI(ExceptionStatus) videoio_VideoWriter_open4(
     cv::VideoWriter *obj,
     const char* filename,

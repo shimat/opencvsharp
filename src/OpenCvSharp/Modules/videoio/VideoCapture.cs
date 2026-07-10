@@ -268,7 +268,10 @@ public class VideoCapture : CvObject
     /// <param name="prms">Parameters of VideoCature for hardware acceleration</param>
     /// <returns></returns>
     public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
-        : this(fileName, apiPreference, (prms ?? throw new ArgumentNullException(nameof(prms))).GetParameters())
+        : this(
+            string.IsNullOrEmpty(fileName) ? throw new ArgumentNullException(nameof(fileName)) : fileName,
+            apiPreference,
+            (prms ?? throw new ArgumentNullException(nameof(prms))).GetParameters())
     {
     }
 
@@ -1135,6 +1138,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
+        streamReaderBridge = null;
         return true;
     }
 
@@ -1146,7 +1150,11 @@ public class VideoCapture : CvObject
     /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
-    /// documentation of source stream to know the right URL.</param>
+    /// documentation of source stream to know the right URL.
+    /// On Windows, a path containing characters that can't be represented in the process's ANSI code
+    /// page may fail to open here even though the file exists; use the <see cref="Stream"/>-based
+    /// Open overload instead (e.g. wrap the path in a <see cref="FileStream"/>) to open it via Unicode
+    /// file APIs.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
     /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
@@ -1164,6 +1172,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
+        streamReaderBridge = null;
         return true;
     }
 
@@ -1175,7 +1184,11 @@ public class VideoCapture : CvObject
     /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
-    /// documentation of source stream to know the right URL.</param>
+    /// documentation of source stream to know the right URL.
+    /// On Windows, a path containing characters that can't be represented in the process's ANSI code
+    /// page may fail to open here even though the file exists; use the <see cref="Stream"/>-based
+    /// Open overload instead (e.g. wrap the path in a <see cref="FileStream"/>) to open it via Unicode
+    /// file APIs.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
     /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
@@ -1201,10 +1214,11 @@ public class VideoCapture : CvObject
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoCapture_open2(Handle, index, (int)apiPreference, out var ret));
 
-        if (ret == 0) 
+        if (ret == 0)
             return false;
 
         captureType = CaptureType.Camera;
+        streamReaderBridge = null;
         return true;
     }
 
@@ -1247,6 +1261,7 @@ public class VideoCapture : CvObject
     /// <returns>`true` if the file has been successfully opened</returns>
     public bool Open(IStreamReader source, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
     {
+        ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(prms);
         return Open(source, apiPreference, prms.GetParameters());
     }
