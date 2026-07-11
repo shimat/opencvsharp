@@ -110,24 +110,22 @@ CVAPI(ExceptionStatus) xfeatures2d_DAISY_getUseOrientation(cv::xfeatures2d::DAIS
     return cvTry([&] { *returnValue = obj->getUseOrientation() ? 1 : 0; });
 }
 
+// Thin size accessor so the managed side (DAISY.Compute(InputArray, Rect, OutputArray)) can
+// validate roi against the image bounds itself before calling compute_roi below; see that
+// managed method for why the validation is needed (an upstream OpenCV buffer-overflow bug).
+CVAPI(ExceptionStatus) xfeatures2d_DAISY_getImageSize(const interop::InputArrayProxy *image, interop::Size *returnValue)
+{
+    return cvTry([&] {
+        const cv::Size sz = static_cast<const cv::_InputArray&>(InProxy(*image)).size();
+        *returnValue = interop::Size{ sz.width, sz.height };
+    });
+}
+
 CVAPI(ExceptionStatus) xfeatures2d_DAISY_compute_roi(
     cv::xfeatures2d::DAISY *obj, const interop::InputArrayProxy *image, interop::Rect roi, const interop::OutputArrayProxy *descriptors)
 {
     return cvTry([&] {
-        const InProxy imageProxy(*image);
-        const cv::Rect roiRect = cpp(roi);
-        // DAISY_Impl::compute_descriptors (opencv_contrib xfeatures2d/src/daisy.cpp) indexes its
-        // output buffer using absolute image coordinates while sizing the buffer to only
-        // roi.width*roi.height rows, so it overflows unless roi covers the entire image. Guard
-        // here instead of silently corrupting memory.
-        const cv::Size imageSize = static_cast<const cv::_InputArray&>(imageProxy).size();
-        if (roiRect.x != 0 || roiRect.y != 0 || roiRect.width != imageSize.width || roiRect.height != imageSize.height)
-        {
-            CV_Error(cv::Error::StsBadArg,
-                "DAISY.Compute(image, roi, descriptors): due to an upstream OpenCV bug, roi must cover "
-                "the entire image (x=0, y=0, width=image.Cols, height=image.Rows)");
-        }
-        obj->compute(static_cast<const cv::_InputArray&>(imageProxy), roiRect, OutProxy(*descriptors));
+        obj->compute(InProxy(*image), cpp(roi), OutProxy(*descriptors));
     });
 }
 

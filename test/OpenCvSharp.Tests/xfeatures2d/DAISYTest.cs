@@ -64,7 +64,7 @@ public class DAISYTest : TestBase
         using var descriptors = new Mat();
         using var daisy = DAISY.Create();
 
-        Assert.Throws<OpenCVException>(() => daisy.Compute(gray, new Rect(0, 10, gray.Cols, 50), descriptors));
+        Assert.Throws<ArgumentException>(() => daisy.Compute(gray, new Rect(0, 10, gray.Cols, 50), descriptors));
     }
 
     [Fact]

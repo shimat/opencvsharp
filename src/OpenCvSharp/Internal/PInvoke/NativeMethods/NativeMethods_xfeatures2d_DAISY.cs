@@ -62,6 +62,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus xfeatures2d_DAISY_getUseOrientation(OpenCvSafeHandle obj, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus xfeatures2d_DAISY_getImageSize(in InputArrayProxy image, out Size returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus xfeatures2d_DAISY_compute_roi(
         OpenCvSafeHandle obj, in InputArrayProxy image, Rect roi, in OutputArrayProxy descriptors);
 

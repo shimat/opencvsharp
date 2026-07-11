@@ -199,8 +199,8 @@ public class DAISY : Feature2D
     /// coordinates even though the buffer is only sized <c>roi.Width * roi.Height</c> rows,
     /// so it overflows unless <paramref name="roi"/> covers the entire image
     /// (<c>roi.X == 0 &amp;&amp; roi.Y == 0 &amp;&amp; roi.Width == image.Cols &amp;&amp; roi.Height == image.Rows</c>).
-    /// The native bridge guards against this and throws <see cref="OpenCVException"/> instead of
-    /// letting a partial ROI corrupt memory.
+    /// This is validated up front and throws <see cref="ArgumentException"/> instead of letting a
+    /// partial ROI corrupt memory.
     /// </remarks>
     /// <param name="image">Image to extract descriptors from.</param>
     /// <param name="roi">Region of interest within the image. Must cover the entire image (see remarks).</param>
@@ -208,6 +208,14 @@ public class DAISY : Feature2D
     public void Compute(InputArray image, Rect roi, OutputArray descriptors)
     {
         ThrowIfDisposed();
+
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_DAISY_getImageSize(image.Proxy, out var imageSize));
+        if (roi.X != 0 || roi.Y != 0 || roi.Width != imageSize.Width || roi.Height != imageSize.Height)
+        {
+            throw new ArgumentException(
+                "Due to an upstream OpenCV bug, roi must cover the entire image " +
+                "(X=0, Y=0, Width=image.Cols, Height=image.Rows).", nameof(roi));
+        }
 
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_DAISY_compute_roi(Handle, image.Proxy, roi, descriptors.Proxy));
