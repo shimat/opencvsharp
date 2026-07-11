@@ -12,8 +12,14 @@ namespace OpenCvSharp.XFeatures2D;
 public class AffineFeature2D : Feature2D
 {
     /// <summary>
-    ///
+    /// Used by subclasses of the native cv::xfeatures2d::AffineFeature2D hierarchy (e.g. TBMR),
+    /// which need the elliptic detect/detectAndCompute methods below but are constructed through
+    /// their own native create()/delete() pair rather than AffineFeature2D::create().
     /// </summary>
+    protected AffineFeature2D(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
+        : base(smartPtr, rawPtr, releaseSmartPtr)
+    { }
+
     private AffineFeature2D(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_AffineFeature2D_delete(p)))
     { }

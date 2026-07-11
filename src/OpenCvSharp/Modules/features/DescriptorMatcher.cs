@@ -34,7 +34,7 @@ public class DescriptorMatcher : Algorithm
         BruteForceHamming = 4,
 
         /// <summary>
-        /// BFMatcher with NormTypes.Hamming2
+        /// BFMatcher with NormTypes.Hamming
         /// </summary>
         BruteForceHammingLut = 5,
 

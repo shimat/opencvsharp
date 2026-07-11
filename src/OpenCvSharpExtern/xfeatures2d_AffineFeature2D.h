@@ -12,16 +12,14 @@
 
 namespace
 {
+    // pt/size/angle/response/octave/class_id and axes are byte-identical to cv::KeyPoint/cv::Size2f,
+    // so reuse the existing bit_cast converters (my_types.h) instead of copying those fields by hand.
+    // si and transf have no cv:: counterpart in interop:: and are copied directly.
     interop::EllipticKeyPoint toInterop(const cv::xfeatures2d::Elliptic_KeyPoint &kp)
     {
         interop::EllipticKeyPoint ekp{};
-        ekp.base.pt = interop::Point2f{ kp.pt.x, kp.pt.y };
-        ekp.base.size = kp.size;
-        ekp.base.angle = kp.angle;
-        ekp.base.response = kp.response;
-        ekp.base.octave = kp.octave;
-        ekp.base.class_id = kp.class_id;
-        ekp.axes = interop::Size2f{ kp.axes.width, kp.axes.height };
+        ekp.base = c(static_cast<const cv::KeyPoint&>(kp));
+        ekp.axes = c(kp.axes);
         ekp.si = kp.si;
         ekp.transf[0] = kp.transf(0, 0); ekp.transf[1] = kp.transf(0, 1); ekp.transf[2] = kp.transf(0, 2);
         ekp.transf[3] = kp.transf(1, 0); ekp.transf[4] = kp.transf(1, 1); ekp.transf[5] = kp.transf(1, 2);
@@ -31,13 +29,8 @@ namespace
     cv::xfeatures2d::Elliptic_KeyPoint fromInterop(const interop::EllipticKeyPoint &ekp)
     {
         cv::xfeatures2d::Elliptic_KeyPoint kp;
-        kp.pt = cv::Point2f(ekp.base.pt.x, ekp.base.pt.y);
-        kp.size = ekp.base.size;
-        kp.angle = ekp.base.angle;
-        kp.response = ekp.base.response;
-        kp.octave = ekp.base.octave;
-        kp.class_id = ekp.base.class_id;
-        kp.axes = cv::Size2f(ekp.axes.width, ekp.axes.height);
+        static_cast<cv::KeyPoint&>(kp) = cpp(ekp.base);
+        kp.axes = cpp(ekp.axes);
         kp.si = ekp.si;
         kp.transf = cv::Matx23f(
             ekp.transf[0], ekp.transf[1], ekp.transf[2],

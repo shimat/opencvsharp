@@ -41,4 +41,18 @@ public class TBMRTest : TestBase
         alg.NScales = 2;
         Assert.Equal(2, alg.NScales);
     }
+
+    [Fact]
+    public void DetectElliptic()
+    {
+        // TBMR extends AffineFeature2D natively (cv::xfeatures2d::TBMR : AffineFeature2D), so the
+        // elliptic-region detect API should be available on the C# type too, not just plain Detect().
+        using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var tbmr = TBMR.Create();
+
+        var keypoints = tbmr.DetectElliptic(gray);
+
+        Assert.NotEmpty(keypoints);
+        Assert.All(keypoints, kp => Assert.True(kp.Axes.Width >= 0 && kp.Axes.Height >= 0));
+    }
 }

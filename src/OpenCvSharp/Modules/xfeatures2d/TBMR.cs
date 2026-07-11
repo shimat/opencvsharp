@@ -4,9 +4,10 @@ namespace OpenCvSharp.XFeatures2D;
 
 /// <summary>
 /// Class implementing the Tree Based Morse Regions (TBMR) detector, extended with scaled
-/// extraction ability.
+/// extraction ability. Extends AffineFeature2D (mirroring cv::xfeatures2d::TBMR : AffineFeature2D),
+/// so DetectElliptic/DetectAndComputeElliptic are available in addition to the plain Feature2D API.
 /// </summary>
-public class TBMR : Feature2D
+public class TBMR : AffineFeature2D
 {
     /// <summary>
     ///
