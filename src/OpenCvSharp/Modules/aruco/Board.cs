@@ -35,7 +35,11 @@ public class Board : CvObject
         ArgumentNullException.ThrowIfNull(ids);
         dictionary.ThrowIfDisposed();
 
-        using var objPointsAddress = new ArrayAddress2<Point3f>(objPoints.ToArray());
+        var objPointsArray = objPoints.ToArray();
+        if (objPointsArray.Any(marker => marker.Length != 4))
+            throw new ArgumentException("Each marker must have exactly 4 corners.", nameof(objPoints));
+
+        using var objPointsAddress = new ArrayAddress2<Point3f>(objPointsArray);
         using var idsVec = new StdVector<int>(ids);
 
         NativeMethods.HandleException(

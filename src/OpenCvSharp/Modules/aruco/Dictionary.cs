@@ -123,6 +123,7 @@ public class Dictionary : CvObject
     public bool ReadDictionary(FileNode fn)
     {
         ArgumentNullException.ThrowIfNull(fn);
+        fn.ThrowIfDisposed();
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -141,6 +142,7 @@ public class Dictionary : CvObject
     {
         ArgumentNullException.ThrowIfNull(fs);
         ArgumentNullException.ThrowIfNull(name);
+        fs.ThrowIfDisposed();
         ThrowIfDisposed();
 
         NativeMethods.HandleException(

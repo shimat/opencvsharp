@@ -251,12 +251,7 @@ public class ArucoDetector : CvObject
         NativeMethods.HandleException(
             NativeMethods.aruco_ArucoDetector_getDictionaries(Handle, ptrs, size));
 
-        var result = new Dictionary[size];
-        for (var i = 0; i < size; i++)
-        {
-            result[i] = new Dictionary(ptrs[i]);
-        }
-        return result;
+        return ptrs.Select(ptr => new Dictionary(ptr)).ToArray();
     }
 
     /// <summary>

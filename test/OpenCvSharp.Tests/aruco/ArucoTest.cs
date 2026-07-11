@@ -940,6 +940,18 @@ public class ArucoTest : TestBase
     }
 
     [Fact]
+    public void Board_Create_RejectsMarkerWithoutExactly4Corners()
+    {
+        using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
+        var badObjPoints = new[]
+        {
+            new[] { new Point3f(0, 0, 0), new Point3f(1, 0, 0), new Point3f(1, 1, 0) },
+        };
+
+        Assert.Throws<ArgumentException>(() => new Board(badObjPoints, dict, [0]));
+    }
+
+    [Fact]
     public void Board_GenerateImage()
     {
         using var dict = Cv2.Aruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict4X4_50);
