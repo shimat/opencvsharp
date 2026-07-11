@@ -115,4 +115,121 @@ public class CharucoDetector : CvObject
 
         GC.KeepAlive(image.Source);
     }
+
+    /// <summary>
+    /// Gets the ChArUco board used by this detector.
+    /// </summary>
+    public CharucoBoard GetBoard()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_getBoard(Handle, out var ret));
+        return new CharucoBoard(ret);
+    }
+
+    /// <summary>
+    /// Sets the ChArUco board used by this detector.
+    /// </summary>
+    public void SetBoard(CharucoBoard board)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(board);
+        board.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_setBoard(Handle, board.CvPtr));
+
+        GC.KeepAlive(board);
+    }
+
+    /// <summary>
+    /// Gets the charuco detection parameters currently used.
+    /// </summary>
+    public CharucoParameters GetCharucoParameters()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_getCharucoParameters(
+                Handle, out var cameraMatrix, out var distCoeffs, out var minMarkers, out var tryRefineMarkers, out var checkMarkers));
+
+        return new CharucoParameters
+        {
+            CameraMatrix = new Mat(cameraMatrix),
+            DistCoeffs = new Mat(distCoeffs),
+            MinMarkers = minMarkers,
+            TryRefineMarkers = tryRefineMarkers != 0,
+            CheckMarkers = checkMarkers != 0,
+        };
+    }
+
+    /// <summary>
+    /// Sets the charuco detection parameters to be used.
+    /// </summary>
+    public void SetCharucoParameters(CharucoParameters charucoParameters)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(charucoParameters);
+        ArgumentNullException.ThrowIfNull(charucoParameters.CameraMatrix);
+        ArgumentNullException.ThrowIfNull(charucoParameters.DistCoeffs);
+
+        if (charucoParameters.CameraMatrix.Empty() != charucoParameters.DistCoeffs.Empty())
+            throw new ArgumentException("CameraMatrix and DistCoeffs must both be empty or both provided.", nameof(charucoParameters));
+
+        InputArray cameraMatrix = charucoParameters.CameraMatrix;
+        InputArray distCoeffs = charucoParameters.DistCoeffs;
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_setCharucoParameters(
+                Handle,
+                cameraMatrix.Proxy,
+                distCoeffs.Proxy,
+                charucoParameters.MinMarkers,
+                charucoParameters.TryRefineMarkers ? 1 : 0,
+                charucoParameters.CheckMarkers ? 1 : 0));
+
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+    }
+
+    /// <summary>
+    /// Gets the detector parameters currently used for marker detection.
+    /// </summary>
+    public DetectorParameters GetDetectorParameters()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_getDetectorParameters(Handle, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Sets the detector parameters to be used for marker detection.
+    /// </summary>
+    public void SetDetectorParameters(DetectorParameters detectorParameters)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_setDetectorParameters(Handle, ref detectorParameters));
+    }
+
+    /// <summary>
+    /// Gets the marker refine detection parameters currently used.
+    /// </summary>
+    public RefineParameters GetRefineParameters()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_getRefineParameters(Handle, out var ret));
+        return ret;
+    }
+
+    /// <summary>
+    /// Sets the marker refine detection parameters to be used.
+    /// </summary>
+    public void SetRefineParameters(RefineParameters refineParameters)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_CharucoDetector_setRefineParameters(Handle, ref refineParameters));
+    }
 }

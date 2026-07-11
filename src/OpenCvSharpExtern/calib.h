@@ -8,6 +8,52 @@
 
 #include "include_opencv.h"
 
+extern "C"
+{
+    // cv::CirclesGridFinderParameters (declared in objdetect.hpp; only consumed here by
+    // findCirclesGrid, so kept local rather than shared across translation units).
+    struct calib_CirclesGridFinderParameters
+    {
+        interop::Size2f densityNeighborhoodSize;
+        float minDensity;
+        int kmeansAttempts;
+        int minDistanceToAddKeypoint;
+        int keypointScale;
+        float minGraphConfidence;
+        float vertexGain;
+        float vertexPenalty;
+        float existingVertexGain;
+        float edgeGain;
+        float edgePenalty;
+        float convexHullFactor;
+        float minRNGEdgeSwitchDist;
+        int gridType;
+        float squareSize;
+        float maxRectifiedDistance;
+    };
+}
+
+static cv::CirclesGridFinderParameters cpp(const calib_CirclesGridFinderParameters& p)
+{
+    cv::CirclesGridFinderParameters pp;
+    pp.densityNeighborhoodSize = cpp(p.densityNeighborhoodSize);
+    pp.minDensity = p.minDensity;
+    pp.kmeansAttempts = p.kmeansAttempts;
+    pp.minDistanceToAddKeypoint = p.minDistanceToAddKeypoint;
+    pp.keypointScale = p.keypointScale;
+    pp.minGraphConfidence = p.minGraphConfidence;
+    pp.vertexGain = p.vertexGain;
+    pp.vertexPenalty = p.vertexPenalty;
+    pp.existingVertexGain = p.existingVertexGain;
+    pp.edgeGain = p.edgeGain;
+    pp.edgePenalty = p.edgePenalty;
+    pp.convexHullFactor = p.convexHullFactor;
+    pp.minRNGEdgeSwitchDist = p.minRNGEdgeSwitchDist;
+    pp.gridType = static_cast<cv::CirclesGridFinderParameters::GridType>(p.gridType);
+    pp.squareSize = p.squareSize;
+    pp.maxRectifiedDistance = p.maxRectifiedDistance;
+    return pp;
+}
 
 CVAPI(ExceptionStatus) calib_initCameraMatrix2D_Mat(
     cv::Mat **objectPoints,
@@ -123,6 +169,46 @@ CVAPI(ExceptionStatus) calib_findCirclesGrid_vector(
             const cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
             *returnValue = cv::findCirclesGrid(InProxy(*image), cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
         }
+    });
+}
+
+CVAPI(ExceptionStatus) calib_findCirclesGrid_InputArray_Params(
+    const interop::InputArrayProxy* image,
+    interop::Size patternSize,
+    const interop::OutputArrayProxy* centers,
+    int flags,
+    cv::FeatureDetector* blobDetector,
+    const calib_CirclesGridFinderParameters* parameters,
+    int *returnValue)
+{
+    return cvTry([&] {
+        cv::Ptr<cv::FeatureDetector> detectorPtr;
+        if (blobDetector == nullptr)
+            detectorPtr = cv::SimpleBlobDetector::create();
+        else
+            detectorPtr = cv::Ptr<cv::FeatureDetector>(blobDetector, BlobDetectorDeleter); // don't delete
+        *returnValue = cv::findCirclesGrid(
+            InProxy(*image), cpp(patternSize), OutProxy(*centers), flags, detectorPtr, cpp(*parameters)) ? 1 : 0;
+    });
+}
+
+CVAPI(ExceptionStatus) calib_findCirclesGrid_vector_Params(
+    const interop::InputArrayProxy* image,
+    interop::Size patternSize,
+    std::vector<cv::Point2f> *centers,
+    int flags,
+    cv::FeatureDetector* blobDetector,
+    const calib_CirclesGridFinderParameters* parameters,
+    int *returnValue)
+{
+    return cvTry([&] {
+        cv::Ptr<cv::FeatureDetector> detectorPtr;
+        if (blobDetector == nullptr)
+            detectorPtr = cv::SimpleBlobDetector::create();
+        else
+            detectorPtr = cv::Ptr<cv::FeatureDetector>(blobDetector, BlobDetectorDeleter); // don't delete
+        *returnValue = cv::findCirclesGrid(
+            InProxy(*image), cpp(patternSize), *centers, flags, detectorPtr, cpp(*parameters)) ? 1 : 0;
     });
 }
 

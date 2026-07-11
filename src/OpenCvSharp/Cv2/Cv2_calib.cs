@@ -168,6 +168,61 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Finds centers in the grid of circles, using custom finder parameters.
+    /// </summary>
+    /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
+    /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
+    /// <param name="centers">output array of detected centers.</param>
+    /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
+    /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background. If null, SimpleBlobDetector is used.</param>
+    /// <param name="parameters">struct for finding circles in a grid pattern.</param>
+    /// <returns></returns>
+    public static bool FindCirclesGrid(
+        InputArray image,
+        Size patternSize,
+        OutputArray centers,
+        FindCirclesGridFlags flags,
+        FeatureDetector? blobDetector,
+        in CirclesGridFinderParameters parameters)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.calib_findCirclesGrid_InputArray_Params(
+                image.Proxy, patternSize, centers.Proxy, (int) flags, ToPtr(blobDetector), parameters, out var ret));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(centers.Source);
+        GC.KeepAlive(blobDetector);
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Finds centers in the grid of circles, using custom finder parameters.
+    /// </summary>
+    /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
+    /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
+    /// <param name="centers">output array of detected centers.</param>
+    /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
+    /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background. If null, SimpleBlobDetector is used.</param>
+    /// <param name="parameters">struct for finding circles in a grid pattern.</param>
+    /// <returns></returns>
+    public static bool FindCirclesGrid(
+        InputArray image,
+        Size patternSize,
+        out Point2f[] centers,
+        FindCirclesGridFlags flags,
+        FeatureDetector? blobDetector,
+        in CirclesGridFinderParameters parameters)
+    {
+        using var centersVec = new StdVector<Point2f>();
+        NativeMethods.HandleException(
+            NativeMethods.calib_findCirclesGrid_vector_Params(
+                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), parameters, out var ret));
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(blobDetector);
+        centers = centersVec.ToArray();
+        return ret != 0;
+    }
+
+    /// <summary>
     /// finds intrinsic and extrinsic camera parameters from several fews of a known calibration pattern.
     /// </summary>
     /// <param name="objectPoints">In the new interface it is a vector of vectors of calibration pattern points in the calibration pattern coordinate space. 

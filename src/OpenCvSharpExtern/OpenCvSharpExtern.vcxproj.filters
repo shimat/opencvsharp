@@ -282,6 +282,12 @@
     <ClInclude Include="objdetect_QRCodeDetector.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
+    <ClInclude Include="objdetect_QRCodeEncoder.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect_QRCodeDetectorAruco.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
     <ClInclude Include="objdetect_HOGDescriptor.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
@@ -389,6 +395,9 @@
     </ClInclude>
     <ClInclude Include="shape.h" />
     <ClInclude Include="objdetect_FaceDetectorYN.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect_FaceRecognizerSF.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
   </ItemGroup>

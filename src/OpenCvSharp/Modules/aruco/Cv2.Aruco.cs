@@ -69,6 +69,42 @@ public static partial class Cv2
         }
 
         /// <summary>
+        /// Returns one of the predefined dictionaries referenced by DICT_*.
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <returns></returns>
+        public static Dictionary GetPredefinedDictionary(int dict)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.aruco_getPredefinedDictionary(dict, out IntPtr p));
+            return new Dictionary(p);
+        }
+
+        /// <summary>
+        /// Extend base dictionary by new nMarkers.
+        /// This function creates a new dictionary composed by nMarkers markers and each markers composed
+        /// by markerSize x markerSize bits. If baseDictionary is provided, its markers are directly
+        /// included and the rest are generated based on them. If the size of baseDictionary is higher
+        /// than nMarkers, only the first nMarkers in baseDictionary are taken and no new marker is added.
+        /// </summary>
+        /// <param name="nMarkers">number of markers in the dictionary</param>
+        /// <param name="markerSize">number of bits per dimension of each markers</param>
+        /// <param name="baseDictionary">Include the markers in this dictionary at the beginning (optional)</param>
+        /// <param name="randomSeed">a user supplied seed for theRNG()</param>
+        /// <returns></returns>
+        public static Dictionary ExtendDictionary(int nMarkers, int markerSize, Dictionary? baseDictionary = null, int randomSeed = 0)
+        {
+            baseDictionary?.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.aruco_extendDictionary(
+                    nMarkers, markerSize, baseDictionary?.CvPtr ?? IntPtr.Zero, randomSeed, out var p));
+
+            GC.KeepAlive(baseDictionary);
+            return new Dictionary(p);
+        }
+
+        /// <summary>
         /// Reads a new dictionary from FileNode.
         /// </summary>
         /// <remarks>

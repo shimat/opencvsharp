@@ -148,8 +148,11 @@
     <ClInclude Include="my_types.h" />
     <ClInclude Include="objdetect.h" />
     <ClInclude Include="objdetect_FaceDetectorYN.h" />
+    <ClInclude Include="objdetect_FaceRecognizerSF.h" />
     <ClInclude Include="objdetect_HOGDescriptor.h" />
     <ClInclude Include="objdetect_QRCodeDetector.h" />
+    <ClInclude Include="objdetect_QRCodeDetectorAruco.h" />
+    <ClInclude Include="objdetect_QRCodeEncoder.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="photo.h" />

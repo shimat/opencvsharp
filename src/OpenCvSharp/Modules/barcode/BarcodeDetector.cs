@@ -41,6 +41,17 @@ public class BarcodeDetector : CvObject
     }
 
     /// <summary>
+    /// Get detector downsampling threshold.
+    /// </summary>
+    /// <returns>the downsampling limit currently applied.</returns>
+    public double GetDownsamplingThreshold()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.barcode_BarcodeDetector_getDownsamplingThreshold(Handle, out var returnValue));
+        return returnValue;
+    }
+
+    /// <summary>
     /// Set detector gradient magnitude threshold.
     /// 
     /// Sets the coherence threshold for detected bounding boxes.
@@ -52,6 +63,17 @@ public class BarcodeDetector : CvObject
     {
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_setGradientThreshold(Handle, thresh));
+    }
+
+    /// <summary>
+    /// Get detector gradient magnitude threshold.
+    /// </summary>
+    /// <returns>the gradient magnitude threshold currently applied.</returns>
+    public double GetGradientThreshold()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.barcode_BarcodeDetector_getGradientThreshold(Handle, out var returnValue));
+        return returnValue;
     }
 
     /// <summary>
@@ -68,6 +90,18 @@ public class BarcodeDetector : CvObject
         using var sizesVec = new StdVector<float>(sizes);
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_setDetectorScales(Handle, sizesVec.CvPtr));
+    }
+
+    /// <summary>
+    /// Get detector box filter sizes.
+    /// </summary>
+    /// <returns>the box filter sizes currently applied, relative to minimum dimension of the image.</returns>
+    public float[] GetDetectorScales()
+    {
+        using var sizesVec = new StdVector<float>();
+        NativeMethods.HandleException(
+            NativeMethods.barcode_BarcodeDetector_getDetectorScales(Handle, sizesVec.CvPtr));
+        return sizesVec.ToArray();
     }
 
     /// <summary>
@@ -93,4 +127,27 @@ public class BarcodeDetector : CvObject
         GC.KeepAlive(inputImage.Source);
     }
 
+    /// <summary>
+    /// Decodes barcode in image once it's found by the detect() method.
+    /// </summary>
+    /// <param name="inputImage">supports grayscale or color(BGR) image.</param>
+    /// <param name="points">vector of rotated rectangle vertices found by detect() method (or some other algorithm).</param>
+    /// <param name="results">list of decoded string.</param>
+    /// <param name="types">list of decoded types.</param>
+    /// <returns>true if at least one valid barcode is found.</returns>
+    public bool DecodeWithType(InputArray inputImage, IEnumerable<Point2f> points, out string[] results, out string[] types)
+    {
+        ArgumentNullException.ThrowIfNull(points);
+        using var pointsVec = new StdVector<Point2f>(points);
+        using var infos = new VectorOfString();
+        using var resultTypes = new VectorOfString();
+        NativeMethods.HandleException(
+            NativeMethods.barcode_BarcodeDetector_decodeWithType(
+                Handle, inputImage.Proxy, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr, out var returnValue));
+
+        results = infos.ToArray();
+        types = resultTypes.ToArray();
+        GC.KeepAlive(inputImage.Source);
+        return returnValue != 0;
     }
+}
