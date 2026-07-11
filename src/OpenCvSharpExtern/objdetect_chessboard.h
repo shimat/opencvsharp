@@ -20,6 +20,23 @@ CVAPI(ExceptionStatus) objdetect_checkChessboard(
 }
 
 
+CVAPI(ExceptionStatus) objdetect_estimateChessboardSharpness(
+    const interop::InputArrayProxy* image,
+    interop::Size patternSize,
+    const interop::InputArrayProxy* corners,
+    float riseDistance,
+    int vertical,
+    const interop::OutputArrayProxy* sharpness,
+    interop::Scalar *returnValue)
+{
+    return cvTry([&] {
+        const auto ret = cv::estimateChessboardSharpness(
+            InProxy(*image), cpp(patternSize), InProxy(*corners), riseDistance, vertical != 0, OutProxy(*sharpness));
+        *returnValue = c(ret);
+    });
+}
+
+
 CVAPI(ExceptionStatus) objdetect_findChessboardCornersSB_OutputArray(
     const interop::InputArrayProxy* image,
     interop::Size patternSize,

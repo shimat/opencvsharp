@@ -29,10 +29,24 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDownsamplingThreshold(cv::barc
     });
 }
 
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_getDownsamplingThreshold(cv::barcode::BarcodeDetector *obj, double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getDownsamplingThreshold();
+    });
+}
+
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDetectorScales(cv::barcode::BarcodeDetector *obj, std::vector<float> *sizes)
 {
     return cvTry([&] {
         obj->setDetectorScales(*sizes);
+    });
+}
+
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_getDetectorScales(cv::barcode::BarcodeDetector *obj, std::vector<float> *sizes)
+{
+    return cvTry([&] {
+        obj->getDetectorScales(*sizes);
     });
 }
 
@@ -43,15 +57,23 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_setGradientThreshold(cv::barcode:
     });
 }
 
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_getGradientThreshold(cv::barcode::BarcodeDetector *obj, double *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getGradientThreshold();
+    });
+}
+
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(
     cv::barcode::BarcodeDetector *obj,
     const interop::InputArrayProxy* inputImage,
     std::vector<cv::Point2f> *points,
     std::vector<std::string> *detectorInfos,
-    std::vector<std::string> *detectorTypes)
+    std::vector<std::string> *detectorTypes,
+    int *returnValue)
 {
     return cvTry([&] {
-        obj->decodeWithType(InProxy(*inputImage), *points, *detectorInfos, *detectorTypes);
+        *returnValue = obj->decodeWithType(InProxy(*inputImage), *points, *detectorInfos, *detectorTypes) ? 1 : 0;
     });
 }
 

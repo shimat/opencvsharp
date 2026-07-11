@@ -132,4 +132,105 @@ static partial class NativeMethods
     internal static partial ExceptionStatus bgsegm_BackgroundSubtractorGMG_getBackgroundImage(OpenCvSafeHandle ptr, in OutputArrayProxy backgroundImage);
 
     #endregion
+
+    #region BackgroundSubtractorCNT
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_createBackgroundSubtractorCNT(
+        int minPixelStability, int useHistory, int maxPixelStability, int isParallel, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorCNT_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorCNT_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_getMinPixelStability(OpenCvSafeHandle ptr, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_setMinPixelStability(OpenCvSafeHandle ptr, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_getMaxPixelStability(OpenCvSafeHandle ptr, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_setMaxPixelStability(OpenCvSafeHandle ptr, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_getUseHistory(OpenCvSafeHandle ptr, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_setUseHistory(OpenCvSafeHandle ptr, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_getIsParallel(OpenCvSafeHandle ptr, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_BackgroundSubtractorCNT_setIsParallel(OpenCvSafeHandle ptr, int value);
+
+    #endregion
+
+    #region BackgroundSubtractorGSOC
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_createBackgroundSubtractorGSOC(
+        int mc, int nSamples, float replaceRate, float propagationRate, int hitsThreshold,
+        float alpha, float beta, float blinkingSupressionDecay, float blinkingSupressionMultiplier,
+        float noiseRemovalThresholdFacBG, float noiseRemovalThresholdFacFG,
+        out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorGSOC_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorGSOC_delete(IntPtr obj);
+
+    #endregion
+
+    #region BackgroundSubtractorLSBP
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_createBackgroundSubtractorLSBP(
+        int mc, int nSamples, int lsbpRadius, float tLower, float tUpper, float tInc, float tDec,
+        float rScale, float rIncdec, float noiseRemovalThresholdFacBG, float noiseRemovalThresholdFacFG,
+        int lsbpThreshold, int minCount,
+        out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorLSBP_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus bgsegm_Ptr_BackgroundSubtractorLSBP_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorLSBPDesc_calcLocalSVDValues(
+        in OutputArrayProxy localSVDValues, IntPtr frame);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorLSBPDesc_computeFromLocalSVDValues(
+        in OutputArrayProxy desc, IntPtr localSVDValues, [In] Point[] lsbpSamplePoints);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_BackgroundSubtractorLSBPDesc_compute(
+        in OutputArrayProxy desc, IntPtr frame, [In] Point[] lsbpSamplePoints);
+
+    #endregion
+
+    #region SyntheticSequenceGenerator
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_SyntheticSequenceGenerator_new(
+        in InputArrayProxy background, in InputArrayProxy @object,
+        double amplitude, double wavelength, double wavespeed, double objspeed,
+        out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_SyntheticSequenceGenerator_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus bgsegm_SyntheticSequenceGenerator_getNextFrame(
+        OpenCvSafeHandle obj, in OutputArrayProxy frame, in OutputArrayProxy gtMask);
+
+    #endregion
 }

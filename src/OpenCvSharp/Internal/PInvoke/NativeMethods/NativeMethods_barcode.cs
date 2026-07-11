@@ -25,7 +25,19 @@ static partial class NativeMethods
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_getDownsamplingThreshold(
+        OpenCvSafeHandle obj,
+        out double returnValue
+    );
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_setDetectorScales(
+        OpenCvSafeHandle obj,
+        IntPtr sizes
+    );
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_getDetectorScales(
         OpenCvSafeHandle obj,
         IntPtr sizes
     );
@@ -37,6 +49,12 @@ static partial class NativeMethods
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus barcode_BarcodeDetector_getGradientThreshold(
+        OpenCvSafeHandle obj,
+        out double returnValue
+    );
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus barcode_BarcodeDetector_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -45,7 +63,8 @@ static partial class NativeMethods
         in InputArrayProxy inputImage,
         IntPtr points,
         IntPtr infos,
-        IntPtr types
+        IntPtr types,
+        out int returnValue
     );
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

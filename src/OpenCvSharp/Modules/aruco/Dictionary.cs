@@ -8,7 +8,35 @@ namespace OpenCvSharp.Aruco;
 public class Dictionary : CvObject
 {
     /// <summary>
-    /// 
+    /// Creates an empty dictionary.
+    /// </summary>
+    public Dictionary()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_new_default(out var p));
+        InitSafeHandle(p);
+    }
+
+    /// <summary>
+    /// Basic ArUco dictionary constructor
+    /// </summary>
+    /// <param name="bytesList">bits for all ArUco markers in dictionary. See class description for the memory layout.</param>
+    /// <param name="markerSize">ArUco marker size in units</param>
+    /// <param name="maxCorrectionBits">maximum number of bits that can be corrected</param>
+    public Dictionary(Mat bytesList, int markerSize, int maxCorrectionBits = 0)
+    {
+        ArgumentNullException.ThrowIfNull(bytesList);
+        bytesList.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_new(bytesList.CvPtr, markerSize, maxCorrectionBits, out var p));
+        InitSafeHandle(p);
+
+        GC.KeepAlive(bytesList);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     internal Dictionary(IntPtr ptr)
     {
@@ -88,6 +116,42 @@ public class Dictionary : CvObject
     }
     
     /// <summary>
+    /// Read a new dictionary from FileNode.
+    /// </summary>
+    /// <param name="fn">the FileNode to read the dictionary from.</param>
+    /// <returns></returns>
+    public bool ReadDictionary(FileNode fn)
+    {
+        ArgumentNullException.ThrowIfNull(fn);
+        fn.ThrowIfDisposed();
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_readDictionary(Handle, fn.CvPtr, out var ret));
+
+        GC.KeepAlive(fn);
+        return ret != 0;
+    }
+
+    /// <summary>
+    /// Write a dictionary to FileStorage, format is the same as in ReadDictionary().
+    /// </summary>
+    /// <param name="fs">the FileStorage to write the dictionary to.</param>
+    /// <param name="name">name of the node to write.</param>
+    public void WriteDictionary(FileStorage fs, string name = "")
+    {
+        ArgumentNullException.ThrowIfNull(fs);
+        ArgumentNullException.ThrowIfNull(name);
+        fs.ThrowIfDisposed();
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_writeDictionary(Handle, fs.CvPtr, name));
+
+        GC.KeepAlive(fs);
+    }
+
+    /// <summary>
     /// Given a matrix of bits. Returns whether if marker is identified or not.
     /// It returns by reference the correct id (if any) and the correct rotation
     /// </summary>
@@ -104,10 +168,33 @@ public class Dictionary : CvObject
 
         NativeMethods.HandleException(
             NativeMethods.aruco_Dictionary_identify(Handle, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
-        
+
         return ret != 0;
     }
-    
+
+    /// <summary>
+    /// Given a matrix of pixel ratio ranging from 0 to 1. Returns whether if marker is identified or not.
+    /// It returns by reference the correct id (if any) and the correct rotation
+    /// </summary>
+    /// <param name="onlyCellPixelRatio"></param>
+    /// <param name="idx"></param>
+    /// <param name="rotation"></param>
+    /// <param name="maxCorrectionRate"></param>
+    /// <param name="validBitIdThreshold">acceptable threshold when comparing the detected marker to the dictionary during marker identification.</param>
+    /// <returns></returns>
+    public bool Identify(Mat onlyCellPixelRatio, out int idx, out int rotation, double maxCorrectionRate, float validBitIdThreshold)
+    {
+        ArgumentNullException.ThrowIfNull(onlyCellPixelRatio);
+        onlyCellPixelRatio.ThrowIfDisposed();
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_identify_withThreshold(
+                Handle, onlyCellPixelRatio.CvPtr, out idx, out rotation, maxCorrectionRate, validBitIdThreshold, out var ret));
+
+        return ret != 0;
+    }
+
     /// <summary>
     /// Returns the distance of the input bits to the specific id.
     /// If allRotations is true, the four possible bits rotation are considered
@@ -163,15 +250,32 @@ public class Dictionary : CvObject
     /// </summary>
     /// <param name="byteList"></param>
     /// <param name="markerSize"></param>
+    /// <param name="rotationId"></param>
     /// <returns></returns>
-    public static Mat GetBitsFromByteList(Mat byteList, int markerSize)
+    public static Mat GetBitsFromByteList(Mat byteList, int markerSize, int rotationId = 0)
     {
         ArgumentNullException.ThrowIfNull(byteList);
         byteList.ThrowIfDisposed();
-        
+
         var ret = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.aruco_Dictionary_getBitsFromByteList(byteList.CvPtr, markerSize, ret.CvPtr));
+            NativeMethods.aruco_Dictionary_getBitsFromByteList(byteList.CvPtr, markerSize, rotationId, ret.CvPtr));
+        return ret;
+    }
+
+    /// <summary>
+    /// Get ground truth bits float
+    /// </summary>
+    /// <param name="markerId"></param>
+    /// <param name="rotationId"></param>
+    /// <returns></returns>
+    public Mat GetMarkerBits(int markerId, int rotationId = 0)
+    {
+        ThrowIfDisposed();
+
+        var ret = new Mat();
+        NativeMethods.HandleException(
+            NativeMethods.aruco_Dictionary_getMarkerBits(Handle, markerId, rotationId, ret.CvPtr));
         return ret;
     }
 }

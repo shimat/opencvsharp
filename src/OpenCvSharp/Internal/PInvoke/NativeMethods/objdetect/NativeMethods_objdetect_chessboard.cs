@@ -15,6 +15,11 @@ static partial class NativeMethods
         in InputArrayProxy img, Size size, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus objdetect_estimateChessboardSharpness(
+        in InputArrayProxy image, Size patternSize, in InputArrayProxy corners,
+        float riseDistance, int vertical, in OutputArrayProxy sharpness, out Scalar returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus objdetect_findChessboardCornersSB_OutputArray(
         in InputArrayProxy image, Size patternSize, in OutputArrayProxy corners, int flags, out int returnValue);
 
