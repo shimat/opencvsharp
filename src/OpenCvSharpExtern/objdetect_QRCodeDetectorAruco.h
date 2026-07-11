@@ -27,6 +27,12 @@ extern "C"
 
     // Mirrors cv::aruco::DetectorParameters (see aruco.h's aruco_DetectorParameters). Kept as an
     // independent local copy so this file has no compile-time dependency on aruco.h/NO_CONTRIB.
+    // A static_assert(sizeof(...)) cross-check against aruco_DetectorParameters is deliberately NOT
+    // used here: it would require including aruco.h, reintroducing exactly the dependency this
+    // duplication exists to avoid. Instead: whenever cv::aruco::DetectorParameters gains, loses, or
+    // reorders a field (check opencv/modules/objdetect/include/opencv2/objdetect/aruco_detector.hpp),
+    // update BOTH this struct's fields (in the same order) AND aruco_DetectorParameters/its cpp()/c()
+    // converters in aruco.h, plus the matching field lists in cpp()/c() below.
     struct objdetect_ArucoDetectorParams
     {
         int adaptiveThreshWinSizeMin;

@@ -843,7 +843,11 @@ CVAPI(ExceptionStatus) aruco_Board_create(
 	return cvTry([&] {
 	std::vector<std::vector<cv::Point3f>> objPointsVec(objPointsSize1);
 	for (int i = 0; i < objPointsSize1; i++)
+	{
+		if (objPointsSize2[i] != 4)
+			CV_Error(cv::Error::StsBadArg, "Each marker must have exactly 4 corners");
 		objPointsVec[i] = std::vector<cv::Point3f>(objPoints[i], objPoints[i] + objPointsSize2[i]);
+	}
 	*returnValue = new cv::aruco::Board(objPointsVec, *dictionary, *ids);
 	});
 }

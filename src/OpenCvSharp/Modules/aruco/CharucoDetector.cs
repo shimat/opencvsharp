@@ -152,14 +152,20 @@ public class CharucoDetector : CvObject
             NativeMethods.aruco_CharucoDetector_getCharucoParameters(
                 Handle, out var cameraMatrix, out var distCoeffs, out var minMarkers, out var tryRefineMarkers, out var checkMarkers));
 
-        return new CharucoParameters
+        // Avoid letting the object initializer allocate-then-discard CharucoParameters' default
+        // CameraMatrix/DistCoeffs (its property initializers construct a throwaway Mat each):
+        // dispose those before assigning the real native-backed Mats below.
+        var result = new CharucoParameters
         {
-            CameraMatrix = new Mat(cameraMatrix),
-            DistCoeffs = new Mat(distCoeffs),
             MinMarkers = minMarkers,
             TryRefineMarkers = tryRefineMarkers != 0,
             CheckMarkers = checkMarkers != 0,
         };
+        result.CameraMatrix.Dispose();
+        result.DistCoeffs.Dispose();
+        result.CameraMatrix = new Mat(cameraMatrix);
+        result.DistCoeffs = new Mat(distCoeffs);
+        return result;
     }
 
     /// <summary>
