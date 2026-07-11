@@ -62,8 +62,13 @@ static partial class NativeMethods
         IntPtr keypoints, float minSize, float maxSize);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus features_KeyPointsFilter_runByPixelsMask(
-        IntPtr keypoints, IntPtr mask);
+    internal static partial ExceptionStatus features_KeyPointsFilter_runByPixelsMask(
+        IntPtr keypoints, in InputArrayProxy mask);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus features_KeyPointsFilter_runByPixelsMask2VectorPoint(
+        IntPtr keypoints, IntPtr[] removeFrom, int removeFromSize1, int[] removeFromSize2,
+        in InputArrayProxy mask, IntPtr removeFromResult);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_KeyPointsFilter_removeDuplicated(

@@ -36,4 +36,104 @@ public class StarDetector : Feature2D
         NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr, out var rawPtr));
         return new StarDetector(ptr, rawPtr);
     }
+
+    /// <summary>
+    /// Maximum size of the features.
+    /// </summary>
+    public int MaxSize
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_getMaxSize(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_setMaxSize(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Response threshold.
+    /// </summary>
+    public int ResponseThreshold
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_getResponseThreshold(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_setResponseThreshold(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Line threshold used for the projected line filtering.
+    /// </summary>
+    public int LineThresholdProjected
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_getLineThresholdProjected(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_setLineThresholdProjected(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Line threshold used for the binarized line filtering.
+    /// </summary>
+    public int LineThresholdBinarized
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_getLineThresholdBinarized(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_setLineThresholdBinarized(Handle, value));
+        }
+    }
+
+    /// <summary>
+    /// Non-maximum suppression size.
+    /// </summary>
+    public int SuppressNonmaxSize
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_getSuppressNonmaxSize(Handle, out var ret));
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_StarDetector_setSuppressNonmaxSize(Handle, value));
+        }
+    }
 }

@@ -356,8 +356,45 @@ CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrack(
     double k)
 {
     return cvTry([&] {
-        cv::goodFeaturesToTrack(InProxy(*src), *corners, maxCorners, qualityLevel, minDistance, 
+        cv::goodFeaturesToTrack(InProxy(*src), *corners, maxCorners, qualityLevel, minDistance,
             InProxy(*mask), blockSize, useHarrisDetector != 0, k);
+    });
+}
+
+CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrack_gradientSize(
+    const interop::InputArrayProxy* src,
+    std::vector<cv::Point2f> *corners,
+    int maxCorners,
+    double qualityLevel,
+    double minDistance,
+    const interop::InputArrayProxy* mask,
+    int blockSize,
+    int gradientSize,
+    int useHarrisDetector,
+    double k)
+{
+    return cvTry([&] {
+        cv::goodFeaturesToTrack(InProxy(*src), *corners, maxCorners, qualityLevel, minDistance,
+            InProxy(*mask), blockSize, gradientSize, useHarrisDetector != 0, k);
+    });
+}
+
+CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrackWithQuality(
+    const interop::InputArrayProxy* src,
+    std::vector<cv::Point2f> *corners,
+    int maxCorners,
+    double qualityLevel,
+    double minDistance,
+    const interop::InputArrayProxy* mask,
+    const interop::OutputArrayProxy* cornersQuality,
+    int blockSize,
+    int gradientSize,
+    int useHarrisDetector,
+    double k)
+{
+    return cvTry([&] {
+        cv::goodFeaturesToTrack(InProxy(*src), *corners, maxCorners, qualityLevel, minDistance,
+            InProxy(*mask), OutProxy(*cornersQuality), blockSize, gradientSize, useHarrisDetector != 0, k);
     });
 }
 

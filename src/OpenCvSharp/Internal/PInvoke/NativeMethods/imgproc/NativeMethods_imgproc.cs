@@ -113,6 +113,16 @@ static partial class NativeMethods
         double k);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_goodFeaturesToTrack_gradientSize(in InputArrayProxy src, IntPtr corners,
+        int maxCorners, double qualityLevel, double minDistance, in InputArrayProxy mask, int blockSize, int gradientSize,
+        int useHarrisDetector, double k);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_goodFeaturesToTrackWithQuality(in InputArrayProxy src, IntPtr corners,
+        int maxCorners, double qualityLevel, double minDistance, in InputArrayProxy mask, in OutputArrayProxy cornersQuality,
+        int blockSize, int gradientSize, int useHarrisDetector, double k);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_HoughLines(in InputArrayProxy src, IntPtr lines,
         double rho, double theta, int threshold, double srn, double stn);
 

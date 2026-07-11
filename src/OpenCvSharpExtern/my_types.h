@@ -177,6 +177,23 @@ namespace interop
         double weight;
     };
 
+    // Mirrors cv::xfeatures2d::Elliptic_KeyPoint by value: that type is not trivially copyable
+    // (it declares a virtual destructor, so it carries a vtable pointer), so it cannot be used
+    // directly as a std::vector element or CVAPI parameter/return type. transf holds the 2x3
+    // row-major affine matrix (cv::Matx23f).
+    struct EllipticKeyPoint
+    {
+        KeyPoint base;
+        Size2f axes;
+        float si;
+        float transf[6];
+    };
+
+    // Used as a std::vector element and across the CVAPI boundary (see xfeatures2d_AffineFeature2D.h),
+    // so guard against a future edit accidentally making it non-POD.
+    static_assert(std::is_standard_layout_v<EllipticKeyPoint> && std::is_trivially_copyable_v<EllipticKeyPoint>,
+        "interop::EllipticKeyPoint must stay a C-ABI-compatible POD");
+
 #pragma endregion
 
     typedef struct Vec2b { uchar val[2]; } Vec2b;

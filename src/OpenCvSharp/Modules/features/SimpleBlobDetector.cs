@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
 
@@ -43,7 +44,8 @@ public class SimpleBlobDetector : Feature2D
                 maxInertiaRatio = float.MaxValue,
                 filterByConvexity = 1,
                 minConvexity = 0.95f,
-                maxConvexity = float.MaxValue
+                maxConvexity = float.MaxValue,
+                collectContours = 0
             };
         }
 
@@ -161,6 +163,17 @@ public class SimpleBlobDetector : Feature2D
             get => Data.maxConvexity;
             set => Data.maxConvexity = value;
         }
+
+        /// <summary>
+        /// Flag to enable contour collection. If set to true, the detector will store the contours
+        /// of the detected blobs in memory, which can be retrieved after the Detect() call using
+        /// GetBlobContours(). Default value is false.
+        /// </summary>
+        public bool CollectContours
+        {
+            get => Data.collectContours != 0;
+            set => Data.collectContours = (value ? 1 : 0);
+        }
     }
 
 #pragma warning disable CA1051
@@ -188,6 +201,8 @@ public class SimpleBlobDetector : Feature2D
 
         public int filterByConvexity;
         public float minConvexity, maxConvexity;
+
+        public int collectContours;
 #pragma warning restore CA1051
 #pragma warning restore 1591
     }
@@ -212,5 +227,21 @@ public class SimpleBlobDetector : Feature2D
         NativeMethods.HandleException(
             NativeMethods.features_Ptr_Feature2D_get(smartPtr, out var rawPtr));
         return new SimpleBlobDetector(smartPtr, rawPtr);
+    }
+
+    /// <summary>
+    /// Returns the contours of the blobs detected during the last call to Detect().
+    /// The <see cref="Params.CollectContours"/> parameter must be set to true before calling
+    /// Detect() for this method to return any data.
+    /// </summary>
+    /// <returns></returns>
+    public virtual Point[][] GetBlobContours()
+    {
+        ThrowIfDisposed();
+        using var contours = new VectorOfVectorPoint();
+        NativeMethods.HandleException(
+            NativeMethods.features_SimpleBlobDetector_getBlobContours(Handle, contours.CvPtr));
+        GC.KeepAlive(this);
+        return contours.ToArray();
     }
 }

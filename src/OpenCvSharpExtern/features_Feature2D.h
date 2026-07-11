@@ -639,6 +639,8 @@ struct SimpleBlobDetector_Params
 
     int filterByConvexity;
     float minConvexity, maxConvexity;
+
+    int collectContours;
 };
 
 CVAPI(ExceptionStatus) features_SimpleBlobDetector_create(
@@ -667,6 +669,7 @@ CVAPI(ExceptionStatus) features_SimpleBlobDetector_create(
             p2.filterByConvexity = p->filterByConvexity != 0;
             p2.minConvexity = p->minConvexity;
             p2.maxConvexity = p->maxConvexity;
+            p2.collectContours = p->collectContours != 0;
         }
         const auto ptr = cv::SimpleBlobDetector::create(p2);
         *returnValue = clone(ptr);
@@ -677,6 +680,14 @@ CVAPI(ExceptionStatus) features_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::Simple
 {
     return cvTry([&] {
         delete ptr;
+    });
+}
+
+CVAPI(ExceptionStatus) features_SimpleBlobDetector_getBlobContours(
+    cv::SimpleBlobDetector *obj, std::vector<std::vector<cv::Point> > *returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->getBlobContours();
     });
 }
 

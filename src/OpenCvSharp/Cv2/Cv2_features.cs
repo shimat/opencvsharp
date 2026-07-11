@@ -67,6 +67,67 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// GMS (Grid-based Motion Statistics) feature matching strategy.
+    /// </summary>
+    /// <param name="size1">Input size of image1.</param>
+    /// <param name="size2">Input size of image2.</param>
+    /// <param name="keypoints1">Input keypoints of image1.</param>
+    /// <param name="keypoints2">Input keypoints of image2.</param>
+    /// <param name="matches1To2">Input 1-nearest neighbor matches.</param>
+    /// <param name="withRotation">Take rotation transformation into account.</param>
+    /// <param name="withScale">Take scale transformation into account.</param>
+    /// <param name="thresholdFactor">The higher, the less matches.</param>
+    /// <returns>Matches returned by the GMS matching strategy.</returns>
+    public static DMatch[] MatchGMS(
+        Size size1, Size size2,
+        IEnumerable<KeyPoint> keypoints1, IEnumerable<KeyPoint> keypoints2,
+        IEnumerable<DMatch> matches1To2,
+        bool withRotation = false, bool withScale = false, double thresholdFactor = 6.0)
+    {
+        ArgumentNullException.ThrowIfNull(keypoints1);
+        ArgumentNullException.ThrowIfNull(keypoints2);
+        ArgumentNullException.ThrowIfNull(matches1To2);
+
+        using var keypoints1Vec = new StdVector<KeyPoint>(keypoints1);
+        using var keypoints2Vec = new StdVector<KeyPoint>(keypoints2);
+        using var matches1To2Vec = new StdVector<DMatch>(matches1To2);
+        using var matchesGMSVec = new StdVector<DMatch>();
+        NativeMethods.HandleException(
+            NativeMethods.xfeatures2d_matchGMS(
+                size1, size2, keypoints1Vec.CvPtr, keypoints2Vec.CvPtr, matches1To2Vec.CvPtr, matchesGMSVec.CvPtr,
+                withRotation ? 1 : 0, withScale ? 1 : 0, thresholdFactor));
+        return matchesGMSVec.ToArray();
+    }
+
+    /// <summary>
+    /// LOGOS (Local geometric support for high-outlier spatial verification) feature matching strategy.
+    /// </summary>
+    /// <param name="keypoints1">Input keypoints of image1.</param>
+    /// <param name="keypoints2">Input keypoints of image2.</param>
+    /// <param name="nn1">Index to the closest BoW centroid for each descriptors of image1.</param>
+    /// <param name="nn2">Index to the closest BoW centroid for each descriptors of image2.</param>
+    /// <returns>Matches returned by the LOGOS matching strategy.</returns>
+    public static DMatch[] MatchLOGOS(
+        IEnumerable<KeyPoint> keypoints1, IEnumerable<KeyPoint> keypoints2,
+        IEnumerable<int> nn1, IEnumerable<int> nn2)
+    {
+        ArgumentNullException.ThrowIfNull(keypoints1);
+        ArgumentNullException.ThrowIfNull(keypoints2);
+        ArgumentNullException.ThrowIfNull(nn1);
+        ArgumentNullException.ThrowIfNull(nn2);
+
+        using var keypoints1Vec = new StdVector<KeyPoint>(keypoints1);
+        using var keypoints2Vec = new StdVector<KeyPoint>(keypoints2);
+        using var nn1Vec = new StdVector<int>(nn1);
+        using var nn2Vec = new StdVector<int>(nn2);
+        using var matches1To2Vec = new StdVector<DMatch>();
+        NativeMethods.HandleException(
+            NativeMethods.xfeatures2d_matchLOGOS(
+                keypoints1Vec.CvPtr, keypoints2Vec.CvPtr, nn1Vec.CvPtr, nn2Vec.CvPtr, matches1To2Vec.CvPtr));
+        return matches1To2Vec.ToArray();
+    }
+
+    /// <summary>
     /// Draw keypoints.
     /// </summary>
     /// <param name="image">Source image.</param>

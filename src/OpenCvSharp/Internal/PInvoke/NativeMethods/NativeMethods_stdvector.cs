@@ -272,6 +272,18 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_DMatch_delete(IntPtr vector);
     #endregion
+    #region interop::EllipticKeyPoint
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_EllipticKeyPoint_new1();
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_EllipticKeyPoint_new3([In] XFeatures2D.EllipticKeyPoint[] data, nuint dataLength);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial nuint vector_EllipticKeyPoint_getSize(OpenCvSafeHandle vector);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_EllipticKeyPoint_getPointer(OpenCvSafeHandle vector);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_EllipticKeyPoint_delete(IntPtr vector);
+    #endregion
     #region cv::Mat
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial IntPtr vector_Mat_new1();
