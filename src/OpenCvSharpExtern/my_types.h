@@ -189,6 +189,11 @@ namespace interop
         float transf[6];
     };
 
+    // Used as a std::vector element and across the CVAPI boundary (see xfeatures2d_AffineFeature2D.h),
+    // so guard against a future edit accidentally making it non-POD.
+    static_assert(std::is_standard_layout_v<EllipticKeyPoint> && std::is_trivially_copyable_v<EllipticKeyPoint>,
+        "interop::EllipticKeyPoint must stay a C-ABI-compatible POD");
+
 #pragma endregion
 
     typedef struct Vec2b { uchar val[2]; } Vec2b;

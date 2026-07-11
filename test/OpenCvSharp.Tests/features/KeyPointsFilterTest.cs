@@ -26,4 +26,16 @@ public class KeyPointsFilterTest : TestBase
         Assert.Equal(5, resultKeypoints[0].Pt.X, 3);
         Assert.Single(resultRemoveFrom);
     }
+
+    [Fact]
+    public void RunByPixelsMaskWithNullMatThrowsArgumentNullException()
+    {
+        var keypoints = new[] { new KeyPoint(5, 5, 1) };
+        Mat? mask = null;
+
+        // InputArray's implicit operator from Mat (OpenCvSharp/Modules/core/InputArray.cs) calls
+        // ArgumentNullException.ThrowIfNull(mat) before RunByPixelsMask's body ever runs, so a null
+        // Mat is still rejected with a clear exception despite the mask parameter accepting InputArray.
+        Assert.Throws<ArgumentNullException>(() => KeyPointsFilter.RunByPixelsMask(keypoints, mask!));
+    }
 }

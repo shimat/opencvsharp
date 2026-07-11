@@ -46,8 +46,8 @@ public class DAISYTest : TestBase
         // OpenCV's DAISY_Impl::compute_descriptors (opencv_contrib xfeatures2d/src/daisy.cpp)
         // indexes the output buffer using absolute image coordinates (y*image.cols+x) even though
         // the buffer is only sized roi.width*roi.height rows. That overflows for any roi other
-        // than the full image (x=0, y=0, width=image.cols, height=image.rows), so use the full
-        // image here to avoid tripping that upstream bug.
+        // than the full image (x=0, y=0, width=image.cols, height=image.rows), so the native
+        // bridge guards against it; use the full image here to satisfy that guard.
         using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var descriptors = new Mat();
         using var daisy = DAISY.Create();
@@ -55,6 +55,16 @@ public class DAISYTest : TestBase
         daisy.Compute(gray, new Rect(0, 0, gray.Cols, gray.Rows), descriptors);
 
         Assert.False(descriptors.Empty());
+    }
+
+    [Fact]
+    public void ComputeRoiWithPartialRoiThrows()
+    {
+        using var gray = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var descriptors = new Mat();
+        using var daisy = DAISY.Create();
+
+        Assert.Throws<OpenCVException>(() => daisy.Compute(gray, new Rect(0, 10, gray.Cols, 50), descriptors));
     }
 
     [Fact]

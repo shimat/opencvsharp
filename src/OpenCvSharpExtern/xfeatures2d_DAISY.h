@@ -114,7 +114,20 @@ CVAPI(ExceptionStatus) xfeatures2d_DAISY_compute_roi(
     cv::xfeatures2d::DAISY *obj, const interop::InputArrayProxy *image, interop::Rect roi, const interop::OutputArrayProxy *descriptors)
 {
     return cvTry([&] {
-        obj->compute(InProxy(*image), cpp(roi), OutProxy(*descriptors));
+        const InProxy imageProxy(*image);
+        const cv::Rect roiRect = cpp(roi);
+        // DAISY_Impl::compute_descriptors (opencv_contrib xfeatures2d/src/daisy.cpp) indexes its
+        // output buffer using absolute image coordinates while sizing the buffer to only
+        // roi.width*roi.height rows, so it overflows unless roi covers the entire image. Guard
+        // here instead of silently corrupting memory.
+        const cv::Size imageSize = static_cast<const cv::_InputArray&>(imageProxy).size();
+        if (roiRect.x != 0 || roiRect.y != 0 || roiRect.width != imageSize.width || roiRect.height != imageSize.height)
+        {
+            CV_Error(cv::Error::StsBadArg,
+                "DAISY.Compute(image, roi, descriptors): due to an upstream OpenCV bug, roi must cover "
+                "the entire image (x=0, y=0, width=image.Cols, height=image.Rows)");
+        }
+        obj->compute(static_cast<const cv::_InputArray&>(imageProxy), roiRect, OutProxy(*descriptors));
     });
 }
 

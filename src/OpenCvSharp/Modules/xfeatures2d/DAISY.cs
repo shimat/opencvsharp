@@ -199,9 +199,11 @@ public class DAISY : Feature2D
     /// coordinates even though the buffer is only sized <c>roi.Width * roi.Height</c> rows,
     /// so it overflows unless <paramref name="roi"/> covers the entire image
     /// (<c>roi.X == 0 &amp;&amp; roi.Y == 0 &amp;&amp; roi.Width == image.Cols &amp;&amp; roi.Height == image.Rows</c>).
+    /// The native bridge guards against this and throws <see cref="OpenCVException"/> instead of
+    /// letting a partial ROI corrupt memory.
     /// </remarks>
     /// <param name="image">Image to extract descriptors from.</param>
-    /// <param name="roi">Region of interest within the image.</param>
+    /// <param name="roi">Region of interest within the image. Must cover the entire image (see remarks).</param>
     /// <param name="descriptors">Resulted descriptors array for the roi image pixels.</param>
     public void Compute(InputArray image, Rect roi, OutputArray descriptors)
     {
