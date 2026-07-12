@@ -188,9 +188,11 @@ jobs:
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Avalonia
-          dotnet build -c Release -f net10.0
-          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll bin\Release\net10.0\
-          dotnet test -c Release -f net10.0 --runtime win-x64
+          # --runtime here (matching the dotnet test call below) makes the build land in a
+          # RID-specific bin\Release\net10.0\win-x64\ subfolder; copy into that exact folder.
+          dotnet build -c Release -f net10.0 --runtime win-x64
+          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll bin\Release\net10.0\win-x64\
+          dotnet test -c Release -f net10.0 --runtime win-x64 --no-build
 
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
