@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <NoWarn>CA1303;CA2007</NoWarn>
+
+    <!-- The default 32MB wasm heap is too small to even link the real OpenCV wasm binary. -->
+    <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
+
+    <!--
+      Some OpenCvSharp P/Invoke declarations (e.g. the text module's TextDetectorCNN) have no
+      corresponding symbol in the wasm-built OpenCvSharpExtern.a - unlike the dynamically-linked
+      Windows/Linux/macOS runtimes, wasm statically links everything, so any consumer app hits
+      this at publish time regardless of whether it actually calls the affected API. Tracked
+      separately; not calling those APIs here, so allow the link to proceed.
+    -->
+    <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+
+    <!--
+      OpenCvSharpExtern.a is built with a separately-installed, newer Emscripten (see EM_VERSION in
+      .github/workflows/wasm.yml) than the one bundled with this .NET SDK's wasm workload. At the
+      default O2, emcc's link step runs its bundled wasm-opt with feature flags derived from the
+      newer toolchain's object files, which the older bundled wasm-opt binary doesn't recognize
+      (unknown option "enable bulk memory opt"). O1 skips that Binaryen optimization pass.
+    -->
+    <EmccLinkOptimizationFlag>-O1</EmccLinkOptimizationFlag>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.9" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
+  </ItemGroup>
+
+  <!--
+    Consume the wasm native binding the same way a real NuGet consumer does: NativeFileReference
+    resolves the P/Invoke module name from the native file's %(Filename). Importing the actual
+    shipped .props (instead of hand-rolling a NativeFileReference here) means this test exercises
+    the same file that ships in OpenCvSharp5.runtime.wasm, catching issues like #2039 (module name
+    mismatch -> DllNotFoundException) and #2037 (OpenCL/UMat probe crashing on wasm) end-to-end.
+  -->
+  <Import Project="..\..\packaging\nuget\OpenCvSharp5.runtime.wasm.props" />
+
+  <!--
+    OpenCvSharp.csproj's OpenCvSharp.dll.config (a native-library-search-path hint irrelevant on
+    wasm, which statically links everything) ends up in @(ResolvedFileToPublish) twice - once from
+    its declared source path and once from OpenCvSharp's own build output - which fails publish
+    with NETSDK1152. Drop it; nothing on wasm needs it.
+  -->
+  <Target Name="RemoveOpenCvSharpDllConfigDuplicate" BeforeTargets="_HandleFileConflictsForPublish">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(FileName)%(Extension)' == 'OpenCvSharp.dll.config'" />
+    </ItemGroup>
+  </Target>
+
+</Project>

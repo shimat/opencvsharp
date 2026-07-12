@@ -12,6 +12,8 @@ env:
   OPENCV_VERSION: 5.0.0
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
+  # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
+  OPENCV_CACHE_VERSION: 2
 
 jobs:
   build:
@@ -62,7 +64,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
@@ -128,6 +130,7 @@ jobs:
             -DWITH_PNG=OFF \
             -DWITH_IPP=OFF \
             -DWITH_LAPACK=OFF \
+            -DWITH_OPENCL=OFF \
             -DCV_ENABLE_INTRINSICS=OFF \
             -DBUILD_opencv_dnn=ON
           cmake --build opencv-${OPENCV_VERSION}/build --parallel $(nproc)
@@ -145,7 +148,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
       
       - name: Build OpenCvSharpExtern
         run: |
@@ -154,35 +157,79 @@ jobs:
           emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv5 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
           cmake --build src/build --parallel $(nproc)
           ls src/build/OpenCvSharpExtern
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/packaging/nuget/
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/packaging/nuget/OpenCvSharpExtern.a
 
-      - name: Check OpenCvSharpExtern
-        run: |
-          echo TODO
+          # Also stage it where OpenCvSharp5.runtime.wasm.props expects it (relative to the props
+          # file's own location), so test/OpenCvSharp.Tests.Wasm can import that same .props and
+          # link against this build directly, without a NuGet pack/restore round-trip.
+          mkdir -p ${GITHUB_WORKSPACE}/runtimes/browser-wasm/4.0.23
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/runtimes/browser-wasm/4.0.23/OpenCvSharpExtern.a
 
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
+      - name: Install wasm-tools workload
+        run: dotnet workload install wasm-tools
+
       - name: Create NuGet package
-        env: 
+        env:
           BETA: "-beta"
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
-          
+
           dotnet pack ${GITHUB_WORKSPACE}/packaging/nuget/OpenCvSharp5.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm -p:Version=$version
-          
+
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
       - uses: actions/upload-artifact@v7
         with:
           name: artifacts_wasm
           path: artifacts_wasm
-        
-      - name: Test
+
+      - name: Check OpenCvSharpExtern package contents
         run: |
-          echo TODO
+          nupkg=$(ls ${GITHUB_WORKSPACE}/artifacts_wasm/*.nupkg)
+          echo "Inspecting $nupkg"
+          unzip -l "$nupkg"
+
+          # #2039 regression guard: the native lib must ship WITHOUT the "lib" prefix, since
+          # NativeFileReference derives the P/Invoke module name from the file's %(Filename).
+          unzip -p "$nupkg" runtimes/browser-wasm/4.0.23/OpenCvSharpExtern.a > /dev/null
+          unzip -p "$nupkg" build/net8.0/OpenCvSharp5.runtime.wasm.props > /dev/null
+
+      - name: Publish wasm E2E consumer test
+        run: |
+          dotnet publish ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/OpenCvSharp.Tests.Wasm.csproj -c Release -o ${GITHUB_WORKSPACE}/artifacts_wasm_e2e
+
+      - name: Run wasm E2E consumer test
+        run: |
+          set -e
+          npx --yes http-server ${GITHUB_WORKSPACE}/artifacts_wasm_e2e/wwwroot -p 8080 --silent &
+          SERVER_PID=$!
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8080/index.html -o /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          if ! curl -sf http://127.0.0.1:8080/index.html -o /dev/null; then
+            echo "ERROR: http-server did not become ready on port 8080 within 30s"
+            kill $SERVER_PID || true
+            exit 1
+          fi
+
+          mkdir -p ${RUNNER_TEMP}/wasm-e2e
+          cp ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/run-e2e.mjs ${RUNNER_TEMP}/wasm-e2e/run-e2e.mjs
+          cd ${RUNNER_TEMP}/wasm-e2e
+          npm init -y > /dev/null 2>&1
+          npm install playwright > /dev/null 2>&1
+          npx playwright install --with-deps chromium
+
+          node run-e2e.mjs http://127.0.0.1:8080
+
+          kill $SERVER_PID || true

@@ -1,11 +1,17 @@
 using OpenCvSharp.Internal;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Versioning;
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// OpenCV C++ n-dimensional dense array class (cv::Mat)
 /// </summary>
+/// <remarks>
+/// wasm has no OpenCL backend, so <see cref="Mat.GetUMat"/> falls back to plain CPU execution there
+/// with no GPU acceleration benefit; UMat still works, but there is no reason to prefer it over Mat.
+/// </remarks>
+[UnsupportedOSPlatform("browser")]
 public class UMat : CvObject
 {
     #region Init & Disposal
