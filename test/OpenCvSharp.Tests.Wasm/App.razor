@@ -28,9 +28,9 @@
 
             foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
             {
-                Cv2.ImEncode(ext, mat, out var buf);
-                if (buf.Length == 0)
-                    throw new InvalidOperationException($"ImEncode({ext}) produced an empty buffer");
+                var encoded = Cv2.ImEncode(ext, mat, out var buf);
+                if (!encoded || buf.Length == 0)
+                    throw new InvalidOperationException($"ImEncode({ext}) failed or produced an empty buffer");
 
                 using var decoded = Cv2.ImDecode(buf, ImreadModes.Unchanged);
                 if (decoded.Empty() || decoded.Size() != mat.Size())
