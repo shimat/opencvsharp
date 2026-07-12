@@ -224,11 +224,12 @@ jobs:
           fi
 
           mkdir -p ${RUNNER_TEMP}/wasm-e2e
+          cp ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/run-e2e.mjs ${RUNNER_TEMP}/wasm-e2e/run-e2e.mjs
           cd ${RUNNER_TEMP}/wasm-e2e
           npm init -y > /dev/null 2>&1
           npm install playwright > /dev/null 2>&1
           npx playwright install --with-deps chromium
 
-          node ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/run-e2e.mjs http://127.0.0.1:8080
+          node run-e2e.mjs http://127.0.0.1:8080
 
           kill $SERVER_PID || true
