@@ -193,10 +193,12 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp5](https://www.nuget.org/packages/OpenCvSharp5/)**| OpenCvSharp core libraries |
 |**[OpenCvSharp5.GdipExtensions](https://www.nuget.org/packages/OpenCvSharp5.GdipExtensions/)**| GDI+ (System.Drawing) Extensions |
 |**[OpenCvSharp5.WpfExtensions](https://www.nuget.org/packages/OpenCvSharp5.WpfExtensions/)**| WPF Extensions |
+|**[OpenCvSharp5.AvaloniaExtensions](https://www.nuget.org/packages/OpenCvSharp5.AvaloniaExtensions/)**| Avalonia Extensions (cross-platform) |
 |**[OpenCvSharp5.Windows](https://www.nuget.org/packages/OpenCvSharp5.Windows/)**| All-in-one package for Windows (except UWP) |
 |**[OpenCvSharp5.Windows.Slim](https://www.nuget.org/packages/OpenCvSharp5.Windows.Slim/)**| All-in-one slim package for Windows (except UWP) |
 
-### Native bindings
+<details>
+<summary><h3>Native bindings</h3></summary>
 
 | Package | Description |
 |---------|-------------|
@@ -216,10 +218,9 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 > The `OpenCvSharp5.runtime.win` and `OpenCvSharp5.runtime.win.slim` packages now ship **x64-only** native binaries.
 > Users requiring x86 Windows support should stay on the last OpenCV 4.12.x-based packages.
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so / libOpenCvSharpExtern.dylib) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp5` and `OpenCvSharp5.runtime.*` packages to your project. Currently, native bindings for Windows x64/ARM64, Linux x64/ARM64, macOS x64/arm64, and WebAssembly are available.
+</details>
 
-## Downloads
-If you are not using NuGet, you can download the DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so / libOpenCvSharpExtern.dylib) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp5` and `OpenCvSharp5.runtime.*` packages to your project. Currently, native bindings for Windows x64/ARM64, Linux x64/ARM64, macOS x64/arm64, and WebAssembly are available.
 
 ## Docker images
 https://github.com/shimat?tab=packages

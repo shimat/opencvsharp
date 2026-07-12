@@ -230,27 +230,8 @@ public static class BitmapConverter
                 throw new ArgumentException("Invalid nChannels");
             if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
                 throw new ArgumentException("Invalid depth of dst Mat");
-                
-            var srcStep = bd.Stride;
-            var dstStep = dst.Step();
-            if (dstStep == srcStep && !dst.IsSubmatrix() && dst.IsContinuous())
-            {
-                var dstData = dst.Data;
-                var bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
-                Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
-            }
-            else
-            {
-                // Copy line bytes from src to dst for each line
-                var sp = (byte*) bd.Scan0;
-                var dp = (byte*) dst.Data;
-                for (var y = 0; y < h; y++)
-                {
-                    Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
-                    sp += srcStep;
-                    dp += dstStep;
-                }
-            }
+
+            dst.CopyPixelsFrom(bd.Scan0, bd.Stride);
         }
 
         // ReSharper disable once InconsistentNaming
@@ -262,24 +243,7 @@ public static class BitmapConverter
             switch (dst.Channels())
             {
                 case 4:
-                    if (!dst.IsSubmatrix() && dst.IsContinuous())
-                    {
-                        var dstData = dst.Data;
-                        var bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
-                        Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
-                    }
-                    else
-                    {
-                        var sp = (byte*) bd.Scan0;
-                        var dp = (byte*) dst.Data;
-                        for (var y = 0; y < h; y++)
-                        {
-                            Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
-                            sp += srcStep;
-                            dp += dstStep;
-                        }
-                    }
-
+                    dst.CopyPixelsFrom(bd.Scan0, srcStep);
                     break;
                 case 3:
                     var srcPtr = (byte*)bd.Scan0.ToPointer();
@@ -385,7 +349,6 @@ public static class BitmapConverter
         BitmapData? bd = null;
 
         var submat = src.IsSubmatrix();
-        var continuous = src.IsContinuous();
 
         try
         {
@@ -394,9 +357,7 @@ public static class BitmapConverter
             var srcData = src.Data;
             var pSrc = (byte*)(srcData.ToPointer());
             var pDst = (byte*)(bd.Scan0.ToPointer());
-            var ch = src.Channels();
             var srcStep = (int)src.Step();
-            var dstStep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
             var stride = bd.Stride;
 
             switch (pf)
@@ -439,22 +400,7 @@ public static class BitmapConverter
                 case PixelFormat.Format8bppIndexed:
                 case PixelFormat.Format24bppRgb:
                 case PixelFormat.Format32bppArgb:
-                    if (srcStep == dstStep && !submat && continuous)
-                    {
-                        long bytesToCopy = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                        Buffer.MemoryCopy(pSrc, pDst, bytesToCopy, bytesToCopy);
-                    }
-                    else
-                    {
-                        for (int y = 0; y < h; y++)
-                        {
-                            long offsetSrc = (y * srcStep);
-                            long offsetDst = (y * dstStep);
-                            long bytesToCopy = w * ch;
-                            // 一列ごとにコピー
-                            Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesToCopy, bytesToCopy);
-                        }
-                    }
+                    src.CopyPixelsTo((IntPtr)pDst, stride);
                     break;
 
                 default:

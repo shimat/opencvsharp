@@ -324,6 +324,13 @@ jobs:
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 \
             --logger "trx;LogFileName=test-results.trx" < /dev/null
 
+      - name: Test Avalonia extensions
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime linux-x64 < /dev/null
+
       - name: Smoke test (slim)
         run: |
           cd ${GITHUB_WORKSPACE}/nuget-slim/

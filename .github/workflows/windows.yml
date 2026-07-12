@@ -184,6 +184,10 @@ jobs:
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net10.0-windows --runtime win-x64
 
+      - name: Test Avalonia extensions
+        shell: cmd
+        run: dotnet test test\OpenCvSharp.Tests.Avalonia -c Release -f net10.0 --runtime win-x64
+
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
         shell: powershell
@@ -235,6 +239,7 @@ jobs:
           dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
           dotnet pack src/OpenCvSharp.GdipExtensions/OpenCvSharp.GdipExtensions.csproj -c Release -o artifacts -p:Version=$version
           dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.AvaloniaExtensions/OpenCvSharp.AvaloniaExtensions.csproj -c Release -o artifacts -p:Version=$version
 
           # Pack runtime packages
           dotnet pack packaging/nuget/OpenCvSharp5.runtime.win.csproj -o artifacts -p:Version=$version
@@ -247,15 +252,7 @@ jobs:
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
-      - name: Pack release zip
-        shell: pwsh
-        run: |
-          ./scripts/pack-release-zip.ps1 `
-            -WorkspaceDir "${env:GITHUB_WORKSPACE}" `
-            -OutputDir "${env:GITHUB_WORKSPACE}\artifacts" `
-            -Version ${{env.OPENCV_VERSION}}
-
-      - name: Upload NuGet packages and Release packages
+      - name: Upload NuGet packages
         uses: actions/upload-artifact@v7
         with:
           name: packages_windows

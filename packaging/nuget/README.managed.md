@@ -10,7 +10,7 @@ A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image
 
 | Platform | Target Framework |
 |---|---|
-| .NET 8.0 or later | `net8.0` |
+| .NET 8.0 or later | `net8.0` (also AvaloniaExtensions, cross-platform) |
 | Windows desktop (.NET 8+) | `net8.0-windows` (WpfExtensions) |
 
 Target OpenCV version: **5.0.x** (with opencv_contrib)

@@ -233,25 +233,24 @@ public static class WriteableBitmapConverter
             throw new ArgumentException("channels of dst != channels of PixelFormat", nameof(dst));
         }
 
-        bool submat = src.IsSubmatrix();
-        bool continuous = src.IsContinuous();
-        unsafe
+        // 1bppはビット単位の詰め込みが必要なため手作業でコピーする
+        if (bpp == 1)
         {
-            byte* pSrc = (byte*)(src.Data);
+            if (src.IsSubmatrix())
+                throw new NotImplementedException("submatrix not supported");
+
             int srcStep = (int)src.Step();
 
-            if (bpp == 1)
+            // 手作業で移し替える
+            int stride = w / 8 + 1;
+            if (stride < 2)
+                stride = 2;
+
+            byte[] pixels = new byte[h * stride];
+
+            unsafe
             {
-                if (submat)
-                    throw new NotImplementedException("submatrix not supported");
-
-                // 手作業で移し替える
-                int stride = w / 8 + 1;
-                if (stride < 2)
-                    stride = 2;
-
-                byte[] pixels = new byte[h * stride];
-
+                byte* pSrc = (byte*)(src.Data);
                 for (int x = 0, y = 0; y < h; y++)
                 {
                     int offset = y * stride;
@@ -275,43 +274,20 @@ public static class WriteableBitmapConverter
                     }
                     x = 0;
                 }
-                dst.WritePixels(new Int32Rect(0, 0, w, h), pixels, stride, 0);
-                return;
             }
+            dst.WritePixels(new Int32Rect(0, 0, w, h), pixels, stride, 0);
+            return;
+        }
 
-            // 一気にコピー            
-            if (!submat && continuous)
-            {
-                long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                if (imageSize < 0)
-                    throw new OpenCvSharpException("The mat has invalid data pointer");
-                if (imageSize > int.MaxValue)
-                    throw new OpenCvSharpException("Too big mat data");
-                dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, srcStep);
-                return;
-            }
-
-            // 一列ごとにコピー
-            try
-            {
-                dst.Lock();
-                dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
-
-                int dstStep = dst.BackBufferStride;
-                byte* pDst = (byte*)dst.BackBuffer;
-
-                for (int y = 0; y < h; y++)
-                {
-                    long offsetSrc = (y * srcStep);
-                    long offsetDst = (y * dstStep);
-                    long bytesInCopy = w * channels;
-                    Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesInCopy, bytesInCopy);
-                }
-            }
-            finally
-            {
-                dst.Unlock();
-            }
+        try
+        {
+            dst.Lock();
+            dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
+            src.CopyPixelsTo(dst.BackBuffer, dst.BackBufferStride);
+        }
+        finally
+        {
+            dst.Unlock();
         }
     }
 
@@ -359,20 +335,18 @@ public static class WriteableBitmapConverter
         if (dst.Channels() != channels)
             throw new ArgumentException("nChannels of dst is invalid", nameof(dst));
 
-        unsafe
+        // 1bppはビット単位の詰め込みなので手作業で展開する
+        if (bpp == 1)
         {
-            byte* p = (byte*)dst.Data.ToPointer();
             int widthStep = (int)dst.Step();
+            // 要素1つに横8ピクセル分のデータが入っている
+            int stride = (w / 8) + 1;
+            byte[] pixels = new byte[h * stride];
+            src.CopyPixels(pixels, stride, 0);
 
-            // 1bppは手作業でコピー
-            if (bpp == 1)
+            unsafe
             {
-                // BitmapImageのデータを配列にコピー
-                // 要素1つに横8ピクセル分のデータが入っている。   
-                int stride = (w / 8) + 1;
-                byte[] pixels = new byte[h * stride];
-                src.CopyPixels(pixels, stride, 0);
-
+                byte* p = (byte*)dst.Data.ToPointer();
                 int x = 0;
                 for (int y = 0; y < h; y++)
                 {
@@ -400,28 +374,19 @@ public static class WriteableBitmapConverter
                     // 次の行へ
                     x = 0;
                 }
+            }
+            return;
+        }
 
-            }
-            // 8bpp
-            else if (bpp == 8)
-            {
-                int stride = w;
-                byte[] pixels = new byte[h * stride];
-                src.CopyPixels(pixels, stride, 0);
-                for (int y = 0; y < h; y++)
-                {
-                    for (int x = 0; x < w; x++)
-                    {
-                        p[widthStep * y + x] = pixels[y * stride + x];
-                    }
-                }
-            }
-            // 24bpp, 32bpp, ...
-            else
-            {
-                int stride = w * ((bpp + 7) / 8);
-                src.CopyPixels(Int32Rect.Empty, dst.Data, (int)(dst.Step() * dst.Rows), stride);
-            }
+        // 8bpp以上はWriteableBitmap側のバッファを直接読み取ってコピーする
+        try
+        {
+            src.Lock();
+            dst.CopyPixelsFrom(src.BackBuffer, src.BackBufferStride);
+        }
+        finally
+        {
+            src.Unlock();
         }
     }
 
