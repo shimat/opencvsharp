@@ -47,4 +47,16 @@
   -->
   <Import Project="..\..\packaging\nuget\OpenCvSharp5.runtime.wasm.props" />
 
+  <!--
+    OpenCvSharp.csproj's OpenCvSharp.dll.config (a native-library-search-path hint irrelevant on
+    wasm, which statically links everything) ends up in @(ResolvedFileToPublish) twice - once from
+    its declared source path and once from OpenCvSharp's own build output - which fails publish
+    with NETSDK1152. Drop it; nothing on wasm needs it.
+  -->
+  <Target Name="RemoveOpenCvSharpDllConfigDuplicate" BeforeTargets="_HandleFileConflictsForPublish">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(FileName)%(Extension)' == 'OpenCvSharp.dll.config'" />
+    </ItemGroup>
+  </Target>
+
 </Project>
