@@ -22,9 +22,9 @@
     <!--
       OpenCvSharpExtern.a is built with a separately-installed, newer Emscripten (see EM_VERSION in
       .github/workflows/wasm.yml) than the one bundled with this .NET SDK's wasm workload. At the
-      default -O2, emcc's link step runs its bundled wasm-opt with feature flags derived from the
+      default O2, emcc's link step runs its bundled wasm-opt with feature flags derived from the
       newer toolchain's object files, which the older bundled wasm-opt binary doesn't recognize
-      (e.g. "Unknown option '--enable-bulk-memory-opt'"). -O1 skips that Binaryen optimization pass.
+      (unknown option "enable bulk memory opt"). O1 skips that Binaryen optimization pass.
     -->
     <EmccLinkOptimizationFlag>-O1</EmccLinkOptimizationFlag>
   </PropertyGroup>
