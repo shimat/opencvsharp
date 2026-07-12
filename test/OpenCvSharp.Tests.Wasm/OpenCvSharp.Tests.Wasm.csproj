@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <NoWarn>CA1303;CA2007</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.9" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
+  </ItemGroup>
+
+  <!--
+    Consume the wasm native binding the same way a real NuGet consumer does: NativeFileReference
+    resolves the P/Invoke module name from the native file's %(Filename). Importing the actual
+    shipped .props (instead of hand-rolling a NativeFileReference here) means this test exercises
+    the same file that ships in OpenCvSharp5.runtime.wasm, catching issues like #2039 (module name
+    mismatch -> DllNotFoundException) and #2037 (OpenCL/UMat probe crashing on wasm) end-to-end.
+  -->
+  <Import Project="..\..\packaging\nuget\OpenCvSharp5.runtime.wasm.props" />
+
+</Project>

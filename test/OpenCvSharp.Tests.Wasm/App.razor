@@ -1,0 +1,37 @@
+@* Root component: runs a small end-to-end smoke test against the native wasm binding on load.
+   The headless test runner (see .github/workflows/wasm.yml) waits for #result's text to leave
+   "running" and asserts data-status="ok". A native module name mismatch (#2039) throws
+   DllNotFoundException here; an OpenCL/UMat probe crash (#2037) either throws or hangs this
+   component forever, which the runner's timeout also catches. *@
+
+<pre id="result" data-status="@status">@status: @detail</pre>
+
+@code {
+    private string status = "running";
+    private string detail = "";
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            var version = Cv2.GetVersionString();
+
+            using var mat = new Mat(256, 256, MatType.CV_8UC1, Scalar.All(0));
+            Cv2.Rectangle(mat, new Rect(40, 40, 120, 120), Scalar.All(255), thickness: -1);
+            Cv2.Circle(mat, new Point(180, 180), 30, Scalar.All(200), thickness: -1);
+
+            // Exercises the UMat/OpenCL-probe path (cv::ocl::haveOpenCL()) that crashed on wasm; see #2037.
+            using var orb = ORB.Create(500);
+            using var descriptors = new Mat();
+            orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
+
+            status = "ok";
+            detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}";
+        }
+        catch (Exception ex)
+        {
+            status = "error";
+            detail = ex.ToString();
+        }
+    }
+}
