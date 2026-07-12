@@ -6,6 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <NoWarn>CA1303;CA2007</NoWarn>
+
+    <!-- The default 32MB wasm heap is too small to even link the real OpenCV wasm binary. -->
+    <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
+
+    <!--
+      Some OpenCvSharp P/Invoke declarations (e.g. the text module's TextDetectorCNN) have no
+      corresponding symbol in the wasm-built OpenCvSharpExtern.a - unlike the dynamically-linked
+      Windows/Linux/macOS runtimes, wasm statically links everything, so any consumer app hits
+      this at publish time regardless of whether it actually calls the affected API. Tracked
+      separately; not calling those APIs here, so allow the link to proceed.
+    -->
+    <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -1106,6 +1107,7 @@ public partial class Mat : CvObject
     /// <param name="accessFlags"></param>
     /// <param name="usageFlags"></param>
     /// <returns></returns>
+    [UnsupportedOSPlatform("browser")]
     public UMat GetUMat(AccessFlag accessFlags, UMatUsageFlags usageFlags)
     {
         ThrowIfDisposed();

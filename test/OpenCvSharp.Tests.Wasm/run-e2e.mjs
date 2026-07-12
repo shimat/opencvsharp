@@ -14,33 +14,35 @@ if (!url) {
 
 const TIMEOUT_MS = 60_000;
 
-const browser = await chromium.launch();
-const page = await browser.newPage();
-
 const pageErrors = [];
-page.on('pageerror', (err) => pageErrors.push(String(err)));
-page.on('console', (msg) => {
-  if (msg.type() === 'error') pageErrors.push(msg.text());
-});
-
-await page.goto(url, { waitUntil: 'load' });
-
 let result = null;
-const deadline = Date.now() + TIMEOUT_MS;
 
-while (Date.now() < deadline) {
-  result = await page
-    .locator('#result')
-    .evaluate((el) => ({ status: el.getAttribute('data-status'), text: el.textContent }))
-    .catch(() => null);
+const browser = await chromium.launch();
+try {
+  const page = await browser.newPage();
 
-  if (result && result.status !== 'running') {
-    break;
+  page.on('pageerror', (err) => pageErrors.push(String(err)));
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') pageErrors.push(msg.text());
+  });
+
+  await page.goto(url, { waitUntil: 'load' });
+
+  const deadline = Date.now() + TIMEOUT_MS;
+  while (Date.now() < deadline) {
+    result = await page
+      .locator('#result')
+      .evaluate((el) => ({ status: el.getAttribute('data-status'), text: el.textContent }))
+      .catch(() => null);
+
+    if (result && result.status !== 'running') {
+      break;
+    }
+    await page.waitForTimeout(500);
   }
-  await page.waitForTimeout(500);
+} finally {
+  await browser.close();
 }
-
-await browser.close();
 
 if (pageErrors.length > 0) {
   console.log('Browser console/page errors:');

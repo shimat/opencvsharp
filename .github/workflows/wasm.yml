@@ -217,6 +217,11 @@ jobs:
             fi
             sleep 1
           done
+          if ! curl -sf http://127.0.0.1:8080/index.html -o /dev/null; then
+            echo "ERROR: http-server did not become ready on port 8080 within 30s"
+            kill $SERVER_PID || true
+            exit 1
+          fi
 
           mkdir -p ${RUNNER_TEMP}/wasm-e2e
           cd ${RUNNER_TEMP}/wasm-e2e
