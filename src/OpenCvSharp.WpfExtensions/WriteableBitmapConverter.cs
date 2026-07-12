@@ -28,17 +28,17 @@ public static class WriteableBitmapConverter
         optimumChannels[PixelFormats.Indexed4] =
         optimumChannels[PixelFormats.Indexed8] =
         optimumChannels[PixelFormats.BlackWhite] = 1;
+        // Bgr555/Bgr565 (16bpp packed) are intentionally excluded: they don't fit any
+        // byte-compatible MatType (see optimumTypes below), so treat them as unsupported
+        // rather than silently copying the wrong number of bytes per row.
         optimumChannels[PixelFormats.Bgr24] =
-        optimumChannels[PixelFormats.Bgr555] =
-        optimumChannels[PixelFormats.Bgr565] =
         optimumChannels[PixelFormats.Rgb24] =
         optimumChannels[PixelFormats.Rgb48] =
         optimumChannels[PixelFormats.Rgb128Float] = 3;
+        // Pbgra32/Prgba64 are intentionally excluded for the same reason (see optimumTypes below).
         optimumChannels[PixelFormats.Bgr32] =
         optimumChannels[PixelFormats.Bgra32] =
         optimumChannels[PixelFormats.Cmyk32] =
-        optimumChannels[PixelFormats.Pbgra32] =
-        optimumChannels[PixelFormats.Prgba64] =
         optimumChannels[PixelFormats.Prgba128Float] =
         optimumChannels[PixelFormats.Rgba64] =
         optimumChannels[PixelFormats.Rgba128Float] = 4;
@@ -55,16 +55,12 @@ public static class WriteableBitmapConverter
         optimumTypes[PixelFormats.Gray16] = MatType.CV_16UC1;
         optimumTypes[PixelFormats.Rgb48] = MatType.CV_16UC3;
         optimumTypes[PixelFormats.Rgba64] = MatType.CV_16UC4;
-        optimumTypes[PixelFormats.Pbgra32] =
-        optimumTypes[PixelFormats.Prgba64] = MatType.CV_32SC4;
         optimumTypes[PixelFormats.Gray32Float] = MatType.CV_32FC1;
         optimumTypes[PixelFormats.Rgb128Float] = MatType.CV_32FC3;
         optimumTypes[PixelFormats.Prgba128Float] =
         optimumTypes[PixelFormats.Rgba128Float] = MatType.CV_32FC4;
         optimumTypes[PixelFormats.Bgr24] =
-        optimumTypes[PixelFormats.Rgb24] =
-        optimumTypes[PixelFormats.Bgr555] =
-        optimumTypes[PixelFormats.Bgr565] = MatType.CV_8UC3;
+        optimumTypes[PixelFormats.Rgb24] = MatType.CV_8UC3;
         optimumTypes[PixelFormats.Bgr32] =
         optimumTypes[PixelFormats.Bgra32] =
         optimumTypes[PixelFormats.Cmyk32] = MatType.CV_8UC4;

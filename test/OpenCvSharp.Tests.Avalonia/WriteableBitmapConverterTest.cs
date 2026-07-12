@@ -107,6 +107,20 @@ public class WriteableBitmapConverterTest
     }
 
     [AvaloniaFact]
+    public void ToMatRgb32SwapsRedAndBlue()
+    {
+        using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgb32);
+        // Rgb32 (SKColorType.Rgb888x) is R,G,B,[ignored] byte order: R=11, G=22, B=33, X=255
+        WritePixels(wb, new byte[] { 11, 22, 33, 255 });
+
+        using var mat = wb.ToMat();
+
+        // Mat is BGRA-ordered, so R and B must be swapped relative to the Rgb32 source bytes.
+        var indexer = mat.GetUnsafeGenericIndexer<Vec4b>();
+        Assert.Equal(new Vec4b(33, 22, 11, 255), indexer[0, 0]);
+    }
+
+    [AvaloniaFact]
     public void ToMatRgb565Throws()
     {
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgb565);

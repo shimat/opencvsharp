@@ -117,4 +117,23 @@ public class WriteableBitmapConverterTest
             }
         }
     }
+
+    // Bgr565 (16bpp) and Pbgra32 (32bpp, mapped to CV_32SC4 = 16 bytes/pixel) are not
+    // byte-compatible with any Mat type, so ToMat must reject them rather than copy the
+    // wrong number of bytes per row.
+    [Theory]
+    [InlineData(nameof(PixelFormats.Bgr565))]
+    [InlineData(nameof(PixelFormats.Pbgra32))]
+    public void ToMatThrowsForByteIncompatiblePixelFormat(string formatName)
+    {
+        var format = formatName switch
+        {
+            nameof(PixelFormats.Bgr565) => PixelFormats.Bgr565,
+            nameof(PixelFormats.Pbgra32) => PixelFormats.Pbgra32,
+            _ => throw new ArgumentOutOfRangeException(nameof(formatName)),
+        };
+        var wb = new WriteableBitmap(2, 2, 92, 92, format, null);
+
+        Assert.Throws<ArgumentException>(() => wb.ToMat());
+    }
 }

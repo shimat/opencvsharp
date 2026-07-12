@@ -11,10 +11,14 @@ public partial class Mat
     /// if the destination expects a different channel order or count.
     /// </summary>
     /// <param name="dst">Pointer to the first byte of the destination buffer.</param>
-    /// <param name="dstStep">Number of bytes between the start of consecutive rows in the destination buffer.</param>
+    /// <param name="dstStep">
+    /// Number of bytes between the start of consecutive rows in the destination buffer.
+    /// May be negative for bottom-up buffers (e.g. a negative-stride GDI+ <c>BitmapData</c>),
+    /// in which case <paramref name="dst"/> must still point at row 0.
+    /// </param>
     /// <exception cref="ArgumentException">
     /// <paramref name="dst"/> is a null pointer, this matrix has more than 2 dimensions,
-    /// or <paramref name="dstStep"/> is smaller than the row byte width of this matrix.
+    /// or the magnitude of <paramref name="dstStep"/> is smaller than the row byte width of this matrix.
     /// </exception>
     public unsafe void CopyPixelsTo(IntPtr dst, long dstStep)
     {
@@ -25,7 +29,7 @@ public partial class Mat
             throw new ArgumentException("CopyPixelsTo supports only 2-dimensional matrices");
 
         var rowBytes = (long)Cols * ElemSize();
-        if (dstStep < rowBytes)
+        if (Math.Abs(dstStep) < rowBytes)
             throw new ArgumentException(
                 $"dstStep ({dstStep}) is smaller than the row byte width ({rowBytes})", nameof(dstStep));
 
@@ -53,10 +57,14 @@ public partial class Mat
     /// channel layout (convert with Cv2.CvtColor after the copy if it doesn't).
     /// </summary>
     /// <param name="src">Pointer to the first byte of the source buffer.</param>
-    /// <param name="srcStep">Number of bytes between the start of consecutive rows in the source buffer.</param>
+    /// <param name="srcStep">
+    /// Number of bytes between the start of consecutive rows in the source buffer.
+    /// May be negative for bottom-up buffers (e.g. a negative-stride GDI+ <c>BitmapData</c>),
+    /// in which case <paramref name="src"/> must still point at row 0.
+    /// </param>
     /// <exception cref="ArgumentException">
     /// <paramref name="src"/> is a null pointer, this matrix has more than 2 dimensions,
-    /// or <paramref name="srcStep"/> is smaller than the row byte width of this matrix.
+    /// or the magnitude of <paramref name="srcStep"/> is smaller than the row byte width of this matrix.
     /// </exception>
     public unsafe void CopyPixelsFrom(IntPtr src, long srcStep)
     {
@@ -67,7 +75,7 @@ public partial class Mat
             throw new ArgumentException("CopyPixelsFrom supports only 2-dimensional matrices");
 
         var rowBytes = (long)Cols * ElemSize();
-        if (srcStep < rowBytes)
+        if (Math.Abs(srcStep) < rowBytes)
             throw new ArgumentException(
                 $"srcStep ({srcStep}) is smaller than the row byte width ({rowBytes})", nameof(srcStep));
 

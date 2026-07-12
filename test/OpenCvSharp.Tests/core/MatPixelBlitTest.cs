@@ -79,6 +79,78 @@ public class MatPixelBlitTest : TestBase
     }
 
     [Fact]
+    public void CopyPixelsToNegativeStride()
+    {
+        // Simulates a bottom-up buffer (e.g. a negative-stride GDI+ BitmapData): row 0 of the
+        // Mat lands at the END of the buffer, and consecutive rows walk backwards through memory.
+        using var mat = new Mat(3, 4, MatType.CV_8UC1);
+        FillSequential(mat);
+
+        var rowBytes = mat.Cols * mat.ElemSize();
+        var buffer = Marshal.AllocHGlobal(rowBytes * mat.Rows);
+        try
+        {
+            var bottomUpDst = IntPtr.Add(buffer, rowBytes * (mat.Rows - 1));
+            mat.CopyPixelsTo(bottomUpDst, -rowBytes);
+
+            for (var y = 0; y < mat.Rows; y++)
+            for (var x = 0; x < rowBytes; x++)
+            {
+                var bufferOffset = (rowBytes * (mat.Rows - 1 - y)) + x;
+                Assert.Equal(GetByteAt(mat, y, x), Marshal.ReadByte(buffer, bufferOffset));
+            }
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
+
+    [Fact]
+    public void CopyPixelsFromNegativeStride()
+    {
+        using var mat = new Mat(3, 4, MatType.CV_8UC1);
+
+        var rowBytes = mat.Cols * mat.ElemSize();
+        var buffer = Marshal.AllocHGlobal(rowBytes * mat.Rows);
+        try
+        {
+            // Row 0 of the source lives at the END of the buffer (bottom-up layout).
+            byte value = 0;
+            for (var y = mat.Rows - 1; y >= 0; y--)
+            for (var x = 0; x < rowBytes; x++)
+                Marshal.WriteByte(buffer, (y * rowBytes) + x, value++);
+
+            var bottomUpSrc = IntPtr.Add(buffer, rowBytes * (mat.Rows - 1));
+            mat.CopyPixelsFrom(bottomUpSrc, -rowBytes);
+
+            byte expected = 0;
+            for (var y = 0; y < mat.Rows; y++)
+            for (var x = 0; x < rowBytes; x++)
+                Assert.Equal(expected++, GetByteAt(mat, y, x));
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
+
+    [Fact]
+    public void CopyPixelsToThrowsWhenNegativeStrideMagnitudeTooSmall()
+    {
+        using var mat = new Mat(2, 4, MatType.CV_8UC1);
+        var buffer = Marshal.AllocHGlobal(mat.Rows * mat.Cols);
+        try
+        {
+            Assert.Throws<ArgumentException>(() => mat.CopyPixelsTo(buffer, -(mat.Cols - 1)));
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
+
+    [Fact]
     public void CopyPixelsRoundTrip()
     {
         using var src = new Mat(4, 5, MatType.CV_8UC4);

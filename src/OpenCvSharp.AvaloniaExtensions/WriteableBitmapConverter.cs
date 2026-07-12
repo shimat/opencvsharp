@@ -108,8 +108,9 @@ public static class WriteableBitmapConverter
             dst.CopyPixelsFrom(framebuffer.Address, framebuffer.RowBytes);
         }
 
-        // Rgba8888 and Bgra8888/Rgb32 differ only in R/B byte order; undo that here so dst stays BGR(A).
-        if (src.Format == PixelFormats.Rgba8888)
+        // Rgba8888 and Rgb32 (SKColorType.Rgb888x: R,G,B,X byte order) are both red-first,
+        // unlike Bgra8888; undo that here so dst stays in Mat's blue-first (BGR/BGRA) order.
+        if (src.Format == PixelFormats.Rgba8888 || src.Format == PixelFormats.Rgb32)
             Cv2.CvtColor(dst, dst, ColorConversionCodes.BGRA2RGBA);
     }
 

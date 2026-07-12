@@ -10,9 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- No ProjectReference to OpenCvSharp.Tests: it pulls in SkiaSharp 4.x (for its own
+         cross-platform image decoding), which collides with the SkiaSharp 3.x that
+         Avalonia.Skia depends on and breaks native library loading at test time. -->
     <ProjectReference Include="..\..\src\OpenCvSharp.AvaloniaExtensions\OpenCvSharp.AvaloniaExtensions.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
-    <ProjectReference Include="..\OpenCvSharp.Tests\OpenCvSharp.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
