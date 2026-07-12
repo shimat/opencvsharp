@@ -111,8 +111,8 @@ public static class WriteableBitmapConverter
         if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4)
             return PixelFormats.Rgba64;
 
-        if (type == MatType.CV_32SC4)
-            return PixelFormats.Prgba64;
+        // CV_32SC4 (16 bytes/pixel) has no byte-compatible PixelFormat: Prgba64 is only
+        // 8 bytes/pixel, so mapping to it was removed along with optimumTypes/optimumChannels above.
 
         if (type == MatType.CV_32FC1)
             return PixelFormats.Gray32Float;

@@ -136,4 +136,13 @@ public class WriteableBitmapConverterTest
 
         Assert.Throws<ArgumentException>(() => wb.ToMat());
     }
+
+    // CV_32SC4 (16 bytes/pixel) has no byte-compatible PixelFormat (Prgba64 is only 8
+    // bytes/pixel), so ToWriteableBitmap must reject it rather than pick a mismatched format.
+    [Fact]
+    public void ToWriteableBitmapThrowsForByteIncompatibleMatType()
+    {
+        using var mat = new Mat(2, 2, MatType.CV_32SC4);
+        Assert.Throws<ArgumentOutOfRangeException>(() => mat.ToWriteableBitmap());
+    }
 }
