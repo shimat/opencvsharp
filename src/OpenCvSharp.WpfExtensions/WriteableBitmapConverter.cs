@@ -71,7 +71,7 @@ public static class WriteableBitmapConverter
     }
 
     /// <summary>
-    /// 指定したPixelFormatに適合するMatのチャンネル数を返す
+    /// Returns the number of Mat channels that fit the specified PixelFormat
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
@@ -83,7 +83,7 @@ public static class WriteableBitmapConverter
     }
 
     /// <summary>
-    /// 指定したPixelFormatに適合するMatTypeを返す
+    /// Returns the MatType that fits the specified PixelFormat
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
@@ -95,7 +95,7 @@ public static class WriteableBitmapConverter
     }
 
     /// <summary>
-    /// 指定したMatのビット深度・チャンネル数に適合するPixelFormatを返す
+    /// Returns the PixelFormat that fits the specified Mat's bit depth and channel count
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
@@ -233,7 +233,7 @@ public static class WriteableBitmapConverter
             throw new ArgumentException("channels of dst != channels of PixelFormat", nameof(dst));
         }
 
-        // 1bppはビット単位の詰め込みが必要なため手作業でコピーする
+        // 1bpp requires manual bit-packing, so copy it by hand
         if (bpp == 1)
         {
             if (src.IsSubmatrix())
@@ -241,7 +241,7 @@ public static class WriteableBitmapConverter
 
             int srcStep = (int)src.Step();
 
-            // 手作業で移し替える
+            // Transfer manually
             int stride = w / 8 + 1;
             if (stride < 2)
                 stride = 2;
@@ -259,7 +259,7 @@ public static class WriteableBitmapConverter
                         if (x < w)
                         {
                             byte b = 0;
-                            // 現在の位置から横8ピクセル分、ビットがそれぞれ立っているか調べ、1つのbyteにまとめる
+                            // Check whether each of the next 8 pixels' bits is set, and pack them into one byte
                             for (int i = 0; i < 8; i++)
                             {
                                 b <<= 1;
@@ -335,11 +335,11 @@ public static class WriteableBitmapConverter
         if (dst.Channels() != channels)
             throw new ArgumentException("nChannels of dst is invalid", nameof(dst));
 
-        // 1bppはビット単位の詰め込みなので手作業で展開する
+        // 1bpp is bit-packed, so unpack it by hand
         if (bpp == 1)
         {
             int widthStep = (int)dst.Step();
-            // 要素1つに横8ピクセル分のデータが入っている
+            // Each element holds data for 8 horizontal pixels
             int stride = (w / 8) + 1;
             byte[] pixels = new byte[h * stride];
             src.CopyPixels(pixels, stride, 0);
@@ -351,12 +351,12 @@ public static class WriteableBitmapConverter
                 for (int y = 0; y < h; y++)
                 {
                     int offset = y * stride;
-                    // この行の各バイトを調べていく
+                    // Inspect each byte of this row
                     for (int bytePos = 0; bytePos < stride; bytePos++)
                     {
                         if (x < w)
                         {
-                            // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                            // Extract each of the 8 bits from the byte at the current position
                             byte b = pixels[offset + bytePos];
                             for (int i = 0; i < 8; i++)
                             {
@@ -364,21 +364,21 @@ public static class WriteableBitmapConverter
                                 {
                                     break;
                                 }
-                                // IplImageは8bit/pixel
+                                // IplImage is 8bit/pixel
                                 p[widthStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                                 b <<= 1;
                                 x++;
                             }
                         }
                     }
-                    // 次の行へ
+                    // Move to the next row
                     x = 0;
                 }
             }
             return;
         }
 
-        // 8bpp以上はWriteableBitmap側のバッファを直接読み取ってコピーする
+        // For 8bpp and above, read directly from the WriteableBitmap's buffer and copy
         try
         {
             src.Lock();

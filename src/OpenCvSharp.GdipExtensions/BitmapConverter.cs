@@ -111,13 +111,13 @@ public static class BitmapConverter
 
             for (var y = 0; y < h; y++)
             {
-                // 横は必ず4byte幅に切り上げられる。
-                // この行の各バイトを調べていく
+                // The row width is always rounded up to a 4-byte boundary.
+                // Inspect each byte of this row
                 for (var bytePos = 0; bytePos < srcStep; bytePos++)
                 {
                     if (x < w)
                     {
-                        // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                        // Extract each of the 8 bits from the byte at the current position
                         var b = srcPtr[bytePos];
                         for (var i = 0; i < 8; i++)
                         {
@@ -125,14 +125,14 @@ public static class BitmapConverter
                             {
                                 break;
                             }
-                            // IplImageは8bit/pixel
+                            // IplImage is 8bit/pixel
                             dstPtr[dstStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                             b <<= 1;
                             x++;
                         }
                     }
                 }
-                // 次の行へ
+                // Move to the next row
                 x = 0;
                 srcPtr += srcStep;
             }
@@ -332,7 +332,7 @@ public static class BitmapConverter
 
         var pf = dst.PixelFormat;
 
-        // 1プレーン用の場合、グレースケールのパレット情報を生成する
+        // For single-plane images, generate a grayscale palette
         if (pf == PixelFormat.Format8bppIndexed)
         {
             var plt = dst.Palette;
@@ -367,8 +367,8 @@ public static class BitmapConverter
                     if (submat)
                         throw new NotImplementedException("submatrix not supported");
 
-                    // BitmapDataは4byte幅だが、IplImageは1byte幅
-                    // 手作業で移し替える                 
+                    // BitmapData is 4-byte wide, but IplImage is 1-byte wide
+                    // Transfer manually
                     //int offset = stride - (w / 8);
                     int x = 0;
                     byte b = 0;
