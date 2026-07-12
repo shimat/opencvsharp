@@ -185,8 +185,12 @@ jobs:
           dotnet test -c Release -f net10.0-windows --runtime win-x64
 
       - name: Test Avalonia extensions
-        shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests.Avalonia -c Release -f net10.0 --runtime win-x64
+        shell: powershell
+        run: |
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Avalonia
+          dotnet build -c Release -f net10.0
+          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll bin\Release\net10.0\
+          dotnet test -c Release -f net10.0 --runtime win-x64
 
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
