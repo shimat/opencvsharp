@@ -144,14 +144,14 @@ public static class BitmapSourceConverter
             byte* p = (byte*)(dst.Data);
             long step = dst.Step();
 
-            // 1bppは手作業でコピー
+            // 1bpp is copied by hand
             if (bpp == 1)
             {
                 if (submat)
                     throw new NotImplementedException("submatrix not supported");
 
-                // BitmapImageのデータを配列にコピー
-                // 要素1つに横8ピクセル分のデータが入っている。   
+                // Copy the BitmapImage's data into an array
+                // Each element holds data for 8 horizontal pixels.
                 int stride = (w / 8) + 1;
                 byte[] pixels = new byte[h * stride];
                 src.CopyPixels(pixels, stride, 0);
@@ -159,12 +159,12 @@ public static class BitmapSourceConverter
                 for (int y = 0; y < h; y++)
                 {
                     int offset = y * stride;
-                    // この行の各バイトを調べていく
+                    // Inspect each byte of this row
                     for (int bytePos = 0; bytePos < stride; bytePos++)
                     {
                         if (x < w)
                         {
-                            // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                            // Extract each of the 8 bits from the byte at the current position
                             byte b = pixels[offset + bytePos];
                             for (int i = 0; i < 8; i++)
                             {
@@ -178,7 +178,7 @@ public static class BitmapSourceConverter
                             }
                         }
                     }
-                    // 次の行へ
+                    // Move to the next row
                     x = 0;
                 }
 
@@ -212,7 +212,7 @@ public static class BitmapSourceConverter
                 }
                 else
                 {
-                    // 高さ1pxの矩形ごと(≒1行ごと)にコピー
+                    // Copy one 1px-tall rect at a time (≈ one row at a time)
                     var roi = new Int32Rect { X = 0, Y = 0, Width = w, Height = 1 };
                     IntPtr dstData = dst.Data;
                     for (int y = 0; y < h; y++)

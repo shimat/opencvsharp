@@ -111,13 +111,13 @@ public static class BitmapConverter
 
             for (var y = 0; y < h; y++)
             {
-                // 横は必ず4byte幅に切り上げられる。
-                // この行の各バイトを調べていく
+                // The row width is always rounded up to a 4-byte boundary.
+                // Inspect each byte of this row
                 for (var bytePos = 0; bytePos < srcStep; bytePos++)
                 {
                     if (x < w)
                     {
-                        // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                        // Extract each of the 8 bits from the byte at the current position
                         var b = srcPtr[bytePos];
                         for (var i = 0; i < 8; i++)
                         {
@@ -125,14 +125,14 @@ public static class BitmapConverter
                             {
                                 break;
                             }
-                            // IplImageは8bit/pixel
+                            // IplImage is 8bit/pixel
                             dstPtr[dstStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                             b <<= 1;
                             x++;
                         }
                     }
                 }
-                // 次の行へ
+                // Move to the next row
                 x = 0;
                 srcPtr += srcStep;
             }
@@ -230,27 +230,8 @@ public static class BitmapConverter
                 throw new ArgumentException("Invalid nChannels");
             if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
                 throw new ArgumentException("Invalid depth of dst Mat");
-                
-            var srcStep = bd.Stride;
-            var dstStep = dst.Step();
-            if (dstStep == srcStep && !dst.IsSubmatrix() && dst.IsContinuous())
-            {
-                var dstData = dst.Data;
-                var bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
-                Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
-            }
-            else
-            {
-                // Copy line bytes from src to dst for each line
-                var sp = (byte*) bd.Scan0;
-                var dp = (byte*) dst.Data;
-                for (var y = 0; y < h; y++)
-                {
-                    Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
-                    sp += srcStep;
-                    dp += dstStep;
-                }
-            }
+
+            dst.CopyPixelsFrom(bd.Scan0, bd.Stride);
         }
 
         // ReSharper disable once InconsistentNaming
@@ -262,24 +243,7 @@ public static class BitmapConverter
             switch (dst.Channels())
             {
                 case 4:
-                    if (!dst.IsSubmatrix() && dst.IsContinuous())
-                    {
-                        var dstData = dst.Data;
-                        var bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
-                        Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
-                    }
-                    else
-                    {
-                        var sp = (byte*) bd.Scan0;
-                        var dp = (byte*) dst.Data;
-                        for (var y = 0; y < h; y++)
-                        {
-                            Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
-                            sp += srcStep;
-                            dp += dstStep;
-                        }
-                    }
-
+                    dst.CopyPixelsFrom(bd.Scan0, srcStep);
                     break;
                 case 3:
                     var srcPtr = (byte*)bd.Scan0.ToPointer();
@@ -368,7 +332,7 @@ public static class BitmapConverter
 
         var pf = dst.PixelFormat;
 
-        // 1プレーン用の場合、グレースケールのパレット情報を生成する
+        // For single-plane images, generate a grayscale palette
         if (pf == PixelFormat.Format8bppIndexed)
         {
             var plt = dst.Palette;
@@ -385,7 +349,6 @@ public static class BitmapConverter
         BitmapData? bd = null;
 
         var submat = src.IsSubmatrix();
-        var continuous = src.IsContinuous();
 
         try
         {
@@ -394,9 +357,7 @@ public static class BitmapConverter
             var srcData = src.Data;
             var pSrc = (byte*)(srcData.ToPointer());
             var pDst = (byte*)(bd.Scan0.ToPointer());
-            var ch = src.Channels();
             var srcStep = (int)src.Step();
-            var dstStep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
             var stride = bd.Stride;
 
             switch (pf)
@@ -406,8 +367,8 @@ public static class BitmapConverter
                     if (submat)
                         throw new NotImplementedException("submatrix not supported");
 
-                    // BitmapDataは4byte幅だが、IplImageは1byte幅
-                    // 手作業で移し替える                 
+                    // BitmapData is 4-byte wide, but IplImage is 1-byte wide
+                    // Transfer manually
                     //int offset = stride - (w / 8);
                     int x = 0;
                     byte b = 0;
@@ -439,22 +400,7 @@ public static class BitmapConverter
                 case PixelFormat.Format8bppIndexed:
                 case PixelFormat.Format24bppRgb:
                 case PixelFormat.Format32bppArgb:
-                    if (srcStep == dstStep && !submat && continuous)
-                    {
-                        long bytesToCopy = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                        Buffer.MemoryCopy(pSrc, pDst, bytesToCopy, bytesToCopy);
-                    }
-                    else
-                    {
-                        for (int y = 0; y < h; y++)
-                        {
-                            long offsetSrc = (y * srcStep);
-                            long offsetDst = (y * dstStep);
-                            long bytesToCopy = w * ch;
-                            // 一列ごとにコピー
-                            Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesToCopy, bytesToCopy);
-                        }
-                    }
+                    src.CopyPixelsTo((IntPtr)pDst, stride);
                     break;
 
                 default:

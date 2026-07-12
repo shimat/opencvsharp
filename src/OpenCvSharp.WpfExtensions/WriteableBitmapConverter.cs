@@ -28,17 +28,17 @@ public static class WriteableBitmapConverter
         optimumChannels[PixelFormats.Indexed4] =
         optimumChannels[PixelFormats.Indexed8] =
         optimumChannels[PixelFormats.BlackWhite] = 1;
+        // Bgr555/Bgr565 (16bpp packed) are intentionally excluded: they don't fit any
+        // byte-compatible MatType (see optimumTypes below), so treat them as unsupported
+        // rather than silently copying the wrong number of bytes per row.
         optimumChannels[PixelFormats.Bgr24] =
-        optimumChannels[PixelFormats.Bgr555] =
-        optimumChannels[PixelFormats.Bgr565] =
         optimumChannels[PixelFormats.Rgb24] =
         optimumChannels[PixelFormats.Rgb48] =
         optimumChannels[PixelFormats.Rgb128Float] = 3;
+        // Pbgra32/Prgba64 are intentionally excluded for the same reason (see optimumTypes below).
         optimumChannels[PixelFormats.Bgr32] =
         optimumChannels[PixelFormats.Bgra32] =
         optimumChannels[PixelFormats.Cmyk32] =
-        optimumChannels[PixelFormats.Pbgra32] =
-        optimumChannels[PixelFormats.Prgba64] =
         optimumChannels[PixelFormats.Prgba128Float] =
         optimumChannels[PixelFormats.Rgba64] =
         optimumChannels[PixelFormats.Rgba128Float] = 4;
@@ -55,23 +55,19 @@ public static class WriteableBitmapConverter
         optimumTypes[PixelFormats.Gray16] = MatType.CV_16UC1;
         optimumTypes[PixelFormats.Rgb48] = MatType.CV_16UC3;
         optimumTypes[PixelFormats.Rgba64] = MatType.CV_16UC4;
-        optimumTypes[PixelFormats.Pbgra32] =
-        optimumTypes[PixelFormats.Prgba64] = MatType.CV_32SC4;
         optimumTypes[PixelFormats.Gray32Float] = MatType.CV_32FC1;
         optimumTypes[PixelFormats.Rgb128Float] = MatType.CV_32FC3;
         optimumTypes[PixelFormats.Prgba128Float] =
         optimumTypes[PixelFormats.Rgba128Float] = MatType.CV_32FC4;
         optimumTypes[PixelFormats.Bgr24] =
-        optimumTypes[PixelFormats.Rgb24] =
-        optimumTypes[PixelFormats.Bgr555] =
-        optimumTypes[PixelFormats.Bgr565] = MatType.CV_8UC3;
+        optimumTypes[PixelFormats.Rgb24] = MatType.CV_8UC3;
         optimumTypes[PixelFormats.Bgr32] =
         optimumTypes[PixelFormats.Bgra32] =
         optimumTypes[PixelFormats.Cmyk32] = MatType.CV_8UC4;
     }
 
     /// <summary>
-    /// 指定したPixelFormatに適合するMatのチャンネル数を返す
+    /// Returns the number of Mat channels that fit the specified PixelFormat
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
@@ -83,7 +79,7 @@ public static class WriteableBitmapConverter
     }
 
     /// <summary>
-    /// 指定したPixelFormatに適合するMatTypeを返す
+    /// Returns the MatType that fits the specified PixelFormat
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
@@ -95,7 +91,7 @@ public static class WriteableBitmapConverter
     }
 
     /// <summary>
-    /// 指定したMatのビット深度・チャンネル数に適合するPixelFormatを返す
+    /// Returns the PixelFormat that fits the specified Mat's bit depth and channel count
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
@@ -115,8 +111,8 @@ public static class WriteableBitmapConverter
         if (type == MatType.CV_16UC4 || type == MatType.CV_16SC4)
             return PixelFormats.Rgba64;
 
-        if (type == MatType.CV_32SC4)
-            return PixelFormats.Prgba64;
+        // CV_32SC4 (16 bytes/pixel) has no byte-compatible PixelFormat: Prgba64 is only
+        // 8 bytes/pixel, so mapping to it was removed along with optimumTypes/optimumChannels above.
 
         if (type == MatType.CV_32FC1)
             return PixelFormats.Gray32Float;
@@ -233,25 +229,24 @@ public static class WriteableBitmapConverter
             throw new ArgumentException("channels of dst != channels of PixelFormat", nameof(dst));
         }
 
-        bool submat = src.IsSubmatrix();
-        bool continuous = src.IsContinuous();
-        unsafe
+        // 1bpp requires manual bit-packing, so copy it by hand
+        if (bpp == 1)
         {
-            byte* pSrc = (byte*)(src.Data);
+            if (src.IsSubmatrix())
+                throw new NotImplementedException("submatrix not supported");
+
             int srcStep = (int)src.Step();
 
-            if (bpp == 1)
+            // Transfer manually
+            int stride = w / 8 + 1;
+            if (stride < 2)
+                stride = 2;
+
+            byte[] pixels = new byte[h * stride];
+
+            unsafe
             {
-                if (submat)
-                    throw new NotImplementedException("submatrix not supported");
-
-                // 手作業で移し替える
-                int stride = w / 8 + 1;
-                if (stride < 2)
-                    stride = 2;
-
-                byte[] pixels = new byte[h * stride];
-
+                byte* pSrc = (byte*)(src.Data);
                 for (int x = 0, y = 0; y < h; y++)
                 {
                     int offset = y * stride;
@@ -260,7 +255,7 @@ public static class WriteableBitmapConverter
                         if (x < w)
                         {
                             byte b = 0;
-                            // 現在の位置から横8ピクセル分、ビットがそれぞれ立っているか調べ、1つのbyteにまとめる
+                            // Check whether each of the next 8 pixels' bits is set, and pack them into one byte
                             for (int i = 0; i < 8; i++)
                             {
                                 b <<= 1;
@@ -275,43 +270,20 @@ public static class WriteableBitmapConverter
                     }
                     x = 0;
                 }
-                dst.WritePixels(new Int32Rect(0, 0, w, h), pixels, stride, 0);
-                return;
             }
+            dst.WritePixels(new Int32Rect(0, 0, w, h), pixels, stride, 0);
+            return;
+        }
 
-            // 一気にコピー            
-            if (!submat && continuous)
-            {
-                long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
-                if (imageSize < 0)
-                    throw new OpenCvSharpException("The mat has invalid data pointer");
-                if (imageSize > int.MaxValue)
-                    throw new OpenCvSharpException("Too big mat data");
-                dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, srcStep);
-                return;
-            }
-
-            // 一列ごとにコピー
-            try
-            {
-                dst.Lock();
-                dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
-
-                int dstStep = dst.BackBufferStride;
-                byte* pDst = (byte*)dst.BackBuffer;
-
-                for (int y = 0; y < h; y++)
-                {
-                    long offsetSrc = (y * srcStep);
-                    long offsetDst = (y * dstStep);
-                    long bytesInCopy = w * channels;
-                    Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesInCopy, bytesInCopy);
-                }
-            }
-            finally
-            {
-                dst.Unlock();
-            }
+        try
+        {
+            dst.Lock();
+            dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
+            src.CopyPixelsTo(dst.BackBuffer, dst.BackBufferStride);
+        }
+        finally
+        {
+            dst.Unlock();
         }
     }
 
@@ -359,30 +331,28 @@ public static class WriteableBitmapConverter
         if (dst.Channels() != channels)
             throw new ArgumentException("nChannels of dst is invalid", nameof(dst));
 
-        unsafe
+        // 1bpp is bit-packed, so unpack it by hand
+        if (bpp == 1)
         {
-            byte* p = (byte*)dst.Data.ToPointer();
             int widthStep = (int)dst.Step();
+            // Each element holds data for 8 horizontal pixels
+            int stride = (w / 8) + 1;
+            byte[] pixels = new byte[h * stride];
+            src.CopyPixels(pixels, stride, 0);
 
-            // 1bppは手作業でコピー
-            if (bpp == 1)
+            unsafe
             {
-                // BitmapImageのデータを配列にコピー
-                // 要素1つに横8ピクセル分のデータが入っている。   
-                int stride = (w / 8) + 1;
-                byte[] pixels = new byte[h * stride];
-                src.CopyPixels(pixels, stride, 0);
-
+                byte* p = (byte*)dst.Data.ToPointer();
                 int x = 0;
                 for (int y = 0; y < h; y++)
                 {
                     int offset = y * stride;
-                    // この行の各バイトを調べていく
+                    // Inspect each byte of this row
                     for (int bytePos = 0; bytePos < stride; bytePos++)
                     {
                         if (x < w)
                         {
-                            // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                            // Extract each of the 8 bits from the byte at the current position
                             byte b = pixels[offset + bytePos];
                             for (int i = 0; i < 8; i++)
                             {
@@ -390,38 +360,29 @@ public static class WriteableBitmapConverter
                                 {
                                     break;
                                 }
-                                // IplImageは8bit/pixel
+                                // IplImage is 8bit/pixel
                                 p[widthStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                                 b <<= 1;
                                 x++;
                             }
                         }
                     }
-                    // 次の行へ
+                    // Move to the next row
                     x = 0;
                 }
+            }
+            return;
+        }
 
-            }
-            // 8bpp
-            else if (bpp == 8)
-            {
-                int stride = w;
-                byte[] pixels = new byte[h * stride];
-                src.CopyPixels(pixels, stride, 0);
-                for (int y = 0; y < h; y++)
-                {
-                    for (int x = 0; x < w; x++)
-                    {
-                        p[widthStep * y + x] = pixels[y * stride + x];
-                    }
-                }
-            }
-            // 24bpp, 32bpp, ...
-            else
-            {
-                int stride = w * ((bpp + 7) / 8);
-                src.CopyPixels(Int32Rect.Empty, dst.Data, (int)(dst.Step() * dst.Rows), stride);
-            }
+        // For 8bpp and above, read directly from the WriteableBitmap's buffer and copy
+        try
+        {
+            src.Lock();
+            dst.CopyPixelsFrom(src.BackBuffer, src.BackBufferStride);
+        }
+        finally
+        {
+            src.Unlock();
         }
     }
 

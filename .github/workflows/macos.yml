@@ -345,6 +345,13 @@ jobs:
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
             --logger "trx;LogFileName=test-results.trx" < /dev/null
 
+      - name: Test Avalonia extensions
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
+          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia dotnet test OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime osx-arm64 < /dev/null
+
       - uses: actions/upload-artifact@v7
         with:
           name: test-results-macos

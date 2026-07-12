@@ -103,6 +103,7 @@ jobs:
           check_package "OpenCvSharp5.5.*.nupkg"
           check_package "OpenCvSharp5.GdipExtensions.*.nupkg"
           check_package "OpenCvSharp5.WpfExtensions.*.nupkg"
+          check_package "OpenCvSharp5.AvaloniaExtensions.*.nupkg"
           check_package "OpenCvSharp5.runtime.win.[0-9]*.nupkg"
           check_package "OpenCvSharp5.runtime.win-arm64.[0-9]*.nupkg"
           check_package "OpenCvSharp5.runtime.win-arm64.slim.*.nupkg"
