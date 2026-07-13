@@ -30,13 +30,20 @@
 
             foreach (var ext in new[] { ".jpg", ".png" })
             {
+                // TEMP bisection diagnostics for the TIFF wasm hang investigation (#2043): Blazor wasm
+                // routes Console.Error to console.error, which run-e2e.mjs's pageerror/console capture
+                // already surfaces in the CI log. Revert once JPEG/PNG are confirmed not to hang too.
+                Console.Error.WriteLine($"[E2E] before ImEncode({ext})");
                 var encoded = Cv2.ImEncode(ext, mat, out var buf);
                 if (!encoded || buf.Length == 0)
                     throw new InvalidOperationException($"ImEncode({ext}) failed or produced an empty buffer");
 
+                Console.Error.WriteLine($"[E2E] before ImDecode({ext})");
                 using var decoded = Cv2.ImDecode(buf, ImreadModes.Unchanged);
                 if (decoded.Empty() || decoded.Size() != mat.Size())
                     throw new InvalidOperationException($"ImDecode({ext}) round trip failed: empty={decoded.Empty()}, size={decoded.Size()}");
+
+                Console.Error.WriteLine($"[E2E] {ext} round trip ok");
             }
 
             status = "ok";
