@@ -30,13 +30,19 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
-            // TEMP: bisecting a wasm hang inside ImEncode (#2043) - it hangs for both ".jpg" and
-            // ".png", so it's not codec-specific. Neither the exception/setjmp-longjmp lowering
-            // model nor OpenCV's pthreads-based parallel_for backend explained it either.
-            // opencvsharp_blazor_sample's own JPEG/PNG workaround (PR #13) only ever calls
-            // ImDecode (decoding a hand-rolled BMP built in JS) and never ImEncode, so ImDecode
-            // working there is not actually evidence ImEncode works. Bypass ImEncode entirely here
-            // and feed ImDecode a hardcoded, known-valid 1x1 PNG to check whether decode alone hangs.
+            // TEMP: bisecting a wasm hang inside ImDecode/ImEncode (#2043) - the hang isn't specific
+            // to ImEncode, JPEG, or PNG: even a bare ImDecode of a hardcoded, known-valid PNG buffer
+            // hangs the same way. Before concluding this is JPEG/PNG-specific, check whether BMP -
+            // never touching libjpeg-turbo/libpng at all, and the format opencvsharp_blazor_sample's
+            // workaround already proved decodes fine on the *old* (pre-this-PR) wasm build - still
+            // decodes on *this* build. If BMP also hangs, something broader in imgcodecs broke.
+            Console.Error.WriteLine("[E2E] before ImDecode(hardcoded bmp)");
+            var bmpBytes = Convert.FromBase64String("Qk06AAAAAAAAADYAAAAoAAAAAQAAAAEAAAABABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAA==");
+            using var decodedBmp = Cv2.ImDecode(bmpBytes, ImreadModes.Unchanged);
+            if (decodedBmp.Empty())
+                throw new InvalidOperationException("ImDecode(hardcoded bmp) failed or produced an empty Mat");
+            Console.Error.WriteLine($"[E2E] hardcoded bmp decode ok: {decodedBmp.Size()}");
+
             Console.Error.WriteLine("[E2E] before ImDecode(hardcoded png)");
             var pngBytes = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
             using var decodedPng = Cv2.ImDecode(pngBytes, ImreadModes.Unchanged);
