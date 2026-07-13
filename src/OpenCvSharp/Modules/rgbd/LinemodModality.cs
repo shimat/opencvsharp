@@ -52,6 +52,7 @@ public class LinemodModality : CvPtrObject
     /// <summary>Forms a quantized image pyramid from a source image.</summary>
     public QuantizedPyramid Process(Mat src, Mat? mask = null)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(src);
         src.ThrowIfDisposed();
         mask?.ThrowIfDisposed();
@@ -64,6 +65,7 @@ public class LinemodModality : CvPtrObject
     /// <summary>Loads modality parameters from a file node.</summary>
     public void Read(FileNode node)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(node);
         NativeMethods.HandleException(NativeMethods.rgbd_linemod_Modality_read(Handle, node.Handle));
         GC.KeepAlive(node);
@@ -72,6 +74,7 @@ public class LinemodModality : CvPtrObject
     /// <summary>Writes modality parameters to file storage.</summary>
     public void Write(FileStorage storage)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(storage);
         NativeMethods.HandleException(NativeMethods.rgbd_linemod_Modality_write(Handle, storage.Handle));
         GC.KeepAlive(storage);
@@ -96,6 +99,7 @@ public sealed class ColorGradient : LinemodModality
     {
         get
         {
+            ThrowIfDisposed();
             NativeMethods.HandleException(NativeMethods.rgbd_linemod_ColorGradient_get(
                 Handle, out var weak, out var count, out var strong));
             return (weak, count, strong);
@@ -130,6 +134,7 @@ public sealed class DepthNormal : LinemodModality
     {
         get
         {
+            ThrowIfDisposed();
             NativeMethods.HandleException(NativeMethods.rgbd_linemod_DepthNormal_get(
                 Handle, out var distance, out var difference, out var count, out var extract));
             return (distance, difference, count, extract);

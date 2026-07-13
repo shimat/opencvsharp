@@ -23,6 +23,16 @@ public class LinemodTest
     }
 
     [Fact]
+    public void TemplateEqualityUsesFeatureContents()
+    {
+        var first = new LinemodTemplate(10, 20, 1, [new LinemodFeature(2, 3, 4)]);
+        var second = new LinemodTemplate(10, 20, 1, [new LinemodFeature(2, 3, 4)]);
+
+        Assert.Equal(first, second);
+        Assert.Equal(first.GetHashCode(), second.GetHashCode());
+    }
+
+    [Fact]
     public void ColorGradientCreatesQuantizedPyramid()
     {
         using var image = CreateTestImage();

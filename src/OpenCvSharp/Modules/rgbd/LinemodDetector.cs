@@ -11,15 +11,20 @@ public sealed class LinemodDetector : CvObject
             static p => NativeMethods.HandleException(NativeMethods.rgbd_linemod_Detector_delete(p))));
 
     /// <summary>Creates an empty detector intended to be initialized with <see cref="Read"/>.</summary>
-    public LinemodDetector()
+    public LinemodDetector() : this(CreateEmpty()) { }
+
+    private static IntPtr CreateEmpty()
     {
         NativeMethods.HandleException(NativeMethods.rgbd_linemod_Detector_newEmpty(out var ptr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, true,
-            static p => NativeMethods.HandleException(NativeMethods.rgbd_linemod_Detector_delete(p))));
+        return ptr;
     }
 
     /// <summary>Creates a detector using the supplied modalities and sampling steps.</summary>
     public LinemodDetector(IEnumerable<LinemodModality> modalities, IEnumerable<int> tPyramid)
+        : this(CreateNative(modalities, tPyramid)) { }
+
+    private static IntPtr CreateNative(
+        IEnumerable<LinemodModality> modalities, IEnumerable<int> tPyramid)
     {
         ArgumentNullException.ThrowIfNull(modalities);
         ArgumentNullException.ThrowIfNull(tPyramid);
@@ -30,9 +35,8 @@ public sealed class LinemodDetector : CvObject
         var pointers = mods.Select(m => m.SmartPtr).ToArray();
         NativeMethods.HandleException(NativeMethods.rgbd_linemod_Detector_new(
             pointers, pointers.Length, steps, steps.Length, out var ptr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, true,
-            static p => NativeMethods.HandleException(NativeMethods.rgbd_linemod_Detector_delete(p))));
         foreach (var mod in mods) GC.KeepAlive(mod);
+        return ptr;
     }
 
     /// <summary>Creates the default color-gradient LINE detector.</summary>
