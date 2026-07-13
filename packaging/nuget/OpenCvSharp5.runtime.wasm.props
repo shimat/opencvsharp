@@ -1,5 +1,17 @@
 <?xml version="1.0"  encoding="utf-8"?>
 <Project>
+  <PropertyGroup>
+    <!--
+      OpenCvSharpExtern.a statically links libjpeg-turbo/libtiff, which use setjmp/longjmp for
+      error handling. The .NET wasm SDK's default (WasmEnableExceptionHandling=true) lowers native
+      exceptions/setjmp-longjmp through the newer WebAssembly exception-handling proposal, whose
+      setjmp/longjmp emulation doesn't yet handle libjpeg's jmp_buf-in-a-struct usage pattern
+      correctly - observed as OnInitialized hanging indefinitely, not throwing. Force the older,
+      JS-based invoke_ mechanism instead, which has years of testing against exactly this pattern.
+    -->
+    <WasmEnableExceptionHandling>false</WasmEnableExceptionHandling>
+  </PropertyGroup>
+
   <ItemGroup>
     <NativeFileReference Include="$(MSBuildThisFileDirectory)..\..\runtimes\browser-wasm\4.0.23\OpenCvSharpExtern.a" />
   </ItemGroup>
