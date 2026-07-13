@@ -30,27 +30,19 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
-            // TEMP: JPEG/TIFF excluded while bisecting a wasm hang inside ImEncode(".jpg") (#2043).
-            // Neither the exception/setjmp-longjmp lowering model nor OpenCV's pthreads-based
-            // parallel_for backend explained it; testing PNG alone next to see whether the hang is
-            // libjpeg-turbo-specific or affects imgcodecs more broadly.
-            foreach (var ext in new[] { ".png" })
-            {
-                // TEMP bisection diagnostics for the wasm hang investigation (#2043): Blazor wasm
-                // routes Console.Error to console.error, which run-e2e.mjs's pageerror/console capture
-                // already surfaces in the CI log. Revert once all three are confirmed not to hang.
-                Console.Error.WriteLine($"[E2E] before ImEncode({ext})");
-                var encoded = Cv2.ImEncode(ext, mat, out var buf);
-                if (!encoded || buf.Length == 0)
-                    throw new InvalidOperationException($"ImEncode({ext}) failed or produced an empty buffer");
-
-                Console.Error.WriteLine($"[E2E] before ImDecode({ext})");
-                using var decoded = Cv2.ImDecode(buf, ImreadModes.Unchanged);
-                if (decoded.Empty() || decoded.Size() != mat.Size())
-                    throw new InvalidOperationException($"ImDecode({ext}) round trip failed: empty={decoded.Empty()}, size={decoded.Size()}");
-
-                Console.Error.WriteLine($"[E2E] {ext} round trip ok");
-            }
+            // TEMP: bisecting a wasm hang inside ImEncode (#2043) - it hangs for both ".jpg" and
+            // ".png", so it's not codec-specific. Neither the exception/setjmp-longjmp lowering
+            // model nor OpenCV's pthreads-based parallel_for backend explained it either.
+            // opencvsharp_blazor_sample's own JPEG/PNG workaround (PR #13) only ever calls
+            // ImDecode (decoding a hand-rolled BMP built in JS) and never ImEncode, so ImDecode
+            // working there is not actually evidence ImEncode works. Bypass ImEncode entirely here
+            // and feed ImDecode a hardcoded, known-valid 1x1 PNG to check whether decode alone hangs.
+            Console.Error.WriteLine("[E2E] before ImDecode(hardcoded png)");
+            var pngBytes = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
+            using var decodedPng = Cv2.ImDecode(pngBytes, ImreadModes.Unchanged);
+            if (decodedPng.Empty())
+                throw new InvalidOperationException("ImDecode(hardcoded png) failed or produced an empty Mat");
+            Console.Error.WriteLine($"[E2E] hardcoded png decode ok: {decodedPng.Size()}");
 
             status = "ok";
             detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}";
