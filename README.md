@@ -4,7 +4,7 @@
 
 OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality.
 
-### 🚀 [Try the Live Demo](https://shimat.github.io/opencvsharp_blazor_sample/)
+## 🚀 [Try the Live Demo](https://shimat.github.io/opencvsharp_blazor_sample/)
 
 Run OpenCvSharp image processing right in your browser — Blazor WebAssembly, no install needed.
 
