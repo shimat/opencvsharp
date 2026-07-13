@@ -10,7 +10,12 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 5.0.0
-  EM_VERSION: 4.0.23
+  # Must match the Emscripten version bundled with the .NET wasm SDK below (currently
+  # Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk), since OpenCvSharpExtern.a built here gets
+  # statically linked by that SDK's own emcc/wasm-ld later - mixing Emscripten versions across
+  # that link boundary is unsupported and has already caused one silent bug (#2039, a wasm-opt
+  # feature-flag mismatch) plus a suspected second one (a setjmp/longjmp hang; see #2043).
+  EM_VERSION: 3.1.56
   EM_CACHE_FOLDER: 'emsdk-cache'
   # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
   OPENCV_CACHE_VERSION: 3
