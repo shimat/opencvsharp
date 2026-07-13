@@ -88,6 +88,9 @@
 #include <opencv2/xphoto.hpp>
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/img_hash.hpp>
+#ifndef NO_CONTRIB
+#include <opencv2/rgbd/linemod.hpp>
+#endif
 
 // MP! Added: To correctly support imShow under WinRT.
 #ifdef _WINRT_DLL
