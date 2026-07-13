@@ -13,7 +13,7 @@ env:
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
   # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
-  OPENCV_CACHE_VERSION: 4
+  OPENCV_CACHE_VERSION: 5
 
 jobs:
   build:
@@ -126,7 +126,7 @@ jobs:
             -DCMAKE_C_FLAGS='-s WASM=1 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm' -DCMAKE_CXX_FLAGS='-s WASM=1 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm' \
             -DWITH_ITT=OFF \
             -DWITH_JPEG=ON \
-            -DWITH_TIFF=ON \
+            -DWITH_TIFF=OFF \
             -DWITH_PNG=ON \
             -DWITH_IPP=OFF \
             -DWITH_LAPACK=OFF \

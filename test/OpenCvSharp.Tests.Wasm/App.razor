@@ -3,7 +3,9 @@
    "running" and asserts data-status="ok". A native module name mismatch (#2039) throws
    DllNotFoundException here; an OpenCL/UMat probe crash (#2037) either throws or hangs this
    component forever, which the runner's timeout also catches. An ImEncode/ImDecode round trip
-   for JPEG/PNG/TIFF guards against the codecs building but silently no-op'ing on wasm (#2043). *@
+   for JPEG/PNG guards against the codecs building but silently no-op'ing on wasm (#2043). TIFF is
+   deferred (see #2043): enabling it made this component hang instead of throwing, and libtiff's
+   use of setjmp/longjmp for error handling is a likely suspect. *@
 
 <pre id="result" data-status="@status">@status: @detail</pre>
 
@@ -26,7 +28,7 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
-            foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
+            foreach (var ext in new[] { ".jpg", ".png" })
             {
                 var encoded = Cv2.ImEncode(ext, mat, out var buf);
                 if (!encoded || buf.Length == 0)
