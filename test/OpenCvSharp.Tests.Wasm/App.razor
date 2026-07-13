@@ -6,7 +6,10 @@
    for JPEG/PNG/TIFF guards against the codecs building but silently no-op'ing - or hanging - on
    wasm (#2043). libjpeg-turbo/libpng/libtiff use setjmp/longjmp for error handling, which hung
    (rather than threw) when OpenCvSharpExtern.a was built with a different Emscripten version than
-   the one the .NET wasm SDK links it with; see EM_VERSION in .github/workflows/wasm.yml. *@
+   the one the .NET wasm SDK links it with; see EM_VERSION in .github/workflows/wasm.yml. A
+   Cv2.Dnn.BlobFromImage call exercises the dnn module's native wrapper without needing a trained
+   model file on disk, guarding against the OpenCV build config showing dnn as built while the
+   wasm wrapper actually fails to link or crashes at runtime. *@
 
 <pre id="result" data-status="@status">@status: @detail</pre>
 
@@ -40,8 +43,17 @@
                     throw new InvalidOperationException($"ImDecode({ext}) round trip failed: empty={decoded.Empty()}, size={decoded.Size()}");
             }
 
+            // Exercises the dnn module's native wrapper (cv::dnn::blobFromImage) without loading a trained
+            // model file - just confirms the wasm build actually links and runs dnn, not merely that OpenCV's
+            // CMake config reports it as built.
+            using var blob = Cv2.Dnn.BlobFromImage(mat, size: new Size(64, 64));
+            if (blob.Empty())
+                throw new InvalidOperationException("Cv2.Dnn.BlobFromImage produced an empty blob");
+
+            var blobShape = string.Join('x', Enumerable.Range(0, blob.Dims).Select(blob.Size));
+
             status = "ok";
-            detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}";
+            detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}, dnn blob shape: {blobShape}";
         }
         catch (Exception ex)
         {
