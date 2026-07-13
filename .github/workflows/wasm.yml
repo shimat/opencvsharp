@@ -13,7 +13,7 @@ env:
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
   # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
-  OPENCV_CACHE_VERSION: 5
+  OPENCV_CACHE_VERSION: 6
 
 jobs:
   build:
@@ -123,10 +123,10 @@ jobs:
             -DWITH_ADE=OFF \
             -DOPENCV_ENABLE_NONFREE=ON \
             -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_wasm \
-            -DCMAKE_C_FLAGS='-s WASM=1 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm' -DCMAKE_CXX_FLAGS='-s WASM=1 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm' \
+            -DCMAKE_C_FLAGS='-s WASM=1' -DCMAKE_CXX_FLAGS='-s WASM=1' \
             -DWITH_ITT=OFF \
             -DWITH_JPEG=ON \
-            -DWITH_TIFF=OFF \
+            -DWITH_TIFF=ON \
             -DWITH_PNG=ON \
             -DWITH_IPP=OFF \
             -DWITH_LAPACK=OFF \
@@ -154,10 +154,7 @@ jobs:
         run: |
           ls ${GITHUB_WORKSPACE}/opencv_wasm
           echo "-----"
-          # -fwasm-exceptions -sSUPPORT_LONGJMP=wasm must match the OpenCV build above and the .NET wasm SDK's
-          # own default (WasmEnableExceptionHandling=true), since this static lib gets linked together with the
-          # .NET runtime later; a mismatched exception/setjmp-longjmp lowering model fails at that final link step.
-          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv5 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o -DCMAKE_C_FLAGS='-fwasm-exceptions -sSUPPORT_LONGJMP=wasm' -DCMAKE_CXX_FLAGS='-fwasm-exceptions -sSUPPORT_LONGJMP=wasm'
+          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv5 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
           cmake --build src/build --parallel $(nproc)
           ls src/build/OpenCvSharpExtern
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/packaging/nuget/OpenCvSharpExtern.a
