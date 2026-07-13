@@ -179,6 +179,24 @@ jobs:
       - name: Install wasm-tools workload
         run: dotnet workload install wasm-tools
 
+      - name: Verify EM_VERSION matches the .NET wasm SDK's bundled Emscripten
+        run: |
+          pack_dir=$(ls -d /usr/share/dotnet/packs/Microsoft.NET.Runtime.Emscripten.*.Sdk.* 2>/dev/null | head -1)
+          if [ -z "$pack_dir" ]; then
+            echo "::error::Could not find an installed Microsoft.NET.Runtime.Emscripten.*.Sdk pack under /usr/share/dotnet/packs - can't verify EM_VERSION."
+            exit 1
+          fi
+          installed=$(basename "$pack_dir" | sed -E 's/Microsoft\.NET\.Runtime\.Emscripten\.([0-9]+\.[0-9]+\.[0-9]+)\.Sdk.*/\1/')
+          echo "wasm.yml EM_VERSION: ${EM_VERSION}"
+          echo ".NET wasm SDK's bundled Emscripten: ${installed}"
+          if [ "$installed" != "$EM_VERSION" ]; then
+            echo "::error::EM_VERSION (${EM_VERSION}) no longer matches the .NET wasm SDK's bundled Emscripten (${installed})."\
+                 "OpenCvSharpExtern.a was built with the wrong toolchain version relative to the one that will"\
+                 "statically link it later - update EM_VERSION in wasm.yml to ${installed}. See #2043 for what"\
+                 "this class of mismatch already broke once (a setjmp/longjmp hang)."
+            exit 1
+          fi
+
       - name: Create NuGet package
         env:
           BETA: "-beta"

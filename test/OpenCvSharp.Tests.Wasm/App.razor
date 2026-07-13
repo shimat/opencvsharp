@@ -3,11 +3,10 @@
    "running" and asserts data-status="ok". A native module name mismatch (#2039) throws
    DllNotFoundException here; an OpenCL/UMat probe crash (#2037) either throws or hangs this
    component forever, which the runner's timeout also catches. An ImEncode/ImDecode round trip
-   for JPEG/PNG/TIFF guards against the codecs building but silently no-op'ing on wasm (#2043).
-   These formats' libjpeg-turbo/libtiff backends use setjmp/longjmp for error handling, which hung
-   (rather than threw) under the .NET wasm SDK's default WebAssembly-exception-handling-based
-   setjmp/longjmp emulation; see OpenCvSharp5.runtime.wasm.props for the WasmEnableExceptionHandling
-   workaround. *@
+   for JPEG/PNG/TIFF guards against the codecs building but silently no-op'ing - or hanging - on
+   wasm (#2043). libjpeg-turbo/libpng/libtiff use setjmp/longjmp for error handling, which hung
+   (rather than threw) when OpenCvSharpExtern.a was built with a different Emscripten version than
+   the one the .NET wasm SDK links it with; see EM_VERSION in .github/workflows/wasm.yml. *@
 
 <pre id="result" data-status="@status">@status: @detail</pre>
 
@@ -30,25 +29,16 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
-            // TEMP: bisecting a wasm hang inside ImDecode/ImEncode (#2043) - the hang isn't specific
-            // to ImEncode, JPEG, or PNG: even a bare ImDecode of a hardcoded, known-valid PNG buffer
-            // hangs the same way. Before concluding this is JPEG/PNG-specific, check whether BMP -
-            // never touching libjpeg-turbo/libpng at all, and the format opencvsharp_blazor_sample's
-            // workaround already proved decodes fine on the *old* (pre-this-PR) wasm build - still
-            // decodes on *this* build. If BMP also hangs, something broader in imgcodecs broke.
-            Console.Error.WriteLine("[E2E] before ImDecode(hardcoded bmp)");
-            var bmpBytes = Convert.FromBase64String("Qk06AAAAAAAAADYAAAAoAAAAAQAAAAEAAAABABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAA==");
-            using var decodedBmp = Cv2.ImDecode(bmpBytes, ImreadModes.Unchanged);
-            if (decodedBmp.Empty())
-                throw new InvalidOperationException("ImDecode(hardcoded bmp) failed or produced an empty Mat");
-            Console.Error.WriteLine($"[E2E] hardcoded bmp decode ok: {decodedBmp.Size()}");
+            foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
+            {
+                var encoded = Cv2.ImEncode(ext, mat, out var buf);
+                if (!encoded || buf.Length == 0)
+                    throw new InvalidOperationException($"ImEncode({ext}) failed or produced an empty buffer");
 
-            Console.Error.WriteLine("[E2E] before ImDecode(hardcoded png)");
-            var pngBytes = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
-            using var decodedPng = Cv2.ImDecode(pngBytes, ImreadModes.Unchanged);
-            if (decodedPng.Empty())
-                throw new InvalidOperationException("ImDecode(hardcoded png) failed or produced an empty Mat");
-            Console.Error.WriteLine($"[E2E] hardcoded png decode ok: {decodedPng.Size()}");
+                using var decoded = Cv2.ImDecode(buf, ImreadModes.Unchanged);
+                if (decoded.Empty() || decoded.Size() != mat.Size())
+                    throw new InvalidOperationException($"ImDecode({ext}) round trip failed: empty={decoded.Empty()}, size={decoded.Size()}");
+            }
 
             status = "ok";
             detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}";
