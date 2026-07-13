@@ -30,7 +30,11 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
-            foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
+            // TEMP: JPEG/TIFF excluded while bisecting a wasm hang inside ImEncode(".jpg") (#2043).
+            // Neither the exception/setjmp-longjmp lowering model nor OpenCV's pthreads-based
+            // parallel_for backend explained it; testing PNG alone next to see whether the hang is
+            // libjpeg-turbo-specific or affects imgcodecs more broadly.
+            foreach (var ext in new[] { ".png" })
             {
                 // TEMP bisection diagnostics for the wasm hang investigation (#2043): Blazor wasm
                 // routes Console.Error to console.error, which run-e2e.mjs's pageerror/console capture
