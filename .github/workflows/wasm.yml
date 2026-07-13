@@ -13,7 +13,7 @@ env:
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
   # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
-  OPENCV_CACHE_VERSION: 6
+  OPENCV_CACHE_VERSION: 3
 
 jobs:
   build:
@@ -131,6 +131,7 @@ jobs:
             -DWITH_IPP=OFF \
             -DWITH_LAPACK=OFF \
             -DWITH_OPENCL=OFF \
+            -DWITH_PTHREADS_PF=OFF \
             -DCV_ENABLE_INTRINSICS=OFF \
             -DBUILD_opencv_dnn=ON
           cmake --build opencv-${OPENCV_VERSION}/build --parallel $(nproc)
