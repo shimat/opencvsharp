@@ -14,8 +14,10 @@ When editing the root `README.md`, also update the NuGet-specific README files a
 
 | File | Target packages |
 |---|---|
-| `packaging/nuget/README.managed.md` | `OpenCvSharp4`, `OpenCvSharp4.Windows`, `OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.Extensions`, `OpenCvSharp4.WpfExtensions` |
-| `packaging/nuget/README.runtime.md` | `OpenCvSharp4.runtime.*`, `OpenCvSharp4.official.runtime.*` (all native runtime packages) |
+| `packaging/nuget/README.managed.md` | `OpenCvSharp5`, `OpenCvSharp5.Windows`, `OpenCvSharp5.Windows.Slim`, `OpenCvSharp5.GdipExtensions`, `OpenCvSharp5.WpfExtensions`, `OpenCvSharp5.AvaloniaExtensions` |
+| `packaging/nuget/README.runtime.md` | `OpenCvSharp5.runtime.*`, `OpenCvSharp5.official.runtime.*` (all native runtime packages) |
+
+> The `main`-branch packages are the `OpenCvSharp5.*` family (OpenCV 5.x). An identically-structured `OpenCvSharp4.*` family (OpenCV 4.13.0, frozen on the `4.x` branch) is also published for .NET Framework / pre-.NET 8 consumers — see the branch note under "Versioning and release process".
 
 The NuGet READMEs are a subset of the top-level README and consist of the following sections:
 
@@ -50,7 +52,7 @@ Follow this checklist when wrapping a new `cv::SomeClass : cv::Algorithm` class:
 | `NativeMethods_<module>_SomeClass.cs` | `src/OpenCvSharp/Internal/PInvoke/NativeMethods/<module>/` |
 | `SomeClassTest.cs` | `test/OpenCvSharp.Tests/<module>/` |
 | `Enum/SomeEnum.cs` (if needed) | same module folder |
-| `VectorOfVecXy.cs` (if needed) | `src/OpenCvSharp/Internal/Vectors/` |
+| `VectorOfVecXy.cs` (only if the element type is non-blittable/nested — blittable types use `StdVector<T>` directly, no new file needed) | `src/OpenCvSharp/Internal/Vectors/` |
 
 ### Files to modify
 
@@ -113,13 +115,14 @@ public class SomeClass : Algorithm
     }
 
     // OutputArray methods: call dst.Fix() after the P/Invoke call
-    // std::vector return methods: use VectorOfXxx, wrap in using, call .ToArray()
+    // std::vector return methods: use StdVector<T> for blittable T (VectorOfXxx only for
+    // non-blittable/nested element types), wrap in using, call .ToArray()
 }
 ```
 
 ### Params struct pattern (P/Invoke-compatible)
 
-When the C++ class has a `Params` struct with `bool` fields, define a flat C struct with `int` for booleans and convert in `getParams`/`setParams`:
+When the C++ class has a `Params` struct with `bool` fields, define a flat C struct with `int` for booleans (not a marshaled `bool` — no `[MarshalAs(UnmanagedType.Bool)]`) and convert in `getParams`/`setParams`:
 
 ```cpp
 // C++ side
@@ -132,13 +135,16 @@ CVAPI(ExceptionStatus) <module>_SomeClass_setParams(obj, CvSomeClassParams* p) {
 ```
 
 ```csharp
-// C# side — [MarshalAs(UnmanagedType.Bool)] makes bool marshal as 4-byte BOOL matching int in C
+// C# side — the P/Invoke-facing struct keeps SomeBool as a plain int (blittable, matches the C struct 1:1)
 [StructLayout(LayoutKind.Sequential)]
-public struct SomeClassParams {
-    [MarshalAs(UnmanagedType.Bool)] public bool SomeBool;
+internal struct CvSomeClassParams {
+    public int SomeBool;
     // other fields...
 }
-// P/Invoke: out SomeClassParams / ref SomeClassParams
+// The public-facing Params wrapper exposes a `bool SomeBool` property that converts
+// manually (`value != 0` on get, `value ? 1 : 0` on set) — see EdgeDrawingParams /
+// SimpleBlobDetector.Params for real examples.
+// P/Invoke: out CvSomeClassParams / ref CvSomeClassParams
 ```
 
 ### Namespace access note
@@ -150,21 +156,19 @@ From `namespace OpenCvSharp.Internal`, types in `namespace OpenCvSharp` are dire
 Free functions are exposed as static methods on `Cv2`, mirroring the C++ namespace structure:
 
 - `Cv2` = `cv::` — e.g. `Cv2.CvtColor` ↔ `cv::cvtColor`.
-- `Cv2.<Sub>` (a nested `public static partial class` under `Cv2`) = `cv::<sub>::` — e.g. `Cv2.Dnn.ReadNetFromONNX` ↔ `cv::dnn::readNetFromONNX`, matching the Python `cv2.dnn.*` submodules. In scope: `Dnn`, `Aruco`, `XImgProc`, `XPhoto`, `OptFlow`, `Text`, `Detail`.
+- `Cv2.<Sub>` (a nested `public static partial class` under `Cv2`) = `cv::<sub>::` — e.g. `Cv2.Dnn.ReadNetFromONNX` ↔ `cv::dnn::readNetFromONNX`, matching the Python `cv2.dnn.*` submodules. In scope: `Dnn`, `Aruco`, `XImgProc`, `XPhoto`, `OptFlow`, `Text`, `Detail`, `Shape`, `VideoIORegistry`.
 
 Place each submodule facade in its module folder as `Cv2.<Sub>.cs` (e.g. `Modules/dnn/Cv2.Dnn.cs`). The file uses `namespace OpenCvSharp;` and `using OpenCvSharp.<Sub>;` (the wrapper *types* stay in their `OpenCvSharp.<Sub>` namespaces). Where a sub-namespace type name collides with one in `OpenCvSharp` root (e.g. `InpaintTypes`), fully-qualify it in the signature (`OpenCvSharp.XPhoto.InpaintTypes`). Functions that live directly in `cv::` (no sub-namespace, e.g. the shape `Create…` factories) go on `Cv2` itself, not a nested class. The `CvExtensions` *extension methods* (`OpenCvSharp.Extensions`) are not part of this and keep their name.
 
 ### std::vector return values
 
-- `std::vector<std::vector<Point>>` → `VectorOfVectorPoint` (already exists)
-- `std::vector<int>` → `VectorOfInt32` (already exists)
-- `std::vector<Vec4f>` → `VectorOfVec4f` (already exists)
-- `std::vector<Vec6d>` → `VectorOfVec6d` (added in EdgeDrawing PR)
-- New vector types: add `#pragma region` in `std_vector.h`, `#region` in `NativeMethods_stdvector.cs`, and create `VectorOfXxx.cs`
+- For a blittable/primitive element type (`int`, `byte`, `float`, `double`, `Point`, `Point2f`, `Vec4i`, `Vec4f`, `Vec6d`, ...), use the generic `StdVector<T>` directly — do **not** create a dedicated `VectorOfXxx` class. E.g. `new StdVector<Point2f>()`, `new StdVector<byte>()`, `new StdVector<Vec4i>()`.
+- Only create a dedicated `VectorOfXxx.cs` for element types that aren't blittable or need custom marshaling: nested vectors (`std::vector<std::vector<Point>>` → `VectorOfVectorPoint`), `Mat` (`VectorOfMat`), `String` (`VectorOfString`), or other non-trivial types (`VectorOfKeyLine`, `VectorOfDTreesNode`, ...).
+- New dedicated vector types: add `#pragma region` in `std_vector.h`, `#region` in `NativeMethods_stdvector.cs`, and create `VectorOfXxx.cs`.
 
 ### EdgeDrawing as reference implementation
 
-See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, std::vector methods, nested Params struct with bool fields, and VectorOfVec6d.
+See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, `StdVector<T>`-returning methods (`StdVector<Vec6d>` in `DetectEllipses()`, `StdVector<Vec4f>` in `DetectLines()`, `StdVector<int>` in `GetSegmentIndicesOfLines()`), a nested `VectorOfVectorPoint`-returning method, and a Params struct with `int`-backed bool fields (`EdgeDrawingParams`).
 
 ## Enum member naming
 
@@ -194,7 +198,7 @@ See `docs/release-process.md` for the full release workflow.
 
 **Key rule: do not edit version numbers in source files for routine releases.** The NuGet package version is passed via `-p:Version=...` at pack time in CI. `AssemblyVersion` and `FileVersion` are hardcoded to `5.0.0.0` in `src/Directory.Build.props` and must not be changed for patch or minor OpenCV upgrades — only bump the major component on a breaking API change or OpenCV major-version upgrade. `InformationalVersion` is set automatically by the SDK to the full NuGet version string.
 
-> **Branch note:** `main`/`5.x` targets OpenCV 5.x and publishes the `OpenCvSharp5` package family. The `4.x` branch is frozen on OpenCV 4.13.0 (`OpenCvSharp4` family, `AssemblyVersion 4.0.0.0`); cut 4.x patches from there.
+> **Branch note:** `main` targets OpenCV 5.x and publishes the `OpenCvSharp5` package family (there is no separate `5.x` branch — `main` is the OpenCV-5 development branch). The `4.x` branch is frozen on OpenCV 4.13.0 (`OpenCvSharp4` family, `AssemblyVersion 4.0.0.0`); cut 4.x patches from there.
 
 ## Native DLL loading
 
