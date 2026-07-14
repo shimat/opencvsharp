@@ -32,20 +32,22 @@ public class ObjectnessBING : Algorithm
     /// The model files must be loaded via <see cref="SetTrainingPath"/> before calling this method.
     /// </summary>
     /// <param name="image">Input image.</param>
-    /// <returns>
-    /// Detected objectness bounding boxes, each as (minX, minY, maxX, maxY), sorted by descending objectness score.
-    /// Empty if the computation failed.
-    /// </returns>
-    public virtual Vec4i[] ComputeSaliency(InputArray image)
+    /// <param name="objectnessBoundingBox">
+    /// Detected objectness bounding boxes, each as (minX, minY, maxX, maxY).
+    /// Sorted by descending objectness score.
+    /// </param>
+    /// <returns>true if the computation succeeded.</returns>
+    public virtual bool ComputeSaliency(InputArray image, out Vec4i[] objectnessBoundingBox)
     {
         ThrowIfDisposed();
 
         using var vec = new StdVector<Vec4i>();
         NativeMethods.HandleException(
             NativeMethods.saliency_ObjectnessBING_computeSaliency(
-                Handle, image.Proxy, vec.CvPtr, out _));
+                Handle, image.Proxy, vec.CvPtr, out var ret));
         GC.KeepAlive(image.Source);
-        return vec.ToArray();
+        objectnessBoundingBox = vec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>

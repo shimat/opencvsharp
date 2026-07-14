@@ -173,18 +173,20 @@ static partial class Cv2
     /// <param name="image">image Source chessboard view. It must be an 8-bit grayscale or color image.</param>
     /// <param name="patternSize">Number of inner corners per a chessboard row and column
     /// (patternSize = Size(points_per_row, points_per_column) = Size(columns, rows) ).</param>
+    /// <param name="corners">Output array of detected corners.</param>
     /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
-    /// <returns>Array of detected corners. Empty if the corners could not be found.</returns>
-    public static Point2f[] FindChessboardCornersSB(
-        InputArray image, Size patternSize, ChessboardFlags flags = 0)
+    /// <returns></returns>
+    public static bool FindChessboardCornersSB(
+        InputArray image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
     {
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.objdetect_findChessboardCornersSB_vector(
-                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out _));
+                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
 
+        corners = cornersVec.ToArray();
         GC.KeepAlive(image.Source);
-        return cornersVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>

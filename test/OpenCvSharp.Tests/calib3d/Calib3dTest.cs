@@ -762,7 +762,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         var patternSize = new Size(10, 7);
 
         using var image = LoadImage("calibration/00.jpg");
-        var cornerPoints = Cv2.FindChessboardCorners(image, patternSize);
+        Cv2.FindChessboardCorners(image, patternSize, out var cornerPoints);
 
         var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
 

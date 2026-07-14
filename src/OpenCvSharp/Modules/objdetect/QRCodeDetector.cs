@@ -56,17 +56,19 @@ public class QRCodeDetector : CvObject
     /// Detects QR code in image and returns the quadrangle containing the code.
     /// </summary>
     /// <param name="img">grayscale or color (BGR) image containing (or not) QR code.</param>
-    /// <returns>Vector of vertices of the minimum-area quadrangle containing the code. Empty if not found.</returns>
-    public Point2f[] Detect(InputArray img)
+    /// <param name="points">Output vector of vertices of the minimum-area quadrangle containing the code.</param>
+    /// <returns></returns>
+    public bool Detect(InputArray img, out Point2f[] points)
     {
         using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_detect(Handle, img.Proxy, pointsVec.CvPtr, out _));
+            NativeMethods.objdetect_QRCodeDetector_detect(Handle, img.Proxy, pointsVec.CvPtr, out var ret));
+        points = pointsVec.ToArray();
 
         GC.KeepAlive(img.Source);
 
-        return pointsVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>
@@ -120,17 +122,19 @@ public class QRCodeDetector : CvObject
     /// Detects QR codes in image and returns the quadrangles containing the codes.
     /// </summary>
     /// <param name="img">grayscale or color (BGR) image containing (or not) QR code.</param>
-    /// <returns>Vector of vertices of the minimum-area quadrangles containing the codes. Empty if none found.</returns>
-    public Point2f[] DetectMulti(InputArray img)
+    /// <param name="points">Output vector of vertices of the minimum-area quadrangle containing the codes.</param>
+    /// <returns></returns>
+    public bool DetectMulti(InputArray img, out Point2f[] points)
     {
         using var pointsVec = new StdVector<Point2f>();
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_detectMulti(Handle, img.Proxy, pointsVec.CvPtr, out _));
+            NativeMethods.objdetect_QRCodeDetector_detectMulti(Handle, img.Proxy, pointsVec.CvPtr, out var ret));
+        points = pointsVec.ToArray();
 
         GC.KeepAlive(img.Source);
 
-        return pointsVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>

@@ -255,9 +255,10 @@ static partial class Cv2
     /// </summary>
     /// <param name="ext">The file extension that determines the format of the encoded data.</param>
     /// <param name="animation">The Animation containing the frames and metadata to be encoded.</param>
+    /// <param name="buf">The buffer where the encoded data will be stored.</param>
     /// <param name="prms">Format-specific save parameters encoded as pairs</param>
-    /// <returns>The encoded data. If encoding fails, an empty array is returned.</returns>
-    public static byte[] ImEncodeAnimation(string ext, Animation animation, int[]? prms = null)
+    /// <returns>true if the animation was successfully encoded; false otherwise.</returns>
+    public static bool ImEncodeAnimation(string ext, Animation animation, out byte[] buf, int[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
@@ -266,9 +267,10 @@ static partial class Cv2
 
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencodeanimation(ext, animation.CvPtr, bufVec.CvPtr, prms, prms.Length, out _));
+            NativeMethods.imgcodecs_imencodeanimation(ext, animation.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(animation);
-        return bufVec.ToArray();
+        buf = bufVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>
@@ -473,9 +475,9 @@ static partial class Cv2
     /// </summary>
     /// <param name="ext">The file extension that defines the output format</param>
     /// <param name="img">The image to be written</param>
+    /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    /// <returns>Output buffer resized to fit the compressed image. If encoding fails, an empty array is returned.</returns>
-    public static byte[] ImEncode(string ext, InputArray img, int[]? prms = null)
+    public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
@@ -483,9 +485,10 @@ static partial class Cv2
 
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencode_vector(ext, img.Proxy, bufVec.CvPtr, prms, prms.Length, out _));
+            NativeMethods.imgcodecs_imencode_vector(ext, img.Proxy, bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(img.Source);
-        return bufVec.ToArray();
+        buf = bufVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>
@@ -493,12 +496,12 @@ static partial class Cv2
     /// </summary>
     /// <param name="ext">The file extension that defines the output format</param>
     /// <param name="img">The image to be written</param>
+    /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    /// <returns>Output buffer resized to fit the compressed image. If encoding fails, an empty array is returned.</returns>
-    public static byte[] ImEncode(string ext, InputArray img, params ImageEncodingParam[] prms)
+    public static bool ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
     {
         ArgumentNullException.ThrowIfNull(prms);
-        return ImEncode(ext, img, ToParamsArray(prms));
+        return ImEncode(ext, img, out buf, ToParamsArray(prms));
     }
 
     /// <summary>
@@ -508,10 +511,10 @@ static partial class Cv2
     /// <param name="img">The image to be written</param>
     /// <param name="metadataTypes">Array with types of metadata chunks stored in metadata to write.</param>
     /// <param name="metadata">Array of matrices with chunks of metadata to store into the file.</param>
+    /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    /// <returns>Output buffer resized to fit the compressed image. If encoding fails, an empty array is returned.</returns>
-    public static byte[] ImEncodeWithMetadata(
-        string ext, InputArray img, ImageMetadataType[] metadataTypes, IEnumerable<Mat> metadata, int[]? prms = null)
+    public static bool ImEncodeWithMetadata(
+        string ext, InputArray img, ImageMetadataType[] metadataTypes, IEnumerable<Mat> metadata, out byte[] buf, int[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
@@ -530,10 +533,11 @@ static partial class Cv2
         var metadataTypesInt = Array.ConvertAll(metadataTypes, t => (int) t);
         NativeMethods.HandleException(
             NativeMethods.imgcodecs_imencodeWithMetadata(
-                ext, img.Proxy, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, bufVec.CvPtr, prms, prms.Length, out _));
+                ext, img.Proxy, metadataTypesInt, metadataTypesInt.Length, metadataVec.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
         GC.KeepAlive(img.Source);
         GC.KeepAlive(metadataArray);
-        return bufVec.ToArray();
+        buf = bufVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>
@@ -541,9 +545,9 @@ static partial class Cv2
     /// </summary>
     /// <param name="ext">The file extension that defines the output format</param>
     /// <param name="imgs">The images to be written</param>
+    /// <param name="buf">Output buffer resized to fit the compressed data.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    /// <returns>Output buffer resized to fit the compressed data. If encoding fails, an empty array is returned.</returns>
-    public static byte[] ImEncodeMulti(string ext, IEnumerable<Mat> imgs, int[]? prms = null)
+    public static bool ImEncodeMulti(string ext, IEnumerable<Mat> imgs, out byte[] buf, int[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
@@ -553,8 +557,9 @@ static partial class Cv2
         using var imgsVec = new VectorOfMat(imgs);
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencodemulti(ext, imgsVec.CvPtr, bufVec.CvPtr, prms, prms.Length, out _));
-        return bufVec.ToArray();
+            NativeMethods.imgcodecs_imencodemulti(ext, imgsVec.CvPtr, bufVec.CvPtr, prms, prms.Length, out var ret));
+        buf = bufVec.ToArray();
+        return ret != 0;
     }
 
     /// <summary>

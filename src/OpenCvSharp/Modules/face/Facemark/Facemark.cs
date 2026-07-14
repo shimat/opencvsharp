@@ -36,23 +36,25 @@ public abstract class Facemark : Algorithm
     /// </summary>
     /// <param name="image">Input image.</param>
     /// <param name="faces">Output of the function which represent region of interest of the detected faces. Each face is stored in cv::Rect container.</param>
-    /// <returns>The detected landmark points for each face. Empty if the fit failed.</returns>
-    public virtual Point2f[][] Fit(
+    /// <param name="landmarks">The detected landmark points for each faces.</param>
+    /// <returns></returns>
+    public virtual bool Fit(
         InputArray image,
-        InputArray faces)
+        InputArray faces,
+        out Point2f[][] landmarks)
     {
         ThrowIfDisposed();
 
-        Point2f[][] landmarks;
+        int ret;
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(Handle, image.Proxy, faces.Proxy, landmarx.CvPtr, out _));
+                NativeMethods.face_Facemark_fit(Handle, image.Proxy, faces.Proxy, landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 
         GC.KeepAlive(image.Source);
 
-        return landmarks;
+        return ret != 0;
     }
 }

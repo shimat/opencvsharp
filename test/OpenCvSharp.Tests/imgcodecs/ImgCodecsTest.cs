@@ -393,7 +393,7 @@ public class ImgCodecsTest : TestBase
         using var mat = LoadImage("lenna.png", ImreadModes.Grayscale);
         Assert.False(mat.Empty());
 
-        var imageData = Cv2.ImEncode(ext, mat);
+        Cv2.ImEncode(ext, mat, out var imageData);
         Assert.NotNull(imageData);
 
         // Can an independent decoder read the imageData?
@@ -597,7 +597,7 @@ public class ImgCodecsTest : TestBase
         string[] files = ["multipage_p1.tif", "multipage_p2.tif"];
         using var pages = new VectorOfMatForTest(files.Select(f => LoadImage(f)));
 
-        var buf = Cv2.ImEncodeMulti(".tiff", pages.Mats);
+        Assert.True(Cv2.ImEncodeMulti(".tiff", pages.Mats, out var buf));
         Assert.NotEmpty(buf);
 
         using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
@@ -621,7 +621,7 @@ public class ImgCodecsTest : TestBase
         string[] files = ["multipage_p1.tif", "multipage_p2.tif"];
         using var pages = new VectorOfMatForTest(files.Select(f => LoadImage(f)));
 
-        var buf = Cv2.ImEncodeMulti(".tiff", pages.Mats);
+        Assert.True(Cv2.ImEncodeMulti(".tiff", pages.Mats, out var buf));
 
         using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
         bufMat.SetArray(buf);
@@ -794,7 +794,7 @@ public class ImgCodecsTest : TestBase
             Durations = [50, 50]
         };
 
-        var buf = Cv2.ImEncodeAnimation(".gif", written);
+        Assert.True(Cv2.ImEncodeAnimation(".gif", written, out var buf));
         Assert.NotEmpty(buf);
 
         using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
@@ -893,8 +893,8 @@ public class ImgCodecsTest : TestBase
         using var exifMat = new Mat(1, exifBytes.Length, MatType.CV_8UC1);
         exifMat.SetArray(exifBytes);
 
-        var buf = Cv2.ImEncodeWithMetadata(
-            ".jpg", mat, [ImageMetadataType.EXIF], [exifMat]);
+        Assert.True(Cv2.ImEncodeWithMetadata(
+            ".jpg", mat, [ImageMetadataType.EXIF], [exifMat], out var buf));
         Assert.NotEmpty(buf);
 
         using var bufMat = new Mat(1, buf.Length, MatType.CV_8UC1);
@@ -930,7 +930,7 @@ public class ImgCodecsTest : TestBase
         using var exifMat = new Mat(1, 4, MatType.CV_8UC1);
 
         Assert.Throws<ArgumentException>(() => Cv2.ImEncodeWithMetadata(
-            ".jpg", mat, [ImageMetadataType.EXIF, ImageMetadataType.XMP], [exifMat]));
+            ".jpg", mat, [ImageMetadataType.EXIF, ImageMetadataType.XMP], [exifMat], out _));
     }
 
     [Fact]
@@ -952,8 +952,9 @@ public class ImgCodecsTest : TestBase
             "_data/does_not_exist_dir/out.png", mat, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
         Assert.False(wrote);
 
-        var buf = Cv2.ImEncode(
-            ".png", mat, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+        var encoded = Cv2.ImEncode(
+            ".png", mat, out var buf, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+        Assert.True(encoded);
         Assert.NotEmpty(buf);
     }
 

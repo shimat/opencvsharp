@@ -20,7 +20,8 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        var points = obj.Detect(withQr);
+        var detected = obj.Detect(withQr, out var points);
+        Assert.True(detected);
         Assert.Equal(4, points.Length);
         Assert.Equal(102, points[0].X, 1e-6);
         Assert.Equal(201, points[0].Y, 1e-6);
@@ -97,7 +98,8 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        var points = obj.DetectMulti(withQr);
+        bool detected = obj.DetectMulti(withQr, out var points);
+        Assert.True(detected);
         Assert.Equal(8, points.Length);
 
         var expectedPoints = new[]
@@ -130,7 +132,8 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        var points = obj.DetectMulti(withQr);
+        bool detected = obj.DetectMulti(withQr, out var points);
+        Assert.True(detected);
         Assert.Equal(8, points.Length);
 
         var decodedStrings = obj.DecodeMulti(withQr, points, out var straightQrCode);
@@ -154,7 +157,8 @@ public class QRCodeDetectorTest : TestBase
 
         using var obj = new QRCodeDetector();
 
-        var points = obj.DetectMulti(lenna);
+        bool detected = obj.DetectMulti(lenna, out var points);
+        Assert.False(detected);
         Assert.Empty(points);
     }
 

@@ -3280,7 +3280,8 @@ public partial class Mat : CvObject
     /// <returns></returns>
     public byte[] ToBytes(string ext = ".png", int[]? prms = null)
     {
-        return Cv2.ImEncode(ext, this, prms);
+        Cv2.ImEncode(ext, this, out var buf, prms);
+        return buf;
     }
 
     /// <summary>
@@ -3291,7 +3292,8 @@ public partial class Mat : CvObject
     /// <returns></returns>
     public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
     {
-        return Cv2.ImEncode(ext, this, prms);
+        Cv2.ImEncode(ext, this, out var buf, prms);
+        return buf;
     }
 
     /// <summary>
