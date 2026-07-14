@@ -302,7 +302,7 @@ static partial class Cv2
         {
             fixed (double* FPtr = F)
             fixed (double* H1Ptr = H1)
-            fixed (double* H2Ptr = H1)
+            fixed (double* H2Ptr = H2)
             {
                 NativeMethods.HandleException(
                     NativeMethods.stereo_stereoRectifyUncalibrated_array(

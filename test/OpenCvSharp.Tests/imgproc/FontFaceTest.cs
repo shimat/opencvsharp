@@ -65,7 +65,7 @@ public class FontFaceTest : TestBase
         ff.SetInstance(new[] { wght, 700 << 16 });
 
         // Must reach OpenCV without a P/Invoke failure; the exact contents are font-dependent.
-        ff.GetInstance(out var instance);
+        var instance = ff.GetInstance();
         Assert.NotNull(instance);
     }
 }

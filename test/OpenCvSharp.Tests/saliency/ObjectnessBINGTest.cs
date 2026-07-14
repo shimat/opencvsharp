@@ -71,7 +71,7 @@ public class ObjectnessBINGTest : TestBase
 
         try
         {
-            bing.ComputeSaliency(image, out var boxes);
+            var boxes = bing.ComputeSaliency(image);
             Assert.NotNull(boxes);
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)

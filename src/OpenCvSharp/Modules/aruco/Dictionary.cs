@@ -156,8 +156,8 @@ public class Dictionary : CvObject
     /// It returns by reference the correct id (if any) and the correct rotation
     /// </summary>
     /// <param name="onlyBits"></param>
-    /// <param name="idx"></param>
-    /// <param name="rotation"></param>
+    /// <param name="idx">The identified marker id, or -1 if the marker was not identified.</param>
+    /// <param name="rotation">The identified marker rotation, or -1 if the marker was not identified.</param>
     /// <param name="maxCorrectionRate"></param>
     /// <returns></returns>
     public bool Identify(Mat onlyBits, out int idx, out int rotation, double maxCorrectionRate)
@@ -169,7 +169,10 @@ public class Dictionary : CvObject
         NativeMethods.HandleException(
             NativeMethods.aruco_Dictionary_identify(Handle, onlyBits.CvPtr, out idx, out rotation, maxCorrectionRate, out var ret));
 
-        return ret != 0;
+        var identified = ret != 0;
+        if (!identified)
+            rotation = -1;
+        return identified;
     }
 
     /// <summary>
@@ -177,8 +180,8 @@ public class Dictionary : CvObject
     /// It returns by reference the correct id (if any) and the correct rotation
     /// </summary>
     /// <param name="onlyCellPixelRatio"></param>
-    /// <param name="idx"></param>
-    /// <param name="rotation"></param>
+    /// <param name="idx">The identified marker id, or -1 if the marker was not identified.</param>
+    /// <param name="rotation">The identified marker rotation, or -1 if the marker was not identified.</param>
     /// <param name="maxCorrectionRate"></param>
     /// <param name="validBitIdThreshold">acceptable threshold when comparing the detected marker to the dictionary during marker identification.</param>
     /// <returns></returns>
@@ -192,7 +195,10 @@ public class Dictionary : CvObject
             NativeMethods.aruco_Dictionary_identify_withThreshold(
                 Handle, onlyCellPixelRatio.CvPtr, out idx, out rotation, maxCorrectionRate, validBitIdThreshold, out var ret));
 
-        return ret != 0;
+        var identified = ret != 0;
+        if (!identified)
+            rotation = -1;
+        return identified;
     }
 
     /// <summary>

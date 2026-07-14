@@ -31,8 +31,8 @@
 
             foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
             {
-                var encoded = Cv2.ImEncode(ext, mat, out var buf);
-                if (!encoded || buf.Length == 0)
+                var buf = Cv2.ImEncode(ext, mat);
+                if (buf.Length == 0)
                     throw new InvalidOperationException($"ImEncode({ext}) failed or produced an empty buffer");
 
                 using var decoded = Cv2.ImDecode(buf, ImreadModes.Unchanged);

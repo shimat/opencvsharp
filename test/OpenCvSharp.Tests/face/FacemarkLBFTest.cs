@@ -251,7 +251,7 @@ public class FacemarkLBFTest : TestBase
 
         try
         {
-            facemark.Fit(image, faces, out var landmarks);
+            var landmarks = facemark.Fit(image, faces);
             Assert.NotNull(landmarks);
         }
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)

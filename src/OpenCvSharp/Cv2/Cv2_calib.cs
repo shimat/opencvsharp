@@ -97,23 +97,20 @@ static partial class Cv2
     /// <param name="image">Source chessboard view. It must be an 8-bit grayscale or color image.</param>
     /// <param name="patternSize">Number of inner corners per a chessboard row and column 
     /// ( patternSize = Size(points_per_row,points_per_colum) = Size(columns, rows) ).</param>
-    /// <param name="corners">Output array of detected corners.</param>
     /// <param name="flags">Various operation flags that can be zero or a combination of the ChessboardFlag values</param>
-    /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
-    /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
-    public static bool FindChessboardCorners(
+    /// <returns>Array of detected corners, placed in a certain order (row by row, left to right in every row) if all of them
+    /// were found. If the function fails to find all the corners or reorder them, an empty array is returned.</returns>
+    public static Point2f[] FindChessboardCorners(
         InputArray image,
         Size patternSize,
-        out Point2f[] corners,
         ChessboardFlags flags = ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage)
     {
         using var cornersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findChessboardCorners_vector(
-                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out var ret));
+                image.Proxy, patternSize, cornersVec.CvPtr, (int) flags, out _));
         GC.KeepAlive(image.Source);
-        corners = cornersVec.ToArray();
-        return ret != 0;
+        return cornersVec.ToArray();
     }
 
     /// <summary>
@@ -146,25 +143,22 @@ static partial class Cv2
     /// </summary>
     /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
     /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
-    /// <param name="centers">output array of detected centers.</param>
     /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
     /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background.</param>
-    /// <returns></returns>
-    public static bool FindCirclesGrid(
+    /// <returns>Array of detected centers. Empty if the grid could not be found.</returns>
+    public static Point2f[] FindCirclesGrid(
         InputArray image,
         Size patternSize,
-        out Point2f[] centers,
         FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
         FeatureDetector? blobDetector = null)
     {
         using var centersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_vector(
-                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out var ret));
+                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), out _));
         GC.KeepAlive(image.Source);
         GC.KeepAlive(blobDetector);
-        centers = centersVec.ToArray();
-        return ret != 0;
+        return centersVec.ToArray();
     }
 
     /// <summary>
@@ -199,15 +193,13 @@ static partial class Cv2
     /// </summary>
     /// <param name="image">grid view of input circles; it must be an 8-bit grayscale or color image.</param>
     /// <param name="patternSize">number of circles per row and column ( patternSize = Size(points_per_row, points_per_colum) ).</param>
-    /// <param name="centers">output array of detected centers.</param>
     /// <param name="flags">various operation flags that can be one of the FindCirclesGridFlag values</param>
     /// <param name="blobDetector">feature detector that finds blobs like dark circles on light background. If null, SimpleBlobDetector is used.</param>
     /// <param name="parameters">struct for finding circles in a grid pattern.</param>
-    /// <returns></returns>
-    public static bool FindCirclesGrid(
+    /// <returns>Array of detected centers. Empty if the grid could not be found.</returns>
+    public static Point2f[] FindCirclesGrid(
         InputArray image,
         Size patternSize,
-        out Point2f[] centers,
         FindCirclesGridFlags flags,
         FeatureDetector? blobDetector,
         in CirclesGridFinderParameters parameters)
@@ -215,11 +207,10 @@ static partial class Cv2
         using var centersVec = new StdVector<Point2f>();
         NativeMethods.HandleException(
             NativeMethods.calib_findCirclesGrid_vector_Params(
-                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), parameters, out var ret));
+                image.Proxy, patternSize, centersVec.CvPtr, (int) flags, ToPtr(blobDetector), parameters, out _));
         GC.KeepAlive(image.Source);
         GC.KeepAlive(blobDetector);
-        centers = centersVec.ToArray();
-        return ret != 0;
+        return centersVec.ToArray();
     }
 
     /// <summary>

@@ -20,8 +20,7 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        bool detected = obj.Detect(withQr, out var points);
-        Assert.True(detected);
+        var points = obj.Detect(withQr);
         Assert.Equal(4, points.Length);
         Assert.Equal(102, points[0].X, 1e-6);
         Assert.Equal(201, points[0].Y, 1e-6);
@@ -98,8 +97,7 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        bool detected = obj.DetectMulti(withQr, out var points);
-        Assert.True(detected);
+        var points = obj.DetectMulti(withQr);
         Assert.Equal(8, points.Length);
 
         var expectedPoints = new[]
@@ -132,12 +130,10 @@ public class QRCodeDetectorTest : TestBase
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
-        bool detected = obj.DetectMulti(withQr, out var points);
-        Assert.True(detected);
+        var points = obj.DetectMulti(withQr);
         Assert.Equal(8, points.Length);
 
-        bool decoded = obj.DecodeMulti(withQr, points, out var decodedStrings, out var straightQrCode);
-        Assert.True(decoded);
+        var decodedStrings = obj.DecodeMulti(withQr, points, out var straightQrCode);
         Assert.Equal(2, decodedStrings.Length);
         AreEquivalent(expectedDecodedStrings, decodedStrings);
 
@@ -146,8 +142,7 @@ public class QRCodeDetectorTest : TestBase
             ShowImagesWhenDebugMode(mat);
         }
 
-        bool decodedWithoutStraightQrCode = obj.DecodeMulti(withQr, points, out decodedStrings);
-        Assert.True(decodedWithoutStraightQrCode);
+        decodedStrings = obj.DecodeMulti(withQr, points);
         Assert.Equal(2, decodedStrings.Length);
         AreEquivalent(expectedDecodedStrings, decodedStrings);
     }
@@ -159,8 +154,7 @@ public class QRCodeDetectorTest : TestBase
 
         using var obj = new QRCodeDetector();
 
-        bool detected = obj.DetectMulti(lenna, out var points);
-        Assert.False(detected);
+        var points = obj.DetectMulti(lenna);
         Assert.Empty(points);
     }
 

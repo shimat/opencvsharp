@@ -91,16 +91,14 @@ public class FontFace : CvObject
     /// <summary>
     /// Gets the current variable-font instance parameters.
     /// </summary>
-    /// <param name="params">Output list of key/value pairs.</param>
-    /// <returns>True on success.</returns>
-    public bool GetInstance(out int[] @params)
+    /// <returns>List of key/value pairs. Empty if the instance parameters could not be retrieved.</returns>
+    public int[] GetInstance()
     {
         ThrowIfDisposed();
 
         using var vec = new StdVector<int>();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_FontFace_getInstance(Handle, vec.CvPtr, out var ret));
-        @params = vec.ToArray();
-        return ret != 0;
+            NativeMethods.imgproc_FontFace_getInstance(Handle, vec.CvPtr, out _));
+        return vec.ToArray();
     }
 }
