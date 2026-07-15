@@ -22,7 +22,15 @@ public class DynaFuTest
         var readBack = dynaFu.GetParams();
         Assert.Equal(parameters.FrameSize, readBack.FrameSize);
 
-        using var depth = new Mat(48, 64, MatType.CV_32FC1, Scalar.All(2.0));
+        // A perfectly flat depth Mat gives DynaFu's WarpField no real geometry to build
+        // deformation-graph nodes from; this degenerate input crashed
+        // cv::dynafu::WarpField::applyWarp natively on macOS arm64 CI (SIGSEGV), so use a
+        // depth image with real spatial variation instead (same fix shape as SuperpixelTest's
+        // SeedsNew: avoid the degenerate parameter/input that collapses the algorithm).
+        using var depth = new Mat(48, 64, MatType.CV_32FC1);
+        for (var y = 0; y < depth.Rows; y++)
+            for (var x = 0; x < depth.Cols; x++)
+                depth.Set<float>(y, x, 1.5f + 0.3f * MathF.Sin(x * 0.2f) * MathF.Cos(y * 0.2f));
 
         void Tolerant(string name, Action action)
         {
