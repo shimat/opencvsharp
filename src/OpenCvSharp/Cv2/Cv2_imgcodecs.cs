@@ -25,52 +25,48 @@ static partial class Cv2
     }
 
     /// <summary>
-    /// Loads a multi-page image from a file. 
+    /// Loads a multi-page image from a file.
     /// </summary>
     /// <param name="filename">Name of file to be loaded.</param>
-    /// <param name="mats">A vector of Mat objects holding each page, if more than one.</param>
     /// <param name="flags">Flag that can take values of @ref cv::ImreadModes, default with IMREAD_ANYCOLOR.</param>
-    /// <returns></returns>
-    public static bool ImReadMulti(string filename, out Mat[] mats, ImreadModes flags = ImreadModes.AnyColor)
+    /// <returns>A vector of Mat objects holding each page, if more than one. If the file cannot be loaded, an empty array is returned.</returns>
+    public static Mat[] ImReadMulti(string filename, ImreadModes flags = ImreadModes.AnyColor)
     {
         if (string.IsNullOrEmpty(filename))
             throw new ArgumentNullException(nameof(filename));
 
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imreadmulti(filename, matsVec.CvPtr, (int) flags, out var ret));
-        mats = matsVec.ToArray();
-        return ret != 0;
+            NativeMethods.imgcodecs_imreadmulti(filename, matsVec.CvPtr, (int) flags, out _));
+        return matsVec.ToArray();
     }
 
     /// <summary>
     /// Loads a specified range of pages from a multi-page image from a file.
     /// </summary>
     /// <param name="filename">Name of file to be loaded.</param>
-    /// <param name="mats">A vector of Mat objects holding each page.</param>
     /// <param name="start">Start index of the image to load.</param>
     /// <param name="count">Count number of images to load.</param>
     /// <param name="flags">Flag that can take values of @ref cv::ImreadModes, default with IMREAD_ANYCOLOR.</param>
-    /// <returns></returns>
-    public static bool ImReadMulti(string filename, out Mat[] mats, int start, int count, ImreadModes flags = ImreadModes.AnyColor)
+    /// <returns>A vector of Mat objects holding each page. If the file cannot be loaded, an empty array is returned.</returns>
+    public static Mat[] ImReadMulti(string filename, int start, int count, ImreadModes flags = ImreadModes.AnyColor)
     {
         if (string.IsNullOrEmpty(filename))
             throw new ArgumentNullException(nameof(filename));
 
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imreadmulti_range(filename, matsVec.CvPtr, start, count, (int) flags, out var acpOk, out var ret));
+            NativeMethods.imgcodecs_imreadmulti_range(filename, matsVec.CvPtr, start, count, (int) flags, out var acpOk, out _));
         if (acpOk == 0)
         {
-            ret = NonAnsiPathRetry.ViaTempCopy(filename, 0, tempPath =>
+            NonAnsiPathRetry.ViaTempCopy(filename, 0, tempPath =>
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgcodecs_imreadmulti_range(tempPath, matsVec.CvPtr, start, count, (int) flags, out _, out var tempRet));
                 return tempRet;
             });
         }
-        mats = matsVec.ToArray();
-        return ret != 0;
+        return matsVec.ToArray();
     }
 
     /// <summary>
@@ -443,17 +439,15 @@ static partial class Cv2
     /// </summary>
     /// <param name="buf">Input array or vector of bytes.</param>
     /// <param name="flags">The same flags as in imread</param>
-    /// <param name="mats">A vector of Mat objects holding each page, if more than one.</param>
     /// <param name="range">A continuous selection of pages. Defaults to all pages.</param>
-    /// <returns></returns>
-    public static bool ImDecodeMulti(InputArray buf, ImreadModes flags, out Mat[] mats, Range? range = null)
+    /// <returns>A vector of Mat objects holding each page, if more than one. If decoding fails, an empty array is returned.</returns>
+    public static Mat[] ImDecodeMulti(InputArray buf, ImreadModes flags, Range? range = null)
     {
         using var matsVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imdecodemulti(buf.Proxy, (int) flags, matsVec.CvPtr, range ?? Range.All, out var ret));
+            NativeMethods.imgcodecs_imdecodemulti(buf.Proxy, (int) flags, matsVec.CvPtr, range ?? Range.All, out _));
         GC.KeepAlive(buf.Source);
-        mats = matsVec.ToArray();
-        return ret != 0;
+        return matsVec.ToArray();
     }
 
     /// <summary>

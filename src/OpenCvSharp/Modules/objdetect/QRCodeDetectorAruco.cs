@@ -167,11 +167,10 @@ public class QRCodeDetectorAruco : CvObject
     /// </summary>
     /// <param name="img">grayscale or color (BGR) image containing QR code.</param>
     /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
-    /// <param name="decodedInfo">UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded. </param>
-    /// <returns></returns>
-    public bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo)
+    /// <returns>UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded.</returns>
+    public string?[] DecodeMulti(InputArray img, IEnumerable<Point2f> points)
     {
-        return DecodeMulti(img, points, out decodedInfo, out _, false);
+        return DecodeMulti(img, points, out _, false);
     }
 
     /// <summary>
@@ -180,15 +179,14 @@ public class QRCodeDetectorAruco : CvObject
     /// </summary>
     /// <param name="img">grayscale or color (BGR) image containing QR code.</param>
     /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
-    /// <param name="decodedInfo">UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded. </param>
     /// <param name="straightQrCode">The optional output image containing rectified and binarized QR code</param>
-    /// <returns></returns>
-    public bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode)
+    /// <returns>UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded.</returns>
+    public string?[] DecodeMulti(InputArray img, IEnumerable<Point2f> points, out Mat[] straightQrCode)
     {
-        return DecodeMulti(img, points, out decodedInfo, out straightQrCode, true);
+        return DecodeMulti(img, points, out straightQrCode, true);
     }
 
-    private bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode, bool isOutputStraightQrCode)
+    private string?[] DecodeMulti(InputArray img, IEnumerable<Point2f> points, out Mat[] straightQrCode, bool isOutputStraightQrCode)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(points);
@@ -196,29 +194,28 @@ public class QRCodeDetectorAruco : CvObject
         using var decodedInfoVec = new VectorOfString();
         using var pointsVec = new StdVector<Point2f>(points);
 
-        int ret;
         if (isOutputStraightQrCode)
         {
             using var straightQrCodeVec = new VectorOfMat();
             NativeMethods.HandleException(
                 NativeMethods.objdetect_QRCodeDetectorAruco_decodeMulti(
-                    Handle, img.Proxy, pointsVec.CvPtr, decodedInfoVec.CvPtr, straightQrCodeVec.CvPtr, out ret));
+                    Handle, img.Proxy, pointsVec.CvPtr, decodedInfoVec.CvPtr, straightQrCodeVec.CvPtr, out _));
             straightQrCode = straightQrCodeVec.ToArray();
         }
         else
         {
             NativeMethods.HandleException(
                 NativeMethods.objdetect_QRCodeDetectorAruco_decodeMulti_NoStraightQrCode(
-                    Handle, img.Proxy, pointsVec.CvPtr, decodedInfoVec.CvPtr, out ret));
+                    Handle, img.Proxy, pointsVec.CvPtr, decodedInfoVec.CvPtr, out _));
             straightQrCode = [];
         }
 
-        decodedInfo = decodedInfoVec.ToArray();
+        var decodedInfo = decodedInfoVec.ToArray();
 
         GC.KeepAlive(img.Source);
         GC.KeepAlive(points);
 
-        return ret != 0;
+        return decodedInfo;
     }
 
     /// <summary>

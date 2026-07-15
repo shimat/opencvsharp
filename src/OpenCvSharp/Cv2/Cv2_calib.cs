@@ -99,7 +99,7 @@ static partial class Cv2
     /// ( patternSize = Size(points_per_row,points_per_colum) = Size(columns, rows) ).</param>
     /// <param name="corners">Output array of detected corners.</param>
     /// <param name="flags">Various operation flags that can be zero or a combination of the ChessboardFlag values</param>
-    /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row). 
+    /// <returns>The function returns true if all of the corners are found and they are placed in a certain order (row by row, left to right in every row).
     /// Otherwise, if the function fails to find all the corners or reorder them, it returns false.</returns>
     public static bool FindChessboardCorners(
         InputArray image,
