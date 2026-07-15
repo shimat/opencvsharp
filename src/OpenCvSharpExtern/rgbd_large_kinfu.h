@@ -23,7 +23,7 @@ struct CvLargeKinfuVolumeParams
     int32_t ResolutionY;
     int32_t ResolutionZ;
     int32_t UnitResolution;
-    float   VolumSize;
+    float   VolumeSize;
     float   VoxelSize;
     float   TsdfTruncDist;
     int32_t MaxWeight;
@@ -60,7 +60,7 @@ static void ReadLargeKinfuVolumeParams(
     pod->ResolutionY = v.resolutionY;
     pod->ResolutionZ = v.resolutionZ;
     pod->UnitResolution = v.unitResolution;
-    pod->VolumSize = v.volumSize;
+    pod->VolumeSize = v.volumSize;
     pod->VoxelSize = v.voxelSize;
     pod->TsdfTruncDist = v.tsdfTruncDist;
     pod->MaxWeight = v.maxWeight;
@@ -78,7 +78,7 @@ static LargeKinfuVolumeParams BuildLargeKinfuVolumeParams(
     v.resolutionY = pod->ResolutionY;
     v.resolutionZ = pod->ResolutionZ;
     v.unitResolution = pod->UnitResolution;
-    v.volumSize = pod->VolumSize;
+    v.volumSize = pod->VolumeSize;
     v.pose = cv::Matx44f(getMatFromProxy(*pose));
     v.voxelSize = pod->VoxelSize;
     v.tsdfTruncDist = pod->TsdfTruncDist;

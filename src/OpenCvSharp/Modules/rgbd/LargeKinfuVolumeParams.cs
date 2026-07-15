@@ -16,7 +16,7 @@ public sealed class LargeKinfuVolumeParams
         ResolutionY = v.ResolutionY;
         ResolutionZ = v.ResolutionZ;
         UnitResolution = v.UnitResolution;
-        VolumSize = v.VolumSize;
+        VolumeSize = v.VolumeSize;
         VoxelSize = v.VoxelSize;
         TsdfTruncDist = v.TsdfTruncDist;
         MaxWeight = v.MaxWeight;
@@ -59,7 +59,7 @@ public sealed class LargeKinfuVolumeParams
         ResolutionY = ResolutionY,
         ResolutionZ = ResolutionZ,
         UnitResolution = UnitResolution,
-        VolumSize = VolumSize,
+        VolumeSize = VolumeSize,
         VoxelSize = VoxelSize,
         TsdfTruncDist = TsdfTruncDist,
         MaxWeight = MaxWeight,
@@ -83,7 +83,7 @@ public sealed class LargeKinfuVolumeParams
     public int UnitResolution { get; set; }
 
     /// <summary>Size of the volume in meters.</summary>
-    public float VolumSize { get; set; }
+    public float VolumeSize { get; set; }
 
     /// <summary>Initial pose of the volume in meters (4x4 homogeneous transform).</summary>
     public Mat Pose { get; set; }

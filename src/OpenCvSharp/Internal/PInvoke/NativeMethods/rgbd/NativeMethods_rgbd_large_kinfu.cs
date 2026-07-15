@@ -22,7 +22,7 @@ public struct CvLargeKinfuVolumeParams
     public int ResolutionY;
     public int ResolutionZ;
     public int UnitResolution;
-    public float VolumSize;
+    public float VolumeSize;
     public float VoxelSize;
     public float TsdfTruncDist;
     public int MaxWeight;

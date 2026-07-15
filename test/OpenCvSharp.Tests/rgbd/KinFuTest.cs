@@ -17,7 +17,7 @@ public class KinFuTest
     {
         var defaultParams = KinFuParams.DefaultParams();
         Assert.False(defaultParams.Intr.Empty());
-        Assert.Equal(defaultParams.FrameSize, defaultParams.FrameSize);
+        Assert.Equal(new Size(640, 480), defaultParams.FrameSize);
 
         var coarse = KinFuParams.CoarseParams();
         Assert.NotEmpty(coarse.IcpIterations);

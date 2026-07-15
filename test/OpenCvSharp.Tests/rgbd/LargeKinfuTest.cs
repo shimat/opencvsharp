@@ -42,7 +42,10 @@ public class LargeKinfuTest
     [Fact]
     public void CreateAndUpdateWireUpCorrectly()
     {
-        var parameters = LargeKinfuParams.CoarseParams();
+        // LargeKinfuImpl::paramsToSettings() always builds a HashTSDF volume regardless of
+        // volumeParams.Kind, but only HashTsdfParams() sets UnitResolution (CoarseParams()/
+        // DefaultParams() leave it at 0), so Create() needs HashTsdfParams() here.
+        var parameters = LargeKinfuParams.HashTsdfParams(true);
         parameters.FrameSize = new Size(64, 48);
 
         using var largeKinfu = LargeKinfu.Create(parameters);
