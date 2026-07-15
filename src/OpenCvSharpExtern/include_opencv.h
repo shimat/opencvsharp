@@ -90,6 +90,10 @@
 #include <opencv2/img_hash.hpp>
 #ifndef NO_CONTRIB
 #include <opencv2/rgbd/linemod.hpp>
+#include <opencv2/rgbd/kinfu.hpp>
+#include <opencv2/rgbd/dynafu.hpp>
+#include <opencv2/rgbd/colored_kinfu.hpp>
+#include <opencv2/rgbd/large_kinfu.hpp>
 #endif
 
 // MP! Added: To correctly support imShow under WinRT.
