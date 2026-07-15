@@ -36,14 +36,22 @@ public class KinFu : CvPtrObject
         var intr = new Mat();
         var rgbIntr = new Mat();
         var volumePose = new Mat();
-        using var icpIterations = new StdVector<int>();
-        OutputArray intrArray = intr;
-        OutputArray rgbIntrArray = rgbIntr;
-        OutputArray volumePoseArray = volumePose;
-        NativeMethods.HandleException(NativeMethods.rgbd_kinfu_KinFu_getParams(
-            Handle, out var pod, intrArray.Proxy, rgbIntrArray.Proxy, volumePoseArray.Proxy, icpIterations.CvPtr));
-        GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
-        return new KinFuParams(pod, intr, rgbIntr, volumePose, icpIterations.ToArray());
+        try
+        {
+            using var icpIterations = new StdVector<int>();
+            OutputArray intrArray = intr;
+            OutputArray rgbIntrArray = rgbIntr;
+            OutputArray volumePoseArray = volumePose;
+            NativeMethods.HandleException(NativeMethods.rgbd_kinfu_KinFu_getParams(
+                Handle, out var pod, intrArray.Proxy, rgbIntrArray.Proxy, volumePoseArray.Proxy, icpIterations.CvPtr));
+            GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
+            return new KinFuParams(pod, intr, rgbIntr, volumePose, icpIterations.ToArray());
+        }
+        catch
+        {
+            intr.Dispose(); rgbIntr.Dispose(); volumePose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>Renders a 0-surface of the TSDF using Phong shading into a CV_8UC4 image, from the last frame's camera pose.</summary>
@@ -100,10 +108,18 @@ public class KinFu : CvPtrObject
     {
         ThrowIfDisposed();
         var pose = new Mat();
-        OutputArray poseArray = pose;
-        NativeMethods.HandleException(NativeMethods.rgbd_kinfu_KinFu_getPose(Handle, poseArray.Proxy));
-        GC.KeepAlive(pose);
-        return pose;
+        try
+        {
+            OutputArray poseArray = pose;
+            NativeMethods.HandleException(NativeMethods.rgbd_kinfu_KinFu_getPose(Handle, poseArray.Proxy));
+            GC.KeepAlive(pose);
+            return pose;
+        }
+        catch
+        {
+            pose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>

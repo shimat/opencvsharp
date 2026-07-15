@@ -46,14 +46,22 @@ public sealed class ColoredKinFuParams
         var intr = new Mat();
         var rgbIntr = new Mat();
         var volumePose = new Mat();
-        using var icpIterations = new StdVector<int>();
-        OutputArray intrArray = intr;
-        OutputArray rgbIntrArray = rgbIntr;
-        OutputArray volumePoseArray = volumePose;
-        NativeMethods.HandleException(factory(
-            out var pod, intrArray.Proxy, rgbIntrArray.Proxy, volumePoseArray.Proxy, icpIterations.CvPtr));
-        GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
-        return new ColoredKinFuParams(pod, intr, rgbIntr, volumePose, icpIterations.ToArray());
+        try
+        {
+            using var icpIterations = new StdVector<int>();
+            OutputArray intrArray = intr;
+            OutputArray rgbIntrArray = rgbIntr;
+            OutputArray volumePoseArray = volumePose;
+            NativeMethods.HandleException(factory(
+                out var pod, intrArray.Proxy, rgbIntrArray.Proxy, volumePoseArray.Proxy, icpIterations.CvPtr));
+            GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
+            return new ColoredKinFuParams(pod, intr, rgbIntr, volumePose, icpIterations.ToArray());
+        }
+        catch
+        {
+            intr.Dispose(); rgbIntr.Dispose(); volumePose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>Default parameters providing better model quality, can be very slow.</summary>

@@ -40,16 +40,24 @@ public sealed class LargeKinfuParams
         var intr = new Mat();
         var rgbIntr = new Mat();
         var volumePose = new Mat();
-        using var icpIterations = new StdVector<int>();
-        OutputArray intrArray = intr;
-        OutputArray rgbIntrArray = rgbIntr;
-        OutputArray volumePoseArray = volumePose;
-        NativeMethods.HandleException(factory(
-            out var pod, intrArray.Proxy, rgbIntrArray.Proxy, icpIterations.CvPtr,
-            out var volumePod, volumePoseArray.Proxy));
-        GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
-        var volumeParams = new LargeKinfuVolumeParams(volumePod, volumePose);
-        return new LargeKinfuParams(pod, intr, rgbIntr, icpIterations.ToArray(), volumeParams);
+        try
+        {
+            using var icpIterations = new StdVector<int>();
+            OutputArray intrArray = intr;
+            OutputArray rgbIntrArray = rgbIntr;
+            OutputArray volumePoseArray = volumePose;
+            NativeMethods.HandleException(factory(
+                out var pod, intrArray.Proxy, rgbIntrArray.Proxy, icpIterations.CvPtr,
+                out var volumePod, volumePoseArray.Proxy));
+            GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
+            var volumeParams = new LargeKinfuVolumeParams(volumePod, volumePose);
+            return new LargeKinfuParams(pod, intr, rgbIntr, icpIterations.ToArray(), volumeParams);
+        }
+        catch
+        {
+            intr.Dispose(); rgbIntr.Dispose(); volumePose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>Default parameters providing better model quality, can be very slow.</summary>

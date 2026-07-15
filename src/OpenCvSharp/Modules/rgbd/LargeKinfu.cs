@@ -40,16 +40,24 @@ public class LargeKinfu : CvPtrObject
         var intr = new Mat();
         var rgbIntr = new Mat();
         var volumePose = new Mat();
-        using var icpIterations = new StdVector<int>();
-        OutputArray intrArray = intr;
-        OutputArray rgbIntrArray = rgbIntr;
-        OutputArray volumePoseArray = volumePose;
-        NativeMethods.HandleException(NativeMethods.rgbd_large_kinfu_LargeKinfu_getParams(
-            Handle, out var pod, intrArray.Proxy, rgbIntrArray.Proxy, icpIterations.CvPtr,
-            out var volumePod, volumePoseArray.Proxy));
-        GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
-        var volumeParams = new LargeKinfuVolumeParams(volumePod, volumePose);
-        return new LargeKinfuParams(pod, intr, rgbIntr, icpIterations.ToArray(), volumeParams);
+        try
+        {
+            using var icpIterations = new StdVector<int>();
+            OutputArray intrArray = intr;
+            OutputArray rgbIntrArray = rgbIntr;
+            OutputArray volumePoseArray = volumePose;
+            NativeMethods.HandleException(NativeMethods.rgbd_large_kinfu_LargeKinfu_getParams(
+                Handle, out var pod, intrArray.Proxy, rgbIntrArray.Proxy, icpIterations.CvPtr,
+                out var volumePod, volumePoseArray.Proxy));
+            GC.KeepAlive(intr); GC.KeepAlive(rgbIntr); GC.KeepAlive(volumePose);
+            var volumeParams = new LargeKinfuVolumeParams(volumePod, volumePose);
+            return new LargeKinfuParams(pod, intr, rgbIntr, icpIterations.ToArray(), volumeParams);
+        }
+        catch
+        {
+            intr.Dispose(); rgbIntr.Dispose(); volumePose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>Renders a 0-surface of the TSDF using Phong shading into a CV_8UC4 image, from the last frame's camera pose.</summary>
@@ -104,10 +112,18 @@ public class LargeKinfu : CvPtrObject
     {
         ThrowIfDisposed();
         var pose = new Mat();
-        OutputArray poseArray = pose;
-        NativeMethods.HandleException(NativeMethods.rgbd_large_kinfu_LargeKinfu_getPose(Handle, poseArray.Proxy));
-        GC.KeepAlive(pose);
-        return pose;
+        try
+        {
+            OutputArray poseArray = pose;
+            NativeMethods.HandleException(NativeMethods.rgbd_large_kinfu_LargeKinfu_getPose(Handle, poseArray.Proxy));
+            GC.KeepAlive(pose);
+            return pose;
+        }
+        catch
+        {
+            pose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>

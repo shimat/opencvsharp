@@ -30,10 +30,18 @@ public sealed class LargeKinfuVolumeParams
     private static LargeKinfuVolumeParams FromFactory(Factory factory, VolumeType volumeType)
     {
         var pose = new Mat();
-        OutputArray poseArray = pose;
-        NativeMethods.HandleException(factory((int)volumeType, out var pod, poseArray.Proxy));
-        GC.KeepAlive(pose);
-        return new LargeKinfuVolumeParams(pod, pose);
+        try
+        {
+            OutputArray poseArray = pose;
+            NativeMethods.HandleException(factory((int)volumeType, out var pod, poseArray.Proxy));
+            GC.KeepAlive(pose);
+            return new LargeKinfuVolumeParams(pod, pose);
+        }
+        catch
+        {
+            pose.Dispose();
+            throw;
+        }
     }
 
     /// <summary>Default parameters providing higher-quality reconstruction at the cost of slower performance.</summary>
