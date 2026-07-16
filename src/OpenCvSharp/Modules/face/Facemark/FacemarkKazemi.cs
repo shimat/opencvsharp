@@ -99,6 +99,41 @@ public sealed class FacemarkKazemi : Facemark
         faceDetectorBridge = newBridge;
     }
 
+    /// <summary>
+    /// Stores algorithm parameters in a file storage.
+    /// </summary>
+    /// <remarks>
+    /// Overrides the generic Algorithm.Write, which passes a cv::Algorithm* to the native side.
+    /// cv::face::Facemark inherits Algorithm virtually, so a raw pointer obtained as FacemarkKazemi*
+    /// cannot be safely reinterpreted as Algorithm* on the managed side; this override calls
+    /// write() with the pointer kept at its concrete native type instead.
+    /// </remarks>
+    /// <param name="fs"></param>
+    public override void Write(FileStorage fs)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(fs);
+
+        NativeMethods.HandleException(NativeMethods.face_FacemarkKazemi_write(Handle, fs.CvPtr));
+        GC.KeepAlive(fs);
+    }
+
+    /// <summary>
+    /// Reads algorithm parameters from a file storage.
+    /// </summary>
+    /// <remarks>
+    /// See the remarks on <see cref="Write"/> for why this override is needed.
+    /// </remarks>
+    /// <param name="fn"></param>
+    public override void Read(FileNode fn)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(fn);
+
+        NativeMethods.HandleException(NativeMethods.face_FacemarkKazemi_read(Handle, fn.CvPtr));
+        GC.KeepAlive(fn);
+    }
+
     /// <inheritdoc />
     protected override void DisposeManaged()
     {

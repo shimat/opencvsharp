@@ -228,12 +228,6 @@ CVAPI(ExceptionStatus) face_FacemarkTrain_getFaces(
     });
 }
 
-CVAPI(ExceptionStatus) face_FacemarkTrain_getData(
-    cv::face::FacemarkTrain *obj, void *items, int *returnValue)
-{
-    return cvTry([&] { *returnValue = obj->getData(items) ? 1 : 0; });
-}
-
 CVAPI(ExceptionStatus) face_FacemarkTrain_setFaceDetector(
     cv::face::FacemarkTrain *obj,
     const FacemarkFaceDetectorCallback callback,
@@ -279,6 +273,24 @@ CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_delete(cv::Ptr<cv::face::FacemarkLBF
 {
     return cvTry([&] {
         delete obj;
+    });
+}
+
+// write/read are called directly on the concrete type here (rather than going through the generic
+// core_Algorithm_write/read, which take a cv::Algorithm*): cv::face::Facemark inherits Algorithm
+// virtually, so a raw pointer obtained as FacemarkLBF* cannot be safely reinterpreted as Algorithm*
+// on the managed side without the compiler-generated virtual-base offset adjustment.
+CVAPI(ExceptionStatus) face_FacemarkLBF_write(cv::face::FacemarkLBF *obj, cv::FileStorage *fs)
+{
+    return cvTry([&] {
+        obj->write(*fs);
+    });
+}
+
+CVAPI(ExceptionStatus) face_FacemarkLBF_read(cv::face::FacemarkLBF *obj, cv::FileNode *fn)
+{
+    return cvTry([&] {
+        obj->read(*fn);
     });
 }
 
@@ -404,6 +416,24 @@ CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_delete(cv::Ptr<cv::face::FacemarkAAM
     });
 }
 
+// write/read are called directly on the concrete type here (rather than going through the generic
+// core_Algorithm_write/read, which take a cv::Algorithm*): cv::face::Facemark inherits Algorithm
+// virtually, so a raw pointer obtained as FacemarkAAM* cannot be safely reinterpreted as Algorithm*
+// on the managed side without the compiler-generated virtual-base offset adjustment.
+CVAPI(ExceptionStatus) face_FacemarkAAM_write(cv::face::FacemarkAAM *obj, cv::FileStorage *fs)
+{
+    return cvTry([&] {
+        obj->write(*fs);
+    });
+}
+
+CVAPI(ExceptionStatus) face_FacemarkAAM_read(cv::face::FacemarkAAM *obj, cv::FileNode *fn)
+{
+    return cvTry([&] {
+        obj->read(*fn);
+    });
+}
+
 CVAPI(ExceptionStatus) face_FacemarkAAM_fitConfig(
     cv::face::FacemarkAAM *obj,
     const interop::InputArrayProxy *image,
@@ -427,6 +457,20 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_fitConfig(
             configs.emplace_back(rotation, cpp(translations[i]), scales[i], modelScaleIndexes[i]);
         }
         *returnValue = obj->fitConfig(InProxy(*image), InProxy(*roi), *landmarks, configs) ? 1 : 0;
+    });
+}
+
+// Typed wrapper around FacemarkTrain::getData(void*): FacemarkAAM is the only algorithm that
+// populates anything through it (FacemarkAAM::Data{ s0 }); FacemarkLBF's override ignores the
+// pointer entirely and always returns false. Building and reading the Data struct natively here
+// avoids handing callers a raw void* to poke at.
+CVAPI(ExceptionStatus) face_FacemarkAAM_getData(cv::face::FacemarkAAM *obj, std::vector<cv::Point2f> *s0, int *returnValue)
+{
+    return cvTry([&] {
+        cv::face::FacemarkAAM::Data data;
+        *returnValue = obj->getData(&data) ? 1 : 0;
+        if (*returnValue != 0)
+            *s0 = data.s0;
     });
 }
 
@@ -528,6 +572,24 @@ CVAPI(ExceptionStatus) face_Ptr_FacemarkKazemi_delete(
     cv::Ptr<cv::face::FacemarkKazemi> *obj)
 {
     return cvTry([&] { delete obj; });
+}
+
+// write/read are called directly on the concrete type here (rather than going through the generic
+// core_Algorithm_write/read, which take a cv::Algorithm*): cv::face::Facemark inherits Algorithm
+// virtually, so a raw pointer obtained as FacemarkKazemi* cannot be safely reinterpreted as
+// Algorithm* on the managed side without the compiler-generated virtual-base offset adjustment.
+CVAPI(ExceptionStatus) face_FacemarkKazemi_write(cv::face::FacemarkKazemi *obj, cv::FileStorage *fs)
+{
+    return cvTry([&] {
+        obj->write(*fs);
+    });
+}
+
+CVAPI(ExceptionStatus) face_FacemarkKazemi_read(cv::face::FacemarkKazemi *obj, cv::FileNode *fn)
+{
+    return cvTry([&] {
+        obj->read(*fn);
+    });
 }
 
 CVAPI(ExceptionStatus) face_FacemarkKazemi_training(

@@ -107,7 +107,7 @@ public sealed class StandardCollector : PredictCollector
         NativeMethods.HandleException(
             NativeMethods.face_StandardCollector_getResultsMap(
                 Handle, labels.CvPtr, distances.CvPtr));
-        return labels.ToArray().Zip(distances.ToArray()).ToDictionary(x => x.First, x => x.Second);
+        return Combine(labels.ToArray(), distances.ToArray()).ToDictionary(x => x.Label, x => x.Distance);
     }
 
     private static PredictResult[] Combine(int[] labels, double[] distances)

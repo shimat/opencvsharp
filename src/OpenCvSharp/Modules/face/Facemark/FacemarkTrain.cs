@@ -56,17 +56,6 @@ public abstract class FacemarkTrain : Facemark
     }
 
     /// <summary>
-    /// Retrieves algorithm-specific data into a native structure.
-    /// </summary>
-    public bool GetData(IntPtr items)
-    {
-        ThrowIfDisposed();
-        NativeMethods.HandleException(
-            NativeMethods.face_FacemarkTrain_getData(Handle, items, out var result));
-        return result != 0;
-    }
-
-    /// <summary>
     /// Installs a managed face detector used by the facemark algorithm.
     /// </summary>
     public void SetFaceDetector(FacemarkFaceDetector detector)

@@ -48,6 +48,41 @@ public sealed class FacemarkAAM : FacemarkTrain
     }
 
     /// <summary>
+    /// Stores algorithm parameters in a file storage.
+    /// </summary>
+    /// <remarks>
+    /// Overrides the generic Algorithm.Write, which passes a cv::Algorithm* to the native side.
+    /// cv::face::Facemark inherits Algorithm virtually, so a raw pointer obtained as FacemarkAAM*
+    /// cannot be safely reinterpreted as Algorithm* on the managed side; this override calls
+    /// write() with the pointer kept at its concrete native type instead.
+    /// </remarks>
+    /// <param name="fs"></param>
+    public override void Write(FileStorage fs)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(fs);
+
+        NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_write(Handle, fs.CvPtr));
+        GC.KeepAlive(fs);
+    }
+
+    /// <summary>
+    /// Reads algorithm parameters from a file storage.
+    /// </summary>
+    /// <remarks>
+    /// See the remarks on <see cref="Write"/> for why this override is needed.
+    /// </remarks>
+    /// <param name="fn"></param>
+    public override void Read(FileNode fn)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(fn);
+
+        NativeMethods.HandleException(NativeMethods.face_FacemarkAAM_read(Handle, fn.CvPtr));
+        GC.KeepAlive(fn);
+    }
+
+    /// <summary>
     /// Runtime pose and scale configuration for fitting one face.
     /// </summary>
     public readonly struct Config
@@ -127,6 +162,21 @@ public sealed class FacemarkAAM : FacemarkTrain
         GC.KeepAlive(image.Source);
         GC.KeepAlive(roi.Source);
         GC.KeepAlive(configs);
+        return result != 0;
+    }
+
+    /// <summary>
+    /// Retrieves the mean shape (s0) of the trained AAM model.
+    /// </summary>
+    /// <param name="s0">The mean shape points, or an empty array if the model has no data yet.</param>
+    /// <returns>true if the model had data to return.</returns>
+    public bool GetData(out Point2f[] s0)
+    {
+        ThrowIfDisposed();
+        using var s0Vector = new StdVector<Point2f>();
+        NativeMethods.HandleException(
+            NativeMethods.face_FacemarkAAM_getData(Handle, s0Vector.CvPtr, out var result));
+        s0 = s0Vector.ToArray();
         return result != 0;
     }
 

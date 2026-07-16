@@ -70,10 +70,6 @@ static partial class NativeMethods
     internal static partial ExceptionStatus face_FacemarkTrain_getFaces(
         OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr faces, out int returnValue);
 
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus face_FacemarkTrain_getData(
-        OpenCvSafeHandle obj, IntPtr items, out int returnValue);
-
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     internal static extern ExceptionStatus face_FacemarkTrain_setFaceDetector(
         OpenCvSafeHandle obj, FacemarkFaceDetectorNativeCallback callback,
@@ -91,6 +87,12 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus face_Ptr_FacemarkLBF_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus face_FacemarkLBF_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus face_FacemarkLBF_read(OpenCvSafeHandle obj, IntPtr fn);
 
     #region Params
 
@@ -132,6 +134,12 @@ static partial class NativeMethods
     public static partial ExceptionStatus face_Ptr_FacemarkAAM_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus face_FacemarkAAM_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus face_FacemarkAAM_read(OpenCvSafeHandle obj, IntPtr fn);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus face_FacemarkAAM_fitConfig(
         OpenCvSafeHandle obj,
         in InputArrayProxy image,
@@ -143,6 +151,10 @@ static partial class NativeMethods
         int[] modelScaleIndexes,
         int configLength,
         out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus face_FacemarkAAM_getData(
+        OpenCvSafeHandle obj, IntPtr s0, out int returnValue);
 
     #region Params
 
@@ -182,6 +194,12 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus face_Ptr_FacemarkKazemi_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus face_FacemarkKazemi_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus face_FacemarkKazemi_read(OpenCvSafeHandle obj, IntPtr fn);
 
     [LibraryImport(DllExtern, StringMarshalling = StringMarshalling.Utf8), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus face_FacemarkKazemi_training(
