@@ -8,7 +8,7 @@ namespace OpenCvSharp.Face;
 ///
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public sealed class FacemarkAAM : Facemark
+public sealed class FacemarkAAM : FacemarkTrain
 {
     private FacemarkAAM(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_delete(p)))
@@ -45,6 +45,89 @@ public sealed class FacemarkAAM : Facemark
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
         NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_get(smartPtr, out var rawPtr));
         return new FacemarkAAM(smartPtr, rawPtr);
+    }
+
+    /// <summary>
+    /// Runtime pose and scale configuration for fitting one face.
+    /// </summary>
+    public readonly struct Config
+    {
+        /// <summary>
+        /// Creates a configuration with OpenCV's defaults.
+        /// </summary>
+        public Config()
+            : this(null, default, 1.0f, 0)
+        {
+        }
+
+        /// <summary>
+        /// Creates a runtime fitting configuration.
+        /// </summary>
+        public Config(Mat? rotation, Point2f translation, float scale, int modelScaleIndex)
+        {
+            Rotation = rotation;
+            Translation = translation;
+            Scale = scale;
+            ModelScaleIndex = modelScaleIndex;
+        }
+
+        /// <summary>
+        /// Optional 2x2 CV_32F rotation matrix. Null uses the identity matrix.
+        /// </summary>
+        public Mat? Rotation { get; }
+
+        /// <summary>
+        /// Translation applied during fitting.
+        /// </summary>
+        public Point2f Translation { get; }
+
+        /// <summary>
+        /// Scale applied during fitting.
+        /// </summary>
+        public float Scale { get; }
+
+        /// <summary>
+        /// Index of the model scale to use.
+        /// </summary>
+        public int ModelScaleIndex { get; }
+    }
+
+    /// <summary>
+    /// Fits landmarks using a per-face runtime configuration.
+    /// </summary>
+    public bool FitConfig(
+        InputArray image,
+        InputArray roi,
+        IEnumerable<Config> runtimeParameters,
+        out Point2f[][] landmarks)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(runtimeParameters);
+
+        var configs = runtimeParameters.ToArray();
+        var rotations = new IntPtr[configs.Length];
+        var translations = new Point2f[configs.Length];
+        var scales = new float[configs.Length];
+        var modelScaleIndexes = new int[configs.Length];
+        for (var i = 0; i < configs.Length; i++)
+        {
+            configs[i].Rotation?.ThrowIfDisposed();
+            rotations[i] = configs[i].Rotation?.CvPtr ?? IntPtr.Zero;
+            translations[i] = configs[i].Translation;
+            scales[i] = configs[i].Scale;
+            modelScaleIndexes[i] = configs[i].ModelScaleIndex;
+        }
+
+        using var landmarkVector = new VectorOfVectorPoint2f();
+        NativeMethods.HandleException(
+            NativeMethods.face_FacemarkAAM_fitConfig(
+                Handle, image.Proxy, roi.Proxy, landmarkVector.CvPtr,
+                rotations, translations, scales, modelScaleIndexes, configs.Length, out var result));
+        landmarks = landmarkVector.ToArray();
+        GC.KeepAlive(image.Source);
+        GC.KeepAlive(roi.Source);
+        GC.KeepAlive(configs);
+        return result != 0;
     }
 
 #pragma warning disable CA1034

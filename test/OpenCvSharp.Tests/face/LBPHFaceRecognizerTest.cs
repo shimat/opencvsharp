@@ -46,6 +46,11 @@ public class LBPHFaceRecognizerTest : TestBase
                 Assert.NotEqual(0, confidence, 9);
 
                 Assert.Equal(1, model.Predict(face));
+
+                using var collector = StandardCollector.Create();
+                model.Predict(face, collector);
+                Assert.Equal(1, collector.MinLabel);
+                Assert.NotEmpty(collector.GetResults());
             }
         }
     }

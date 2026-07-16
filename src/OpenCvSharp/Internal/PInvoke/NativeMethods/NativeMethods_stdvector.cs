@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Detail;
+using OpenCvSharp.LineDescriptor;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -346,6 +347,9 @@ static partial class NativeMethods
     #region cv::line_descriptor::KeyLine
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial IntPtr vector_KeyLine_new1();
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static unsafe partial IntPtr vector_KeyLine_new2(KeyLine* data, nuint length);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial nuint vector_KeyLine_getSize(OpenCvSafeHandle vector);

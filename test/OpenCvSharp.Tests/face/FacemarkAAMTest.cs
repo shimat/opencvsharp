@@ -44,6 +44,17 @@ public class FacemarkAAMTest : TestBase
         Assert.NotEmpty(parameter.Scales);
     }
 
+    [Fact]
+    public void FitConfigDefaults()
+    {
+        var config = new FacemarkAAM.Config();
+
+        Assert.Null(config.Rotation);
+        Assert.Equal(default, config.Translation);
+        Assert.Equal(1.0f, config.Scale);
+        Assert.Equal(0, config.ModelScaleIndex);
+    }
+
     /*
     /// <summary>
     /// https://docs.opencv.org/trunk/d5/dd8/tutorial_facemark_aam.html

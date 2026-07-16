@@ -285,6 +285,14 @@ CVAPI(std::vector<cv::line_descriptor::KeyLine>*) vector_KeyLine_new1()
     return new std::vector<cv::line_descriptor::KeyLine>;
 }
 
+CVAPI(std::vector<cv::line_descriptor::KeyLine>*) vector_KeyLine_new2(
+    cv::line_descriptor::KeyLine* data, size_t length)
+{
+    if (length == 0)
+        return new std::vector<cv::line_descriptor::KeyLine>;
+    return new std::vector<cv::line_descriptor::KeyLine>(data, data + length);
+}
+
 CVAPI(size_t) vector_KeyLine_getSize(std::vector<cv::line_descriptor::KeyLine>* vector)
 {
     return vector->size();

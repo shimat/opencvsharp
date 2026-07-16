@@ -86,6 +86,21 @@ public abstract class FaceRecognizer : Algorithm
     }
 
     /// <summary>
+    /// Runs prediction and forwards every evaluated result to a collector.
+    /// </summary>
+    public virtual void Predict(InputArray src, PredictCollector collector)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(collector);
+        collector.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.face_FaceRecognizer_predictCollect(Handle, src.Proxy, collector.SmartPtr));
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(collector);
+    }
+
+    /// <summary>
     /// Serializes this object to a given filename.
     /// </summary>
     /// <param name="fileName"></param>

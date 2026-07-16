@@ -31,6 +31,68 @@ CVAPI(ExceptionStatus) img_hash_ImgHashBase_compare(
 }
 
 
+// One-shot convenience functions
+
+CVAPI(ExceptionStatus) img_hash_averageHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr)
+{
+    return cvTry([&] {
+        cv::img_hash::averageHash(InProxy(*inputArr), OutProxy(*outputArr));
+    });
+}
+
+CVAPI(ExceptionStatus) img_hash_blockMeanHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr,
+    const int mode)
+{
+    return cvTry([&] {
+        cv::img_hash::blockMeanHash(InProxy(*inputArr), OutProxy(*outputArr), mode);
+    });
+}
+
+CVAPI(ExceptionStatus) img_hash_colorMomentHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr)
+{
+    return cvTry([&] {
+        cv::img_hash::colorMomentHash(InProxy(*inputArr), OutProxy(*outputArr));
+    });
+}
+
+CVAPI(ExceptionStatus) img_hash_marrHildrethHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr,
+    const float alpha,
+    const float scale)
+{
+    return cvTry([&] {
+        cv::img_hash::marrHildrethHash(InProxy(*inputArr), OutProxy(*outputArr), alpha, scale);
+    });
+}
+
+CVAPI(ExceptionStatus) img_hash_pHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr)
+{
+    return cvTry([&] {
+        cv::img_hash::pHash(InProxy(*inputArr), OutProxy(*outputArr));
+    });
+}
+
+CVAPI(ExceptionStatus) img_hash_radialVarianceHash(
+    const interop::InputArrayProxy* inputArr,
+    const interop::OutputArrayProxy* outputArr,
+    const double sigma,
+    const int numOfAngleLine)
+{
+    return cvTry([&] {
+        cv::img_hash::radialVarianceHash(InProxy(*inputArr), OutProxy(*outputArr), sigma, numOfAngleLine);
+    });
+}
+
+
 // AverageHash
 
 CVAPI(ExceptionStatus) img_hash_AverageHash_create(cv::Ptr<cv::img_hash::AverageHash> **returnValue)

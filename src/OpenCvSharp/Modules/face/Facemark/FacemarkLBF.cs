@@ -8,7 +8,7 @@ namespace OpenCvSharp.Face;
 ///
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public sealed class FacemarkLBF : Facemark
+public sealed class FacemarkLBF : FacemarkTrain
 {
     private FacemarkLBF(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkLBF_delete(p)))
