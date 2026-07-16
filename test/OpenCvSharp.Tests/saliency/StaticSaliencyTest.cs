@@ -72,16 +72,24 @@ public class StaticSaliencyTest : TestBase
         saliency.ImageHeight = 96;
 
         var fileName = Path.Combine(Path.GetTempPath(), "static_saliency_spectral_residual_test.yml");
-        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        try
         {
-            fs.Write("marker", 1);
-            saliency.Write(fs);
-        }
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+            {
+                fs.Write("marker", 1);
+                saliency.Write(fs);
+            }
 
-        using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
-        var root = fs2.Root();
-        Assert.NotNull(root);
-        saliency.Read(root);
+            using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+            var root = fs2.Root();
+            Assert.NotNull(root);
+            saliency.Read(root);
+        }
+        finally
+        {
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
     }
 
     [Fact]
@@ -132,15 +140,23 @@ public class StaticSaliencyTest : TestBase
         using var saliency = StaticSaliencyFineGrained.Create();
 
         var fileName = Path.Combine(Path.GetTempPath(), "static_saliency_fine_grained_test.yml");
-        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        try
         {
-            fs.Write("marker", 1);
-            saliency.Write(fs);
-        }
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+            {
+                fs.Write("marker", 1);
+                saliency.Write(fs);
+            }
 
-        using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
-        var root = fs2.Root();
-        Assert.NotNull(root);
-        saliency.Read(root);
+            using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+            var root = fs2.Root();
+            Assert.NotNull(root);
+            saliency.Read(root);
+        }
+        finally
+        {
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
     }
 }

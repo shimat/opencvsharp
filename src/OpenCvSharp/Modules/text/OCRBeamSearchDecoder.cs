@@ -89,6 +89,7 @@ public sealed class OCRBeamSearchDecoder : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
@@ -123,6 +124,7 @@ public sealed class OCRBeamSearchDecoder : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(image);
         ArgumentNullException.ThrowIfNull(mask);
         image.ThrowIfDisposed();

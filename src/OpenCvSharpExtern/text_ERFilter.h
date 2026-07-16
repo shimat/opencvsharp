@@ -172,7 +172,7 @@ CVAPI(ExceptionStatus) text_detectRegions_rects(
     float minProbability)
 {
     return cvTry([&] {
-        cv::text::detectRegions(InProxy(*image), *erFilter1, *erFilter2, *groupsRects, method, cv::String(filename), minProbability);
+        cv::text::detectRegions(InProxy(*image), *erFilter1, *erFilter2, *groupsRects, method, cv::String(filename ? filename : ""), minProbability);
     });
 }
 

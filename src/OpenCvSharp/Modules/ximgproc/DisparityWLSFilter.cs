@@ -66,6 +66,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_getLambda(Handle, out var ret));
+            GC.KeepAlive(this);
             return ret;
         }
         set
@@ -73,6 +74,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_setLambda(Handle, value));
+            GC.KeepAlive(this);
         }
     }
 
@@ -88,6 +90,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_getSigmaColor(Handle, out var ret));
+            GC.KeepAlive(this);
             return ret;
         }
         set
@@ -95,6 +98,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_setSigmaColor(Handle, value));
+            GC.KeepAlive(this);
         }
     }
 
@@ -109,6 +113,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_getLRCthresh(Handle, out var ret));
+            GC.KeepAlive(this);
             return ret;
         }
         set
@@ -116,6 +121,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_setLRCthresh(Handle, value));
+            GC.KeepAlive(this);
         }
     }
 
@@ -130,6 +136,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_getDepthDiscontinuityRadius(Handle, out var ret));
+            GC.KeepAlive(this);
             return ret;
         }
         set
@@ -137,6 +144,7 @@ public class DisparityWLSFilter : DisparityFilter
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_DisparityWLSFilter_setDepthDiscontinuityRadius(Handle, value));
+            GC.KeepAlive(this);
         }
     }
 
@@ -151,6 +159,7 @@ public class DisparityWLSFilter : DisparityFilter
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DisparityWLSFilter_getConfidenceMap(Handle, out var ret));
+        GC.KeepAlive(this);
         return new Mat(ret);
     }
 
@@ -163,6 +172,7 @@ public class DisparityWLSFilter : DisparityFilter
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DisparityWLSFilter_getROI(Handle, out var ret));
+        GC.KeepAlive(this);
         return ret;
     }
 }

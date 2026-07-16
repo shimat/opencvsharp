@@ -88,6 +88,7 @@ public sealed class OCRHMMDecoder : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(image);
         image.ThrowIfDisposed();
 
@@ -122,6 +123,7 @@ public sealed class OCRHMMDecoder : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
+        ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(image);
         ArgumentNullException.ThrowIfNull(mask);
         image.ThrowIfDisposed();

@@ -42,18 +42,18 @@ public class ERFilterTest : TestBase
     {
         // No trained classifier model is bundled with the test assets; this proves the file-based
         // factory overload reaches native and surfaces the missing-file error rather than crashing.
-        Assert.ThrowsAny<Exception>(() => ERFilter.CreateNM1("_data/text/no_such_classifier_nm1.xml"));
+        Assert.Throws<OpenCVException>(() => ERFilter.CreateNM1("_data/text/no_such_classifier_nm1.xml"));
     }
 
     [Fact]
     public void CreateNM2_MissingFile_Throws()
     {
-        Assert.ThrowsAny<Exception>(() => ERFilter.CreateNM2("_data/text/no_such_classifier_nm2.xml"));
+        Assert.Throws<OpenCVException>(() => ERFilter.CreateNM2("_data/text/no_such_classifier_nm2.xml"));
     }
 
     [Fact]
     public void LoadClassifierNM1_MissingFile_Throws()
     {
-        Assert.ThrowsAny<Exception>(() => ERFilterCallback.LoadClassifierNM1("_data/text/no_such_classifier_nm1.xml"));
+        Assert.Throws<OpenCVException>(() => ERFilterCallback.LoadClassifierNM1("_data/text/no_such_classifier_nm1.xml"));
     }
 }

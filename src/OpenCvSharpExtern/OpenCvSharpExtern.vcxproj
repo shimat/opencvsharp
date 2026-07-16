@@ -183,11 +183,11 @@
     <ClInclude Include="wechat_qrcode.h" />
     <ClInclude Include="xfeatures2d.h" />
     <ClInclude Include="ximgproc.h" />
+    <ClInclude Include="ximgproc_ContourFitting.h" />
+    <ClInclude Include="ximgproc_DisparityFilter.h" />
     <ClInclude Include="ximgproc_EdgeBoxes.h" />
     <ClInclude Include="ximgproc_EdgeFilter.h" />
     <ClInclude Include="ximgproc_FastLineDetector.h" />
-    <ClInclude Include="ximgproc_ContourFitting.h" />
-    <ClInclude Include="ximgproc_DisparityFilter.h" />
     <ClInclude Include="ximgproc_RidgeDetectionFilter.h" />
     <ClInclude Include="ximgproc_ScanSegment.h" />
     <ClInclude Include="ximgproc_Segmentation.h" />

@@ -481,8 +481,9 @@ public class XImgProcTest : TestBase
         Cv2.XImgProc.FourierDescriptor(sampled, fd);
         Assert.False(fd.Empty());
 
+        using var t = Mat.Eye(1, 5, MatType.CV_64FC1).ToMat();
         using var transformed = new Mat();
-        Cv2.XImgProc.TransformFD(sampled, Mat.Eye(1, 5, MatType.CV_64FC1), transformed, fdContour: false);
+        Cv2.XImgProc.TransformFD(sampled, t, transformed, fdContour: false);
         Assert.False(transformed.Empty());
     }
 

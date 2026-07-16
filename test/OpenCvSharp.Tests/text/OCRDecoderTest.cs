@@ -24,14 +24,14 @@ public class OCRDecoderTest : TestBase
         using var transitionTable = Mat.Eye(2, 2, MatType.CV_64FC1).ToMat();
         using var emissionTable = Mat.Eye(2, 2, MatType.CV_64FC1).ToMat();
 
-        Assert.ThrowsAny<Exception>(() =>
+        Assert.Throws<OpenCVException>(() =>
             OCRHMMDecoder.Create("_data/text/no_such_hmm_classifier.xml", "ab", transitionTable, emissionTable));
     }
 
     [Fact]
     public void OCRHMMDecoderLoadClassifier_MissingFile_Throws()
     {
-        Assert.ThrowsAny<Exception>(() =>
+        Assert.Throws<OpenCVException>(() =>
             OCRHMMDecoderClassifierCallback.LoadClassifier("_data/text/no_such_hmm_classifier.xml", ClassifierType.Knn));
     }
 
@@ -41,21 +41,21 @@ public class OCRDecoderTest : TestBase
         using var transitionTable = Mat.Eye(2, 2, MatType.CV_64FC1).ToMat();
         using var emissionTable = Mat.Eye(2, 2, MatType.CV_64FC1).ToMat();
 
-        Assert.ThrowsAny<Exception>(() =>
+        Assert.Throws<OpenCVException>(() =>
             OCRBeamSearchDecoder.Create("_data/text/no_such_beamsearch_classifier.xml", "ab", transitionTable, emissionTable));
     }
 
     [Fact]
     public void OCRBeamSearchDecoderLoadClassifier_MissingFile_Throws()
     {
-        Assert.ThrowsAny<Exception>(() =>
+        Assert.Throws<OpenCVException>(() =>
             OCRBeamSearchDecoderClassifierCallback.LoadClassifierCNN("_data/text/no_such_beamsearch_classifier.xml"));
     }
 
     [Fact]
     public void OCRHolisticWordRecognizerCreate_MissingFile_Throws()
     {
-        Assert.ThrowsAny<Exception>(() =>
+        Assert.Throws<OpenCVException>(() =>
             OCRHolisticWordRecognizer.Create(
                 "_data/text/no_such_arch.prototxt", "_data/text/no_such_weights.caffemodel", "_data/text/no_such_words.txt"));
     }
