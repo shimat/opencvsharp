@@ -76,7 +76,7 @@ public class QuasiDenseStereo : CvPtrObject
     {
         ThrowIfDisposed();
 
-        using var matches = new VectorOfMatchQuasiDense();
+        using var matches = new StdVector<MatchQuasiDense>();
         NativeMethods.HandleException(NativeMethods.xstereo_QuasiDenseStereo_getSparseMatches(Handle, matches.CvPtr));
         GC.KeepAlive(this);
         return matches.ToArray();
@@ -90,7 +90,7 @@ public class QuasiDenseStereo : CvPtrObject
     {
         ThrowIfDisposed();
 
-        using var matches = new VectorOfMatchQuasiDense();
+        using var matches = new StdVector<MatchQuasiDense>();
         NativeMethods.HandleException(NativeMethods.xstereo_QuasiDenseStereo_getDenseMatches(Handle, matches.CvPtr));
         GC.KeepAlive(this);
         return matches.ToArray();

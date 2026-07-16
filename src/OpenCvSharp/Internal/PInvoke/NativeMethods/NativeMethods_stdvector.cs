@@ -365,9 +365,6 @@ static partial class NativeMethods
     public static partial IntPtr vector_MatchQuasiDense_new1();
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static unsafe partial IntPtr vector_MatchQuasiDense_new2(MatchQuasiDense* data, nuint length);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial nuint vector_MatchQuasiDense_getSize(OpenCvSafeHandle vector);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

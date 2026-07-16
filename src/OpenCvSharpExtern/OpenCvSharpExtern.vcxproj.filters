@@ -313,10 +313,10 @@
       <Filter>Header Files\features</Filter>
     </ClInclude>
     <ClInclude Include="stereo_StereoMatcher.h">
-      <Filter>Header Files\calib</Filter>
+      <Filter>Header Files\stereo</Filter>
     </ClInclude>
     <ClInclude Include="stereo.h">
-      <Filter>Header Files\calib</Filter>
+      <Filter>Header Files\stereo</Filter>
     </ClInclude>
     <ClInclude Include="calib_fisheye.h">
       <Filter>Header Files\calib</Filter>
@@ -628,6 +628,9 @@
     </Filter>
     <Filter Include="Header Files\calib">
       <UniqueIdentifier>{304e0a93-fb5b-4559-ae8c-cd15c9e86285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stereo">
+      <UniqueIdentifier>{da27dc62-44f4-4eb1-b9be-a333c4db2e0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\objdetect">
       <UniqueIdentifier>{ecc26737-c8cf-42cb-9530-609703b6c670}</UniqueIdentifier>

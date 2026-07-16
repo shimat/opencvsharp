@@ -137,6 +137,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_new1();
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_new1();
         if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_new1();
+        if (typeof(T) == typeof(MatchQuasiDense)) return NativeMethods.vector_MatchQuasiDense_new1();
         throw Unsupported();
     }
 
@@ -202,6 +203,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_getSize(ptr);
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_getSize(ptr);
         if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_getSize(ptr);
+        if (typeof(T) == typeof(MatchQuasiDense)) return NativeMethods.vector_MatchQuasiDense_getSize(ptr);
         throw Unsupported();
     }
 
@@ -228,6 +230,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec6f)) return NativeMethods.vector_Vec6f_getPointer(ptr);
         if (typeof(T) == typeof(Vec6d)) return NativeMethods.vector_Vec6d_getPointer(ptr);
         if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) return NativeMethods.vector_EllipticKeyPoint_getPointer(ptr);
+        if (typeof(T) == typeof(MatchQuasiDense)) return NativeMethods.vector_MatchQuasiDense_getPointer(ptr);
         throw Unsupported();
     }
 
@@ -254,6 +257,7 @@ public class StdVector<T> : CvObject, IStdVector<T>
         if (typeof(T) == typeof(Vec6f)) { NativeMethods.vector_Vec6f_delete(ptr); return; }
         if (typeof(T) == typeof(Vec6d)) { NativeMethods.vector_Vec6d_delete(ptr); return; }
         if (typeof(T) == typeof(XFeatures2D.EllipticKeyPoint)) { NativeMethods.vector_EllipticKeyPoint_delete(ptr); return; }
+        if (typeof(T) == typeof(MatchQuasiDense)) { NativeMethods.vector_MatchQuasiDense_delete(ptr); return; }
         throw Unsupported();
     }
 }

@@ -315,14 +315,6 @@ CVAPI(std::vector<cv::stereo::MatchQuasiDense>*) vector_MatchQuasiDense_new1()
     return new std::vector<cv::stereo::MatchQuasiDense>;
 }
 
-CVAPI(std::vector<cv::stereo::MatchQuasiDense>*) vector_MatchQuasiDense_new2(
-    cv::stereo::MatchQuasiDense* data, size_t length)
-{
-    if (length == 0)
-        return new std::vector<cv::stereo::MatchQuasiDense>;
-    return new std::vector<cv::stereo::MatchQuasiDense>(data, data + length);
-}
-
 CVAPI(size_t) vector_MatchQuasiDense_getSize(std::vector<cv::stereo::MatchQuasiDense>* vector)
 {
     return vector->size();
