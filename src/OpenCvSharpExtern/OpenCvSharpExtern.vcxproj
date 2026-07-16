@@ -62,6 +62,7 @@
     <ClCompile Include="face.cpp" />
     <ClCompile Include="features2d.cpp" />
     <ClCompile Include="flann.cpp" />
+    <ClCompile Include="hfs.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="img_hash.cpp" />
     <ClCompile Include="imgcodecs.cpp" />
@@ -70,9 +71,12 @@
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="optflow.cpp" />
+    <ClCompile Include="phase_unwrapping.cpp" />
     <ClCompile Include="photo.cpp" />
+    <ClCompile Include="plot.cpp" />
     <ClCompile Include="quality.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="signal.cpp" />
     <ClCompile Include="std_string.cpp" />
     <ClCompile Include="std_vector.cpp" />
     <ClCompile Include="stitching.cpp" />
@@ -85,6 +89,7 @@
     <ClCompile Include="xfeatures2d.cpp" />
     <ClCompile Include="ximgproc.cpp" />
     <ClCompile Include="xphoto.cpp" />
+    <ClCompile Include="xstereo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aruco.h" />
@@ -121,6 +126,7 @@
     <ClInclude Include="features2d_Feature2D.h" />
     <ClInclude Include="flann.h" />
     <ClInclude Include="flann_IndexParams.h" />
+    <ClInclude Include="hfs_HfsSegment.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="img_hash.h" />
     <ClInclude Include="imgcodecs.h" />
@@ -155,13 +161,17 @@
     <ClInclude Include="objdetect_QRCodeEncoder.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
+    <ClInclude Include="phase_unwrapping_HistogramPhaseUnwrapping.h" />
+    <ClInclude Include="phase_unwrapping_PhaseUnwrapping.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="photo_ColorCorrectionModel.h" />
     <ClInclude Include="photo_HDR.h" />
     <ClInclude Include="photo_Tonemap.h" />
+    <ClInclude Include="plot_Plot2d.h" />
     <ClInclude Include="quality.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
+    <ClInclude Include="signal.h" />
     <ClInclude Include="std_string.h" />
     <ClInclude Include="std_vector.h" />
     <ClInclude Include="std_vector_nesting.h" />
@@ -195,6 +205,7 @@
     <ClInclude Include="ximgproc_StructuredEdgeDetection.h" />
     <ClInclude Include="ximgproc_SuperPixel.h" />
     <ClInclude Include="xphoto.h" />
+    <ClInclude Include="xstereo_QuasiDenseStereo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />

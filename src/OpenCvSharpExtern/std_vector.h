@@ -308,4 +308,34 @@ CVAPI(void) vector_KeyLine_delete(std::vector<cv::line_descriptor::KeyLine>* vec
     delete vector;
 }
 #pragma endregion
+
+#pragma region cv::stereo::MatchQuasiDense
+CVAPI(std::vector<cv::stereo::MatchQuasiDense>*) vector_MatchQuasiDense_new1()
+{
+    return new std::vector<cv::stereo::MatchQuasiDense>;
+}
+
+CVAPI(std::vector<cv::stereo::MatchQuasiDense>*) vector_MatchQuasiDense_new2(
+    cv::stereo::MatchQuasiDense* data, size_t length)
+{
+    if (length == 0)
+        return new std::vector<cv::stereo::MatchQuasiDense>;
+    return new std::vector<cv::stereo::MatchQuasiDense>(data, data + length);
+}
+
+CVAPI(size_t) vector_MatchQuasiDense_getSize(std::vector<cv::stereo::MatchQuasiDense>* vector)
+{
+    return vector->size();
+}
+
+CVAPI(cv::stereo::MatchQuasiDense*) vector_MatchQuasiDense_getPointer(std::vector<cv::stereo::MatchQuasiDense>* vector)
+{
+    return &(vector->at(0));
+}
+
+CVAPI(void) vector_MatchQuasiDense_delete(std::vector<cv::stereo::MatchQuasiDense>* vector)
+{
+    delete vector;
+}
+#pragma endregion
 #endif // NO_CONTRIB

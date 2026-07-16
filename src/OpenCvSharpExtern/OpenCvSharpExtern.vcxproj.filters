@@ -103,6 +103,21 @@
     <ClCompile Include="barcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="plot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="phase_unwrapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hfs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="signal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xstereo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgsegm.h">
@@ -426,6 +441,24 @@
     </ClInclude>
     <ClInclude Include="objdetect_FaceRecognizerSF.h">
       <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="plot_Plot2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="phase_unwrapping_PhaseUnwrapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="phase_unwrapping_HistogramPhaseUnwrapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hfs_HfsSegment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xstereo_QuasiDenseStereo.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
