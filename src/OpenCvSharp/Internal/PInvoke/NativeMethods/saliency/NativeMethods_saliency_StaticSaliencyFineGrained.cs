@@ -27,4 +27,10 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus saliency_StaticSaliencyFineGrained_computeBinaryMap(
         OpenCvSafeHandle obj, in InputArrayProxy saliencyMap, in OutputArrayProxy binaryMap, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_StaticSaliencyFineGrained_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_StaticSaliencyFineGrained_read(OpenCvSafeHandle obj, IntPtr fn);
 }

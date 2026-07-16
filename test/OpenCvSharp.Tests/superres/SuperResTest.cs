@@ -46,6 +46,18 @@ public class SuperResTest : TestBase
         Assert.True(frame.Empty());
     }
 
+    [Fact]
+    public void SuperResolutionOpticalFlowRoundTrip()
+    {
+        using var superRes = Cv2.CreateSuperResolution_BTVL1();
+        using var flow = Cv2.CreateOptFlow_Farneback();
+
+        superRes.OpticalFlow = flow;
+
+        using var retrieved = superRes.OpticalFlow;
+        Assert.NotNull(retrieved);
+    }
+
     // Note: SuperResolution.NextFrame is deliberately not tested here. Calling it with
     // BTVL1's default setup and an empty (no real video) FrameSource segfaults inside
     // native OpenCV itself (the algorithm dereferences frame dimensions before checking

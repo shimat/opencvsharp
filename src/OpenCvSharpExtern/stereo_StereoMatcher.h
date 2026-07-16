@@ -99,6 +99,20 @@ CVAPI(ExceptionStatus) stereo_StereoMatcher_setDisp12MaxDiff(cv::StereoMatcher *
     });
 }
 
+CVAPI(ExceptionStatus) stereo_Ptr_StereoMatcher_get(cv::Ptr<cv::StereoMatcher> *obj, cv::StereoMatcher **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->get();
+    });
+}
+
+CVAPI(ExceptionStatus) stereo_Ptr_StereoMatcher_delete(cv::Ptr<cv::StereoMatcher> *obj)
+{
+    return cvTry([&] {
+        delete obj;
+    });
+}
+
 #pragma endregion
 
 #pragma region StereoBM

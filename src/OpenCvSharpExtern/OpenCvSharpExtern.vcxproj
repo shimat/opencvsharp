@@ -156,6 +156,7 @@
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="photo.h" />
+    <ClInclude Include="photo_ColorCorrectionModel.h" />
     <ClInclude Include="photo_HDR.h" />
     <ClInclude Include="photo_Tonemap.h" />
     <ClInclude Include="quality.h" />
@@ -168,6 +169,10 @@
     <ClInclude Include="stitching_detail_Matchers.h" />
     <ClInclude Include="superres.h" />
     <ClInclude Include="text.h" />
+    <ClInclude Include="text_ERFilter.h" />
+    <ClInclude Include="text_OCRBeamSearchDecoder.h" />
+    <ClInclude Include="text_OCRHMMDecoder.h" />
+    <ClInclude Include="text_OCRHolisticWordRecognizer.h" />
     <ClInclude Include="text_TextDetector.h" />
     <ClInclude Include="tracking.h" />
     <ClInclude Include="tracking_UnscentedKalmanFilter.h" />
@@ -181,8 +186,12 @@
     <ClInclude Include="ximgproc_EdgeBoxes.h" />
     <ClInclude Include="ximgproc_EdgeFilter.h" />
     <ClInclude Include="ximgproc_FastLineDetector.h" />
+    <ClInclude Include="ximgproc_ContourFitting.h" />
+    <ClInclude Include="ximgproc_DisparityFilter.h" />
     <ClInclude Include="ximgproc_RidgeDetectionFilter.h" />
+    <ClInclude Include="ximgproc_ScanSegment.h" />
     <ClInclude Include="ximgproc_Segmentation.h" />
+    <ClInclude Include="ximgproc_SparseMatchInterpolator.h" />
     <ClInclude Include="ximgproc_StructuredEdgeDetection.h" />
     <ClInclude Include="ximgproc_SuperPixel.h" />
     <ClInclude Include="xphoto.h" />

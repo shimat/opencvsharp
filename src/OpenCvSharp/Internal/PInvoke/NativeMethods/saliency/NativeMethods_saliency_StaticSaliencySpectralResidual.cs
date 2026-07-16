@@ -43,4 +43,12 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_setImageHeight(
         OpenCvSafeHandle obj, int val);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_write(
+        OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_StaticSaliencySpectralResidual_read(
+        OpenCvSafeHandle obj, IntPtr fn);
 }

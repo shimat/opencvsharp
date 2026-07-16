@@ -29,14 +29,14 @@ public sealed class OCRTesseract : BaseOCR
     /// <param name="psmode">tesseract-ocr offers different Page Segmentation Modes (PSM) tesseract::PSM_AUTO (fully automatic layout analysis) is used.
     /// See the tesseract-ocr API documentation for other possible values.</param>
     public static OCRTesseract Create(
-        string? datapath = null, 
+        string? datapath = null,
         string? language = null,
-        string? charWhitelist = null, 
-        int oem = 3, 
-        int psmode = 3)
+        string? charWhitelist = null,
+        OcrEngineMode oem = OcrEngineMode.Default,
+        PageSegMode psmode = PageSegMode.Auto)
     {
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var smartPtr));
+            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, (int)oem, (int)psmode, out var smartPtr));
         NativeMethods.HandleException(
             NativeMethods.text_Ptr_OCRTesseract_get(smartPtr, out var rawPtr));
         return new OCRTesseract(smartPtr, rawPtr);

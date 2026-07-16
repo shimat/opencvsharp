@@ -22,7 +22,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
     /// ptr is disposed when the wrapper disposes. 
     /// </summary>
     /// <param name="ptr"></param>
-    internal static FarnebackOpticalFlow FromPtr(IntPtr ptr)
+    internal static new FarnebackOpticalFlow FromPtr(IntPtr ptr)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");

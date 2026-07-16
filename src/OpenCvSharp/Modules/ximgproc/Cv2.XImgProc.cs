@@ -491,6 +491,123 @@ public static partial class Cv2
 
         #endregion
 
+        #region disparity_filter.hpp
+
+        /// <summary>
+        /// Convenience factory method that creates an instance of DisparityWLSFilter and sets up all the
+        /// relevant filter parameters automatically based on the matcher instance. Currently supports only
+        /// StereoBM and StereoSGBM.
+        /// </summary>
+        /// <param name="matcherLeft">stereo matcher instance that will be used with the filter.</param>
+        /// <returns></returns>
+        public static DisparityWLSFilter CreateDisparityWLSFilter(StereoMatcher matcherLeft)
+        {
+            return DisparityWLSFilter.Create(matcherLeft);
+        }
+
+        /// <summary>
+        /// More generic factory method, creates an instance of DisparityWLSFilter and executes basic
+        /// initialization routines. When using this method you will need to set up the ROI, matchers and
+        /// other parameters by yourself.
+        /// </summary>
+        /// <param name="useConfidence">filtering with confidence requires two disparity maps (for the left
+        /// and right views) and is approximately two times slower. However, quality is typically
+        /// significantly better.</param>
+        /// <returns></returns>
+        public static DisparityWLSFilter CreateDisparityWLSFilterGeneric(bool useConfidence)
+        {
+            return DisparityWLSFilter.CreateGeneric(useConfidence);
+        }
+
+        /// <summary>
+        /// Convenience method to set up the matcher for computing the right-view disparity map that is
+        /// required in case of filtering with confidence.
+        /// </summary>
+        /// <param name="matcherLeft">main stereo matcher instance that will be used with the filter.</param>
+        /// <returns></returns>
+        public static StereoMatcher CreateRightMatcher(StereoMatcher matcherLeft)
+        {
+            ArgumentNullException.ThrowIfNull(matcherLeft);
+            matcherLeft.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createRightMatcher(matcherLeft.SmartPtr, out var ret));
+            GC.KeepAlive(matcherLeft);
+
+            return StereoMatcher.FromPtr(ret);
+        }
+
+        /// <summary>
+        /// Function for reading ground truth disparity maps. Supports basic Middlebury and MPI-Sintel
+        /// formats. Note that the resulting disparity map is scaled by 16.
+        /// </summary>
+        /// <param name="srcPath">path to the image, containing ground-truth disparity map.</param>
+        /// <param name="dst">output disparity map, CV_16S depth.</param>
+        /// <returns>returns zero if successfully read the ground truth.</returns>
+        public static int ReadGT(string srcPath, OutputArray dst)
+        {
+            ArgumentNullException.ThrowIfNull(srcPath);
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_readGT(srcPath, dst.Proxy, out var ret));
+
+            GC.KeepAlive(dst.Source);
+            return ret;
+        }
+
+        /// <summary>
+        /// Function for computing mean square error for disparity maps.
+        /// </summary>
+        /// <param name="gt">ground truth disparity map.</param>
+        /// <param name="src">disparity map to evaluate.</param>
+        /// <param name="roi">region of interest.</param>
+        /// <returns>returns mean square error between GT and src.</returns>
+        public static double ComputeMSE(InputArray gt, InputArray src, Rect roi)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_computeMSE(gt.Proxy, src.Proxy, roi, out var ret));
+
+            GC.KeepAlive(gt.Source);
+            GC.KeepAlive(src.Source);
+            return ret;
+        }
+
+        /// <summary>
+        /// Function for computing the percent of "bad" pixels in the disparity map (pixels where error is
+        /// higher than a specified threshold).
+        /// </summary>
+        /// <param name="gt">ground truth disparity map.</param>
+        /// <param name="src">disparity map to evaluate.</param>
+        /// <param name="roi">region of interest.</param>
+        /// <param name="thresh">threshold used to determine "bad" pixels.</param>
+        /// <returns>returns mean square error between GT and src.</returns>
+        public static double ComputeBadPixelPercent(InputArray gt, InputArray src, Rect roi, int thresh = 24)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_computeBadPixelPercent(gt.Proxy, src.Proxy, roi, thresh, out var ret));
+
+            GC.KeepAlive(gt.Source);
+            GC.KeepAlive(src.Source);
+            return ret;
+        }
+
+        /// <summary>
+        /// Function for creating a disparity map visualization (clamped CV_8U image).
+        /// </summary>
+        /// <param name="src">input disparity map (CV_16S depth).</param>
+        /// <param name="dst">output visualization.</param>
+        /// <param name="scale">disparity map will be multiplied by this value for visualization.</param>
+        public static void GetDisparityVis(InputArray src, OutputArray dst, double scale = 1.0)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_getDisparityVis(src.Proxy, dst.Proxy, scale));
+
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
+        }
+
+        #endregion
+
         #region edge_drawing.hpp
 
         /// <summary>
@@ -959,6 +1076,93 @@ public static partial class Cv2
 
         #endregion
 
+        #region find_ellipses.hpp
+
+        /// <summary>
+        /// Finds ellipses fastly in an image using projective invariant pruning.
+        /// </summary>
+        /// <param name="image">input image, could be gray or color.</param>
+        /// <param name="ellipses">output vector of found ellipses. each vector is encoded as five float x, y, a, b, radius, score.</param>
+        /// <param name="scoreThreshold">the threshold of ellipse score.</param>
+        /// <param name="reliabilityThreshold">the threshold of reliability.</param>
+        /// <param name="centerDistanceThreshold">the threshold of center distance.</param>
+        public static void FindEllipses(
+            InputArray image, OutputArray ellipses,
+            float scoreThreshold = 0.7f, float reliabilityThreshold = 0.5f, float centerDistanceThreshold = 0.05f)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_findEllipses(
+                    image.Proxy, ellipses.Proxy, scoreThreshold, reliabilityThreshold, centerDistanceThreshold));
+
+            GC.KeepAlive(image.Source);
+            GC.KeepAlive(ellipses.Source);
+        }
+
+        #endregion
+
+        #region fourier_descriptors.hpp
+
+        /// <summary>
+        /// Creates a ContourFitting algorithm object.
+        /// </summary>
+        /// <param name="ctr">number of Fourier descriptors equal to number of contour points after resampling.</param>
+        /// <param name="fd">number of Fourier descriptors used for optimal curve matching.</param>
+        /// <returns></returns>
+        public static ContourFitting CreateContourFitting(int ctr = 1024, int fd = 16)
+        {
+            return ContourFitting.Create(ctr, fd);
+        }
+
+        /// <summary>
+        /// Fourier descriptors for planar closed curves.
+        /// </summary>
+        /// <param name="src">contour type vector&lt;Point&gt;, vector&lt;Point2f&gt; or vector&lt;Point2d&gt;.</param>
+        /// <param name="dst">Mat of type CV_64FC2 and nbElt rows.</param>
+        /// <param name="nbElt">number of rows in dst, or getOptimalDFTSize rows if nbElt=-1.</param>
+        /// <param name="nbFD">number of FD returned in dst; dst = [FD(1...nbFD/2) FD(nbFD/2-nbElt+1...:nbElt)].</param>
+        public static void FourierDescriptor(InputArray src, OutputArray dst, int nbElt = -1, int nbFD = -1)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_fourierDescriptor(src.Proxy, dst.Proxy, nbElt, nbFD));
+
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
+        }
+
+        /// <summary>
+        /// Transform a contour using Fourier descriptors.
+        /// </summary>
+        /// <param name="src">contour or Fourier descriptors if fdContour is true.</param>
+        /// <param name="t">transform Mat given by ContourFitting.EstimateTransformation.</param>
+        /// <param name="dst">Mat of type CV_64FC2 and nbElt rows.</param>
+        /// <param name="fdContour">true if src are Fourier descriptors; false if src is a contour.</param>
+        public static void TransformFD(InputArray src, InputArray t, OutputArray dst, bool fdContour = true)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_transformFD(src.Proxy, t.Proxy, dst.Proxy, fdContour ? 1 : 0));
+
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(t.Source);
+            GC.KeepAlive(dst.Source);
+        }
+
+        /// <summary>
+        /// Contour sampling.
+        /// </summary>
+        /// <param name="src">contour type vector&lt;Point&gt;, vector&lt;Point2f&gt; or vector&lt;Point2d&gt;.</param>
+        /// <param name="outArray">Mat of type CV_64FC2 and nbElt rows.</param>
+        /// <param name="nbElt">number of points in the output contour.</param>
+        public static void ContourSampling(InputArray src, OutputArray outArray, int nbElt)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_contourSampling(src.Proxy, outArray.Proxy, nbElt));
+
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(outArray.Source);
+        }
+
+        #endregion
+
         #region lsc.hpp
 
         /// <summary>
@@ -1056,6 +1260,63 @@ public static partial class Cv2
 
         #endregion
 
+        #region radon_transform.hpp
+
+        /// <summary>
+        /// Calculate Radon Transform of an image.
+        /// </summary>
+        /// <remarks>
+        /// This function calculates the Radon Transform of a given image in any range.
+        /// See https://engineering.purdue.edu/~malcolm/pct/CTI_Ch03.pdf for detail.
+        /// If the input type is CV_8U, the output will be CV_32S.
+        /// If the input type is CV_32F or CV_64F, the output will be CV_64F.
+        /// The output size will be num_of_integral x src_diagonal_length.
+        /// If crop is selected, the input image will be cropped into a square then a circle,
+        /// and the output size will be num_of_integral x min_edge.
+        /// </remarks>
+        /// <param name="src">The source (input) image.</param>
+        /// <param name="dst">The destination image, result of transformation.</param>
+        /// <param name="theta">Angle resolution of the transform in degrees.</param>
+        /// <param name="startAngle">Start angle of the transform in degrees.</param>
+        /// <param name="endAngle">End angle of the transform in degrees.</param>
+        /// <param name="crop">Crop the source image into a circle.</param>
+        /// <param name="norm">Normalize the output Mat to grayscale and convert type to CV_8U.</param>
+        public static void RadonTransform(
+            InputArray src, OutputArray dst,
+            double theta = 1, double startAngle = 0, double endAngle = 180, bool crop = false, bool norm = false)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_RadonTransform(
+                    src.Proxy, dst.Proxy, theta, startAngle, endAngle, crop ? 1 : 0, norm ? 1 : 0));
+
+            GC.KeepAlive(src.Source);
+            GC.KeepAlive(dst.Source);
+        }
+
+        #endregion
+
+        #region scansegment.hpp
+
+        /// <summary>
+        /// Initializes a ScanSegment object.
+        /// </summary>
+        /// <param name="imageWidth">Image width.</param>
+        /// <param name="imageHeight">Image height.</param>
+        /// <param name="numSuperpixels">Desired number of superpixels. Note that the actual number may be
+        /// smaller due to restrictions (depending on the image size). Use GetNumberOfSuperpixels() to get
+        /// the actual number.</param>
+        /// <param name="slices">Number of processing threads for parallelisation. Setting -1 uses the
+        /// maximum number of threads.</param>
+        /// <param name="mergeSmall">Merge small segments to give the desired number of superpixels.</param>
+        /// <returns></returns>
+        public static ScanSegment CreateScanSegment(
+            int imageWidth, int imageHeight, int numSuperpixels, int slices = 8, bool mergeSmall = true)
+        {
+            return ScanSegment.Create(imageWidth, imageHeight, numSuperpixels, slices, mergeSmall);
+        }
+
+        #endregion
+
         #region seeds.hpp
 
         /// <summary>
@@ -1094,6 +1355,28 @@ public static partial class Cv2
         {
             return SuperpixelSEEDS.Create(
                 imageWidth, imageHeight, imageChannels, numSuperpixels, numLevels, prior, histogramBins, doubleStep);
+        }
+
+        #endregion
+
+        #region sparse_match_interpolator.hpp
+
+        /// <summary>
+        /// Factory method that creates an instance of the EdgeAwareInterpolator.
+        /// </summary>
+        /// <returns></returns>
+        public static EdgeAwareInterpolator CreateEdgeAwareInterpolator()
+        {
+            return EdgeAwareInterpolator.Create();
+        }
+
+        /// <summary>
+        /// Factory method that creates an instance of the RICInterpolator.
+        /// </summary>
+        /// <returns></returns>
+        public static RICInterpolator CreateRICInterpolator()
+        {
+            return RICInterpolator.Create();
         }
 
         #endregion

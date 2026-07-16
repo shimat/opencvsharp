@@ -178,6 +178,20 @@ CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_collectGarbage(cv::superres:
     });
 }
 
+CVAPI(ExceptionStatus) superres_Ptr_DenseOpticalFlowExt_get(cv::Ptr<cv::superres::DenseOpticalFlowExt> *obj, cv::superres::DenseOpticalFlowExt **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = obj->get();
+    });
+}
+
+CVAPI(ExceptionStatus) superres_Ptr_DenseOpticalFlowExt_delete(cv::Ptr<cv::superres::DenseOpticalFlowExt> *ptr)
+{
+    return cvTry([&] {
+        delete ptr;
+    });
+}
+
 #pragma region FarnebackOpticalFlow
 
 CVAPI(ExceptionStatus) superres_createOptFlow_Farneback(cv::Ptr<cv::superres::FarnebackOpticalFlow> **returnValue)

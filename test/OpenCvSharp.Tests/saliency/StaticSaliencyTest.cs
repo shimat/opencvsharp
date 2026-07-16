@@ -1,3 +1,4 @@
+using System.IO;
 using OpenCvSharp.Saliency;
 using Xunit;
 
@@ -60,6 +61,30 @@ public class StaticSaliencyTest : TestBase
     }
 
     [Fact]
+    public void SpectralResidual_ReadWrite()
+    {
+        // StaticSaliencySpectralResidual::write/read are empty stubs upstream (params (de)serialization
+        // is commented out in opencv_contrib), so this only exercises the P/Invoke plumbing - in
+        // particular that it survives cv::saliency::Saliency's virtual inheritance from cv::Algorithm -
+        // rather than asserting any round-tripped content.
+        using var saliency = StaticSaliencySpectralResidual.Create();
+        saliency.ImageWidth = 128;
+        saliency.ImageHeight = 96;
+
+        var fileName = Path.Combine(Path.GetTempPath(), "static_saliency_spectral_residual_test.yml");
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("marker", 1);
+            saliency.Write(fs);
+        }
+
+        using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+        var root = fs2.Root();
+        Assert.NotNull(root);
+        saliency.Read(root);
+    }
+
+    [Fact]
     public void FineGrained_CreateAndDispose()
     {
         using var saliency = StaticSaliencyFineGrained.Create();
@@ -96,5 +121,26 @@ public class StaticSaliencyTest : TestBase
         Assert.False(binaryMap.Empty());
         Assert.Equal(src.Rows, binaryMap.Rows);
         Assert.Equal(src.Cols, binaryMap.Cols);
+    }
+
+    [Fact]
+    public void FineGrained_ReadWrite()
+    {
+        // cv::saliency::Saliency inherits Algorithm virtually; this exercises the P/Invoke plumbing
+        // that keeps the native pointer at its concrete type across the write/read call, rather than
+        // reinterpreting it as cv::Algorithm* (which would corrupt memory - see SpectralResidual_ReadWrite above).
+        using var saliency = StaticSaliencyFineGrained.Create();
+
+        var fileName = Path.Combine(Path.GetTempPath(), "static_saliency_fine_grained_test.yml");
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("marker", 1);
+            saliency.Write(fs);
+        }
+
+        using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+        var root = fs2.Root();
+        Assert.NotNull(root);
+        saliency.Read(root);
     }
 }

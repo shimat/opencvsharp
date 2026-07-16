@@ -180,6 +180,13 @@ CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setCostExtractor(cv::
     });
 }
 
+CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getCostExtractor(cv::ShapeContextDistanceExtractor *obj, cv::Ptr<cv::HistogramCostExtractor> **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::Ptr<cv::HistogramCostExtractor>(obj->getCostExtractor());
+    });
+}
+
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setStdDev(cv::ShapeContextDistanceExtractor *obj, float val)
 {
     return cvTry([&] {

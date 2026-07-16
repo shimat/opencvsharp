@@ -358,4 +358,19 @@ static partial class Cv2
 
         GC.KeepAlive(src.Source);
     }
+
+    /// <summary>
+    /// Applies gamma correction to the input image.
+    /// </summary>
+    /// <param name="src">Input image.</param>
+    /// <param name="dst">Output image.</param>
+    /// <param name="gamma">Gamma correction greater than zero.</param>
+    public static void GammaCorrection(InputArray src, OutputArray dst, double gamma)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.photo_ccm_gammaCorrection(src.Proxy, dst.Proxy, gamma));
+
+        GC.KeepAlive(src.Source);
+        GC.KeepAlive(dst.Source);
+    }
 }

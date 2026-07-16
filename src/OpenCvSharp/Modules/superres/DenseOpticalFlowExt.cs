@@ -17,7 +17,21 @@ public abstract class DenseOpticalFlowExt : Algorithm
         : base(smartPtr, rawPtr, release) { }
 
     /// <summary>
-    /// 
+    /// Creates instance from cv::Ptr&lt;T&gt; .
+    /// ptr is disposed when the wrapper disposes.
+    /// </summary>
+    /// <param name="ptr"></param>
+    internal static DenseOpticalFlowExt FromPtr(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Invalid DenseOpticalFlowExt pointer");
+
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_DenseOpticalFlowExt_get(ptr, out var rawPtr));
+        return new GenericDenseOpticalFlowExt(ptr, rawPtr);
+    }
+
+    /// <summary>
+    ///
     /// </summary>
     /// <returns></returns>
     public static DenseOpticalFlowExt CreateFarneback()
@@ -110,5 +124,13 @@ public abstract class DenseOpticalFlowExt : Algorithm
         GC.KeepAlive(frame1.Source);
         GC.KeepAlive(flow1.Source);
         GC.KeepAlive(flow2.Source);
+    }
+
+    private sealed class GenericDenseOpticalFlowExt : DenseOpticalFlowExt
+    {
+        public GenericDenseOpticalFlowExt(IntPtr smartPtr, IntPtr rawPtr)
+            : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.superres_Ptr_DenseOpticalFlowExt_delete(p)))
+        {
+        }
     }
 }

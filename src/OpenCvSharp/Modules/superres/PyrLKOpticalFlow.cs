@@ -22,7 +22,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
     /// ptr is disposed when the wrapper disposes. 
     /// </summary>
     /// <param name="ptr"></param>
-    internal static PyrLKOpticalFlow FromPtr(IntPtr ptr)
+    internal static new PyrLKOpticalFlow FromPtr(IntPtr ptr)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");

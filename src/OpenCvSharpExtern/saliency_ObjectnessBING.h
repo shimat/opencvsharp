@@ -104,4 +104,22 @@ CVAPI(ExceptionStatus) saliency_ObjectnessBING_setW(cv::saliency::ObjectnessBING
     });
 }
 
+// write/read are called directly on the concrete type here (rather than going through the generic
+// core_Algorithm_write/read, which take a cv::Algorithm*): cv::saliency::Saliency inherits Algorithm
+// virtually, so a raw pointer obtained as ObjectnessBING* cannot be safely reinterpreted as Algorithm*
+// on the managed side without the compiler-generated virtual-base offset adjustment.
+CVAPI(ExceptionStatus) saliency_ObjectnessBING_write(cv::saliency::ObjectnessBING *obj, cv::FileStorage *fs)
+{
+    return cvTry([&] {
+        obj->write(*fs);
+    });
+}
+
+CVAPI(ExceptionStatus) saliency_ObjectnessBING_read(cv::saliency::ObjectnessBING *obj, cv::FileNode *fn)
+{
+    return cvTry([&] {
+        obj->read(*fn);
+    });
+}
+
 #endif // NO_CONTRIB

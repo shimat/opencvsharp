@@ -14,7 +14,12 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, in InputArrayProxy frame0, in InputArrayProxy frame1, in OutputArrayProxy flow1, in OutputArrayProxy flow2);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus superres_DenseOpticalFlowExt_collectGarbage(OpenCvSafeHandle obj);
-        
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus superres_Ptr_DenseOpticalFlowExt_get(IntPtr ptr, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus superres_Ptr_DenseOpticalFlowExt_delete(IntPtr ptr);
+
     #region FarnebackOpticalFlow
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

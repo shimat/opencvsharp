@@ -1,3 +1,4 @@
+using System.IO;
 using OpenCvSharp.Saliency;
 using Xunit;
 
@@ -64,5 +65,28 @@ public class MotionSaliencyTest : TestBase
         Assert.False(saliencyMap2.Empty());
         Assert.Equal(height, saliencyMap2.Rows);
         Assert.Equal(width, saliencyMap2.Cols);
+    }
+
+    [Fact]
+    public void ReadWrite()
+    {
+        // cv::saliency::Saliency inherits Algorithm virtually; this exercises the P/Invoke plumbing
+        // that keeps the native pointer at its concrete type across the write/read call, rather than
+        // reinterpreting it as cv::Algorithm* (which would corrupt memory - see StaticSaliencyTest's
+        // SpectralResidual_ReadWrite for the full explanation).
+        using var saliency = MotionSaliencyBinWangApr2014.Create();
+        saliency.SetImagesize(64, 48);
+
+        var fileName = Path.Combine(Path.GetTempPath(), "motion_saliency_bin_wang_apr2014_test.yml");
+        using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+        {
+            fs.Write("marker", 1);
+            saliency.Write(fs);
+        }
+
+        using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+        var root = fs2.Root();
+        Assert.NotNull(root);
+        saliency.Read(root);
     }
 }

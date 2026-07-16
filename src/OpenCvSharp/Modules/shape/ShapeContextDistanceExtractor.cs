@@ -305,6 +305,19 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     }
 
     /// <summary>
+    /// Gets the histogram cost extractor used internally during shape matching.
+    /// </summary>
+    /// <returns>The cost extractor currently in use.</returns>
+    public HistogramCostExtractor GetCostExtractor()
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.shape_ShapeContextDistanceExtractor_getCostExtractor(Handle, out var ptr));
+        return HistogramCostExtractor.FromPtr(ptr);
+    }
+
+    /// <summary>
     /// Sets the shape transformer used internally during shape matching.
     /// </summary>
     /// <param name="transformer">The shape transformer to use.</param>
@@ -327,6 +340,19 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         }
 
         GC.KeepAlive(transformer);
+    }
+
+    /// <summary>
+    /// Gets the shape transformer used internally during shape matching.
+    /// </summary>
+    /// <returns>The shape transformer currently in use.</returns>
+    public ShapeTransformer GetTransformAlgorithm()
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.shape_ShapeContextDistanceExtractor_getTransformAlgorithm(Handle, out var ptr));
+        return ShapeTransformer.FromPtr(ptr);
     }
 
     #endregion

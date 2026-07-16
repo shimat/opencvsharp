@@ -398,4 +398,179 @@ public class XImgProcTest : TestBase
             Window.ShowImages(src, warped);
         }
     }
+
+    // find_ellipses.hpp
+
+    [Fact]
+    public void FindEllipses()
+    {
+        // Neither lenna.png nor mandrill.png contains ellipses strong enough to pass the default
+        // thresholds, so this only proves the InputArray/OutputArray params marshal correctly and
+        // the call reaches native without throwing - not that any ellipse is actually found.
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
+        using var ellipses = new Mat();
+        Cv2.XImgProc.FindEllipses(src, ellipses);
+        Assert.NotNull(ellipses);
+    }
+
+    // radon_transform.hpp
+
+    [Fact]
+    public void RadonTransform()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
+        Cv2.XImgProc.RadonTransform(src, dst);
+        Assert.False(dst.Empty());
+    }
+
+    // scansegment.hpp
+
+    [Fact]
+    public void ScanSegment()
+    {
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
+        using var lab = new Mat();
+        Cv2.CvtColor(src, lab, ColorConversionCodes.BGR2Lab);
+
+        using var scanSegment = Cv2.XImgProc.CreateScanSegment(src.Width, src.Height, numSuperpixels: 400);
+        scanSegment.Iterate(lab);
+
+        Assert.True(scanSegment.GetNumberOfSuperpixels() > 0);
+
+        using var labels = new Mat();
+        scanSegment.GetLabels(labels);
+        Assert.False(labels.Empty());
+
+        using var mask = new Mat();
+        scanSegment.GetLabelContourMask(mask);
+        Assert.False(mask.Empty());
+    }
+
+    // fourier_descriptors.hpp
+
+    [Fact]
+    public void ContourFitting()
+    {
+        using var contourFitting = Cv2.XImgProc.CreateContourFitting();
+        Assert.Equal(1024, contourFitting.CtrSize);
+        Assert.Equal(16, contourFitting.FDSize);
+
+        var src = CirclePoints(new Point2f(32, 32), 20, 16);
+        var dst = CirclePoints(new Point2f(40, 40), 24, 16);
+        using var srcMat = Mat.FromArray(src);
+        using var dstMat = Mat.FromArray(dst);
+        using var alphaPhiST = new Mat();
+
+        contourFitting.EstimateTransformation(srcMat, dstMat, alphaPhiST, out var dist);
+        Assert.False(alphaPhiST.Empty());
+        Assert.True(dist >= 0);
+    }
+
+    [Fact]
+    public void FourierDescriptorAndContourSampling()
+    {
+        var pts = CirclePoints(new Point2f(32, 32), 20, 16);
+        using var contour = Mat.FromArray(pts);
+
+        using var sampled = new Mat();
+        Cv2.XImgProc.ContourSampling(contour, sampled, 32);
+        Assert.False(sampled.Empty());
+
+        using var fd = new Mat();
+        Cv2.XImgProc.FourierDescriptor(sampled, fd);
+        Assert.False(fd.Empty());
+
+        using var transformed = new Mat();
+        Cv2.XImgProc.TransformFD(sampled, Mat.Eye(1, 5, MatType.CV_64FC1), transformed, fdContour: false);
+        Assert.False(transformed.Empty());
+    }
+
+    // disparity_filter.hpp
+
+    [Fact]
+    public void DisparityWLSFilter()
+    {
+        using var left = LoadImage("lenna.png", ImreadModes.Grayscale);
+        using var right = left.Clone();
+
+        using var matcherLeft = StereoBM.Create(numDisparities: 16, blockSize: 15);
+        using var matcherRight = Cv2.XImgProc.CreateRightMatcher(matcherLeft);
+        using var wls = Cv2.XImgProc.CreateDisparityWLSFilter(matcherLeft);
+
+        using var leftDisp = new Mat();
+        using var rightDisp = new Mat();
+        matcherLeft.Compute(left, right, leftDisp);
+        matcherRight.Compute(right, left, rightDisp);
+
+        using var filteredDisp = new Mat();
+        wls.Filter(leftDisp, left, filteredDisp, rightDisp);
+        Assert.False(filteredDisp.Empty());
+
+        using var vis = new Mat();
+        Cv2.XImgProc.GetDisparityVis(filteredDisp, vis);
+        Assert.False(vis.Empty());
+
+        Assert.True(wls.Lambda > 0);
+        Assert.True(wls.SigmaColor > 0);
+    }
+
+    // sparse_match_interpolator.hpp
+
+    [Fact]
+    public void EdgeAwareInterpolator()
+    {
+        using var interpolator = Cv2.XImgProc.CreateEdgeAwareInterpolator();
+        Assert.True(interpolator.K > 0);
+
+        interpolator.K = 64;
+        Assert.Equal(64, interpolator.K);
+
+        using var fromImage = LoadImage("lenna.png", ImreadModes.Color);
+        using var toImage = fromImage.Clone();
+        var fromPts = new[] { new Point2f(10, 10), new Point2f(50, 50), new Point2f(100, 100) };
+        var toPts = new[] { new Point2f(11, 11), new Point2f(51, 51), new Point2f(101, 101) };
+        using var fromPtsMat = Mat.FromArray(fromPts);
+        using var toPtsMat = Mat.FromArray(toPts);
+        using var denseFlow = new Mat();
+
+        interpolator.Interpolate(fromImage, fromPtsMat, toImage, toPtsMat, denseFlow);
+        Assert.False(denseFlow.Empty());
+    }
+
+    [Fact]
+    public void RICInterpolator()
+    {
+        using var interpolator = Cv2.XImgProc.CreateRICInterpolator();
+        Assert.True(interpolator.K > 0);
+
+        interpolator.K = 16;
+        Assert.Equal(16, interpolator.K);
+
+        using var fromImage = LoadImage("lenna.png", ImreadModes.Color);
+        using var toImage = fromImage.Clone();
+        var fromPts = new[] { new Point2f(10, 10), new Point2f(50, 50), new Point2f(100, 100) };
+        var toPts = new[] { new Point2f(11, 11), new Point2f(51, 51), new Point2f(101, 101) };
+        using var fromPtsMat = Mat.FromArray(fromPts);
+        using var toPtsMat = Mat.FromArray(toPts);
+        using var denseFlow = new Mat();
+
+        interpolator.Interpolate(fromImage, fromPtsMat, toImage, toPtsMat, denseFlow);
+        Assert.False(denseFlow.Empty());
+    }
+
+    // ---- helpers ----
+
+    private static Point2f[] CirclePoints(Point2f center, float radius, int count)
+    {
+        var pts = new Point2f[count];
+        for (int i = 0; i < count; i++)
+        {
+            double angle = 2 * Math.PI * i / count;
+            pts[i] = new Point2f(
+                center.X + (float)(radius * Math.Cos(angle)),
+                center.Y + (float)(radius * Math.Sin(angle)));
+        }
+        return pts;
+    }
 }
