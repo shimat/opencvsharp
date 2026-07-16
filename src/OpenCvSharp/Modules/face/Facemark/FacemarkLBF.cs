@@ -61,6 +61,7 @@ public sealed class FacemarkLBF : FacemarkTrain
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(fs);
+        fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(NativeMethods.face_FacemarkLBF_write(Handle, fs.CvPtr));
         GC.KeepAlive(fs);
@@ -77,6 +78,7 @@ public sealed class FacemarkLBF : FacemarkTrain
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(fn);
+        fn.ThrowIfDisposed();
 
         NativeMethods.HandleException(NativeMethods.face_FacemarkLBF_read(Handle, fn.CvPtr));
         GC.KeepAlive(fn);
@@ -202,6 +204,7 @@ public sealed class FacemarkLBF : FacemarkTrain
         public void Read(FileNode fn)
         {
             ArgumentNullException.ThrowIfNull(fn);
+            fn.ThrowIfDisposed();
             var p = ToNative();
             try
             {
@@ -223,6 +226,7 @@ public sealed class FacemarkLBF : FacemarkTrain
         public void Write(FileStorage fs)
         {
             ArgumentNullException.ThrowIfNull(fs);
+            fs.ThrowIfDisposed();
             var p = ToNative();
             try
             {

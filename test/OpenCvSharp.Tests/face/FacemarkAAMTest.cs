@@ -191,7 +191,7 @@ public class FacemarkAAMTest : TestBase
         // than reinterpreting it as cv::Algorithm* (which would corrupt memory).
         using var facemark = FacemarkAAM.Create();
 
-        var fileName = Path.Combine(Path.GetTempPath(), "facemark_aam_test.yml");
+        var fileName = Path.Combine(Path.GetTempPath(), $"facemark_aam_test_{Guid.NewGuid():N}.yml");
         try
         {
             using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))

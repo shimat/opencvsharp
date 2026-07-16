@@ -113,6 +113,7 @@ public sealed class FacemarkKazemi : Facemark
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(fs);
+        fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(NativeMethods.face_FacemarkKazemi_write(Handle, fs.CvPtr));
         GC.KeepAlive(fs);
@@ -129,6 +130,7 @@ public sealed class FacemarkKazemi : Facemark
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(fn);
+        fn.ThrowIfDisposed();
 
         NativeMethods.HandleException(NativeMethods.face_FacemarkKazemi_read(Handle, fn.CvPtr));
         GC.KeepAlive(fn);
