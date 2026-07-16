@@ -10,6 +10,30 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_averageHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_blockMeanHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr, int mode);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_colorMomentHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_marrHildrethHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr, float alpha, float scale);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_pHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus img_hash_radialVarianceHash(
+        in InputArrayProxy inputArr, in OutputArrayProxy outputArr, double sigma, int numOfAngleLine);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus img_hash_ImgHashBase_compute(OpenCvSafeHandle obj, in InputArrayProxy inputArr, in OutputArrayProxy outputArr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

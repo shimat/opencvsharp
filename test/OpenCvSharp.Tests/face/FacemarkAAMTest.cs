@@ -1,3 +1,4 @@
+using System.IO;
 using OpenCvSharp.Face;
 using Xunit;
 
@@ -42,6 +43,17 @@ public class FacemarkAAMTest : TestBase
         Assert.True(parameter.Verbose);
         Assert.True(parameter.SaveModel);
         Assert.NotEmpty(parameter.Scales);
+    }
+
+    [Fact]
+    public void FitConfigDefaults()
+    {
+        var config = new FacemarkAAM.Config();
+
+        Assert.Null(config.Rotation);
+        Assert.Equal(default, config.Translation);
+        Assert.Equal(1.0f, config.Scale);
+        Assert.Equal(0, config.ModelScaleIndex);
     }
 
     /*
@@ -156,6 +168,47 @@ public class FacemarkAAMTest : TestBase
             Assert.True(parameter.Verbose);
             parameter.Verbose = false;
             Assert.False(parameter.Verbose);
+        }
+    }
+
+    [Fact]
+    public void GetData_ReturnsMeanShape()
+    {
+        // FacemarkAAMImpl::getData() unconditionally returns true and copies whatever mean shape
+        // the model currently holds (empty before training) - this proves the typed
+        // FacemarkAAM::Data(&data) marshaling reaches native and copies s0 back without crashing.
+        using var facemark = FacemarkAAM.Create();
+        var result = facemark.GetData(out var s0);
+        Assert.True(result);
+        Assert.NotNull(s0);
+    }
+
+    [Fact]
+    public void ReadWrite()
+    {
+        // cv::face::Facemark inherits Algorithm virtually; this exercises the P/Invoke plumbing
+        // that keeps the native pointer at its concrete type across the write/read call, rather
+        // than reinterpreting it as cv::Algorithm* (which would corrupt memory).
+        using var facemark = FacemarkAAM.Create();
+
+        var fileName = Path.Combine(Path.GetTempPath(), $"facemark_aam_test_{Guid.NewGuid():N}.yml");
+        try
+        {
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+            {
+                fs.Write("marker", 1);
+                facemark.Write(fs);
+            }
+
+            using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+            var root = fs2.Root();
+            Assert.NotNull(root);
+            facemark.Read(root);
+        }
+        finally
+        {
+            if (File.Exists(fileName))
+                File.Delete(fileName);
         }
     }
 }

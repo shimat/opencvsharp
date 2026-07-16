@@ -62,6 +62,16 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_predict2(
     });
 }
 
+CVAPI(ExceptionStatus) face_FaceRecognizer_predictCollect(
+    cv::face::FaceRecognizer *obj,
+    const interop::InputArrayProxy* src,
+    cv::Ptr<cv::face::PredictCollector> *collector)
+{
+    return cvTry([&] {
+        obj->predict(InProxy(*src), *collector);
+    });
+}
+
 CVAPI(ExceptionStatus) face_FaceRecognizer_write1(cv::face::FaceRecognizer *obj, const char *filename)
 {
     return cvTry([&] {

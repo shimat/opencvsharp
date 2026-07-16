@@ -14,6 +14,20 @@ namespace OpenCvSharp.Internal.Vectors
             var p = NativeMethods.vector_KeyLine_new1();
             SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         }
+
+        /// <summary>
+        /// Creates a vector populated with key lines.
+        /// </summary>
+        public unsafe VectorOfKeyLine(IEnumerable<KeyLine> keyLines)
+        {
+            ArgumentNullException.ThrowIfNull(keyLines);
+            var data = keyLines.ToArray();
+            fixed (KeyLine* pointer = data)
+            {
+                var p = NativeMethods.vector_KeyLine_new2(pointer, (nuint)data.Length);
+                SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+            }
+        }
         
         /// <summary>
         /// Releases unmanaged resources
