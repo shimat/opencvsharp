@@ -55,4 +55,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_ObjectnessBING_setW(OpenCvSafeHandle obj, int val);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_ObjectnessBING_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_ObjectnessBING_read(OpenCvSafeHandle obj, IntPtr fn);
 }

@@ -21,6 +21,20 @@ public abstract class ShapeTransformer : Algorithm
     internal abstract IntPtr CreateBaseSmartPtr();
 
     /// <summary>
+    /// Creates instance from cv::Ptr&lt;T&gt; .
+    /// ptr is disposed when the wrapper disposes.
+    /// </summary>
+    /// <param name="ptr"></param>
+    internal static ShapeTransformer FromPtr(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Invalid ShapeTransformer pointer");
+
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeTransformer_get(ptr, out var rawPtr));
+        return new GenericShapeTransformer(ptr, rawPtr);
+    }
+
+    /// <summary>
     /// Estimate the transformation parameters of the current transformer algorithm, based on point matches.
     /// </summary>
     /// <param name="transformingShape">Contour defining first shape.</param>
@@ -89,5 +103,19 @@ public abstract class ShapeTransformer : Algorithm
                 borderValue.GetValueOrDefault(Scalar.All(0))));
 
         GC.KeepAlive(transformingImage.Source);
+    }
+
+    private sealed class GenericShapeTransformer : ShapeTransformer
+    {
+        public GenericShapeTransformer(IntPtr smartPtr, IntPtr rawPtr)
+            : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeTransformer_delete(p)))
+        {
+        }
+
+        internal override IntPtr CreateBaseSmartPtr()
+        {
+            NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeTransformer_copy(SmartPtr, out var copy));
+            return copy;
+        }
     }
 }

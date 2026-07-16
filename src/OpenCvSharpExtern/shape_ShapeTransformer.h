@@ -170,10 +170,31 @@ CVAPI(ExceptionStatus) shape_Ptr_ShapeTransformer_delete(cv::Ptr<cv::ShapeTransf
     });
 }
 
+CVAPI(ExceptionStatus) shape_Ptr_ShapeTransformer_get(cv::Ptr<cv::ShapeTransformer> *ptr, cv::ShapeTransformer **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = ptr->get();
+    });
+}
+
+CVAPI(ExceptionStatus) shape_Ptr_ShapeTransformer_copy(cv::Ptr<cv::ShapeTransformer> *src, cv::Ptr<cv::ShapeTransformer> **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::Ptr<cv::ShapeTransformer>(*src);
+    });
+}
+
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setTransformAlgorithm(cv::ShapeContextDistanceExtractor *obj, cv::Ptr<cv::ShapeTransformer> *transformer)
 {
     return cvTry([&] {
         obj->setTransformAlgorithm(*transformer);
+    });
+}
+
+CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getTransformAlgorithm(cv::ShapeContextDistanceExtractor *obj, cv::Ptr<cv::ShapeTransformer> **returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::Ptr<cv::ShapeTransformer>(obj->getTransformAlgorithm());
     });
 }
 

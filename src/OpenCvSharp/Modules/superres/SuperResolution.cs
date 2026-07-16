@@ -303,8 +303,6 @@ public class SuperResolution : Algorithm
         }
     }
 
-    // TODO
-    /*
     /// <summary>
     /// Dense optical flow algorithm
     /// </summary>
@@ -313,15 +311,21 @@ public class SuperResolution : Algorithm
         get
         {
             ThrowIfDisposed();
-            var res = NativeMethods.superres_SuperResolution_getOpticalFlow(CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_getOpticalFlow(Handle, out var ptr));
+            return DenseOpticalFlowExt.FromPtr(ptr);
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_setOpticalFlow(CvPtr, value);
+            ArgumentNullException.ThrowIfNull(value);
+            value.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_setOpticalFlow(Handle, value.SmartPtr));
+            GC.KeepAlive(value);
         }
     }
-    */
 
     #endregion
 

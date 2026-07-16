@@ -191,6 +191,20 @@ CVAPI(ExceptionStatus) ximgproc_HoughPoint2Line(
     });
 }
 
+// find_ellipses.hpp
+
+CVAPI(ExceptionStatus) ximgproc_findEllipses(
+    const interop::InputArrayProxy* image,
+    const interop::OutputArrayProxy* ellipses,
+    float scoreThreshold,
+    float reliabilityThreshold,
+    float centerDistanceThreshold)
+{
+    return cvTry([&] {
+        cv::ximgproc::findEllipses(InProxy(*image), OutProxy(*ellipses), scoreThreshold, reliabilityThreshold, centerDistanceThreshold);
+    });
+}
+
 // paillou_filter.hpp
 
 CVAPI(ExceptionStatus) ximgproc_GradientPaillouY(
@@ -235,6 +249,22 @@ CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(const interop::I
 {
     return cvTry([&] {
         cv::ximgproc::PeiLinNormalization(InProxy(*I), OutProxy(*T));
+    });
+}
+
+// radon_transform.hpp
+
+CVAPI(ExceptionStatus) ximgproc_RadonTransform(
+    const interop::InputArrayProxy* src,
+    const interop::OutputArrayProxy* dst,
+    double theta,
+    double startAngle,
+    double endAngle,
+    int crop,
+    int norm)
+{
+    return cvTry([&] {
+        cv::ximgproc::RadonTransform(InProxy(*src), OutProxy(*dst), theta, startAngle, endAngle, crop != 0, norm != 0);
     });
 }
 

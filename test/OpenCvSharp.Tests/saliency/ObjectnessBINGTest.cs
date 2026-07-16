@@ -1,3 +1,4 @@
+using System.IO;
 using OpenCvSharp.Saliency;
 using Xunit;
 
@@ -77,6 +78,39 @@ public class ObjectnessBINGTest : TestBase
         catch (Exception ex) when (ex is OpenCvSharpException or OpenCVException)
         {
             // Expected: no trained model path has been set.
+        }
+    }
+
+    [Fact]
+    public void ReadWrite()
+    {
+        // cv::saliency::Saliency inherits Algorithm virtually; this exercises the P/Invoke plumbing
+        // that keeps the native pointer at its concrete type across the write/read call, rather than
+        // reinterpreting it as cv::Algorithm* (which would corrupt memory - see StaticSaliencyTest's
+        // SpectralResidual_ReadWrite for the full explanation). ObjectnessBING doesn't override
+        // Algorithm::write/read, so this can't assert that any state round-trips - only that the
+        // calls reach native without crashing.
+        using var bing = ObjectnessBING.Create();
+        bing.Base = 2.0;
+
+        var fileName = Path.Combine(Path.GetTempPath(), "objectness_bing_test.yml");
+        try
+        {
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
+            {
+                fs.Write("marker", 1);
+                bing.Write(fs);
+            }
+
+            using var fs2 = new FileStorage(fileName, FileStorage.Modes.Read);
+            var root = fs2.Root();
+            Assert.NotNull(root);
+            bing.Read(root);
+        }
+        finally
+        {
+            if (File.Exists(fileName))
+                File.Delete(fileName);
         }
     }
 }

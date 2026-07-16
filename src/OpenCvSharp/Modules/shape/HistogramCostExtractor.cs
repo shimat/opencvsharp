@@ -12,6 +12,20 @@ public abstract class HistogramCostExtractor : Algorithm
         : base(smartPtr, rawPtr, release) { }
 
     /// <summary>
+    /// Creates instance from cv::Ptr&lt;T&gt; .
+    /// ptr is disposed when the wrapper disposes.
+    /// </summary>
+    /// <param name="ptr"></param>
+    internal static HistogramCostExtractor FromPtr(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Invalid HistogramCostExtractor pointer");
+
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_HistogramCostExtractor_get(ptr, out var rawPtr));
+        return new GenericHistogramCostExtractor(ptr, rawPtr);
+    }
+
+    /// <summary>
     /// Builds a cost matrix from two sets of descriptors.
     /// </summary>
     /// <param name="descriptors1">First set of descriptors.</param>
@@ -67,6 +81,14 @@ public abstract class HistogramCostExtractor : Algorithm
             ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.shape_HistogramCostExtractor_setDefaultCost(Handle, value));
+        }
+    }
+
+    private sealed class GenericHistogramCostExtractor : HistogramCostExtractor
+    {
+        public GenericHistogramCostExtractor(IntPtr smartPtr, IntPtr rawPtr)
+            : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.shape_Ptr_HistogramCostExtractor_delete(p)))
+        {
         }
     }
 }

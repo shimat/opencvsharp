@@ -129,6 +129,30 @@ public class ShapeContextDistanceExtractorTest : TestBase
     }
 
     [Fact]
+    public void GetCostExtractor_RoundTrips_ThroughSetter()
+    {
+        using var extractor = ShapeContextDistanceExtractor.Create();
+        using var costExtractor = NormHistogramCostExtractor.Create();
+
+        extractor.SetCostExtractor(costExtractor);
+
+        using var retrieved = extractor.GetCostExtractor();
+        Assert.NotNull(retrieved);
+    }
+
+    [Fact]
+    public void GetTransformAlgorithm_RoundTrips_ThroughSetter()
+    {
+        using var extractor = ShapeContextDistanceExtractor.Create();
+        using var transformer = AffineTransformer.Create(fullAffine: true);
+
+        extractor.SetTransformAlgorithm(transformer);
+
+        using var retrieved = extractor.GetTransformAlgorithm();
+        Assert.NotNull(retrieved);
+    }
+
+    [Fact]
     public void ComputeDistance_IdenticalContours()
     {
         using var extractor = ShapeContextDistanceExtractor.Create(

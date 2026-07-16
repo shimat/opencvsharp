@@ -246,6 +246,18 @@
     <ClInclude Include="ximgproc_Segmentation.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
+    <ClInclude Include="ximgproc_ScanSegment.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_SparseMatchInterpolator.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_ContourFitting.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_DisparityFilter.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
     <ClInclude Include="ximgproc_FastLineDetector.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
@@ -345,6 +357,9 @@
     <ClInclude Include="photo_HDR.h">
       <Filter>Header Files\photo</Filter>
     </ClInclude>
+    <ClInclude Include="photo_ColorCorrectionModel.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
     <ClInclude Include="photo.h">
       <Filter>Header Files\photo</Filter>
     </ClInclude>
@@ -370,6 +385,18 @@
       <Filter>Header Files\tracking</Filter>
     </ClInclude>
     <ClInclude Include="text_TextDetector.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="text_ERFilter.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="text_OCRHMMDecoder.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="text_OCRBeamSearchDecoder.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="text_OCRHolisticWordRecognizer.h">
       <Filter>Header Files\text</Filter>
     </ClInclude>
     <ClInclude Include="text.h">

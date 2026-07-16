@@ -78,6 +78,12 @@ static partial class NativeMethods
     internal static partial ExceptionStatus ximgproc_HoughPoint2Line(
         Point houghPoint, in InputArrayProxy srcImgInfo, int angleRange, int makeSkew, int rules, out Vec4i returnValue);
 
+    // find_ellipses.hpp
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus ximgproc_findEllipses(
+        in InputArrayProxy image, in OutputArrayProxy ellipses, float scoreThreshold, float reliabilityThreshold, float centerDistanceThreshold);
+
     // paillou_filter
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -93,6 +99,12 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus ximgproc_PeiLinNormalization_OutputArray(in InputArrayProxy I, in OutputArrayProxy T);
+
+    // radon_transform.hpp
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus ximgproc_RadonTransform(
+        in InputArrayProxy src, in OutputArrayProxy dst, double theta, double startAngle, double endAngle, int crop, int norm);
 
     // run_length_morphology.hpp
 

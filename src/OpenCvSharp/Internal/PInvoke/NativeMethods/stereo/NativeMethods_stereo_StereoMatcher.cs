@@ -65,6 +65,14 @@ static partial class NativeMethods
     public static partial ExceptionStatus stereo_StereoMatcher_setDisp12MaxDiff(
         OpenCvSafeHandle obj, int value);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoMatcher_get(
+        IntPtr obj, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stereo_Ptr_StereoMatcher_delete(
+        IntPtr obj);
+
     #endregion
 
     #region StereoBM

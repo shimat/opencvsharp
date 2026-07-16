@@ -22,7 +22,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
     /// ptr is disposed when the wrapper disposes. 
     /// </summary>
     /// <param name="ptr"></param>
-    internal static DualTVL1OpticalFlow FromPtr(IntPtr ptr)
+    internal static new DualTVL1OpticalFlow FromPtr(IntPtr ptr)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");

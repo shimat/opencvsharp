@@ -79,6 +79,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus shape_Ptr_ShapeTransformer_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ShapeTransformer_get(IntPtr ptr, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_Ptr_ShapeTransformer_copy(IntPtr src, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
         OpenCvSafeHandle obj, IntPtr transformer);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getTransformAlgorithm(
+        OpenCvSafeHandle obj, out IntPtr returnValue);
 }

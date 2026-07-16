@@ -16,6 +16,20 @@ public class StereoMatcher : Algorithm
         : base(smartPtr, rawPtr, release) { }
 
     /// <summary>
+    /// Creates instance from cv::Ptr&lt;T&gt; .
+    /// ptr is disposed when the wrapper disposes.
+    /// </summary>
+    /// <param name="ptr"></param>
+    internal static StereoMatcher FromPtr(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Invalid StereoMatcher pointer");
+
+        NativeMethods.HandleException(NativeMethods.stereo_Ptr_StereoMatcher_get(ptr, out var rawPtr));
+        return new GenericStereoMatcher(ptr, rawPtr);
+    }
+
+    /// <summary>
     /// Computes disparity map for the specified stereo pair
     /// </summary>
     /// <param name="left">Left 8-bit single-channel image.</param>
@@ -137,6 +151,14 @@ public class StereoMatcher : Algorithm
         {
             NativeMethods.HandleException(
                 NativeMethods.stereo_StereoMatcher_setDisp12MaxDiff(Handle, value));
+        }
+    }
+
+    private sealed class GenericStereoMatcher : StereoMatcher
+    {
+        public GenericStereoMatcher(IntPtr smartPtr, IntPtr rawPtr)
+            : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.stereo_Ptr_StereoMatcher_delete(p)))
+        {
         }
     }
 }

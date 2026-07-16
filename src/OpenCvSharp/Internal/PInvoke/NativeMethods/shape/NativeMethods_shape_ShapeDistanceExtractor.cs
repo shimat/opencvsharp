@@ -112,4 +112,8 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_setCostExtractor(
         OpenCvSafeHandle obj, IntPtr comparer);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus shape_ShapeContextDistanceExtractor_getCostExtractor(
+        OpenCvSafeHandle obj, out IntPtr returnValue);
 }

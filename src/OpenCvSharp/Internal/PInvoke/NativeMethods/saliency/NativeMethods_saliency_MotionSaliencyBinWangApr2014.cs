@@ -47,4 +47,10 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_setImageHeight(
         OpenCvSafeHandle obj, int val);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_write(OpenCvSafeHandle obj, IntPtr fs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus saliency_MotionSaliencyBinWangApr2014_read(OpenCvSafeHandle obj, IntPtr fn);
 }

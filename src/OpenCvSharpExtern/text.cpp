@@ -1,2 +1,6 @@
 #include "text.h"
+#include "text_ERFilter.h"
+#include "text_OCRBeamSearchDecoder.h"
+#include "text_OCRHMMDecoder.h"
+#include "text_OCRHolisticWordRecognizer.h"
 #include "text_TextDetector.h"
