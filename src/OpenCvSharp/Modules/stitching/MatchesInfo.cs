@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+
 namespace OpenCvSharp.Detail;
 
 /// <summary>
@@ -95,3 +98,19 @@ public sealed class MatchesInfo : IDisposable
         H.Dispose();
     }
 }
+
+#pragma warning disable 1591
+[StructLayout(LayoutKind.Sequential)]
+[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
+[SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
+public struct WMatchesInfo
+{
+    public int SrcImgIdx;
+    public int DstImgIdx;
+    public IntPtr Matches;
+    public IntPtr InliersMask;
+    public int NumInliers;
+    public IntPtr H;
+    public double Confidence;
+}
+#pragma warning restore 1591

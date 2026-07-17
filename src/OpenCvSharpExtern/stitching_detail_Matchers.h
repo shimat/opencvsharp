@@ -238,4 +238,61 @@ CVAPI(ExceptionStatus) stitching_AffineBestOf2NearestMatcher_delete(
     });
 }
 
+
+// BestOf2NearestRangeMatcher
+
+CVAPI(ExceptionStatus) stitching_BestOf2NearestRangeMatcher_new(
+    int range_width,
+    int try_use_gpu,
+    float match_conf,
+    int num_matches_thresh1,
+    int num_matches_thresh2,
+    cv::detail::BestOf2NearestRangeMatcher** returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::detail::BestOf2NearestRangeMatcher(
+            range_width, try_use_gpu != 0, match_conf, num_matches_thresh1, num_matches_thresh2);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_BestOf2NearestRangeMatcher_delete(
+    cv::detail::BestOf2NearestRangeMatcher* obj)
+{
+    return cvTry([&] {
+        delete obj;
+    });
+}
+
+
+// LightGlueFeaturesMatcher
+
+CVAPI(ExceptionStatus) stitching_LightGlueFeaturesMatcher_new(
+    cv::Ptr<cv::LightGlueMatcher> *lgMatcher,
+    int num_matches_thresh1,
+    int num_matches_thresh2,
+    double matches_confidence_thresh,
+    cv::detail::LightGlueFeaturesMatcher** returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::detail::LightGlueFeaturesMatcher(
+            *lgMatcher, num_matches_thresh1, num_matches_thresh2, matches_confidence_thresh);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_LightGlueFeaturesMatcher_delete(
+    cv::detail::LightGlueFeaturesMatcher* obj)
+{
+    return cvTry([&] {
+        delete obj;
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_LightGlueFeaturesMatcher_setScoreThreshold(
+    cv::detail::LightGlueFeaturesMatcher* obj, float thresh)
+{
+    return cvTry([&] {
+        obj->setScoreThreshold(thresh);
+    });
+}
+
 #endif // NO_STITCHING

@@ -8,28 +8,14 @@ namespace OpenCvSharp
 #pragma warning disable 1591
     // ReSharper disable InconsistentNaming
 
-    // TODO
     namespace Detail
     {
         public enum WaveCorrectKind
         {
             Horizontal,
-            Vertical
+            Vertical,
+            Auto
         }
-        
-        public class FeaturesFinder;
-        
-        public class BundleAdjusterBase;
-
-        public class WarperCreator;
-
-        public class ExposureCompensator;
-
-        public class SeamFinder;
-
-        public class Blender;
-
-        public class CameraParams;
     }
 
     /// <summary>
@@ -191,55 +177,24 @@ namespace OpenCvSharp
             }
         }
 
-        /*
-        public FeaturesFinder FeaturesFinder
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public FeaturesMatcher FeaturesMatcher
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Mask indicating which image pairs must be matched.
+        /// </summary>
         public Mat MatchingMask
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get
+            {
+                var mask = new Mat();
+                NativeMethods.HandleException(NativeMethods.stitching_Stitcher_matchingMask(Handle, mask.CvPtr));
+                return mask;
+            }
+            set
+            {
+                ArgumentNullException.ThrowIfNull(value);
+                NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setMatchingMask(Handle, value.CvPtr));
+                GC.KeepAlive(value);
+            }
         }
-
-        public BundleAdjusterBase BundleAdjuster
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public WarperCreator Warper
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public ExposureCompensator ExposureCompensator
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public SeamFinder SeamFinder
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public Blender Blender
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-        */
 
         // TODO this should be method?
         public IReadOnlyList<int> Component
@@ -253,7 +208,36 @@ namespace OpenCvSharp
             }
         }
 
-        //public CameraParams[] Cameras => throw new NotImplementedException();
+        /// <summary>
+        /// Estimated camera parameters, one per stitched image.
+        /// </summary>
+        public CameraParams[] Cameras
+        {
+            get
+            {
+                using var focals = new StdVector<double>();
+                using var aspects = new StdVector<double>();
+                using var ppxs = new StdVector<double>();
+                using var ppys = new StdVector<double>();
+                using var rs = new VectorOfMat();
+                using var ts = new VectorOfMat();
+                NativeMethods.HandleException(
+                    NativeMethods.stitching_Stitcher_cameras(
+                        Handle, focals.CvPtr, aspects.CvPtr, ppxs.CvPtr, ppys.CvPtr, rs.CvPtr, ts.CvPtr));
+
+                var focalsArr = focals.ToArray();
+                var aspectsArr = aspects.ToArray();
+                var ppxsArr = ppxs.ToArray();
+                var ppysArr = ppys.ToArray();
+                var rsArr = rs.ToArray();
+                var tsArr = ts.ToArray();
+
+                var result = new CameraParams[focalsArr.Length];
+                for (var i = 0; i < result.Length; i++)
+                    result[i] = new CameraParams(focalsArr[i], aspectsArr[i], ppxsArr[i], ppysArr[i], rsArr[i], tsArr[i]);
+                return result;
+            }
+        }
 
         public double WorkScale
         {
@@ -432,6 +416,95 @@ namespace OpenCvSharp
             GC.KeepAlive(images);
             GC.KeepAlive(pano.Source);
             return (Status)ret;
+        }
+
+        // Stitcher's native setters wrap these in a non-owning cv::Ptr (no-op deleter), so the
+        // managed side is solely responsible for keeping the object alive for as long as it's
+        // attached to this Stitcher - otherwise the GC could collect it and free the native
+        // object out from under the Stitcher, causing a use-after-free.
+        private Feature2D? featuresFinderRef;
+        private FeaturesMatcher? featuresMatcherRef;
+        private BundleAdjusterBase? bundleAdjusterRef;
+        private WarperCreator? warperRef;
+        private ExposureCompensator? exposureCompensatorRef;
+        private SeamFinder? seamFinderRef;
+        private Blender? blenderRef;
+
+        /// <summary>
+        /// Sets the features finder used to detect keypoints and compute descriptors.
+        /// </summary>
+        public void SetFeaturesFinder(Feature2D featuresFinder)
+        {
+            ArgumentNullException.ThrowIfNull(featuresFinder);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setFeaturesFinder(Handle, featuresFinder.RawPtr));
+            GC.KeepAlive(featuresFinder);
+            featuresFinderRef = featuresFinder;
+        }
+
+        /// <summary>
+        /// Sets the features matcher used to match images pairwise.
+        /// </summary>
+        public void SetFeaturesMatcher(FeaturesMatcher featuresMatcher)
+        {
+            ArgumentNullException.ThrowIfNull(featuresMatcher);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setFeaturesMatcher(Handle, featuresMatcher.CvPtr));
+            GC.KeepAlive(featuresMatcher);
+            featuresMatcherRef = featuresMatcher;
+        }
+
+        /// <summary>
+        /// Sets the bundle adjuster used to refine camera parameters.
+        /// </summary>
+        public void SetBundleAdjuster(BundleAdjusterBase bundleAdjuster)
+        {
+            ArgumentNullException.ThrowIfNull(bundleAdjuster);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setBundleAdjuster(Handle, bundleAdjuster.CvPtr));
+            GC.KeepAlive(bundleAdjuster);
+            bundleAdjusterRef = bundleAdjuster;
+        }
+
+        /// <summary>
+        /// Sets the warper creator used to project images onto the panorama surface.
+        /// </summary>
+        public void SetWarper(WarperCreator warper)
+        {
+            ArgumentNullException.ThrowIfNull(warper);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setWarper(Handle, warper.CvPtr));
+            GC.KeepAlive(warper);
+            warperRef = warper;
+        }
+
+        /// <summary>
+        /// Sets the exposure compensator used to remove exposure related artifacts.
+        /// </summary>
+        public void SetExposureCompensator(ExposureCompensator exposureCompensator)
+        {
+            ArgumentNullException.ThrowIfNull(exposureCompensator);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setExposureCompensator(Handle, exposureCompensator.CvPtr));
+            GC.KeepAlive(exposureCompensator);
+            exposureCompensatorRef = exposureCompensator;
+        }
+
+        /// <summary>
+        /// Sets the seam finder used to estimate seams between images.
+        /// </summary>
+        public void SetSeamFinder(SeamFinder seamFinder)
+        {
+            ArgumentNullException.ThrowIfNull(seamFinder);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setSeamFinder(Handle, seamFinder.CvPtr));
+            GC.KeepAlive(seamFinder);
+            seamFinderRef = seamFinder;
+        }
+
+        /// <summary>
+        /// Sets the blender used to compose the final panorama.
+        /// </summary>
+        public void SetBlender(Blender blender)
+        {
+            ArgumentNullException.ThrowIfNull(blender);
+            NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setBlender(Handle, blender.CvPtr));
+            GC.KeepAlive(blender);
+            blenderRef = blender;
         }
 
         #endregion

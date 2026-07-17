@@ -94,4 +94,35 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_Stitcher_workScale(OpenCvSafeHandle obj, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_cameras(
+        OpenCvSafeHandle obj,
+        IntPtr focals, IntPtr aspects, IntPtr ppxs, IntPtr ppys, IntPtr rs, IntPtr ts);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setFeaturesFinder(OpenCvSafeHandle obj, IntPtr featuresFinder);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setFeaturesMatcher(OpenCvSafeHandle obj, IntPtr featuresMatcher);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_matchingMask(OpenCvSafeHandle obj, IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setMatchingMask(OpenCvSafeHandle obj, IntPtr mask);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setBundleAdjuster(OpenCvSafeHandle obj, IntPtr bundleAdjuster);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setWarper(OpenCvSafeHandle obj, IntPtr warper);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setExposureCompensator(OpenCvSafeHandle obj, IntPtr exposureCompensator);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setSeamFinder(OpenCvSafeHandle obj, IntPtr seamFinder);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_Stitcher_setBlender(OpenCvSafeHandle obj, IntPtr blender);
 }

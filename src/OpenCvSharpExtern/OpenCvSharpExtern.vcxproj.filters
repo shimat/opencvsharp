@@ -390,6 +390,24 @@
     <ClInclude Include="stitching_detail_Matchers.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
+    <ClInclude Include="stitching_detail_Timelapsers.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_ExposureCompensators.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_SeamFinders.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_Blenders.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_MotionEstimators.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_Warpers.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
     <ClInclude Include="photo_Tonemap.h">
       <Filter>Header Files\photo</Filter>
     </ClInclude>

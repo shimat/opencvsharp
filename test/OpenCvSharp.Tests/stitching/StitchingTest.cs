@@ -139,4 +139,49 @@ public class StitchingTest : TestBase
         stitcher.WaveCorrectKind = value;
         Assert.Equal(value, stitcher.WaveCorrectKind);
     }
+
+    [Fact]
+    public void MatchingMaskProperty()
+    {
+        using var stitcher = Stitcher.Create();
+        using var mask = new Mat(3, 3, MatType.CV_8U, Scalar.All(1));
+        stitcher.MatchingMask = mask;
+        using var roundTripped = stitcher.MatchingMask;
+        Assert.Equal(mask.Size(), roundTripped.Size());
+    }
+
+    [Fact]
+    public void CustomPipelineComponentsStitch()
+    {
+        Mat[] images = SelectStitchingImages(200, 200, 6);
+        try
+        {
+            using var stitcher = Stitcher.Create(Stitcher.Mode.Scans);
+            using var warper = new PlaneWarper();
+            using var exposureCompensator = new GainCompensator();
+            using var seamFinder = new VoronoiSeamFinder();
+            using var blender = new FeatherBlender();
+            using var bundleAdjuster = new BundleAdjusterRay();
+
+            stitcher.SetWarper(warper);
+            stitcher.SetExposureCompensator(exposureCompensator);
+            stitcher.SetSeamFinder(seamFinder);
+            stitcher.SetBlender(blender);
+            stitcher.SetBundleAdjuster(bundleAdjuster);
+
+            using var pano = new Mat();
+            var status = stitcher.Stitch(images, pano);
+            Assert.Equal(Stitcher.Status.OK, status);
+
+            var cameras = stitcher.Cameras;
+            Assert.NotEmpty(cameras);
+            foreach (var cam in cameras)
+                cam.Dispose();
+        }
+        finally
+        {
+            foreach (Mat image in images)
+                image.Dispose();
+        }
+    }
 }
