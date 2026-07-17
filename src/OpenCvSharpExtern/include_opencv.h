@@ -132,6 +132,13 @@
 #include <opencv2/quality.hpp>
 #include <opencv2/tracking.hpp>
 #include <opencv2/saliency.hpp>
+// Net-new small modules (issue #2017): none of these are in the slim BUILD_LIST, so they
+// must stay behind NO_CONTRIB even though their own dependencies (core/imgproc) are light.
+#include <opencv2/plot.hpp>
+#include <opencv2/phase_unwrapping.hpp>
+#include <opencv2/hfs.hpp>
+#include <opencv2/signal.hpp>
+#include <opencv2/xstereo.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/wechat_qrcode.hpp>
 #include <opencv2/dnn.hpp>

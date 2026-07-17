@@ -287,6 +287,31 @@ extern "C"
         cv::Mat* descriptors;
     };
 
+    /** @brief Structure containing information about matches between two images (interop mirror of
+    cv::detail::MatchesInfo, used as an INPUT boundary type by Estimator/BundleAdjuster). */
+    struct CV_EXPORTS_W_SIMPLE detail_MatchesInfo
+    {
+        int src_img_idx;
+        int dst_img_idx;
+        std::vector<cv::DMatch>* matches;
+        std::vector<uchar>* inliers_mask;
+        int num_inliers;
+        cv::Mat* h;
+        double confidence;
+    };
+
+    /** @brief Interop mirror of cv::detail::CameraParams. R and t point to caller-owned Mat instances
+    that are filled via copyTo at the boundary (Mat is not trivially copyable). */
+    struct CV_EXPORTS_W_SIMPLE detail_CameraParams
+    {
+        double focal;
+        double aspect;
+        double ppx;
+        double ppy;
+        cv::Mat* r;
+        cv::Mat* t;
+    };
+
 }
 
 // bit_cast-based converter pair for layout-identical POD <-> cv:: types.

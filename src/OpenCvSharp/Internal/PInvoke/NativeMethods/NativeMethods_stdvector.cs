@@ -360,6 +360,19 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_KeyLine_delete(IntPtr vector);
     #endregion
+    #region cv::stereo::MatchQuasiDense
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_MatchQuasiDense_new1();
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial nuint vector_MatchQuasiDense_getSize(OpenCvSafeHandle vector);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial IntPtr vector_MatchQuasiDense_getPointer(OpenCvSafeHandle vector);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void vector_MatchQuasiDense_delete(IntPtr vector);
+    #endregion
 
     #region vector<uchar>
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

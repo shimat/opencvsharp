@@ -287,4 +287,106 @@ CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *r
     });
 }
 
+CVAPI(ExceptionStatus) stitching_Stitcher_cameras(
+    cv::Stitcher *obj,
+    std::vector<double> *focals, std::vector<double> *aspects,
+    std::vector<double> *ppxs, std::vector<double> *ppys,
+    std::vector<cv::Mat> *rs, std::vector<cv::Mat> *ts)
+{
+    return cvTry([&] {
+        const auto cameras = obj->cameras();
+        for (const auto &cam : cameras)
+        {
+            focals->push_back(cam.focal);
+            aspects->push_back(cam.aspect);
+            ppxs->push_back(cam.ppx);
+            ppys->push_back(cam.ppy);
+            rs->push_back(cam.R.clone());
+            ts->push_back(cam.t.clone());
+        }
+    });
+}
+
+#pragma region pipeline component setters
+// Getters are intentionally not exposed: Stitcher stores these as cv::Ptr<T> to a *polymorphic*
+// base (FeaturesMatcher/WarperCreator/ExposureCompensator/SeamFinder/Blender/BundleAdjusterBase),
+// and there is no RTTI-free way to hand a raw pointer back to C# as the correct concrete managed
+// subclass. Callers that need the object back should keep their own reference to what they set.
+// Each setter wraps the caller-owned raw pointer in a non-owning cv::Ptr<T> (no-op deleter): the
+// managed wrapper object retains true ownership, and Stitcher merely holds a reference to it, so
+// the caller must keep that managed object alive for as long as it's attached to the Stitcher.
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setFeaturesFinder(cv::Stitcher *obj, cv::Feature2D *featuresFinder)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::Feature2D> nonOwning(featuresFinder, [](cv::Feature2D*) {});
+        obj->setFeaturesFinder(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setFeaturesMatcher(cv::Stitcher *obj, cv::detail::FeaturesMatcher *featuresMatcher)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::detail::FeaturesMatcher> nonOwning(featuresMatcher, [](cv::detail::FeaturesMatcher*) {});
+        obj->setFeaturesMatcher(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_matchingMask(cv::Stitcher *obj, cv::Mat *returnValue)
+{
+    return cvTry([&] {
+        obj->matchingMask().copyTo(*returnValue);
+    });
+}
+CVAPI(ExceptionStatus) stitching_Stitcher_setMatchingMask(cv::Stitcher *obj, cv::Mat *mask)
+{
+    return cvTry([&] {
+        cv::UMat maskU;
+        mask->copyTo(maskU);
+        obj->setMatchingMask(maskU);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setBundleAdjuster(cv::Stitcher *obj, cv::detail::BundleAdjusterBase *bundleAdjuster)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::detail::BundleAdjusterBase> nonOwning(bundleAdjuster, [](cv::detail::BundleAdjusterBase*) {});
+        obj->setBundleAdjuster(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setWarper(cv::Stitcher *obj, cv::WarperCreator *warper)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::WarperCreator> nonOwning(warper, [](cv::WarperCreator*) {});
+        obj->setWarper(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setExposureCompensator(cv::Stitcher *obj, cv::detail::ExposureCompensator *exposureCompensator)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::detail::ExposureCompensator> nonOwning(exposureCompensator, [](cv::detail::ExposureCompensator*) {});
+        obj->setExposureCompensator(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setSeamFinder(cv::Stitcher *obj, cv::detail::SeamFinder *seamFinder)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::detail::SeamFinder> nonOwning(seamFinder, [](cv::detail::SeamFinder*) {});
+        obj->setSeamFinder(nonOwning);
+    });
+}
+
+CVAPI(ExceptionStatus) stitching_Stitcher_setBlender(cv::Stitcher *obj, cv::detail::Blender *blender)
+{
+    return cvTry([&] {
+        const cv::Ptr<cv::detail::Blender> nonOwning(blender, [](cv::detail::Blender*) {});
+        obj->setBlender(nonOwning);
+    });
+}
+
+#pragma endregion
+
 #endif // NO_STITCHING

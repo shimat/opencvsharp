@@ -7,7 +7,7 @@
     <ClCompile Include="bgsegm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calib3d.cpp">
+    <ClCompile Include="calib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core.cpp">
@@ -25,7 +25,7 @@
     <ClCompile Include="face.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="features2d.cpp">
+    <ClCompile Include="features.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="img_hash.cpp">
@@ -101,6 +101,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="barcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="phase_unwrapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hfs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="signal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xstereo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ptcloud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rgbd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="saliency.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stereo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -270,26 +300,35 @@
     <ClInclude Include="ximgproc.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_Feature2D.h">
-      <Filter>Header Files\features2d</Filter>
+    <ClInclude Include="features_Feature2D.h">
+      <Filter>Header Files\features</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_DescriptorMatcher.h">
-      <Filter>Header Files\features2d</Filter>
+    <ClInclude Include="features_DescriptorMatcher.h">
+      <Filter>Header Files\features</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_BOW.h">
-      <Filter>Header Files\features2d</Filter>
+    <ClInclude Include="features_ANNIndex.h">
+      <Filter>Header Files\features</Filter>
     </ClInclude>
-    <ClInclude Include="features2d.h">
-      <Filter>Header Files\features2d</Filter>
+    <ClInclude Include="features.h">
+      <Filter>Header Files\features</Filter>
     </ClInclude>
-    <ClInclude Include="calib3d_StereoMatcher.h">
-      <Filter>Header Files\calib3d</Filter>
+    <ClInclude Include="stereo_StereoMatcher.h">
+      <Filter>Header Files\stereo</Filter>
     </ClInclude>
-    <ClInclude Include="calib3d_fisheye.h">
-      <Filter>Header Files\calib3d</Filter>
+    <ClInclude Include="stereo.h">
+      <Filter>Header Files\stereo</Filter>
     </ClInclude>
-    <ClInclude Include="calib3d.h">
-      <Filter>Header Files\calib3d</Filter>
+    <ClInclude Include="calib_fisheye.h">
+      <Filter>Header Files\calib</Filter>
+    </ClInclude>
+    <ClInclude Include="calib_multiview.h">
+      <Filter>Header Files\calib</Filter>
+    </ClInclude>
+    <ClInclude Include="calib.h">
+      <Filter>Header Files\calib</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="objdetect_QRCodeDetector.h">
       <Filter>Header Files\objdetect</Filter>
@@ -349,6 +388,24 @@
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
     <ClInclude Include="stitching_detail_Matchers.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_Timelapsers.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_ExposureCompensators.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_SeamFinders.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_Blenders.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_MotionEstimators.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="stitching_detail_Warpers.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
     <ClInclude Include="photo_Tonemap.h">
@@ -420,12 +477,149 @@
     <ClInclude Include="barcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shape.h" />
+    <ClInclude Include="shape_HistogramCostExtractor.h">
+      <Filter>Header Files\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="shape_ShapeTransformer.h">
+      <Filter>Header Files\shape</Filter>
+    </ClInclude>
     <ClInclude Include="objdetect_FaceDetectorYN.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
     <ClInclude Include="objdetect_FaceRecognizerSF.h">
       <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="plot_Plot2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="phase_unwrapping_PhaseUnwrapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="phase_unwrapping_HistogramPhaseUnwrapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hfs_HfsSegment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xstereo_QuasiDenseStereo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_Layer.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="dnn_Tokenizer.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="face_Additional.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="imgcodecs_Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgcodecs_ImageCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc_FontFace.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="imgproc_undistort.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_SVMSGD.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="ml_TrainData.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="objdetect_chessboard.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_Odometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_OdometryFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_OdometrySettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_RgbdNormals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_Volume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_VolumeSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_depth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbd_colored_kinfu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbd_dynafu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbd_kinfu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbd_large_kinfu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rgbd_linemod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saliency_MotionSaliencyBinWangApr2014.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saliency_ObjectnessBING.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saliency_StaticSaliencyFineGrained.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saliency_StaticSaliencySpectralResidual.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_AffineFeature2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_BEBLID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_BOW.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_DAISY.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_FeatureDetectors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_HarrisLaplace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_MSDDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_Match.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_PCTSignatures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xfeatures2d_VGG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ximgproc_EdgeDrawing.h">
+      <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,11 +641,14 @@
     <Filter Include="Header Files\ximgproc">
       <UniqueIdentifier>{78555271-f303-485c-853f-42a14182efa8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\features2d">
+    <Filter Include="Header Files\features">
       <UniqueIdentifier>{ecb04cb1-5fe2-49c1-82fe-612b709c0ec3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\calib3d">
+    <Filter Include="Header Files\calib">
       <UniqueIdentifier>{304e0a93-fb5b-4559-ae8c-cd15c9e86285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stereo">
+      <UniqueIdentifier>{da27dc62-44f4-4eb1-b9be-a333c4db2e0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\objdetect">
       <UniqueIdentifier>{ecc26737-c8cf-42cb-9530-609703b6c670}</UniqueIdentifier>
