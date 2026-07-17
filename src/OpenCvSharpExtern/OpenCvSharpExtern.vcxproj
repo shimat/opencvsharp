@@ -167,6 +167,12 @@
     <ClInclude Include="std_vector_nesting.h" />
     <ClInclude Include="stitching.h" />
     <ClInclude Include="stitching_detail_Matchers.h" />
+    <ClInclude Include="stitching_detail_Timelapsers.h" />
+    <ClInclude Include="stitching_detail_ExposureCompensators.h" />
+    <ClInclude Include="stitching_detail_SeamFinders.h" />
+    <ClInclude Include="stitching_detail_Blenders.h" />
+    <ClInclude Include="stitching_detail_MotionEstimators.h" />
+    <ClInclude Include="stitching_detail_Warpers.h" />
     <ClInclude Include="superres.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="text_ERFilter.h" />

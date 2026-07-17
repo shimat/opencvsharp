@@ -87,4 +87,32 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus stitching_AffineBestOf2NearestMatcher_delete(
         IntPtr obj);
+
+
+    // BestOf2NearestRangeMatcher
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_BestOf2NearestRangeMatcher_new(
+        int rangeWidth, int tryUseGpu, float matchConf, int numMatchesThresh1, int numMatchesThresh2,
+        out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_BestOf2NearestRangeMatcher_delete(
+        IntPtr obj);
+
+
+    // LightGlueFeaturesMatcher
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_LightGlueFeaturesMatcher_new(
+        IntPtr lgMatcherSmartPtr, int numMatchesThresh1, int numMatchesThresh2, double matchesConfidenceThresh,
+        out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_LightGlueFeaturesMatcher_delete(
+        IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus stitching_LightGlueFeaturesMatcher_setScoreThreshold(
+        OpenCvSafeHandle obj, float thresh);
 }
