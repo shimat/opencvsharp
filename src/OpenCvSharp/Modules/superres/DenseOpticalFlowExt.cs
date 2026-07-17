@@ -38,7 +38,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_Farneback(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return SuperResFarnebackOpticalFlow.FromPtr(ptr);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_Farneback_CUDA(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return SuperResFarnebackOpticalFlow.FromPtr(ptr);
     }
 
     /// <summary>

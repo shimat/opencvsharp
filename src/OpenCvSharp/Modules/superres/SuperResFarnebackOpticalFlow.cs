@@ -4,31 +4,33 @@ namespace OpenCvSharp;
 
 // ReSharper disable InconsistentNaming
 /// <summary>
-/// 
+/// cv::superres::FarnebackOpticalFlow. Named with a SuperRes prefix (rather than the bare
+/// "FarnebackOpticalFlow" name it had before the OpenCV 5 migration) to avoid colliding with
+/// the core cv::FarnebackOpticalFlow OOP wrapper added to the video module.
 /// </summary>
-public class FarnebackOpticalFlow : DenseOpticalFlowExt
+public class SuperResFarnebackOpticalFlow : DenseOpticalFlowExt
 {
     #region Init & Disposal
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-    private FarnebackOpticalFlow(IntPtr smartPtr, IntPtr rawPtr)
+    private SuperResFarnebackOpticalFlow(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(p)))
     { }
 
     /// <summary>
     /// Creates instance from cv::Ptr&lt;T&gt; .
-    /// ptr is disposed when the wrapper disposes. 
+    /// ptr is disposed when the wrapper disposes.
     /// </summary>
     /// <param name="ptr"></param>
-    internal static new FarnebackOpticalFlow FromPtr(IntPtr ptr)
+    internal static new SuperResFarnebackOpticalFlow FromPtr(IntPtr ptr)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");
 
         NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr, out var rawPtr));
-        return new FarnebackOpticalFlow(ptr, rawPtr);
+        return new SuperResFarnebackOpticalFlow(ptr, rawPtr);
     }
 
     #endregion

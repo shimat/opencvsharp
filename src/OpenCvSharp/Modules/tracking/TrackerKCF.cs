@@ -45,6 +45,72 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(smartPtr, rawPtr);
     }
 
+    // Roots the marshaled native trampoline process-wide (not on the instance): the native side
+    // (cv::TrackerKCF::FeatureExtractorCallbackFN) is a plain C function pointer with no per-instance
+    // user-data slot, so the callback stays reachable through this shared field for as long as any
+    // tracker might still invoke it, even after the TrackerKCF instance that registered it is
+    // collected. Replacing it is guarded by a lock since registrations race on the same native slot.
+    private static readonly object featureExtractorLock = new();
+    private static NativeFeatureExtractorCallback? nativeFeatureExtractorCallback;
+
+    /// <summary>
+    /// Sets a custom feature extractor. Corresponds to <c>cv::TrackerKCF::setFeatureExtractor</c>.
+    /// </summary>
+    /// <remarks>
+    /// <c>cv::TrackerKCF::FeatureExtractorCallbackFN</c> is a plain C function pointer with no
+    /// per-instance user-data slot, so only one managed callback can be active process-wide at a
+    /// time: calling this method on any <see cref="TrackerKCF"/> instance replaces the callback
+    /// used by every other instance as well. To actually take effect, either <see cref="Params.DescPca"/>
+    /// or <see cref="Params.DescNpca"/> (matching <paramref name="pcaFunc"/>) must include
+    /// <see cref="TrackerKCFMode.Custom"/>.
+    /// </remarks>
+    /// <param name="extractor">
+    /// Callback receiving the current frame, the region of interest, and the output feature matrix
+    /// to fill in. Neither <see cref="Mat"/> passed to the callback is owned by the callee.
+    /// </param>
+    /// <param name="pcaFunc">Whether this extractor is used for the compressed (PCA) descriptors.</param>
+    public void SetFeatureExtractor(FeatureExtractorCallback extractor, bool pcaFunc = false)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(extractor);
+
+        NativeFeatureExtractorCallback trampoline = (image, roi, features) =>
+        {
+            using var imageMat = new Mat(image, ownsHandle: false);
+            using var featuresMat = new Mat(features, ownsHandle: false);
+            var roiRect = Marshal.PtrToStructure<Rect>(roi);
+            extractor(imageMat, roiRect, featuresMat);
+        };
+
+        lock (featureExtractorLock)
+        {
+            nativeFeatureExtractorCallback = trampoline;
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerKCF_setFeatureExtractor(RawPtr, nativeFeatureExtractorCallback, pcaFunc ? 1 : 0));
+        }
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Custom feature extraction callback for <see cref="SetFeatureExtractor"/>.
+    /// </summary>
+    /// <param name="image">The current frame.</param>
+    /// <param name="roi">The region of interest to extract features from.</param>
+    /// <param name="features">The output feature matrix to fill in.</param>
+    public delegate void FeatureExtractorCallback(Mat image, Rect roi, Mat features);
+
+    /// <summary>
+    /// Native-callable shape of <see cref="FeatureExtractorCallback"/>: pointers only (including for
+    /// <paramref name="roi"/>, read back with <see cref="Marshal.PtrToStructure{T}(IntPtr)"/>) rather
+    /// than <see cref="Mat"/> or a by-value <see cref="Rect"/> - passing a by-value struct through a
+    /// reverse P/Invoke thunk (native calling into a marshaled delegate) is best avoided, so every
+    /// argument here is pointer-sized, matching the pattern already used by
+    /// <see cref="OpenCvSharp.MouseCallback"/>. Public only because it must be at least as visible as
+    /// the P/Invoke entry point that takes it; not meant to be used directly.
+    /// </summary>
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeFeatureExtractorCallback(IntPtr image, IntPtr roi, IntPtr features);
+
     #pragma warning disable CA1034
 #pragma warning disable CA1051
     /// <summary>

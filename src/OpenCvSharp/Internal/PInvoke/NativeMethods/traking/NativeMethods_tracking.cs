@@ -28,6 +28,13 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus tracking_Ptr_TrackerKCF_get(IntPtr ptr, out IntPtr returnValue);
 
+    // Delegate marshaling to a native function pointer isn't supported by the LibraryImport source
+    // generator, so this one entry point keeps the classic DllImport/extern shape (same as
+    // highgui_setMouseCallback).
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus tracking_TrackerKCF_setFeatureExtractor(
+        IntPtr tracker, [MarshalAs(UnmanagedType.FunctionPtr)] TrackerKCF.NativeFeatureExtractorCallback callback, int pcaFunc);
+
 
     // TrackerCSRT
 

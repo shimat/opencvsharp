@@ -72,6 +72,7 @@
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="optflow.cpp" />
+    <ClCompile Include="optflow_gpc.cpp" />
     <ClCompile Include="phase_unwrapping.cpp" />
     <ClCompile Include="photo.cpp" />
     <ClCompile Include="plot.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="objdetect_QRCodeEncoder.h" />
     <ClInclude Include="objdetect_chessboard.h" />
     <ClInclude Include="optflow.h" />
+    <ClInclude Include="optflow_gpc.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="phase_unwrapping_HistogramPhaseUnwrapping.h" />
     <ClInclude Include="phase_unwrapping_PhaseUnwrapping.h" />
