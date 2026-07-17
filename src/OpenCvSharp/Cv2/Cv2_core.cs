@@ -634,8 +634,10 @@ public static partial class Cv2
     /// <param name="src">The source single-channel array</param>
     /// <param name="minVal">Pointer to returned minimum value</param>
     /// <param name="maxVal">Pointer to returned maximum value</param>
-    /// <param name="minIdx">Output array of the minimum element's per-dimension index, overwritten in place.</param>
-    /// <param name="maxIdx">Output array of the maximum element's per-dimension index, overwritten in place.</param>
+    /// <param name="minIdx">Output array of the minimum element's per-dimension index, overwritten in place.
+    /// Must have at least <c>src.Dims</c> elements (at least 2).</param>
+    /// <param name="maxIdx">Output array of the maximum element's per-dimension index, overwritten in place.
+    /// Must have at least <c>src.Dims</c> elements (at least 2).</param>
     /// <param name="mask"></param>
     public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
         int[] minIdx, int[] maxIdx, InputArray mask = default)
