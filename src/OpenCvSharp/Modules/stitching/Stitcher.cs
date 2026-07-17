@@ -418,6 +418,18 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        // Stitcher's native setters wrap these in a non-owning cv::Ptr (no-op deleter), so the
+        // managed side is solely responsible for keeping the object alive for as long as it's
+        // attached to this Stitcher - otherwise the GC could collect it and free the native
+        // object out from under the Stitcher, causing a use-after-free.
+        private Feature2D? featuresFinderRef;
+        private FeaturesMatcher? featuresMatcherRef;
+        private BundleAdjusterBase? bundleAdjusterRef;
+        private WarperCreator? warperRef;
+        private ExposureCompensator? exposureCompensatorRef;
+        private SeamFinder? seamFinderRef;
+        private Blender? blenderRef;
+
         /// <summary>
         /// Sets the features finder used to detect keypoints and compute descriptors.
         /// </summary>
@@ -426,6 +438,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(featuresFinder);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setFeaturesFinder(Handle, featuresFinder.RawPtr));
             GC.KeepAlive(featuresFinder);
+            featuresFinderRef = featuresFinder;
         }
 
         /// <summary>
@@ -436,6 +449,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(featuresMatcher);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setFeaturesMatcher(Handle, featuresMatcher.CvPtr));
             GC.KeepAlive(featuresMatcher);
+            featuresMatcherRef = featuresMatcher;
         }
 
         /// <summary>
@@ -446,6 +460,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(bundleAdjuster);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setBundleAdjuster(Handle, bundleAdjuster.CvPtr));
             GC.KeepAlive(bundleAdjuster);
+            bundleAdjusterRef = bundleAdjuster;
         }
 
         /// <summary>
@@ -456,6 +471,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(warper);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setWarper(Handle, warper.CvPtr));
             GC.KeepAlive(warper);
+            warperRef = warper;
         }
 
         /// <summary>
@@ -466,6 +482,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(exposureCompensator);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setExposureCompensator(Handle, exposureCompensator.CvPtr));
             GC.KeepAlive(exposureCompensator);
+            exposureCompensatorRef = exposureCompensator;
         }
 
         /// <summary>
@@ -476,6 +493,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(seamFinder);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setSeamFinder(Handle, seamFinder.CvPtr));
             GC.KeepAlive(seamFinder);
+            seamFinderRef = seamFinder;
         }
 
         /// <summary>
@@ -486,6 +504,7 @@ namespace OpenCvSharp
             ArgumentNullException.ThrowIfNull(blender);
             NativeMethods.HandleException(NativeMethods.stitching_Stitcher_setBlender(Handle, blender.CvPtr));
             GC.KeepAlive(blender);
+            blenderRef = blender;
         }
 
         #endregion

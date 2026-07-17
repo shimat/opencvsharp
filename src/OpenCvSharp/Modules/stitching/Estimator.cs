@@ -102,6 +102,9 @@ public abstract class Estimator : CvObject
                 cameras[i].Ppy = wCameras[i].Ppy;
             }
 
+            GC.KeepAlive(featuresArray);
+            GC.KeepAlive(matchesArray);
+
             return ret != 0;
         }
         finally

@@ -190,6 +190,7 @@ public static partial class Cv2
             {
                 DisposeAll(matchesVecs);
                 DisposeAll(inliersMaskVecs);
+                GC.KeepAlive(pairwiseMatches);
             }
         }
 
@@ -221,6 +222,8 @@ public static partial class Cv2
                 DisposeAll(keypointVecs);
                 DisposeAll(matchesVecs);
                 DisposeAll(inliersMaskVecs);
+                GC.KeepAlive(features);
+                GC.KeepAlive(pairwiseMatches);
             }
         }
 
