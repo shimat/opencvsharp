@@ -74,13 +74,19 @@ public class DenseRLOFOpticalFlowTest : TestBase
         Assert.Equal(15, readBack.MaxIteration);
     }
 
+    // RLOF's default LargeWinSize is 21 (a support-region window of roughly +/-10px around each grid
+    // point), so a crop needs enough margin from its edges that no grid point's window runs past the
+    // border - a 48x48 crop is too tight for that and makes the native ROI-bounds assertion fail
+    // intermittently depending on the SIMD path taken.
+    private const int CropSize = 128;
+
     [Fact]
     public void Calc()
     {
         // RLOF's default SupportRegionType (Cross) requires an 8-bit 3-channel image.
         using var src = LoadImage("lenna.png");
-        using var from = src[new Rect(0, 0, 48, 48)];
-        using var to = src[new Rect(2, 0, 48, 48)];
+        using var from = src[new Rect(0, 0, CropSize, CropSize)];
+        using var to = src[new Rect(2, 0, CropSize, CropSize)];
         using var flow = DenseRLOFOpticalFlow.Create();
         using var flowMat = new Mat();
 
@@ -94,8 +100,8 @@ public class DenseRLOFOpticalFlowTest : TestBase
     public void CalcOpticalFlowDenseRLOFViaCv2()
     {
         using var src = LoadImage("lenna.png");
-        using var from = src[new Rect(0, 0, 48, 48)];
-        using var to = src[new Rect(2, 0, 48, 48)];
+        using var from = src[new Rect(0, 0, CropSize, CropSize)];
+        using var to = src[new Rect(2, 0, CropSize, CropSize)];
         using var flow = new Mat();
 
         Cv2.OptFlow.CalcOpticalFlowDenseRLOF(from, to, flow);
