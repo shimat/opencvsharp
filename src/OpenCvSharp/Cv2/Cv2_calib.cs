@@ -234,13 +234,13 @@ static partial class Cv2
     /// <param name="imagePoints">In the new interface it is a vector of vectors of the projections of calibration pattern points. 
     /// imagePoints.Count() and objectPoints.Count() and imagePoints[i].Count() must be equal to objectPoints[i].Count() for each i.</param>
     /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
-    /// <param name="cameraMatrix">Output 3x3 floating-point camera matrix. 
-    /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be 
+    /// <param name="cameraMatrix">Input/output 3x3 floating-point camera matrix.
+    /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be
     /// initialized before calling the function.</param>
-    /// <param name="distCoeffs">Output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
-    /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector 
-    /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern 
-    /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the 
+    /// <param name="distCoeffs">Input/output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
+    /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector
+    /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern
+    /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the
     /// calibration pattern in the k-th pattern view (k=0.. M -1)</param>
     /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
     /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
@@ -296,13 +296,13 @@ static partial class Cv2
     /// <param name="imagePoints">In the new interface it is a vector of vectors of the projections of calibration pattern points. 
     /// imagePoints.Count() and objectPoints.Count() and imagePoints[i].Count() must be equal to objectPoints[i].Count() for each i.</param>
     /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
-    /// <param name="cameraMatrix">Output 3x3 floating-point camera matrix. 
-    /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be 
+    /// <param name="cameraMatrix">Input/output 3x3 floating-point camera matrix.
+    /// If CV_CALIB_USE_INTRINSIC_GUESS and/or CV_CALIB_FIX_ASPECT_RATIO are specified, some or all of fx, fy, cx, cy must be
     /// initialized before calling the function.</param>
-    /// <param name="distCoeffs">Output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
-    /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector 
-    /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern 
-    /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the 
+    /// <param name="distCoeffs">Input/output vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.</param>
+    /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues() ) estimated for each pattern view. That is, each k-th rotation vector
+    /// together with the corresponding k-th translation vector (see the next output parameter description) brings the calibration pattern
+    /// from the model coordinate space (in which object points are specified) to the world coordinate space, that is, a real position of the
     /// calibration pattern in the k-th pattern view (k=0.. M -1)</param>
     /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
     /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
