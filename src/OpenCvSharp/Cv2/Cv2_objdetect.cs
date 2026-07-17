@@ -208,7 +208,7 @@ static partial class Cv2
     /// finds subpixel-accurate positions of the chessboard corners
     /// </summary>
     /// <param name="img"></param>
-    /// <param name="corners"></param>
+    /// <param name="corners">Input/output array of detected corners; overwritten in place with the refined positions.</param>
     /// <param name="regionSize"></param>
     /// <returns></returns>
     public static bool Find4QuadCornerSubpix(InputArray img, Point2f[] corners, Size regionSize)

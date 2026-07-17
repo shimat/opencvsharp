@@ -193,8 +193,8 @@ public class Index : CvObject
     /// Performs a radius nearest neighbor search for a given query point.
     /// </summary>
     /// <param name="queries">The query point</param>
-    /// <param name="indices">Indices of the nearest neighbors found</param>
-    /// <param name="dists">Distances to the nearest neighbors found</param>
+    /// <param name="indices">Output array of indices of the nearest neighbors found, overwritten in place.</param>
+    /// <param name="dists">Output array of distances to the nearest neighbors found, overwritten in place.</param>
     /// <param name="radius">Number of nearest neighbors to search for</param>
     /// <param name="maxResults"></param>
     /// <param name="params">Search parameters</param>
@@ -242,8 +242,8 @@ public class Index : CvObject
     /// Performs a radius nearest neighbor search for a given query point.
     /// </summary>
     /// <param name="queries">The query point</param>
-    /// <param name="indices">Indices of the nearest neighbors found</param>
-    /// <param name="dists">Distances to the nearest neighbors found</param>
+    /// <param name="indices">Output array of indices of the nearest neighbors found, overwritten in place.</param>
+    /// <param name="dists">Output array of distances to the nearest neighbors found, overwritten in place.</param>
     /// <param name="radius">Number of nearest neighbors to search for</param>
     /// <param name="maxResults"></param>
     /// <param name="params">Search parameters</param>

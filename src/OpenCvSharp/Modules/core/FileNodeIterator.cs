@@ -107,7 +107,7 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
     /// Usually it is more convenient to use operator `>>` instead of this method.
     /// </summary>
     /// <param name="fmt">Specification of each array element.See @ref format_spec "format specification"</param>
-    /// <param name="vec">Pointer to the destination array.</param>
+    /// <param name="vec">Output array the decoded elements are written into, overwritten in place.</param>
     /// <param name="maxCount">Number of elements to read. If it is greater than number of remaining elements then all of them will be read.</param>
     /// <returns></returns>
     public FileNodeIterator ReadRaw(string fmt, byte[] vec, long maxCount = int.MaxValue)
