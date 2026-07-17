@@ -45,9 +45,13 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(smartPtr, rawPtr);
     }
 
-    // Keeps the marshaled native trampoline alive for the lifetime of this instance (GC would
-    // otherwise be free to collect it, since only the unmanaged function pointer references it).
-    private NativeFeatureExtractorCallback? nativeFeatureExtractorCallback;
+    // Roots the marshaled native trampoline process-wide (not on the instance): the native side
+    // (cv::TrackerKCF::FeatureExtractorCallbackFN) is a plain C function pointer with no per-instance
+    // user-data slot, so the callback stays reachable through this shared field for as long as any
+    // tracker might still invoke it, even after the TrackerKCF instance that registered it is
+    // collected. Replacing it is guarded by a lock since registrations race on the same native slot.
+    private static readonly object featureExtractorLock = new();
+    private static NativeFeatureExtractorCallback? nativeFeatureExtractorCallback;
 
     /// <summary>
     /// Sets a custom feature extractor. Corresponds to <c>cv::TrackerKCF::setFeatureExtractor</c>.
@@ -70,7 +74,7 @@ public class TrackerKCF : Tracker
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(extractor);
 
-        nativeFeatureExtractorCallback = (image, roi, features) =>
+        NativeFeatureExtractorCallback trampoline = (image, roi, features) =>
         {
             using var imageMat = new Mat(image, ownsHandle: false);
             using var featuresMat = new Mat(features, ownsHandle: false);
@@ -78,8 +82,12 @@ public class TrackerKCF : Tracker
             extractor(imageMat, roiRect, featuresMat);
         };
 
-        NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_setFeatureExtractor(RawPtr, nativeFeatureExtractorCallback, pcaFunc ? 1 : 0));
+        lock (featureExtractorLock)
+        {
+            nativeFeatureExtractorCallback = trampoline;
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerKCF_setFeatureExtractor(RawPtr, nativeFeatureExtractorCallback, pcaFunc ? 1 : 0));
+        }
         GC.KeepAlive(this);
     }
 

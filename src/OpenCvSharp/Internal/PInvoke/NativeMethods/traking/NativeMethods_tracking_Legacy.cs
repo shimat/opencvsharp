@@ -193,5 +193,8 @@ static partial class NativeMethods
     public static partial ExceptionStatus tracking_legacy_MultiTrackerTLD_new(out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus tracking_legacy_MultiTrackerTLD_delete(IntPtr obj);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus tracking_legacy_MultiTrackerTLD_updateOpt(OpenCvSafeHandle obj, IntPtr image, out int returnValue);
 }

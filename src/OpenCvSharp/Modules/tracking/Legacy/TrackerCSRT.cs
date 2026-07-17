@@ -58,9 +58,11 @@ public class TrackerCSRT : LegacyTracker
     /// <param name="mask"></param>
     public virtual void SetInitialMask(InputArray mask)
     {
+        ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.tracking_legacy_TrackerCSRT_setInitialMask(RawPtr, mask.Proxy));
 
+        GC.KeepAlive(this);
         GC.KeepAlive(mask.Source);
     }
 

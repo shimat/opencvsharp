@@ -22,6 +22,10 @@ public class TrackerDaSiamRPN : Tracker
     /// <returns></returns>
     public static TrackerDaSiamRPN Create(Params parameters)
     {
+        ArgumentNullException.ThrowIfNull(parameters.Model, nameof(parameters.Model));
+        ArgumentNullException.ThrowIfNull(parameters.KernelCls1, nameof(parameters.KernelCls1));
+        ArgumentNullException.ThrowIfNull(parameters.KernelR1, nameof(parameters.KernelR1));
+
         // model/kernel_cls1/kernel_r1 are char* in the native struct, so marshal them for the
         // duration of the call (native copies them into std::string immediately).
         var modelPtr = Marshal.StringToCoTaskMemAnsi(parameters.Model);

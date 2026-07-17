@@ -36,7 +36,7 @@ public class RLOFOpticalFlowParameterTest : TestBase
     {
         using var p = new RLOFOpticalFlowParameter
         {
-            SolverType = SolverType.Standart,
+            SolverType = SolverType.Standard,
             SupportRegionType = SupportRegionType.Fixed,
             NormSigma0 = 3.2f,
             NormSigma1 = 7.0f,
@@ -52,7 +52,7 @@ public class RLOFOpticalFlowParameterTest : TestBase
             GlobalMotionRansacThreshold = 15f,
         };
 
-        Assert.Equal(SolverType.Standart, p.SolverType);
+        Assert.Equal(SolverType.Standard, p.SolverType);
         Assert.Equal(SupportRegionType.Fixed, p.SupportRegionType);
         Assert.Equal(3.2f, p.NormSigma0);
         Assert.Equal(7.0f, p.NormSigma1);

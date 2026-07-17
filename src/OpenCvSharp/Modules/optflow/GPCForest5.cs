@@ -68,6 +68,9 @@ public class GPCForest5 : Algorithm
         var imagesFromArray = imagesFrom as Mat[] ?? imagesFrom.ToArray();
         var imagesToArray = imagesTo as Mat[] ?? imagesTo.ToArray();
         var gtArray = gt as Mat[] ?? gt.ToArray();
+        if (imagesFromArray.Length != imagesToArray.Length || imagesFromArray.Length != gtArray.Length)
+            throw new ArgumentException("imagesFrom, imagesTo, and gt must have the same number of elements.");
+
         var imagesFromPtrs = imagesFromArray.Select(m => m.CvPtr).ToArray();
         var imagesToPtrs = imagesToArray.Select(m => m.CvPtr).ToArray();
         var gtPtrs = gtArray.Select(m => m.CvPtr).ToArray();

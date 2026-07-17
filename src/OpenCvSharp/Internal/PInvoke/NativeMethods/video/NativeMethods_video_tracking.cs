@@ -7,6 +7,21 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Internal;
 
+/// <summary>
+/// Blittable P/Invoke representation of the scalar/POD fields of <c>cv::ECCParameters</c>
+/// (everything except <c>itersPerLevel</c>, a <c>std::vector&lt;int&gt;</c> passed as a separate
+/// argument). This type is internal; use <c>OpenCvSharp.ECCParameters</c> in consumer code.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+public struct CvECCParameters
+{
+    public int MotionType;
+    public TermCriteria Criteria;
+    public int GaussFiltSize;
+    public int NLevels;
+    public int Interpolation;
+}
+
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -75,8 +90,8 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus video_findTransformECCMultiScale(
         in InputArrayProxy reference, in InputArrayProxy sample,
-        in InputOutputArrayProxy warpMatrix, int motionType, TermCriteria criteria,
-        IntPtr itersPerLevel, int gaussFiltSize, int nlevels, int interpolation,
+        in InputOutputArrayProxy warpMatrix, in CvECCParameters eccParameters,
+        IntPtr itersPerLevel,
         in InputArrayProxy referenceMask, in InputArrayProxy sampleMask, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -41,9 +41,22 @@ public class MultiTrackerAlt : CvObject
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.HandleException(
-            NativeMethods.tracking_legacy_MultiTracker_Alt_delete(CvPtr));
+        DeleteNative(CvPtr);
         base.DisposeUnmanaged();
+    }
+
+    /// <summary>
+    /// Deletes the native object through its own static type. Overridden by
+    /// <see cref="MultiTrackerTLD"/>: <c>cv::legacy::MultiTracker_Alt</c> has no virtual destructor,
+    /// so deleting a derived object (e.g. <c>cv::legacy::MultiTrackerTLD</c>) through this base
+    /// pointer type would be undefined behavior in C++, regardless of the two types' layout
+    /// compatibility.
+    /// </summary>
+    /// <param name="obj">The native pointer to delete.</param>
+    private protected virtual void DeleteNative(IntPtr obj)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.tracking_legacy_MultiTracker_Alt_delete(obj));
     }
 
     /// <summary>

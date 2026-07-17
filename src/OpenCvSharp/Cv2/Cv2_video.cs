@@ -368,11 +368,19 @@ static partial class Cv2
     {
         eccParams ??= new ECCParameters();
         using var itersPerLevelVec = new StdVector<int>(eccParams.ItersPerLevel ?? []);
+        var nativeEccParams = new CvECCParameters
+        {
+            MotionType = (int)eccParams.MotionType,
+            Criteria = eccParams.Criteria,
+            GaussFiltSize = eccParams.GaussFiltSize,
+            NLevels = eccParams.NLevels,
+            Interpolation = (int)eccParams.Interpolation,
+        };
 
         NativeMethods.HandleException(
             NativeMethods.video_findTransformECCMultiScale(
-                reference.Proxy, sample.Proxy, warpMatrix.Proxy, (int)eccParams.MotionType, eccParams.Criteria,
-                itersPerLevelVec.CvPtr, eccParams.GaussFiltSize, eccParams.NLevels, (int)eccParams.Interpolation,
+                reference.Proxy, sample.Proxy, warpMatrix.Proxy, in nativeEccParams,
+                itersPerLevelVec.CvPtr,
                 referenceMask.Proxy, sampleMask.Proxy, out var ret));
 
         GC.KeepAlive(reference.Source);

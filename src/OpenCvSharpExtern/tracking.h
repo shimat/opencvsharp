@@ -55,7 +55,7 @@ cv::TrackerCSRT::Params tracking_TrackerCSRT_Param_ToCpp(const tracker_TrackerCS
     p.use_rgb = params->use_rgb != 0;
     p.use_channel_weights = params->use_channel_weights != 0;
     p.use_segmentation = params->use_segmentation != 0;
-    p.window_function = std::string(params->window_function);
+    p.window_function = params->window_function ? std::string(params->window_function) : std::string();
     p.kaiser_alpha = params->kaiser_alpha;
     p.cheb_attenuation = params->cheb_attenuation;
     p.template_size = params->template_size;
@@ -534,7 +534,7 @@ cv::legacy::TrackerCSRT::Params tracking_legacy_TrackerCSRT_Param_ToCpp(const tr
     p.use_rgb = params->use_rgb != 0;
     p.use_channel_weights = params->use_channel_weights != 0;
     p.use_segmentation = params->use_segmentation != 0;
-    p.window_function = std::string(params->window_function);
+    p.window_function = params->window_function ? std::string(params->window_function) : std::string();
     p.kaiser_alpha = params->kaiser_alpha;
     p.cheb_attenuation = params->cheb_attenuation;
     p.template_size = params->template_size;
@@ -741,9 +741,16 @@ CVAPI(ExceptionStatus) tracking_legacy_MultiTrackerTLD_new(cv::legacy::MultiTrac
     });
 }
 
-// No MultiTrackerTLD-specific delete: MultiTrackerTLD adds no data members over MultiTracker_Alt and
-// MultiTracker_Alt has no virtual destructor, so the two types are identically sized/laid out and the
-// managed side disposes a MultiTrackerTLD through tracking_legacy_MultiTracker_Alt_delete instead.
+// A dedicated delete is required even though MultiTrackerTLD adds no data members over
+// MultiTracker_Alt: deleting a derived-class object through a base-class pointer whose destructor
+// isn't virtual is undefined behavior in C++, regardless of layout compatibility. Always delete
+// through the object's own static type.
+CVAPI(ExceptionStatus) tracking_legacy_MultiTrackerTLD_delete(cv::legacy::MultiTrackerTLD* obj)
+{
+    return cvTry([&] {
+        delete obj;
+    });
+}
 
 CVAPI(ExceptionStatus) tracking_legacy_MultiTrackerTLD_updateOpt(cv::legacy::MultiTrackerTLD* obj, const cv::Mat* image, int* returnValue)
 {

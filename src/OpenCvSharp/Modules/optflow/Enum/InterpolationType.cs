@@ -14,10 +14,10 @@ public enum InterpolationType
     /// <summary>
     /// Edge-preserving interpolation using ximgproc::EdgeAwareInterpolator.
     /// </summary>
-    Epic = 1,
+    EPIC = 1,
 
     /// <summary>
     /// SLIC based robust interpolation using ximgproc::RICInterpolator.
     /// </summary>
-    Ric = 2,
+    RIC = 2,
 }

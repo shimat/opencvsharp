@@ -23,6 +23,9 @@ public class TrackerNano : Tracker
     /// <returns></returns>
     public static TrackerNano Create(Params parameters)
     {
+        ArgumentNullException.ThrowIfNull(parameters.Backbone, nameof(parameters.Backbone));
+        ArgumentNullException.ThrowIfNull(parameters.Neckhead, nameof(parameters.Neckhead));
+
         // backbone/neckhead are char* in the native struct, so marshal them for the duration of the
         // call (native copies them into std::string immediately).
         var backbonePtr = Marshal.StringToCoTaskMemAnsi(parameters.Backbone);

@@ -29,4 +29,24 @@ public class TrackerDaSiamRPNTest : TestBase
     public void InitAndUpdateRequireARealModel()
     {
     }
+
+    [Fact]
+    public void CreateThrowsWhenModelPathsAreNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => TrackerDaSiamRPN.Create(new TrackerDaSiamRPN.Params
+        {
+            KernelCls1 = "kernel_cls1.onnx",
+            KernelR1 = "kernel_r1.onnx",
+        }));
+        Assert.Throws<ArgumentNullException>(() => TrackerDaSiamRPN.Create(new TrackerDaSiamRPN.Params
+        {
+            Model = "model.onnx",
+            KernelR1 = "kernel_r1.onnx",
+        }));
+        Assert.Throws<ArgumentNullException>(() => TrackerDaSiamRPN.Create(new TrackerDaSiamRPN.Params
+        {
+            Model = "model.onnx",
+            KernelCls1 = "kernel_cls1.onnx",
+        }));
+    }
 }

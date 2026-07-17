@@ -202,28 +202,35 @@ CVAPI(ExceptionStatus) video_findTransformECCWithMask(
     });
 }
 
+// Mirrors OpenCvSharp.Internal.CvECCParameters (the scalar/POD fields of cv::ECCParameters;
+// itersPerLevel is a std::vector<int> passed as its own argument).
+CV_EXTERN_C struct video_ECCParameters
+{
+    int motionType;
+    interop::TermCriteria criteria;
+    int gaussFiltSize;
+    int nlevels;
+    int interpolation;
+};
+
 CVAPI(ExceptionStatus) video_findTransformECCMultiScale(
     const interop::InputArrayProxy* reference,
     const interop::InputArrayProxy* sample,
     const interop::InputOutputArrayProxy* warpMatrix,
-    int motionType,
-    interop::TermCriteria criteria,
+    const video_ECCParameters* eccParameters,
     const std::vector<int>* itersPerLevel,
-    int gaussFiltSize,
-    int nlevels,
-    int interpolation,
     const interop::InputArrayProxy* referenceMask,
     const interop::InputArrayProxy* sampleMask,
     double* returnValue)
 {
     return cvTry([&] {
         cv::ECCParameters eccParams;
-        eccParams.motionType = motionType;
-        eccParams.criteria = cpp(criteria);
+        eccParams.motionType = eccParameters->motionType;
+        eccParams.criteria = cpp(eccParameters->criteria);
         eccParams.itersPerLevel = *itersPerLevel;
-        eccParams.gaussFiltSize = gaussFiltSize;
-        eccParams.nlevels = nlevels;
-        eccParams.interpolation = interpolation;
+        eccParams.gaussFiltSize = eccParameters->gaussFiltSize;
+        eccParams.nlevels = eccParameters->nlevels;
+        eccParams.interpolation = eccParameters->interpolation;
         *returnValue = cv::findTransformECCMultiScale(
             InProxy(*reference), InProxy(*sample), IoProxy(*warpMatrix), eccParams,
             InProxy(*referenceMask), InProxy(*sampleMask));

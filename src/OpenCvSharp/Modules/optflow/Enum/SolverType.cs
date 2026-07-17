@@ -8,7 +8,7 @@ public enum SolverType
     /// <summary>
     /// Apply standard iterative refinement.
     /// </summary>
-    Standart = 0,
+    Standard = 0,
 
     /// <summary>
     /// Apply optimized iterative refinement based on bilinear equation solutions.

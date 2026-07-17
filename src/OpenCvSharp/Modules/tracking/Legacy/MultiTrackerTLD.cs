@@ -34,12 +34,16 @@ public sealed class MultiTrackerTLD : MultiTrackerAlt
         return p;
     }
 
-    // Disposal intentionally goes through the inherited MultiTrackerAlt.DisposeUnmanaged (which calls
-    // tracking_legacy_MultiTracker_Alt_delete on this cv::legacy::MultiTrackerTLD* reinterpreted as
-    // cv::legacy::MultiTracker_Alt*): MultiTrackerTLD adds no data members over MultiTracker_Alt and
-    // MultiTracker_Alt has no virtual destructor, so the two types are identically sized/laid out and
-    // deleting through the base pointer correctly destroys the object - no MultiTrackerTLD-specific
-    // delete function is needed.
+    /// <summary>
+    /// Deletes through <c>tracking_legacy_MultiTrackerTLD_delete</c> (this object's own static
+    /// type) rather than the inherited <see cref="MultiTrackerAlt"/> delete: see
+    /// <see cref="MultiTrackerAlt.DeleteNative"/> for why.
+    /// </summary>
+    private protected override void DeleteNative(IntPtr obj)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.tracking_legacy_MultiTrackerTLD_delete(obj));
+    }
 
     /// <summary>
     /// Update all trackers from the tracking-list, finding new most likely bounding boxes for the

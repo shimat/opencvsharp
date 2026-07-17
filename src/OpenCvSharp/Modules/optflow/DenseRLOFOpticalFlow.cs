@@ -34,7 +34,7 @@ public class DenseRLOFOpticalFlow : DenseOpticalFlow
         RLOFOpticalFlowParameter? rlofParam = null,
         float forwardBackwardThreshold = 1.0f,
         Size? gridStep = null,
-        InterpolationType interpType = InterpolationType.Epic,
+        InterpolationType interpType = InterpolationType.EPIC,
         int epicK = 128,
         float epicSigma = 0.05f,
         float epicLambda = 999.0f,

@@ -27,4 +27,17 @@ public class TrackerNanoTest : TestBase
     public void InitAndUpdateRequireARealModel()
     {
     }
+
+    [Fact]
+    public void CreateThrowsWhenModelPathsAreNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => TrackerNano.Create(new TrackerNano.Params
+        {
+            Neckhead = "neckhead.onnx",
+        }));
+        Assert.Throws<ArgumentNullException>(() => TrackerNano.Create(new TrackerNano.Params
+        {
+            Backbone = "backbone.onnx",
+        }));
+    }
 }

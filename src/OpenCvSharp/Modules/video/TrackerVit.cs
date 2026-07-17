@@ -22,6 +22,8 @@ public class TrackerVit : Tracker
     /// <returns></returns>
     public static TrackerVit Create(Params parameters)
     {
+        ArgumentNullException.ThrowIfNull(parameters.Net, nameof(parameters.Net));
+
         // net is a char* in the native struct, so marshal it for the duration of the call
         // (native copies it into a std::string immediately).
         var netPtr = Marshal.StringToCoTaskMemAnsi(parameters.Net);

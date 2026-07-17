@@ -30,4 +30,10 @@ public class TrackerVitTest : TestBase
     public void InitAndUpdateRequireARealModel()
     {
     }
+
+    [Fact]
+    public void CreateThrowsWhenModelPathIsNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => TrackerVit.Create(new TrackerVit.Params()));
+    }
 }

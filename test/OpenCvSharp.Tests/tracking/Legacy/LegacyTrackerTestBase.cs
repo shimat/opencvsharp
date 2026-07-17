@@ -39,13 +39,14 @@ public abstract class LegacyTrackerTestBase : TestBase
 
             if (Debugger.IsAttached)
             {
-                Directory.CreateDirectory(path);
+                var outPath = Path.Combine(path, "out");
+                Directory.CreateDirectory(outPath);
                 Cv2.Rectangle(
                     mat,
                     new Point((int)bb.X, (int)bb.Y),
                     new Point((int)(bb.X + bb.Width), (int)(bb.Y + bb.Height)),
                     new Scalar(0, 0, 255));
-                Cv2.ImWrite(Path.Combine(path, file), mat);
+                Cv2.ImWrite(Path.Combine(outPath, file), mat);
             }
         }
     }

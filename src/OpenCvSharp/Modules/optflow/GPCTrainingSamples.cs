@@ -32,6 +32,9 @@ public class GPCTrainingSamples : CvPtrObject
         var imagesFromArray = imagesFrom as Mat[] ?? imagesFrom.ToArray();
         var imagesToArray = imagesTo as Mat[] ?? imagesTo.ToArray();
         var gtArray = gt as Mat[] ?? gt.ToArray();
+        if (imagesFromArray.Length != imagesToArray.Length || imagesFromArray.Length != gtArray.Length)
+            throw new ArgumentException("Sizes of all the provided collections must be equal.");
+
         var imagesFromPtrs = imagesFromArray.Select(m => m.CvPtr).ToArray();
         var imagesToPtrs = imagesToArray.Select(m => m.CvPtr).ToArray();
         var gtPtrs = gtArray.Select(m => m.CvPtr).ToArray();
