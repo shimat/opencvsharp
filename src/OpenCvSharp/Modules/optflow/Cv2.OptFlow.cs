@@ -1,5 +1,6 @@
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
+using OpenCvSharp.OptFlow;
 
 namespace OpenCvSharp;
 
@@ -216,6 +217,195 @@ public static partial class Cv2
             GC.KeepAlive(from.Source);
             GC.KeepAlive(to.Source);
             GC.KeepAlive(flow.Source);
+        }
+
+        /// <summary>
+        /// DeepFlow optical flow algorithm implementation.
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_DeepFlow()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_DeepFlow(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Additional interface to the SimpleFlow algorithm - CalcOpticalFlowSF()
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_SimpleFlow()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_SimpleFlow(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Additional interface to the Farneback's algorithm - CalcOpticalFlowFarneback()
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_Farneback()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_Farneback(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Additional interface to the SparseToDenseFlow algorithm - CalcOpticalFlowSparseToDense()
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_SparseToDense()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_SparseToDense(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Creates an instance of cv::optflow::DualTVL1OpticalFlow, using the algorithm's defaults.
+        /// </summary>
+        /// <returns></returns>
+        // NB: return type is fully qualified because the sibling superres module already has a flat
+        // (namespace OpenCvSharp) DualTVL1OpticalFlow class wrapping the unrelated cv::superres::DualTVL1OpticalFlow.
+        public static OpenCvSharp.OptFlow.DualTVL1OpticalFlow CreateOptFlow_DualTVL1()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_DualTVL1(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.optflow_Ptr_DualTVL1OpticalFlow_get(smartPtr, out var rawPtr));
+            return OpenCvSharp.OptFlow.DualTVL1OpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Creates an instance of the PCAFlow algorithm, using the algorithm's defaults (no learned prior).
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_PCAFlow()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_PCAFlow(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Additional interface to the Dense RLOF algorithm - CalcOpticalFlowDenseRLOF(), using the algorithm's defaults.
+        /// </summary>
+        /// <returns></returns>
+        public static DenseOpticalFlow CreateOptFlow_DenseRLOF()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_DenseRLOF(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_DenseOpticalFlow_get(smartPtr, out var rawPtr));
+            return DenseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Additional interface to the Sparse RLOF algorithm - CalcOpticalFlowSparseRLOF(), using the algorithm's defaults.
+        /// </summary>
+        /// <returns></returns>
+        public static SparseOpticalFlow CreateOptFlow_SparseRLOF()
+        {
+            NativeMethods.HandleException(NativeMethods.optflow_createOptFlow_SparseRLOF(out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_SparseOpticalFlow_get(smartPtr, out var rawPtr));
+            return SparseOpticalFlow.FromPtr(smartPtr, rawPtr);
+        }
+
+        /// <summary>
+        /// Fast dense optical flow computation based on robust local optical flow (RLOF) algorithms and
+        /// sparse-to-dense interpolation scheme.
+        /// </summary>
+        /// <param name="i0">First 8-bit input image. If cross-based RLOF is used
+        /// (<see cref="RLOFOpticalFlowParameter.SupportRegionType"/> = <see cref="OpenCvSharp.OptFlow.SupportRegionType.Cross"/>)
+        /// the image has to be an 8-bit 3-channel image.</param>
+        /// <param name="i1">Second 8-bit input image, same requirements as <paramref name="i0"/>.</param>
+        /// <param name="flow">Computed flow image that has the same size as i0 and type CV_32FC2.</param>
+        /// <param name="rlofParam">See <see cref="RLOFOpticalFlowParameter"/>. Uses the algorithm's defaults when null.</param>
+        /// <param name="forwardBackwardThreshold">Threshold for the forward backward confidence check.</param>
+        /// <param name="gridStep">Size of the grid to spawn the motion vectors.</param>
+        /// <param name="interpType">Interpolation method used to compute the dense optical flow.</param>
+        /// <param name="epicK">See ximgproc::EdgeAwareInterpolator's K value.</param>
+        /// <param name="epicSigma">See ximgproc::EdgeAwareInterpolator's sigma value.</param>
+        /// <param name="epicLambda">See ximgproc::EdgeAwareInterpolator's lambda value.</param>
+        /// <param name="ricSpSize">See ximgproc::RICInterpolator's superpixel size parameter.</param>
+        /// <param name="ricSlicType">See ximgproc::RICInterpolator's superpixel algorithm variant.</param>
+        /// <param name="usePostProc">Enables ximgproc::fastGlobalSmootherFilter() post-processing.</param>
+        /// <param name="fgsLambda">See ximgproc::fastGlobalSmootherFilter()'s lambda parameter.</param>
+        /// <param name="fgsSigma">See ximgproc::fastGlobalSmootherFilter()'s sigma parameter.</param>
+        /// <param name="useVariationalRefinement">Enables VariationalRefinement.</param>
+        public static void CalcOpticalFlowDenseRLOF(
+            InputArray i0,
+            InputArray i1,
+            InputOutputArray flow,
+            RLOFOpticalFlowParameter? rlofParam = null,
+            float forwardBackwardThreshold = 0,
+            Size? gridStep = null,
+            InterpolationType interpType = InterpolationType.Epic,
+            int epicK = 128,
+            float epicSigma = 0.05f,
+            float epicLambda = 100.0f,
+            int ricSpSize = 15,
+            int ricSlicType = 100,
+            bool usePostProc = true,
+            float fgsLambda = 500.0f,
+            float fgsSigma = 1.5f,
+            bool useVariationalRefinement = false)
+        {
+            rlofParam?.ThrowIfDisposed();
+            var actualGridStep = gridStep ?? new Size(6, 6);
+
+            NativeMethods.HandleException(
+                NativeMethods.optflow_calcOpticalFlowDenseRLOF(
+                    i0.Proxy, i1.Proxy, flow.Proxy,
+                    rlofParam?.SmartPtr ?? IntPtr.Zero, forwardBackwardThreshold, actualGridStep, (int)interpType,
+                    epicK, epicSigma, epicLambda, ricSpSize, ricSlicType,
+                    usePostProc ? 1 : 0, fgsLambda, fgsSigma, useVariationalRefinement ? 1 : 0));
+
+            GC.KeepAlive(i0.Source);
+            GC.KeepAlive(i1.Source);
+            GC.KeepAlive(flow.Source);
+            GC.KeepAlive(rlofParam);
+        }
+
+        /// <summary>
+        /// Calculates a fast optical flow for a sparse feature set using the robust local optical flow (RLOF),
+        /// similar to CalcOpticalFlowPyrLK().
+        /// </summary>
+        /// <param name="prevImg">First 8-bit input image. If cross-based RLOF is used
+        /// (<see cref="RLOFOpticalFlowParameter.SupportRegionType"/> = <see cref="OpenCvSharp.OptFlow.SupportRegionType.Cross"/>)
+        /// the image has to be an 8-bit 3-channel image.</param>
+        /// <param name="nextImg">Second 8-bit input image, same requirements as <paramref name="prevImg"/>.</param>
+        /// <param name="prevPts">Vector of 2D points for which the flow needs to be found.</param>
+        /// <param name="nextPts">Output vector of 2D points containing the calculated new positions of input features in the second image.</param>
+        /// <param name="status">Output status vector. Each element is set to 1 if the flow for the corresponding
+        /// feature has passed the forward backward check.</param>
+        /// <param name="err">Output vector of errors; each element is set to the forward backward error for the
+        /// corresponding feature.</param>
+        /// <param name="rlofParam">See <see cref="RLOFOpticalFlowParameter"/>. Uses the algorithm's defaults when null.</param>
+        /// <param name="forwardBackwardThreshold">Threshold for the forward backward confidence check.
+        /// If &lt;= 0, the forward backward check is not applied.</param>
+        public static void CalcOpticalFlowSparseRLOF(
+            InputArray prevImg,
+            InputArray nextImg,
+            InputArray prevPts,
+            InputOutputArray nextPts,
+            OutputArray status,
+            OutputArray err,
+            RLOFOpticalFlowParameter? rlofParam = null,
+            float forwardBackwardThreshold = 0)
+        {
+            rlofParam?.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.optflow_calcOpticalFlowSparseRLOF(
+                    prevImg.Proxy, nextImg.Proxy, prevPts.Proxy, nextPts.Proxy, status.Proxy, err.Proxy,
+                    rlofParam?.SmartPtr ?? IntPtr.Zero, forwardBackwardThreshold));
+
+            GC.KeepAlive(prevImg.Source);
+            GC.KeepAlive(nextImg.Source);
+            GC.KeepAlive(prevPts.Source);
+            GC.KeepAlive(nextPts.Source);
+            GC.KeepAlive(status.Source);
+            GC.KeepAlive(err.Source);
+            GC.KeepAlive(rlofParam);
         }
     }
 }

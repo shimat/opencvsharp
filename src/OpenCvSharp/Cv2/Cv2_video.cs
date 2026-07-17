@@ -297,4 +297,124 @@ static partial class Cv2
         GC.KeepAlive(inputMask.Source);
         return ret;
     }
+
+    /// <summary>
+    /// Finds the geometric transform (warp) between two images in terms of the ECC criterion, using
+    /// validity masks for both the template and the input images.
+    /// This extends <see cref="FindTransformECC(InputArray,InputArray,InputOutputArray,MotionTypes,TermCriteria?,InputArray)"/>
+    /// by adding a mask for the template image. The Enhanced Correlation Coefficient is evaluated only
+    /// over pixels that are valid in both images: on each iteration inputMask is warped into the
+    /// template frame and combined with templateMask, and only the intersection of these masks
+    /// contributes to the objective function.
+    /// </summary>
+    /// <param name="templateImage">1 or 3 channel template image; CV_8U, CV_16U, CV_32F, CV_64F type.</param>
+    /// <param name="inputImage">input image which should be warped with the final warpMatrix in
+    /// order to provide an image similar to templateImage, same type as templateImage.</param>
+    /// <param name="templateMask">single-channel 8-bit mask for templateImage indicating valid pixels
+    /// to be used in the alignment. Must have the same size as templateImage.</param>
+    /// <param name="inputMask">single-channel 8-bit mask for inputImage indicating valid pixels
+    /// before warping. Must have the same size as inputImage.</param>
+    /// <param name="warpMatrix">floating-point 2x3 or 3x3 mapping matrix (warp).</param>
+    /// <param name="motionType">parameter, specifying the type of motion</param>
+    /// <param name="criteria">parameter, specifying the termination criteria of the ECC algorithm</param>
+    /// <param name="gaussFiltSize">size of the Gaussian blur filter used for smoothing images and
+    /// masks before computing the alignment (DEFAULT: 5).</param>
+    /// <returns></returns>
+    public static double FindTransformECCWithMask(
+        InputArray templateImage,
+        InputArray inputImage,
+        InputArray templateMask,
+        InputArray inputMask,
+        InputOutputArray warpMatrix,
+        MotionTypes motionType = MotionTypes.Affine,
+        TermCriteria? criteria = null,
+        int gaussFiltSize = 5)
+    {
+        var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 50, 1e-6));
+
+        NativeMethods.HandleException(
+            NativeMethods.video_findTransformECCWithMask(
+                templateImage.Proxy, inputImage.Proxy, templateMask.Proxy, inputMask.Proxy,
+                warpMatrix.Proxy, (int)motionType, criteriaValue, gaussFiltSize, out var ret));
+
+        GC.KeepAlive(templateImage.Source);
+        GC.KeepAlive(inputImage.Source);
+        GC.KeepAlive(templateMask.Source);
+        GC.KeepAlive(inputMask.Source);
+        GC.KeepAlive(warpMatrix.Source);
+        return ret;
+    }
+
+    /// <summary>
+    /// Finds the geometric transform (warp) between two images in terms of the ECC criterion. Uses pyramids,
+    /// making the function more stable and able to correctly handle more sophisticated cases than
+    /// <see cref="FindTransformECC(InputArray,InputArray,InputOutputArray,MotionTypes,TermCriteria?,InputArray)"/>.
+    /// </summary>
+    /// <param name="reference">Single channel reference image; CV_8U, CV_16U, CV_32F, CV_64F type.</param>
+    /// <param name="sample">sample image which should be warped with the final warpMatrix in order
+    /// to provide an image similar to reference, same type as reference.</param>
+    /// <param name="warpMatrix">floating-point 2x3 or 3x3 mapping matrix (warp).</param>
+    /// <param name="eccParams">List of the algorithm parameters. See <see cref="ECCParameters"/> for details.</param>
+    /// <param name="referenceMask">An optional single channel mask to indicate valid values of reference.</param>
+    /// <param name="sampleMask">An optional single channel mask to indicate valid values of sample.</param>
+    /// <returns></returns>
+    public static double FindTransformECCMultiScale(
+        InputArray reference,
+        InputArray sample,
+        InputOutputArray warpMatrix,
+        ECCParameters? eccParams = null,
+        InputArray referenceMask = default,
+        InputArray sampleMask = default)
+    {
+        eccParams ??= new ECCParameters();
+        using var itersPerLevelVec = new StdVector<int>(eccParams.ItersPerLevel ?? []);
+
+        NativeMethods.HandleException(
+            NativeMethods.video_findTransformECCMultiScale(
+                reference.Proxy, sample.Proxy, warpMatrix.Proxy, (int)eccParams.MotionType, eccParams.Criteria,
+                itersPerLevelVec.CvPtr, eccParams.GaussFiltSize, eccParams.NLevels, (int)eccParams.Interpolation,
+                referenceMask.Proxy, sampleMask.Proxy, out var ret));
+
+        GC.KeepAlive(reference.Source);
+        GC.KeepAlive(sample.Source);
+        GC.KeepAlive(warpMatrix.Source);
+        GC.KeepAlive(referenceMask.Source);
+        GC.KeepAlive(sampleMask.Source);
+        return ret;
+    }
+
+    /// <summary>
+    /// Reads a .flo file.
+    /// The function loads a flow field from a file and returns it as a single matrix. Resulting Mat
+    /// has a type CV_32FC2 - floating-point, 2-channel. First channel corresponds to the flow in the
+    /// horizontal direction (u), second - vertical (v).
+    /// </summary>
+    /// <param name="path">Path to the file to be loaded</param>
+    /// <returns></returns>
+    public static Mat ReadOpticalFlow(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+
+        NativeMethods.HandleException(
+            NativeMethods.video_readOpticalFlow(path, out var ret));
+        return new Mat(ret);
+    }
+
+    /// <summary>
+    /// Writes a .flo file to disk.
+    /// The flow field must be a 2-channel, floating-point matrix (CV_32FC2). First channel
+    /// corresponds to the flow in the horizontal direction (u), second - vertical (v).
+    /// </summary>
+    /// <param name="path">Path to the file to be written</param>
+    /// <param name="flow">Flow field to be stored</param>
+    /// <returns>true on success, false otherwise</returns>
+    public static bool WriteOpticalFlow(string path, InputArray flow)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+
+        NativeMethods.HandleException(
+            NativeMethods.video_writeOpticalFlow(path, flow.Proxy, out var ret));
+        GC.KeepAlive(flow.Source);
+        return ret != 0;
+    }
 }

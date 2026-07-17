@@ -70,6 +70,7 @@
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="optflow.cpp" />
+    <ClCompile Include="optflow_gpc.cpp" />
     <ClCompile Include="photo.cpp" />
     <ClCompile Include="quality.cpp" />
     <ClCompile Include="shape.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="objdetect_QRCodeDetectorAruco.h" />
     <ClInclude Include="objdetect_QRCodeEncoder.h" />
     <ClInclude Include="optflow.h" />
+    <ClInclude Include="optflow_gpc.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="photo.h" />
     <ClInclude Include="photo_ColorCorrectionModel.h" />

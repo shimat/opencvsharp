@@ -50,4 +50,17 @@ public abstract class Tracker : Algorithm
 
         return ret != 0;
     }
+
+    /// <summary>
+    /// Return tracking score
+    /// </summary>
+    /// <returns></returns>
+    public float GetTrackingScore()
+    {
+        ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.video_Tracker_getTrackingScore(Handle, out var ret));
+        return ret;
+    }
 }

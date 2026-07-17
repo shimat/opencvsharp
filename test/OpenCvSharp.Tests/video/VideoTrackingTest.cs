@@ -104,4 +104,66 @@ public class VideoTrackingTest : TestBase
 
         Assert.True(cc > 0.9); // identical inputs -> near-perfect alignment
     }
+
+    [Fact]
+    // ReSharper disable once InconsistentNaming
+    public void FindTransformECCWithMask()
+    {
+        using var a = new Mat(64, 64, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Rectangle(a, new Rect(16, 16, 28, 28), Scalar.All(255), -1);
+        using var mask = new Mat(64, 64, MatType.CV_8UC1, Scalar.All(255));
+        using var warp = Mat.FromPixelData(2, 3, MatType.CV_32FC1, new float[] { 1, 0, 0, 0, 1, 0 });
+
+        var cc = Cv2.FindTransformECCWithMask(a, a, mask, mask, warp, MotionTypes.Translation,
+            new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 50, 1e-4), 5);
+
+        Assert.True(cc > 0.9); // identical inputs -> near-perfect alignment
+    }
+
+    [Fact]
+    // ReSharper disable once InconsistentNaming
+    public void FindTransformECCMultiScale()
+    {
+        using var a = new Mat(64, 64, MatType.CV_8UC1, Scalar.All(0));
+        Cv2.Rectangle(a, new Rect(16, 16, 28, 28), Scalar.All(255), -1);
+        using var warp = Mat.FromPixelData(2, 3, MatType.CV_32FC1, new float[] { 1, 0, 0, 0, 1, 0 });
+
+        var eccParams = new ECCParameters
+        {
+            MotionType = MotionTypes.Translation,
+            Criteria = new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.MaxIter, 50, 1e-4),
+            ItersPerLevel = [10, 10, 10],
+            GaussFiltSize = 5,
+            NLevels = 3,
+            Interpolation = InterpolationFlags.Linear,
+        };
+
+        var cc = Cv2.FindTransformECCMultiScale(a, a, warp, eccParams);
+
+        Assert.True(cc > 0.9); // identical inputs -> near-perfect alignment
+    }
+
+    [Fact]
+    public void ReadWriteOpticalFlow()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.flo");
+        try
+        {
+            using (var flow = new Mat(8, 8, MatType.CV_32FC2, Scalar.All(1.5)))
+            {
+                var written = Cv2.WriteOpticalFlow(path, flow);
+                Assert.True(written);
+            }
+
+            using var loaded = Cv2.ReadOpticalFlow(path);
+            Assert.Equal(new Size(8, 8), loaded.Size());
+            Assert.Equal(2, loaded.Channels());
+            Assert.Equal(MatType.CV_32FC2, loaded.Type());
+        }
+        finally
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+    }
 }

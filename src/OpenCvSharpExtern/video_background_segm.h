@@ -29,6 +29,18 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractor_apply(
     });
 }
 
+CVAPI(ExceptionStatus) video_BackgroundSubtractor_applyWithMask(
+    cv::BackgroundSubtractor *obj,
+    const interop::InputArrayProxy* image,
+    const interop::InputArrayProxy* knownForegroundMask,
+    const interop::OutputArrayProxy* fgmask,
+    double learningRate)
+{
+    return cvTry([&] {
+        obj->apply(InProxy(*image), InProxy(*knownForegroundMask), OutProxy(*fgmask), learningRate);
+    });
+}
+
 CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractor_delete(cv::Ptr<cv::BackgroundSubtractor> *ptr)
 {
     return cvTry([&] {

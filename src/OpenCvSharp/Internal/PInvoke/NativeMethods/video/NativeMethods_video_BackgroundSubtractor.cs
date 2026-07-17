@@ -17,6 +17,10 @@ static partial class NativeMethods
     internal static partial ExceptionStatus video_BackgroundSubtractor_apply(OpenCvSafeHandle self, in InputArrayProxy image, in OutputArrayProxy fgmask, double learningRate);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus video_BackgroundSubtractor_applyWithMask(
+        OpenCvSafeHandle self, in InputArrayProxy image, in InputArrayProxy knownForegroundMask, in OutputArrayProxy fgmask, double learningRate);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus video_Ptr_BackgroundSubtractor_delete(IntPtr ptr);
 
     #endregion
