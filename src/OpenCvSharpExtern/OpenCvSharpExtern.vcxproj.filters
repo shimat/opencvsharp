@@ -384,9 +384,6 @@
     <ClInclude Include="tracking.h">
       <Filter>Header Files\tracking</Filter>
     </ClInclude>
-    <ClInclude Include="text_TextDetector.h">
-      <Filter>Header Files\text</Filter>
-    </ClInclude>
     <ClInclude Include="text_ERFilter.h">
       <Filter>Header Files\text</Filter>
     </ClInclude>

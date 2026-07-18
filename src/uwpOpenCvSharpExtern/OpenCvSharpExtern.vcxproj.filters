@@ -449,9 +449,6 @@
     <ClInclude Include="text.h">
       <Filter>Header Files\text</Filter>
     </ClInclude>
-    <ClInclude Include="text_TextDetector.h">
-      <Filter>Header Files\text</Filter>
-    </ClInclude>
     <ClInclude Include="dnn.h">
       <Filter>Header Files\dnn</Filter>
     </ClInclude>
