@@ -49,7 +49,7 @@
    ```
 
 4. Build the managed OpenCvSharp library:
-   - Open `OpenCvSharp.sln` and build, or:
+   - Open `OpenCvSharp.slnx` and build (requires Visual Studio 2022 17.12+, or VS 2026), or:
    ```powershell
    dotnet build src/OpenCvSharp/OpenCvSharp.csproj -c Release
    ```

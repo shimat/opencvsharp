@@ -10,7 +10,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Slim native bindings package for OpenCvSharp on Linux x64 (portable RID). Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <Description>Slim native bindings package for OpenCvSharp on Linux x64 (portable RID). Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,barcode. Disabled modules: contrib,dnn,videoio,highgui,stitching.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp linux slim</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>

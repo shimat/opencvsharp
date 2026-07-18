@@ -47,7 +47,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the number of cells in the horizontal direction used to build the Circular Local Binary Pattern.
     /// </summary>
     /// <returns></returns>
     public virtual int GetGridX()
@@ -59,7 +59,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Sets the number of cells in the horizontal direction used to build the Circular Local Binary Pattern.
     /// </summary>
     /// <param name="val"></param>
     public virtual void SetGridX(int val)
@@ -70,7 +70,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the number of cells in the vertical direction used to build the Circular Local Binary Pattern.
     /// </summary>
     /// <returns></returns>
     public virtual int GetGridY()
@@ -82,7 +82,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Sets the number of cells in the vertical direction used to build the Circular Local Binary Pattern.
     /// </summary>
     /// <param name="val"></param>
     public virtual void SetGridY(int val)
@@ -93,7 +93,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the radius used for building the Circular Local Binary Pattern.
     /// </summary>
     /// <returns></returns>
     public virtual int GetRadius()
@@ -105,7 +105,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Sets the radius used for building the Circular Local Binary Pattern. The greater the radius,
+    /// the smoother the image but more spatial information you can get.
     /// </summary>
     /// <param name="val"></param>
     public virtual void SetRadius(int val)
@@ -116,7 +117,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the number of sample points used to build the Circular Local Binary Pattern.
     /// </summary>
     /// <returns></returns>
     public virtual int GetNeighbors()
@@ -128,7 +129,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Sets the number of sample points used to build the Circular Local Binary Pattern. An appropriate
+    /// value is 8; keep in mind that including more sample points increases the computational cost.
     /// </summary>
     /// <param name="val"></param>
     public virtual void SetNeighbors(int val)
@@ -139,7 +141,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the threshold applied in the prediction. If the distance to the nearest neighbor is
+    /// larger than the threshold, the prediction returns -1.
     /// </summary>
     /// <returns></returns>
     public new virtual double GetThreshold()
@@ -151,7 +154,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Sets the threshold applied in the prediction. If the distance to the nearest neighbor is
+    /// larger than the threshold, the prediction returns -1.
     /// </summary>
     /// <param name="val"></param>
     public new virtual void SetThreshold(double val)
@@ -162,7 +166,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the Local Binary Patterns histograms calculated from the given training data (empty if none was given).
     /// </summary>
     /// <returns></returns>
     public virtual Mat[] GetHistograms()
@@ -175,7 +179,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     }
 
     /// <summary>
-    /// 
+    /// Gets the labels corresponding to the calculated Local Binary Patterns histograms.
     /// </summary>
     /// <returns></returns>
     public virtual Mat GetLabels()

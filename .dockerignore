@@ -4,7 +4,6 @@
 # OpenCvSharp managed and native sources
 !src/
 src/build*/
-src/uwpOpenCvSharpExtern/
 
 # cmake option files needed by Dockerfiles
 !cmake/opencv_build_options.cmake

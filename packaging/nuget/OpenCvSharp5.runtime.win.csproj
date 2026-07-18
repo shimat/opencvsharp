@@ -6,12 +6,12 @@
     
     <!-- NuGet Package Metadata -->
     <PackageId>OpenCvSharp5.runtime.win</PackageId>
-    <Title>OpenCvSharp5 native bindings for Windows x64 (except UWP)</Title>
+    <Title>OpenCvSharp5 native bindings for Windows x64</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Internal implementation package for OpenCvSharp to work on Windows except UWP.</Description>
+    <Description>Internal implementation package for OpenCvSharp to work on Windows.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>

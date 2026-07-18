@@ -15,7 +15,7 @@ public sealed class FacemarkAAM : FacemarkTrain
     { }
 
     /// <summary>
-    ///
+    /// Creates a FacemarkAAM model.
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>

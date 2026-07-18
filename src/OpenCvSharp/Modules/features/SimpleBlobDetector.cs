@@ -50,18 +50,28 @@ public class SimpleBlobDetector : Feature2D
         }
 
 #pragma warning disable 1591
+        /// <summary>
+        /// Distance between neighboring thresholds when converting the source image to several
+        /// binary images, from MinThreshold (inclusive) to MaxThreshold (exclusive).
+        /// </summary>
         public float ThresholdStep
         {
             get => Data.thresholdStep;
             set => Data.thresholdStep = value;
         }
 
+        /// <summary>
+        /// Lower bound (inclusive) of the range of thresholds used to binarize the source image.
+        /// </summary>
         public float MinThreshold
         {
             get => Data.minThreshold;
             set => Data.minThreshold = value;
         }
 
+        /// <summary>
+        /// Upper bound (exclusive) of the range of thresholds used to binarize the source image.
+        /// </summary>
         public float MaxThreshold
         {
             get => Data.maxThreshold;
@@ -74,90 +84,145 @@ public class SimpleBlobDetector : Feature2D
             set => Data.minRepeatability = value;
         }
 
+        /// <summary>
+        /// Maximum distance between centers of two blobs for them to be merged into a single blob
+        /// group when combining results from the several binarized images.
+        /// </summary>
         public float MinDistBetweenBlobs
         {
             get => Data.minDistBetweenBlobs;
             set => Data.minDistBetweenBlobs = value;
         }
 
+        /// <summary>
+        /// If true, blobs are filtered by comparing the intensity of a binary image at the center of a
+        /// blob to <see cref="BlobColor"/>; blobs with a different intensity are filtered out.
+        /// </summary>
         public bool FilterByColor
         {
             get => Data.filterByColor != 0;
             set => Data.filterByColor = (value ? 1 : 0);
         }
 
+        /// <summary>
+        /// Expected intensity of a blob center in the binary image, used when <see cref="FilterByColor"/>
+        /// is enabled. Use 0 to extract dark blobs and 255 to extract light blobs.
+        /// </summary>
         public byte BlobColor
         {
             get => Data.blobColor;
             set => Data.blobColor = value;
         }
 
+        /// <summary>
+        /// If true, blobs are filtered by area; only blobs with an area between
+        /// <see cref="MinArea"/> (inclusive) and <see cref="MaxArea"/> (exclusive) are extracted.
+        /// </summary>
         public bool FilterByArea
         {
             get => Data.filterByArea != 0;
             set => Data.filterByArea = (value ? 1 : 0);
         }
 
+        /// <summary>
+        /// Lower bound (inclusive) of blob area used when <see cref="FilterByArea"/> is enabled.
+        /// </summary>
         public float MinArea
         {
             get => Data.minArea;
             set => Data.minArea = value;
         }
 
+        /// <summary>
+        /// Upper bound (exclusive) of blob area used when <see cref="FilterByArea"/> is enabled.
+        /// </summary>
         public float MaxArea
         {
             get => Data.maxArea;
             set => Data.maxArea = value;
         }
 
+        /// <summary>
+        /// If true, blobs are filtered by circularity (4*pi*area / perimeter^2); only blobs with a
+        /// circularity between <see cref="MinCircularity"/> (inclusive) and <see cref="MaxCircularity"/>
+        /// (exclusive) are extracted.
+        /// </summary>
         public bool FilterByCircularity
         {
             get => Data.filterByCircularity != 0;
             set => Data.filterByCircularity = (value ? 1 : 0);
         }
 
+        /// <summary>
+        /// Lower bound (inclusive) of blob circularity used when <see cref="FilterByCircularity"/> is enabled.
+        /// </summary>
         public float MinCircularity
         {
             get => Data.minCircularity;
             set => Data.minCircularity = value;
         }
 
+        /// <summary>
+        /// Upper bound (exclusive) of blob circularity used when <see cref="FilterByCircularity"/> is enabled.
+        /// </summary>
         public float MaxCircularity
         {
             get => Data.maxCircularity;
             set => Data.maxCircularity = value;
         }
 
+        /// <summary>
+        /// If true, blobs are filtered by the ratio of the minimum to the maximum inertia; only blobs
+        /// with a ratio between <see cref="MinInertiaRatio"/> (inclusive) and
+        /// <see cref="MaxInertiaRatio"/> (exclusive) are extracted.
+        /// </summary>
         public bool FilterByInertia
         {
             get => Data.filterByInertia != 0;
             set => Data.filterByInertia = (value ? 1 : 0);
         }
 
+        /// <summary>
+        /// Lower bound (inclusive) of the inertia ratio used when <see cref="FilterByInertia"/> is enabled.
+        /// </summary>
         public float MinInertiaRatio
         {
             get => Data.minInertiaRatio;
             set => Data.minInertiaRatio = value;
         }
 
+        /// <summary>
+        /// Upper bound (exclusive) of the inertia ratio used when <see cref="FilterByInertia"/> is enabled.
+        /// </summary>
         public float MaxInertiaRatio
         {
             get => Data.maxInertiaRatio;
             set => Data.maxInertiaRatio = value;
         }
 
+        /// <summary>
+        /// If true, blobs are filtered by convexity (area / area of the blob's convex hull); only blobs
+        /// with a convexity between <see cref="MinConvexity"/> (inclusive) and <see cref="MaxConvexity"/>
+        /// (exclusive) are extracted.
+        /// </summary>
         public bool FilterByConvexity
         {
             get => Data.filterByConvexity != 0;
             set => Data.filterByConvexity = (value ? 1 : 0);
         }
 
+        /// <summary>
+        /// Lower bound (inclusive) of blob convexity used when <see cref="FilterByConvexity"/> is enabled.
+        /// </summary>
         public float MinConvexity
         {
             get => Data.minConvexity;
             set => Data.minConvexity = value;
         }
 
+        /// <summary>
+        /// Upper bound (exclusive) of blob convexity used when <see cref="FilterByConvexity"/> is enabled.
+        /// </summary>
         public float MaxConvexity
         {
             get => Data.maxConvexity;

@@ -249,13 +249,38 @@ public enum ErrorCode
     /// </summary>
     StsAssert = -215,
 
-#pragma warning disable 1591
+    /// <summary>
+    /// no CUDA support
+    /// </summary>
     GpuNotSupported = -216,
+
+    /// <summary>
+    /// GPU API call error
+    /// </summary>
     GpuApiCallError = -217,
+
+    /// <summary>
+    /// no OpenGL support
+    /// </summary>
     OpenGlNotSupported = -218,
+
+    /// <summary>
+    /// OpenGL API call error
+    /// </summary>
     OpenGlApiCallError = -219,
+
+    /// <summary>
+    /// OpenCL API call error
+    /// </summary>
     OpenCLApiCallError = -220,
+
+#pragma warning disable 1591
     OpenCLDoubleNotSupported = -221,
+
+    /// <summary>
+    /// OpenCL initialization error
+    /// </summary>
     OpenCLInitError = -222,
+
     OpenCLNoAMDBlasFft = -223
 }

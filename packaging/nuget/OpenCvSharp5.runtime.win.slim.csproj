@@ -5,12 +5,12 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
     <PackageId>OpenCvSharp5.runtime.win.slim</PackageId>
-    <Title>OpenCvSharp5 native slim bindings for Windows x64 (except UWP)</Title>
+    <Title>OpenCvSharp5 native slim bindings for Windows x64</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Slim native runtime package for OpenCvSharp on Windows except UWP. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <Description>Slim native runtime package for OpenCvSharp on Windows. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,barcode. Disabled modules: contrib,dnn,videoio,highgui,stitching.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows slim</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
