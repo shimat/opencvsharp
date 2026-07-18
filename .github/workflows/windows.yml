@@ -194,6 +194,34 @@ jobs:
           Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll bin\Release\net10.0\win-x64\
           dotnet test -c Release -f net10.0 --runtime win-x64 --no-build
 
+      - name: Test NativeAOT publish
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+
+          # Some ILCompiler versions resolve link.exe via a bare `vswhere.exe` call, which requires
+          # the VS Installer directory on PATH - not guaranteed for a plain (non-"Developer") shell.
+          $env:Path += ";${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.NativeAot
+
+          # Restore and publish as separate steps: NuGet's static graph restore evaluates
+          # OpenCvSharp.Analyzers.csproj (a netstandard2.0 analyzer, referenced with
+          # UndefineProperties so the *build* graph never sees PublishAot/RuntimeIdentifier) under
+          # the raw command-line global properties regardless of that item metadata, so passing
+          # -p:PublishAot=true to a combined restore+publish invocation still fails restore with
+          # NETSDK1207. Restoring without it first, then publishing with --no-restore, avoids that.
+          dotnet restore -r win-x64
+          dotnet publish -c Release -f net10.0 --runtime win-x64 -p:PublishAot=true --no-restore
+
+          $publishDir = "bin\Release\net10.0\win-x64\publish"
+          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll $publishDir
+          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\opencv_videoio_ffmpeg500_64.dll $publishDir
+
+          & "$publishDir\OpenCvSharp.Tests.NativeAot.exe"
+          if ($LASTEXITCODE -ne 0) { throw "NativeAOT smoke test failed with exit code $LASTEXITCODE" }
+
       - name: Verify security hardening with BinSkim
         if: inputs.run_binskim == true
         shell: powershell

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+
+    <!--
+      This project exists to catch NativeAOT regressions end-to-end: publish with
+      PublishAot=true and run the result (see .github/workflows/windows.yml). It is a plain
+      console app, not an xunit host, because NativeAOT publishing of test-framework hosts is
+      its own unsupported can of worms - a smoke test that asserts and sets its exit code is
+      enough to catch a build-time ILC failure or a runtime marshalling regression.
+    -->
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
+  </ItemGroup>
+
+  <!--
+    OpenCvSharpExtern.dll is not referenced here as a project item: unlike OpenCvSharp.Tests.csproj
+    (which the native build's CMakeLists.txt copies the freshly-built DLL into directly), this
+    project's publish output is a RID-specific folder that only exists after `dotnet publish`. The
+    CI workflow (.github/workflows/windows.yml) copies the native binaries into the publish output
+    directory after publishing, the same way it does for OpenCvSharp.Tests.Avalonia.
+  -->
+
+</Project>

@@ -149,6 +149,19 @@ RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0
 RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
+# clang/zlib1g-dev: link-time dependencies of PublishAot's ILCompiler on Linux (not part of the
+# base SDK image).
+RUN apt-get update && apt-get -y install --no-install-recommends clang zlib1g-dev && rm -rf /var/lib/apt/lists/*
+# Restore and publish as separate steps: see windows.yml's "Test NativeAOT publish" step for why
+# a combined restore+publish invocation fails restore with NETSDK1207 (NuGet's static graph
+# restore doesn't honor the OpenCvSharp.Analyzers ProjectReference's UndefineProperties the way
+# an actual build does). libOpenCvSharpExtern.so resolves via /usr/lib's default linker search
+# path (COPY'd there above), so no LD_LIBRARY_PATH is needed to run the published exe.
+RUN cd /opencvsharp/test/OpenCvSharp.Tests.NativeAot && \
+    dotnet restore -r linux-x64 && \
+    dotnet publish -c Release -f net10.0 --runtime linux-x64 -p:PublishAot=true --no-restore && \
+    ./bin/Release/net10.0/linux-x64/publish/OpenCvSharp.Tests.NativeAot
+
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
 # See test-native above for why these are installed fresh instead of relying on

@@ -352,6 +352,17 @@ jobs:
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia dotnet test OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime osx-arm64 < /dev/null
 
+      - name: Test NativeAOT publish
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.NativeAot
+          # Restore and publish as separate steps: see windows.yml's "Test NativeAOT publish"
+          # step for why a combined restore+publish invocation fails restore with NETSDK1207
+          # (NuGet's static graph restore doesn't honor the OpenCvSharp.Analyzers ProjectReference's
+          # UndefineProperties the way an actual build does).
+          dotnet restore -r osx-arm64
+          dotnet publish -c Release -f net10.0 --runtime osx-arm64 -p:PublishAot=true --no-restore
+          DYLD_LIBRARY_PATH=/usr/local/lib bin/Release/net10.0/osx-arm64/publish/OpenCvSharp.Tests.NativeAot
+
       - uses: actions/upload-artifact@v7
         with:
           name: test-results-macos
