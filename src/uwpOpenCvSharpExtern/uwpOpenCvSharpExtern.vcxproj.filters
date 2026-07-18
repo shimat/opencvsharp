@@ -328,9 +328,6 @@
     <ClInclude Include="..\OpenCvSharpExtern\tracking.h">
       <Filter>Header Files\tracking</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\text_TextDetector.h">
-      <Filter>Header Files\text</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\text.h">
       <Filter>Header Files\text</Filter>
     </ClInclude>

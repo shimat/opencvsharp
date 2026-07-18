@@ -314,7 +314,6 @@
     <ClInclude Include="..\OpenCvSharpExtern\stitching_detail_Matchers.h" />
     <ClInclude Include="..\OpenCvSharpExtern\superres.h" />
     <ClInclude Include="..\OpenCvSharpExtern\text.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\text_TextDetector.h" />
     <ClInclude Include="..\OpenCvSharpExtern\tracking.h" />
     <ClInclude Include="..\OpenCvSharpExtern\tracking_MultiTracker.h" />
     <ClInclude Include="..\OpenCvSharpExtern\video.h" />

@@ -227,7 +227,6 @@
     <ClInclude Include="text_OCRBeamSearchDecoder.h" />
     <ClInclude Include="text_OCRHMMDecoder.h" />
     <ClInclude Include="text_OCRHolisticWordRecognizer.h" />
-    <ClInclude Include="text_TextDetector.h" />
     <ClInclude Include="tracking.h" />
     <ClInclude Include="tracking_UnscentedKalmanFilter.h" />
     <ClInclude Include="video.h" />
