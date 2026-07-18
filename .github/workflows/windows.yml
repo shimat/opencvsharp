@@ -215,9 +215,12 @@ jobs:
           dotnet restore -r win-x64
           dotnet publish -c Release -f net10.0 --runtime win-x64 -p:PublishAot=true --no-restore
 
+          # Only OpenCvSharpExtern.dll is needed: this smoke test never touches video/ffmpeg, and
+          # opencv_videoio_ffmpeg500_64.dll is only conditionally copied by CMake's POST_BUILD step
+          # in the first place (see OpenCvSharpExtern/CMakeLists.txt's `if(EXISTS ...)` guard), so
+          # it is not guaranteed to exist here.
           $publishDir = "bin\Release\net10.0\win-x64\publish"
           Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll $publishDir
-          Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\opencv_videoio_ffmpeg500_64.dll $publishDir
 
           & "$publishDir\OpenCvSharp.Tests.NativeAot.exe"
           if ($LASTEXITCODE -ne 0) { throw "NativeAOT smoke test failed with exit code $LASTEXITCODE" }
