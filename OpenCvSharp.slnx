@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/OpenCvSharp.AvaloniaExtensions/OpenCvSharp.AvaloniaExtensions.csproj" />
+    <Project Path="src/OpenCvSharp.GdipExtensions/OpenCvSharp.GdipExtensions.csproj" />
+    <Project Path="src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj" />
+    <Project Path="src/OpenCvSharp/OpenCvSharp.csproj">
+      <BuildDependency Project="src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj" />
+    </Project>
+    <Project Path="src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj">
+      <Platform Project="x64" />
+      <Build Solution="*|ARM" Project="false" />
+      <Build Solution="*|x86" Project="false" />
+      <Build Solution="Debug|Any CPU" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/OpenCvSharp.Tests.Avalonia/OpenCvSharp.Tests.Avalonia.csproj" />
+    <Project Path="test/OpenCvSharp.Tests.Windows/OpenCvSharp.Tests.Windows.csproj" />
+    <Project Path="test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj" />
+  </Folder>
+</Solution>
