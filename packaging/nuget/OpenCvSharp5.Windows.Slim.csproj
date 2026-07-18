@@ -10,7 +10,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>OpenCV 5.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <Description>OpenCV 5.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,barcode. Disabled modules: contrib,dnn,videoio,highgui,stitching.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows slim</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
