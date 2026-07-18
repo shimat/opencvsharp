@@ -135,8 +135,13 @@ int main(){ \n\
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
 # See test-native above for why these are installed fresh instead of relying on
-# the /usr/lib copy.
-RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# the /usr/lib copy. clang/zlib1g-dev are link-time dependencies of PublishAot's ILCompiler
+# (used by the NativeAOT smoke test further below) - installed here, in the same apt-get pass as
+# everything else, rather than in a second `apt-get update` after the test run below: a second
+# pass hit a reproducible `apt-get` segfault (`libapt-private.so.0.0: no version information
+# available` followed by SIGSEGV) in this same container stage, immediately after the 1700+ tests
+# above it had run. Root cause unconfirmed, but installing everything up front sidesteps it.
+RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke clang zlib1g-dev && rm -rf /var/lib/apt/lists/*
 # See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
@@ -148,6 +153,16 @@ RUN cd /opencvsharp/src/OpenCvSharp && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
     dotnet build -c Release -f net8.0
 RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+
+# Restore and publish as separate steps: see windows.yml's "Test NativeAOT publish" step for why
+# a combined restore+publish invocation fails restore with NETSDK1207 (NuGet's static graph
+# restore doesn't honor the OpenCvSharp.Analyzers ProjectReference's UndefineProperties the way
+# an actual build does). libOpenCvSharpExtern.so resolves via /usr/lib's default linker search
+# path (COPY'd there above), so no LD_LIBRARY_PATH is needed to run the published exe.
+RUN cd /opencvsharp/test/OpenCvSharp.Tests.NativeAot && \
+    dotnet restore -r linux-x64 && \
+    dotnet publish -c Release -f net10.0 --runtime linux-x64 -p:PublishAot=true --no-restore && \
+    ./bin/Release/net10.0/linux-x64/publish/OpenCvSharp.Tests.NativeAot
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk

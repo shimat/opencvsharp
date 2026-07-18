@@ -24,6 +24,7 @@
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/OpenCvSharp.Tests.Avalonia/OpenCvSharp.Tests.Avalonia.csproj" />
+    <Project Path="test/OpenCvSharp.Tests.NativeAot/OpenCvSharp.Tests.NativeAot.csproj" />
     <Project Path="test/OpenCvSharp.Tests.Windows/OpenCvSharp.Tests.Windows.csproj" />
     <Project Path="test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj" />
   </Folder>
