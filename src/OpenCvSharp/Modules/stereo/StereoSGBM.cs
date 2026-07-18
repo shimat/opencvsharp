@@ -26,20 +26,38 @@ public class StereoSGBM : StereoMatcher
     { }
 
     /// <summary>
-    /// 
+    /// Creates StereoSGBM object. Using the default parameters, only <paramref name="numDisparities"/> needs
+    /// to be set at minimum; every other parameter can be set to a custom value as needed.
     /// </summary>
-    /// <param name="minDisparity"></param>
-    /// <param name="numDisparities"></param>
-    /// <param name="blockSize"></param>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <param name="disp12MaxDiff"></param>
-    /// <param name="preFilterCap"></param>
-    /// <param name="uniquenessRatio"></param>
-    /// <param name="speckleWindowSize"></param>
-    /// <param name="speckleRange"></param>
-    /// <param name="mode"></param>
-    /// <returns></returns>
+    /// <param name="minDisparity">Minimum possible disparity value. Normally, it is zero but sometimes
+    /// rectification algorithms can shift images, so this parameter needs to be adjusted accordingly.</param>
+    /// <param name="numDisparities">Maximum disparity minus minimum disparity. The value is always greater
+    /// than zero. In the current implementation, this parameter must be divisible by 16.</param>
+    /// <param name="blockSize">Matched block size. It must be an odd number &gt;=1. Normally, it should be
+    /// somewhere in the 3..11 range.</param>
+    /// <param name="p1">The first parameter controlling the disparity smoothness. See <paramref name="p2"/>.</param>
+    /// <param name="p2">The second parameter controlling the disparity smoothness. The larger the values
+    /// are, the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
+    /// between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
+    /// pixels. The algorithm requires P2 &gt; P1.</param>
+    /// <param name="disp12MaxDiff">Maximum allowed difference (in integer pixel units) in the left-right
+    /// disparity check. Set it to a non-positive value to disable the check.</param>
+    /// <param name="preFilterCap">Truncation value for the prefiltered image pixels. The algorithm first
+    /// computes x-derivative at each pixel and clips its value by [-preFilterCap, preFilterCap] interval.
+    /// The result values are passed to the Birchfield-Tomasi pixel cost function.</param>
+    /// <param name="uniquenessRatio">Margin in percentage by which the best (minimum) computed cost
+    /// function value should "win" the second best value to consider the found match correct. Normally, a
+    /// value within the 5-15 range is good enough.</param>
+    /// <param name="speckleWindowSize">Maximum size of smooth disparity regions to consider their noise
+    /// speckles and invalidate. Set it to 0 to disable speckle filtering. Otherwise, set it somewhere in
+    /// the 50-200 range.</param>
+    /// <param name="speckleRange">Maximum disparity variation within each connected component. If you do
+    /// speckle filtering, set the parameter to a positive value, it will be implicitly multiplied by 16.
+    /// Normally, 1 or 2 is good enough.</param>
+    /// <param name="mode">Set it to <see cref="StereoSGBMMode.HH"/> to run the full-scale two-pass dynamic
+    /// programming algorithm. It will consume a large amount of memory for large images. By default, the
+    /// single-pass 5-direction variant is used.</param>
+    /// <returns>A new StereoSGBM instance.</returns>
     public static StereoSGBM Create(
         int minDisparity, int numDisparities, int blockSize,
         int p1 = 0, int p2 = 0, int disp12MaxDiff = 0,

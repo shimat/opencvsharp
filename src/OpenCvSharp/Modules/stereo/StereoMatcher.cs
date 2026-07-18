@@ -47,7 +47,8 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// Minimum possible disparity value. Normally, it is zero but sometimes rectification algorithms can
+    /// shift images, so this parameter needs to be adjusted accordingly.
     /// </summary>
     public int MinDisparity
     {
@@ -65,7 +66,9 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// The disparity search range. For each pixel the algorithm will find the best disparity from 0
+    /// (default minimum disparity) to NumDisparities. The search range can then be shifted by changing
+    /// the minimum disparity.
     /// </summary>
     public int NumDisparities
     {
@@ -83,7 +86,10 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// The linear size of the blocks compared by the algorithm. The size should be odd (as the block is
+    /// centered at the current pixel). Larger block size implies smoother, though less accurate disparity
+    /// map. Smaller block size gives more detailed disparity map, but there is higher chance for the
+    /// algorithm to find a wrong correspondence.
     /// </summary>
     public int BlockSize
     {
@@ -101,7 +107,8 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// Maximum size of smooth disparity regions to consider their noise speckles and invalidate. Set it to
+    /// 0 to disable speckle filtering. Otherwise, set it somewhere in the 50-200 range.
     /// </summary>
     public int SpeckleWindowSize
     {
@@ -119,7 +126,9 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// Maximum disparity variation within each connected component. If you do speckle filtering, set the
+    /// parameter to a positive value; it will be implicitly multiplied by 16. Normally, 1 or 2 is good
+    /// enough.
     /// </summary>
     public int SpeckleRange
     {
@@ -137,7 +146,8 @@ public class StereoMatcher : Algorithm
     }
 
     /// <summary>
-    /// 
+    /// Maximum allowed difference (in integer pixel units) in the left-right disparity check. Set it to a
+    /// non-positive value to disable the check.
     /// </summary>
     public int Disp12MaxDiff
     {

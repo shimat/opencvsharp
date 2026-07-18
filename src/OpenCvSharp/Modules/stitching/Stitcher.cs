@@ -28,6 +28,9 @@ namespace OpenCvSharp
     {
             #region Enum
 
+        /// <summary>
+        /// When setting a resolution for stitching, this value is a placeholder for preserving the original resolution.
+        /// </summary>
         public const int ORIG_RESOL = -1;
 
         /// <summary>
@@ -197,6 +200,9 @@ namespace OpenCvSharp
         }
 
         // TODO this should be method?
+        /// <summary>
+        /// Returns indices of input images used in panorama stitching.
+        /// </summary>
         public IReadOnlyList<int> Component
         {
             get
@@ -253,6 +259,12 @@ namespace OpenCvSharp
 
         #region Methods
 
+        /// <summary>
+        /// Tries to match the given images and to estimate rotations of each camera.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(InputArray, OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <returns>Status code.</returns>
         public Status EstimateTransform(InputArray images)
         {
             NativeMethods.HandleException(
@@ -262,6 +274,13 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to match the given images and to estimate rotations of each camera.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(InputArray, Rect[][], OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <param name="rois">Masks for each input image specifying where to look for keypoints (optional).</param>
+        /// <returns>Status code.</returns>
         public Status EstimateTransform(InputArray images, Rect[][] rois)
         {
             ArgumentNullException.ThrowIfNull(rois);
@@ -274,6 +293,12 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to match the given images and to estimate rotations of each camera.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(IEnumerable{Mat}, OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <returns>Status code.</returns>
         public Status EstimateTransform(IEnumerable<Mat> images)
         {
             ArgumentNullException.ThrowIfNull(images);
@@ -288,6 +313,13 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to match the given images and to estimate rotations of each camera.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(IEnumerable{Mat}, Rect[][], OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <param name="rois">Masks for each input image specifying where to look for keypoints (optional).</param>
+        /// <returns>Status code.</returns>
         public Status EstimateTransform(IEnumerable<Mat> images, Rect[][] rois)
         {
             ArgumentNullException.ThrowIfNull(images);
@@ -305,6 +337,13 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to compose the images stored internally from the other function calls into the final pano,
+        /// under the assumption that the image transformations were estimated before.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(InputArray, OutputArray)"/>.
+        /// </summary>
+        /// <param name="pano">Final pano.</param>
+        /// <returns>Status code.</returns>
         public Status ComposePanorama(OutputArray pano)
         {
             NativeMethods.HandleException(
@@ -314,6 +353,14 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to compose the given images into the final pano, under the assumption that
+        /// the image transformations were estimated before.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(InputArray, OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <param name="pano">Final pano.</param>
+        /// <returns>Status code.</returns>
         public Status ComposePanorama(InputArray images, OutputArray pano)
         {
             NativeMethods.HandleException(
@@ -324,6 +371,14 @@ namespace OpenCvSharp
             return (Status)ret;
         }
 
+        /// <summary>
+        /// Tries to compose the given images into the final pano, under the assumption that
+        /// the image transformations were estimated before.
+        /// Note: Use this method only if you're aware of the stitching pipeline, otherwise use <see cref="Stitch(IEnumerable{Mat}, OutputArray)"/>.
+        /// </summary>
+        /// <param name="images">Input images.</param>
+        /// <param name="pano">Final pano.</param>
+        /// <returns>Status code.</returns>
         public Status ComposePanorama(IEnumerable<Mat> images, OutputArray pano)
         {
             ArgumentNullException.ThrowIfNull(images);

@@ -6,11 +6,26 @@ namespace OpenCvSharp;
 [Flags]
 public enum UMatUsageFlags
 {
-#pragma warning disable 1591
+    /// <summary>
+    /// Default allocation policy. Unlike the other flags, this one is not experimental.
+    /// </summary>
     None = 0,
 
     // buffer allocation policy is platform and usage specific
+
+    /// <summary>
+    /// Allocate host (CPU) memory. This flag is experimental; the buffer allocation policy is platform and usage specific.
+    /// </summary>
     HostMemory = 1 << 0,
+
+    /// <summary>
+    /// Allocate device (GPU) memory. This flag is experimental; the buffer allocation policy is platform and usage specific.
+    /// </summary>
     DeviceMemory = 1 << 1,
-    SharedMemory = 1 << 2, // It is not equal to: USAGE_ALLOCATE_HOST_MEMORY | USAGE_ALLOCATE_DEVICE_MEMORY
+
+    /// <summary>
+    /// Allocate memory shared between host and device. This flag is experimental and, for the OpenCL allocator,
+    /// depends on OpenCV's optional OpenCL SVM integration. It is not equal to HostMemory | DeviceMemory.
+    /// </summary>
+    SharedMemory = 1 << 2,
 }

@@ -46,13 +46,40 @@ public enum CpuFeatures
     VSX             = 200,
     VSX3            = 201,
 
-    AVX512_SKX      = 256, //!< Skylake-X with AVX-512F/CD/BW/DQ/VL
-    AVX512_COMMON   = 257, //!< Common instructions AVX-512F/CD for all CPUs that support AVX-512
-    AVX512_KNL      = 258, //!< Knights Landing with AVX-512F/CD/ER/PF
-    AVX512_KNM      = 259, //!< Knights Mill with AVX-512F/CD/ER/PF/4FMAPS/4VNNIW/VPOPCNTDQ
-    AVX512_CNL      = 260, //!< Cannon Lake with AVX-512F/CD/BW/DQ/VL/IFMA/VBMI
-    AVX512_CEL      = 261, //!< Cascade Lake with AVX-512F/CD/BW/DQ/VL/IFMA/VBMI/VNNI
-    AVX512_ICL      = 262, //!< Ice Lake with AVX-512F/CD/BW/DQ/VL/IFMA/VBMI/VNNI/VBMI2/BITALG/VPOPCNTDQ
+    /// <summary>
+    /// Skylake-X with AVX-512F/CD/BW/DQ/VL
+    /// </summary>
+    AVX512_SKX      = 256,
+
+    /// <summary>
+    /// Common instructions AVX-512F/CD for all CPUs that support AVX-512
+    /// </summary>
+    AVX512_COMMON   = 257,
+
+    /// <summary>
+    /// Knights Landing with AVX-512F/CD/ER/PF
+    /// </summary>
+    AVX512_KNL      = 258,
+
+    /// <summary>
+    /// Knights Mill with AVX-512F/CD/ER/PF/4FMAPS/4VNNIW/VPOPCNTDQ
+    /// </summary>
+    AVX512_KNM      = 259,
+
+    /// <summary>
+    /// Cannon Lake with AVX-512F/CD/BW/DQ/VL/IFMA/VBMI
+    /// </summary>
+    AVX512_CNL      = 260,
+
+    /// <summary>
+    /// Cascade Lake with AVX-512F/CD/BW/DQ/VL/VNNI
+    /// </summary>
+    AVX512_CEL      = 261,
+
+    /// <summary>
+    /// Ice Lake with AVX-512F/CD/BW/DQ/VL/IFMA/VBMI/VNNI/VBMI2/BITALG/VPOPCNTDQ
+    /// </summary>
+    AVX512_ICL      = 262,
 
     MAX_FEATURE     = 512  // see CV_HARDWARE_MAX_FEATURE
 }
