@@ -35,4 +35,17 @@ public class BackgroundSubtractorMOG2Test : TestBase
             mog.Apply(src, dst);
         }
     }
+
+    [Fact]
+    public void ApplyWithKnownForegroundMask()
+    {
+        using var mog = BackgroundSubtractorMOG2.Create();
+        using var src = LoadImage("lenna.png");
+        using var knownForegroundMask = new Mat(src.Size(), MatType.CV_8UC1, Scalar.All(0));
+        using var dst = new Mat();
+
+        mog.Apply(src, knownForegroundMask, dst);
+
+        Assert.Equal(src.Size(), dst.Size());
+    }
 }

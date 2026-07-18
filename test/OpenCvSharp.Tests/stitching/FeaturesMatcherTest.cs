@@ -6,6 +6,41 @@ namespace OpenCvSharp.Tests.Stitching;
 public class FeaturesMatcherTest : TestBase
 {
     [Fact]
+    public void BestOf2NearestRangeMatcherApply()
+    {
+        using var source = LoadImage("lenna.png", ImreadModes.Grayscale);
+        var images = new[]
+        {
+            source[new Rect(0, 0, 200, 200)].Clone(),
+            source[new Rect(100, 100, 200, 200)].Clone(),
+            source[new Rect(200, 0, 200, 200)].Clone(),
+        };
+        try
+        {
+            using var orb = ORB.Create(500);
+            var features = Cv2.Detail.ComputeImageFeatures(orb, images);
+            try
+            {
+                using var matcher = new BestOf2NearestRangeMatcher(rangeWidth: 1);
+                var matches = matcher.Apply(features);
+                Assert.Equal(images.Length * images.Length, matches.Length);
+                foreach (var m in matches)
+                    m.Dispose();
+            }
+            finally
+            {
+                foreach (var f in features)
+                    f.Dispose();
+            }
+        }
+        finally
+        {
+            foreach (var image in images)
+                image.Dispose();
+        }
+    }
+
+    [Fact]
     public void ApplyMultipleImageFeatures()
     {
         using var source = LoadImage("lenna.png", ImreadModes.Grayscale);

@@ -290,6 +290,17 @@ static void toVec(
     }
 }
 
+// Converts a flat array of cv::Mat* into a std::vector<cv::UMat>, copying each Mat into a UMat.
+static void toUMatVec(
+    cv::Mat **inPtr, const int size, std::vector<cv::UMat> &outVec)
+{
+    outVec.resize(size);
+    for (int i = 0; i < size; i++)
+    {
+        inPtr[i]->copyTo(outVec[i]);
+    }
+}
+
 template <typename TIn, typename TOut>
 static void toVec(
     const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
