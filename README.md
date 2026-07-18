@@ -81,7 +81,7 @@ PS1> Install-WindowsFeature Server-Media-Foundation
 
 ## Installation
 
-### Windows x64 (except UWP)
+### Windows x64
 Add `OpenCvSharp5` and `OpenCvSharp5.runtime.win` NuGet packages to your project. Alternatively, you can use the `OpenCvSharp5.Windows` all-in-one package.
 For a smaller feature profile, pair `OpenCvSharp5` with `OpenCvSharp5.runtime.win.slim`, or use the all-in-one `OpenCvSharp5.Windows.Slim` package.
 
@@ -90,9 +90,6 @@ Add `OpenCvSharp5` and `OpenCvSharp5.runtime.win-arm64` NuGet packages to your p
 For a smaller feature profile, use `OpenCvSharp5.runtime.win-arm64.slim` instead.
 
 > **Note:** FFmpeg-based video I/O is not available in the ARM64 packages because no ARM64 Windows prebuilt is provided by the upstream OpenCV project. All other OpenCV modules are included in the full package.
-
-> ⚠️ **`OpenCvSharp5.runtime.uwp` is deprecated and no longer maintained.** The last published version targets OpenCV 4.9.0. New UWP projects are not recommended; consider migrating to WinUI 3.
-
 
 ### Linux (Ubuntu and other distributions)
 Add `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64` NuGet packages to your project. This package uses the portable `linux-x64` RID and works with .NET 8+ publish/deploy workflows out of the box.
@@ -200,16 +197,16 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp5.GdipExtensions](https://www.nuget.org/packages/OpenCvSharp5.GdipExtensions/)**| GDI+ (System.Drawing) Extensions |
 |**[OpenCvSharp5.WpfExtensions](https://www.nuget.org/packages/OpenCvSharp5.WpfExtensions/)**| WPF Extensions |
 |**[OpenCvSharp5.AvaloniaExtensions](https://www.nuget.org/packages/OpenCvSharp5.AvaloniaExtensions/)**| Avalonia Extensions (cross-platform) |
-|**[OpenCvSharp5.Windows](https://www.nuget.org/packages/OpenCvSharp5.Windows/)**| All-in-one package for Windows (except UWP) |
-|**[OpenCvSharp5.Windows.Slim](https://www.nuget.org/packages/OpenCvSharp5.Windows.Slim/)**| All-in-one slim package for Windows (except UWP) |
+|**[OpenCvSharp5.Windows](https://www.nuget.org/packages/OpenCvSharp5.Windows/)**| All-in-one package for Windows |
+|**[OpenCvSharp5.Windows.Slim](https://www.nuget.org/packages/OpenCvSharp5.Windows.Slim/)**| All-in-one slim package for Windows |
 
 <details>
 <summary><h3>Native bindings</h3></summary>
 
 | Package | Description |
 |---------|-------------|
-|**[OpenCvSharp5.runtime.win](https://www.nuget.org/packages/OpenCvSharp5.runtime.win/)**| Native bindings for Windows x64 (except UWP) |
-|**[OpenCvSharp5.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp5.runtime.win.slim/)**| Slim native bindings for Windows x64 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled |
+|**[OpenCvSharp5.runtime.win](https://www.nuget.org/packages/OpenCvSharp5.runtime.win/)**| Native bindings for Windows x64 |
+|**[OpenCvSharp5.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp5.runtime.win.slim/)**| Slim native bindings for Windows x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled |
 |**[OpenCvSharp5.runtime.win-arm64](https://www.nuget.org/packages/OpenCvSharp5.runtime.win-arm64/)**| Native bindings for Windows ARM64 (Snapdragon X and other arm64 devices). FFmpeg not included. |
 |**[OpenCvSharp5.runtime.win-arm64.slim](https://www.nuget.org/packages/OpenCvSharp5.runtime.win-arm64.slim/)**| Slim native bindings for Windows ARM64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled |
 |**[OpenCvSharp5.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended). Built on manylinux_2_28. Includes FFmpeg and Tesseract statically linked. Requires GTK3 runtime (`libgtk-3.so.0`) for highgui (`Cv2.ImShow` etc.). |

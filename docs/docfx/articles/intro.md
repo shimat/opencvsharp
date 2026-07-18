@@ -8,7 +8,7 @@ OpenCvSharp provides cross-platform .NET bindings for OpenCV, allowing you to us
 
 ## Supported Platforms
 
-- **Windows**: x64, x86, UWP
+- **Windows**: x64, x86
 - **Linux**: Ubuntu 22.04, 24.04, ARM
 - **macOS**: x64 (Intel), arm64 (Apple Silicon)
 - **WebAssembly**: Browser-based applications
