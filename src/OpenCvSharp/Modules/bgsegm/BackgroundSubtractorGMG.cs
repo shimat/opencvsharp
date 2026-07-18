@@ -32,7 +32,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     #region Properties
 
     /// <summary>
-    /// 
+    /// Total number of distinct colors to maintain in histogram.
     /// </summary>
     public int MaxFeatures
     {
@@ -52,7 +52,8 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// The learning rate of the algorithm. It lies between 0.0 and 1.0. It determines how quickly
+    /// features are "forgotten" from histograms.
     /// </summary>
     public double DefaultLearningRate
     {
@@ -72,7 +73,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Number of frames used to initialize the background model.
     /// </summary>
     public int NumFrames
     {
@@ -92,7 +93,8 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// The parameter used for quantization of color-space. It is the number of discrete levels in
+    /// each channel to be used in histograms.
     /// </summary>
     public int QuantizationLevels
     {
@@ -112,7 +114,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Prior probability that each individual pixel is a background pixel.
     /// </summary>
     public double BackgroundPrior
     {
@@ -132,7 +134,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Kernel radius used for morphological operations.
     /// </summary>
     public int SmoothingRadius
     {
@@ -152,7 +154,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Value of decision threshold. Decision value is the value above which a pixel is determined to be foreground.
     /// </summary>
     public double DecisionThreshold
     {
@@ -172,7 +174,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Status of background model update.
     /// </summary>
     public bool UpdateBackgroundModel
     {
@@ -192,7 +194,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Minimum value taken on by pixels in image sequence. Usually 0.
     /// </summary>
     public double MinVal
     {
@@ -212,7 +214,7 @@ public class BackgroundSubtractorGMG : BackgroundSubtractor
     }
 
     /// <summary>
-    /// 
+    /// Maximum value taken on by pixels in image sequence, e.g. 1.0 or 255.
     /// </summary>
     public double MaxVal
     {

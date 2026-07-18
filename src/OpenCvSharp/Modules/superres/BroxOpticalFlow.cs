@@ -37,7 +37,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     #region Properties
 
     /// <summary>
-    /// 
+    /// Flow smoothness
     /// </summary>
     public double Alpha
     {
@@ -57,7 +57,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     }
 
     /// <summary>
-    /// 
+    /// Gradient constancy importance
     /// </summary>
     public double Gamma
     {
@@ -77,7 +77,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     }
 
     /// <summary>
-    /// 
+    /// Pyramid scale factor
     /// </summary>
     public double ScaleFactor
     {
@@ -97,7 +97,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     }
 
     /// <summary>
-    /// 
+    /// Number of lagged non-linearity iterations (inner loop)
     /// </summary>
     public int InnerIterations
     {
@@ -117,7 +117,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     }
 
     /// <summary>
-    /// 
+    /// Number of warping iterations (number of pyramid levels)
     /// </summary>
     public int OuterIterations
     {
@@ -137,7 +137,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     }
 
     /// <summary>
-    /// 
+    /// Number of linear system solver iterations
     /// </summary>
     public int SolverIterations
     {

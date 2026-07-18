@@ -15,9 +15,9 @@ namespace OpenCvSharp.Dnn;
 /// </remarks>
 public enum Backend
 {
-    //! DNN_BACKEND_DEFAULT equals to DNN_BACKEND_INFERENCE_ENGINE if
-    //! OpenCV is built with Intel's Inference Engine library or
-    //! DNN_BACKEND_OPENCV otherwise.
+    /// <summary>
+    /// Equals to <see cref="INFERENCE_ENGINE"/> if OpenCV is built with Intel's Inference Engine library, or <see cref="OPENCV"/> otherwise.
+    /// </summary>
     // ReSharper disable once InconsistentNaming
     DEFAULT = 0,
 

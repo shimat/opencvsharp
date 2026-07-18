@@ -85,9 +85,9 @@ public class FrameSource : CvPtrObject
     #region Methods
         
     /// <summary>
-    /// 
+    /// Process next frame from input and return output result.
     /// </summary>
-    /// <param name="frame"></param>
+    /// <param name="frame">Output result</param>
     public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
