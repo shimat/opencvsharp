@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    This project intentionally has no ProjectReference to src/OpenCvSharp: it exists to catch
+    packaging mistakes (wrong RID asset placement, missing files, a broken dependency graph) in the
+    actual .nupkg files about to be pushed to nuget.org, which a ProjectReference-based test can
+    never exercise. .github/workflows/publish_nuget.yml adds the freshly built, not-yet-published
+    packages as a local NuGet feed and passes -p:SmokeTestPackageVersion=<version> plus
+    -p:SmokeTestRuntimePackage=<runtime package id> before restoring, so this project always targets
+    whichever version and platform runtime package is actually about to be published, never a
+    hardcoded one.
+  -->
+  <PropertyGroup>
+    <SmokeTestPackageVersion Condition="'$(SmokeTestPackageVersion)' == ''">0.0.0-dev</SmokeTestPackageVersion>
+    <SmokeTestRuntimePackage Condition="'$(SmokeTestRuntimePackage)' == ''">OpenCvSharp5.official.runtime.linux-x64</SmokeTestRuntimePackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp5" Version="$(SmokeTestPackageVersion)" />
+    <PackageReference Include="$(SmokeTestRuntimePackage)" Version="$(SmokeTestPackageVersion)" />
+  </ItemGroup>
+
+</Project>
