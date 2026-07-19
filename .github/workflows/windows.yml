@@ -180,7 +180,7 @@ jobs:
         # in order) into test\OpenCvSharp.Tests\TestResults\ if the test host crashes, so an
         # intermittent native access violation can be attributed to a specific test without a
         # re-run. See "Upload crash dumps on failure" below.
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-collect-always --blame-crash-dump-type full
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-dump-type full
 
       - name: Upload crash dumps on failure
         if: failure()
@@ -472,7 +472,7 @@ jobs:
       - name: Test
         shell: cmd
         # See the x64 job's "Test" step above for why --blame-crash* is here.
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-collect-always --blame-crash-dump-type full
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full
 
       - name: Upload crash dumps on failure
         if: failure()

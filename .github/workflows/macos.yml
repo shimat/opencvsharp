@@ -348,7 +348,7 @@ jobs:
           # re-run. See "Upload crash dumps on failure" below (separate from the .ips upload above).
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
             --logger "trx;LogFileName=test-results.trx" \
-            --blame-crash --blame-crash-collect-always --blame-crash-dump-type full < /dev/null
+            --blame-crash --blame-crash-dump-type full < /dev/null
 
       - name: Test Avalonia extensions
         run: |
