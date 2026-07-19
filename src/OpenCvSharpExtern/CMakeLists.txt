@@ -58,6 +58,13 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+
+		if(UNIX AND NOT APPLE)
+			# Drop NEEDED entries for libraries that are passed on the link line by some static
+			# 3rd-party dependency (e.g. libatomic.so.1) but whose symbols are never actually
+			# referenced by the resulting binary. See issue #2065.
+			target_link_options(OpenCvSharpExtern PRIVATE -Wl,--as-needed)
+		endif()
 	endif()
 
 	if(Iconv_FOUND)
