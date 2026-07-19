@@ -213,7 +213,7 @@ public class SparseMat : CvObject
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(sizes);
         if (sizes.Length == 0)
-            throw new ArgumentException("sizes is empty");
+            throw new ArgumentException("sizes is empty", nameof(sizes));
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_create(Handle, sizes.Length, sizes, type));
     }
