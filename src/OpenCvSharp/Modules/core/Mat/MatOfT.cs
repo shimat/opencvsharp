@@ -147,7 +147,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
     /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-    protected Mat(Mat<TElem> m, params Range[] ranges)
+    protected Mat(Mat<TElem> m, Range[] ranges)
         : base(m, ranges)
     {
     }

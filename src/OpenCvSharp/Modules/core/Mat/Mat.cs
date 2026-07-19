@@ -80,7 +80,7 @@ public partial class Mat : CvObject
     /// <summary>
     /// </summary>
     /// <param name="m"></param>
-    protected Mat(Mat m)
+    internal Mat(Mat m)
     {
         ArgumentNullException.ThrowIfNull(m);
         m.ThrowIfDisposed();
@@ -202,7 +202,7 @@ public partial class Mat : CvObject
     /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
     /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-    public Mat(Mat m, params Range[] ranges)
+    public Mat(Mat m, Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(m);
         ArgumentNullException.ThrowIfNull(ranges);
@@ -2116,6 +2116,8 @@ public partial class Mat : CvObject
     public Mat SubMat(params Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(ranges);
+        if (ranges.Length == 0)
+            throw new ArgumentException("empty ranges", nameof(ranges));
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
@@ -2340,7 +2342,16 @@ public partial class Mat : CvObject
     /// <returns></returns>
     public IntPtr Ptr(params int[] idx)
     {
+        ArgumentNullException.ThrowIfNull(idx);
         ThrowIfDisposed();
+#if DEBUG
+        // cv::Mat::ptr(const int*) reads Dims many ints from idx regardless of the array's
+        // actual length, so a shorter array here would be an out-of-bounds native read.
+        // Dims is itself a P/Invoke call, so this check is DEBUG-only to keep the Release
+        // fast path (matching cv::Mat::ptr's own CV_DbgAssert-only bounds checking) free of it.
+        if (idx.Length < Dims)
+            throw new ArgumentException($"idx.Length ({idx.Length}) must be at least Dims ({Dims})", nameof(idx));
+#endif
         NativeMethods.HandleException(
             NativeMethods.core_Mat_ptrnd(Handle, idx, out var ret));
         // Returns an interior pointer into this Mat; keep it alive for the caller's dereference.

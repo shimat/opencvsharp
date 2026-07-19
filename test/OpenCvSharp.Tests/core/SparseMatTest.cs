@@ -6,6 +6,34 @@ namespace OpenCvSharp.Tests.Core;
 public class SparseMatTest : TestBase
 {
     [Fact]
+    public void OneDimensionalIsValid()
+    {
+        using var sm = new SparseMat<int>(10);
+        Assert.Equal(1, sm.Dims());
+    }
+
+    [Fact]
+    public void ZeroDimensionsThrows()
+    {
+        Assert.Throws<ArgumentException>(() => new SparseMat<int>());
+    }
+
+    [Fact]
+    public void CreateWithOneSizeIsValid()
+    {
+        using var sm = new SparseMat<int>(5);
+        sm.Create(MatType.CV_32SC1, 10);
+        Assert.Equal(1, sm.Dims());
+    }
+
+    [Fact]
+    public void CreateWithNoSizesThrows()
+    {
+        using var sm = new SparseMat<int>(5);
+        Assert.Throws<ArgumentException>(() => sm.Create(MatType.CV_32SC1));
+    }
+
+    [Fact]
     public void CreateAndDispose()
     {
         using var sm = new SparseMat<double>(10, 20);

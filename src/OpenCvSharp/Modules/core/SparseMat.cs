@@ -212,7 +212,7 @@ public class SparseMat : CvObject
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(sizes);
-        if (sizes.Length == 1)
+        if (sizes.Length == 0)
             throw new ArgumentException("sizes is empty");
         NativeMethods.HandleException(
             NativeMethods.core_SparseMat_create(Handle, sizes.Length, sizes, type));
@@ -432,8 +432,16 @@ public sealed class SparseMat<T> : SparseMat
     /// </summary>
     /// <param name="dimensions">Size along each dimension.</param>
     public SparseMat(params int[] dimensions)
-        : base(dimensions ?? throw new ArgumentNullException(nameof(dimensions)), MatTypeMap.Get<T>())
+        : base(ValidateDimensions(dimensions), MatTypeMap.Get<T>())
     {
+    }
+
+    private static int[] ValidateDimensions(int[] dimensions)
+    {
+        ArgumentNullException.ThrowIfNull(dimensions);
+        if (dimensions.Length == 0)
+            throw new ArgumentException("dimensions is empty", nameof(dimensions));
+        return dimensions;
     }
 
     private SparseMat()

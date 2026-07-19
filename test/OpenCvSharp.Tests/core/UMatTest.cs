@@ -13,6 +13,13 @@ public class UMatTest
     }
 
     [Fact]
+    public void SubMatWithNoRangesThrows()
+    {
+        using var umat = new UMat(10, 10, MatType.CV_8UC1);
+        Assert.Throws<ArgumentException>(() => umat.SubMat());
+    }
+
+    [Fact]
     public void Empty()
     {
         using var umat1 = new UMat();

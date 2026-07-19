@@ -382,6 +382,26 @@ public class MatTest : TestBase
             using (mat.SubMat(.., 10..20)) { }
         });
     }
+
+    [Fact]
+    public void RoiConstructorRequiresExplicitRangesArray()
+    {
+        var values = new byte[,] {
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10,11,12}};
+        using var mat = Mat.FromArray(values);
+
+        using var roi = new Mat(mat, [new Range(0, 2), new Range(1, 4)]);
+        Assert.Equal(new Size(3, 2), roi.Size());
+        Assert.True(roi.GetArray(out byte[] roiArray));
+        Assert.Equal([2, 3,4, 6,7,8], roiArray);
+
+        Assert.Throws<ArgumentException>(() =>
+        {
+            using (new Mat(mat, [])) { }
+        });
+    }
 #endif
 
     [Fact]
@@ -1100,6 +1120,27 @@ public class MatTest : TestBase
             }
         }
     }
+
+    [Fact]
+    public void SubMatWithNoRangesThrows()
+    {
+        using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+        Assert.Throws<ArgumentException>(() => mat.SubMat());
+    }
+
+#if DEBUG
+    // The idx.Length < Dims guard in Mat.Ptr is DEBUG-only (Dims is a P/Invoke call, and this is
+    // a per-pixel-access hot path), so this test only applies to DEBUG builds. In Release, calling
+    // Ptr() with too few indices is undefined behavior (an out-of-bounds native read), matching
+    // cv::Mat::ptr's own CV_DbgAssert-only bounds checking.
+    [Fact]
+    public void PtrWithTooFewIndicesThrows()
+    {
+        using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+        Assert.Throws<ArgumentException>(() => mat.Ptr());
+        Assert.Throws<ArgumentException>(() => mat.Ptr(new int[] { 0 }));
+    }
+#endif
 
     [Fact]
     public void GetSubMatByIndexer()
