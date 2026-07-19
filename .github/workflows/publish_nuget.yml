@@ -222,8 +222,63 @@ jobs:
             *.snupkg
           retention-days: 7
 
-  Publish:
+  # ---------------------------------------------------------------------------
+  # Consume the actual, about-to-be-published .nupkg files as a real PackageReference
+  # (against a local feed, not a ProjectReference against source) before anything gets
+  # pushed to nuget.org. Catches packaging mistakes - wrong RID asset placement, a missing
+  # native library, a broken dependency graph - that the source-level "test" jobs in
+  # windows.yml/manylinux.yml/macos.yml never exercise, since those only ever run against
+  # loose build output with the native binary copied in by hand.
+  # ---------------------------------------------------------------------------
+  PackageSmokeTest:
+    name: Package smoke test (${{ matrix.os }})
     needs: Prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            runtime_package: OpenCvSharp5.Windows
+          - os: ubuntu-latest
+            runtime_package: OpenCvSharp5.official.runtime.linux-x64
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download release packages
+        uses: actions/download-artifact@v8
+        with:
+          name: release-packages
+          path: release-packages
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Determine package version
+        id: version
+        shell: bash
+        run: |
+          file=$(ls release-packages/OpenCvSharp5.[0-9]*.nupkg | head -1)
+          name=$(basename "$file")
+          version=${name#OpenCvSharp5.}
+          version=${version%.nupkg}
+          echo "Package version under test: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Run package smoke test
+        shell: bash
+        run: |
+          cd test/OpenCvSharp.PackageSmokeTest
+          dotnet nuget add source "${{ github.workspace }}/release-packages" --name smoke-local
+          dotnet run -c Release \
+            -p:SmokeTestPackageVersion=${{ steps.version.outputs.version }} \
+            -p:SmokeTestRuntimePackage=${{ matrix.runtime_package }}
+
+  Publish:
+    needs: [Prepare, PackageSmokeTest]
     runs-on: ubuntu-24.04
     environment: nuget-production
 
