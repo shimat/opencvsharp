@@ -22,4 +22,22 @@ public class SaturateCastTest
     {
         Assert.Equal(to, SaturateCast.ToByte(from));
     }
+
+    [Theory]
+    [InlineData(10.4f, 10u)]
+    [InlineData(-1.5f, 0u)]
+    [InlineData(-0.5f, 0u)]
+    public void ToUInt32FromFloat(float from, uint to)
+    {
+        Assert.Equal(to, SaturateCast.ToUInt32(from));
+    }
+
+    [Theory]
+    [InlineData(10.4, 10u)]
+    [InlineData(-1.5, 0u)]
+    [InlineData(-0.5, 0u)]
+    public void ToUInt32FromDouble(double from, uint to)
+    {
+        Assert.Equal(to, SaturateCast.ToUInt32(from));
+    }
 }
