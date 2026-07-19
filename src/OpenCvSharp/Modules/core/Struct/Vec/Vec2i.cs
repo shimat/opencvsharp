@@ -10,35 +10,17 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
+public record struct Vec2i(int Item0, int Item1) : IVec<Vec2i, int>
 {
     /// <summary>
     /// The value of the first component of this object.
     /// </summary>
-    public int Item0;
+    public int Item0 = Item0;
 
     /// <summary>
     /// The value of the second component of this object.
     /// </summary>
-    public int Item1;
-
-    /// <summary>
-    /// Deconstructing a Vector
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    public readonly void Deconstruct(out int item0, out int item1) => (item0, item1) = (Item0, Item1);
-
-    /// <summary>
-    /// Initializer
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    public Vec2i(int item0, int item1)
-    {
-        Item0 = item0;
-        Item1 = item1;
-    }
+    public int Item1 = Item1;
 
     #region Operators
 
@@ -122,39 +104,4 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
 
     /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
     public Span<int> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
-
-    /// <inheritdoc />
-    public readonly bool Equals(Vec2i other) =>
-        Item0 == other.Item0 &&
-        Item1 == other.Item1;
-
-    /// <inheritdoc />
-    public readonly override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        return obj is Vec2i v && Equals(v);
-    }
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator ==(Vec2i a, Vec2i b) => a.Equals(b);
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator !=(Vec2i a, Vec2i b) => !a.Equals(b);
-
-    /// <inheritdoc />
-    public readonly override int GetHashCode()
-    {
-        return HashCode.Combine(Item0, Item1);
-    }
-
-    /// <inheritdoc />
-    public readonly override string ToString() => $"{nameof(Vec2i)} ({Item0}, {Item1})";
 }
