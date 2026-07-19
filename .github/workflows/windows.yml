@@ -176,7 +176,19 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64
+        # --blame-crash* collects a full memory dump and a Sequence_*.xml (listing tests executed,
+        # in order) into test\OpenCvSharp.Tests\TestResults\ if the test host crashes, so an
+        # intermittent native access violation can be attributed to a specific test without a
+        # re-run. See "Upload crash dumps on failure" below.
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-dump-type full
+
+      - name: Upload crash dumps on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-x64-crash-dumps
+          path: test/OpenCvSharp.Tests/TestResults/
+          if-no-files-found: ignore
 
       - name: Test Windows-only functions
         shell: powershell
@@ -459,7 +471,16 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled"
+        # See the x64 job's "Test" step above for why --blame-crash* is here.
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full
+
+      - name: Upload crash dumps on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-arm64-crash-dumps
+          path: test/OpenCvSharp.Tests/TestResults/
+          if-no-files-found: ignore
 
       - name: Pack NuGet packages
         shell: pwsh

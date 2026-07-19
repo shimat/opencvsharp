@@ -342,8 +342,13 @@ jobs:
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib ./
           sudo mkdir -p /usr/local/lib
           sudo cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib /usr/local/lib/
+          # --blame-crash* collects a full memory dump and a Sequence_*.xml (listing tests executed,
+          # in order) into TestResults\ if the test host crashes, so an intermittent native crash
+          # (e.g. the dynafu::WarpField SIGSEGV) can be attributed to a specific test without a
+          # re-run. See "Upload crash dumps on failure" below (separate from the .ips upload above).
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
-            --logger "trx;LogFileName=test-results.trx" < /dev/null
+            --logger "trx;LogFileName=test-results.trx" \
+            --blame-crash --blame-crash-dump-type full < /dev/null
 
       - name: Test Avalonia extensions
         run: |
@@ -376,6 +381,14 @@ jobs:
         with:
           name: macos-arm64-crash-reports
           path: ~/Library/Logs/DiagnosticReports/
+          if-no-files-found: ignore
+
+      - name: Upload crash dumps on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: macos-arm64-crash-dumps
+          path: test/OpenCvSharp.Tests/TestResults/
           if-no-files-found: ignore
 
   # ---------------------------------------------------------------------------
