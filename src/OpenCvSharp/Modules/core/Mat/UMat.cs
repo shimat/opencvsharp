@@ -172,7 +172,7 @@ public class UMat : CvObject
     /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
     /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-    public UMat(UMat m, params Range[] ranges)
+    public UMat(UMat m, Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(m);
         ArgumentNullException.ThrowIfNull(ranges);
@@ -804,7 +804,7 @@ public class UMat : CvObject
     /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
     /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
     /// <returns></returns>
-    public UMat Reshape(int cn, params int[] newDims)
+    public UMat Reshape(int cn, int[] newDims)
     {
         ArgumentNullException.ThrowIfNull(newDims);
 
@@ -1017,9 +1017,11 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="ranges">Array of selected ranges along each array dimension.</param>
     /// <returns></returns>
-    public UMat SubMat(params Range[] ranges)
+    public UMat SubMat(Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(ranges);
+        if (ranges.Length == 0)
+            throw new ArgumentException("empty ranges", nameof(ranges));
 
         ThrowIfDisposed();
 

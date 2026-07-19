@@ -147,7 +147,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
     /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-    protected Mat(Mat<TElem> m, params Range[] ranges)
+    protected Mat(Mat<TElem> m, Range[] ranges)
         : base(m, ranges)
     {
     }
@@ -537,7 +537,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// </summary>
     /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
     /// <returns></returns>
-    public Mat<TElem> Reshape(params int[] newDims)
+    public Mat<TElem> Reshape(int[] newDims)
     {
 #pragma warning disable CA2000 
         var result = base.Reshape(0, newDims);
@@ -605,7 +605,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// </summary>
     /// <param name="ranges">Array of selected ranges along each array dimension.</param>
     /// <returns></returns>
-    public new Mat<TElem> SubMat(params Range[] ranges)
+    public new Mat<TElem> SubMat(Range[] ranges)
     {
 #pragma warning disable CA2000 
         var result = base.SubMat(ranges);

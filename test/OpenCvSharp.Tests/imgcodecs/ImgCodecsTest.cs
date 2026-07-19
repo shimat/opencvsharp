@@ -949,11 +949,11 @@ public class ImgCodecsTest : TestBase
 
         // Invalid directory -> imwrite must fail, and the params-array overload must surface that.
         var wrote = Cv2.ImWrite(
-            "_data/does_not_exist_dir/out.png", mat, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+            "_data/does_not_exist_dir/out.png", mat, new[] { new ImageEncodingParam(ImwriteFlags.PngCompression, 3) });
         Assert.False(wrote);
 
         var encoded = Cv2.ImEncode(
-            ".png", mat, out var buf, new ImageEncodingParam(ImwriteFlags.PngCompression, 3));
+            ".png", mat, out var buf, new[] { new ImageEncodingParam(ImwriteFlags.PngCompression, 3) });
         Assert.True(encoded);
         Assert.NotEmpty(buf);
     }

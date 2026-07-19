@@ -280,16 +280,16 @@ static partial class Cv2
     /// <param name="img">Image to be saved.</param>
     /// <param name="prms">Format-specific save parameters encoded as pairs</param>
     /// <returns></returns>
-    public static bool ImWrite(string fileName, Mat img, int[]? prms = null)
+    public static bool ImWrite(string fileName, Mat img, ImageEncodingParam[]? prms = null)
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
         ArgumentNullException.ThrowIfNull(img);
         img.ThrowIfDisposed();
-        prms ??= [];
+        var rawPrms = prms is { Length: > 0 } ? ToParamsArray(prms) : [];
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imwrite(fileName, img.CvPtr, prms, prms.Length, out var ret));
+            NativeMethods.imgcodecs_imwrite(fileName, img.CvPtr, rawPrms, rawPrms.Length, out var ret));
         GC.KeepAlive(img);
         return ret != 0;
     }
@@ -301,23 +301,7 @@ static partial class Cv2
     /// <param name="img">Image to be saved.</param>
     /// <param name="prms">Format-specific save parameters encoded as pairs</param>
     /// <returns></returns>
-    public static bool ImWrite(string fileName, Mat img, params ImageEncodingParam[] prms)
-    {
-        ArgumentNullException.ThrowIfNull(prms);
-        if (prms.Length <= 0)
-            return ImWrite(fileName, img);
-
-        return ImWrite(fileName, img, ToParamsArray(prms));
-    }
-
-    /// <summary>
-    /// Saves an image to a specified file.
-    /// </summary>
-    /// <param name="fileName">Name of the file.</param>
-    /// <param name="img">Image to be saved.</param>
-    /// <param name="prms">Format-specific save parameters encoded as pairs</param>
-    /// <returns></returns>
-    public static bool ImWrite(string fileName, IEnumerable<Mat> img, int[]? prms = null)
+    public static bool ImWrite(string fileName, IEnumerable<Mat> img, ImageEncodingParam[]? prms = null)
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
@@ -325,29 +309,13 @@ static partial class Cv2
         var imgArray = img.ToArray();
         foreach (var m in imgArray)
             m.ThrowIfDisposed();
-        prms ??= [];
+        var rawPrms = prms is { Length: > 0 } ? ToParamsArray(prms) : [];
 
         using var imgVec = new VectorOfMat(imgArray);
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imwrite_multi(fileName, imgVec.CvPtr, prms, prms.Length, out var ret));
+            NativeMethods.imgcodecs_imwrite_multi(fileName, imgVec.CvPtr, rawPrms, rawPrms.Length, out var ret));
         GC.KeepAlive(imgArray);
         return ret != 0;
-    }
-
-    /// <summary>
-    /// Saves an image to a specified file.
-    /// </summary>
-    /// <param name="fileName">Name of the file.</param>
-    /// <param name="img">Image to be saved.</param>
-    /// <param name="prms">Format-specific save parameters encoded as pairs</param>
-    /// <returns></returns>
-    public static bool ImWrite(string fileName, IEnumerable<Mat> img, params ImageEncodingParam[] prms)
-    {
-        ArgumentNullException.ThrowIfNull(prms);
-        if (prms.Length <= 0)
-            return ImWrite(fileName, img);
-
-        return ImWrite(fileName, img, ToParamsArray(prms));
     }
 
     /// <summary>
@@ -477,31 +445,18 @@ static partial class Cv2
     /// <param name="img">The image to be written</param>
     /// <param name="buf">Output buffer resized to fit the compressed image.</param>
     /// <param name="prms">Format-specific parameters.</param>
-    public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[]? prms = null)
+    public static bool ImEncode(string ext, InputArray img, out byte[] buf, ImageEncodingParam[]? prms = null)
     {
         if (string.IsNullOrEmpty(ext))
             throw new ArgumentNullException(nameof(ext));
-        prms ??= [];
+        var rawPrms = prms is { Length: > 0 } ? ToParamsArray(prms) : [];
 
         using var bufVec = new StdVector<byte>();
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imencode_vector(ext, img.Proxy, bufVec.CvPtr, prms, prms.Length, out var ret));
+            NativeMethods.imgcodecs_imencode_vector(ext, img.Proxy, bufVec.CvPtr, rawPrms, rawPrms.Length, out var ret));
         GC.KeepAlive(img.Source);
         buf = bufVec.ToArray();
         return ret != 0;
-    }
-
-    /// <summary>
-    /// Compresses the image and stores it in the memory buffer
-    /// </summary>
-    /// <param name="ext">The file extension that defines the output format</param>
-    /// <param name="img">The image to be written</param>
-    /// <param name="buf">Output buffer resized to fit the compressed image.</param>
-    /// <param name="prms">Format-specific parameters.</param>
-    public static bool ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
-    {
-        ArgumentNullException.ThrowIfNull(prms);
-        return ImEncode(ext, img, out buf, ToParamsArray(prms));
     }
 
     /// <summary>

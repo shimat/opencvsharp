@@ -324,7 +324,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
     /// </summary>
     /// <param name="path">One or more mapping keys / sequence indices to follow, in order.</param>
     /// <returns>The node at the end of the path, or null if any segment along the way is missing.</returns>
-    public FileNode? GetPath(params object[] path)
+    public FileNode? GetPath(object[] path)
     {
         ArgumentNullException.ThrowIfNull(path);
         if (path.Length == 0)

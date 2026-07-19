@@ -13,6 +13,15 @@ public class UMatTest
     }
 
     [Fact]
+    public void SubMatWithEmptyRangesArrayThrows()
+    {
+        // SubMat(Range[]) is not params, so umat.SubMat() is now a compile error;
+        // this covers the residual case of an explicitly empty array.
+        using var umat = new UMat(10, 10, MatType.CV_8UC1);
+        Assert.Throws<ArgumentException>(() => umat.SubMat(Array.Empty<Range>()));
+    }
+
+    [Fact]
     public void Empty()
     {
         using var umat1 = new UMat();
