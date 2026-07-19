@@ -10,51 +10,27 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Vec4b : IVec<Vec4b, byte>, IEquatable<Vec4b>
+public record struct Vec4b(byte Item0, byte Item1, byte Item2, byte Item3)
 {
     /// <summary>
     /// The value of the first component of this object.
     /// </summary>
-    public byte Item0;
+    public byte Item0 = Item0;
 
     /// <summary>
     /// The value of the second component of this object.
     /// </summary>
-    public byte Item1;
+    public byte Item1 = Item1;
 
     /// <summary>
     /// The value of the third component of this object.
     /// </summary>
-    public byte Item2;
+    public byte Item2 = Item2;
 
     /// <summary>
     /// The value of the fourth component of this object.
     /// </summary>
-    public byte Item3;
-
-    /// <summary>
-    /// Deconstructing a Vector
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    /// <param name="item3"></param>
-    public readonly void Deconstruct(out byte item0, out byte item1, out byte item2, out byte item3) => (item0, item1, item2, item3) = (Item0, Item1, Item2, Item3);
-
-    /// <summary>
-    /// Initializer
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    /// <param name="item3"></param>
-    public Vec4b(byte item0, byte item1, byte item2, byte item3)
-    {
-        Item0 = item0;
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-    }
+    public byte Item3 = Item3;
 
     #region Operators
 
@@ -152,41 +128,4 @@ public struct Vec4b : IVec<Vec4b, byte>, IEquatable<Vec4b>
 
     /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<byte> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
-
-    /// <inheritdoc />
-    public readonly bool Equals(Vec4b other) =>
-        Item0 == other.Item0 &&
-        Item1 == other.Item1 && 
-        Item2 == other.Item2 &&
-        Item3 == other.Item3;
-
-    /// <inheritdoc />
-    public readonly override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        return obj is Vec4b v && Equals(v);
-    }
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator ==(Vec4b a, Vec4b b) => a.Equals(b);
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator !=(Vec4b a, Vec4b b) => !(a == b);
-
-    /// <inheritdoc />
-    public readonly override int GetHashCode()
-    {
-        return HashCode.Combine(Item0, Item1, Item2, Item3);
-    }
-
-    /// <inheritdoc />
-    public readonly override string ToString() => $"{nameof(Vec4b)} ({Item0}, {Item1}, {Item2}, {Item3})";
 }

@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// 6-Tuple of double (System.Double)
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
+public struct Vec6d : IEquatable<Vec6d>
 {
     /// <summary>
     /// The value of the first component of this object.

@@ -54,9 +54,8 @@ public static class SaturateCast
     public static uint ToUInt32(long v) => (uint)((ulong)v <= uint.MaxValue ? v : v > 0 ? uint.MaxValue : 0);
     public static uint ToUInt32(ulong v) => (uint)Math.Min(v, uint.MaxValue);
 
-    // we intentionally do not clip negative numbers, to make -1 become 0xffffffff etc.
-    public static uint ToUInt32(float v) => (uint)Math.Round(v);
-    public static uint ToUInt32(double v) => (uint)Math.Round(v);
+    public static uint ToUInt32(float v) => (uint)Math.Round(Math.Max(v, 0f));
+    public static uint ToUInt32(double v) => (uint)Math.Round(Math.Max(v, 0.0));
 
     public static ulong ToUInt64(sbyte v) => (ulong)Math.Max(v, (sbyte)0);
     public static ulong ToUInt64(short v) => (ulong)Math.Max(v, (short)0);

@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
+public struct Vec3f : IEquatable<Vec3f>
 {
     /// <summary>
     /// The value of the first component of this object.

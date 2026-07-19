@@ -10,43 +10,22 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
+public record struct Vec3s(short Item0, short Item1, short Item2)
 {
     /// <summary>
     /// The value of the first component of this object.
     /// </summary>
-    public short Item0;
+    public short Item0 = Item0;
 
     /// <summary>
     /// The value of the second component of this object.
     /// </summary>
-    public short Item1;
+    public short Item1 = Item1;
 
     /// <summary>
     /// The value of the third component of this object.
     /// </summary>
-    public short Item2;
-
-    /// <summary>
-    /// Deconstructing a Vector
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    public readonly void Deconstruct(out short item0, out short item1, out short item2) => (item0, item1, item2) = (Item0, Item1, Item2);
-
-    /// <summary>
-    /// Initializer
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    public Vec3s(short item0, short item1, short item2)
-    {
-        Item0 = item0;
-        Item1 = item1;
-        Item2 = item2;
-    }
+    public short Item2 = Item2;
 
     #region Operators
 
@@ -139,40 +118,4 @@ public struct Vec3s : IVec<Vec3s, short>, IEquatable<Vec3s>
 
     /// <summary>Returns a <see cref="Span{T}"/> over the 3 elements of this vector.</summary>
     public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
-
-    /// <inheritdoc />
-    public readonly bool Equals(Vec3s other) =>
-        Item0 == other.Item0 &&
-        Item1 == other.Item1 &&
-        Item2 == other.Item2;
-
-    /// <inheritdoc />
-    public readonly override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        return obj is Vec3s v && Equals(v);
-    }
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator ==(Vec3s a, Vec3s b) => a.Equals(b);
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator !=(Vec3s a, Vec3s b) => !a.Equals(b);
-
-    /// <inheritdoc />
-    public readonly override int GetHashCode()
-    {
-        return HashCode.Combine(Item0, Item1, Item2);
-    }
-
-    /// <inheritdoc />
-    public readonly override string ToString() => $"{nameof(Vec3s)} ({Item0}, {Item1}, {Item2})";
 }

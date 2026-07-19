@@ -10,68 +10,37 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Vec6w : IVec<Vec6w, ushort>, IEquatable<Vec6w>
+public record struct Vec6w(ushort Item0, ushort Item1, ushort Item2, ushort Item3, ushort Item4, ushort Item5)
 {
     /// <summary>
     /// The value of the first component of this object.
     /// </summary>
-    public ushort Item0;
+    public ushort Item0 = Item0;
 
     /// <summary>
     /// The value of the second component of this object.
     /// </summary>
-    public ushort Item1;
+    public ushort Item1 = Item1;
 
     /// <summary>
     /// The value of the third component of this object.
     /// </summary>
-    public ushort Item2;
+    public ushort Item2 = Item2;
 
     /// <summary>
     /// The value of the fourth component of this object.
     /// </summary>
-    public ushort Item3;
+    public ushort Item3 = Item3;
 
     /// <summary>
     /// The value of the fifth component of this object.
     /// </summary>
-    public ushort Item4;
+    public ushort Item4 = Item4;
 
     /// <summary>
     /// The value of the sixth component of this object.
     /// </summary>
-    public ushort Item5;
-
-    /// <summary>
-    /// Deconstructing a Vector
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    /// <param name="item3"></param>
-    /// <param name="item4"></param>
-    /// <param name="item5"></param>
-    public readonly void Deconstruct(out ushort item0, out ushort item1, out ushort item2, out ushort item3, out ushort item4, out ushort item5) 
-        => (item0, item1, item2, item3, item4, item5) = (Item0, Item1, Item2, Item3, Item4, Item5);
-
-    /// <summary>
-    /// Initializer
-    /// </summary>
-    /// <param name="item0"></param>
-    /// <param name="item1"></param>
-    /// <param name="item2"></param>
-    /// <param name="item3"></param>
-    /// <param name="item4"></param>
-    /// <param name="item5"></param>
-    public Vec6w(ushort item0, ushort item1, ushort item2, ushort item3, ushort item4, ushort item5)
-    {
-        Item0 = item0;
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-        Item5 = item5;
-    }
+    public ushort Item5 = Item5;
 
     #region Operators
 
@@ -181,44 +150,4 @@ public struct Vec6w : IVec<Vec6w, ushort>, IEquatable<Vec6w>
 
     /// <summary>Returns a <see cref="Span{T}"/> over the 6 elements of this vector.</summary>
     public Span<ushort> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
-
-    /// <inheritdoc />
-    public readonly bool Equals(Vec6w other) =>
-        Item0 == other.Item0 && 
-        Item1 == other.Item1 &&
-        Item2 == other.Item2 && 
-        Item3 == other.Item3 &&
-        Item4 == other.Item4 &&
-        Item5 == other.Item5;
-
-    /// <inheritdoc />
-    public readonly override bool Equals(object? obj)
-    {
-        if (obj is null) return false;
-        return obj is Vec6w v && Equals(v);
-    }
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator ==(Vec6w a, Vec6w b) => a.Equals(b);
-
-    /// <summary> 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static bool operator !=(Vec6w a, Vec6w b) => !a.Equals(b);
-
-    /// <inheritdoc />
-    public readonly override int GetHashCode()
-    {
-        return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
-    }
-
-    /// <inheritdoc />
-    public readonly override string ToString() 
-        => $"{nameof(Vec6w)} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
 }
