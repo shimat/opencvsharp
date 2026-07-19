@@ -1017,7 +1017,7 @@ public class UMat : CvObject
     /// </summary>
     /// <param name="ranges">Array of selected ranges along each array dimension.</param>
     /// <returns></returns>
-    public UMat SubMat(params Range[] ranges)
+    public UMat SubMat(Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(ranges);
         if (ranges.Length == 0)

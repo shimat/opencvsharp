@@ -605,7 +605,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// </summary>
     /// <param name="ranges">Array of selected ranges along each array dimension.</param>
     /// <returns></returns>
-    public new Mat<TElem> SubMat(params Range[] ranges)
+    public new Mat<TElem> SubMat(Range[] ranges)
     {
 #pragma warning disable CA2000 
         var result = base.SubMat(ranges);

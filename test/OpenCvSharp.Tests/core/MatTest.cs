@@ -354,6 +354,8 @@ public class MatTest : TestBase
         Assert.Equal(new Size(4, 3), mat.Size());
 
         // OK
+        // These two-argument calls resolve to the dedicated SubMat(System.Range, System.Range)
+        // overload, not SubMat(Range[]), so they are unaffected by dropping params there.
         using var subMat1 = mat.SubMat(0..2, 1..4);
         Assert.Equal(new Size(3, 2), subMat1.Size());
         Assert.True(subMat1.GetArray(out byte[] subMat1Array));
@@ -364,7 +366,7 @@ public class MatTest : TestBase
         Assert.True(subMat2.GetArray(out byte[] subMat2Array));
         Assert.Equal([5, 6,7,8], subMat2Array);
 
-        // out of range 
+        // out of range
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
             using (mat.SubMat(0..10, ..)) { }
@@ -1122,10 +1124,12 @@ public class MatTest : TestBase
     }
 
     [Fact]
-    public void SubMatWithNoRangesThrows()
+    public void SubMatWithEmptyRangesArrayThrows()
     {
+        // SubMat(Range[]) is not params, so mat.SubMat() is now a compile error;
+        // this covers the residual case of an explicitly empty array.
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
-        Assert.Throws<ArgumentException>(() => mat.SubMat());
+        Assert.Throws<ArgumentException>(() => mat.SubMat(Array.Empty<Range>()));
     }
 
 #if DEBUG
@@ -1364,7 +1368,7 @@ public class MatTest : TestBase
 
         for (int i = 0; i < 5; i++)
         {
-            using var mi_3d = m.SubMat(new Range(i, i + 1), Range.All, Range.All);
+            using var mi_3d = m.SubMat(new Range[] { new Range(i, i + 1), Range.All, Range.All });
             Assert.Equal(3, mi_3d.Dims);
             Assert.Equal(1, mi_3d.Size(0));
             Assert.Equal(6, mi_3d.Size(1));

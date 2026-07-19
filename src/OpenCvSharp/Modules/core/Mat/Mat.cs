@@ -2113,7 +2113,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="ranges">Array of selected ranges along each array dimension.</param>
     /// <returns></returns>
-    public Mat SubMat(params Range[] ranges)
+    public Mat SubMat(Range[] ranges)
     {
         ArgumentNullException.ThrowIfNull(ranges);
         if (ranges.Length == 0)
