@@ -118,7 +118,7 @@ runs:
       uses: actions/cache/restore@v6
       with:
         path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
-        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh') }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
 
     - name: Configure OpenCV (${{ inputs.variant_label }})
       if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -200,7 +200,7 @@ runs:
       uses: actions/cache/save@v6
       with:
         path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
-        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh') }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
 
     # -- OpenCvSharpExtern --------------------------------------------------------
     - name: Build OpenCvSharpExtern (${{ inputs.variant_label }})
