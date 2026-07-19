@@ -270,12 +270,15 @@ jobs:
 
       - name: Run package smoke test
         shell: bash
+        env:
+          SMOKE_TEST_VERSION: ${{ steps.version.outputs.version }}
+          SMOKE_TEST_RUNTIME_PACKAGE: ${{ matrix.runtime_package }}
         run: |
           cd test/OpenCvSharp.PackageSmokeTest
-          dotnet nuget add source "${{ github.workspace }}/release-packages" --name smoke-local
           dotnet run -c Release \
-            -p:SmokeTestPackageVersion=${{ steps.version.outputs.version }} \
-            -p:SmokeTestRuntimePackage=${{ matrix.runtime_package }}
+            -p:RestoreAdditionalProjectSources="$GITHUB_WORKSPACE/release-packages" \
+            -p:SmokeTestPackageVersion="$SMOKE_TEST_VERSION" \
+            -p:SmokeTestRuntimePackage="$SMOKE_TEST_RUNTIME_PACKAGE"
 
   Publish:
     needs: [Prepare, PackageSmokeTest]
