@@ -804,7 +804,7 @@ public class UMat : CvObject
     /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
     /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
     /// <returns></returns>
-    public UMat Reshape(int cn, params int[] newDims)
+    public UMat Reshape(int cn, int[] newDims)
     {
         ArgumentNullException.ThrowIfNull(newDims);
 

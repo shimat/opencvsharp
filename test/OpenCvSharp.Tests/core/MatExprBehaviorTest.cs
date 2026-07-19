@@ -43,7 +43,7 @@ public class MatExprBehaviorTest : TestBase
 
         // Mutate the source AFTER building the expression. An eager implementation would have
         // already captured {1..9}; a lazy one sees the mutated values at materialization time.
-        src.SetArray(10f, 20f, 30f, 40f, 50f, 60f, 70f, 80f, 90f);
+        src.SetArray(new float[] { 10f, 20f, 30f, 40f, 50f, 60f, 70f, 80f, 90f });
 
         using Mat actual = expr;
         using var expected = Float3x3(11, 21, 31, 41, 51, 61, 71, 81, 91);
@@ -211,7 +211,7 @@ public class MatExprBehaviorTest : TestBase
     private static Mat Float2x2Diag(float v)
     {
         var m = new Mat(2, 2, MatType.CV_32FC1);
-        m.SetArray(v, 0f, 0f, v);
+        m.SetArray(new float[] { v, 0f, 0f, v });
         return m;
     }
 }

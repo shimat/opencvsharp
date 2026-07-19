@@ -712,16 +712,16 @@ public class FileStorageTest : TestBase
 
         using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
         {
-            using var value = fs.GetPath("a", "b", 1);
+            using var value = fs.GetPath(new object[] { "a", "b", 1 });
             Assert.NotNull(value);
             Assert.Equal(20, value.ReadInt());
 
-            Assert.Null(fs.GetPath("a", "missing"));
-            Assert.Null(fs.GetPath("missing"));
+            Assert.Null(fs.GetPath(new object[] { "a", "missing" }));
+            Assert.Null(fs.GetPath(new object[] { "missing" }));
 
             using var root = fs.Root();
             Assert.NotNull(root);
-            using var viaFileNode = root.GetPath("a", "b", 2);
+            using var viaFileNode = root.GetPath(new object[] { "a", "b", 2 });
             Assert.NotNull(viaFileNode);
             Assert.Equal(30, viaFileNode.ReadInt());
         }
@@ -738,13 +738,13 @@ public class FileStorageTest : TestBase
 
         using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
         {
-            Assert.Throws<ArgumentException>(() => fs.GetPath());
-            Assert.Throws<ArgumentException>(() => fs.GetPath(42)); // first segment must be a string
+            Assert.Throws<ArgumentException>(() => fs.GetPath(Array.Empty<object>()));
+            Assert.Throws<ArgumentException>(() => fs.GetPath(new object[] { 42 })); // first segment must be a string
 
             using var root = fs.Root();
             Assert.NotNull(root);
-            Assert.Throws<ArgumentException>(() => root.GetPath());
-            Assert.Throws<ArgumentException>(() => root.GetPath(3.14)); // unsupported segment type
+            Assert.Throws<ArgumentException>(() => root.GetPath(Array.Empty<object>()));
+            Assert.Throws<ArgumentException>(() => root.GetPath(new object[] { 3.14 })); // unsupported segment type
         }
     }
 }

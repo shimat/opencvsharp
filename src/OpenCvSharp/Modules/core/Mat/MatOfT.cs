@@ -537,7 +537,7 @@ public class Mat<TElem> : Mat, IEnumerable<TElem>
     /// </summary>
     /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
     /// <returns></returns>
-    public Mat<TElem> Reshape(params int[] newDims)
+    public Mat<TElem> Reshape(int[] newDims)
     {
 #pragma warning disable CA2000 
         var result = base.Reshape(0, newDims);

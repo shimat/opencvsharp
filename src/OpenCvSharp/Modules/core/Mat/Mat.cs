@@ -1374,7 +1374,7 @@ public partial class Mat : CvObject
     /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
     /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
     /// <returns></returns>
-    public Mat Reshape(int cn, params int[] newDims)
+    public Mat Reshape(int cn, int[] newDims)
     {
         ArgumentNullException.ThrowIfNull(newDims);
         ThrowIfDisposed();
@@ -3242,7 +3242,7 @@ public partial class Mat : CvObject
     /// </summary>
     /// <param name="data">Primitive or Vec array to be copied</param>
     /// <returns>Length of copied bytes</returns>
-    public bool SetArray<T>(params T[] data)
+    public bool SetArray<T>(T[] data)
         where T : unmanaged
     {
         CheckArgumentsForConvert<T>(data);
@@ -3289,19 +3289,7 @@ public partial class Mat : CvObject
     /// <param name="ext">Encodes an image into a memory buffer.</param>
     /// <param name="prms">Format-specific parameters.</param>
     /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", int[]? prms = null)
-    {
-        Cv2.ImEncode(ext, this, out var buf, prms);
-        return buf;
-    }
-
-    /// <summary>
-    /// Encodes an image into a memory buffer.
-    /// </summary>
-    /// <param name="ext">Encodes an image into a memory buffer.</param>
-    /// <param name="prms">Format-specific parameters.</param>
-    /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
+    public byte[] ToBytes(string ext = ".png", ImageEncodingParam[]? prms = null)
     {
         Cv2.ImEncode(ext, this, out var buf, prms);
         return buf;
@@ -3313,7 +3301,7 @@ public partial class Mat : CvObject
     /// <param name="ext"></param>
     /// <param name="prms"></param>
     /// <returns></returns>
-    public MemoryStream ToMemoryStream(string ext = ".png", params ImageEncodingParam[] prms)
+    public MemoryStream ToMemoryStream(string ext = ".png", ImageEncodingParam[]? prms = null)
     {
         var bytes = ToBytes(ext, prms);
         return new MemoryStream(bytes, 0, bytes.Length, writable: false, publiclyVisible: true);
@@ -3326,7 +3314,7 @@ public partial class Mat : CvObject
     /// <param name="ext"></param>
     /// <param name="prms"></param>
     /// <returns></returns>
-    public void WriteToStream(Stream stream, string ext = ".png", params ImageEncodingParam[] prms)
+    public void WriteToStream(Stream stream, string ext = ".png", ImageEncodingParam[]? prms = null)
     {
         ArgumentNullException.ThrowIfNull(stream);
         var imageBytes = ToBytes(ext, prms);

@@ -1374,7 +1374,7 @@ public class MatTest : TestBase
             Assert.Equal(6, mi_3d.Size(1));
             Assert.Equal(7, mi_3d.Size(2));
 
-            using var mi = mi_3d.Reshape(0, mi_3d.Size(1), mi_3d.Size(2));
+            using var mi = mi_3d.Reshape(0, new int[] { mi_3d.Size(1), mi_3d.Size(2) });
             Assert.Equal(2, mi.Dims);
             Assert.Equal(6, mi.Size(0));
             Assert.Equal(7, mi.Size(1));
