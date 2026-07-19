@@ -128,6 +128,7 @@ jobs:
             echo "skip_platforms: skipping manylinux package checks"
           else
             check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
+            check_package "OpenCvSharp5.official.runtime.linux-x64.headless.*.nupkg"
             check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
           fi
 

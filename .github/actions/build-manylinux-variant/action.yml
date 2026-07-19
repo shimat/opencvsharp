@@ -1,0 +1,239 @@
+name: Build manylinux OpenCvSharpExtern variant
+description: >-
+  Builds OpenCV + libOpenCvSharpExtern.so for one "full-module-set" flavor (full or headless)
+  inside a manylinux_2_28 container. Not used by the "slim" flavor, which has a
+  structurally different build (no vcpkg/FFmpeg, reduced OpenCV module list).
+
+inputs:
+  opencv_version:
+    description: OpenCV version being built (e.g. 5.0.0), used in the OpenCV cache key
+    required: true
+  variant_label:
+    description: Short label for this variant, used in cache keys and log file names (e.g. full, headless)
+    required: true
+  install_gtk3_devel:
+    description: Whether to dnf install gtk3-devel before configuring OpenCV
+    required: true
+  artifacts_dir:
+    description: Directory name (relative to the workspace) OpenCV gets installed into
+    required: true
+  opencv_build_dir:
+    description: CMake build directory for OpenCV (relative to the workspace)
+    required: true
+  extern_build_dir:
+    description: CMake build directory for OpenCvSharpExtern (relative to the workspace)
+    required: true
+  extra_opencv_cmake_args:
+    description: Extra -D flags appended to the OpenCV configure command
+    required: false
+    default: ''
+  extra_extern_cmake_args:
+    description: Extra -D flags appended to the OpenCvSharpExtern configure command
+    required: false
+    default: ''
+  verify_gtk_off:
+    description: Also assert GTK+ is disabled when verifying the OpenCV cmake feature summary
+    required: false
+    default: 'false'
+  verify_no_gui_deps:
+    description: Assert the built .so has no GTK3/X11/DRM NEEDED entries
+    required: false
+    default: 'false'
+  save_shared_caches:
+    description: Save the vcpkg/FFmpeg caches shared across variants (only one variant job should do this)
+    required: false
+    default: 'false'
+  output_so_name:
+    description: Final .so filename copied to the workspace root
+    required: true
+  artifact_name:
+    description: upload-artifact name for the built .so
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # -- System tools ---------------------------------------------------------
+    - name: Install system tools (${{ inputs.variant_label }})
+      shell: bash
+      run: |
+        pkgs="git zip unzip nasm yasm pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece"
+        if [ "${{ inputs.install_gtk3_devel }}" = "true" ]; then
+          pkgs="$pkgs gtk3-devel"
+        fi
+        dnf install -y $pkgs
+
+    # -- vcpkg (image libs + Tesseract + Leptonica) ----------------------------
+    - name: Bootstrap vcpkg (${{ inputs.variant_label }})
+      shell: bash
+      run: |
+        git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /opt/vcpkg
+        /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+    - name: Restore vcpkg package cache (${{ inputs.variant_label }})
+      id: vcpkg-cache
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ github.workspace }}/vcpkg_installed
+        key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+
+    - name: Install packages via vcpkg (${{ inputs.variant_label }})
+      if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        /opt/vcpkg/vcpkg install \
+          --triplet x64-linux-static \
+          --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+
+    - name: Save vcpkg package cache (${{ inputs.variant_label }})
+      if: steps.vcpkg-cache.outputs.cache-hit != 'true' && inputs.save_shared_caches == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/cache/save@v6
+      with:
+        path: ${{ github.workspace }}/vcpkg_installed
+        key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+
+    # -- FFmpeg cache -----------------------------------------------------------
+    - name: Restore FFmpeg cache (${{ inputs.variant_label }})
+      id: ffmpeg-cache
+      uses: actions/cache/restore@v6
+      with:
+        path: /opt/ffmpeg
+        key: manylinux2_28-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
+
+    - name: Build FFmpeg (${{ inputs.variant_label }})
+      if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: bash packaging/docker/manylinux/build_static_deps.sh
+
+    - name: Save FFmpeg cache (${{ inputs.variant_label }})
+      if: steps.ffmpeg-cache.outputs.cache-hit != 'true' && inputs.save_shared_caches == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/cache/save@v6
+      with:
+        path: /opt/ffmpeg
+        key: manylinux2_28-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
+
+    # -- OpenCV cache -------------------------------------------------------------
+    - name: Restore OpenCV cache (${{ inputs.variant_label }})
+      id: opencv-cache
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh') }}
+
+    - name: Configure OpenCV (${{ inputs.variant_label }})
+      if: steps.opencv-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        cmake \
+          -G Ninja \
+          -C cmake/opencv_build_options.cmake \
+          -S opencv \
+          -B ${{ inputs.opencv_build_dir }} \
+          -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
+          -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }} \
+          -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
+          -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+          -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+          -D CMAKE_PREFIX_PATH=/opt/ffmpeg \
+          -D BUILD_JPEG=OFF \
+          -D BUILD_PNG=OFF \
+          -D BUILD_TIFF=OFF \
+          -D BUILD_WEBP=OFF \
+          -D BUILD_ZLIB=ON \
+          -D WITH_TBB=OFF \
+          -D WITH_OPENEXR=OFF \
+          -D WITH_JASPER=OFF \
+          -D WITH_OPENGL=OFF \
+          -D WITH_VA=OFF \
+          -D WITH_VA_INTEL=OFF \
+          ${{ inputs.extra_opencv_cmake_args }} \
+          2>&1 | tee /tmp/opencv-configure-${{ inputs.variant_label }}.log
+
+    - name: Verify OpenCV cmake features (${{ inputs.variant_label }})
+      if: steps.opencv-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        log=/tmp/opencv-configure-${{ inputs.variant_label }}.log
+        fail=0
+        for feature in Tesseract FFMPEG JPEG PNG TIFF WEBP; do
+          val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+          if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+            echo "OK: $feature = $val"
+          else
+            echo "MISSING or DISABLED: $feature"
+            grep -iE "${feature}" "$log" | tail -3 || true
+            fail=1
+          fi
+        done
+        if [ "${{ inputs.verify_gtk_off }}" = "true" ]; then
+          gtk=$(grep -E "^--\s+GTK\+:" "$log" | tail -1 || true)
+          if [[ -n "$gtk" ]] && [[ "$gtk" != *NO* ]]; then
+            echo "GTK3 unexpectedly enabled in ${{ inputs.variant_label }} build: $gtk"
+            fail=1
+          fi
+        fi
+        [ "$fail" -eq 0 ]
+
+    - name: Build OpenCV (${{ inputs.variant_label }})
+      if: steps.opencv-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        cmake --build ${{ inputs.opencv_build_dir }} -j 3
+        cmake --install ${{ inputs.opencv_build_dir }}
+        echo "=== ${{ inputs.artifacts_dir }} layout ==="
+        find ${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }} -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+        du -sh ${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }}/*/
+
+    - name: Validate OpenCV install (${{ inputs.variant_label }})
+      if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      shell: bash
+      run: |
+        config=$(find ${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }} -name 'OpenCVConfig.cmake' | head -1)
+        if [ -z "$config" ]; then
+          echo "ERROR: OpenCVConfig.cmake not found under ${{ inputs.artifacts_dir }} - install is incomplete."
+          exit 1
+        fi
+        echo "Found: $config"
+
+    - name: Save OpenCV cache (${{ inputs.variant_label }})
+      if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: actions/cache/save@v6
+      with:
+        path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh') }}
+
+    # -- OpenCvSharpExtern --------------------------------------------------------
+    - name: Build OpenCvSharpExtern (${{ inputs.variant_label }})
+      shell: bash
+      run: |
+        cmake \
+          -G Ninja \
+          -S src \
+          -B ${{ inputs.extern_build_dir }} \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
+          -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+          -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+          -D OpenCV_DIR=${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }}/lib64/cmake/opencv4 \
+          -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }};/opt/ffmpeg;${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static" \
+          -D ZLIB_LIBRARY="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib/libz.a" \
+          -D ZLIB_INCLUDE_DIR="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/include" \
+          -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib" \
+          ${{ inputs.extra_extern_cmake_args }}
+        cmake --build ${{ inputs.extern_build_dir }} -j
+        cp ${{ inputs.extern_build_dir }}/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
+
+    - name: Verify no GTK3/X11 dependency (${{ inputs.variant_label }})
+      if: inputs.verify_no_gui_deps == 'true'
+      shell: bash
+      run: |
+        if objdump -p ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }} | grep -qi 'libgtk\|libX11\|libdrm'; then
+          echo "ERROR: ${{ inputs.variant_label }} .so unexpectedly depends on GTK3/X11/DRM:"
+          objdump -p ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }} | grep -i 'NEEDED'
+          exit 1
+        fi
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: ${{ inputs.output_so_name }}

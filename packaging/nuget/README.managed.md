@@ -53,8 +53,9 @@ For more installation options, see [Installation on GitHub](https://github.com/s
 ### Linux (Ubuntu and other distributions)
 The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions.
 
-- **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **slim** package which has no GUI dependencies.
-- **Slim package** (`OpenCvSharp5.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
+- **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **headless** or **slim** package below, neither of which has GUI dependencies.
+- **Headless package** (`OpenCvSharp5.official.runtime.linux-x64.headless`): same module set as full (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled, so it has no GTK3/X11 dependency. Suitable for containerized services that need more than the slim module set (e.g. `VideoCapture`) but never call `highgui`.
+- **Slim package** (`OpenCvSharp5.official.runtime.linux-x64.slim`): `highgui` is disabled and the module set is reduced; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
 
 ### macOS (Intel and Apple Silicon)
 The `OpenCvSharp5.runtime.osx.x64` and `OpenCvSharp5.runtime.osx.arm64` packages provide native bindings for macOS. FFmpeg, Tesseract, Freetype, and all standard OpenCV modules are statically linked.

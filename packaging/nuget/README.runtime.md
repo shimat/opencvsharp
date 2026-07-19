@@ -16,7 +16,7 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 > - Ubuntu/Debian: `apt-get install libgtk-3-0`
 > - RHEL/AlmaLinux: `dnf install gtk3`
 >
-> For headless servers or minimal containers, use the **slim** package (`OpenCvSharp5.official.runtime.linux-x64.slim`) instead, which disables `highgui` and has no GUI dependencies.
+> For headless servers or minimal containers that still need `videoio`, `dnn`, `ml`, `contrib`, `stitching`, etc., use the **headless** package (`OpenCvSharp5.official.runtime.linux-x64.headless`) instead: same module set as full, `highgui` disabled, no GTK3/X11 dependency. If the reduced **slim** module set (see below) is enough, that has no GUI dependencies either.
 
 > **macOS:** The `osx.x64` and `osx.arm64` packages include FFmpeg, Tesseract, Freetype, and all standard OpenCV modules, statically linked.
 
@@ -29,6 +29,7 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp5.runtime.win-arm64` | Windows ARM64 (Snapdragon X and other arm64 devices). FFmpeg not included. |
 | `OpenCvSharp5.runtime.win-arm64.slim` | Windows ARM64 (slim) |
 | `OpenCvSharp5.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
+| `OpenCvSharp5.official.runtime.linux-x64.headless` | Linux x64 (portable, manylinux_2_28, headless — full module set minus `highgui`) |
 | `OpenCvSharp5.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
 | `OpenCvSharp5.runtime.linux-arm64` | Linux ARM64 (AArch64) |
 | `OpenCvSharp5.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
@@ -36,6 +37,10 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp5.runtime.osx.arm64` | macOS 11.0+ arm64 (Apple Silicon) |
 
 > **Note:** `OpenCvSharp5.runtime.linux-arm` has been renamed to `OpenCvSharp5.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp5.runtime.linux-arm64` directly.
+
+## Headless Profile (Linux only)
+
+The `OpenCvSharp5.official.runtime.linux-x64.headless` package has the same module set as the full `linux-x64` package (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled at build time, so it never links GTK3/X11 and needs no GUI dependency to be installed. Use it for containerized/headless services (e.g. an ASP.NET Core service using `VideoCapture`/`imgcodecs`) that need more than the `slim` module set below but never call `highgui`.
 
 ## Slim Profile
 
