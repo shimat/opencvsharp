@@ -10,7 +10,7 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public record struct Vec3i(int Item0, int Item1, int Item2) : IVec<Vec3i, int>
+public record struct Vec3i(int Item0, int Item1, int Item2)
 {
     /// <summary>
     /// The value of the first component of this object.

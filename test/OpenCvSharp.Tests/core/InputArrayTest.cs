@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Tests;
 using Xunit;
 
@@ -146,5 +148,22 @@ public class InputArrayTest : TestBase
         Cv2.Transpose(src, expected);
 
         ImageEquals(expected, actual);
+    }
+
+    /// <summary>
+    /// InputArrayProxy.Payload0..5 are declared as double (not e.g. a raw fixed byte buffer) so the
+    /// CLR is forced to 8-byte-align the inline Vec/Scalar payload, matching the native mirror
+    /// struct's alignment of its own double payload field. A field reorder or a switch to a raw byte
+    /// buffer would silently break that alignment guarantee without a compile error, so pin it down
+    /// here. InputArrayProxy is internal; reflection avoids needing InternalsVisibleTo just for this.
+    /// </summary>
+    [Fact]
+    public void InputArrayProxy_VecPayloadIs8ByteAligned()
+    {
+        var proxyType = typeof(InputArray).Assembly.GetType("OpenCvSharp.InputArrayProxy");
+        Assert.NotNull(proxyType);
+
+        var offset = (long)Marshal.OffsetOf(proxyType!, "Payload0");
+        Assert.Equal(0, offset % 8);
     }
 }

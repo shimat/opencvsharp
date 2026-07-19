@@ -220,39 +220,54 @@ public readonly ref struct InputArray
     /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline).</summary>
     public static InputArray Create(double val) => val;
 
-    /// <summary>Wraps a fixed-length <see cref="IVec"/> value (no allocation; travels inline).</summary>
-    public static InputArray Create(IVec vec)
-    {
-        ArgumentNullException.ThrowIfNull(vec);
-        return vec switch
-        {
-            Vec2b v => (InputArray)v,
-            Vec3b v => (InputArray)v,
-            Vec4b v => (InputArray)v,
-            Vec6b v => (InputArray)v,
-            Vec2s v => (InputArray)v,
-            Vec3s v => (InputArray)v,
-            Vec4s v => (InputArray)v,
-            Vec6s v => (InputArray)v,
-            Vec2w v => (InputArray)v,
-            Vec3w v => (InputArray)v,
-            Vec4w v => (InputArray)v,
-            Vec6w v => (InputArray)v,
-            Vec2i v => (InputArray)v,
-            Vec3i v => (InputArray)v,
-            Vec4i v => (InputArray)v,
-            Vec6i v => (InputArray)v,
-            Vec2f v => (InputArray)v,
-            Vec3f v => (InputArray)v,
-            Vec4f v => (InputArray)v,
-            Vec6f v => (InputArray)v,
-            Vec2d v => (InputArray)v,
-            Vec3d v => (InputArray)v,
-            Vec4d v => (InputArray)v,
-            Vec6d v => (InputArray)v,
-            _ => throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec)),
-        };
-    }
+    /// <summary>Wraps a <see cref="Vec2b"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2b v) => v;
+    /// <summary>Wraps a <see cref="Vec3b"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3b v) => v;
+    /// <summary>Wraps a <see cref="Vec4b"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4b v) => v;
+    /// <summary>Wraps a <see cref="Vec6b"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6b v) => v;
+    /// <summary>Wraps a <see cref="Vec2s"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2s v) => v;
+    /// <summary>Wraps a <see cref="Vec3s"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3s v) => v;
+    /// <summary>Wraps a <see cref="Vec4s"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4s v) => v;
+    /// <summary>Wraps a <see cref="Vec6s"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6s v) => v;
+    /// <summary>Wraps a <see cref="Vec2w"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2w v) => v;
+    /// <summary>Wraps a <see cref="Vec3w"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3w v) => v;
+    /// <summary>Wraps a <see cref="Vec4w"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4w v) => v;
+    /// <summary>Wraps a <see cref="Vec6w"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6w v) => v;
+    /// <summary>Wraps a <see cref="Vec2i"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2i v) => v;
+    /// <summary>Wraps a <see cref="Vec3i"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3i v) => v;
+    /// <summary>Wraps a <see cref="Vec4i"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4i v) => v;
+    /// <summary>Wraps a <see cref="Vec6i"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6i v) => v;
+    /// <summary>Wraps a <see cref="Vec2f"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2f v) => v;
+    /// <summary>Wraps a <see cref="Vec3f"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3f v) => v;
+    /// <summary>Wraps a <see cref="Vec4f"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4f v) => v;
+    /// <summary>Wraps a <see cref="Vec6f"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6f v) => v;
+    /// <summary>Wraps a <see cref="Vec2d"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec2d v) => v;
+    /// <summary>Wraps a <see cref="Vec3d"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec3d v) => v;
+    /// <summary>Wraps a <see cref="Vec4d"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec4d v) => v;
+    /// <summary>Wraps a <see cref="Vec6d"/> value (no allocation; travels inline).</summary>
+    public static InputArray Create(Vec6d v) => v;
 
     /// <summary>
     /// Wraps a 1-D array by copying it into a freshly-created <see cref="Mat"/> of the given
