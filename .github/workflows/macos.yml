@@ -330,7 +330,7 @@ jobs:
       # Folded into this job: runs against the just-built dylib, avoiding a
       # separate runner and an artifact upload/download round-trip.
       - name: Install .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
 
@@ -416,7 +416,7 @@ jobs:
           path: /tmp/dylib-arm64/
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
 
