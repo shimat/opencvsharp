@@ -48,7 +48,7 @@ namespace OpenCvSharp.Internal.Vectors
             var size1 = GetSize1();
             var size2 = new nuint[size1];
             NativeMethods.vector_vector_KeyLine_getSize2(Handle, size2);
-            return size2.Select(s => (long)s).ToArray();
+            return size2.ToInt64Array();
         }
 
         /// <summary>

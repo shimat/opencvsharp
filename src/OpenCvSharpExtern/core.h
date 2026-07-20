@@ -1223,11 +1223,6 @@ CVAPI(int) core_setBreakOnError(int flag)
     return cv::setBreakOnError(flag != 0) ? 1 : 0;
 }
 
-CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
-{
-    return cv::redirectError(errCallback, userdata, prevUserdata);
-}
-
 // Native, managed-free OpenCV error handler installed by default. It exists only to
 // suppress OpenCV's stderr dump (OpenCV prints to stderr only when no handler is set).
 // Error details are captured by cvTry from the thrown exception, not here.
@@ -1237,8 +1232,8 @@ static int opencvsharp_silentErrorHandler(int /*status*/, const char* /*funcName
     return 0;
 }
 
-// Installs the default native silent error handler. Idempotent. Pass-through for the
-// managed default path and for restoring the default after Cv2.SetErrorHandler(null).
+// Installs the default native silent error handler. Idempotent. Called once at managed
+// startup (see NativeMethods.InstallDefaultErrorHandler).
 CVAPI(ExceptionStatus) core_setSilentErrorHandler()
 {
     return cvTry([&] {

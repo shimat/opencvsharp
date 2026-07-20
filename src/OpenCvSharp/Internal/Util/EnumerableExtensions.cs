@@ -15,4 +15,14 @@ internal static class EnumerableExtensions
             return array;
         return enumerable.ToArray();
     }
+
+    /// <summary>
+    /// Converts a nuint[] (e.g. std::vector sizes) to a long[] in a single pass, without LINQ enumerator overhead.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static long[] ToInt64Array(this nuint[] source)
+    {
+        return Array.ConvertAll(source, static s => (long)s);
+    }
 }

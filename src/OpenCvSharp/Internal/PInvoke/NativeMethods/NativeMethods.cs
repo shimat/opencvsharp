@@ -70,7 +70,6 @@ public static partial class NativeMethods
     /// Installs the default native (managed-free) OpenCV error handler. It only mutes
     /// OpenCV's stderr dump; error details are captured natively and surfaced as a managed
     /// exception via <see cref="HandleException"/> on each call's returned status.
-    /// Use <see cref="OpenCvSharp.Cv2.SetErrorHandler"/> to override it.
     /// </summary>
     private static void InstallDefaultErrorHandler()
     {
@@ -168,18 +167,4 @@ public static partial class NativeMethods
         return RuntimeInformation.OSArchitecture == Architecture.Wasm;
     }
 
-    /// <summary>
-    /// Custom error handler to ignore all OpenCV errors
-    /// </summary>
-    // ReSharper disable UnusedParameter.Local
-    public static readonly CvErrorCallback ErrorHandlerIgnorance =
-        (status, funcName, errMsg, fileName, line, userData) => 0;
-    // ReSharper restore UnusedParameter.Local
-
-#pragma warning disable CA2211
-    /// <summary>
-    /// Default error handler
-    /// </summary>
-    public static CvErrorCallback? ErrorHandlerDefault = null;
-#pragma warning restore CA2211
 }

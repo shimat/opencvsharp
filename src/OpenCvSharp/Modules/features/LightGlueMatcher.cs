@@ -1,4 +1,5 @@
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp;
 
@@ -16,6 +17,8 @@ public class LightGlueMatcher : DescriptorMatcher
 
     /// <summary>
     /// Creates a LightGlueMatcher from a model file path.
+    /// On Windows, a non-ASCII path is read into memory and passed through <see cref="CreateFromMemory"/>
+    /// instead, since the native path overload is marshaled through the ANSI code page.
     /// </summary>
     /// <param name="modelPath">Path to the ONNX model file.</param>
     /// <param name="scoreThreshold">Match confidence threshold.</param>
@@ -24,6 +27,11 @@ public class LightGlueMatcher : DescriptorMatcher
     public static LightGlueMatcher Create(string modelPath, float scoreThreshold = 0.0f, int backend = 0, int target = 0)
     {
         ArgumentNullException.ThrowIfNull(modelPath);
+
+        if (ModelPathUtil.RequiresBufferFallback(modelPath))
+        {
+            return CreateFromMemory(File.ReadAllBytes(modelPath), scoreThreshold, backend, target);
+        }
 
         NativeMethods.HandleException(
             NativeMethods.features_LightGlueMatcher_create(modelPath, scoreThreshold, backend, target, out var smartPtr));

@@ -47,4 +47,57 @@ public class DiskAlikedLightGlueTest : TestBase
         var garbage = new byte[] { 1, 2, 3, 4 };
         Assert.ThrowsAny<OpenCVException>(() => LightGlueMatcher.CreateFromMemory(garbage));
     }
+
+    // On Windows, Create(path) marshals the path through the ANSI code page, which cannot
+    // represent arbitrary Unicode. A non-ASCII path that actually exists on disk must be routed
+    // through the buffer overload instead, so garbage file contents reach OpenCV's parser and
+    // raise an OpenCVException, rather than a .NET IO exception from a mis-marshaled path.
+    private static string WriteGarbageModel(string prefix)
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"__{prefix}_é日本語_{Guid.NewGuid():N}.onnx");
+        File.WriteAllBytes(path, [1, 2, 3, 4]);
+        return path;
+    }
+
+    [Fact]
+    public void DiskCreateWithNonAsciiPathReachesNativeParser()
+    {
+        var path = WriteGarbageModel("disk");
+        try
+        {
+            Assert.ThrowsAny<OpenCVException>(() => DISK.Create(path));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void AlikedCreateWithNonAsciiPathReachesNativeParser()
+    {
+        var path = WriteGarbageModel("aliked");
+        try
+        {
+            Assert.ThrowsAny<OpenCVException>(() => ALIKED.Create(path));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void LightGlueCreateWithNonAsciiPathReachesNativeParser()
+    {
+        var path = WriteGarbageModel("lightglue");
+        try
+        {
+            Assert.ThrowsAny<OpenCVException>(() => LightGlueMatcher.Create(path));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
 }
