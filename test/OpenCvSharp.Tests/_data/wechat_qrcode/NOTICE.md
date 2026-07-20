@@ -1,12 +1,3 @@
-`detect.onnx` and `sr.onnx` are derived from the WeChatQRCode Caffe models
-published at
-[opencv/opencv_3rdparty:wechat_qrcode_20210119](https://github.com/opencv/opencv_3rdparty/tree/wechat_qrcode_20210119)
-(`detect.prototxt`/`.caffemodel`, `sr.prototxt`/`.caffemodel`), Copyright (C)
-2021 THL A29 Limited, a Tencent company, licensed under the
-[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+`detect.onnx` and `sr.onnx` are derived from the WeChatQRCode Caffe models published at [opencv/opencv_3rdparty:wechat_qrcode_20210119](https://github.com/opencv/opencv_3rdparty/tree/wechat_qrcode_20210119) (`detect.prototxt`/`.caffemodel`, `sr.prototxt`/`.caffemodel`), Copyright (C) 2021 THL A29 Limited, a Tencent company, licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-These files were converted from Caffe to ONNX using the tool at
-`tools/wechat_qrcode_caffe2onnx/` in this repository, since OpenCV 5.x's
-`wechat_qrcode` module (and OpenCvSharp's `WeChatQRCode` wrapper) only accepts
-ONNX models. No other changes were made to the network weights or
-architecture.
+These files were converted from Caffe to ONNX using the tool at `tools/wechat_qrcode_caffe2onnx/` in this repository, since OpenCV 5.x's `wechat_qrcode` module (and OpenCvSharp's `WeChatQRCode` wrapper) only accepts ONNX models. No other changes were made to the network weights or architecture.
