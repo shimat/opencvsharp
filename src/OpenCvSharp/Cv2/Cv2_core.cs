@@ -2491,38 +2491,6 @@ public static partial class Cv2
         return stdString.ToString();
     }
 
-    // Roots the user-supplied delegate for the lifetime of the registration so it is not
-    // collected while OpenCV holds the native function pointer.
-    private static CvErrorCallback? userErrorHandler;
-
-    /// <summary>
-    /// Overrides OpenCV's native error handler.
-    /// </summary>
-    /// <param name="errorHandler">
-    /// The handler invoked by OpenCV when an error is raised, or <see langword="null"/> to
-    /// restore the default native handler (which simply mutes OpenCV's stderr output).
-    /// </param>
-    /// <remarks>
-    /// By default OpenCvSharp installs a native, managed-free handler; native errors are
-    /// surfaced as managed <see cref="OpenCVException"/>s regardless. Installing a managed
-    /// handler here is opt-in and reintroduces a managed delegate into the native error
-    /// path, which is not NativeAOT / trimming friendly.
-    /// </remarks>
-    public static void SetErrorHandler(CvErrorCallback? errorHandler)
-    {
-        userErrorHandler = errorHandler;
-
-        if (errorHandler is null)
-        {
-            NativeMethods.HandleException(NativeMethods.core_setSilentErrorHandler());
-            return;
-        }
-
-        var zero = IntPtr.Zero;
-        var prev = NativeMethods.redirectError(errorHandler, IntPtr.Zero, ref zero);
-        GC.KeepAlive(prev);
-    }
-
     /// <summary>
     /// Returns library version string.
     /// For example "3.4.1-dev".
