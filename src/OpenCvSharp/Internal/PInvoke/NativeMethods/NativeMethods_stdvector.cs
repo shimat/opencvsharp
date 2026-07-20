@@ -334,10 +334,6 @@ static partial class NativeMethods
     public static partial nuint vector_ImageFeatures_getSize(OpenCvSafeHandle vector);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void vector_ImageFeatures_getKeypointsSize(
-        OpenCvSafeHandle vector, [Out] nuint[] dst);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial void vector_ImageFeatures_getElements(OpenCvSafeHandle vector, [Out] WImageFeatures[] dst);
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

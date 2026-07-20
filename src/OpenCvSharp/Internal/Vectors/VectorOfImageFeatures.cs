@@ -101,11 +101,4 @@ public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
 #pragma warning restore CA1508
         }
     }
-
-    private int[] KeypointsSizes(int size)
-    {
-        var ret = new nuint[size];
-        NativeMethods.vector_ImageFeatures_getKeypointsSize(Handle, ret);
-        return ret.Select(v => (int)v).ToArray();
-    }
 }

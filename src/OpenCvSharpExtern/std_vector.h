@@ -246,15 +246,6 @@ CVAPI(size_t) vector_ImageFeatures_getSize(
     return vector->size();
 }
 
-CVAPI(void) vector_ImageFeatures_getKeypointsSize(
-    std::vector<cv::detail::ImageFeatures>* vector, size_t *dst)
-{
-    for (size_t i = 0; i < vector->size(); i++) 
-    {
-        dst[i] = vector->at(i).keypoints.size();
-    }
-}
-
 CVAPI(void) vector_ImageFeatures_getElements(
     std::vector<cv::detail::ImageFeatures>* vector, detail_ImageFeatures* dstArray)
 {
