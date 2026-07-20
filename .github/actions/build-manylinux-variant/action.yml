@@ -223,13 +223,26 @@ runs:
         cmake --build ${{ inputs.extern_build_dir }} -j
         cp ${{ inputs.extern_build_dir }}/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
 
-    - name: Verify no GTK3/X11 dependency (${{ inputs.variant_label }})
+    - name: Verify no GTK3/X11/DRM dependency (${{ inputs.variant_label }})
       if: inputs.verify_no_gui_deps == 'true'
       shell: bash
       run: |
-        if objdump -p ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }} | grep -qi 'libgtk\|libX11\|libdrm'; then
+        so_path=${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
+        # readelf -d (rather than objdump -p) since an `objdump -p | grep` version of
+        # this check silently "passed" in CI on a .so that does depend on libdrm.so.2
+        # (reproduced independently outside CI with the exact same artifact) - a tool
+        # producing no output looked identical to a tool finding nothing. Failing loudly
+        # when NEEDED comes back empty (every shared lib here needs at least libc) turns
+        # that failure mode into a hard error instead of a silent false pass.
+        needed=$(readelf -d "$so_path" | grep NEEDED || true)
+        echo "$needed"
+        if [ -z "$needed" ]; then
+          echo "ERROR: readelf found no NEEDED entries at all in ${{ inputs.variant_label }} .so - the check itself is broken, treat as inconclusive"
+          exit 1
+        fi
+        if echo "$needed" | grep -qi 'libgtk\|libx11\|libdrm'; then
           echo "ERROR: ${{ inputs.variant_label }} .so unexpectedly depends on GTK3/X11/DRM:"
-          objdump -p ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }} | grep -i 'NEEDED'
+          echo "$needed"
           exit 1
         fi
 
