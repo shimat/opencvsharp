@@ -39,6 +39,11 @@ dnf install -y nasm yasm
 # never uses hardware acceleration, but if libva happens to be present in the
 # build container, FFmpeg's configure would auto-enable vaapi and silently add
 # libdrm.so.2 as a runtime dependency of the final .so. See issue #2065.
+# libdrm itself is a separate autodetected component (not gated by the vaapi/
+# vdpau/v4l2-m2m flags above): manylinux_2_28_x86_64 ships libdrm-devel out of
+# the box, so configure enables CONFIG_LIBDRM unless disabled explicitly here,
+# which still pulls in libdrm.so.2 via hwcontext_drm even with every hwaccel
+# backend above turned off. See issue #2071.
 # ---------------------------------------------------------------------------
 curl -fL --retry 5 --retry-delay 2 \
     "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
@@ -64,7 +69,8 @@ cd "ffmpeg-${FFMPEG_VERSION}"
     --enable-swresample \
     --disable-vaapi \
     --disable-vdpau \
-    --disable-v4l2-m2m
+    --disable-v4l2-m2m \
+    --disable-libdrm
 make -j"${NPROC}"
 make install
 
