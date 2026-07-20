@@ -1,4 +1,5 @@
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp;
 
@@ -19,6 +20,8 @@ public class ALIKED : Feature2D
 
     /// <summary>
     /// Creates ALIKED from a model file path.
+    /// On Windows, a non-ASCII path is read into memory and passed through <see cref="CreateFromMemory"/>
+    /// instead, since the native path overload is marshaled through the ANSI code page.
     /// </summary>
     /// <param name="modelPath">Path to the ONNX model file.</param>
     /// <param name="inputSize">Input image size for the network. Default is 640x640.</param>
@@ -32,6 +35,11 @@ public class ALIKED : Feature2D
     {
         ArgumentNullException.ThrowIfNull(modelPath);
         var size = inputSize ?? new Size(640, 640);
+
+        if (ModelPathUtil.RequiresBufferFallback(modelPath))
+        {
+            return CreateFromMemory(File.ReadAllBytes(modelPath), size, normalizeDescriptors, engine, backend, target);
+        }
 
         NativeMethods.HandleException(
             NativeMethods.features_ALIKED_create(

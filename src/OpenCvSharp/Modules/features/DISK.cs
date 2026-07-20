@@ -1,4 +1,5 @@
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp;
 
@@ -19,6 +20,8 @@ public class DISK : Feature2D
 
     /// <summary>
     /// Creates a DISK detector from a model file path.
+    /// On Windows, a non-ASCII path is read into memory and passed through <see cref="CreateFromMemory"/>
+    /// instead, since the native path overload is marshaled through the ANSI code page.
     /// </summary>
     /// <param name="modelPath">Path to the DISK ONNX model.</param>
     /// <param name="maxKeypoints">Maximum number of keypoints to return per image; -1 keeps all detections.</param>
@@ -32,6 +35,11 @@ public class DISK : Feature2D
         Size imageSize = default, int backendId = 0, int targetId = 0)
     {
         ArgumentNullException.ThrowIfNull(modelPath);
+
+        if (ModelPathUtil.RequiresBufferFallback(modelPath))
+        {
+            return CreateFromMemory(File.ReadAllBytes(modelPath), maxKeypoints, scoreThreshold, imageSize, backendId, targetId);
+        }
 
         NativeMethods.HandleException(
             NativeMethods.features_DISK_create(modelPath, maxKeypoints, scoreThreshold, imageSize, backendId, targetId, out var smartPtr));
