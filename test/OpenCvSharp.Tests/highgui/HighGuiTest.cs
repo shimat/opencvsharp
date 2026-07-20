@@ -77,7 +77,12 @@ public partial class HighGuiTest : TestBase
     // SetMouseCallback/CreateTrackbar actually reaches the managed delegate. SetTrackbarPos
     // invokes the registered callback synchronously (see window_w32.cpp icvUpdateTrackbar),
     // so this can run unattended without a real UI message loop.
-    [Fact]
+    // Windows only: NamedWindow needs a real GUI backend. On the headless Linux/macOS CI runners
+    // GTK/Cocoa can't initialize, so this throws immediately (Linux) or, worse, leaves OpenCV's
+    // highgui internals in a state where every later highgui call in the same test class fails
+    // too (observed on macOS): NamedWindow's failure there cascaded into WaitKey/PollKey, which
+    // don't even touch a window and normally pass unconditionally on that runner.
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void CreateTrackbarCallbackFiresViaTrampoline()
     {
         var winName = $"__test_trackbar_{Guid.NewGuid():N}";
@@ -105,7 +110,7 @@ public partial class HighGuiTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void CreateTrackbarWithoutCallbackDoesNotAllocateContext()
     {
         var winName = $"__test_trackbar_nocb_{Guid.NewGuid():N}";
@@ -124,7 +129,7 @@ public partial class HighGuiTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void SetMouseCallbackRegistersAndSurvivesReplaceAndTeardown()
     {
         var winName = $"__test_mouse_{Guid.NewGuid():N}";
@@ -143,7 +148,7 @@ public partial class HighGuiTest : TestBase
         }
     }
 
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void DestroyAllWindowsReleasesAllCallbackHandles()
     {
         var winName1 = $"__test_mouse_{Guid.NewGuid():N}";
@@ -159,7 +164,7 @@ public partial class HighGuiTest : TestBase
         Cv2.DestroyAllWindows();
     }
 
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void CreateTrackbarCallbackReceivesUserData()
     {
         var winName = $"__test_trackbar_userdata_{Guid.NewGuid():N}";
@@ -193,7 +198,7 @@ public partial class HighGuiTest : TestBase
     // calling a native function pointer whose context could point at already-collected memory.
     // The UnmanagedCallersOnly trampoline + GCHandle-rooted context (see Cv2_highgui.cs) exists
     // specifically to prevent this, so this forces a blocking full GC between updates.
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void CreateTrackbarSurvivesRepeatedUpdatesWithForcedGc()
     {
         var winName = $"__test_trackbar_stress_{Guid.NewGuid():N}";
@@ -228,7 +233,7 @@ public partial class HighGuiTest : TestBase
     // Same regression concern as above, exercised against the mouse callback's GCHandle registry
     // by repeatedly replacing the callback for one window (each replacement frees the previous
     // GCHandle; see RegisterMouseCallback).
-    [Fact]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void SetMouseCallbackSurvivesRepeatedReplacementWithForcedGc()
     {
         var winName = $"__test_mouse_stress_{Guid.NewGuid():N}";

@@ -354,9 +354,16 @@ static partial class Cv2
 
         var context = new MouseCallbackContext { Callback = onMouse, UserData = userData };
         var contextHandle = GCHandle.Alloc(context);
-
-        NativeMethods.HandleException(
-            NativeMethods.highgui_setMouseCallback(windowName, GetMouseCallbackTrampolinePointer(), GCHandle.ToIntPtr(contextHandle)));
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setMouseCallback(windowName, GetMouseCallbackTrampolinePointer(), GCHandle.ToIntPtr(contextHandle)));
+        }
+        catch
+        {
+            contextHandle.Free();
+            throw;
+        }
 
         // Root the context (and thus the delegate) for the lifetime of the window (see registry note above).
         RegisterMouseCallback(windowName, contextHandle);
@@ -485,10 +492,19 @@ static partial class Cv2
             onChangePtr = GetTrackbarCallbackTrampolinePointer();
         }
 
-        NativeMethods.HandleException(
-            NativeMethods.highgui_createTrackbar(
-                trackbarName, winName, ref value, count, onChangePtr,
-                contextHandle.HasValue ? GCHandle.ToIntPtr(contextHandle.Value) : IntPtr.Zero, out var ret));
+        int ret;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.highgui_createTrackbar(
+                    trackbarName, winName, ref value, count, onChangePtr,
+                    contextHandle.HasValue ? GCHandle.ToIntPtr(contextHandle.Value) : IntPtr.Zero, out ret));
+        }
+        catch
+        {
+            contextHandle?.Free();
+            throw;
+        }
 
         // Root the context (and thus the delegate) for the lifetime of the window (see registry note above).
         RegisterTrackbarCallback(winName, trackbarName, contextHandle);
@@ -525,10 +541,19 @@ static partial class Cv2
             onChangePtr = GetTrackbarCallbackTrampolinePointer();
         }
 
-        NativeMethods.HandleException(
-            NativeMethods.highgui_createTrackbar(
-                trackbarName, winName, IntPtr.Zero, count, onChangePtr,
-                contextHandle.HasValue ? GCHandle.ToIntPtr(contextHandle.Value) : IntPtr.Zero, out var ret));
+        int ret;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.highgui_createTrackbar(
+                    trackbarName, winName, IntPtr.Zero, count, onChangePtr,
+                    contextHandle.HasValue ? GCHandle.ToIntPtr(contextHandle.Value) : IntPtr.Zero, out ret));
+        }
+        catch
+        {
+            contextHandle?.Free();
+            throw;
+        }
 
         // Root the context (and thus the delegate) for the lifetime of the window (see registry note above).
         RegisterTrackbarCallback(winName, trackbarName, contextHandle);
