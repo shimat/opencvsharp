@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -45,13 +46,15 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(smartPtr, rawPtr);
     }
 
-    // Roots the marshaled native trampoline process-wide (not on the instance): the native side
+    // Roots the managed callback process-wide (not on the instance): the native side
     // (cv::TrackerKCF::FeatureExtractorCallbackFN) is a plain C function pointer with no per-instance
     // user-data slot, so the callback stays reachable through this shared field for as long as any
     // tracker might still invoke it, even after the TrackerKCF instance that registered it is
     // collected. Replacing it is guarded by a lock since registrations race on the same native slot.
+    // The native-facing function pointer is always the fixed trampoline below; only the field it
+    // reads is swapped.
     private static readonly object featureExtractorLock = new();
-    private static NativeFeatureExtractorCallback? nativeFeatureExtractorCallback;
+    private static FeatureExtractorCallback? currentFeatureExtractor;
 
     /// <summary>
     /// Sets a custom feature extractor. Corresponds to <c>cv::TrackerKCF::setFeatureExtractor</c>.
@@ -74,19 +77,11 @@ public class TrackerKCF : Tracker
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(extractor);
 
-        NativeFeatureExtractorCallback trampoline = (image, roi, features) =>
-        {
-            using var imageMat = new Mat(image, ownsHandle: false);
-            using var featuresMat = new Mat(features, ownsHandle: false);
-            var roiRect = Marshal.PtrToStructure<Rect>(roi);
-            extractor(imageMat, roiRect, featuresMat);
-        };
-
         lock (featureExtractorLock)
         {
-            nativeFeatureExtractorCallback = trampoline;
+            currentFeatureExtractor = extractor;
             NativeMethods.HandleException(
-                NativeMethods.tracking_TrackerKCF_setFeatureExtractor(RawPtr, nativeFeatureExtractorCallback, pcaFunc ? 1 : 0));
+                NativeMethods.tracking_TrackerKCF_setFeatureExtractor(RawPtr, GetFeatureExtractorTrampolinePointer(), pcaFunc ? 1 : 0));
         }
         GC.KeepAlive(this);
     }
@@ -99,17 +94,34 @@ public class TrackerKCF : Tracker
     /// <param name="features">The output feature matrix to fill in.</param>
     public delegate void FeatureExtractorCallback(Mat image, Rect roi, Mat features);
 
-    /// <summary>
-    /// Native-callable shape of <see cref="FeatureExtractorCallback"/>: pointers only (including for
-    /// <paramref name="roi"/>, read back with <see cref="Marshal.PtrToStructure{T}(IntPtr)"/>) rather
-    /// than <see cref="Mat"/> or a by-value <see cref="Rect"/> - passing a by-value struct through a
-    /// reverse P/Invoke thunk (native calling into a marshaled delegate) is best avoided, so every
-    /// argument here is pointer-sized, matching the pattern already used by
-    /// <see cref="OpenCvSharp.MouseCallback"/>. Public only because it must be at least as visible as
-    /// the P/Invoke entry point that takes it; not meant to be used directly.
-    /// </summary>
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void NativeFeatureExtractorCallback(IntPtr image, IntPtr roi, IntPtr features);
+    // Bridges cv::TrackerKCF's real by-value signature (const Mat, const Rect, Mat&) to an
+    // all-pointers one: a reverse P/Invoke thunk cannot replicate the MSVC by-value-object calling
+    // convention that cv::Mat's non-trivial copy constructor requires, and even a plain-POD
+    // by-value struct (interop::Rect) is risky to pass that way - so the native trampoline
+    // (tracking_TrackerKCF_featureExtractorTrampoline in tracking.h) hands us pointers only, with
+    // roi read back via Marshal.PtrToStructure.
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void FeatureExtractorTrampoline(IntPtr image, IntPtr roi, IntPtr features)
+    {
+        try
+        {
+            var extractor = currentFeatureExtractor;
+            if (extractor is null)
+                return;
+
+            using var imageMat = new Mat(image, ownsHandle: false);
+            using var featuresMat = new Mat(features, ownsHandle: false);
+            var roiRect = Marshal.PtrToStructure<Rect>(roi);
+            extractor(imageMat, roiRect, featuresMat);
+        }
+        catch
+        {
+            // Exceptions must never unwind into native code from an UnmanagedCallersOnly method.
+        }
+    }
+
+    private static unsafe IntPtr GetFeatureExtractorTrampolinePointer() =>
+        (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, void>)&FeatureExtractorTrampoline;
 
     #pragma warning disable CA1034
 #pragma warning disable CA1051

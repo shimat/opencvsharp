@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -9,21 +10,21 @@ namespace OpenCvSharp.Face;
 /// </summary>
 public delegate Rect[] FacemarkFaceDetector(Mat image);
 
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal unsafe delegate int FacemarkFaceDetectorNativeCallback(
-    IntPtr image, Rect* faces, int capacity);
-
 internal sealed unsafe class FacemarkFaceDetectorBridge : IDisposable
 {
+    // callback is a function pointer to the static, [UnmanagedCallersOnly] trampoline below;
+    // userData is a GCHandle to the FacemarkFaceDetectorBridge instance it should dispatch to,
+    // round-tripped opaquely by the native side (see face_Facemark.h).
     internal delegate ExceptionStatus NativeSetter(
         OpenCvSafeHandle obj,
-        FacemarkFaceDetectorNativeCallback callback,
+        IntPtr callback,
+        IntPtr userData,
         out IntPtr callbackData,
         out int returnValue);
 
     private readonly FacemarkFaceDetector detector;
-    private readonly FacemarkFaceDetectorNativeCallback nativeCallback;
     private readonly ConcurrentDictionary<int, Rect[]> pendingResults = new();
+    private GCHandle contextHandle;
     private OpenCvPtrSafeHandle? callbackDataHandle;
 
     public FacemarkFaceDetectorBridge(
@@ -32,10 +33,24 @@ internal sealed unsafe class FacemarkFaceDetectorBridge : IDisposable
         NativeSetter setter)
     {
         this.detector = detector;
-        nativeCallback = Invoke;
-        NativeMethods.HandleException(setter(obj, nativeCallback, out var callbackData, out var result));
+        contextHandle = GCHandle.Alloc(this);
+        IntPtr callbackData;
+        int result;
+        try
+        {
+            NativeMethods.HandleException(
+                setter(obj, GetTrampolinePointer(), GCHandle.ToIntPtr(contextHandle), out callbackData, out result));
+        }
+        catch
+        {
+            contextHandle.Free();
+            throw;
+        }
         if (result == 0 || callbackData == IntPtr.Zero)
+        {
+            contextHandle.Free();
             throw new OpenCvSharpException("OpenCV rejected the custom facemark face detector.");
+        }
         callbackDataHandle = new OpenCvPtrSafeHandle(
             callbackData, ownsHandle: true,
             releaseAction: p => NativeMethods.HandleException(
@@ -66,10 +81,30 @@ internal sealed unsafe class FacemarkFaceDetectorBridge : IDisposable
         }
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int Trampoline(IntPtr userData, IntPtr image, Rect* faces, int capacity)
+    {
+        try
+        {
+            var bridge = (FacemarkFaceDetectorBridge)GCHandle.FromIntPtr(userData).Target!;
+            return bridge.Invoke(image, faces, capacity);
+        }
+        catch
+        {
+            // Exceptions must never unwind into native code from an UnmanagedCallersOnly method.
+            return -1;
+        }
+    }
+
+    private static IntPtr GetTrampolinePointer() =>
+        (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, IntPtr, Rect*, int, int>)&Trampoline;
+
     public void Dispose()
     {
         callbackDataHandle?.Dispose();
         callbackDataHandle = null;
+        if (contextHandle.IsAllocated)
+            contextHandle.Free();
         pendingResults.Clear();
     }
 }

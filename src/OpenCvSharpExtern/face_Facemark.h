@@ -52,11 +52,14 @@ struct FacemarkKazemiParamsData
     uint64_t num_test_splits;
 };
 
-typedef int (*FacemarkFaceDetectorCallback)(cv::Mat *image, interop::Rect *faces, int capacity);
+// userData is a GCHandle to the managed context rooting the real detector delegate (see
+// FacemarkFaceDetectorBridge), round-tripped opaquely - this native layer never dereferences it.
+typedef int (*FacemarkFaceDetectorCallback)(void *userData, cv::Mat *image, interop::Rect *faces, int capacity);
 
 struct FacemarkFaceDetectorCallbackData
 {
     FacemarkFaceDetectorCallback callback;
+    void *userData;
 };
 
 static bool face_Facemark_faceDetectorThunk(
@@ -66,7 +69,7 @@ static bool face_Facemark_faceDetectorThunk(
     if (data == nullptr || data->callback == nullptr)
         return false;
     auto imageMat = image.getMat();
-    const auto count = data->callback(&imageMat, nullptr, 0);
+    const auto count = data->callback(data->userData, &imageMat, nullptr, 0);
     if (count < 0)
         return false;
     if (count == 0)
@@ -75,7 +78,7 @@ static bool face_Facemark_faceDetectorThunk(
         return true;
     }
     std::vector<interop::Rect> interopFaces(count);
-    const auto written = data->callback(&imageMat, interopFaces.data(), count);
+    const auto written = data->callback(data->userData, &imageMat, interopFaces.data(), count);
     if (written != count)
         return false;
     std::vector<cv::Rect> nativeFaces(count);
@@ -231,11 +234,12 @@ CVAPI(ExceptionStatus) face_FacemarkTrain_getFaces(
 CVAPI(ExceptionStatus) face_FacemarkTrain_setFaceDetector(
     cv::face::FacemarkTrain *obj,
     const FacemarkFaceDetectorCallback callback,
+    void *userData,
     FacemarkFaceDetectorCallbackData **callbackData,
     int *returnValue)
 {
     return cvTry([&] {
-        const auto data = new FacemarkFaceDetectorCallbackData { callback };
+        const auto data = new FacemarkFaceDetectorCallbackData { callback, userData };
         if (!obj->setFaceDetector(face_Facemark_faceDetectorThunk, data))
         {
             delete data;
@@ -631,11 +635,12 @@ CVAPI(ExceptionStatus) face_FacemarkKazemi_getFaces(
 CVAPI(ExceptionStatus) face_FacemarkKazemi_setFaceDetector(
     cv::face::FacemarkKazemi *obj,
     const FacemarkFaceDetectorCallback callback,
+    void *userData,
     FacemarkFaceDetectorCallbackData **callbackData,
     int *returnValue)
 {
     return cvTry([&] {
-        const auto data = new FacemarkFaceDetectorCallbackData { callback };
+        const auto data = new FacemarkFaceDetectorCallbackData { callback, userData };
         if (!obj->setFaceDetector(face_Facemark_faceDetectorThunk, data))
         {
             delete data;

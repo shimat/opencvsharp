@@ -120,16 +120,29 @@ public class VideoCapture : CvObject
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(prms);
 
-        streamReaderBridge = new StreamReaderBridge(source);
-
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new6(
-                streamReaderBridge.ReadCallback, streamReaderBridge.SeekCallback, IntPtr.Zero,
-                (int)apiPreference, prms, prms.Length, out var p));
+        var newBridge = new StreamReaderBridge(source);
+        IntPtr p;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new6(
+                    newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
+                    (int)apiPreference, prms, prms.Length, out p));
+        }
+        catch
+        {
+            newBridge.Dispose();
+            throw;
+        }
 
         if (p == IntPtr.Zero)
+        {
+            newBridge.Dispose();
             throw new OpenCvSharpException("Failed to create VideoCapture");
+        }
 
+        streamReaderBridge?.Dispose();
+        streamReaderBridge = newBridge;
         captureType = CaptureType.File;
         InitSafeHandle(p);
     }
@@ -307,6 +320,14 @@ public class VideoCapture : CvObject
     {
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
             static h => NativeMethods.HandleException(NativeMethods.videoio_VideoCapture_delete(h))));
+    }
+
+    /// <inheritdoc />
+    protected override void DisposeManaged()
+    {
+        streamReaderBridge?.Dispose();
+        streamReaderBridge = null;
+        base.DisposeManaged();
     }
 
     #endregion
@@ -1140,6 +1161,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
+        streamReaderBridge?.Dispose();
         streamReaderBridge = null;
         return true;
     }
@@ -1176,6 +1198,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
+        streamReaderBridge?.Dispose();
         streamReaderBridge = null;
         return true;
     }
@@ -1222,6 +1245,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.Camera;
+        streamReaderBridge?.Dispose();
         streamReaderBridge = null;
         return true;
     }
@@ -1241,12 +1265,23 @@ public class VideoCapture : CvObject
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(prms);
 
-        streamReaderBridge = new StreamReaderBridge(source);
+        var newBridge = new StreamReaderBridge(source);
+        int ret;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_open3(
+                    Handle, newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
+                    (int)apiPreference, prms, prms.Length, out ret));
+        }
+        catch
+        {
+            newBridge.Dispose();
+            throw;
+        }
 
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_open3(
-                Handle, streamReaderBridge.ReadCallback, streamReaderBridge.SeekCallback, IntPtr.Zero,
-                (int)apiPreference, prms, prms.Length, out var ret));
+        streamReaderBridge?.Dispose();
+        streamReaderBridge = newBridge;
 
         if (ret == 0)
             return false;

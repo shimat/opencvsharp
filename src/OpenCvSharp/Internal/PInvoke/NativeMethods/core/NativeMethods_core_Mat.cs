@@ -64,8 +64,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_Mat_new12(IntPtr mat, out IntPtr returnValue);
 
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus core_Mat_release(IntPtr mat);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_Mat_delete(IntPtr mat);
 
@@ -259,12 +257,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_Mat_stepAt(OpenCvSafeHandle self, int i, out IntPtr returnValue);
 
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus core_Mat_assignment_FromMat(IntPtr self, IntPtr newMat);
-
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus core_Mat_assignment_FromScalar(IntPtr self, Scalar scalar);
-        
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_abs_Mat(IntPtr e, out IntPtr returnValue);
 

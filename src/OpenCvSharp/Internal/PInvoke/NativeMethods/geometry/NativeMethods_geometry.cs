@@ -688,10 +688,12 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus geometry_SACSegmentation_getRandomGeneratorState(OpenCvSafeHandle obj, out ulong returnValue);
 
-    // LibraryImport does not support marshaling delegate parameters, so this one uses classic DllImport.
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus geometry_SACSegmentation_setCustomModelConstraints(
-        OpenCvSafeHandle obj, SacModelConstraintNativeCallback? callback);
+    // callback is a function pointer to a static, [UnmanagedCallersOnly] trampoline (see
+    // SACSegmentation.SetCustomModelConstraints), or IntPtr.Zero to clear the constraint; userData
+    // is a GCHandle to the context rooting the real managed delegate, not a caller-supplied value.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus geometry_SACSegmentation_setCustomModelConstraints(
+        OpenCvSafeHandle obj, IntPtr callback, IntPtr userData);
 
     // RegionGrowing3D
 

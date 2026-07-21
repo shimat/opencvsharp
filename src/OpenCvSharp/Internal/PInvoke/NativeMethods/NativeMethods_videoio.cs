@@ -71,10 +71,12 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_new5(int device, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus videoio_VideoCapture_new6(
-        [MarshalAs(UnmanagedType.FunctionPtr)] StreamReaderReadCallback readCallback,
-        [MarshalAs(UnmanagedType.FunctionPtr)] StreamReaderSeekCallback seekCallback,
+    // readCallback/seekCallback are function pointers to static, [UnmanagedCallersOnly] trampolines
+    // (see StreamReaderBridge); userData is a GCHandle to the context rooting the real IStreamReader,
+    // not a caller-supplied value.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus videoio_VideoCapture_new6(
+        IntPtr readCallback, IntPtr seekCallback,
         IntPtr userData, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -87,11 +89,13 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_open2(OpenCvSafeHandle obj, int device, int apiPreference, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus videoio_VideoCapture_open3(
+    // readCallback/seekCallback are function pointers to static, [UnmanagedCallersOnly] trampolines
+    // (see StreamReaderBridge); userData is a GCHandle to the context rooting the real IStreamReader,
+    // not a caller-supplied value.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus videoio_VideoCapture_open3(
         OpenCvSafeHandle obj,
-        [MarshalAs(UnmanagedType.FunctionPtr)] StreamReaderReadCallback readCallback,
-        [MarshalAs(UnmanagedType.FunctionPtr)] StreamReaderSeekCallback seekCallback,
+        IntPtr readCallback, IntPtr seekCallback,
         IntPtr userData, int apiPreference, [In] int[] @params, int paramsLength, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -115,9 +119,6 @@ static partial class NativeMethods
         
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoCapture_operatorRightShift_Mat(OpenCvSafeHandle obj, IntPtr image);
-
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus videoio_VideoCapture_operatorRightShift_UMat(IntPtr obj, IntPtr image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus videoio_VideoCapture_read_OutputArray(OpenCvSafeHandle obj, in OutputArrayProxy image, out int returnValue);
@@ -193,9 +194,6 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_VideoWriter_release(OpenCvSafeHandle obj);
-
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus videoio_VideoWriter_OperatorLeftShift(IntPtr obj, IntPtr image);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus videoio_VideoWriter_write(OpenCvSafeHandle obj, in InputArrayProxy image, out int returnValue);

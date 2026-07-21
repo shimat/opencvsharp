@@ -104,8 +104,4 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus highgui_setTrackbarMin([MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName, int minVal);
-
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    //public static extern ExceptionStatus highgui_createButton(
-    //    [MarshalAs(UnmanagedType.LPStr)] string barName, IntPtr onChange, IntPtr userData, int type, int initialButtonState, out int returnValue);
 }
