@@ -34,8 +34,18 @@ internal sealed unsafe class FacemarkFaceDetectorBridge : IDisposable
     {
         this.detector = detector;
         contextHandle = GCHandle.Alloc(this);
-        NativeMethods.HandleException(
-            setter(obj, GetTrampolinePointer(), GCHandle.ToIntPtr(contextHandle), out var callbackData, out var result));
+        IntPtr callbackData;
+        int result;
+        try
+        {
+            NativeMethods.HandleException(
+                setter(obj, GetTrampolinePointer(), GCHandle.ToIntPtr(contextHandle), out callbackData, out result));
+        }
+        catch
+        {
+            contextHandle.Free();
+            throw;
+        }
         if (result == 0 || callbackData == IntPtr.Zero)
         {
             contextHandle.Free();

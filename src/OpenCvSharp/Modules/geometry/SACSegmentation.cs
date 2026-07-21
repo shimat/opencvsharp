@@ -275,6 +275,10 @@ public class SACSegmentation : Algorithm
             callbackPtr = GetConstraintTrampolinePointer();
             userData = GCHandle.ToIntPtr(constraintContextHandle);
         }
+        else
+        {
+            constraintContextHandle = default;
+        }
 
         NativeMethods.HandleException(
             NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));

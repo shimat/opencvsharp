@@ -121,11 +121,19 @@ public class VideoCapture : CvObject
         ArgumentNullException.ThrowIfNull(prms);
 
         var newBridge = new StreamReaderBridge(source);
-
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new6(
-                newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
-                (int)apiPreference, prms, prms.Length, out var p));
+        IntPtr p;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new6(
+                    newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
+                    (int)apiPreference, prms, prms.Length, out p));
+        }
+        catch
+        {
+            newBridge.Dispose();
+            throw;
+        }
 
         if (p == IntPtr.Zero)
         {
@@ -1258,11 +1266,19 @@ public class VideoCapture : CvObject
         ArgumentNullException.ThrowIfNull(prms);
 
         var newBridge = new StreamReaderBridge(source);
-
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_open3(
-                Handle, newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
-                (int)apiPreference, prms, prms.Length, out var ret));
+        int ret;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_open3(
+                    Handle, newBridge.ReadCallbackPointer, newBridge.SeekCallbackPointer, newBridge.UserData,
+                    (int)apiPreference, prms, prms.Length, out ret));
+        }
+        catch
+        {
+            newBridge.Dispose();
+            throw;
+        }
 
         streamReaderBridge?.Dispose();
         streamReaderBridge = newBridge;
