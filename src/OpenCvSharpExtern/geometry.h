@@ -1915,7 +1915,10 @@ CVAPI(ExceptionStatus) geometry_rotatedRectangleIntersection_vector(
 
 // SACSegmentation
 
-typedef int (*SacModelConstraintNativeCallback)(const double *coefficients, int length);
+// userData is a GCHandle to the managed context rooting the real constraint delegate (see
+// SACSegmentation.SetCustomModelConstraints), round-tripped opaquely - this native layer never
+// dereferences it.
+typedef int (*SacModelConstraintNativeCallback)(void *userData, const double *coefficients, int length);
 
 CVAPI(ExceptionStatus) geometry_createSACSegmentation(
     int sacModelType,
@@ -2084,7 +2087,8 @@ CVAPI(ExceptionStatus) geometry_SACSegmentation_getRandomGeneratorState(cv::SACS
 
 CVAPI(ExceptionStatus) geometry_SACSegmentation_setCustomModelConstraints(
     cv::SACSegmentation *obj,
-    SacModelConstraintNativeCallback callback)
+    SacModelConstraintNativeCallback callback,
+    void *userData)
 {
     return cvTry([&] {
         if (callback == nullptr)
@@ -2093,8 +2097,8 @@ CVAPI(ExceptionStatus) geometry_SACSegmentation_setCustomModelConstraints(
         }
         else
         {
-            obj->setCustomModelConstraints([callback](const std::vector<double> &coefficients) -> bool {
-                return callback(coefficients.data(), static_cast<int>(coefficients.size())) != 0;
+            obj->setCustomModelConstraints([callback, userData](const std::vector<double> &coefficients) -> bool {
+                return callback(userData, coefficients.data(), static_cast<int>(coefficients.size())) != 0;
             });
         }
     });

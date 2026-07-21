@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -5,13 +6,6 @@ using OpenCvSharp.Internal;
 // ReSharper disable IdentifierTypo
 
 namespace OpenCvSharp;
-
-/// <summary>
-/// The native-shaped (double*, length) form of <see cref="SACSegmentation.ModelConstraintFunction"/>,
-/// used to marshal the callback across the P/Invoke boundary.
-/// </summary>
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate int SacModelConstraintNativeCallback(IntPtr coefficients, int length);
 
 /// <summary>
 /// Sample Consensus algorithm segmentation of 3D point cloud model.
@@ -29,9 +23,10 @@ public class SACSegmentation : Algorithm
     /// </param>
     public delegate bool ModelConstraintFunction(double[] modelCoefficients);
 
-    // Roots the native-shaped delegate for the lifetime of this instance so the GC does not collect it
-    // while native code may still invoke the callback during Segment().
-    private SacModelConstraintNativeCallback? customModelConstraintsNative;
+    // Roots the context (and thus the delegate) for the lifetime of this instance, or until replaced,
+    // so the GC does not collect it while native code may still invoke the callback during Segment().
+    // The native-facing function pointer passed alongside it is always the fixed trampoline below.
+    private GCHandle constraintContextHandle;
     private ModelConstraintFunction? customModelConstraints;
 
     private SACSegmentation(IntPtr smartPtr, IntPtr rawPtr)
@@ -270,17 +265,22 @@ public class SACSegmentation : Algorithm
         ThrowIfDisposed();
 
         this.customModelConstraints = customModelConstraints;
-        customModelConstraintsNative = customModelConstraints is null
-            ? null
-            : (coefficients, length) =>
-            {
-                var managedCoefficients = new double[length];
-                Marshal.Copy(coefficients, managedCoefficients, 0, length);
-                return customModelConstraints(managedCoefficients) ? 1 : 0;
-            };
+
+        var oldHandle = constraintContextHandle;
+        var callbackPtr = IntPtr.Zero;
+        var userData = IntPtr.Zero;
+        if (customModelConstraints is not null)
+        {
+            constraintContextHandle = GCHandle.Alloc(customModelConstraints);
+            callbackPtr = GetConstraintTrampolinePointer();
+            userData = GCHandle.ToIntPtr(constraintContextHandle);
+        }
 
         NativeMethods.HandleException(
-            NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, customModelConstraintsNative));
+            NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));
+
+        if (oldHandle.IsAllocated)
+            oldHandle.Free();
     }
 
     /// <summary>
@@ -291,5 +291,34 @@ public class SACSegmentation : Algorithm
     {
         ThrowIfDisposed();
         return customModelConstraints;
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int ModelConstraintTrampoline(IntPtr userData, IntPtr coefficients, int length)
+    {
+        try
+        {
+            var constraint = (ModelConstraintFunction)GCHandle.FromIntPtr(userData).Target!;
+            var managedCoefficients = new double[length];
+            Marshal.Copy(coefficients, managedCoefficients, 0, length);
+            return constraint(managedCoefficients) ? 1 : 0;
+        }
+        catch
+        {
+            // Exceptions must never unwind into native code from an UnmanagedCallersOnly method;
+            // fail safe by rejecting the model.
+            return 0;
+        }
+    }
+
+    private static unsafe IntPtr GetConstraintTrampolinePointer() =>
+        (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int>)&ModelConstraintTrampoline;
+
+    /// <inheritdoc />
+    protected override void DisposeManaged()
+    {
+        if (constraintContextHandle.IsAllocated)
+            constraintContextHandle.Free();
+        base.DisposeManaged();
     }
 }

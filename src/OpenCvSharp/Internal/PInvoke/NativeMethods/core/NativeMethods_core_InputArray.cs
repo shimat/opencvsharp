@@ -40,16 +40,12 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_getMat(OpenCvSafeHandle ia, int idx, out IntPtr returnValue);
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus core_InputArray_getMat_(IntPtr ia, int idx, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_getUMat(OpenCvSafeHandle ia, int idx, out IntPtr returnValue);
-        
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_getMatVector(OpenCvSafeHandle ia, IntPtr mv);
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern void core_InputArray_getUMatVector(IntPtr ia, IntPtr umv);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_InputArray_getFlags(OpenCvSafeHandle ia, out int returnValue);

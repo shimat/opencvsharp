@@ -70,9 +70,12 @@ static partial class NativeMethods
     internal static partial ExceptionStatus face_FacemarkTrain_getFaces(
         OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr faces, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    internal static extern ExceptionStatus face_FacemarkTrain_setFaceDetector(
-        OpenCvSafeHandle obj, FacemarkFaceDetectorNativeCallback callback,
+    // callback is a function pointer to a static, [UnmanagedCallersOnly] trampoline (see
+    // FacemarkFaceDetectorBridge); userData is a GCHandle to the context rooting the real managed
+    // detector, round-tripped opaquely through callbackData/face_Facemark_faceDetectorThunk.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus face_FacemarkTrain_setFaceDetector(
+        OpenCvSafeHandle obj, IntPtr callback, IntPtr userData,
         out IntPtr callbackData, out int returnValue);
 
     #endregion
@@ -218,9 +221,12 @@ static partial class NativeMethods
     internal static partial ExceptionStatus face_FacemarkKazemi_getFaces(
         OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr faces, out int returnValue);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    internal static extern ExceptionStatus face_FacemarkKazemi_setFaceDetector(
-        OpenCvSafeHandle obj, FacemarkFaceDetectorNativeCallback callback,
+    // callback is a function pointer to a static, [UnmanagedCallersOnly] trampoline (see
+    // FacemarkFaceDetectorBridge); userData is a GCHandle to the context rooting the real managed
+    // detector, round-tripped opaquely through callbackData/face_Facemark_faceDetectorThunk.
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus face_FacemarkKazemi_setFaceDetector(
+        OpenCvSafeHandle obj, IntPtr callback, IntPtr userData,
         out IntPtr callbackData, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

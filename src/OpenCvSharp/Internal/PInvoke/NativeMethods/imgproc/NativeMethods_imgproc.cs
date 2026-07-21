@@ -301,9 +301,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_demosaicing(in InputArrayProxy src, in OutputArrayProxy dst, int code, int dstCn);
 
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus imgproc_HuMoments(ref Moments.NativeStruct moments, [MarshalAs(UnmanagedType.LPArray)] double[] hu);
-
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_matchTemplate(
         in InputArrayProxy image, in InputArrayProxy templ, in OutputArrayProxy result, int method, in InputArrayProxy mask);
