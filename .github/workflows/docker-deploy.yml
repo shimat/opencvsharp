@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       docker_image_tag:
-        description: 'Docker Image Tag (yyyyMMdd)'
-        required: true
+        description: 'Docker Image Tag (yyyyMMdd). Leave empty to use the current UTC date'
+        required: false
 
 env:
   DEBIAN_FRONTEND: noninteractive
@@ -20,12 +20,18 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - name: validate input
+      - name: resolve docker image tag
+        id: resolve_tag
         run: |
-          if [[ ! ${{ github.event.inputs.docker_image_tag }} =~ ^[0-9]{8}$ ]]; then
-            echo "::error Invalid tag name '${{ github.event.inputs.docker_image_tag }}'"
+          tag="${{ github.event.inputs.docker_image_tag }}"
+          if [[ -z "$tag" ]]; then
+            tag=$(date -u +%Y%m%d)
+          fi
+          if [[ ! $tag =~ ^[0-9]{8}$ ]]; then
+            echo "::error Invalid tag name '$tag'"
             exit 1
           fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v7
         with:
@@ -44,4 +50,4 @@ jobs:
           context: .
           file: packaging/docker/${{ env.DOCKER_IMAGE_NAME1 }}/Dockerfile
           push: true
-          tags: ghcr.io/shimat/opencvsharp/${{ env.DOCKER_IMAGE_NAME1 }}:${{ github.event.inputs.docker_image_tag }}
+          tags: ghcr.io/shimat/opencvsharp/${{ env.DOCKER_IMAGE_NAME1 }}:${{ steps.resolve_tag.outputs.tag }}
