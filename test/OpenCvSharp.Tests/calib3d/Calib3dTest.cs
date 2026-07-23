@@ -489,7 +489,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
     public void SolvePnPTestByArrayMethods(SolvePnPMethod method)
     {
         var rvec = new double[] { 3, 0, 0 };
-        var tvec = new double[] { 0, 0, -10 };
+        var tvec = new double[] { 0, 0, 10 };
         var cameraMatrix = new double[,]
         {
             { 1, 0, 0 },
@@ -509,13 +509,23 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out _);
 
         Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: method);
+
+        // Verify the recovered pose actually reprojects onto imgPts (rather than just "didn't throw"):
+        // a stale/misdirected enum value can silently dispatch to a different native solver that
+        // still runs to completion without throwing, but produces a wrong pose.
+        Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var reprojected, out _);
+        for (var i = 0; i < imgPts.Length; i++)
+        {
+            Assert.Equal(imgPts[i].X, reprojected[i].X, 3);
+            Assert.Equal(imgPts[i].Y, reprojected[i].Y, 3);
+        }
     }
 
     [Fact]
     public void SolvePnPTestByArrayIppeSquare()
     {
         var rvec = new double[] { 3, 0, 0 };
-        var tvec = new double[] { 0, 0, -10 };
+        var tvec = new double[] { 0, 0, 10 };
         var cameraMatrix = new double[,]
         {
             { 1, 0, 0 },
@@ -534,7 +544,14 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out _);
 
-        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: SolvePnPMethod.IPPE_SQUARE);
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: SolvePnPMethod.IppeSquare);
+
+        Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var reprojected, out _);
+        for (var i = 0; i < imgPts.Length; i++)
+        {
+            Assert.Equal(imgPts[i].X, reprojected[i].X, 3);
+            Assert.Equal(imgPts[i].Y, reprojected[i].Y, 3);
+        }
     }
 
     [Fact]

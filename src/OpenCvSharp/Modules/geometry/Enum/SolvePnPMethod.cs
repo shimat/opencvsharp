@@ -50,7 +50,7 @@ public enum SolvePnPMethod
     ///   - point 2: [squareLength / 2, -squareLength / 2, 0]
     ///   - point 3: [-squareLength / 2, -squareLength / 2, 0]
     /// </summary>
-    IPPE_SQUARE = 5,
+    IppeSquare = 5,
 
     /// <summary>
     /// Method is based on the paper "A Consistently Fast and Globally Optimal Solution to the
