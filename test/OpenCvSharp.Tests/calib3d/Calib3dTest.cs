@@ -314,6 +314,35 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Assert.NotEmpty(translationVectors);
     }
 
+    // Regression test for issue #2080-adjacent enum drift: FishEyeCalibrationFlags used to carry
+    // stale OpenCV4 fisheye-only bit values instead of the OpenCV5 aliased CALIB_* values, so
+    // FixK1..FixK4 silently set the wrong native bits. If the flags don't reach native correctly,
+    // the corresponding distortion coefficients are optimized freely instead of being held at 0.
+    [Fact]
+    public void FishEyeCalibrateWithFixedDistortion()
+    {
+        var patternSize = new Size(10, 7);
+
+        using var image = LoadImage("calibration/00.jpg");
+        using var corners = new Mat<Point2f>();
+        Cv2.FindChessboardCorners(image, patternSize, corners);
+
+        var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+        var imagePointsArray = corners.ToArray();
+
+        using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
+        using var imagePoints = Mat<Point2f>.FromArray(imagePointsArray);
+        using var cameraMatrix = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs = new Mat<double>();
+        Cv2.FishEye.Calibrate([objectPoints], [imagePoints], image.Size(), cameraMatrix,
+            distCoeffs, out _, out _,
+            FishEyeCalibrationFlags.FixK1 | FishEyeCalibrationFlags.FixK2 |
+            FishEyeCalibrationFlags.FixK3 | FishEyeCalibrationFlags.FixK4);
+
+        var distCoeffValues = distCoeffs.ToArray();
+        Assert.All(distCoeffValues, d => Assert.Equal(0.0, d, 10));
+    }
+
     [Fact]
     public void FishEyeCalibrateWithNonContinuousPoints()
     {

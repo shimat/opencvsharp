@@ -67,19 +67,9 @@ public enum VideoCaptureAPIs
     PVAPI = 800, 
 
     /// <summary>
-    /// OpenNI (for Kinect)
-    /// </summary>
-    OPENNI = 900, 
-
-    /// <summary>
-    /// OpenNI (for Asus Xtion)
-    /// </summary>
-    OPENNI_ASUS = 910, 
-
-    /// <summary>
     /// Android - not used
     /// </summary>
-    ANDROID = 1000, 
+    ANDROID = 1000,
 
     /// <summary>
     /// XIMEA Camera API
@@ -92,14 +82,9 @@ public enum VideoCaptureAPIs
     AVFOUNDATION = 1200, 
 
     /// <summary>
-    /// Smartek Giganetix GigEVisionSDK
-    /// </summary>
-    GIGANETIX = 1300, 
-
-    /// <summary>
     /// Microsoft Media Foundation (via videoInput)
     /// </summary>
-    MSMF = 1400, 
+    MSMF = 1400,
 
     /// <summary>
     /// Microsoft Windows Runtime using Media Foundation
