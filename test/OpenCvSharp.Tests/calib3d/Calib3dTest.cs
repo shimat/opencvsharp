@@ -522,7 +522,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
     }
 
     [Fact]
-    public void SolvePnPTestByArrayIppeSquare()
+    public void SolvePnPTestByArrayIPPESquare()
     {
         var rvec = new double[] { 3, 0, 0 };
         var tvec = new double[] { 0, 0, 10 };
@@ -544,7 +544,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out _);
 
-        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: SolvePnPMethod.IppeSquare);
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: SolvePnPMethod.IPPESquare);
 
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var reprojected, out _);
         for (var i = 0; i < imgPts.Length; i++)
