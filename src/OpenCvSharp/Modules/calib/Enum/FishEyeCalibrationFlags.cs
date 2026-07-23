@@ -19,47 +19,47 @@ public enum FishEyeCalibrationFlags
     UseIntrinsicGuess = 1,
 
     /// <summary>
-    /// For fisheye model only. Recompute board position on each calibration iteration.
+    /// The principal point (cx, cy) stays the same as in the input camera matrix. Image center is used as principal point, if UseIntrinsicGuess is not set.
     /// </summary>
-    RecomputeExtrinsic = 1 << 1,
-
-    /// <summary>
-    /// For fisheye model only. Check SVD decomposition quality for each frame during extrinsics estimation.
-    /// </summary>
-    CheckCond = 1 << 2,
-
-    /// <summary>
-    /// For fisheye model only. Skew coefficient (alpha) is set to zero and stay zero.
-    /// </summary>
-    FixSkew = 1 << 3,
+    FixPrincipalPoint = 0x00004,
 
     /// <summary>
     /// The distortion coefficient k1 is not changed during the optimization. 0 value is used, if UseIntrinsicGuess is not set.
     /// </summary>
-    FixK1 = 1 << 4,
+    FixK1 = 0x00020,
 
     /// <summary>
     /// The distortion coefficient k2 is not changed during the optimization. 0 value is used, if UseIntrinsicGuess is not set.
     /// </summary>
-    FixK2 = 1 << 5,
+    FixK2 = 0x00040,
 
     /// <summary>
     /// The distortion coefficient k3 is not changed during the optimization. 0 value is used, if UseIntrinsicGuess is not set.
     /// </summary>
-    FixK3 = 1 << 6,
+    FixK3 = 0x00080,
 
     /// <summary>
     /// The distortion coefficient k4 is not changed during the optimization. 0 value is used, if UseIntrinsicGuess is not set.
     /// </summary>
-    FixK4 = 1 << 7,
+    FixK4 = 0x00800,
 
     /// <summary>
     /// For stereo and multi-camera calibration only. Do not optimize cameras intrinsics.
     /// </summary>
-    FixIntrinsic = 1 << 8,
+    FixIntrinsic = 0x00100,
 
     /// <summary>
-    /// The principal point (cx, cy) stays the same as in the input camera matrix. Image center is used as principal point, if UseIntrinsicGuess is not set.
+    /// For fisheye model only. Recompute board position on each calibration iteration.
     /// </summary>
-    FixPrincipalPoint = 1 << 9
+    RecomputeExtrinsic = 1 << 23,
+
+    /// <summary>
+    /// For fisheye model only. Check SVD decomposition quality for each frame during extrinsics estimation.
+    /// </summary>
+    CheckCond = 1 << 24,
+
+    /// <summary>
+    /// For fisheye model only. Skew coefficient (alpha) is set to zero and stay zero.
+    /// </summary>
+    FixSkew = 1 << 25
 }
