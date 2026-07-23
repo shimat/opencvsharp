@@ -1,5 +1,7 @@
 ![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
+[![NuGet](https://img.shields.io/nuget/v/OpenCvSharp5.svg?label=NuGet%3A%20OpenCvSharp5)](https://www.nuget.org/packages/OpenCvSharp5/)
+
 [![GitHub Actions Windows Status](https://github.com/shimat/opencvsharp/actions/workflows/windows.yml/badge.svg)](https://github.com/shimat/opencvsharp/actions/workflows/windows.yml)  [![GitHub Actions Docker Test Status](https://github.com/shimat/opencvsharp/actions/workflows/docker-test-ubuntu.yml/badge.svg)](https://github.com/shimat/opencvsharp/actions/workflows/docker-test-ubuntu.yml)  [![GitHub Actions manylinux Status](https://github.com/shimat/opencvsharp/actions/workflows/manylinux.yml/badge.svg)](https://github.com/shimat/opencvsharp/actions/workflows/manylinux.yml)  [![GitHub Actions Wasm Status](https://github.com/shimat/opencvsharp/actions/workflows/wasm.yml/badge.svg)](https://github.com/shimat/opencvsharp/actions/workflows/wasm.yml) [![GitHub Actions macOS Status](https://github.com/shimat/opencvsharp/actions/workflows/macos.yml/badge.svg)](https://github.com/shimat/opencvsharp/actions/workflows/macos.yml) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality.
@@ -53,7 +55,7 @@ dotnet add package OpenCvSharp5.runtime.osx.x64
 dotnet add package OpenCvSharp5.runtime.osx.arm64
 ```
 
-For more installation options, see the [Installation](#installation) section below.
+For more installation options, see the [Installation](#installation) section below, or the full [NuGet package list](#nuget).
 
 ## Features
 * OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
