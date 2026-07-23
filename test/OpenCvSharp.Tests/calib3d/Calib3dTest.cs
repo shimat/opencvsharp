@@ -481,6 +481,62 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, useExtrinsicGuess: useExtrinsicGuess);
     }
 
+    [Theory]
+    [InlineData(SolvePnPMethod.P3P)]
+    [InlineData(SolvePnPMethod.AP3P)]
+    [InlineData(SolvePnPMethod.IPPE)]
+    [InlineData(SolvePnPMethod.SQPNP)]
+    public void SolvePnPTestByArrayMethods(SolvePnPMethod method)
+    {
+        var rvec = new double[] { 3, 0, 0 };
+        var tvec = new double[] { 0, 0, -10 };
+        var cameraMatrix = new double[,]
+        {
+            { 1, 0, 0 },
+            { 0, 1, 0 },
+            { 0, 0, 1 }
+        };
+        var dist = new double[] { 0, 0, 0, 0, 0 };
+
+        var objPts = new[]
+        {
+            new Point3f(0,0,1),
+            new Point3f(1,0,1),
+            new Point3f(0,1,1),
+            new Point3f(1,1,1)
+        };
+
+        Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out _);
+
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: method);
+    }
+
+    [Fact]
+    public void SolvePnPTestByArrayIppeSquare()
+    {
+        var rvec = new double[] { 3, 0, 0 };
+        var tvec = new double[] { 0, 0, -10 };
+        var cameraMatrix = new double[,]
+        {
+            { 1, 0, 0 },
+            { 0, 1, 0 },
+            { 0, 0, 1 }
+        };
+        var dist = new double[] { 0, 0, 0, 0, 0 };
+
+        var objPts = new[]
+        {
+            new Point3f(-0.5f, 0.5f, 0),
+            new Point3f(0.5f, 0.5f, 0),
+            new Point3f(0.5f, -0.5f, 0),
+            new Point3f(-0.5f, -0.5f, 0)
+        };
+
+        Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out _);
+
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, flags: SolvePnPMethod.IPPE_SQUARE);
+    }
+
     [Fact]
     public void SolvePnPTestByMat()
     {
