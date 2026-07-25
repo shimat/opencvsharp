@@ -21,4 +21,4 @@ The API is organized into the following namespaces:
 
 ## Getting Started
 
-See the [Introduction](../articles/intro.md) for getting started with OpenCvSharp.
+See the [guides overview](../articles/index.md) for getting started with OpenCvSharp.

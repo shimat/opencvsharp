@@ -76,6 +76,31 @@ dotnet add package OpenCvSharp5
 dotnet add package OpenCvSharp5.runtime.osx.x64
 ```
 
+## WebAssembly
+
+WebAssembly uses static native linking and requires a Blazor WebAssembly project rather than the console project created above. Install the WebAssembly build tools and create a standalone Blazor WebAssembly application:
+
+```bash
+dotnet workload install wasm-tools
+dotnet new blazorwasm -n OpenCvSharpWasmExample
+cd OpenCvSharpWasmExample
+dotnet add package OpenCvSharp5
+dotnet add package OpenCvSharp5.runtime.wasm
+```
+
+Add the following properties to the project file:
+
+```xml
+<PropertyGroup>
+  <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
+  <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+</PropertyGroup>
+```
+
+The larger initial heap accommodates the statically linked OpenCV runtime. `WasmAllowUndefinedSymbols` is currently required because the managed assembly declares APIs for OpenCV modules that are not included in the WebAssembly build; calling one of those unavailable APIs will still fail at run time. The runtime package automatically supplies the native archive and its required exception-handling setting.
+
+See the [OpenCvSharp Blazor sample](https://github.com/shimat/opencvsharp_blazor_sample) for a complete browser application.
+
 ## Verify the package references
 
 ```bash
