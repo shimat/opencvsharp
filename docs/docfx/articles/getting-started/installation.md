@@ -97,7 +97,7 @@ Add the following properties to the project file:
 </PropertyGroup>
 ```
 
-The larger initial heap accommodates the statically linked OpenCV runtime. `WasmAllowUndefinedSymbols` is currently required because the managed assembly declares APIs for OpenCV modules that are not included in the WebAssembly build; calling one of those unavailable APIs will still fail at run time. The runtime package automatically supplies the native archive and its required exception-handling setting.
+The larger initial heap accommodates the statically linked OpenCV runtime. `WasmAllowUndefinedSymbols` is currently a package and toolchain-specific linker workaround: it allows the static link to complete even though the managed assembly declares APIs for OpenCV modules that are not included in the WebAssembly build. Calling one of those unavailable APIs will still fail at run time. This property does not configure exception handling; the runtime package supplies the native archive and its required `WasmEnableExceptionHandling` setting.
 
 See the [OpenCvSharp Blazor sample](https://github.com/shimat/opencvsharp_blazor_sample) for a complete browser application.
 

@@ -69,9 +69,22 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
-string nativeLibraryPath = Path.GetFullPath(
-    Path.Combine("native", "OpenCvSharpExtern.dll"));
 Assembly openCvSharpAssembly = typeof(NativeMethods).Assembly;
+string openCvSharpDirectory =
+    Path.GetDirectoryName(openCvSharpAssembly.Location)
+    ?? throw new InvalidOperationException(
+        "Could not determine the OpenCvSharp assembly directory.");
+
+string nativeFileName =
+    OperatingSystem.IsWindows() ? "OpenCvSharpExtern.dll" :
+    OperatingSystem.IsLinux() ? "libOpenCvSharpExtern.so" :
+    OperatingSystem.IsMacOS() ? "libOpenCvSharpExtern.dylib" :
+    throw new PlatformNotSupportedException();
+
+string nativeLibraryPath = Path.Combine(
+    openCvSharpDirectory,
+    "native",
+    nativeFileName);
 
 NativeLibrary.SetDllImportResolver(
     openCvSharpAssembly,
@@ -88,7 +101,9 @@ NativeLibrary.SetDllImportResolver(
 NativeMethods.TryPInvoke();
 ```
 
-Register the resolver before the first call to any OpenCvSharp API. The resolver must target `typeof(NativeMethods).Assembly`, not the host or plugin assembly, because native resolution is scoped to the assembly containing the P/Invoke declaration. Adjust the file name in the example for the target operating system.
+This example expects the custom native library in a `native` directory beside `OpenCvSharp.dll`. Alternatively, obtain a fully qualified native-library path from the host's configuration. Do not derive it from the process current directory because a host can change that directory.
+
+Register the resolver before the first call to any OpenCvSharp API. The resolver must target `typeof(NativeMethods).Assembly`, not the host or plugin assembly, because native resolution is scoped to the assembly containing the P/Invoke declaration.
 
 Calling `NativeLibrary.Load` by itself only returns a native handle; returning that handle from the resolver connects it reliably to OpenCvSharp's `OpenCvSharpExtern` imports. `NativeMethods.TryPInvoke()` is an optional explicit pre-flight check after resolver registration and is not required for normal API calls.
 
