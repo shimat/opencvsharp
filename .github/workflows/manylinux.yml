@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 5.0.0
+  MEDIAMTX_VERSION: 1.19.3
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -204,7 +205,27 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Start local RTSP test server
+        run: |
+          docker run --detach --rm \
+            --name opencvsharp-rtsp \
+            --publish 8554:8554 \
+            --volume "${GITHUB_WORKSPACE}/test/rtsp/mediamtx.yml:/mediamtx.yml:ro" \
+            bluenviron/mediamtx:${MEDIAMTX_VERSION}
+
+          for attempt in $(seq 1 30); do
+            if docker logs opencvsharp-rtsp 2>&1 | grep -q "stream is available"; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          docker logs opencvsharp-rtsp
+          exit 1
+
       - name: Test (full)
+        env:
+          OPENCVSHARP_TEST_RTSP_URL: rtsp://127.0.0.1:8554/test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net10.0
@@ -224,6 +245,8 @@ jobs:
       # Headless has the same module set as full except highgui, so it runs the same xunit
       # suite minus the one test class that calls into highgui (WaitKey/PollKey/...).
       - name: Test (headless)
+        env:
+          OPENCVSHARP_TEST_RTSP_URL: rtsp://127.0.0.1:8554/test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so bin/Release/net10.0/libOpenCvSharpExtern.so
@@ -232,6 +255,10 @@ jobs:
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --no-build \
             --filter "FullyQualifiedName!~OpenCvSharp.Tests.HighGui.HighGuiTest" \
             --logger "trx;LogFileName=test-results-headless.trx" < /dev/null
+
+      - name: Stop local RTSP test server
+        if: always()
+        run: docker stop opencvsharp-rtsp >/dev/null 2>&1 || true
 
       - name: Smoke test (slim)
         run: |

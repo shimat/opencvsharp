@@ -13,6 +13,7 @@ on:
 env:
   OPENCV_VERSION: 5.0.0
   CACHE_VERSION: "1"
+  MEDIAMTX_VERSION: 1.19.3
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -334,6 +335,51 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Start local RTSP test server
+        run: |
+          version="${MEDIAMTX_VERSION}"
+          archive_name="mediamtx_v${version}_darwin_arm64.tar.gz"
+          download_base="https://github.com/bluenviron/mediamtx/releases/download/v${version}"
+          server_dir="${RUNNER_TEMP}/mediamtx"
+          archive_path="${RUNNER_TEMP}/${archive_name}"
+          checksums_path="${RUNNER_TEMP}/mediamtx-checksums.sha256"
+
+          curl -fL --retry 5 "${download_base}/${archive_name}" -o "${archive_path}"
+          curl -fL --retry 5 "${download_base}/checksums.sha256" -o "${checksums_path}"
+
+          expected_checksum=$(grep -E "[ *]${archive_name}$" "${checksums_path}" | awk '{print $1}')
+          if [ -z "${expected_checksum}" ]; then
+            echo "Checksum not found for ${archive_name}"
+            exit 1
+          fi
+          actual_checksum=$(shasum -a 256 "${archive_path}" | awk '{print $1}')
+          if [ "${actual_checksum}" != "${expected_checksum}" ]; then
+            echo "Checksum mismatch for ${archive_name}: expected ${expected_checksum}, got ${actual_checksum}"
+            exit 1
+          fi
+
+          mkdir -p "${server_dir}"
+          tar -xzf "${archive_path}" -C "${server_dir}"
+          "${server_dir}/mediamtx" "${GITHUB_WORKSPACE}/test/rtsp/mediamtx.yml" \
+            >"${RUNNER_TEMP}/mediamtx.log" 2>&1 &
+          server_pid=$!
+
+          for attempt in $(seq 1 30); do
+            if ! kill -0 "${server_pid}" 2>/dev/null; then
+              cat "${RUNNER_TEMP}/mediamtx.log"
+              exit 1
+            fi
+            if grep -q "stream is available" "${RUNNER_TEMP}/mediamtx.log"; then
+              echo "OPENCVSHARP_TEST_RTSP_URL=rtsp://127.0.0.1:8554/test" >> "${GITHUB_ENV}"
+              echo "OPENCVSHARP_RTSP_SERVER_PID=${server_pid}" >> "${GITHUB_ENV}"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          cat "${RUNNER_TEMP}/mediamtx.log"
+          exit 1
+
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
@@ -349,6 +395,13 @@ jobs:
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
             --logger "trx;LogFileName=test-results.trx" \
             --blame-crash --blame-crash-dump-type full < /dev/null
+
+      - name: Stop local RTSP test server
+        if: always()
+        run: |
+          if [ -n "${OPENCVSHARP_RTSP_SERVER_PID:-}" ]; then
+            kill "${OPENCVSHARP_RTSP_SERVER_PID}" 2>/dev/null || true
+          fi
 
       - name: Test Avalonia extensions
         run: |
