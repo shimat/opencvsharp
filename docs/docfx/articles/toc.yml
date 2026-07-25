@@ -16,6 +16,8 @@
       href: guides/pixel-access.md
     - name: Image Processing Pipeline
       href: guides/image-processing-pipeline.md
+    - name: Histograms and Contrast
+      href: guides/histograms-and-contrast.md
     - name: Image Encoding and Conversion
       href: guides/image-conversion.md
     - name: Video I/O

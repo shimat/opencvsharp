@@ -15,6 +15,7 @@ Start with these pages in order:
 ## Common tasks
 
 - [Build an image processing pipeline](guides/image-processing-pipeline.md)
+- [Analyze histograms and improve contrast](guides/histograms-and-contrast.md)
 - [Access and modify pixels](guides/pixel-access.md)
 - [Encode images and convert UI image types](guides/image-conversion.md)
 - [Read and write video](guides/video-io.md)
