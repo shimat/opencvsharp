@@ -1,13 +1,18 @@
 name: DocFX
 
 on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "src/OpenCvSharp/**"
+      - ".github/workflows/docfx.yml"
   push:
     branches:
       - main
   workflow_dispatch:
 
 concurrency:
-  group: "pages"
+  group: "docfx-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
@@ -45,15 +50,16 @@ jobs:
           path: docs/docfx/_site
           
   deploy:
-   needs: build
-   permissions:
-     pages: write
-     id-token: write
-   environment:
-     name: github-pages
-     url: ${{ steps.deployment.outputs.page_url }}
-   runs-on: ubuntu-latest
-   steps:
-     - name: Deploy to GitHub Pages
-       id: deployment
-       uses: actions/deploy-pages@v5
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

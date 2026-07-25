@@ -1,34 +1,27 @@
 # OpenCvSharp Documentation
 
-Welcome to the **OpenCvSharp** documentation!
+OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the official guides and API reference for installing OpenCvSharp, building your first application, and using the library safely.
 
-OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of APIs for computer vision and image processing.
+## Start here
 
-## Quick Links
+- [Choose an OpenCvSharp version and package](articles/getting-started/package-selection.md)
+- [Install OpenCvSharp](articles/getting-started/installation.md)
+- [Build your first application](articles/getting-started/first-application.md)
+- [Browse the API reference](api/index.md)
 
-- [Introduction](articles/intro.md) - Get started with OpenCvSharp
-- [API Reference](api/index.md) - Complete API documentation
-- [GitHub Repository](https://github.com/shimat/opencvsharp) - Source code and issues
+## Essential guides
 
-## Features
+- [Manage native resources](articles/guides/resource-management.md)
+- [Troubleshoot native library loading](articles/troubleshooting/native-library-loading.md)
+- [Migrate from OpenCvSharp4 to OpenCvSharp5](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md)
 
-- ✅ Cross-platform support (Windows, Linux, macOS, WebAssembly)
-- ✅ .NET 8, 10, and later support
-- ✅ Comprehensive OpenCV API coverage
-- ✅ WPF and GDI+ extensions
-- ✅ NuGet packages for easy installation
+## Supported platforms
 
-## Installation
+OpenCvSharp5 targets .NET 8 or later and provides runtime packages for Windows x64 and ARM64, Linux x64 and ARM64, macOS x64 and Apple Silicon, and WebAssembly. OpenCvSharp4 remains available for applications that require .NET Framework or .NET Standard.
 
-Install via NuGet:
+## Project resources
 
-```bash
-dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4.runtime.win  # For Windows
-```
-
-## Resources
-
-- [NuGet Packages](https://www.nuget.org/packages?q=opencvsharp)
-- [GitHub Issues](https://github.com/shimat/opencvsharp/issues)
-- [OpenCV Official Documentation](https://docs.opencv.org/)
+- [Source repository](https://github.com/shimat/opencvsharp)
+- [Code samples](https://github.com/shimat/opencvsharp_samples)
+- [Issue tracker](https://github.com/shimat/opencvsharp/issues)
+- [NuGet packages](https://www.nuget.org/packages?q=opencvsharp)

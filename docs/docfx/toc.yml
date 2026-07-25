@@ -1,4 +1,4 @@
-- name: Articles
+- name: Guides
   href: articles/
-- name: API Documentation
+- name: API Reference
   href: api/

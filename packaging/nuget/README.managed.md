@@ -105,5 +105,5 @@ using Mat dst = 255 - src * 0.8;
 
 - [GitHub Repository](https://github.com/shimat/opencvsharp)
 - [Code Samples](https://github.com/shimat/opencvsharp_samples/)
-- [API Documentation](https://shimat.github.io/opencvsharp/api/OpenCvSharp.html)
+- [Documentation and API Reference](https://shimat.github.io/opencvsharp/)
 - [Issue Tracker](https://github.com/shimat/opencvsharp/issues)

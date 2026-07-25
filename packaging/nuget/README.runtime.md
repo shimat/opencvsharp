@@ -55,4 +55,5 @@ The `slim` packages bundle a smaller native library with a reduced OpenCV module
 
 - [GitHub Repository](https://github.com/shimat/opencvsharp)
 - [OpenCvSharp5 (managed package)](https://www.nuget.org/packages/OpenCvSharp5)
+- [Documentation and API Reference](https://shimat.github.io/opencvsharp/)
 - [Issue Tracker](https://github.com/shimat/opencvsharp/issues)
