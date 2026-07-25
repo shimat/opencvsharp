@@ -30,6 +30,14 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 1
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Resolve OpenCV revisions
+        id: opencv-revisions
+        run: |
+          echo "opencv=$(git rev-parse HEAD:opencv)" >> "${GITHUB_OUTPUT}"
+          echo "opencv_contrib=$(git rev-parse HEAD:opencv_contrib)" >> "${GITHUB_OUTPUT}"
           
       - name: Install dependencies
         run: |
@@ -69,7 +77,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
@@ -85,13 +93,11 @@ jobs:
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
-          wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
           emcmake cmake \
-            -S opencv-${OPENCV_VERSION} \
-            -B opencv-${OPENCV_VERSION}/build \
+            -S opencv \
+            -B opencv/build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DOPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib-${OPENCV_VERSION}/modules \
+            -DOPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -DBUILD_SHARED_LIBS=OFF \
             -DENABLE_CXX11=ON -DBUILD_TESTS=OFF \
             -DBUILD_PERF_TESTS=OFF \
@@ -139,8 +145,8 @@ jobs:
             -DWITH_PTHREADS_PF=OFF \
             -DCV_ENABLE_INTRINSICS=OFF \
             -DBUILD_opencv_dnn=ON
-          cmake --build opencv-${OPENCV_VERSION}/build --parallel $(nproc)
-          cmake --install opencv-${OPENCV_VERSION}/build
+          cmake --build opencv/build --parallel $(nproc)
+          cmake --install opencv/build
           em++ -r -o ${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o \
             -Wl,--whole-archive ${GITHUB_WORKSPACE}/opencv_wasm/lib/*.a \
             ${GITHUB_WORKSPACE}/opencv_wasm/lib/opencv5/3rdparty/*.a
@@ -154,7 +160,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
       
       - name: Build OpenCvSharpExtern
         run: |

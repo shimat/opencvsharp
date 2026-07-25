@@ -1,10 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Internal.Util;
 
-// TODO
-#pragma warning disable CA5393
-[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.LegacyBehavior)]
+[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
 
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
@@ -29,14 +26,23 @@ public static partial class NativeMethods
     /// <summary>
     /// Is tried P/Invoke once
     /// </summary>
-    private static bool tried;
+    private static int tried;
 
     /// <summary>
     /// Static constructor
     /// </summary>
     static NativeMethods()
     {
-        LoadLibraries();
+        try
+        {
+            LoadLibraries();
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or BadImageFormatException or EntryPointNotFoundException)
+        {
+            // Keep type initialization usable so TryPInvoke can retry after the application
+            // configures native resolution and report the loader failure without wrapping it
+            // in TypeInitializationException.
+        }
     }
 
     public static void HandleException(ExceptionStatus status)
@@ -84,14 +90,15 @@ public static partial class NativeMethods
     public static void TryPInvoke()
     {
 #pragma warning disable CA1031
-        if (tried)
+        if (Volatile.Read(ref tried) != 0)
             return;
-        tried = true;
 
         try
         {
+            LoadLibraries();
             var ret = core_Mat_sizeof();
             GC.KeepAlive(ret);
+            Volatile.Write(ref tried, 1);
         }
         catch (DllNotFoundException e)
         {
@@ -135,7 +142,7 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsWindows()
     {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        return OperatingSystem.IsWindows();
     }
 
     /// <summary>
@@ -144,9 +151,9 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsUnix()
     {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
+        return OperatingSystem.IsLinux() ||
+               OperatingSystem.IsMacOS() ||
+               OperatingSystem.IsFreeBSD();
     }
 
     /// <summary>

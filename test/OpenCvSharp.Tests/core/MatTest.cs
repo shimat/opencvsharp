@@ -963,6 +963,16 @@ public class MatTest : TestBase
     }
 
     [Fact]
+    public void SetArrayRejectsSourceBufferSmallerThanMat()
+    {
+        using var mat = new Mat(2, 2, MatType.CV_8UC1);
+
+        var exception = Assert.Throws<ArgumentException>(() => mat.SetArray(new byte[] { 1 }));
+
+        Assert.Equal("data", exception.ParamName);
+    }
+
+    [Fact]
     public void SetRectangularArrayByte()
     {
         using var mat = new Mat(2, 2, MatType.CV_8UC1);
@@ -978,6 +988,16 @@ public class MatTest : TestBase
         Assert.Equal(data[0, 1], mat.Get<byte>(0, 1));
         Assert.Equal(data[1, 0], mat.Get<byte>(1, 0));
         Assert.Equal(data[1, 1], mat.Get<byte>(1, 1));
+    }
+
+    [Fact]
+    public void SetRectangularArrayRejectsSourceBufferSmallerThanMat()
+    {
+        using var mat = new Mat(2, 2, MatType.CV_8UC1);
+
+        var exception = Assert.Throws<ArgumentException>(() => mat.SetRectangularArray(new byte[,] { { 1 } }));
+
+        Assert.Equal("data", exception.ParamName);
     }
 
     [Fact]
@@ -1423,6 +1443,20 @@ public class MatTest : TestBase
                 Assert.Equal(11f, rowX[x]);
                 Assert.Equal(12f, rowY[x]);
             }
+        }
+    }
+
+    [Fact]
+    public void AsRowsIndexerChecksRowBounds()
+    {
+        using var mat = new Mat(2, 2, MatType.CV_8UC1);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => AccessRow(mat, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => AccessRow(mat, mat.Rows));
+
+        static void AccessRow(Mat source, int row)
+        {
+            _ = source.AsRows<byte>()[row];
         }
     }
 }

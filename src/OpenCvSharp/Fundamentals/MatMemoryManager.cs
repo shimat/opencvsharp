@@ -10,6 +10,7 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
     where T : unmanaged
 {
     private readonly Mat wrapped;
+    private readonly int elementCount;
 
     /// <summary>
     /// Create a new UnmanagedMemoryManager instance at the given pointer and size
@@ -21,11 +22,20 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
         if (!mat.IsContinuous())
             throw new ArgumentException("mat is not continuous", nameof(mat));
 
+        var byteLength = checked(mat.Total() * mat.ElemSize());
+        if (byteLength % sizeof(T) != 0)
+        {
+            throw new ArgumentException(
+                $"The Mat byte length ({byteLength}) is not divisible by the size of {typeof(T)} ({sizeof(T)}).",
+                nameof(mat));
+        }
+
+        elementCount = checked((int)(byteLength / sizeof(T)));
         wrapped = isDataOwner ? mat : new Mat(mat);
     }
 
     /// <inheritdoc />
-    public override Span<T> GetSpan() => new((void*)wrapped.Data, (int)wrapped.Total());
+    public override Span<T> GetSpan() => new((void*)wrapped.Data, elementCount);
 
     /// <summary>
     /// Provides access to a pointer that represents the data (note: no actual pin occurs)
@@ -33,17 +43,10 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
     public override MemoryHandle Pin(int elementIndex = 0)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(elementIndex);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((long)elementIndex, wrapped.Total(), nameof(elementIndex));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(elementIndex, elementCount, nameof(elementIndex));
 
-        var dims = wrapped.Dims;
-        var idxs = new int[dims];
-        var remainIdx = elementIndex;
-        for (var dim = dims - 1; dim >= 0; dim--)
-        {
-            remainIdx = Math.DivRem(remainIdx, wrapped.Size(dim), out idxs[dim]);
-        }
-
-        return new MemoryHandle((void*)wrapped.Ptr(idxs));
+        var pointer = (byte*)wrapped.Data + checked((nint)elementIndex * sizeof(T));
+        return new MemoryHandle(pointer, default, this);
     }
 
     /// <summary>

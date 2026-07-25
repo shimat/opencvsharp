@@ -11,24 +11,24 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial void imgproc_LineSegmentDetector_detect_OutputArray(OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy lines,
+    internal static partial ExceptionStatus imgproc_LineSegmentDetector_detect_OutputArray(OpenCvSafeHandle obj, in InputArrayProxy image, in OutputArrayProxy lines,
         in OutputArrayProxy width, in OutputArrayProxy prec, in OutputArrayProxy nfa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial void imgproc_LineSegmentDetector_detect_vector(OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr lines,
+    internal static partial ExceptionStatus imgproc_LineSegmentDetector_detect_vector(OpenCvSafeHandle obj, in InputArrayProxy image, IntPtr lines,
         IntPtr width, IntPtr prec, IntPtr nfa);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial void imgproc_LineSegmentDetector_drawSegments(OpenCvSafeHandle obj, in InputOutputArrayProxy image, in InputArrayProxy lines);
+    internal static partial ExceptionStatus imgproc_LineSegmentDetector_drawSegments(OpenCvSafeHandle obj, in InputOutputArrayProxy image, in InputArrayProxy lines);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial int imgproc_LineSegmentDetector_compareSegments(OpenCvSafeHandle obj, Size size,
-        in InputArrayProxy lines1, in InputArrayProxy lines2, in InputOutputArrayProxy image);
+    internal static partial ExceptionStatus imgproc_LineSegmentDetector_compareSegments(OpenCvSafeHandle obj, Size size,
+        in InputArrayProxy lines1, in InputArrayProxy lines2, in InputOutputArrayProxy image, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial IntPtr imgproc_createLineSegmentDetector(
+    public static partial ExceptionStatus imgproc_createLineSegmentDetector(
         int refine, double scale, double sigma_scale, double quant, double ang_th,
-        double log_eps, double density_th, int n_bins);
+        double log_eps, double density_th, int n_bins, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_Ptr_LineSegmentDetector_get(IntPtr ptr, out IntPtr returnValue);

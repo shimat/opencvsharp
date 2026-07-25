@@ -32,10 +32,19 @@ public class LineSegmentDetector : Algorithm
         double scale = 0.8, double sigmaScale = 0.6, double quant = 2.0, double angTh = 22.5,
         double logEps = 0, double densityTh = 0.7, int nBins = 1024)
     {
-        var smartPtr = NativeMethods.imgproc_createLineSegmentDetector(
-            (int)refine, scale, sigmaScale, quant, angTh, logEps, densityTh, nBins);
-        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_LineSegmentDetector_get(smartPtr, out var rawPtr));
-        return new LineSegmentDetector(smartPtr, rawPtr);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_createLineSegmentDetector(
+                (int)refine, scale, sigmaScale, quant, angTh, logEps, densityTh, nBins, out var smartPtr));
+        try
+        {
+            NativeMethods.HandleException(NativeMethods.imgproc_Ptr_LineSegmentDetector_get(smartPtr, out var rawPtr));
+            return new LineSegmentDetector(smartPtr, rawPtr);
+        }
+        catch
+        {
+            _ = NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(smartPtr);
+            throw;
+        }
     }
 
     /// <summary>
@@ -52,8 +61,9 @@ public class LineSegmentDetector : Algorithm
     public virtual void Detect(InputArray image, OutputArray lines,
         OutputArray width = default, OutputArray prec = default, OutputArray nfa = default)
     {
-        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.Proxy, lines.Proxy,
-            width.Proxy, prec.Proxy, nfa.Proxy);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(Handle, image.Proxy, lines.Proxy,
+                width.Proxy, prec.Proxy, nfa.Proxy));
         GC.KeepAlive(image.Source);
         GC.KeepAlive(lines.Source);
         GC.KeepAlive(width.Source);
@@ -80,8 +90,9 @@ public class LineSegmentDetector : Algorithm
         using (var precVec = new StdVector<double>())
         using (var nfaVec = new StdVector<double>())
         {
-            NativeMethods.imgproc_LineSegmentDetector_detect_vector(Handle, image.Proxy,
-                linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_LineSegmentDetector_detect_vector(Handle, image.Proxy,
+                    linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr));
 
             lines = linesVec.ToArray();
             width = widthVec.ToArray();
@@ -99,7 +110,8 @@ public class LineSegmentDetector : Algorithm
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     public virtual void DrawSegments(InputOutputArray image, InputArray lines)
     {
-        NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.Proxy, lines.Proxy);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_LineSegmentDetector_drawSegments(Handle, image.Proxy, lines.Proxy));
         GC.KeepAlive(image.Source);
         GC.KeepAlive(lines.Source);
     }
@@ -117,8 +129,9 @@ public class LineSegmentDetector : Algorithm
     public virtual int CompareSegments(
         Size size, InputArray lines1, InputArray lines2, InputOutputArray image = default)
     {
-        var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
-            Handle, size, lines1.Proxy, lines2.Proxy, image.Proxy);
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_LineSegmentDetector_compareSegments(
+                Handle, size, lines1.Proxy, lines2.Proxy, image.Proxy, out var ret));
         GC.KeepAlive(lines1.Source);
         GC.KeepAlive(lines2.Source);
         GC.KeepAlive(image.Source);

@@ -1,3 +1,5 @@
+using System.Collections.Frozen;
+
 namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
@@ -75,7 +77,7 @@ public static class MatTypeMap
         [typeof(Rect2d)] = MatType.CV_64FC4,
 
         [typeof(DMatch)] = MatType.CV_32FC4,
-    };
+    }.ToFrozenDictionary();
 
     /// <summary>
     /// Returns the <see cref="MatType"/> for <typeparamref name="T"/>, or throws if unsupported.

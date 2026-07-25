@@ -30,8 +30,22 @@ public sealed class MatSafeHandle : OpenCvSafeHandle
     /// <inheritdoc />
     protected override bool ReleaseHandle()
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_Mat_delete(handle));
-        return true;
+#pragma warning disable CA1031 // Exceptions must never escape a SafeHandle critical-finalizer path.
+        var released = true;
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_delete(handle));
+        }
+        catch
+        {
+            released = false;
+        }
+
+        // Dependent state must remain rooted if the native object may still be alive.
+        if (!released)
+            return false;
+        return RunPostReleaseAction();
+#pragma warning restore CA1031
     }
 }
