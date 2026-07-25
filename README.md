@@ -146,7 +146,7 @@ This profile is used by:
 - `OpenCvSharp5.official.runtime.linux-x64.slim`
 
 ## Usage
-For more details, refer to the **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
+For step-by-step guides, package selection, and troubleshooting, see the **[OpenCvSharp documentation](https://shimat.github.io/opencvsharp/)**. More complete programs are available in the **[samples repository](https://github.com/shimat/opencvsharp_samples/)**.
 
 **Always remember to release Mat and other IDisposable resources using the `using` syntax:**
 ```C#
@@ -193,8 +193,8 @@ https://github.com/shimat/opencvsharp_samples/
 
 Interactive browser-based samples (Blazor WebAssembly) are maintained separately at https://github.com/shimat/opencvsharp_blazor_sample/, with a [live demo](https://shimat.github.io/opencvsharp_blazor_sample/).
 
-## API Documents
-http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
+## Documentation
+https://shimat.github.io/opencvsharp/
 
 ## NuGet
 

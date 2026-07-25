@@ -1,59 +1,12 @@
-# Introduction to OpenCvSharp
+# Introduction
 
-OpenCvSharp is a .NET wrapper for OpenCV, one of the most popular open-source computer vision libraries.
+OpenCvSharp is a cross-platform .NET wrapper for OpenCV. The documentation has been reorganized into task-oriented guides and a generated API reference.
 
-## What is OpenCvSharp?
+## Start with the new guides
 
-OpenCvSharp provides cross-platform .NET bindings for OpenCV, allowing you to use OpenCV's powerful computer vision and image processing capabilities in your .NET applications.
+1. [Choose an OpenCvSharp version and package](getting-started/package-selection.md).
+2. [Install OpenCvSharp](getting-started/installation.md).
+3. [Build your first application](getting-started/first-application.md).
+4. Learn how to [manage native resources](guides/resource-management.md).
 
-## Supported Platforms
-
-- **Windows**: x64, arm64
-- **Linux**: Ubuntu 22.04, 24.04, ARM
-- **macOS**: x64 (Intel), arm64 (Apple Silicon)
-- **WebAssembly**: Browser-based applications
-
-## Getting Started
-
-### Installation
-
-Install OpenCvSharp via NuGet Package Manager:
-
-```bash
-# Core library
-dotnet add package OpenCvSharp4
-
-# Native bindings (choose one based on your platform)
-dotnet add package OpenCvSharp4.runtime.win                            # Windows
-# dotnet add package OpenCvSharp4.runtime.win.slim                       # Windows slim
-dotnet add package OpenCvSharp4.official.runtime.linux-x64               # Linux x64
-# dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim        # Linux x64 slim
-dotnet add package OpenCvSharp4.runtime.osx.x64                        # macOS x64 (Intel)
-dotnet add package OpenCvSharp4.runtime.osx.arm64                        # macOS arm64 (Apple Silicon)
-```
-
-### Quick Example
-
-```csharp
-using OpenCvSharp;
-
-// Load an image
-using var src = Cv2.ImRead("sample.jpg");
-
-// Convert to grayscale
-using var gray = new Mat();
-Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
-
-// Apply Gaussian blur
-using var blurred = new Mat();
-Cv2.GaussianBlur(gray, blurred, new Size(5, 5), 0);
-
-// Save the result
-Cv2.ImWrite("output.jpg", blurred);
-```
-
-## Next Steps
-
-- Explore the [API Reference](../api/index.md) for detailed documentation
-- Check out [sample projects](https://github.com/shimat/opencvsharp/tree/main/samples)
-- Join the community on [GitHub](https://github.com/shimat/opencvsharp)
+You can also browse the [API reference](../api/index.md) or visit the [OpenCvSharp repository](https://github.com/shimat/opencvsharp).

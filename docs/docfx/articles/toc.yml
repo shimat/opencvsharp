@@ -1,2 +1,18 @@
-- name: Introduction
-  href: intro.md
+- name: Overview
+  href: index.md
+- name: Getting Started
+  items:
+    - name: Choose a Version and Package
+      href: getting-started/package-selection.md
+    - name: Installation
+      href: getting-started/installation.md
+    - name: First Application
+      href: getting-started/first-application.md
+- name: Guides
+  items:
+    - name: Resource Management
+      href: guides/resource-management.md
+- name: Troubleshooting
+  items:
+    - name: Native Library Loading
+      href: troubleshooting/native-library-loading.md

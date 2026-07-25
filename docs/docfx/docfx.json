@@ -28,16 +28,20 @@
           "articles/**.md",
           "articles/**/toc.yml",
           "toc.yml",
-          "*.md",
-          "../../*.md"
+          "*.md"
         ]
       }
     ],
     "resource": [
       {
         "files": [
-          "images/**",
-          "../img/**"
+          "images/**"
+        ]
+      },
+      {
+        "src": "..",
+        "files": [
+          "img/**"
         ]
       }
     ],
@@ -68,9 +72,6 @@
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": false,
-    "xref": [
-      "https://xref.docs.microsoft.com/query?uid={uid}"
-    ]
+    "disableGitFeatures": false
   }
 }
