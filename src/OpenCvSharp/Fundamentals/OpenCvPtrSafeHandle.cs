@@ -54,7 +54,11 @@ internal sealed class OpenCvPtrSafeHandle : OpenCvSafeHandle
             released = false;
         }
 
-        return released && RunPostReleaseAction();
+        // If native release failed, it may still own callback pointers kept alive by the
+        // post-release action. Retain those roots rather than risking a use-after-free.
+        if (!released)
+            return false;
+        return RunPostReleaseAction();
 #pragma warning restore CA1031
     }
 }

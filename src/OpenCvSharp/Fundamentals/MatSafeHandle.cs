@@ -42,7 +42,10 @@ public sealed class MatSafeHandle : OpenCvSafeHandle
             released = false;
         }
 
-        return released && RunPostReleaseAction();
+        // Dependent state must remain rooted if the native object may still be alive.
+        if (!released)
+            return false;
+        return RunPostReleaseAction();
 #pragma warning restore CA1031
     }
 }

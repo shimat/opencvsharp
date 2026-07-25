@@ -45,7 +45,7 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
         ArgumentOutOfRangeException.ThrowIfNegative(elementIndex);
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(elementIndex, elementCount, nameof(elementIndex));
 
-        var pointer = (byte*)wrapped.Data + checked(elementIndex * sizeof(T));
+        var pointer = (byte*)wrapped.Data + checked((nint)elementIndex * sizeof(T));
         return new MemoryHandle(pointer, default, this);
     }
 

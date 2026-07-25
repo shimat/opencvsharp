@@ -9,6 +9,7 @@ namespace OpenCvSharp.Face;
 /// </summary>
 public sealed class FacemarkKazemi : Facemark
 {
+    private readonly object faceDetectorBridgeSync = new();
     private readonly DisposableObjectHolder<FacemarkFaceDetectorBridge> faceDetectorBridgeHolder = new();
 
     private FacemarkKazemi(IntPtr smartPtr, IntPtr rawPtr)
@@ -95,9 +96,12 @@ public sealed class FacemarkKazemi : Facemark
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(detector);
-        var newBridge = new FacemarkFaceDetectorBridge(
-            Handle, detector, NativeMethods.face_FacemarkKazemi_setFaceDetector);
-        faceDetectorBridgeHolder.Replace(newBridge);
+        lock (faceDetectorBridgeSync)
+        {
+            var newBridge = new FacemarkFaceDetectorBridge(
+                Handle, detector, NativeMethods.face_FacemarkKazemi_setFaceDetector);
+            faceDetectorBridgeHolder.Replace(newBridge);
+        }
     }
 
     /// <summary>

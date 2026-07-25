@@ -42,6 +42,7 @@ public class SACSegmentation : Algorithm
     }
 
     // The holder is released by the owning SafeHandle after the native SACSegmentation is deleted.
+    private readonly object constraintCallbackSync = new();
     private readonly DisposableObjectHolder<ConstraintCallbackRegistration> constraintCallbackHolder = new();
     private ModelConstraintFunction? customModelConstraints;
 
@@ -291,19 +292,22 @@ public class SACSegmentation : Algorithm
             userData = newRegistration.UserData;
         }
 
-        try
+        lock (constraintCallbackSync)
         {
-            NativeMethods.HandleException(
-                NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));
-        }
-        catch
-        {
-            newRegistration?.Dispose();
-            throw;
-        }
+            try
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));
+            }
+            catch
+            {
+                newRegistration?.Dispose();
+                throw;
+            }
 
-        constraintCallbackHolder.Replace(newRegistration);
-        this.customModelConstraints = customModelConstraints;
+            constraintCallbackHolder.Replace(newRegistration);
+            this.customModelConstraints = customModelConstraints;
+        }
     }
 
     /// <summary>

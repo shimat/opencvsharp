@@ -8,6 +8,7 @@ namespace OpenCvSharp.Face;
 /// </summary>
 public abstract class FacemarkTrain : Facemark
 {
+    private readonly object faceDetectorBridgeSync = new();
     private readonly DisposableObjectHolder<FacemarkFaceDetectorBridge> faceDetectorBridgeHolder = new();
     /// <summary>
     /// Initializes a trainable facemark wrapper.
@@ -63,8 +64,11 @@ public abstract class FacemarkTrain : Facemark
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(detector);
-        var newBridge = new FacemarkFaceDetectorBridge(
-            Handle, detector, NativeMethods.face_FacemarkTrain_setFaceDetector);
-        faceDetectorBridgeHolder.Replace(newBridge);
+        lock (faceDetectorBridgeSync)
+        {
+            var newBridge = new FacemarkFaceDetectorBridge(
+                Handle, detector, NativeMethods.face_FacemarkTrain_setFaceDetector);
+            faceDetectorBridgeHolder.Replace(newBridge);
+        }
     }
 }
