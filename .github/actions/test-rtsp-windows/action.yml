@@ -5,6 +5,9 @@ inputs:
   mediamtx-version:
     description: MediaMTX release version
     required: true
+  mediamtx-sha256:
+    description: SHA-256 of the MediaMTX Windows amd64 archive
+    default: 5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe
 
 runs:
   using: composite
@@ -14,3 +17,4 @@ runs:
       run: >-
         & "${{ github.action_path }}/test-rtsp.ps1"
         -MediaMtxVersion "${{ inputs.mediamtx-version }}"
+        -MediaMtxSha256 "${{ inputs.mediamtx-sha256 }}"

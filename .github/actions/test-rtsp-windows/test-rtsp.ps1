@@ -1,7 +1,10 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [string] $MediaMtxVersion
+    [string] $MediaMtxVersion,
+
+    [Parameter(Mandatory = $true)]
+    [string] $MediaMtxSha256
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,22 +13,14 @@ $archiveName = "mediamtx_v${MediaMtxVersion}_windows_amd64.zip"
 $downloadBase = "https://github.com/bluenviron/mediamtx/releases/download/v${MediaMtxVersion}"
 $serverDir = Join-Path $env:RUNNER_TEMP "mediamtx"
 $archivePath = Join-Path $env:RUNNER_TEMP $archiveName
-$checksumsPath = Join-Path $env:RUNNER_TEMP "mediamtx-checksums.sha256"
 $stdoutPath = Join-Path $env:RUNNER_TEMP "mediamtx.stdout.log"
 $stderrPath = Join-Path $env:RUNNER_TEMP "mediamtx.stderr.log"
 $server = $null
 
 try {
     Invoke-WebRequest "$downloadBase/$archiveName" -OutFile $archivePath
-    Invoke-WebRequest "$downloadBase/checksums.sha256" -OutFile $checksumsPath
 
-    $checksumLine = Get-Content $checksumsPath |
-        Where-Object { $_ -match "[ *]$([regex]::Escape($archiveName))$" }
-    if (-not $checksumLine) {
-        throw "Checksum not found for $archiveName"
-    }
-
-    $expectedChecksum = ($checksumLine -split "\s+")[0].ToLowerInvariant()
+    $expectedChecksum = $MediaMtxSha256.ToLowerInvariant()
     $actualChecksum = (Get-FileHash $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($actualChecksum -ne $expectedChecksum) {
         throw "Checksum mismatch for ${archiveName}: expected $expectedChecksum, got $actualChecksum"

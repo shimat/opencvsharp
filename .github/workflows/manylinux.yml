@@ -211,7 +211,7 @@ jobs:
             --name opencvsharp-rtsp \
             --publish 8554:8554 \
             --volume "${GITHUB_WORKSPACE}/test/rtsp/mediamtx.yml:/mediamtx.yml:ro" \
-            bluenviron/mediamtx:${MEDIAMTX_VERSION}
+            bluenviron/mediamtx:${MEDIAMTX_VERSION}@sha256:7797ed3df88df21e8c04ecd0aff08ce49a5232d1db453e51f5480ef36bc80865
 
           for attempt in $(seq 1 30); do
             if docker logs opencvsharp-rtsp 2>&1 | grep -q "stream is available"; then

@@ -2,11 +2,11 @@
 set -euo pipefail
 
 readonly mediamtx_version="$1"
+readonly expected_checksum="$2"
 readonly archive_name="mediamtx_v${mediamtx_version}_darwin_arm64.tar.gz"
 readonly download_base="https://github.com/bluenviron/mediamtx/releases/download/v${mediamtx_version}"
 readonly server_dir="${RUNNER_TEMP}/mediamtx"
 readonly archive_path="${RUNNER_TEMP}/${archive_name}"
-readonly checksums_path="${RUNNER_TEMP}/mediamtx-checksums.sha256"
 readonly log_path="${RUNNER_TEMP}/mediamtx.log"
 server_pid=""
 
@@ -27,13 +27,6 @@ cleanup() {
 trap cleanup EXIT
 
 curl -fL --retry 5 "${download_base}/${archive_name}" -o "${archive_path}"
-curl -fL --retry 5 "${download_base}/checksums.sha256" -o "${checksums_path}"
-
-expected_checksum="$(grep -E "[ *]${archive_name}$" "${checksums_path}" | awk '{print $1}')"
-if [[ -z "${expected_checksum}" ]]; then
-  echo "Checksum not found for ${archive_name}"
-  exit 1
-fi
 
 actual_checksum="$(shasum -a 256 "${archive_path}" | awk '{print $1}')"
 if [[ "${actual_checksum}" != "${expected_checksum}" ]]; then
