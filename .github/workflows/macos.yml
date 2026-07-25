@@ -13,6 +13,7 @@ on:
 env:
   OPENCV_VERSION: 5.0.0
   CACHE_VERSION: "1"
+  MEDIAMTX_VERSION: 1.19.3
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -349,6 +350,11 @@ jobs:
           DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
             --logger "trx;LogFileName=test-results.trx" \
             --blame-crash --blame-crash-dump-type full < /dev/null
+
+      - name: Test RTSP capture
+        uses: ./.github/actions/test-rtsp-macos
+        with:
+          mediamtx-version: ${{ env.MEDIAMTX_VERSION }}
 
       - name: Test Avalonia extensions
         run: |

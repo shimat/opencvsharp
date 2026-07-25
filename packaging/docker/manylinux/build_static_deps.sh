@@ -35,6 +35,7 @@ dnf install -y nasm yasm
 # ---------------------------------------------------------------------------
 # FFmpeg (LGPL v2.1+ — statically linked, no patented external codecs)
 # Internal decoders cover H.264, H.265, VP8, VP9, MPEG-4, MPEG-2, and many others.
+# Networking remains enabled so videoio can open RTSP and other network streams.
 # Hwaccel autodetection (vaapi/vdpau/v4l2-m2m) is disabled explicitly: this build
 # never uses hardware acceleration, but if libva happens to be present in the
 # build container, FFmpeg's configure would auto-enable vaapi and silently add
@@ -59,7 +60,7 @@ cd "ffmpeg-${FFMPEG_VERSION}"
     --disable-doc \
     --disable-programs \
     --disable-debug \
-    --disable-network \
+    --enable-network \
     --disable-avdevice \
     --disable-postproc \
     --enable-avcodec \

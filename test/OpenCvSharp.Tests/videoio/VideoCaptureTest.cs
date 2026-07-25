@@ -12,6 +12,12 @@ namespace OpenCvSharp.Tests.VideoIO;
         // True only when a real V4L2 device is present (e.g. /dev/video0)
         public static bool HasV4L2Device => IsLinux && Directory.EnumerateFiles("/dev", "video*").Any();
 
+        private const string RtspUrlEnvironmentVariable = "OPENCVSHARP_TEST_RTSP_URL";
+
+        // The CI workflows start a local MediaMTX instance and set this URL.
+        public static bool HasRtspTestUrl =>
+            !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(RtspUrlEnvironmentVariable));
+
         // Backend used for the custom-stream (IStreamReader/Stream) VideoCapture tests below.
         // FFMPEG's custom-stream support (VideoCapture(Ptr<IStreamReader>, ...)) is flaky on the
         // Windows CI runners' prebuilt FFmpeg plugin DLL (createCapture(stream, ...) reports not
@@ -98,6 +104,30 @@ namespace OpenCvSharp.Tests.VideoIO;
             {
                 Window.ShowImages(frame1, frame2, frame3, frame4);
             }
+        }
+
+        [Fact(
+            Skip = $"Set {RtspUrlEnvironmentVariable} to run the RTSP integration test",
+            SkipUnless = nameof(HasRtspTestUrl))]
+        public void ReadRtspStreamWithFFmpeg()
+        {
+            var url = Environment.GetEnvironmentVariable(RtspUrlEnvironmentVariable)!;
+            using var capture = new VideoCapture(
+                url,
+                VideoCaptureAPIs.FFMPEG,
+                [
+                    (int)VideoCaptureProperties.OpenTimeoutMsec, 10_000,
+                    (int)VideoCaptureProperties.ReadTimeoutMsec, 10_000,
+                ]);
+
+            Assert.True(capture.IsOpened());
+            Assert.Equal("FFMPEG", capture.GetBackendName());
+
+            using var frame = new Mat();
+            Assert.True(capture.Read(frame));
+            Assert.False(frame.Empty());
+            Assert.True(frame.Width > 0);
+            Assert.True(frame.Height > 0);
         }
 
         [Fact]

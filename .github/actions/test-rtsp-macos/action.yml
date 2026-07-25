@@ -1,0 +1,20 @@
+name: Test RTSP capture on macOS
+description: Run the OpenCvSharp RTSP integration test against a temporary MediaMTX server
+
+inputs:
+  mediamtx-version:
+    description: MediaMTX release version
+    required: true
+  mediamtx-sha256:
+    description: SHA-256 of the MediaMTX macOS arm64 archive
+    default: b57e9e2f2fe418b37048ab613ae05fb744ac260dbc3f2ba63a64f9f6cf00156e
+
+runs:
+  using: composite
+  steps:
+    - name: Run RTSP integration test
+      shell: bash
+      run: >-
+        bash "${{ github.action_path }}/test-rtsp.sh"
+        "${{ inputs.mediamtx-version }}"
+        "${{ inputs.mediamtx-sha256 }}"

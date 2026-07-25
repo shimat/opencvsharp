@@ -1,0 +1,20 @@
+name: Test RTSP capture on Windows
+description: Run the OpenCvSharp RTSP integration test against a temporary MediaMTX server
+
+inputs:
+  mediamtx-version:
+    description: MediaMTX release version
+    required: true
+  mediamtx-sha256:
+    description: SHA-256 of the MediaMTX Windows amd64 archive
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run RTSP integration test
+      shell: pwsh
+      run: >-
+        & "${{ github.action_path }}/test-rtsp.ps1"
+        -MediaMtxVersion "${{ inputs.mediamtx-version }}"
+        -MediaMtxSha256 "${{ inputs.mediamtx-sha256 }}"
