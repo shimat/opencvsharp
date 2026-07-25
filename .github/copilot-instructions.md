@@ -258,6 +258,8 @@ There is no custom native-library loader. Since `src/OpenCvSharp/` requires net8
 
 This repo has no `PULL_REQUEST_TEMPLATE.md`, so there's no fixed checklist to fill in — but that doesn't mean invent your own heading structure (`### Description`, `### Changes`, etc.). Look at a few recently merged PRs' bodies first and match their shape: a short plain-prose summary (no invented headings), optionally followed by a `## Test plan` checklist when the change needs one. Keep it terse — a large, sectioned write-up reads as noticeably more "AI-generated" than the plain style this repo's own history uses.
 
+When an agent creates a pull request or issue, it must inspect the repository's existing labels and apply at least one relevant label whenever a semantically appropriate label exists. If no existing label applies, explicitly report that instead of silently leaving the item unlabeled. Whenever an agent creates a pull request in this repository, it must also assign the pull request to `@shimat`. Verify both labels and assignees after creation before reporting the item as complete.
+
 ## Issue backlog
 
 `docs/issue-backlog.md` tracks actionable issues identified from closed/stale GitHub issues. Update the checkboxes as items are resolved.

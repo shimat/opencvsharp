@@ -15,6 +15,13 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 - [Troubleshoot native library loading](articles/troubleshooting/native-library-loading.md)
 - [Migrate from OpenCvSharp4 to OpenCvSharp5](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md)
 
+## Common tasks
+
+- [Access and modify pixels](articles/guides/pixel-access.md)
+- [Encode images and convert UI image types](articles/guides/image-conversion.md)
+- [Read and write video](articles/guides/video-io.md)
+- [Store matrices and parameters](articles/guides/file-storage.md)
+
 ## Supported platforms
 
 OpenCvSharp5 targets .NET 8 or later and provides runtime packages for Windows x64 and ARM64, Linux x64 and ARM64, macOS x64 and Apple Silicon, and WebAssembly. OpenCvSharp4 remains available for applications that require .NET Framework or .NET Standard.

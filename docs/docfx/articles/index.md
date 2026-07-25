@@ -11,6 +11,13 @@ Start with these pages in order:
 3. [Build your first application](getting-started/first-application.md).
 4. Learn how to [manage native resources](guides/resource-management.md).
 
+## Common tasks
+
+- [Access and modify pixels](guides/pixel-access.md)
+- [Encode images and convert UI image types](guides/image-conversion.md)
+- [Read and write video](guides/video-io.md)
+- [Store matrices and parameters in YAML, XML, or JSON](guides/file-storage.md)
+
 ## Existing applications
 
 OpenCvSharp5 is recommended for new applications targeting .NET 8 or later. Applications that use OpenCvSharp4 can follow the [OpenCvSharp4 to OpenCvSharp5 migration guide](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md).

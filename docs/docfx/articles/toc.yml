@@ -10,6 +10,14 @@
       href: getting-started/first-application.md
 - name: Guides
   items:
+    - name: Pixel Access
+      href: guides/pixel-access.md
+    - name: Image Encoding and Conversion
+      href: guides/image-conversion.md
+    - name: Video I/O
+      href: guides/video-io.md
+    - name: File Storage
+      href: guides/file-storage.md
     - name: Resource Management
       href: guides/resource-management.md
 - name: Troubleshooting
