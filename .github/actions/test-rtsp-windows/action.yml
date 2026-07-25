@@ -7,7 +7,7 @@ inputs:
     required: true
   mediamtx-sha256:
     description: SHA-256 of the MediaMTX Windows amd64 archive
-    default: 5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe
+    required: true
 
 runs:
   using: composite

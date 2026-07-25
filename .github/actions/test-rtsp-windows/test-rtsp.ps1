@@ -4,6 +4,7 @@ param(
     [string] $MediaMtxVersion,
 
     [Parameter(Mandatory = $true)]
+    [ValidatePattern("^[0-9a-fA-F]{64}$")]
     [string] $MediaMtxSha256
 )
 

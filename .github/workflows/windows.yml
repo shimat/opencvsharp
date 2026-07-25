@@ -16,6 +16,7 @@ on:
 env:
   OPENCV_VERSION: "5.0.0"
   MEDIAMTX_VERSION: "1.19.3"
+  MEDIAMTX_SHA256: "5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe"
 
 jobs:
   build:
@@ -195,6 +196,7 @@ jobs:
         uses: ./.github/actions/test-rtsp-windows
         with:
           mediamtx-version: ${{ env.MEDIAMTX_VERSION }}
+          mediamtx-sha256: ${{ env.MEDIAMTX_SHA256 }}
 
       - name: Upload crash dumps on failure
         if: failure()
