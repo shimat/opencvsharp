@@ -68,6 +68,7 @@ This example swaps the blue and red channels. For this particular operation, `Cv
 Use `RowSpan<T>` when only one row is needed:
 
 ```csharp
+using var grayscale = new Mat(480, 640, MatType.CV_8UC1);
 Span<byte> firstRow = grayscale.RowSpan<byte>(0);
 firstRow.Fill(0);
 ```

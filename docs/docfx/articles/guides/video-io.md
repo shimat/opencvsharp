@@ -64,8 +64,14 @@ if (!capture.IsOpened())
     throw new InvalidOperationException("Could not open input.mp4.");
 }
 
+using var frame = new Mat();
+if (!capture.Read(frame) || frame.Empty())
+{
+    throw new InvalidOperationException("Could not read the first frame.");
+}
+
 double fps = capture.Fps > 0 ? capture.Fps : 30;
-var frameSize = new Size((int)capture.FrameWidth, (int)capture.FrameHeight);
+var frameSize = new Size(frame.Width, frame.Height);
 int fourcc = VideoWriter.FourCC('M', 'J', 'P', 'G');
 
 using var writer = new VideoWriter("output.avi", fourcc, fps, frameSize);
@@ -74,7 +80,7 @@ if (!writer.IsOpened())
     throw new InvalidOperationException("Could not open output.avi.");
 }
 
-using var frame = new Mat();
+writer.Write(frame);
 while (capture.Read(frame) && !frame.Empty())
 {
     writer.Write(frame);
