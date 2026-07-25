@@ -57,7 +57,7 @@ runs:
     - name: Install system tools (${{ inputs.variant_label }})
       shell: bash
       run: |
-        pkgs="git zip unzip pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece"
+        pkgs="git zip unzip pkg-config ninja-build nasm yasm kernel-headers perl-IPC-Cmd perl-Time-Piece"
         if [ "${{ inputs.install_gtk3_devel }}" = "true" ]; then
           pkgs="$pkgs gtk3-devel"
         fi

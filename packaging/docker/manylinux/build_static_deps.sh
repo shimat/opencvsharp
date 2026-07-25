@@ -54,7 +54,6 @@ CONFIGURE_FLAGS=(
     --enable-static
     --disable-shared
     --enable-pic
-    --disable-asm
     --disable-autodetect
     --disable-doc
     --disable-programs
@@ -88,6 +87,13 @@ mkdir -p "${INVENTORY_DIR}"
     echo
     echo "[configure-flags]"
     printf '%s\n' "${CONFIGURE_FLAGS[@]}"
+
+    echo
+    echo "[assembly]"
+    for option in inline_asm x86asm; do
+        value=$(awk -v macro="HAVE_${option^^}" '$1 == "#define" && $2 == macro { print $3 }' config.h)
+        echo "${option}=${value:-0}"
+    done
 
     for component in protocol demuxer muxer decoder encoder; do
         echo
