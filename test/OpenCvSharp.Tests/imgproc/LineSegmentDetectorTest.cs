@@ -28,4 +28,13 @@ public class LineSegmentDetectorTest : TestBase
         lsd.Detect(image, lines);
         Assert.False(lines.Empty());
     }
+
+    [Fact]
+    public void InvalidInputIsReportedAsManagedException()
+    {
+        using var colorImage = new Mat(10, 10, MatType.CV_8UC3);
+        using var detector = LineSegmentDetector.Create();
+
+        Assert.Throws<OpenCVException>(() => detector.Detect(colorImage, out _, out _, out _, out _));
+    }
 }

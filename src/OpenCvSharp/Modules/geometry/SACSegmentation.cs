@@ -23,15 +23,32 @@ public class SACSegmentation : Algorithm
     /// </param>
     public delegate bool ModelConstraintFunction(double[] modelCoefficients);
 
-    // Roots the context (and thus the delegate) for the lifetime of this instance, or until replaced,
-    // so the GC does not collect it while native code may still invoke the callback during Segment().
-    // The native-facing function pointer passed alongside it is always the fixed trampoline below.
-    private GCHandle constraintContextHandle;
+    private sealed class ConstraintCallbackRegistration : IDisposable
+    {
+        private GCHandle handle;
+
+        public IntPtr UserData => GCHandle.ToIntPtr(handle);
+
+        public ConstraintCallbackRegistration(ModelConstraintFunction callback)
+        {
+            handle = GCHandle.Alloc(callback);
+        }
+
+        public void Dispose()
+        {
+            if (handle.IsAllocated)
+                handle.Free();
+        }
+    }
+
+    // The holder is released by the owning SafeHandle after the native SACSegmentation is deleted.
+    private readonly DisposableObjectHolder<ConstraintCallbackRegistration> constraintCallbackHolder = new();
     private ModelConstraintFunction? customModelConstraints;
 
     private SACSegmentation(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.geometry_Ptr_SACSegmentation_delete(p)))
     {
+        SetPostReleaseAction(constraintCallbackHolder.Dispose);
     }
 
     /// <summary>
@@ -264,27 +281,29 @@ public class SACSegmentation : Algorithm
     {
         ThrowIfDisposed();
 
-        this.customModelConstraints = customModelConstraints;
-
-        var oldHandle = constraintContextHandle;
+        ConstraintCallbackRegistration? newRegistration = null;
         var callbackPtr = IntPtr.Zero;
         var userData = IntPtr.Zero;
         if (customModelConstraints is not null)
         {
-            constraintContextHandle = GCHandle.Alloc(customModelConstraints);
+            newRegistration = new ConstraintCallbackRegistration(customModelConstraints);
             callbackPtr = GetConstraintTrampolinePointer();
-            userData = GCHandle.ToIntPtr(constraintContextHandle);
+            userData = newRegistration.UserData;
         }
-        else
+
+        try
         {
-            constraintContextHandle = default;
+            NativeMethods.HandleException(
+                NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));
+        }
+        catch
+        {
+            newRegistration?.Dispose();
+            throw;
         }
 
-        NativeMethods.HandleException(
-            NativeMethods.geometry_SACSegmentation_setCustomModelConstraints(Handle, callbackPtr, userData));
-
-        if (oldHandle.IsAllocated)
-            oldHandle.Free();
+        constraintCallbackHolder.Replace(newRegistration);
+        this.customModelConstraints = customModelConstraints;
     }
 
     /// <summary>
@@ -318,11 +337,4 @@ public class SACSegmentation : Algorithm
     private static unsafe IntPtr GetConstraintTrampolinePointer() =>
         (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int>)&ModelConstraintTrampoline;
 
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        if (constraintContextHandle.IsAllocated)
-            constraintContextHandle.Free();
-        base.DisposeManaged();
-    }
 }

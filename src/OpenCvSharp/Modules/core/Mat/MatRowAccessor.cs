@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace OpenCvSharp;
 
 /// <summary>
@@ -60,17 +62,28 @@ public readonly ref struct MatRowAccessor<T> where T : unmanaged
     /// <summary>
     /// Returns a <see cref="Span{T}"/> over the specified row.
     /// No P/Invoke is performed; this is pure pointer arithmetic.
-    /// Bounds are checked in DEBUG builds only.
+    /// The row index is bounds checked. Use <see cref="DangerousGetRowUnchecked"/> only when the
+    /// caller has already proved that the index is valid and profiling shows the check is significant.
     /// </summary>
     /// <param name="row">Zero-based row index.</param>
     public unsafe Span<T> this[int row]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if DEBUG
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)row, (uint)Count, nameof(row));
-#endif
-            return new Span<T>((void*)(_data + _step * row), _cols);
+            return DangerousGetRowUnchecked(row);
         }
     }
+
+    /// <summary>
+    /// Returns a row without validating <paramref name="row"/>.
+    /// </summary>
+    /// <remarks>
+    /// This method can expose memory outside the matrix when <paramref name="row"/> is invalid.
+    /// Prefer the checked indexer unless the caller has already established the bounds.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe Span<T> DangerousGetRowUnchecked(int row)
+        => new((void*)(_data + _step * row), _cols);
 }

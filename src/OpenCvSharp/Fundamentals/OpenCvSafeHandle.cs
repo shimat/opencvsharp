@@ -8,6 +8,8 @@ namespace OpenCvSharp;
 /// </summary>
 public abstract class OpenCvSafeHandle : SafeHandle
 {
+    private Action? postReleaseAction;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="OpenCvSafeHandle"/> class that owns the handle.
     /// </summary>
@@ -44,6 +46,42 @@ public abstract class OpenCvSafeHandle : SafeHandle
 
     /// <inheritdoc />
     public override bool IsInvalid => handle == IntPtr.Zero;
+
+    /// <summary>
+    /// Registers cleanup that must run after the native handle has been released.
+    /// This is used for callback contexts whose lifetime is bounded by the native owner.
+    /// </summary>
+    internal void SetPostReleaseAction(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        if (IsClosed)
+            throw new ObjectDisposedException(GetType().FullName);
+        if (Interlocked.CompareExchange(ref postReleaseAction, action, null) is not null)
+            throw new InvalidOperationException("A post-release action has already been registered.");
+    }
+
+    /// <summary>
+    /// Runs and clears the registered post-release cleanup without allowing an exception
+    /// to escape the SafeHandle critical-finalizer path.
+    /// </summary>
+    protected bool RunPostReleaseAction()
+    {
+#pragma warning disable CA1031 // Exceptions must never escape a SafeHandle critical-finalizer path.
+        var action = Interlocked.Exchange(ref postReleaseAction, null);
+        if (action is null)
+            return true;
+
+        try
+        {
+            action();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+#pragma warning restore CA1031
+    }
 
     /// <summary>
     /// A non-owning handle wrapping a null native pointer. Pass this for an optional

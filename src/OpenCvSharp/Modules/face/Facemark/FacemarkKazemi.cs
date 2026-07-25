@@ -9,11 +9,13 @@ namespace OpenCvSharp.Face;
 /// </summary>
 public sealed class FacemarkKazemi : Facemark
 {
-    private FacemarkFaceDetectorBridge? faceDetectorBridge;
+    private readonly DisposableObjectHolder<FacemarkFaceDetectorBridge> faceDetectorBridgeHolder = new();
+
     private FacemarkKazemi(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p =>
             NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkKazemi_delete(p)))
     {
+        SetPostReleaseAction(faceDetectorBridgeHolder.Dispose);
     }
 
     /// <summary>
@@ -95,8 +97,7 @@ public sealed class FacemarkKazemi : Facemark
         ArgumentNullException.ThrowIfNull(detector);
         var newBridge = new FacemarkFaceDetectorBridge(
             Handle, detector, NativeMethods.face_FacemarkKazemi_setFaceDetector);
-        faceDetectorBridge?.Dispose();
-        faceDetectorBridge = newBridge;
+        faceDetectorBridgeHolder.Replace(newBridge);
     }
 
     /// <summary>
@@ -134,14 +135,6 @@ public sealed class FacemarkKazemi : Facemark
 
         NativeMethods.HandleException(NativeMethods.face_FacemarkKazemi_read(Handle, fn.CvPtr));
         GC.KeepAlive(fn);
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        faceDetectorBridge?.Dispose();
-        faceDetectorBridge = null;
-        base.DisposeManaged();
     }
 
 #pragma warning disable CA1034

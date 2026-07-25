@@ -21,7 +21,11 @@ public abstract class CvPtrObject : CvObject
         this.smartPtr = smartPtr;
         // The handle is the raw T* (so it marshals correctly to P/Invoke), but releasing it must
         // delete the smart pointer that actually owns the lifetime.
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true, releaseAction: _ => releaseSmartPtr(smartPtr)));
+        SetSafeHandle(new OpenCvPtrSafeHandle(
+            rawPtr,
+            ownsHandle: true,
+            releaseAction: _ => releaseSmartPtr(smartPtr),
+            releaseNullHandle: smartPtr != IntPtr.Zero));
     }
 
     /// <summary>

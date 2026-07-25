@@ -82,6 +82,16 @@ public abstract class CvObject : IDisposable
     }
 
     /// <summary>
+    /// Registers cleanup that runs after the owned native handle is released, including
+    /// when cleanup is initiated by the SafeHandle finalizer.
+    /// </summary>
+    protected void SetPostReleaseAction(Action action)
+    {
+        var handle = safeHandle ?? throw new InvalidOperationException("A SafeHandle must be set first.");
+        handle.SetPostReleaseAction(action);
+    }
+
+    /// <summary>
     /// Releases the resources
     /// </summary>
     public void Dispose()

@@ -41,7 +41,13 @@ jobs:
       # -- vcpkg (image libs) --------------------------------------------------
       - name: Bootstrap vcpkg
         run: |
-          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /tmp/vcpkg
+          set -euo pipefail
+          vcpkg_commit="$(sed -n 's/.*"builtin-baseline": *"\([^"]*\)".*/\1/p' "${GITHUB_WORKSPACE}/vcpkg.json")"
+          test -n "${vcpkg_commit}"
+          git init /tmp/vcpkg
+          git -C /tmp/vcpkg remote add origin https://github.com/microsoft/vcpkg.git
+          git -C /tmp/vcpkg fetch --depth 1 origin "${vcpkg_commit}"
+          git -C /tmp/vcpkg checkout --detach FETCH_HEAD
           /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
       - name: Restore vcpkg package cache
@@ -195,7 +201,13 @@ jobs:
       # -- vcpkg (image libs) --------------------------------------------------
       - name: Bootstrap vcpkg
         run: |
-          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /tmp/vcpkg
+          set -euo pipefail
+          vcpkg_commit="$(sed -n 's/.*"builtin-baseline": *"\([^"]*\)".*/\1/p' "${GITHUB_WORKSPACE}/vcpkg.json")"
+          test -n "${vcpkg_commit}"
+          git init /tmp/vcpkg
+          git -C /tmp/vcpkg remote add origin https://github.com/microsoft/vcpkg.git
+          git -C /tmp/vcpkg fetch --depth 1 origin "${vcpkg_commit}"
+          git -C /tmp/vcpkg checkout --detach FETCH_HEAD
           /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
       - name: Restore vcpkg package cache

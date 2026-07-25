@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -3042,7 +3043,7 @@ public partial class Mat : CvObject
         
     #region Get/SetArray
 
-    private static readonly Dictionary<Type, int> dataDimensionMap = new()
+    private static readonly FrozenDictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
     {
         {typeof(byte), 1},
         {typeof(sbyte), 1},
@@ -3088,9 +3089,9 @@ public partial class Mat : CvObject
         {typeof(Vec6i), 6},
         {typeof(Vec6f), 6},
         {typeof(Vec6d), 6},
-    };
+    }.ToFrozenDictionary();
         
-    private static readonly Dictionary<Type, MatType[]> acceptableTypesMap = new()
+    private static readonly FrozenDictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
     {
         {typeof(byte), [MatType.CV_8SC1, MatType.CV_8UC1] },
         {typeof(sbyte), [MatType.CV_8SC1, MatType.CV_8UC1] },
@@ -3136,7 +3137,7 @@ public partial class Mat : CvObject
         {typeof(Vec6i), [MatType.CV_32SC(6)] },
         {typeof(Vec6f), [MatType.CV_32FC(6)] },
         {typeof(Vec6d), [MatType.CV_64FC(6)] },
-    };
+    }.ToFrozenDictionary();
 
     private void CheckArgumentsForConvert<T>(Array data)
         where T : unmanaged
@@ -3151,7 +3152,7 @@ public partial class Mat : CvObject
             throw new ArgumentException($"Type argument {typeof(T)} is not supported");
 
         var t = Type();
-        if ((data.Length * dataDimension) % t.Channels != 0)
+        if (checked(data.LongLength * dataDimension) % t.Channels != 0)
             throw new OpenCvSharpException(
                 $"Provided data element number ({data.Length}) should be multiple of the Mat channels count ({t.Channels})");
 
@@ -3160,6 +3161,20 @@ public partial class Mat : CvObject
             var isValidDepth = acceptableTypes.Any(type => type == t);
             if (!isValidDepth)
                 throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+        }
+    }
+
+    private unsafe void CheckSourceBufferSize<T>(Array data)
+        where T : unmanaged
+    {
+        var requiredBytes = checked(Total() * ElemSize());
+        var suppliedBytes = checked(data.LongLength * sizeof(T));
+        if (suppliedBytes < requiredBytes)
+        {
+            throw new ArgumentException(
+                $"The source array is too small. At least {requiredBytes} bytes are required, " +
+                $"but only {suppliedBytes} bytes were provided.",
+                nameof(data));
         }
     }
 
@@ -3246,6 +3261,7 @@ public partial class Mat : CvObject
         where T : unmanaged
     {
         CheckArgumentsForConvert<T>(data);
+        CheckSourceBufferSize<T>(data);
 
         unsafe
         {
@@ -3267,6 +3283,7 @@ public partial class Mat : CvObject
         where T : unmanaged
     {
         CheckArgumentsForConvert<T>(data);
+        CheckSourceBufferSize<T>(data);
 
         unsafe
         {

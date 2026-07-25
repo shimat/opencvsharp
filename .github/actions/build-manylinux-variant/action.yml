@@ -67,7 +67,13 @@ runs:
     - name: Bootstrap vcpkg (${{ inputs.variant_label }})
       shell: bash
       run: |
-        git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /opt/vcpkg
+        set -euo pipefail
+        vcpkg_commit="$(sed -n 's/.*"builtin-baseline": *"\([^"]*\)".*/\1/p' "${GITHUB_WORKSPACE}/vcpkg.json")"
+        test -n "${vcpkg_commit}"
+        git init /opt/vcpkg
+        git -C /opt/vcpkg remote add origin https://github.com/microsoft/vcpkg.git
+        git -C /opt/vcpkg fetch --depth 1 origin "${vcpkg_commit}"
+        git -C /opt/vcpkg checkout --detach FETCH_HEAD
         /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
     - name: Restore vcpkg package cache (${{ inputs.variant_label }})

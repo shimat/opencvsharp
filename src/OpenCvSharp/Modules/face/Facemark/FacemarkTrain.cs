@@ -8,13 +8,14 @@ namespace OpenCvSharp.Face;
 /// </summary>
 public abstract class FacemarkTrain : Facemark
 {
-    private FacemarkFaceDetectorBridge? faceDetectorBridge;
+    private readonly DisposableObjectHolder<FacemarkFaceDetectorBridge> faceDetectorBridgeHolder = new();
     /// <summary>
     /// Initializes a trainable facemark wrapper.
     /// </summary>
     protected FacemarkTrain(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
         : base(smartPtr, rawPtr, release)
     {
+        SetPostReleaseAction(faceDetectorBridgeHolder.Dispose);
     }
 
     /// <summary>
@@ -64,15 +65,6 @@ public abstract class FacemarkTrain : Facemark
         ArgumentNullException.ThrowIfNull(detector);
         var newBridge = new FacemarkFaceDetectorBridge(
             Handle, detector, NativeMethods.face_FacemarkTrain_setFaceDetector);
-        faceDetectorBridge?.Dispose();
-        faceDetectorBridge = newBridge;
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        faceDetectorBridge?.Dispose();
-        faceDetectorBridge = null;
-        base.DisposeManaged();
+        faceDetectorBridgeHolder.Replace(newBridge);
     }
 }

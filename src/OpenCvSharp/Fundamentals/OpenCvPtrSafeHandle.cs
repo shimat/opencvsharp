@@ -11,6 +11,7 @@ internal sealed class OpenCvPtrSafeHandle : OpenCvSafeHandle
     /// Delegate that performs the actual native resource release.
     /// </summary>
     private readonly Action<IntPtr>? releaseAction;
+    private readonly bool releaseNullHandle;
 
     /// <summary>
     /// Creates a new owning handle with a release action.
@@ -21,16 +22,39 @@ internal sealed class OpenCvPtrSafeHandle : OpenCvSafeHandle
     /// Action to invoke on <see cref="ReleaseHandle"/>. Typically wraps a P/Invoke delete call.
     /// May be <c>null</c> when <paramref name="ownsHandle"/> is <c>false</c>.
     /// </param>
-    public OpenCvPtrSafeHandle(IntPtr existingHandle, bool ownsHandle, Action<IntPtr>? releaseAction)
+    /// <param name="releaseNullHandle">
+    /// Whether a null raw handle still represents an owned resource that must invoke
+    /// <paramref name="releaseAction"/> (for example, a non-null empty cv::Ptr).
+    /// </param>
+    public OpenCvPtrSafeHandle(
+        IntPtr existingHandle,
+        bool ownsHandle,
+        Action<IntPtr>? releaseAction,
+        bool releaseNullHandle = false)
         : base(existingHandle, ownsHandle)
     {
         this.releaseAction = releaseAction;
+        this.releaseNullHandle = releaseNullHandle;
     }
+
+    /// <inheritdoc />
+    public override bool IsInvalid => !releaseNullHandle && base.IsInvalid;
 
     /// <inheritdoc />
     protected override bool ReleaseHandle()
     {
-        releaseAction?.Invoke(handle);
-        return true;
+#pragma warning disable CA1031 // Exceptions must never escape a SafeHandle critical-finalizer path.
+        var released = true;
+        try
+        {
+            releaseAction?.Invoke(handle);
+        }
+        catch
+        {
+            released = false;
+        }
+
+        return released && RunPostReleaseAction();
+#pragma warning restore CA1031
     }
 }

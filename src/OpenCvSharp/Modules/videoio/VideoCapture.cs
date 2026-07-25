@@ -17,7 +17,7 @@ public class VideoCapture : CvObject
     /// <summary>
     /// Keeps the stream-reader callback delegates alive for as long as this VideoCapture may call back into them.
     /// </summary>
-    private StreamReaderBridge? streamReaderBridge;
+    private readonly DisposableObjectHolder<StreamReaderBridge> streamReaderBridgeHolder = new();
 
     #region Init and Disposal
 
@@ -141,10 +141,9 @@ public class VideoCapture : CvObject
             throw new OpenCvSharpException("Failed to create VideoCapture");
         }
 
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = newBridge;
         captureType = CaptureType.File;
         InitSafeHandle(p);
+        streamReaderBridgeHolder.Replace(newBridge);
     }
 
     /// <summary>
@@ -318,16 +317,11 @@ public class VideoCapture : CvObject
 
     private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
-            static h => NativeMethods.HandleException(NativeMethods.videoio_VideoCapture_delete(h))));
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = null;
-        base.DisposeManaged();
+        var handle = new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.videoio_VideoCapture_delete(h)));
+        if (ownsHandle)
+            handle.SetPostReleaseAction(streamReaderBridgeHolder.Dispose);
+        SetSafeHandle(handle);
     }
 
     #endregion
@@ -1161,8 +1155,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = null;
+        streamReaderBridgeHolder.Replace(null);
         return true;
     }
 
@@ -1198,8 +1191,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.File;
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = null;
+        streamReaderBridgeHolder.Replace(null);
         return true;
     }
 
@@ -1245,8 +1237,7 @@ public class VideoCapture : CvObject
             return false;
 
         captureType = CaptureType.Camera;
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = null;
+        streamReaderBridgeHolder.Replace(null);
         return true;
     }
 
@@ -1280,12 +1271,14 @@ public class VideoCapture : CvObject
             throw;
         }
 
-        streamReaderBridge?.Dispose();
-        streamReaderBridge = newBridge;
-
         if (ret == 0)
+        {
+            newBridge.Dispose();
+            streamReaderBridgeHolder.Replace(null);
             return false;
+        }
 
+        streamReaderBridgeHolder.Replace(newBridge);
         captureType = CaptureType.File;
         return true;
     }
