@@ -6,7 +6,7 @@ The FFmpeg build provides OpenCV's required libraries (`avcodec`, `avformat`, `a
 
 External-library autodetection is disabled. FFmpeg must not silently acquire a dependency merely because the manylinux container adds a development package. The glibc-provided iconv implementation is explicitly enabled and introduces no additional ELF dependency. Hardware acceleration, `libdrm`, `avdevice`, `avfilter`, post-processing, and `swresample` are intentionally excluded because the packaged OpenCV backend does not require them.
 
-x86 assembly optimizations are enabled. FFmpeg's assembly objects contain direct PC-relative references to global constants that cannot be interposed when their static archives are linked into `libOpenCvSharpExtern.so`. The Linux linker therefore hides symbols from the four private FFmpeg archives with `--exclude-libs`; this resolves those references without exporting FFmpeg's private implementation from the OpenCvSharp native binding.
+x86-64 assembly optimizations are enabled. FFmpeg's assembly objects contain direct PC-relative references to global constants that cannot be interposed when their static archives are linked into `libOpenCvSharpExtern.so`. The Linux linker therefore hides symbols from the four private FFmpeg archives with `--exclude-libs`; this resolves those references without exporting FFmpeg's private implementation from the OpenCvSharp native binding.
 
 TLS is not currently included, so HTTPS and RTSPS are outside the supported feature surface. Adding a TLS backend requires an explicit decision covering license compatibility, CA certificate discovery, binary size, transitive dependencies, manylinux portability, and regression tests.
 

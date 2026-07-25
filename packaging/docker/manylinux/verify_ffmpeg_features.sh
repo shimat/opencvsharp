@@ -67,7 +67,7 @@ fi
 
 if grep -qx -- '--disable-asm' "${INVENTORY_PATH}" ||
    ! grep -qx -- 'x86asm=1' "${INVENTORY_PATH}"; then
-    echo "ERROR: FFmpeg x86 assembly optimizations are disabled"
+    echo "ERROR: FFmpeg x86-64 assembly optimizations are disabled"
     exit 1
 fi
 

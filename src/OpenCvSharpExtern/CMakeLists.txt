@@ -65,7 +65,7 @@ if(OpenCV_FOUND)
 			# referenced by the resulting binary. See issue #2065.
 			target_link_options(OpenCvSharpExtern PRIVATE -Wl,--as-needed)
 
-			# FFmpeg's optimized x86 assembly uses direct PC-relative references to global
+			# FFmpeg's optimized x86-64 assembly uses direct PC-relative references to global
 			# constants. Keep the statically linked FFmpeg implementation private so those
 			# references bind locally when producing this shared library. See issue #2085.
 			foreach(ffmpeg_archive IN ITEMS libavcodec.a libavformat.a libavutil.a libswscale.a)
