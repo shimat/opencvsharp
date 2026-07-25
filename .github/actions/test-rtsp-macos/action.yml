@@ -1,0 +1,14 @@
+name: Test RTSP capture on macOS
+description: Run the OpenCvSharp RTSP integration test against a temporary MediaMTX server
+
+inputs:
+  mediamtx-version:
+    description: MediaMTX release version
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run RTSP integration test
+      shell: bash
+      run: bash "${{ github.action_path }}/test-rtsp.sh" "${{ inputs.mediamtx-version }}"
