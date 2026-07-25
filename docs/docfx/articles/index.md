@@ -9,13 +9,16 @@ Start with these pages in order:
 1. [Choose a version and package](getting-started/package-selection.md).
 2. [Install OpenCvSharp](getting-started/installation.md).
 3. [Build your first application](getting-started/first-application.md).
-4. Learn how to [manage native resources](guides/resource-management.md).
+4. Learn the [fundamentals of Mat](guides/mat-basics.md).
+5. Learn how to [manage native resources](guides/resource-management.md).
 
 ## Common tasks
 
+- [Build an image processing pipeline](guides/image-processing-pipeline.md)
 - [Access and modify pixels](guides/pixel-access.md)
 - [Encode images and convert UI image types](guides/image-conversion.md)
 - [Read and write video](guides/video-io.md)
+- [Detect and match local features](guides/feature-detection-and-matching.md)
 - [Store matrices and parameters in YAML, XML, or JSON](guides/file-storage.md)
 
 ## Existing applications

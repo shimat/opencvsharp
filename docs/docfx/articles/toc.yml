@@ -10,12 +10,18 @@
       href: getting-started/first-application.md
 - name: Guides
   items:
+    - name: Mat Basics
+      href: guides/mat-basics.md
     - name: Pixel Access
       href: guides/pixel-access.md
+    - name: Image Processing Pipeline
+      href: guides/image-processing-pipeline.md
     - name: Image Encoding and Conversion
       href: guides/image-conversion.md
     - name: Video I/O
       href: guides/video-io.md
+    - name: Feature Detection and Matching
+      href: guides/feature-detection-and-matching.md
     - name: File Storage
       href: guides/file-storage.md
     - name: Resource Management
