@@ -65,6 +65,12 @@ if ! grep -qx -- '--disable-autodetect' "${INVENTORY_PATH}"; then
     exit 1
 fi
 
+if grep -qx -- '--disable-asm' "${INVENTORY_PATH}" ||
+   ! grep -qx -- 'x86asm=1' "${INVENTORY_PATH}"; then
+    echo "ERROR: FFmpeg x86 assembly optimizations are disabled"
+    exit 1
+fi
+
 if grep -Eq '^(gnutls|libtls|mbedtls|openssl|schannel|securetransport)=1$' "${INVENTORY_PATH}"; then
     echo "ERROR: an unapproved TLS backend was enabled"
     grep -E '^(gnutls|libtls|mbedtls|openssl|schannel|securetransport)=' "${INVENTORY_PATH}"
