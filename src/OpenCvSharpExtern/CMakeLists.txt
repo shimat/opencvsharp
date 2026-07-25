@@ -107,10 +107,9 @@ if(OpenCV_FOUND)
 			COMMENT "Copying OpenCvSharpExtern.dll to test project"
 		)
 
-		# Derive the OpenCV install root from the cmake config path (lib/cmake/opencv4 → root)
-		get_filename_component(OPENCV_INSTALL_PREFIX "${OpenCV_DIR}/../../.." ABSOLUTE)
 		set(OPENCV_VER_STR "${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH}")
-		set(OPENCV_FFMPEG_DLL "${OPENCV_INSTALL_PREFIX}/bin/opencv_videoio_ffmpeg${OPENCV_VER_STR}_64.dll")
+		set(OPENCV_FFMPEG_DLL
+			"${OpenCV_INSTALL_PATH}/${OpenCV_ARCH}/${OpenCV_RUNTIME}/bin/opencv_videoio_ffmpeg${OPENCV_VER_STR}_64.dll")
 
 		if(EXISTS "${OPENCV_FFMPEG_DLL}")
 			add_custom_command(TARGET OpenCvSharpExtern POST_BUILD

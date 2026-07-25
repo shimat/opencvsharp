@@ -153,6 +153,14 @@ jobs:
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
           cmake --build src/build --config Release -j 4
 
+      - name: Verify FFmpeg plugin deployment
+        shell: pwsh
+        run: |
+          $ffmpegPlugin = "test\OpenCvSharp.Tests\opencv_videoio_ffmpeg500_64.dll"
+          if (-not (Test-Path $ffmpegPlugin)) {
+            throw "OpenCV FFmpeg plugin was not deployed to the test project: $ffmpegPlugin"
+          }
+
       - name: Build OpenCvSharpExtern (slim)
         shell: powershell
         run: |
