@@ -57,7 +57,7 @@ runs:
     - name: Install system tools (${{ inputs.variant_label }})
       shell: bash
       run: |
-        pkgs="git zip unzip nasm yasm pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece"
+        pkgs="git zip unzip pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece"
         if [ "${{ inputs.install_gtk3_devel }}" = "true" ]; then
           pkgs="$pkgs gtk3-devel"
         fi
@@ -104,6 +104,17 @@ runs:
       if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
       shell: bash
       run: bash packaging/docker/manylinux/build_static_deps.sh
+
+    - name: Verify FFmpeg feature surface (${{ inputs.variant_label }})
+      shell: bash
+      run: bash packaging/docker/manylinux/verify_ffmpeg_features.sh
+
+    - name: Upload FFmpeg feature inventory
+      if: inputs.save_shared_caches == 'true'
+      uses: actions/upload-artifact@v7
+      with:
+        name: ffmpeg-feature-inventory
+        path: /opt/ffmpeg/share/opencvsharp/ffmpeg-feature-inventory.txt
 
     - name: Save FFmpeg cache (${{ inputs.variant_label }})
       if: steps.ffmpeg-cache.outputs.cache-hit != 'true' && inputs.save_shared_caches == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -223,8 +234,7 @@ runs:
         cmake --build ${{ inputs.extern_build_dir }} -j
         cp ${{ inputs.extern_build_dir }}/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
 
-    - name: Verify no GTK3/X11/DRM dependency (${{ inputs.variant_label }})
-      if: inputs.verify_no_gui_deps == 'true'
+    - name: Verify ELF dependencies (${{ inputs.variant_label }})
       shell: bash
       run: |
         so_path=${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
@@ -240,7 +250,7 @@ runs:
           echo "ERROR: readelf found no NEEDED entries at all in ${{ inputs.variant_label }} .so - the check itself is broken, treat as inconclusive"
           exit 1
         fi
-        if echo "$needed" | grep -qi 'libgtk\|libx11\|libdrm'; then
+        if [ "${{ inputs.verify_no_gui_deps }}" = "true" ] && echo "$needed" | grep -qi 'libgtk\|libx11\|libdrm'; then
           echo "ERROR: ${{ inputs.variant_label }} .so unexpectedly depends on GTK3/X11/DRM:"
           echo "$needed"
           exit 1

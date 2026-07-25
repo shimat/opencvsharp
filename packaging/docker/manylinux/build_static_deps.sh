@@ -28,14 +28,11 @@ if [[ -f "${INSTALL_PREFIX}/lib/pkgconfig/libavcodec.pc" ]]; then
 fi
 
 # ---------------------------------------------------------------------------
-# System build tools (nasm/yasm required by FFmpeg's assembly optimisations)
-# ---------------------------------------------------------------------------
-dnf install -y nasm yasm
-
-# ---------------------------------------------------------------------------
 # FFmpeg (LGPL v2.1+ — statically linked, no patented external codecs)
 # Internal decoders cover H.264, H.265, VP8, VP9, MPEG-4, MPEG-2, and many others.
 # Networking remains enabled so videoio can open RTSP and other network streams.
+# External-library autodetection is disabled so the feature set and final ELF
+# dependencies do not change when the manylinux image adds a development package.
 # Hwaccel autodetection (vaapi/vdpau/v4l2-m2m) is disabled explicitly: this build
 # never uses hardware acceleration, but if libva happens to be present in the
 # build container, FFmpeg's configure would auto-enable vaapi and silently add
@@ -51,28 +48,67 @@ curl -fL --retry 5 --retry-delay 2 \
     -o ffmpeg.tar.xz
 tar xf ffmpeg.tar.xz
 cd "ffmpeg-${FFMPEG_VERSION}"
-./configure \
-    --prefix="${INSTALL_PREFIX}" \
-    --enable-static \
-    --disable-shared \
-    --enable-pic \
-    --disable-asm \
-    --disable-doc \
-    --disable-programs \
-    --disable-debug \
-    --enable-network \
-    --disable-avdevice \
-    --disable-postproc \
-    --enable-avcodec \
-    --enable-avformat \
-    --enable-avutil \
-    --enable-swscale \
-    --enable-swresample \
-    --disable-vaapi \
-    --disable-vdpau \
-    --disable-v4l2-m2m \
+
+CONFIGURE_FLAGS=(
+    --prefix="${INSTALL_PREFIX}"
+    --enable-static
+    --disable-shared
+    --enable-pic
+    --disable-asm
+    --disable-autodetect
+    --disable-doc
+    --disable-programs
+    --disable-debug
+    --enable-network
+    --enable-iconv
+    --disable-avdevice
+    --disable-avfilter
+    --disable-postproc
+    --disable-swresample
+    --enable-avcodec
+    --enable-avformat
+    --enable-avutil
+    --enable-swscale
+    --disable-vaapi
+    --disable-vdpau
+    --disable-v4l2-m2m
     --disable-libdrm
+)
+
+./configure "${CONFIGURE_FLAGS[@]}"
 make -j"${NPROC}"
 make install
 
+INVENTORY_DIR="${INSTALL_PREFIX}/share/opencvsharp"
+INVENTORY_PATH="${INVENTORY_DIR}/ffmpeg-feature-inventory.txt"
+mkdir -p "${INVENTORY_DIR}"
+
+{
+    echo "FFmpeg ${FFMPEG_VERSION}"
+    echo
+    echo "[configure-flags]"
+    printf '%s\n' "${CONFIGURE_FLAGS[@]}"
+
+    for component in protocol demuxer muxer decoder encoder; do
+        echo
+        echo "[${component}s]"
+        awk -v suffix="_${component^^}" '
+            $1 == "#define" && $3 == "1" && index($2, "CONFIG_") == 1 &&
+                substr($2, length($2) - length(suffix) + 1) == suffix {
+                name = substr($2, length("CONFIG_") + 1)
+                name = substr(name, 1, length(name) - length(suffix))
+                print tolower(name)
+            }
+        ' config_components.h | sort
+    done
+
+    echo
+    echo "[tls-backends]"
+    for backend in gnutls libtls mbedtls openssl schannel securetransport; do
+        value=$(awk -v macro="CONFIG_${backend^^}" '$1 == "#define" && $2 == macro { print $3 }' config.h)
+        echo "${backend}=${value:-0}"
+    done
+} > "${INVENTORY_PATH}"
+
+echo "FFmpeg feature inventory written to ${INVENTORY_PATH}"
 echo "FFmpeg installed to ${INSTALL_PREFIX}"
