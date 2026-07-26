@@ -1,6 +1,8 @@
 # OpenCvSharp
 
-A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image processing and computer vision functionality.
+A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image processing and computer vision functionality. Its API is intentionally designed to stay as close as practical to the native OpenCV C++ API while using C# conventions such as typed enums, exceptions, and deterministic disposal.
+
+See [OpenCV C++, OpenCV-Python, and OpenCvSharp](https://shimat.github.io/opencvsharp/articles/getting-started/opencv-api-comparison.html) for the main API and data-model differences.
 
 > This is the **OpenCvSharp5** family (OpenCV 5.x, .NET 8+). If you need .NET Framework, Unity, or another pre-.NET 8 runtime, use the **OpenCvSharp4** family (OpenCV 4.13.0) instead.
 

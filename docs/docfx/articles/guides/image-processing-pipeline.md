@@ -91,7 +91,14 @@ When a final result is wrong, intermediate images show which stage first lost th
 
 - [Mat Basics](mat-basics.md)
 - [Pixel Access](pixel-access.md)
+- [Thresholding, Masks, and Morphology](thresholding-masks-morphology.md)
+- [Contours and Shape Analysis](contours-shape-analysis.md)
 - [Resource Management](resource-management.md)
+
+## Official OpenCV references
+
+- [OpenCV image processing tutorials](https://docs.opencv.org/5.0/tutorials/imgproc/imgproc.html)
+- [OpenCV image processing API](https://docs.opencv.org/5.0/main_modules/imgproc.html)
 
 ## Related API
 

@@ -76,6 +76,12 @@ The caller owns and disposes the returned `Mat`. The method disposes the result 
 
 `Window` and other OpenCvSharp wrappers that implement `IDisposable` follow the same rule. Scope them with `using` rather than relying on finalization.
 
+## Official OpenCV references
+
+- [Mat: the basic image container](https://docs.opencv.org/5.0/tutorials/core/mat_the_basic_image_container/mat_the_basic_image_container.html)
+
+The OpenCV reference explains native `cv::Mat` header and buffer ownership. OpenCvSharp adds managed `IDisposable` wrappers, so follow the .NET ownership rules in this guide even when translating a C++ example.
+
 ## Related API
 
 - [Mat](xref:OpenCvSharp.Mat)

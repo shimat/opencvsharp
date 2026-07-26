@@ -8,6 +8,8 @@
       href: getting-started/installation.md
     - name: First Application
       href: getting-started/first-application.md
+    - name: From OpenCV C++ or Python
+      href: getting-started/opencv-api-comparison.md
 - name: Guides
   items:
     - name: Mat Basics
@@ -18,8 +20,16 @@
       href: guides/image-processing-pipeline.md
     - name: Histograms and Contrast
       href: guides/histograms-and-contrast.md
+    - name: Geometric Transformations
+      href: guides/geometric-transformations.md
+    - name: Thresholding, Masks, and Morphology
+      href: guides/thresholding-masks-morphology.md
+    - name: Contours and Shape Analysis
+      href: guides/contours-shape-analysis.md
     - name: Image Encoding and Conversion
       href: guides/image-conversion.md
+    - name: Display Images in .NET Applications
+      href: guides/displaying-images-dotnet.md
     - name: Video I/O
       href: guides/video-io.md
     - name: Feature Detection and Matching
@@ -30,5 +40,7 @@
       href: guides/resource-management.md
 - name: Troubleshooting
   items:
+    - name: Common Errors and Diagnostics
+      href: troubleshooting/common-errors.md
     - name: Native Library Loading
       href: troubleshooting/native-library-loading.md
