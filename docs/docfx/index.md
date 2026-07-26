@@ -19,17 +19,25 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 - [Troubleshoot native library loading](articles/troubleshooting/native-library-loading.md)
 - [Migrate from OpenCvSharp4 to OpenCvSharp5](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md)
 
-## Common tasks
+## .NET application guides
 
+- [Browse the OpenCvSharp and .NET guides](articles/guides/index.md)
 - [Access and modify pixels](articles/guides/pixel-access.md)
-- [Resize, crop, rotate, and rectify images](articles/guides/geometric-transformations.md)
-- [Create masks and analyze shapes](articles/guides/thresholding-masks-morphology.md)
-- [Measure contours and connected components](articles/guides/contours-shape-analysis.md)
 - [Encode images and convert UI image types](articles/guides/image-conversion.md)
 - [Process uploaded images and streams in ASP.NET Core](articles/guides/aspnet-image-processing.md)
 - [Display images in .NET UI frameworks](articles/guides/displaying-images-dotnet.md)
 - [Read and write video](articles/guides/video-io.md)
 - [Store matrices and parameters](articles/guides/file-storage.md)
+
+## OpenCV examples
+
+- [Browse the OpenCV examples](articles/opencv-examples/index.md)
+- [Build an image processing pipeline](articles/opencv-examples/image-processing-pipeline.md)
+- [Analyze histograms and improve contrast](articles/opencv-examples/histograms-and-contrast.md)
+- [Resize, crop, rotate, and rectify images](articles/opencv-examples/geometric-transformations.md)
+- [Create masks and analyze shapes](articles/opencv-examples/thresholding-masks-morphology.md)
+- [Measure contours and connected components](articles/opencv-examples/contours-shape-analysis.md)
+- [Detect and match local features](articles/opencv-examples/feature-detection-and-matching.md)
 
 ## Supported platforms
 

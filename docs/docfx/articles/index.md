@@ -1,4 +1,4 @@
-# OpenCvSharp Guides
+# OpenCvSharp Documentation
 
 These guides explain how to select, install, and use OpenCvSharp. They complement the [API reference](../api/index.md), which is generated from the OpenCvSharp source code and XML documentation comments.
 
@@ -15,22 +15,31 @@ Start with these pages in order:
 
 Already familiar with OpenCV C++ or OpenCV-Python? Start with the [API comparison and translation guide](getting-started/opencv-api-comparison.md).
 
-## Common tasks
+## OpenCvSharp and .NET guides
 
-- [Build an image processing pipeline](guides/image-processing-pipeline.md)
-- [Analyze histograms and improve contrast](guides/histograms-and-contrast.md)
-- [Resize, crop, rotate, and rectify images](guides/geometric-transformations.md)
-- [Create and refine masks](guides/thresholding-masks-morphology.md)
-- [Measure contours and connected components](guides/contours-shape-analysis.md)
-- [Access and modify pixels](guides/pixel-access.md)
+- [Browse the OpenCvSharp and .NET guides](guides/index.md)
+- [Learn the Mat data model](guides/mat-basics.md)
+- [Manage native resources](guides/resource-management.md)
 - [Use InputArray, OutputArray, and in-place processing safely](guides/input-output-arrays-and-in-place.md)
 - [Control copies, native memory, and hot-loop allocations](guides/memory-copy-and-performance.md)
+- [Access and modify pixels](guides/pixel-access.md)
 - [Encode images and convert UI image types](guides/image-conversion.md)
+- [Store matrices and parameters in YAML, XML, or JSON](guides/file-storage.md)
 - [Process uploaded images and streams in ASP.NET Core](guides/aspnet-image-processing.md)
 - [Display images in .NET UI frameworks](guides/displaying-images-dotnet.md)
 - [Read and write video](guides/video-io.md)
-- [Detect and match local features](guides/feature-detection-and-matching.md)
-- [Store matrices and parameters in YAML, XML, or JSON](guides/file-storage.md)
+
+## OpenCV examples
+
+These examples demonstrate OpenCV features through their OpenCvSharp APIs. Use the official OpenCV references linked from each page for algorithm theory and parameter definitions.
+
+- [Browse the OpenCV examples](opencv-examples/index.md)
+- [Build an image processing pipeline](opencv-examples/image-processing-pipeline.md)
+- [Analyze histograms and improve contrast](opencv-examples/histograms-and-contrast.md)
+- [Resize, crop, rotate, and rectify images](opencv-examples/geometric-transformations.md)
+- [Create and refine masks](opencv-examples/thresholding-masks-morphology.md)
+- [Measure contours and connected components](opencv-examples/contours-shape-analysis.md)
+- [Detect and match local features](opencv-examples/feature-detection-and-matching.md)
 
 ## Existing applications
 

@@ -1,6 +1,6 @@
 # Geometric Transformations
 
-Geometric transformations change an image's size, orientation, or coordinate system. OpenCvSharp follows the native OpenCV model: a source `Mat`, a destination `Mat`, a transformation definition, and an interpolation or border policy.
+This example introduces OpenCV operations that change an image's size, orientation, or coordinate system. OpenCvSharp follows the native OpenCV model: a source `Mat`, a destination `Mat`, a transformation definition, and an interpolation or border policy.
 
 ## Resize an image
 

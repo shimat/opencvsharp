@@ -1,6 +1,6 @@
 # Contours and Shape Analysis
 
-Contours describe object boundaries in a binary image. They are useful for measuring area, locating bounding boxes, approximating shapes, and drawing annotations.
+This example introduces OpenCV contour and connected-component operations for analyzing object boundaries and filled regions. They are useful for measuring area, locating bounding boxes, approximating shapes, and drawing annotations.
 
 ## Prepare a binary input
 
