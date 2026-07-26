@@ -3,7 +3,7 @@ using Xunit;
 namespace OpenCvSharp.Tests;
 
 /// <summary>
-/// RedirectError tests
+/// Native exception propagation tests.
 /// </summary>
 public class ExceptionTest : TestBase
 {
