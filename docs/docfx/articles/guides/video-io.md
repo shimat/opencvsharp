@@ -95,6 +95,11 @@ Codec availability depends on the operating system, OpenCV build, backend, and o
 
 `Cv2.ImShow` and `Cv2.WaitKey` require `highgui` and a graphical environment. They are unavailable in the Linux headless and slim runtime packages. Services should process, encode, or stream frames without creating native windows.
 
+## Official OpenCV references
+
+- [OpenCV Video I/O](https://docs.opencv.org/5.0/main_modules/videoio.html)
+- [OpenCV application utilities](https://docs.opencv.org/5.0/tutorials/application_utils/application_utils.html)
+
 ## Related API
 
 - [VideoCapture](xref:OpenCvSharp.VideoCapture)

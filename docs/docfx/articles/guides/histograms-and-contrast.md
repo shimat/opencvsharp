@@ -139,6 +139,12 @@ For a BGR image, channel index 0 is blue, 1 is green, and 2 is red. Separate BGR
 - [Image Processing Pipeline](image-processing-pipeline.md)
 - [Pixel Access](pixel-access.md)
 
+## Official OpenCV references
+
+- [OpenCV histogram API](https://docs.opencv.org/5.0/main_modules/imgproc_hist.html)
+- [Histogram calculation tutorial](https://docs.opencv.org/5.0/tutorials/imgproc/histograms/histogram_calculation/histogram_calculation.html)
+- [Histogram equalization tutorial](https://docs.opencv.org/5.0/tutorials/imgproc/histograms/histogram_equalization/histogram_equalization.html)
+
 ## Related API
 
 - [Cv2.CalcHist](xref:OpenCvSharp.Cv2.CalcHist*)

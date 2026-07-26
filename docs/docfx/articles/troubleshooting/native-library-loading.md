@@ -109,6 +109,11 @@ Calling `NativeLibrary.Load` by itself only returns a native handle; returning t
 
 Most applications should use an official runtime package instead of a custom resolver.
 
+## Official OpenCV references
+
+- [OpenCV configuration options](https://docs.opencv.org/5.0/tutorials/introduction/config_reference/config_reference.html)
+- [OpenCV environment variables](https://docs.opencv.org/5.0/tutorials/introduction/env_reference/env_reference.html)
+
 ## Still failing
 
 When opening an [issue](https://github.com/shimat/opencvsharp/issues), include:

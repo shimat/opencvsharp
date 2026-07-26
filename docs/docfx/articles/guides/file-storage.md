@@ -71,6 +71,10 @@ When writing in memory, the first constructor argument identifies the output for
 
 `FileStorage.Add` writes sequences and mappings using OpenCV's streaming syntax. `FileStorage.GetPath` reads a nested path while disposing intermediate `FileNode` instances. Prefer `GetPath` over a long indexer chain when reading nested data.
 
+## Official OpenCV references
+
+- [File input and output using XML, YAML, and JSON](https://docs.opencv.org/5.0/tutorials/core/file_input_output_with_xml_yml/file_input_output_with_xml_yml.html)
+
 ## Related API
 
 - [FileStorage](xref:OpenCvSharp.FileStorage)

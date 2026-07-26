@@ -120,6 +120,11 @@ The array is pinned while the `Mat` is alive, and changes are shared in both dir
 - [Resource Management](resource-management.md)
 - [Image Encoding and Conversion](image-conversion.md)
 
+## Official OpenCV references
+
+- [Mat: the basic image container](https://docs.opencv.org/5.0/tutorials/core/mat_the_basic_image_container/mat_the_basic_image_container.html)
+- [OpenCV core functionality](https://docs.opencv.org/5.0/main_modules/core.html)
+
 ## Related API
 
 - [Mat](xref:OpenCvSharp.Mat)

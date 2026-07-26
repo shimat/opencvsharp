@@ -75,6 +75,13 @@ Check pixel format and channel order when exchanging images with a UI framework.
 
 For file uploads, HTTP responses, and database blobs, encode directly with `Cv2.ImEncode` instead of converting through `Bitmap`. For image processing, keep data in `Mat` form and convert only at the UI boundary.
 
+See [Display Images in .NET Applications](displaying-images-dotnet.md) for WPF, Avalonia, GDI+, UI-thread, and live-frame guidance.
+
+## Official OpenCV references
+
+- [OpenCV image file reading and writing](https://docs.opencv.org/5.0/main_modules/imgcodecs.html)
+- [OpenCV color space conversions](https://docs.opencv.org/5.0/main_modules/imgproc_color_conversions.html)
+
 ## Related API
 
 - [Cv2.ImEncode](xref:OpenCvSharp.Cv2.ImEncode*)

@@ -83,6 +83,11 @@ The span excludes any padding bytes between rows.
 
 `GetGenericIndexer<T>` and its indexer class use marshaling for each element and are obsolete. Existing code should move to `At<T>` or `AsRows<T>`. `Mat<T>.GetIndexer()` remains available, but `AsRows<T>` avoids creating a typed wrapper and makes row-stride handling explicit.
 
+## Official OpenCV references
+
+- [Basic operations on images in OpenCV-Python](https://docs.opencv.org/5.0/py_tutorials/py_core/py_basic_ops/py_basic_ops.html)
+- [Mat: the basic image container](https://docs.opencv.org/5.0/tutorials/core/mat_the_basic_image_container/mat_the_basic_image_container.html)
+
 ## Related API
 
 - [Mat](xref:OpenCvSharp.Mat)

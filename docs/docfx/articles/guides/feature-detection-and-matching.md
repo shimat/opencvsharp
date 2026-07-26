@@ -104,6 +104,11 @@ Creating detectors and matchers for every frame adds unnecessary overhead. In a 
 - [Image Processing Pipeline](image-processing-pipeline.md)
 - [Resource Management](resource-management.md)
 
+## Official OpenCV references
+
+- [OpenCV features framework](https://docs.opencv.org/5.0/main_modules/features.html)
+- [OpenCV feature tutorials](https://docs.opencv.org/5.0/tutorials/features/features.html)
+
 ## Related API
 
 - [ORB](xref:OpenCvSharp.ORB)
