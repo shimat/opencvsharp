@@ -54,7 +54,28 @@ static void Blur(InputArray source, OutputArray destination)
 
 An optional `InputArray` whose value is `default` represents OpenCV's `noArray()`. Callers normally omit optional masks rather than constructing this value explicitly.
 
-`InputArray.Create<T>` overloads can adapt managed arrays or sequences by materializing a temporary matrix representation. This is not the same allocation-free path as passing an existing `Mat`. Prefer a dedicated `ReadOnlySpan<T>`, array, or collection overload when the OpenCvSharp method provides one. In a repeated call where only an `InputArray` overload exists, create and dispose the hosting `Mat` explicitly so its storage and lifetime are visible.
+`InputArray.Create<T>` is not the same allocation-free path as passing an existing `Mat`. For an array, it creates a native `Mat` header over the managed storage without copying the elements and pins the array. For an `IEnumerable<T>`, it first materializes a new array and then creates the pinned matrix header.
+
+The returned `InputArray` is a non-disposable `ref struct`. It keeps the temporary `Mat` reachable through the native call, but the caller cannot deterministically dispose that hidden matrix afterward, so its native header and array pin may remain until finalization. Prefer a dedicated `ReadOnlySpan<T>`, array, or collection overload when the OpenCvSharp method provides one, and avoid `InputArray.Create<T>` in a hot loop.
+
+When repeated calls require an `InputArray`, own and reuse the hosting `Mat` explicitly:
+
+```csharp
+double[] values = [1.0, 2.0, 3.0, 4.0];
+using var valuesMat = Mat.FromPixelData(
+    rows: values.Length,
+    cols: 1,
+    type: MatType.CV_64FC1,
+    data: values);
+
+for (var iteration = 0; iteration < 100; iteration++)
+{
+    Scalar mean = Cv2.Mean(valuesMat);
+    Console.WriteLine(mean.Val0);
+}
+```
+
+`valuesMat` keeps `values` pinned until the matrix is disposed, and edits to either view are visible through the other.
 
 ## Understand output allocation
 

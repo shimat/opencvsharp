@@ -45,14 +45,22 @@ public sealed class ImagesController : ControllerBase
         await file.CopyToAsync(encoded, cancellationToken);
         cancellationToken.ThrowIfCancellationRequested();
 
+        Mat source;
         try
         {
-            using var source = Cv2.ImDecode(
+            source = Cv2.ImDecode(
                 encoded.GetBuffer().AsSpan(
                     start: 0,
                     length: checked((int)encoded.Length)),
                 ImreadModes.Color);
+        }
+        catch (OpenCVException)
+        {
+            return BadRequest("The upload could not be decoded.");
+        }
 
+        using (source)
+        {
             if (source.Empty())
             {
                 return BadRequest("The upload is not a supported image.");
@@ -79,10 +87,6 @@ public sealed class ImagesController : ControllerBase
             }
 
             return File(png, "image/png");
-        }
-        catch (OpenCVException)
-        {
-            return BadRequest("The upload could not be decoded.");
         }
     }
 }
