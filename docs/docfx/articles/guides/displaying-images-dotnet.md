@@ -32,7 +32,7 @@ using System.Windows.Media.Imaging;
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (image.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 BitmapSource imageSource = image.ToBitmapSource();
@@ -76,7 +76,7 @@ using OpenCvSharp.AvaloniaExtensions;
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (image.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 WriteableBitmap bitmap = image.ToWriteableBitmap();

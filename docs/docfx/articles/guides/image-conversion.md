@@ -37,7 +37,7 @@ using Mat image = Cv2.ImDecode(encoded, ImreadModes.Color);
 
 if (image.Empty())
 {
-    throw new InvalidOperationException("Image decoding failed.");
+    throw new InvalidDataException("Image decoding failed.");
 }
 ```
 

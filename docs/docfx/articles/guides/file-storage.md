@@ -12,7 +12,7 @@ using Mat transform = Mat.Eye(3, 3, MatType.CV_64FC1);
 using var storage = new FileStorage("settings.yml", FileStorage.Modes.Write);
 if (!storage.IsOpened())
 {
-    throw new InvalidOperationException("Could not open settings.yml for writing.");
+    throw new IOException("Could not open settings.yml for writing.");
 }
 
 storage.Write("threshold", 128);
@@ -30,7 +30,7 @@ Use `.xml`, `.yml` or `.yaml`, and `.json` for the corresponding formats. Append
 using var storage = new FileStorage("settings.yml", FileStorage.Modes.Read);
 if (!storage.IsOpened())
 {
-    throw new InvalidOperationException("Could not open settings.yml.");
+    throw new IOException("Could not open settings.yml.");
 }
 
 using var thresholdNode = storage["threshold"]

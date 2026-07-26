@@ -10,7 +10,7 @@ Contours describe object boundaries in a binary image. They are useful for measu
 using var source = Cv2.ImRead("objects.png", ImreadModes.Color);
 if (source.Empty())
 {
-    throw new InvalidOperationException("Could not read objects.png.");
+    throw new IOException("Could not read objects.png.");
 }
 
 using var grayscale = new Mat();

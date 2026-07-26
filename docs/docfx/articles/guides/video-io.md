@@ -10,7 +10,7 @@ The full and headless Linux runtime packages include `videoio`. The slim runtime
 using var capture = new VideoCapture("input.mp4");
 if (!capture.IsOpened())
 {
-    throw new InvalidOperationException("Could not open input.mp4.");
+    throw new IOException("Could not open input.mp4.");
 }
 
 using var frame = new Mat();
@@ -36,7 +36,7 @@ Properties such as `Fps`, `FrameCount`, and `PosFrames` depend on the backend an
 using var capture = new VideoCapture(0);
 if (!capture.IsOpened())
 {
-    throw new InvalidOperationException("Could not open camera 0.");
+    throw new IOException("Could not open camera 0.");
 }
 
 capture.FrameWidth = 1280;
@@ -61,13 +61,13 @@ The following example copies frames to an MJPEG AVI file:
 using var capture = new VideoCapture("input.mp4");
 if (!capture.IsOpened())
 {
-    throw new InvalidOperationException("Could not open input.mp4.");
+    throw new IOException("Could not open input.mp4.");
 }
 
 using var frame = new Mat();
 if (!capture.Read(frame) || frame.Empty())
 {
-    throw new InvalidOperationException("Could not read the first frame.");
+    throw new IOException("Could not read the first frame.");
 }
 
 double fps = capture.Fps > 0 ? capture.Fps : 30;
@@ -77,7 +77,7 @@ int fourcc = VideoWriter.FourCC('M', 'J', 'P', 'G');
 using var writer = new VideoWriter("output.avi", fourcc, fps, frameSize);
 if (!writer.IsOpened())
 {
-    throw new InvalidOperationException("Could not open output.avi.");
+    throw new IOException("Could not open output.avi.");
 }
 
 writer.Write(frame);

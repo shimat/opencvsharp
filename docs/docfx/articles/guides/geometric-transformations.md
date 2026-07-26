@@ -10,7 +10,7 @@ Specify the final dimensions when the output size is known:
 using var source = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (source.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 using var resized = new Mat();

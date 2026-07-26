@@ -22,7 +22,7 @@ using OpenCvSharp;
 using var source = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (source.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 using var grayscale = new Mat();
@@ -30,7 +30,7 @@ Cv2.CvtColor(source, grayscale, ColorConversionCodes.BGR2GRAY);
 
 if (!Cv2.ImWrite("output.png", grayscale))
 {
-    throw new InvalidOperationException("Could not write output.png.");
+    throw new IOException("Could not write output.png.");
 }
 
 Console.WriteLine($"Created output.png ({grayscale.Width} x {grayscale.Height}).");
