@@ -186,6 +186,7 @@ These wrap OpenCV functions that were removed in OpenCV 5 (no replacement), so t
 | `TrackerGOTURN` | Removed from OpenCV 5 |
 | The entire `OpenCvSharp.Cuda` namespace (`GpuMat`, `Stream`, `DeviceInfo`, …) | Was already non-functional dead code in OpenCvSharp4 (guarded by a build symbol that was never actually defined) and has now been deleted outright. OpenCvSharp has never supported CUDA — see the main README. |
 | `OutputArray.Create(List<T>)` | See §2 — use a `Mat` output and `Mat.GetArray<T>(out T[])` instead |
+| `OpenCvSharp.Internal.NativeMethods.LoadLibraries`, `TryPInvoke` | No replacement is normally needed: OpenCvSharp5 relies on the .NET runtime to resolve the native library on the first API call. For a nonstandard native library location, register `NativeLibrary.SetDllImportResolver` before that call; use a lightweight public API such as `Cv2.GetVersionString()` if eager validation is required. |
 
 > **Caffe/Darknet has no runtime fallback, not just a removed convenience method.** The generic dispatcher `Cv2.Dnn.ReadNet(model, config)` still *detects* `.caffemodel`/`.prototxt`/`.weights`/`.cfg` extensions, but on a match it unconditionally throws `cv::Exception: Caffe importer has been removed. Please use ONNX-converted models or use an older OpenCV version.` (same for Darknet). Converting the model to ONNX is mandatory, not just recommended, for any code that used to load `.caffemodel`/Darknet models.
 

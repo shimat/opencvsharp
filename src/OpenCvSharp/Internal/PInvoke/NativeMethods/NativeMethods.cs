@@ -1,49 +1,23 @@
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
 
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
-#pragma warning disable CA1805 // Do not initialize unnecessarily.
 
 namespace OpenCvSharp.Internal;
 
 /// <summary>
-/// P/Invoke methods of OpenCV 2.x C++ interface
+/// P/Invoke methods for the OpenCV C++ interface.
 /// </summary>
 public static partial class NativeMethods
 {
     public const string DllExtern = "OpenCvSharpExtern";
 
-    //private const UnmanagedType StringUnmanagedType = UnmanagedType.LPStr;
-
     private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeNotWindows =
         UnmanagedType.LPUTF8Str;
-
-    /// <summary>
-    /// Is tried P/Invoke once
-    /// </summary>
-    private static int tried;
-
-    /// <summary>
-    /// Static constructor
-    /// </summary>
-    static NativeMethods()
-    {
-        try
-        {
-            LoadLibraries();
-        }
-        catch (Exception ex) when (ex is DllNotFoundException or BadImageFormatException or EntryPointNotFoundException)
-        {
-            // Keep type initialization usable so TryPInvoke can retry after the application
-            // configures native resolution and report the loader failure without wrapping it
-            // in TypeInitializationException.
-        }
-    }
 
     public static void HandleException(ExceptionStatus status)
     {
@@ -53,87 +27,6 @@ public static partial class NativeMethods
         {
             ExceptionHandler.ThrowPossibleException();
         }
-    }
-
-    /// <summary>
-    /// Triggers native library resolution and installs the default error handler.
-    /// </summary>
-    public static void LoadLibraries()
-    {
-        if (IsWasm())
-        {
-            return;
-        }
-
-        // On both Windows and *nix, the native library is resolved by the .NET runtime's
-        // default probing (the runtimes/{rid}/native/ layout produced by the
-        // OpenCvSharp5.runtime.* packages). The P/Invoke below triggers the load and installs
-        // the default error handler.
-        InstallDefaultErrorHandler();
-    }
-
-    /// <summary>
-    /// Installs the default native (managed-free) OpenCV error handler. It only mutes
-    /// OpenCV's stderr dump; error details are captured natively and surfaced as a managed
-    /// exception via <see cref="HandleException"/> on each call's returned status.
-    /// </summary>
-    private static void InstallDefaultErrorHandler()
-    {
-        HandleException(core_setSilentErrorHandler());
-    }
-
-    /// <summary>
-    /// Checks whether PInvoke functions can be called and throws a descriptive exception if not.
-    /// This method is not called automatically. Call it explicitly for pre-flight validation
-    /// after setting up any custom native library loading (e.g. NativeLibrary.SetDllImportResolver).
-    /// </summary>
-    public static void TryPInvoke()
-    {
-#pragma warning disable CA1031
-        if (Volatile.Read(ref tried) != 0)
-            return;
-
-        try
-        {
-            LoadLibraries();
-            var ret = core_Mat_sizeof();
-            GC.KeepAlive(ret);
-            Volatile.Write(ref tried, 1);
-        }
-        catch (DllNotFoundException e)
-        {
-            var exception = new OpenCvSharpException(e.Message, e);
-            try{Console.WriteLine(exception.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            try{Debug.WriteLine(exception.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            throw exception;
-        }
-        catch (BadImageFormatException e)
-        {
-            var exception = new OpenCvSharpException(e.Message, e);
-            try { Console.WriteLine(exception.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            try { Debug.WriteLine(exception.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            throw exception;
-        }
-        catch (Exception e)
-        {
-            var ex = e.InnerException ?? e;
-            try{ Console.WriteLine(ex.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            try { Debug.WriteLine(ex.Message); }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
-            throw;
-        }
-#pragma warning restore CA1031
     }
 
     /// <summary>

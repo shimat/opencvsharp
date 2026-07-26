@@ -67,6 +67,7 @@ OpenCvSharp uses the .NET runtime's native library resolution. A host that does 
 ```csharp
 using System.Reflection;
 using System.Runtime.InteropServices;
+using OpenCvSharp;
 using OpenCvSharp.Internal;
 
 Assembly openCvSharpAssembly = typeof(NativeMethods).Assembly;
@@ -98,14 +99,15 @@ NativeLibrary.SetDllImportResolver(
         return NativeLibrary.Load(nativeLibraryPath);
     });
 
-NativeMethods.TryPInvoke();
+// Optional eager validation after registering the resolver.
+Console.WriteLine(Cv2.GetVersionString());
 ```
 
 This example expects the custom native library in a `native` directory beside `OpenCvSharp.dll`. Alternatively, obtain a fully qualified native-library path from the host's configuration. Do not derive it from the process current directory because a host can change that directory.
 
 Register the resolver before the first call to any OpenCvSharp API. The resolver must target `typeof(NativeMethods).Assembly`, not the host or plugin assembly, because native resolution is scoped to the assembly containing the P/Invoke declaration.
 
-Calling `NativeLibrary.Load` by itself only returns a native handle; returning that handle from the resolver connects it reliably to OpenCvSharp's `OpenCvSharpExtern` imports. `NativeMethods.TryPInvoke()` is an optional explicit pre-flight check after resolver registration and is not required for normal API calls.
+Calling `NativeLibrary.Load` by itself only returns a native handle; returning that handle from the resolver connects it reliably to OpenCvSharp's `OpenCvSharpExtern` imports. The first ordinary OpenCvSharp API call loads the native library through the registered resolver. OpenCvSharp5 has no separate library-loading or P/Invoke pre-flight helper; use a lightweight public API such as `Cv2.GetVersionString()` when eager validation is useful.
 
 Most applications should use an official runtime package instead of a custom resolver.
 

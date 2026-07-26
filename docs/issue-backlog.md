@@ -46,8 +46,8 @@ Check off items as they are resolved.
 
 - **State**: closed (stale)
 - **URL**: https://github.com/shimat/opencvsharp/issues/1753
-- **Root cause**: `NativeMethods` calls `TryPInvoke` in its static constructor, which runs before user code has a chance to register a custom `NativeLibrary.SetDllImportResolver`. Custom native loaders therefore cannot intercept the first P/Invoke.
-- **Fix**: Removed the automatic `TryPInvoke()` call from `NativeMethods`' static constructor. `TryPInvoke()` remains public for explicit opt-in validation but is no longer called automatically. Users can now register `NativeLibrary.SetDllImportResolver` (via `typeof(NativeMethods).Assembly`) before any OpenCvSharp API call, then optionally call `NativeMethods.TryPInvoke()` for pre-flight validation.
+- **Root cause**: `NativeMethods` performed an automatic pre-flight P/Invoke in its static constructor, before applications could reliably configure custom native library resolution.
+- **Fix**: Removed the static constructor and the obsolete `TryPInvoke()` and `LoadLibraries()` helpers from OpenCvSharp5. Native libraries are now resolved by the .NET runtime on the first ordinary OpenCvSharp API call, so applications can register `NativeLibrary.SetDllImportResolver` via `typeof(NativeMethods).Assembly` beforehand.
 - **Effort**: Medium
 
 ---

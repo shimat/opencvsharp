@@ -1223,24 +1223,6 @@ CVAPI(int) core_setBreakOnError(int flag)
     return cv::setBreakOnError(flag != 0) ? 1 : 0;
 }
 
-// Native, managed-free OpenCV error handler installed by default. It exists only to
-// suppress OpenCV's stderr dump (OpenCV prints to stderr only when no handler is set).
-// Error details are captured by cvTry from the thrown exception, not here.
-static int opencvsharp_silentErrorHandler(int /*status*/, const char* /*funcName*/,
-    const char* /*errMsg*/, const char* /*fileName*/, int /*line*/, void* /*userdata*/)
-{
-    return 0;
-}
-
-// Installs the default native silent error handler. Idempotent. Called once at managed
-// startup (see NativeMethods.InstallDefaultErrorHandler).
-CVAPI(ExceptionStatus) core_setSilentErrorHandler()
-{
-    return cvTry([&] {
-        cv::redirectError(opencvsharp_silentErrorHandler);
-    });
-}
-
 // Reads the per-thread record of the last exception caught at the export boundary
 // (see cvTry / LastNativeException). The managed side calls this after an export
 // returns ExceptionStatus::Occurred.
