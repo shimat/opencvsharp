@@ -2,6 +2,8 @@
 
 OpenCV's HighGUI windows are useful for experiments, but production .NET applications normally display images through their UI framework. OpenCvSharp provides separate extension packages that convert `Mat` objects to framework-native bitmap types.
 
+This guide covers control integration, UI-thread updates, and display-object ownership. See [Image Encoding and Conversion](image-conversion.md) for general-purpose `Mat` conversions and encoded image buffers.
+
 ## Choose the integration package
 
 Install the package that matches the application:
@@ -143,14 +145,7 @@ nextFrame.ToBitmap(displayBitmap);
 PreviewPictureBox.Invalidate();
 ```
 
-The same extension package also converts in the other direction:
-
-```csharp
-using Bitmap bitmap = image.ToBitmap();
-using Mat roundTrip = bitmap.ToMat();
-```
-
-`System.Drawing.Common` is supported for Windows desktop use. Prefer WPF or Avalonia-native bitmap types in those frameworks rather than converting through `System.Drawing.Bitmap`.
+`System.Drawing.Common` is supported for Windows desktop use. Prefer WPF or Avalonia-native bitmap types in those frameworks rather than converting through `System.Drawing.Bitmap`. See [Image Encoding and Conversion](image-conversion.md#convert-between-mat-and-systemdrawingbitmap) for standalone `Mat` and `Bitmap` conversion in either direction.
 
 ## Keep processing away from the UI thread
 
@@ -169,7 +164,7 @@ For long-running streams, reuse destination `Mat` and bitmap objects when dimens
 
 `Cv2.ImShow` and `Cv2.WaitKey` use OpenCV's HighGUI backend. They are convenient for samples and debugging, but they do not integrate with WPF, Windows Forms, or Avalonia layout and event systems. Headless runtime packages disable HighGUI entirely.
 
-Use a framework extension package for application UI, and use [Image Encoding and Conversion](image-conversion.md) when the destination is a file, HTTP response, or in-memory byte buffer rather than a control.
+Use a framework extension package for application UI. Use [Image Encoding and Conversion](image-conversion.md) for standalone bitmap conversion or when the destination is a file, HTTP response, or in-memory byte buffer rather than a control.
 
 ## From C++ or Python
 

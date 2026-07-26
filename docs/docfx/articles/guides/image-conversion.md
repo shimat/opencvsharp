@@ -55,11 +55,18 @@ using OpenCvSharp;
 using OpenCvSharp.GdipExtensions;
 
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
+if (image.Empty())
+{
+    throw new IOException("Could not read input.jpg.");
+}
+
 using Bitmap bitmap = image.ToBitmap();
 using Mat roundTrip = bitmap.ToMat();
 ```
 
-Dispose both `Bitmap` and `Mat`. The converter supports common 1-, 3-, and 4-channel 8-bit formats. It does not make `System.Drawing.Common` cross-platform.
+The conversions copy the pixel data into independently owned objects, so dispose both `Bitmap` and `Mat`. The `using` declarations above are appropriate when both objects remain local. A bitmap assigned to a Windows Forms `PictureBox` must instead remain alive until it is replaced or the form closes; see [Display Images in .NET Applications](displaying-images-dotnet.md#display-a-mat-in-windows-forms) for that ownership pattern.
+
+The converter supports common 1-, 3-, and 4-channel 8-bit formats. It does not make `System.Drawing.Common` cross-platform.
 
 ## WPF
 
