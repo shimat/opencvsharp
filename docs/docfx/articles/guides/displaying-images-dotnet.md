@@ -91,7 +91,7 @@ WriteableBitmapConverter.ToWriteableBitmap(nextFrame, bitmap);
 
 Update UI-owned bitmap objects through Avalonia's UI thread or dispatcher.
 
-## Convert between Mat and System.Drawing.Bitmap
+## Display a Mat in Windows Forms
 
 Add the GDI+ extension package:
 
@@ -99,14 +99,53 @@ Add the GDI+ extension package:
 dotnet add package OpenCvSharp5.GdipExtensions
 ```
 
-Use the conversion extension methods:
+Add a `PictureBox` named `PreviewPictureBox` to the form, then convert a `Mat` to a `Bitmap` and assign it to the control:
 
 ```csharp
 using OpenCvSharp;
 using OpenCvSharp.GdipExtensions;
 using System.Drawing;
+using System.Windows.Forms;
 
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
+if (image.Empty())
+{
+    throw new IOException("Could not read input.jpg.");
+}
+
+Bitmap nextBitmap = image.ToBitmap();
+Image? previousImage = PreviewPictureBox.Image;
+PreviewPictureBox.Image = nextBitmap;
+PreviewPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+previousImage?.Dispose();
+```
+
+Do not declare `nextBitmap` with `using` because the `PictureBox` continues to use it after this code returns. Dispose the previous image whenever it is replaced, and dispose the final image when the form closes:
+
+```csharp
+protected override void OnFormClosed(FormClosedEventArgs e)
+{
+    Image? finalImage = PreviewPictureBox.Image;
+    PreviewPictureBox.Image = null;
+    finalImage?.Dispose();
+    base.OnFormClosed(e);
+}
+```
+
+For a stream of frames with compatible dimensions and pixel formats, reuse the assigned bitmap and update it on the UI thread:
+
+```csharp
+Bitmap displayBitmap = firstFrame.ToBitmap();
+PreviewPictureBox.Image = displayBitmap;
+
+// Run on the UI thread when updating the displayed bitmap.
+nextFrame.ToBitmap(displayBitmap);
+PreviewPictureBox.Invalidate();
+```
+
+The same extension package also converts in the other direction:
+
+```csharp
 using Bitmap bitmap = image.ToBitmap();
 using Mat roundTrip = bitmap.ToMat();
 ```
