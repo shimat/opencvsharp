@@ -7,6 +7,14 @@ on:
         description: 'Run BinSkim security hardening check'
         type: boolean
         default: true
+      diagnose_ximgproc_arm64:
+        description: 'Run the focused ARM64 DTFilter stress diagnostic'
+        type: boolean
+        default: false
+      diagnostic_iterations:
+        description: 'DTFilter iterations per diagnostic thread mode'
+        type: number
+        default: 1000
   pull_request:
     types: [synchronize, opened]
   push:
@@ -22,6 +30,7 @@ jobs:
   build:
     name: Windows (x64)
 
+    if: inputs.diagnose_ximgproc_arm64 != true
     runs-on: windows-2025
 
     steps:
@@ -371,7 +380,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}${{ inputs.diagnose_ximgproc_arm64 && '-relwithdebinfo' || '' }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -410,6 +419,7 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D WITH_FFMPEG=OFF `
+            -D BUILD_WITH_DEBUG_INFO="${{ inputs.diagnose_ximgproc_arm64 && 'ON' || 'OFF' }}" `
             -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -437,8 +447,9 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          cmake --build opencv/build --config Release -j 4
-          cmake --install opencv/build --config Release
+          $buildConfig = if ("${{ inputs.diagnose_ximgproc_arm64 }}" -eq "true") { "RelWithDebInfo" } else { "Release" }
+          cmake --build opencv/build --config $buildConfig -j 4
+          cmake --install opencv/build --config $buildConfig
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -451,6 +462,7 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
+          $buildConfig = if ("${{ inputs.diagnose_ximgproc_arm64 }}" -eq "true") { "RelWithDebInfo" } else { "Release" }
           cmake `
             -S src `
             -B src/build_arm64 `
@@ -461,9 +473,10 @@ jobs:
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
-          cmake --build src/build_arm64 --config Release -j 4
+          cmake --build src/build_arm64 --config $buildConfig -j 4
 
       - name: Build OpenCvSharpExtern (slim)
+        if: inputs.diagnose_ximgproc_arm64 != true
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
@@ -486,12 +499,49 @@ jobs:
           cmake --build src/build_arm64_slim --config Release -j 4
 
       - name: Test
+        if: inputs.diagnose_ximgproc_arm64 != true
         shell: cmd
         # See the x64 job's "Test" step above for why --blame-crash* is here.
         run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full
 
+      - name: Diagnose DTFilter with one OpenCV thread
+        id: dtfilter-single-thread
+        if: inputs.diagnose_ximgproc_arm64 == true
+        continue-on-error: true
+        shell: cmd
+        env:
+          OPENCVSHARP_DT_FILTER_ITERATIONS: ${{ inputs.diagnostic_iterations }}
+          OPENCVSHARP_DT_FILTER_THREADS: 1
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName=OpenCvSharp.Tests.XImgProc.XImgProcTest.DTFilterStatic" --results-directory test\OpenCvSharp.Tests\TestResults\dtfilter-single-thread --blame-crash --blame-crash-dump-type full
+
+      - name: Diagnose DTFilter with default OpenCV threads
+        id: dtfilter-default-threads
+        if: inputs.diagnose_ximgproc_arm64 == true
+        continue-on-error: true
+        shell: cmd
+        env:
+          OPENCVSHARP_DT_FILTER_ITERATIONS: ${{ inputs.diagnostic_iterations }}
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName=OpenCvSharp.Tests.XImgProc.XImgProcTest.DTFilterStatic" --results-directory test\OpenCvSharp.Tests\TestResults\dtfilter-default-threads --blame-crash --blame-crash-dump-type full
+
+      - name: Upload DTFilter diagnostic artifacts
+        if: always() && inputs.diagnose_ximgproc_arm64 == true
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-arm64-dtfilter-diagnostic
+          path: |
+            src/build_arm64/OpenCvSharpExtern/RelWithDebInfo/OpenCvSharpExtern.dll
+            src/build_arm64/OpenCvSharpExtern/RelWithDebInfo/OpenCvSharpExtern.pdb
+            test/OpenCvSharp.Tests/TestResults/
+          if-no-files-found: warn
+
+      - name: Report DTFilter diagnostic failure
+        if: always() && inputs.diagnose_ximgproc_arm64 == true && (steps.dtfilter-single-thread.outcome == 'failure' || steps.dtfilter-default-threads.outcome == 'failure')
+        shell: powershell
+        run: |
+          Write-Error "DTFilter diagnostic failed. Inspect windows-arm64-dtfilter-diagnostic for the symbol-matched dump."
+
       - name: Upload crash dumps on failure
-        if: failure()
+        if: failure() && inputs.diagnose_ximgproc_arm64 != true
         uses: actions/upload-artifact@v7
         with:
           name: windows-arm64-crash-dumps
@@ -499,6 +549,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Pack NuGet packages
+        if: inputs.diagnose_ximgproc_arm64 != true
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
@@ -512,6 +563,7 @@ jobs:
           dotnet pack packaging/nuget/OpenCvSharp5.runtime.win-arm64.slim.csproj -o artifacts -p:Version=$version
 
       - name: Upload NuGet packages
+        if: inputs.diagnose_ximgproc_arm64 != true
         uses: actions/upload-artifact@v7
         with:
           name: packages_windows_arm64

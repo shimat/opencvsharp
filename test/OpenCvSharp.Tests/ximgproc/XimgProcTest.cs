@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
@@ -242,9 +243,30 @@ public class XImgProcTest : TestBase
     public void DTFilterStatic()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Color);
-        using var dst = new Mat();
-        Cv2.XImgProc.DTFilter(src, src, dst, 10.0, 25.0);
-        Assert.False(dst.Empty());
+
+        var iterationsText = Environment.GetEnvironmentVariable("OPENCVSHARP_DT_FILTER_ITERATIONS");
+        var iterations = iterationsText is null ? 1 : int.Parse(iterationsText, CultureInfo.InvariantCulture);
+        Assert.True(iterations > 0);
+
+        var threadsText = Environment.GetEnvironmentVariable("OPENCVSHARP_DT_FILTER_THREADS");
+        var originalThreads = Cv2.GetNumThreads();
+        try
+        {
+            if (threadsText is not null)
+                Cv2.SetNumThreads(int.Parse(threadsText, CultureInfo.InvariantCulture));
+
+            for (var i = 0; i < iterations; i++)
+            {
+                using var dst = new Mat();
+                Cv2.XImgProc.DTFilter(src, src, dst, 10.0, 25.0);
+                Assert.False(dst.Empty());
+            }
+        }
+        finally
+        {
+            if (threadsText is not null)
+                Cv2.SetNumThreads(originalThreads);
+        }
     }
 
     [Fact]
