@@ -131,7 +131,8 @@ The official OpenCV reference defines the exact interpolation formulas and suppo
 - Use `Cubic` or `Lanczos4` when enlargement quality matters more than speed.
 - Use `Nearest` for masks, labels, and other discrete values.
 - Use `BorderTypes.Constant` when pixels outside the image should have a known value.
-- Use `BorderTypes.Replicate` or `Reflect101` when filters or transforms should extend edge content.
+- Use `BorderTypes.Replicate` when a warp should extend the nearest edge pixels.
+- Use reflection modes such as `BorderTypes.Reflect101` only with APIs whose OpenCV reference explicitly supports them, commonly filter operations.
 
 Always pass destination dimensions as `(width, height)` through `Size`. Image indexing and `Mat` construction otherwise commonly use `(rows, columns)`, which correspond to `(height, width)`.
 

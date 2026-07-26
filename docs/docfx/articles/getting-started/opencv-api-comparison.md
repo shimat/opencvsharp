@@ -58,6 +58,8 @@ grayscale = cv.cvtColor(source, cv.COLOR_BGR2GRAY)
 ### OpenCvSharp
 
 ```csharp
+using OpenCvSharp;
+
 using var source = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (source.Empty())
 {
