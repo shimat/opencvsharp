@@ -11,6 +11,7 @@ Start with these pages in order:
 3. [Build your first application](getting-started/first-application.md).
 4. Learn the [fundamentals of Mat](guides/mat-basics.md).
 5. Learn how to [manage native resources](guides/resource-management.md).
+6. Understand [array proxies and in-place processing](guides/input-output-arrays-and-in-place.md), then learn how to control [copies and native memory](guides/memory-copy-and-performance.md).
 
 Already familiar with OpenCV C++ or OpenCV-Python? Start with the [API comparison and translation guide](getting-started/opencv-api-comparison.md).
 
@@ -22,7 +23,10 @@ Already familiar with OpenCV C++ or OpenCV-Python? Start with the [API compariso
 - [Create and refine masks](guides/thresholding-masks-morphology.md)
 - [Measure contours and connected components](guides/contours-shape-analysis.md)
 - [Access and modify pixels](guides/pixel-access.md)
+- [Use InputArray, OutputArray, and in-place processing safely](guides/input-output-arrays-and-in-place.md)
+- [Control copies, native memory, and hot-loop allocations](guides/memory-copy-and-performance.md)
 - [Encode images and convert UI image types](guides/image-conversion.md)
+- [Process uploaded images and streams in ASP.NET Core](guides/aspnet-image-processing.md)
 - [Display images in .NET UI frameworks](guides/displaying-images-dotnet.md)
 - [Read and write video](guides/video-io.md)
 - [Detect and match local features](guides/feature-detection-and-matching.md)

@@ -14,6 +14,10 @@
   items:
     - name: Mat Basics
       href: guides/mat-basics.md
+    - name: InputArray, OutputArray, and In-place Processing
+      href: guides/input-output-arrays-and-in-place.md
+    - name: Copies, Native Memory, and Performance
+      href: guides/memory-copy-and-performance.md
     - name: Pixel Access
       href: guides/pixel-access.md
     - name: Image Processing Pipeline
@@ -28,6 +32,8 @@
       href: guides/contours-shape-analysis.md
     - name: Image Encoding and Conversion
       href: guides/image-conversion.md
+    - name: ASP.NET Core Image Uploads and Streams
+      href: guides/aspnet-image-processing.md
     - name: Display Images in .NET Applications
       href: guides/displaying-images-dotnet.md
     - name: Video I/O

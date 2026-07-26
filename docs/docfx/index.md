@@ -13,6 +13,8 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 ## Essential guides
 
 - [Manage native resources](articles/guides/resource-management.md)
+- [Understand InputArray, OutputArray, and in-place processing](articles/guides/input-output-arrays-and-in-place.md)
+- [Control copies, native memory, and performance](articles/guides/memory-copy-and-performance.md)
 - [Diagnose common errors](articles/troubleshooting/common-errors.md)
 - [Troubleshoot native library loading](articles/troubleshooting/native-library-loading.md)
 - [Migrate from OpenCvSharp4 to OpenCvSharp5](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md)
@@ -24,6 +26,7 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 - [Create masks and analyze shapes](articles/guides/thresholding-masks-morphology.md)
 - [Measure contours and connected components](articles/guides/contours-shape-analysis.md)
 - [Encode images and convert UI image types](articles/guides/image-conversion.md)
+- [Process uploaded images and streams in ASP.NET Core](articles/guides/aspnet-image-processing.md)
 - [Display images in .NET UI frameworks](articles/guides/displaying-images-dotnet.md)
 - [Read and write video](articles/guides/video-io.md)
 - [Store matrices and parameters](articles/guides/file-storage.md)

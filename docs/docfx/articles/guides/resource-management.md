@@ -76,6 +76,12 @@ The caller owns and disposes the returned `Mat`. The method disposes the result 
 
 `Window` and other OpenCvSharp wrappers that implement `IDisposable` follow the same rule. Scope them with `using` rather than relying on finalization.
 
+## Related guides
+
+- [Mat Basics](mat-basics.md)
+- [InputArray, OutputArray, and In-place Processing](input-output-arrays-and-in-place.md)
+- [Copies, Native Memory, and Performance](memory-copy-and-performance.md)
+
 ## Official OpenCV references
 
 - [Mat: the basic image container](https://docs.opencv.org/5.0/tutorials/core/mat_the_basic_image_container/mat_the_basic_image_container.html)
