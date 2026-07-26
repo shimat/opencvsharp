@@ -114,6 +114,8 @@ See [Mat Basics](../guides/mat-basics.md) and [Pixel Access](../guides/pixel-acc
 The generated Python binding turns many C++ `OutputArray` arguments into return values. For example, Python thresholding returns both the selected threshold and the output image:
 
 ```python
+import cv2
+
 selected_threshold, binary = cv2.threshold(
     grayscale, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 ```

@@ -134,7 +134,7 @@ Use a framework extension package for application UI, and use [Image Encoding an
 
 ## From C++ or Python
 
-C++ and Python tutorials frequently call `cv::imshow` or `cv.imshow`. In a .NET desktop application, translate the image-processing portion but replace HighGUI display calls with the framework conversion described above. The `Mat` remains BGR or BGRA unless a converter or explicit `Cv2.CvtColor` operation changes it.
+C++ and Python tutorials frequently call `cv::imshow` or `cv2.imshow`. In a .NET desktop application, translate the image-processing portion but replace HighGUI display calls with the framework conversion described above. The `Mat` remains BGR or BGRA unless a converter or explicit `Cv2.CvtColor` operation changes it.
 
 ## Official OpenCV references
 
