@@ -8,6 +8,8 @@
         }
       ],
       "dest": "api",
+      "filter": "filterConfig.yml",
+      "memberLayout": "separatePages",
       "disableGitFeatures": false,
       "disableDefaultFilter": false,
       "properties": {
@@ -21,6 +23,9 @@
         "files": [
           "api/**.yml",
           "api/index.md"
+        ],
+        "exclude": [
+          "api/OpenCvSharp.Internal*.yml"
         ]
       },
       {
