@@ -117,6 +117,8 @@ The array is pinned while the `Mat` is alive, and changes are shared in both dir
 ## Related guides
 
 - [Pixel Access](pixel-access.md)
+- [InputArray, OutputArray, and In-place Processing](input-output-arrays-and-in-place.md)
+- [Copies, Native Memory, and Performance](memory-copy-and-performance.md)
 - [Resource Management](resource-management.md)
 - [Image Encoding and Conversion](image-conversion.md)
 

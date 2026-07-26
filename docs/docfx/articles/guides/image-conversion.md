@@ -77,6 +77,8 @@ For file uploads, HTTP responses, and database blobs, encode directly with `Cv2.
 
 See [Display Images in .NET Applications](displaying-images-dotnet.md) for WPF, Avalonia, GDI+, UI-thread, and live-frame guidance.
 
+See [ASP.NET Core Image Uploads and Streams](aspnet-image-processing.md) for bounded upload buffering, `IFormFile`, request cancellation, and HTTP responses.
+
 ## Official OpenCV references
 
 - [OpenCV image file reading and writing](https://docs.opencv.org/5.0/main_modules/imgcodecs.html)
