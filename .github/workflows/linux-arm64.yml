@@ -167,7 +167,19 @@ jobs:
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          # Preserve the executed-test sequence and a native dump when the test host crashes,
+          # including failures that happen during process teardown after all tests complete.
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-arm64 \
+            --logger "trx;LogFileName=test-results.trx" \
+            --blame-crash --blame-crash-dump-type full < /dev/null
+
+      - name: Upload crash dumps on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-arm64-crash-dumps
+          path: test/OpenCvSharp.Tests/TestResults/
+          if-no-files-found: ignore
 
       - name: Test Avalonia extensions
         run: |
