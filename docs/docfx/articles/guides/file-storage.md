@@ -12,7 +12,7 @@ using Mat transform = Mat.Eye(3, 3, MatType.CV_64FC1);
 using var storage = new FileStorage("settings.yml", FileStorage.Modes.Write);
 if (!storage.IsOpened())
 {
-    throw new InvalidOperationException("Could not open settings.yml for writing.");
+    throw new IOException("Could not open settings.yml for writing.");
 }
 
 storage.Write("threshold", 128);
@@ -30,7 +30,7 @@ Use `.xml`, `.yml` or `.yaml`, and `.json` for the corresponding formats. Append
 using var storage = new FileStorage("settings.yml", FileStorage.Modes.Read);
 if (!storage.IsOpened())
 {
-    throw new InvalidOperationException("Could not open settings.yml.");
+    throw new IOException("Could not open settings.yml.");
 }
 
 using var thresholdNode = storage["threshold"]
@@ -66,6 +66,67 @@ int answer = answerNode.ReadInt();
 ```
 
 When writing in memory, the first constructor argument identifies the output format rather than a file path.
+
+## Use FileStorage with System.Text.Json
+
+OpenCvSharp adds two .NET-specific bridges that are not part of the native OpenCV API:
+
+- `FileNode.ToJsonNode()` converts a node and its descendants to a managed `JsonNode` tree.
+- `FileStorage.Write(string, JsonNode?)` writes a managed JSON tree through OpenCV's XML, YAML, or JSON storage engine.
+
+This lets `System.Text.Json` serialize and deserialize ordinary .NET models while `FileStorage` retains compatibility with OpenCV documents. The following example round-trips a record through an OpenCV YAML file:
+
+```csharp
+using OpenCvSharp;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+var original = new CameraSettings(
+    Name: "front",
+    Width: 1920,
+    Height: 1080,
+    DistortionCoefficients: [0.12, -0.34, 0.001, 0.002]);
+
+JsonNode settingsJson = JsonSerializer.SerializeToNode(original)
+    ?? throw new JsonException("Could not serialize camera settings.");
+
+using (var writer = new FileStorage("camera.yml", FileStorage.Modes.Write))
+{
+    if (!writer.IsOpened())
+    {
+        throw new IOException("Could not open camera.yml for writing.");
+    }
+
+    writer.Write("camera", settingsJson);
+}
+
+CameraSettings restored;
+using (var reader = new FileStorage("camera.yml", FileStorage.Modes.Read))
+{
+    if (!reader.IsOpened())
+    {
+        throw new IOException("Could not open camera.yml.");
+    }
+
+    using var cameraNode = reader["camera"]
+        ?? throw new InvalidDataException("Missing camera settings.");
+    JsonNode cameraJson = cameraNode.ToJsonNode()
+        ?? throw new InvalidDataException("Camera settings are empty.");
+
+    restored = cameraJson.Deserialize<CameraSettings>()
+        ?? throw new JsonException("Could not deserialize camera settings.");
+}
+
+public sealed record CameraSettings(
+    string Name,
+    int Width,
+    int Height,
+    double[] DistortionCoefficients);
+```
+
+The returned `JsonNode` tree is fully managed and remains usable after its `FileNode` and `FileStorage` have been disposed. Conversion is structural: an OpenCV `Mat` becomes an object containing its `rows`, `cols`, `dt`, and `data` representation rather than a managed `Mat`. Use `FileNode.ReadMat()` when the destination should remain a `Mat`.
+
+OpenCV `FileStorage` has no explicit null scalar, so `FileStorage.Write` rejects JSON null values. Boolean values also round-trip through native `FileStorage` as the integers `0` and `1`; account for that when deserializing a model with Boolean properties.
 
 ## Nested data
 

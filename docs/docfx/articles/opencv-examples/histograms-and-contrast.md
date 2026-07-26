@@ -135,9 +135,9 @@ For a BGR image, channel index 0 is blue, 1 is green, and 2 is red. Separate BGR
 
 ## Related guides
 
-- [Mat Basics](mat-basics.md)
+- [Mat Basics](../guides/mat-basics.md)
 - [Image Processing Pipeline](image-processing-pipeline.md)
-- [Pixel Access](pixel-access.md)
+- [Pixel Access](../guides/pixel-access.md)
 
 ## Official OpenCV references
 

@@ -1,6 +1,6 @@
 # Thresholding, Masks, and Morphology
 
-Binary masks select pixels for later processing. In OpenCvSharp, a conventional mask is a single-channel `CV_8UC1` `Mat`: zero excludes a pixel and any non-zero value includes it.
+This example introduces OpenCV thresholding and morphology operations for creating and refining binary masks. In OpenCvSharp, a conventional mask is a single-channel `CV_8UC1` `Mat`: zero excludes a pixel and any non-zero value includes it.
 
 ## Create a binary image with a fixed threshold
 
@@ -10,7 +10,7 @@ Convert color input to grayscale before applying a simple threshold:
 using var source = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (source.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 using var grayscale = new Mat();

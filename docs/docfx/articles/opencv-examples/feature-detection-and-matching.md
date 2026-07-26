@@ -100,9 +100,9 @@ Creating detectors and matchers for every frame adds unnecessary overhead. In a 
 
 ## Related guides
 
-- [Mat Basics](mat-basics.md)
+- [Mat Basics](../guides/mat-basics.md)
 - [Image Processing Pipeline](image-processing-pipeline.md)
-- [Resource Management](resource-management.md)
+- [Resource Management](../guides/resource-management.md)
 
 ## Official OpenCV references
 

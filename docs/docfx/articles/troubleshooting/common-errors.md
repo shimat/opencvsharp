@@ -33,7 +33,7 @@ Image decoding can return an empty `Mat` without throwing:
 using var image = Cv2.ImRead(fileName, ImreadModes.Color);
 if (image.Empty())
 {
-    throw new InvalidOperationException(
+    throw new IOException(
         $"Could not decode image: {fileName}");
 }
 ```
@@ -44,7 +44,7 @@ For video, check both the Boolean return value and the frame:
 using var frame = new Mat();
 if (!capture.Read(frame) || frame.Empty())
 {
-    throw new InvalidOperationException("Could not read a frame.");
+    throw new IOException("Could not read a frame.");
 }
 ```
 

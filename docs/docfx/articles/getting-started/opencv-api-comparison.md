@@ -8,18 +8,18 @@ Use the official OpenCV documentation for algorithm theory and native parameter 
 
 OpenCV is implemented primarily in C++. Its C++ API is therefore the closest description of the native functions that OpenCvSharp eventually calls.
 
-OpenCV-Python is an official generated binding over the same native implementation. Images are normally presented as NumPy arrays, and the binding adapts many C++ output parameters into Python return values.
+OpenCV-Python is an official generated binding over the same native implementation. Images are normally presented as NumPy arrays, and the binding adapts many C++ output parameters into Python return values. Recent releases also provide `cv2.Mat`, a specialized `numpy.ndarray` subclass for preserving channel information, but it is not the usual image representation in Python code.
 
 OpenCvSharp is a .NET wrapper with a managed API and a native bridge. It preserves many OpenCV names and concepts while representing them with .NET classes, enums, arrays, spans, exceptions, and `IDisposable`.
 
 | Concept | OpenCV C++ | OpenCV-Python | OpenCvSharp |
 |---|---|---|---|
-| Free function | `cv::GaussianBlur` | `cv.GaussianBlur` | `Cv2.GaussianBlur` |
-| Submodule function | `cv::dnn::readNetFromONNX` | `cv.dnn.readNetFromONNX` | `Cv2.Dnn.ReadNetFromONNX` |
-| Image container | `cv::Mat` | `numpy.ndarray` or `cv.Mat` | `Mat` |
+| Free function | `cv::GaussianBlur` | `cv2.GaussianBlur` | `Cv2.GaussianBlur` |
+| Submodule function | `cv::dnn::readNetFromONNX` | `cv2.dnn.readNetFromONNX` | `Cv2.Dnn.ReadNetFromONNX` |
+| Image container | `cv::Mat` | `numpy.ndarray` | `Mat` |
 | Image size | `cv::Size` | `(width, height)` tuple | `Size` |
 | Coordinate | `cv::Point` | `(x, y)` tuple | `Point` |
-| Color conversion enum and value | `cv::ColorConversionCodes` and `cv::COLOR_BGR2GRAY` | `cv.COLOR_BGR2GRAY` | `ColorConversionCodes.BGR2GRAY` |
+| Color conversion enum and value | `cv::ColorConversionCodes` and `cv::COLOR_BGR2GRAY` | `cv2.COLOR_BGR2GRAY` | `ColorConversionCodes.BGR2GRAY` |
 | Output image | `OutputArray dst` argument | Usually a return value | Usually a caller-owned `Mat` argument |
 | Native failure | `cv::Exception` | `cv2.error` | `OpenCVException` |
 | Lifetime | RAII and reference counting | Python and NumPy ownership | `IDisposable` and `using` |
@@ -46,13 +46,13 @@ cv::cvtColor(source, grayscale, cv::COLOR_BGR2GRAY);
 ### Python
 
 ```python
-import cv2 as cv
+import cv2
 
-source = cv.imread("input.jpg", cv.IMREAD_COLOR)
+source = cv2.imread("input.jpg", cv2.IMREAD_COLOR)
 if source is None:
     raise RuntimeError("Could not read input.jpg.")
 
-grayscale = cv.cvtColor(source, cv.COLOR_BGR2GRAY)
+grayscale = cv2.cvtColor(source, cv2.COLOR_BGR2GRAY)
 ```
 
 ### OpenCvSharp
@@ -63,7 +63,7 @@ using OpenCvSharp;
 using var source = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (source.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 using var grayscale = new Mat();
@@ -114,8 +114,10 @@ See [Mat Basics](../guides/mat-basics.md) and [Pixel Access](../guides/pixel-acc
 The generated Python binding turns many C++ `OutputArray` arguments into return values. For example, Python thresholding returns both the selected threshold and the output image:
 
 ```python
-selected_threshold, binary = cv.threshold(
-    grayscale, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
+import cv2
+
+selected_threshold, binary = cv2.threshold(
+    grayscale, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 ```
 
 OpenCvSharp keeps the destination as an argument and returns the scalar result:

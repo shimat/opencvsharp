@@ -2,6 +2,8 @@
 
 OpenCV's HighGUI windows are useful for experiments, but production .NET applications normally display images through their UI framework. OpenCvSharp provides separate extension packages that convert `Mat` objects to framework-native bitmap types.
 
+This guide covers control integration, UI-thread updates, and display-object ownership. See [Image Encoding and Conversion](image-conversion.md) for general-purpose `Mat` conversions and encoded image buffers.
+
 ## Choose the integration package
 
 Install the package that matches the application:
@@ -32,7 +34,7 @@ using System.Windows.Media.Imaging;
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (image.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 BitmapSource imageSource = image.ToBitmapSource();
@@ -76,7 +78,7 @@ using OpenCvSharp.AvaloniaExtensions;
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
 if (image.Empty())
 {
-    throw new InvalidOperationException("Could not read input.jpg.");
+    throw new IOException("Could not read input.jpg.");
 }
 
 WriteableBitmap bitmap = image.ToWriteableBitmap();
@@ -91,7 +93,7 @@ WriteableBitmapConverter.ToWriteableBitmap(nextFrame, bitmap);
 
 Update UI-owned bitmap objects through Avalonia's UI thread or dispatcher.
 
-## Convert between Mat and System.Drawing.Bitmap
+## Display a Mat in Windows Forms
 
 Add the GDI+ extension package:
 
@@ -99,19 +101,51 @@ Add the GDI+ extension package:
 dotnet add package OpenCvSharp5.GdipExtensions
 ```
 
-Use the conversion extension methods:
+Add a `PictureBox` named `PreviewPictureBox` to the form, then convert a `Mat` to a `Bitmap` and assign it to the control:
 
 ```csharp
 using OpenCvSharp;
 using OpenCvSharp.GdipExtensions;
 using System.Drawing;
+using System.Windows.Forms;
 
 using var image = Cv2.ImRead("input.jpg", ImreadModes.Color);
-using Bitmap bitmap = image.ToBitmap();
-using Mat roundTrip = bitmap.ToMat();
+if (image.Empty())
+{
+    throw new IOException("Could not read input.jpg.");
+}
+
+Bitmap nextBitmap = image.ToBitmap();
+Image? previousImage = PreviewPictureBox.Image;
+PreviewPictureBox.Image = nextBitmap;
+PreviewPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+previousImage?.Dispose();
 ```
 
-`System.Drawing.Common` is supported for Windows desktop use. Prefer WPF or Avalonia-native bitmap types in those frameworks rather than converting through `System.Drawing.Bitmap`.
+Do not declare `nextBitmap` with `using` because the `PictureBox` continues to use it after this code returns. Dispose the previous image whenever it is replaced, and dispose the final image when the form closes:
+
+```csharp
+protected override void OnFormClosed(FormClosedEventArgs e)
+{
+    Image? finalImage = PreviewPictureBox.Image;
+    PreviewPictureBox.Image = null;
+    finalImage?.Dispose();
+    base.OnFormClosed(e);
+}
+```
+
+For a stream of frames with compatible dimensions and pixel formats, reuse the assigned bitmap and update it on the UI thread:
+
+```csharp
+Bitmap displayBitmap = firstFrame.ToBitmap();
+PreviewPictureBox.Image = displayBitmap;
+
+// Run on the UI thread when updating the displayed bitmap.
+nextFrame.ToBitmap(displayBitmap);
+PreviewPictureBox.Invalidate();
+```
+
+`System.Drawing.Common` is supported for Windows desktop use. Prefer WPF or Avalonia-native bitmap types in those frameworks rather than converting through `System.Drawing.Bitmap`. See [Image Encoding and Conversion](image-conversion.md#convert-between-mat-and-systemdrawingbitmap) for standalone `Mat` and `Bitmap` conversion in either direction.
 
 ## Keep processing away from the UI thread
 
@@ -130,11 +164,11 @@ For long-running streams, reuse destination `Mat` and bitmap objects when dimens
 
 `Cv2.ImShow` and `Cv2.WaitKey` use OpenCV's HighGUI backend. They are convenient for samples and debugging, but they do not integrate with WPF, Windows Forms, or Avalonia layout and event systems. Headless runtime packages disable HighGUI entirely.
 
-Use a framework extension package for application UI, and use [Image Encoding and Conversion](image-conversion.md) when the destination is a file, HTTP response, or in-memory byte buffer rather than a control.
+Use a framework extension package for application UI. Use [Image Encoding and Conversion](image-conversion.md) for standalone bitmap conversion or when the destination is a file, HTTP response, or in-memory byte buffer rather than a control.
 
 ## From C++ or Python
 
-C++ and Python tutorials frequently call `cv::imshow` or `cv.imshow`. In a .NET desktop application, translate the image-processing portion but replace HighGUI display calls with the framework conversion described above. The `Mat` remains BGR or BGRA unless a converter or explicit `Cv2.CvtColor` operation changes it.
+C++ and Python tutorials frequently call `cv::imshow` or `cv2.imshow`. In a .NET desktop application, translate the image-processing portion but replace HighGUI display calls with the framework conversion described above. The `Mat` remains BGR or BGRA unless a converter or explicit `Cv2.CvtColor` operation changes it.
 
 ## Official OpenCV references
 
