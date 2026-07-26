@@ -35,7 +35,7 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 - [Build an image processing pipeline](articles/opencv-examples/image-processing-pipeline.md)
 - [Analyze histograms and improve contrast](articles/opencv-examples/histograms-and-contrast.md)
 - [Resize, crop, rotate, and rectify images](articles/opencv-examples/geometric-transformations.md)
-- [Create masks and analyze shapes](articles/opencv-examples/thresholding-masks-morphology.md)
+- [Create and refine masks](articles/opencv-examples/thresholding-masks-morphology.md)
 - [Measure contours and connected components](articles/opencv-examples/contours-shape-analysis.md)
 - [Detect and match local features](articles/opencv-examples/feature-detection-and-matching.md)
 
