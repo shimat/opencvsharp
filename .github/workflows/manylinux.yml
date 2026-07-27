@@ -7,6 +7,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: read
+
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 5.0.0
@@ -23,7 +27,10 @@ jobs:
     name: Linux (x64, full)
     runs-on: ubuntu-24.04
     container:
-      image: quay.io/pypa/manylinux_2_28_x86_64
+      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       options: --user root
 
     steps:
@@ -54,7 +61,10 @@ jobs:
     name: Linux (x64, headless)
     runs-on: ubuntu-24.04
     container:
-      image: quay.io/pypa/manylinux_2_28_x86_64
+      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       options: --user root
 
     steps:
@@ -88,7 +98,10 @@ jobs:
     name: Linux (x64, slim)
     runs-on: ubuntu-24.04
     container:
-      image: quay.io/pypa/manylinux_2_28_x86_64
+      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       options: --user root
 
     steps:
