@@ -1,0 +1,96 @@
+name: Sync manylinux image to GHCR
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Upstream manylinux image reference to mirror
+        required: true
+        default: quay.io/pypa/manylinux_2_28_x86_64:latest
+        type: string
+  # Bootstrap the initial mirror before this workflow exists on main.
+  # Remove this push trigger after the first successful publication.
+  push:
+    branches:
+      - agent/mirror-manylinux-image
+    paths:
+      - .github/workflows/sync-manylinux-image.yml
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: sync-manylinux-image
+  cancel-in-progress: false
+
+env:
+  DEFAULT_SOURCE_REF: quay.io/pypa/manylinux_2_28_x86_64:latest
+  DESTINATION_IMAGE: ghcr.io/shimat/opencvsharp-manylinux
+  DESTINATION_TAG: manylinux_2_28_x86_64
+
+jobs:
+  sync:
+    name: Mirror manylinux_2_28 x64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Pull upstream image with retries
+        id: pull
+        env:
+          SOURCE_REF: ${{ inputs.source_ref || env.DEFAULT_SOURCE_REF }}
+        run: |
+          set -euo pipefail
+
+          for attempt in 1 2 3 4 5; do
+            if docker pull "${SOURCE_REF}"; then
+              break
+            fi
+
+            if [ "${attempt}" -eq 5 ]; then
+              echo "Failed to pull ${SOURCE_REF} after ${attempt} attempts." >&2
+              exit 1
+            fi
+
+            delay=$((attempt * 15))
+            echo "Pull attempt ${attempt} failed; retrying in ${delay} seconds." >&2
+            sleep "${delay}"
+          done
+
+          echo "source_ref=${SOURCE_REF}" >> "${GITHUB_OUTPUT}"
+
+      - name: Log in to GHCR
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "${GHCR_TOKEN}" | docker login ghcr.io --username "${GITHUB_ACTOR}" --password-stdin
+
+      - name: Push mirror and report digest
+        id: push
+        env:
+          SOURCE_REF: ${{ steps.pull.outputs.source_ref }}
+        run: |
+          set -euo pipefail
+
+          destination_ref="${DESTINATION_IMAGE}:${DESTINATION_TAG}"
+          push_log="${RUNNER_TEMP}/manylinux-push.log"
+
+          docker tag "${SOURCE_REF}" "${destination_ref}"
+          docker push "${destination_ref}" | tee "${push_log}"
+
+          digest="$(sed -n 's/.*digest: \(sha256:[0-9a-f]\{64\}\).*/\1/p' "${push_log}" | tail -n 1)"
+          if [ -z "${digest}" ]; then
+            echo "Could not determine the pushed image digest." >&2
+            exit 1
+          fi
+
+          docker pull "${DESTINATION_IMAGE}@${digest}"
+
+          echo "digest=${digest}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "### manylinux mirror"
+            echo
+            echo "- Source: \`${SOURCE_REF}\`"
+            echo "- Destination: \`${destination_ref}\`"
+            echo "- Pinned reference: \`${DESTINATION_IMAGE}@${digest}\`"
+          } >> "${GITHUB_STEP_SUMMARY}"
