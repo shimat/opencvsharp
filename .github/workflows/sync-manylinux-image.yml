@@ -8,13 +8,6 @@ on:
         required: true
         default: quay.io/pypa/manylinux_2_28_x86_64:latest
         type: string
-  # Bootstrap the initial mirror before this workflow exists on main.
-  # Remove this push trigger after the first successful publication.
-  push:
-    branches:
-      - agent/mirror-manylinux-image
-    paths:
-      - .github/workflows/sync-manylinux-image.yml
 
 permissions:
   contents: read
