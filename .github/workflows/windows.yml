@@ -15,6 +15,14 @@ on:
         description: 'DTFilter iterations per diagnostic thread mode'
         type: number
         default: 1000
+      diagnostic_artifact_run_id:
+        description: 'Reuse symbol-matched native artifacts from this workflow run'
+        type: string
+        default: ''
+      diagnostic_full_suite_runs:
+        description: 'Number of full ARM64 test-suite diagnostic runs'
+        type: number
+        default: 0
   pull_request:
     types: [synchronize, opened]
   push:
@@ -335,6 +343,7 @@ jobs:
   build-arm64:
     name: Windows (arm64)
 
+    if: inputs.diagnose_ximgproc_arm64 != true || inputs.diagnostic_artifact_run_id == ''
     runs-on: windows-11-arm
 
     steps:
@@ -570,3 +579,82 @@ jobs:
         with:
           name: packages_windows_arm64
           path: ${{ github.workspace }}\artifacts
+
+  diagnose-arm64-reuse:
+    name: Windows (arm64, reused diagnostic symbols)
+
+    if: inputs.diagnose_ximgproc_arm64 == true && inputs.diagnostic_artifact_run_id != ''
+    runs-on: windows-11-arm
+
+    permissions:
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            10.0.x
+
+      - name: Download symbol-matched native diagnostic artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: windows-arm64-dtfilter-diagnostic
+          path: diagnostic-native
+          repository: shimat/opencvsharp
+          run-id: ${{ inputs.diagnostic_artifact_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Deploy diagnostic OpenCvSharpExtern
+        shell: pwsh
+        run: |
+          $dll = Get-ChildItem diagnostic-native -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
+          $pdb = Get-ChildItem diagnostic-native -Recurse -Filter OpenCvSharpExtern.pdb | Select-Object -First 1
+          if (-not $dll) { throw "OpenCvSharpExtern.dll was not found in the diagnostic artifact." }
+          if (-not $pdb) { throw "OpenCvSharpExtern.pdb was not found in the diagnostic artifact." }
+          Copy-Item $dll.FullName test\OpenCvSharp.Tests\OpenCvSharpExtern.dll
+          Write-Host "Using diagnostic DLL: $($dll.FullName)"
+          Write-Host "Using diagnostic PDB: $($pdb.FullName)"
+
+      - name: Diagnose the full ARM64 test suite
+        id: full-suite-diagnostic
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $runs = [int]"${{ inputs.diagnostic_full_suite_runs }}"
+          if ($runs -lt 1) { throw "diagnostic_full_suite_runs must be greater than zero." }
+
+          $failed = $false
+          for ($run = 1; $run -le $runs; $run++) {
+            Write-Host "Starting full ARM64 diagnostic run $run of $runs"
+            $resultsDirectory = "test\OpenCvSharp.Tests\TestResults\full-suite-$run"
+            dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --results-directory $resultsDirectory --blame-crash --blame-crash-dump-type full
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "Full ARM64 diagnostic run $run failed with exit code $LASTEXITCODE"
+              $failed = $true
+            }
+          }
+
+          if ($failed) { exit 1 }
+
+      - name: Upload full-suite diagnostic artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-arm64-full-suite-diagnostic
+          path: |
+            diagnostic-native/
+            test/OpenCvSharp.Tests/TestResults/
+          if-no-files-found: warn
+
+      - name: Report full-suite diagnostic failure
+        if: always() && steps.full-suite-diagnostic.outcome == 'failure'
+        shell: pwsh
+        run: |
+          throw "The full ARM64 diagnostic failed. Inspect windows-arm64-full-suite-diagnostic for the symbol-matched dump."
