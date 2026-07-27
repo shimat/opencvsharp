@@ -380,7 +380,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}${{ inputs.diagnose_ximgproc_arm64 && '-relwithdebinfo' || '' }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}${{ inputs.diagnose_ximgproc_arm64 && '-debuginfo' || '' }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -447,9 +447,10 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          $buildConfig = if ("${{ inputs.diagnose_ximgproc_arm64 }}" -eq "true") { "RelWithDebInfo" } else { "Release" }
-          cmake --build opencv/build --config $buildConfig -j 4
-          cmake --install opencv/build --config $buildConfig
+          cmake --build opencv/build --config Release -j 4
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --install opencv/build --config Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -472,9 +473,9 @@ jobs:
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
-            -D CMAKE_MAP_IMPORTED_CONFIG_RELEASE="${{ inputs.diagnose_ximgproc_arm64 && 'RelWithDebInfo' || 'Release' }}" `
             -D OPENCVSHARP_BUILD_WITH_DEBUG_INFO="${{ inputs.diagnose_ximgproc_arm64 && 'ON' || 'OFF' }}"
           cmake --build src/build_arm64 --config Release -j 4
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Build OpenCvSharpExtern (slim)
         if: inputs.diagnose_ximgproc_arm64 != true
