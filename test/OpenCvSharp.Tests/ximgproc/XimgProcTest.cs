@@ -535,6 +535,8 @@ public class XImgProcTest : TestBase
         using var toPtsMat = Mat.FromArray(toPts);
         using var denseFlow = new Mat();
 
+        // OpenCV expects K not to exceed the number of available sparse matches.
+        interpolator.K = fromPts.Length;
         interpolator.Interpolate(fromImage, fromPtsMat, toImage, toPtsMat, denseFlow);
         Assert.False(denseFlow.Empty());
     }
