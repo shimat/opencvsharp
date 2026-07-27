@@ -2,7 +2,7 @@
 
 This is an **internal implementation package** for [OpenCvSharp](https://github.com/shimat/opencvsharp). It provides the native OpenCV shared library (`OpenCvSharpExtern`) for a specific platform.
 
-The managed OpenCvSharp API is intentionally designed to stay as close as practical to the native OpenCV C++ API. See [OpenCV C++, OpenCV-Python, and OpenCvSharp](https://shimat.github.io/opencvsharp/articles/getting-started/opencv-api-comparison.html) for the main API and data-model differences.
+The managed OpenCvSharp API is intentionally designed to stay as close as practical to the native OpenCV C++ API. See [OpenCV C++, Python (cv2), and OpenCvSharp](https://shimat.github.io/opencvsharp/articles/getting-started/opencv-api-comparison.html) for the main API and data-model differences.
 
 > In most cases you do not need to reference this package directly. Use one of the all-in-one packages instead:
 > - **Windows:** `OpenCvSharp5.Windows` or `OpenCvSharp5.Windows.Slim`

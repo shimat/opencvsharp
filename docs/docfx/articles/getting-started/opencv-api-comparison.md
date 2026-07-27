@@ -1,4 +1,4 @@
-# OpenCV C++, OpenCV-Python, and OpenCvSharp
+# OpenCV C++, Python (cv2), and OpenCvSharp
 
 OpenCvSharp exposes OpenCV to .NET applications. Its API is intentionally designed to stay as close as practical to the native OpenCV C++ API so that OpenCV concepts, documentation, and code transfer naturally to .NET. Most computer vision concepts, algorithm behavior, and parameter constraints come directly from OpenCV, while the managed surface also follows C# conventions and cannot be translated mechanically from every C++ or Python example.
 
@@ -8,11 +8,11 @@ Use the official OpenCV documentation for algorithm theory and native parameter 
 
 OpenCV is implemented primarily in C++. Its C++ API is therefore the closest description of the native functions that OpenCvSharp eventually calls.
 
-OpenCV-Python is an official generated binding over the same native implementation. Images are normally presented as NumPy arrays, and the binding adapts many C++ output parameters into Python return values. Recent releases also provide `cv2.Mat`, a specialized `numpy.ndarray` subclass for preserving channel information, but it is not the usual image representation in Python code.
+OpenCV's Python bindings are generated from the same native API and are normally imported as `cv2`. Images are normally presented as NumPy arrays, and the binding adapts many C++ output parameters into Python return values. Recent releases also provide `cv2.Mat`, a specialized `numpy.ndarray` subclass for preserving channel information, but it is not the usual image representation in Python code.
 
 OpenCvSharp is a .NET wrapper with a managed API and a native bridge. It preserves many OpenCV names and concepts while representing them with .NET classes, enums, arrays, spans, exceptions, and `IDisposable`.
 
-| Concept | OpenCV C++ | OpenCV-Python | OpenCvSharp |
+| Concept | OpenCV C++ | Python (`cv2`) | OpenCvSharp |
 |---|---|---|---|
 | Free function | `cv::GaussianBlur` | `cv2.GaussianBlur` | `Cv2.GaussianBlur` |
 | Submodule function | `cv::dnn::readNetFromONNX` | `cv2.dnn.readNetFromONNX` | `Cv2.Dnn.ReadNetFromONNX` |
@@ -20,11 +20,13 @@ OpenCvSharp is a .NET wrapper with a managed API and a native bridge. It preserv
 | Image size | `cv::Size` | `(width, height)` tuple | `Size` |
 | Coordinate | `cv::Point` | `(x, y)` tuple | `Point` |
 | Color conversion enum and value | `cv::ColorConversionCodes` and `cv::COLOR_BGR2GRAY` | `cv2.COLOR_BGR2GRAY` | `ColorConversionCodes.BGR2GRAY` |
-| Output image | `OutputArray dst` argument | Usually a return value | Usually a caller-owned `Mat` argument |
+| Output image | Usually a caller-owned `cv::Mat` argument | Usually a return value | Usually a caller-owned `Mat` argument |
 | Native failure | `cv::Exception` | `cv2.error` | `OpenCVException` |
 | Lifetime | RAII and reference counting | Python and NumPy ownership | `IDisposable` and `using` |
 
 The correspondence is deliberately recognizable, but it is not a promise that every native overload has an identical managed overload.
+
+In both C++ and OpenCvSharp, many signatures declare the destination as `OutputArray`, but callers normally pass a `cv::Mat` or `Mat` directly.
 
 ## The same operation in three languages
 
