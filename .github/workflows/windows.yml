@@ -462,7 +462,6 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
-          $buildConfig = if ("${{ inputs.diagnose_ximgproc_arm64 }}" -eq "true") { "RelWithDebInfo" } else { "Release" }
           cmake `
             -S src `
             -B src/build_arm64 `
@@ -472,8 +471,10 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
-          cmake --build src/build_arm64 --config $buildConfig -j 4
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D CMAKE_MAP_IMPORTED_CONFIG_RELEASE="${{ inputs.diagnose_ximgproc_arm64 && 'RelWithDebInfo' || 'Release' }}" `
+            -D OPENCVSHARP_BUILD_WITH_DEBUG_INFO="${{ inputs.diagnose_ximgproc_arm64 && 'ON' || 'OFF' }}"
+          cmake --build src/build_arm64 --config Release -j 4
 
       - name: Build OpenCvSharpExtern (slim)
         if: inputs.diagnose_ximgproc_arm64 != true
@@ -529,8 +530,8 @@ jobs:
         with:
           name: windows-arm64-dtfilter-diagnostic
           path: |
-            src/build_arm64/OpenCvSharpExtern/RelWithDebInfo/OpenCvSharpExtern.dll
-            src/build_arm64/OpenCvSharpExtern/RelWithDebInfo/OpenCvSharpExtern.pdb
+            src/build_arm64/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+            src/build_arm64/OpenCvSharpExtern/Release/OpenCvSharpExtern.pdb
             test/OpenCvSharp.Tests/TestResults/
           if-no-files-found: warn
 
@@ -538,7 +539,7 @@ jobs:
         if: always() && inputs.diagnose_ximgproc_arm64 == true && (steps.dtfilter-single-thread.outcome == 'failure' || steps.dtfilter-default-threads.outcome == 'failure')
         shell: powershell
         run: |
-          Write-Error "DTFilter diagnostic failed. Inspect windows-arm64-dtfilter-diagnostic for the symbol-matched dump."
+          throw "DTFilter diagnostic failed. Inspect windows-arm64-dtfilter-diagnostic for the symbol-matched dump."
 
       - name: Upload crash dumps on failure
         if: failure() && inputs.diagnose_ximgproc_arm64 != true

@@ -29,12 +29,17 @@ option(NO_BARCODE "Disable barcode bindings" OFF)
 option(NO_HIGHGUI "Disable highgui bindings" OFF)
 option(NO_VIDEOIO "Disable videoio bindings" OFF)
 option(NO_INSTALL_TO_TEST "Skip copying built DLL to the test project directory (Windows only)" OFF)
+option(OPENCVSHARP_BUILD_WITH_DEBUG_INFO "Generate compiler and linker symbols for MSVC diagnostics" OFF)
 
 # Enable MSVC security hardening flags (issue #1841)
 if(MSVC)
   add_compile_options(/guard:cf /GS)
   # /HIGHENTROPYVA: enable high-entropy 64-bit ASLR
   add_link_options(/guard:cf /DYNAMICBASE /HIGHENTROPYVA)
+  if(OPENCVSHARP_BUILD_WITH_DEBUG_INFO)
+    add_compile_options(/Zi)
+    add_link_options(/DEBUG:FULL)
+  endif()
 endif()
 
 # Convert options to compile definitions so C++ preprocessor can see them
