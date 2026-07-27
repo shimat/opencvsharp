@@ -6,7 +6,7 @@
 
 OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. Its API is intentionally designed to stay as close as practical to the native OpenCV C++ API so that OpenCV concepts, documentation, and code can be transferred to .NET with minimal friction, while still using C# conventions such as typed enums, exceptions, and deterministic disposal.
 
-See [OpenCV C++, OpenCV-Python, and OpenCvSharp](https://shimat.github.io/opencvsharp/articles/getting-started/opencv-api-comparison.html) for the main API and data-model differences.
+See [OpenCV C++, Python (cv2), and OpenCvSharp](https://shimat.github.io/opencvsharp/articles/getting-started/opencv-api-comparison.html) for the main API and data-model differences.
 
 ## 🚀 [Try the Live Demo](https://shimat.github.io/opencvsharp_blazor_sample/)
 

@@ -13,7 +13,7 @@ Start with these pages in order:
 5. Learn how to [manage native resources](guides/resource-management.md).
 6. Understand [array proxies and in-place processing](guides/input-output-arrays-and-in-place.md), then learn how to control [copies and native memory](guides/memory-copy-and-performance.md).
 
-Already familiar with OpenCV C++ or OpenCV-Python? Start with the [API comparison and translation guide](getting-started/opencv-api-comparison.md).
+Already familiar with OpenCV C++ or Python (`cv2`)? Start with the [API comparison and translation guide](getting-started/opencv-api-comparison.md).
 
 ## OpenCvSharp and .NET guides
 
