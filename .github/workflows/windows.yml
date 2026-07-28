@@ -449,7 +449,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-z7
 
       - name: Build OpenCvSharpExtern (full)
         shell: powershell
