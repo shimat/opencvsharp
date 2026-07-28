@@ -15,6 +15,7 @@ on:
 
 env:
   OPENCV_VERSION: "5.0.0"
+  OPENCV_ARM64_CACHE_REVISION: "2"
   MEDIAMTX_VERSION: "1.19.3"
   MEDIAMTX_SHA256: "5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe"
 
@@ -371,7 +372,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -410,6 +411,8 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D WITH_FFMPEG=OFF `
+            -D CMAKE_C_FLAGS="/Z7" `
+            -D CMAKE_CXX_FLAGS="/Z7" `
             -D CMAKE_ASM_COMPILER="" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -438,14 +441,16 @@ jobs:
         shell: powershell
         run: |
           cmake --build opencv/build --config Release -j 4
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           cmake --install opencv/build --config Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Build OpenCvSharpExtern (full)
         shell: powershell
@@ -460,8 +465,10 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCVSHARP_BUILD_WITH_DEBUG_INFO=ON
           cmake --build src/build_arm64 --config Release -j 4
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Build OpenCvSharpExtern (slim)
         shell: powershell
@@ -494,8 +501,11 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: windows-arm64-crash-dumps
-          path: test/OpenCvSharp.Tests/TestResults/
+          name: windows-arm64-crash-diagnostics
+          path: |
+            src/build_arm64/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+            src/build_arm64/OpenCvSharpExtern/Release/OpenCvSharpExtern.pdb
+            test/OpenCvSharp.Tests/TestResults/
           if-no-files-found: ignore
 
       - name: Pack NuGet packages
