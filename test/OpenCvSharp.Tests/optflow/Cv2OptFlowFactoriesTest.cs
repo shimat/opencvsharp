@@ -67,8 +67,9 @@ public class Cv2OptFlowFactoriesTest : TestBase
     public void CreateOptFlow_SparseToDense_CalcSmoke()
     {
         using var src = LoadImage("lenna.png");
-        using var from = src[new Rect(0, 0, 64, 64)];
-        using var to = src[new Rect(2, 0, 64, 64)];
+        // SparseToDense uses K=128 by default, so provide enough grid points for interpolation.
+        using var from = src[new Rect(0, 0, 256, 256)];
+        using var to = src[new Rect(2, 0, 256, 256)];
         using var flow = Cv2.OptFlow.CreateOptFlow_SparseToDense();
         using var flowMat = new Mat();
 
