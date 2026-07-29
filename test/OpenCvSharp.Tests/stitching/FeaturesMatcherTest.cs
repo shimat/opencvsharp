@@ -46,9 +46,8 @@ public class FeaturesMatcherTest : TestBase
         using var source = LoadImage("lenna.png", ImreadModes.Grayscale);
         var images = new[]
         {
-            source[new Rect(0, 0, 200, 200)].Clone(),
-            source[new Rect(100, 100, 200, 200)].Clone(),
-            source[new Rect(200, 0, 200, 200)].Clone(),
+            source.Clone(),
+            source.Clone(),
         };
         try
         {
@@ -70,6 +69,12 @@ public class FeaturesMatcherTest : TestBase
                     Assert.InRange(m.SrcImgIdx, -1, images.Length - 1);
                     Assert.InRange(m.DstImgIdx, -1, images.Length - 1);
                 }
+
+                var forwardMatch = Assert.Single(
+                    matches, m => m.SrcImgIdx == 0 && m.DstImgIdx == 1);
+                Assert.NotEmpty(forwardMatch.Matches);
+                Assert.True(forwardMatch.NumInliers > 0);
+                Assert.False(forwardMatch.H.Empty());
 
                 foreach (var m in matches)
                     m.Dispose();
