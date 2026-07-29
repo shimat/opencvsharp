@@ -102,7 +102,7 @@ public abstract class FeaturesMatcher : CvObject
                     throw new ArgumentException("features contain null descriptor mat", nameof(features));
                 featuresArray[i].Descriptors.ThrowIfDisposed();
 
-                keypointVecs[i] = new StdVector<KeyPoint>();
+                keypointVecs[i] = new StdVector<KeyPoint>(featuresArray[i].Keypoints);
                 wImageFeatures[i] = new WImageFeatures
                 {
                     ImgIdx = featuresArray[i].ImgIdx,
