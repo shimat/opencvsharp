@@ -24,8 +24,8 @@ public sealed class GrayCodePattern : StructuredLightPattern
     /// <param name="height">Projector height.</param>
     public static GrayCodePattern Create(int width = 1024, int height = 768)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(width);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(height);
+        ArgumentOutOfRangeException.ThrowIfLessThan(width, 2);
+        ArgumentOutOfRangeException.ThrowIfLessThan(height, 2);
 
         NativeMethods.HandleException(
             NativeMethods.structured_light_GrayCodePattern_create(
@@ -38,6 +38,9 @@ public sealed class GrayCodePattern : StructuredLightPattern
                 out var rawPtr));
         return new GrayCodePattern(smartPtr, rawPtr);
     }
+
+    /// <inheritdoc />
+    protected override int? GetRequiredPatternImageCount() => GetNumberOfPatternImages();
 
     /// <summary>
     /// Gets the number of Gray-code images required for projection and decoding.
@@ -135,6 +138,11 @@ public sealed class GrayCodePattern : StructuredLightPattern
             ArgumentNullException.ThrowIfNull(image);
             image.ThrowIfDisposed();
         }
+
+        var imageSize = patternImageArray[0].Size();
+        ValidateImages(patternImageArray, imageSize, nameof(patternImages));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, imageSize.Width);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(y, imageSize.Height);
 
         using var patternImageVector = new VectorOfMat(patternImageArray);
         NativeMethods.HandleException(

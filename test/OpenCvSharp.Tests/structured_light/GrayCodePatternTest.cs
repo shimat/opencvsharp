@@ -5,6 +5,14 @@ namespace OpenCvSharp.Tests.StructuredLight;
 
 public class GrayCodePatternTest : TestBase
 {
+    [Theory]
+    [InlineData(1, 8)]
+    [InlineData(16, 1)]
+    public void CreateRejectsSinglePixelProjectorAxis(int width, int height)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => GrayCodePattern.Create(width, height));
+    }
+
     [Fact]
     public void GenerateAndDecodeProjectorPixel()
     {
@@ -73,6 +81,87 @@ public class GrayCodePatternTest : TestBase
         {
             DisposeAll(firstCameraPatterns);
             DisposeAll(secondCameraPatterns);
+        }
+    }
+
+    [Fact]
+    public void DecodeValidatesPatternCountAndImageProperties()
+    {
+        const int width = 16;
+        const int height = 8;
+        using var grayCode = GrayCodePattern.Create(width, height);
+        var patternImages = grayCode.Generate();
+        try
+        {
+            using var black = new Mat();
+            using var white = new Mat();
+            grayCode.GetImagesForShadowMasks(black, white);
+            using var disparity = new Mat();
+
+            Assert.Throws<ArgumentException>(() => grayCode.Decode(
+                [patternImages[..^1], patternImages[..^1]],
+                disparity,
+                [black, black],
+                [white, white]));
+
+            using var wrongTypePattern = new Mat(height, width, MatType.CV_8UC3);
+            var patternsWithWrongType = patternImages.ToArray();
+            patternsWithWrongType[0] = wrongTypePattern;
+            Assert.Throws<ArgumentException>(() => grayCode.Decode(
+                [patternsWithWrongType, patternImages],
+                disparity,
+                [black, black],
+                [white, white]));
+
+            using var wrongSizeBlack = new Mat(height - 1, width, MatType.CV_8UC1);
+            Assert.Throws<ArgumentException>(() => grayCode.Decode(
+                [patternImages, patternImages],
+                disparity,
+                [wrongSizeBlack, black],
+                [white, white]));
+
+            using var wrongTypeWhite = new Mat(height, width, MatType.CV_32FC1);
+            Assert.Throws<ArgumentException>(() => grayCode.Decode(
+                [patternImages, patternImages],
+                disparity,
+                [black, black],
+                [wrongTypeWhite, white]));
+        }
+        finally
+        {
+            DisposeAll(patternImages);
+        }
+    }
+
+    [Fact]
+    public void TryGetProjectorPixelValidatesImagesAndCoordinates()
+    {
+        const int width = 16;
+        const int height = 8;
+        using var grayCode = GrayCodePattern.Create(width, height);
+        var patternImages = grayCode.Generate();
+        try
+        {
+            using var wrongTypePattern = new Mat(height, width, MatType.CV_8UC3);
+            var patternsWithWrongType = patternImages.ToArray();
+            patternsWithWrongType[0] = wrongTypePattern;
+            Assert.Throws<ArgumentException>(() =>
+                grayCode.TryGetProjectorPixel(patternsWithWrongType, 0, 0, out _));
+
+            using var wrongSizePattern = new Mat(height - 1, width, MatType.CV_8UC1);
+            var patternsWithWrongSize = patternImages.ToArray();
+            patternsWithWrongSize[0] = wrongSizePattern;
+            Assert.Throws<ArgumentException>(() =>
+                grayCode.TryGetProjectorPixel(patternsWithWrongSize, 0, 0, out _));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                grayCode.TryGetProjectorPixel(patternImages, width, 0, out _));
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                grayCode.TryGetProjectorPixel(patternImages, 0, height, out _));
+        }
+        finally
+        {
+            DisposeAll(patternImages);
         }
     }
 
