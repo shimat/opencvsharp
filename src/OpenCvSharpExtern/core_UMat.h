@@ -199,7 +199,7 @@ CVAPI(ExceptionStatus) core_UMat_diag(
 {
     return cvTry([&] {
         const auto ret = self->diag(d);
-    *returnValue = new cv::UMat(ret);
+        *returnValue = new cv::UMat(ret);
     });
 }
 CVAPI(ExceptionStatus) core_UMat_diag_static(cv::UMat* self, cv::UMat** returnValue)
