@@ -736,7 +736,9 @@ public class ArucoTest : TestBase
         Assert.NotNull(charucoIds);
         Assert.NotNull(markerCorners);
         Assert.NotNull(markerIds);
-        Assert.True(charucoIds.Length > 0, "Expected at least one charuco corner detected");
+        var expectedCornerCount = (board.ChessboardSize.Width - 1) * (board.ChessboardSize.Height - 1);
+        Assert.Equal(expectedCornerCount, charucoCorners.Length);
+        Assert.Equal(expectedCornerCount, charucoIds.Length);
         Assert.Equal(charucoCorners.Length, charucoIds.Length);
         Assert.Equal(markerCorners.Length, markerIds.Length);
     }

@@ -733,10 +733,17 @@ CVAPI(ExceptionStatus) aruco_CharucoDetector_detectBoard(
 	return cvTry([&] {
 	cv::Mat charucoCorners_mat, charucoIds_mat;
 	detector->detectBoard(InProxy(*image), charucoCorners_mat, charucoIds_mat, *markerCorners, *markerIds);
-	for (int i = 0; i < charucoCorners_mat.rows; ++i)
+	CV_Assert(charucoCorners_mat.total() == charucoIds_mat.total());
+	if (!charucoCorners_mat.empty())
 	{
-		charucoCorners->push_back(charucoCorners_mat.at<cv::Point2f>(i, 0));
-		charucoIds->push_back(charucoIds_mat.at<int>(i, 0));
+		charucoCorners->insert(
+			charucoCorners->end(),
+			charucoCorners_mat.begin<cv::Point2f>(),
+			charucoCorners_mat.end<cv::Point2f>());
+		charucoIds->insert(
+			charucoIds->end(),
+			charucoIds_mat.begin<int>(),
+			charucoIds_mat.end<int>());
 	}
 	});
 }
