@@ -24,7 +24,7 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byUMat(cv::UMat* mat, cv::_OutputArr
 {
     return cvTry([&] {
         const cv::_OutputArray ia(*mat);
-    *returnValue = new cv::_OutputArray(ia);
+        *returnValue = new cv::_OutputArray(ia);
     });
 }
 
