@@ -19,9 +19,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
-    <PackageReference Include="Avalonia.Headless.XUnit" Version="12.1.0" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="12.1.1" />
     <!-- Real Skia-backed WriteableBitmap storage for the tests; not needed by the library itself. -->
-    <PackageReference Include="Avalonia.Skia" Version="12.1.0" />
+    <PackageReference Include="Avalonia.Skia" Version="12.1.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
