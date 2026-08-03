@@ -44,7 +44,7 @@
   <ItemGroup>
     <!-- Avalonia.Base.dll (WriteableBitmap/PixelFormat) ships inside the "Avalonia" package itself;
          there is no separate "Avalonia.Base" NuGet package to depend on instead. -->
-    <PackageReference Include="Avalonia" Version="12.1.0" />
+    <PackageReference Include="Avalonia" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup>
