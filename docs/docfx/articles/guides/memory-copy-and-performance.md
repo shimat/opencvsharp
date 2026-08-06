@@ -217,6 +217,8 @@ When using BenchmarkDotNet or another harness:
 
 Managed allocation counters do not include most `Mat` pixel storage. Use process memory, native profilers, or a controlled working-set test when native memory is the concern.
 
+OpenCL operations using `UMat` may be queued asynchronously. Follow [OpenCL Acceleration with UMat](opencl-and-umat.md) to include device execution and synchronization in benchmark results.
+
 ## Choose an ownership operation
 
 | Requirement | Preferred operation |
@@ -234,6 +236,7 @@ Managed allocation counters do not include most `Mat` pixel storage. Use process
 - [Pixel Access](pixel-access.md)
 - [InputArray, OutputArray, and In-place Processing](input-output-arrays-and-in-place.md)
 - [Resource Management](resource-management.md)
+- [OpenCL Acceleration with UMat](opencl-and-umat.md)
 
 ## Official OpenCV references
 

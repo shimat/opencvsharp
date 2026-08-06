@@ -86,6 +86,8 @@ PS1> Install-WindowsFeature Server-Media-Foundation
 
 **OpenCvSharp does not support CUDA.** If you want to use CUDA features, you need to customize the native bindings yourself.
 
+OpenCV's OpenCL Transparent API can be used through `UMat`. See [OpenCL Acceleration with UMat](docs/docfx/articles/guides/opencl-and-umat.md) for runtime diagnostics and benchmarking guidance.
+
 ## Installation
 
 ### Windows x64
