@@ -7,6 +7,7 @@
 #include "core_Mat.h"
 #include "core_UMat.h"
 #include "core_MatExpr.h"
+#include "core_ocl.h"
 #include "core_OutputArray.h"
 #include "core_PCA.h"
 #include "core_SparseMat.h"
