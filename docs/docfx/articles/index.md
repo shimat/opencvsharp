@@ -22,6 +22,7 @@ Already familiar with OpenCV C++ or Python (`cv2`)? Start with the [API comparis
 - [Manage native resources](guides/resource-management.md)
 - [Use InputArray, OutputArray, and in-place processing safely](guides/input-output-arrays-and-in-place.md)
 - [Control copies, native memory, and hot-loop allocations](guides/memory-copy-and-performance.md)
+- [Use and benchmark OpenCL acceleration with UMat](guides/opencl-and-umat.md)
 - [Access and modify pixels](guides/pixel-access.md)
 - [Encode images and convert UI image types](guides/image-conversion.md)
 - [Store matrices and parameters in YAML, XML, or JSON](guides/file-storage.md)
