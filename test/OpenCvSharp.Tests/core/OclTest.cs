@@ -35,4 +35,37 @@ public class OclTest : TestBase
         using var result = dst.GetMat(AccessFlag.READ);
         Assert.Equal(1, result.At<byte>(0, 0));
     }
+
+    [Fact]
+    public void GetPlatformsInfoReturnsSnapshots()
+    {
+        var platforms = Cv2.Ocl.GetPlatformsInfo();
+
+        if (!Cv2.Ocl.HaveOpenCL())
+        {
+            Assert.Empty(platforms);
+            return;
+        }
+
+        Assert.NotEmpty(platforms);
+        Assert.All(platforms, platform =>
+        {
+            Assert.NotNull(platform.Name);
+            Assert.NotNull(platform.Vendor);
+            Assert.NotNull(platform.Version);
+            Assert.True(platform.VersionMajor >= 0);
+            Assert.True(platform.VersionMinor >= 0);
+            Assert.All(platform.Devices, device =>
+            {
+                Assert.NotNull(device.Name);
+                Assert.NotNull(device.VendorName);
+                Assert.NotNull(device.OpenCLVersion);
+                Assert.NotNull(device.OpenCLCVersion);
+                Assert.NotNull(device.DriverVersion);
+                Assert.True(device.AddressBits >= 0);
+                Assert.True(device.MaxClockFrequency >= 0);
+                Assert.True(device.MaxComputeUnits >= 0);
+            });
+        });
+    }
 }
