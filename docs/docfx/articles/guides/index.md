@@ -8,6 +8,7 @@ These guides cover the parts of using OpenCV that are specific to OpenCvSharp, C
 - [Resource Management](resource-management.md) explains deterministic disposal and ownership transfer for native resources.
 - [InputArray, OutputArray, and In-place Processing](input-output-arrays-and-in-place.md) explains temporary proxies, destination arguments, and safe in-place operations.
 - [Copies, Native Memory, and Performance](memory-copy-and-performance.md) distinguishes headers, views, clones, managed copies, and reusable buffers.
+- [OpenCL Acceleration with UMat](opencl-and-umat.md) explains runtime detection, device diagnostics, transfer boundaries, and synchronized benchmarking.
 - [Pixel Access](pixel-access.md) compares indexed, row-based, span-based, and pointer-based access.
 
 ## Application integration

@@ -15,6 +15,7 @@ OpenCvSharp is a cross-platform .NET wrapper for OpenCV. This site contains the 
 - [Manage native resources](articles/guides/resource-management.md)
 - [Understand InputArray, OutputArray, and in-place processing](articles/guides/input-output-arrays-and-in-place.md)
 - [Control copies, native memory, and performance](articles/guides/memory-copy-and-performance.md)
+- [Use and benchmark OpenCL acceleration with UMat](articles/guides/opencl-and-umat.md)
 - [Diagnose common errors](articles/troubleshooting/common-errors.md)
 - [Troubleshoot native library loading](articles/troubleshooting/native-library-loading.md)
 - [Migrate from OpenCvSharp4 to OpenCvSharp5](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md)

@@ -21,6 +21,8 @@
       href: guides/input-output-arrays-and-in-place.md
     - name: Copies, Native Memory, and Performance
       href: guides/memory-copy-and-performance.md
+    - name: OpenCL Acceleration with UMat
+      href: guides/opencl-and-umat.md
     - name: Pixel Access
       href: guides/pixel-access.md
     - name: Image Encoding and Conversion
