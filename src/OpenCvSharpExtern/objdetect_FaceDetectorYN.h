@@ -46,6 +46,15 @@ CVAPI(ExceptionStatus) objdetect_Ptr_FaceDetectorYN_get(cv::Ptr<cv::FaceDetector
     });
 }
 
+CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_setInputSize(
+    cv::FaceDetectorYN* obj,
+    const interop::Size inputSize)
+{
+    return cvTry([&] {
+        obj->setInputSize(cpp(inputSize));
+    });
+}
+
 CVAPI(ExceptionStatus) objdetect_FaceDetectorYN_detect(
     cv::FaceDetectorYN* obj,
     const interop::InputArrayProxy* image,

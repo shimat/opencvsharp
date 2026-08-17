@@ -50,6 +50,22 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
+    public void SetInputSize()
+    {
+        using var image = LoadImage("lenna.png");
+        using var detector = FaceDetectorYN.Create(
+            ModelPath,
+            config: "",
+            inputSize: new Size(320, 320));
+
+        detector.SetInputSize(image.Width, image.Height);
+
+        using var faces = new Mat();
+        Assert.Equal(1, detector.Detect(image, faces));
+        Assert.False(faces.Empty());
+    }
+
+    [Fact]
     public void DisposeTwice()
     {
         var detector = FaceDetectorYN.Create(

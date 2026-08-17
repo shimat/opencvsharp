@@ -57,6 +57,24 @@ public class FaceDetectorYN : Algorithm
     }
 
     /// <summary>
+    /// Sets the network input size, overwriting the size specified when the detector was created.
+    /// </summary>
+    /// <param name="inputSize">The size of the input image.</param>
+    public void SetInputSize(Size inputSize)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.objdetect_FaceDetectorYN_setInputSize(Handle, inputSize));
+    }
+
+    /// <summary>
+    /// Sets the network input size, overwriting the size specified when the detector was created.
+    /// </summary>
+    /// <param name="width">The input image width.</param>
+    /// <param name="height">The input image height.</param>
+    public void SetInputSize(int width, int height) => SetInputSize(new Size(width, height));
+
+    /// <summary>
     /// A simple interface to detect face from given image.
     /// </summary>
     /// <param name="image">An image to detect</param>
