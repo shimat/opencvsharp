@@ -50,6 +50,20 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
+    public void CreateFromBuffer()
+    {
+        var model = File.ReadAllBytes(ModelPath);
+
+        using var detector = FaceDetectorYN.Create(
+            framework: "onnx",
+            bufferModel: model,
+            bufferConfig: Array.Empty<byte>(),
+            inputSize: new Size(320, 320));
+
+        Assert.NotNull(detector);
+    }
+
+    [Fact]
     public void SetInputSize()
     {
         using var image = LoadImage("lenna.png");
@@ -63,6 +77,28 @@ public class FaceDetectorYNTest : TestBase
         using var faces = new Mat();
         Assert.Equal(1, detector.Detect(image, faces));
         Assert.False(faces.Empty());
+    }
+
+    [Fact]
+    public void GetAndSetParameters()
+    {
+        using var detector = FaceDetectorYN.Create(
+            ModelPath,
+            config: "",
+            inputSize: new Size(320, 320));
+
+        Assert.Equal(new Size(320, 320), detector.GetInputSize());
+        detector.SetInputSize(640, 480);
+        Assert.Equal(new Size(640, 480), detector.GetInputSize());
+
+        detector.SetScoreThreshold(0.75f);
+        Assert.Equal(0.75f, detector.GetScoreThreshold());
+
+        detector.SetNMSThreshold(0.4f);
+        Assert.Equal(0.4f, detector.GetNMSThreshold());
+
+        detector.SetTopK(3000);
+        Assert.Equal(3000, detector.GetTopK());
     }
 
     [Fact]
