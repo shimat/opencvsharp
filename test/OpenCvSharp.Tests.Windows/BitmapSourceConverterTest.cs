@@ -1,11 +1,10 @@
 using System.Globalization;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Xunit;
-
-#pragma warning disable xUnit1004 // Test methods should not be skipped
 
 namespace OpenCvSharp.Tests.Windows;
 
@@ -59,74 +58,38 @@ public class BitmapSourceConverterTest : OpenCvSharp.Tests.TestBase
         }
     }
 
-    /// <summary>
-    /// https://github.com/shimat/opencvsharp/issues/304
-    /// </summary>
-    [StaFact(Skip = "sample")]
-    public void BitmapSourceSample()
+    [Fact]
+    public void BitmapSourceCanBeHostedInWpfWindow()
     {
-        const int size = 250;
-
-        BitmapSource bs8, bs16;
-
-        var blueColor8 = new Scalar(128, 0, 0);
-        var greenColor8 = new Scalar(0, 128, 0);
-        var redColor8 = new Scalar(0, 0, 128);
-        var whiteColor8 = new Scalar(255, 255, 255);
-        using (var mat = new Mat(size, size, MatType.CV_8UC3, new Scalar(128, 128, 128)))
+        RunInStaThread(() =>
         {
-            Cv2.Rectangle(mat, new Rect(15, 10, 100, 100), blueColor8, -1);
-            Cv2.PutText(mat, "B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+            using var mat = new Mat(1, 1, MatType.CV_16UC3, new Scalar(32767, 0, 0));
+            var source = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
+            var window = new System.Windows.Window
+            {
+                Content = new Image { Source = source },
+                Width = 1,
+                Height = 1,
+                Left = -10000,
+                Top = -10000,
+                ShowActivated = false,
+                ShowInTaskbar = false,
+                WindowStyle = System.Windows.WindowStyle.None,
+            };
 
-            Cv2.Rectangle(mat, new Rect(130, 10, 100, 100), greenColor8, -1);
-            Cv2.PutText(mat, "G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor8);
+            try
+            {
+                window.Show();
+                Assert.True(window.IsVisible);
+            }
+            finally
+            {
+                if (window.IsVisible)
+                    window.Close();
+            }
 
-            Cv2.Rectangle(mat, new Rect(75, 130, 100, 100), redColor8, -1);
-            Cv2.PutText(mat, "R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
-
-            bs8 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
-        }
-
-        var blueColor16 = new Scalar(32767, 0, 0);
-        var greenColor16 = new Scalar(0, 32767, 0);
-        var redColor16 = new Scalar(0, 0, 32767);
-        var whiteColor16 = new Scalar(65535, 65535, 65535);
-        using (var mat = new Mat(size, size, MatType.CV_16UC3, new Scalar(32767, 32767, 32767)))
-        {
-            Cv2.Rectangle(mat, new Rect(15, 10, 100, 100), blueColor16, -1);
-            Cv2.PutText(mat, "B", new Point(50, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
-
-            Cv2.Rectangle(mat, new Rect(130, 10, 100, 100), greenColor16, -1);
-            Cv2.PutText(mat, "G", new Point(165, 70), HersheyFonts.HersheyComplex, 1, whiteColor16);
-
-            Cv2.Rectangle(mat, new Rect(75, 130, 100, 100), redColor16, -1);
-            Cv2.PutText(mat, "R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
-
-            bs16 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
-        }
-
-        var image8 = new Image { Source = bs8 };
-        var image16 = new Image { Source = bs16 };
-        var grid = new Grid();
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        Grid.SetRow(image8, 0);
-        Grid.SetColumn(image8, 0);
-        grid.Children.Add(image8);
-        Grid.SetRow(image16, 0);
-        Grid.SetColumn(image16, 1);
-        grid.Children.Add(image16);
-        var window = new System.Windows.Window
-        {
-            Title = "Left:8bit Right:16bit",
-            Width = size * 2,
-            Height = size,
-            Content = grid
-        };
-
-        var app = new Application();
-        app.Run(window);
+            Assert.False(window.IsVisible);
+        });
     }
 
     private static void AssertPixelValue<T>(Scalar expectedValue, BitmapSource bs)
@@ -144,5 +107,32 @@ public class BitmapSourceConverterTest : OpenCvSharp.Tests.TestBase
         Assert.Equal(expectedValue.Val0, Convert.ToDouble(pixels[0], CultureInfo.InvariantCulture), 9);
         Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1], CultureInfo.InvariantCulture), 9);
         Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2], CultureInfo.InvariantCulture), 9);
+    }
+
+    private static void RunInStaThread(Action action)
+    {
+        ExceptionDispatchInfo? failure = null;
+        var thread = new Thread(() =>
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                failure = ExceptionDispatchInfo.Capture(ex);
+            }
+        })
+        {
+            IsBackground = true,
+        };
+
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+
+        Assert.True(
+            thread.Join(TimeSpan.FromSeconds(10)),
+            "The STA test thread did not finish within the timeout.");
+        failure?.Throw();
     }
 }

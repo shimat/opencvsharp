@@ -59,11 +59,11 @@ fi
 
 export OPENCVSHARP_TEST_RTSP_URL="rtsp://127.0.0.1:8554/test"
 export DYLD_LIBRARY_PATH="/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests${DYLD_LIBRARY_PATH:+:${DYLD_LIBRARY_PATH}}"
-dotnet test "${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj" \
+dotnet test --project "${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj" \
   -c Release \
   -f net10.0 \
   --runtime osx-arm64 \
   --no-build \
   --no-restore \
-  --filter "FullyQualifiedName=OpenCvSharp.Tests.VideoIO.VideoCaptureTest.ReadRtspStreamWithFFmpeg" \
+  --filter-method OpenCvSharp.Tests.VideoIO.VideoCaptureTest.ReadRtspStreamWithFFmpeg \
   < /dev/null

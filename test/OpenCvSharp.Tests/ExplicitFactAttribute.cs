@@ -18,17 +18,3 @@ public sealed class ExplicitFactAttribute : FactAttribute
         }
     }
 }
-
-public sealed class ExplicitStaFactAttribute : StaFactAttribute
-{
-    public ExplicitStaFactAttribute(
-        [CallerFilePath] string? sourceFilePath = null,
-        [CallerLineNumber] int sourceLineNumber = -1)
-        : base(sourceFilePath, sourceLineNumber)
-    {
-        if (!Debugger.IsAttached)
-        {
-            Skip = "Only running in interactive mode.";
-        }
-    }
-}

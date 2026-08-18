@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "description": "Group xunit packages",
-      "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Xunit.StaFact"],
+      "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Microsoft.Testing.Extensions.CrashDump"],
       "groupName": "xunit"
     },
     {

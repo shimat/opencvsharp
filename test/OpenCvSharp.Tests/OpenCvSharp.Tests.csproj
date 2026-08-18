@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CrashDump" Version="2.3.3" PrivateAssets="all" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.660" />
     <PackageReference Include="SkiaSharp" Version="4.151.1" />
@@ -42,7 +43,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
     <PackageReference Include="xunit.v3" Version="4.0.0" />
   </ItemGroup>
 

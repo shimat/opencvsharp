@@ -187,11 +187,11 @@ jobs:
 
       - name: Test
         shell: cmd
-        # --blame-crash* collects a full memory dump and a Sequence_*.xml (listing tests executed,
-        # in order) into test\OpenCvSharp.Tests\TestResults\ if the test host crashes, so an
+        # The MTP crash dump extension collects a full memory dump and a test sequence file into
+        # test\OpenCvSharp.Tests\TestResults\ if the test host crashes, so an
         # intermittent native access violation can be attributed to a specific test without a
         # re-run. See "Upload crash dumps on failure" below.
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 --blame-crash --blame-crash-dump-type full
+        run: dotnet test --project test\OpenCvSharp.Tests\OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime win-x64 --results-directory test\OpenCvSharp.Tests\TestResults --crashdump --crashdump-type Full
 
       - name: Test RTSP capture
         uses: ./.github/actions/test-rtsp-windows
@@ -211,7 +211,7 @@ jobs:
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net10.0-windows --runtime win-x64
+          dotnet test --project OpenCvSharp.Tests.Windows.csproj -c Release -f net10.0-windows --runtime win-x64
 
       - name: Test Avalonia extensions
         shell: powershell
@@ -221,7 +221,7 @@ jobs:
           # RID-specific bin\Release\net10.0\win-x64\ subfolder; copy into that exact folder.
           dotnet build -c Release -f net10.0 --runtime win-x64
           Copy-Item ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests\OpenCvSharpExtern.dll bin\Release\net10.0\win-x64\
-          dotnet test -c Release -f net10.0 --runtime win-x64 --no-build
+          dotnet test --project OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime win-x64 --no-build
 
       - name: Test NativeAOT publish
         shell: powershell
@@ -494,8 +494,8 @@ jobs:
 
       - name: Test
         shell: cmd
-        # See the x64 job's "Test" step above for why --blame-crash* is here.
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-arm64 --filter "FullyQualifiedName!=OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled" --blame-crash --blame-crash-dump-type full
+        # See the x64 job's "Test" step above for why crash dump collection is enabled here.
+        run: dotnet test --project test\OpenCvSharp.Tests\OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime win-arm64 --filter-not-method OpenCvSharp.Tests.Core.BuildConfigurationTest.FFMPEG_IsEnabled --results-directory test\OpenCvSharp.Tests\TestResults --crashdump --crashdump-type Full
 
       - name: Upload crash dumps on failure
         if: failure()

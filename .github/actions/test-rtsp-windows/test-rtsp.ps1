@@ -55,9 +55,9 @@ try {
     }
 
     $env:OPENCVSHARP_TEST_RTSP_URL = "rtsp://127.0.0.1:8554/test"
-    dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64 `
+    dotnet test --project test\OpenCvSharp.Tests\OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime win-x64 `
         --no-build --no-restore `
-        --filter "FullyQualifiedName=OpenCvSharp.Tests.VideoIO.VideoCaptureTest.ReadRtspStreamWithFFmpeg"
+        --filter-method OpenCvSharp.Tests.VideoIO.VideoCaptureTest.ReadRtspStreamWithFFmpeg
     if ($LASTEXITCODE -ne 0) {
         Get-Content $stdoutPath, $stderrPath -ErrorAction SilentlyContinue
         throw "RTSP integration test failed with exit code $LASTEXITCODE"

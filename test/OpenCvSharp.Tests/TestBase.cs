@@ -3,7 +3,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using Xunit;
 
-[assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]
+[assembly: Xunit.v3.Parallelization(Mode = Xunit.Sdk.ParallelMode.None)]
 
 #pragma warning disable CA1810 // Initialize reference type static fields inline
 #pragma warning disable CA5359 

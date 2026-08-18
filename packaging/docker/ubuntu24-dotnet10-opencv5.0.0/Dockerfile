@@ -152,7 +152,7 @@ RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
     dotnet build -c Release -f net8.0
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test --project /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --results-directory /opencvsharp/test/OpenCvSharp.Tests/TestResults --report-xunit-trx --report-xunit-trx-filename test-results.trx < /dev/null
 
 # Restore and publish as separate steps: see windows.yml's "Test NativeAOT publish" step for why
 # a combined restore+publish invocation fails restore with NETSDK1207 (NuGet's static graph
