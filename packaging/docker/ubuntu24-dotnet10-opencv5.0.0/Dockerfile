@@ -146,8 +146,10 @@ RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 li
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
+COPY global.json /opencvsharp/global.json
 COPY src/ /opencvsharp/src/
 COPY test/ /opencvsharp/test/
+WORKDIR /opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
