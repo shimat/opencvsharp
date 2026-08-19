@@ -11,3 +11,6 @@ src/build*/
 
 # Test projects
 !test/
+
+# Test runner configuration
+!global.json
