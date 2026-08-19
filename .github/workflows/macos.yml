@@ -55,21 +55,22 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: |
           /tmp/vcpkg/vcpkg install \
             --triplet x64-osx-static \
-            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
+            --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -215,21 +216,22 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: |
           /tmp/vcpkg/vcpkg install \
             --triplet arm64-osx-static \
-            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
+            --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
