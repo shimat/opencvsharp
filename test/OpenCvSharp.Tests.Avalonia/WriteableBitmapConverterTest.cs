@@ -1,6 +1,5 @@
 using System.Runtime.InteropServices;
 using Avalonia;
-using Avalonia.Headless.XUnit;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using OpenCvSharp.AvaloniaExtensions;
@@ -8,10 +7,11 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.Avalonia;
 
-public class WriteableBitmapConverterTest
+public class WriteableBitmapConverterTest(AvaloniaTestEnvironment testEnvironment) :
+    IClassFixture<AvaloniaTestEnvironment>
 {
-    [AvaloniaFact]
-    public void ToWriteableBitmapBgra()
+    [Fact]
+    public void ToWriteableBitmapBgra() => testEnvironment.Run(() =>
     {
         var expected = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
         using var mat = Mat.FromPixelData(1, 2, MatType.CV_8UC4, expected);
@@ -20,10 +20,10 @@ public class WriteableBitmapConverterTest
 
         Assert.Equal(PixelFormats.Bgra8888, wb.Format);
         Assert.Equal(expected, ReadPixels(wb, expected.Length));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToWriteableBitmapFromBgr()
+    [Fact]
+    public void ToWriteableBitmapFromBgr() => testEnvironment.Run(() =>
     {
         // one BGR pixel: B=10, G=20, R=30
         var bgr = new byte[] { 10, 20, 30 };
@@ -32,10 +32,10 @@ public class WriteableBitmapConverterTest
         using var wb = mat.ToWriteableBitmap();
 
         Assert.Equal(new byte[] { 10, 20, 30, 255 }, ReadPixels(wb, 4));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToWriteableBitmapFromGray()
+    [Fact]
+    public void ToWriteableBitmapFromGray() => testEnvironment.Run(() =>
     {
         var gray = new byte[] { 42 };
         using var mat = Mat.FromPixelData(1, 1, MatType.CV_8UC1, gray);
@@ -43,10 +43,10 @@ public class WriteableBitmapConverterTest
         using var wb = mat.ToWriteableBitmap();
 
         Assert.Equal(new byte[] { 42, 42, 42, 255 }, ReadPixels(wb, 4));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToWriteableBitmapSubmatrix()
+    [Fact]
+    public void ToWriteableBitmapSubmatrix() => testEnvironment.Run(() =>
     {
         var expected = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         using var mat = Mat.FromPixelData(3, 1, MatType.CV_8UC4, expected);
@@ -56,10 +56,10 @@ public class WriteableBitmapConverterTest
         using var wb = submat.ToWriteableBitmap();
 
         Assert.Equal(expected[4..12], ReadPixels(wb, 8));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToWriteableBitmapInPlaceReusesDestination()
+    [Fact]
+    public void ToWriteableBitmapInPlaceReusesDestination() => testEnvironment.Run(() =>
     {
         using var mat1 = Mat.FromPixelData(1, 1, MatType.CV_8UC4, new byte[] { 1, 2, 3, 4 });
         using var mat2 = Mat.FromPixelData(1, 1, MatType.CV_8UC4, new byte[] { 5, 6, 7, 8 });
@@ -68,19 +68,19 @@ public class WriteableBitmapConverterTest
         WriteableBitmapConverter.ToWriteableBitmap(mat2, wb);
 
         Assert.Equal(new byte[] { 5, 6, 7, 8 }, ReadPixels(wb, 4));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToWriteableBitmapUnsupportedDestinationFormatThrows()
+    [Fact]
+    public void ToWriteableBitmapUnsupportedDestinationFormatThrows() => testEnvironment.Run(() =>
     {
         using var mat = new Mat(1, 1, MatType.CV_8UC4);
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgb565);
 
         Assert.Throws<NotSupportedException>(() => WriteableBitmapConverter.ToWriteableBitmap(mat, wb));
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToMatBgra8888()
+    [Fact]
+    public void ToMatBgra8888() => testEnvironment.Run(() =>
     {
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Bgra8888);
         WritePixels(wb, new byte[] { 11, 22, 33, 44 });
@@ -90,10 +90,10 @@ public class WriteableBitmapConverterTest
         Assert.Equal(MatType.CV_8UC4, mat.Type());
         var indexer = mat.GetUnsafeGenericIndexer<Vec4b>();
         Assert.Equal(new Vec4b(11, 22, 33, 44), indexer[0, 0]);
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToMatRgba8888SwapsRedAndBlue()
+    [Fact]
+    public void ToMatRgba8888SwapsRedAndBlue() => testEnvironment.Run(() =>
     {
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgba8888);
         // R=11, G=22, B=33, A=44
@@ -104,10 +104,10 @@ public class WriteableBitmapConverterTest
         // Mat is BGRA-ordered, so R and B must be swapped relative to the Rgba8888 source bytes.
         var indexer = mat.GetUnsafeGenericIndexer<Vec4b>();
         Assert.Equal(new Vec4b(33, 22, 11, 44), indexer[0, 0]);
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToMatRgb32SwapsRedAndBlue()
+    [Fact]
+    public void ToMatRgb32SwapsRedAndBlue() => testEnvironment.Run(() =>
     {
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgb32);
         // Rgb32 (SKColorType.Rgb888x) is R,G,B,[ignored] byte order: R=11, G=22, B=33, X=255
@@ -118,14 +118,14 @@ public class WriteableBitmapConverterTest
         // Mat is BGRA-ordered, so R and B must be swapped relative to the Rgb32 source bytes.
         var indexer = mat.GetUnsafeGenericIndexer<Vec4b>();
         Assert.Equal(new Vec4b(33, 22, 11, 255), indexer[0, 0]);
-    }
+    });
 
-    [AvaloniaFact]
-    public void ToMatRgb565Throws()
+    [Fact]
+    public void ToMatRgb565Throws() => testEnvironment.Run(() =>
     {
         using var wb = new WriteableBitmap(new PixelSize(1, 1), new Vector(96, 96), PixelFormats.Rgb565);
         Assert.Throws<NotSupportedException>(() => wb.ToMat());
-    }
+    });
 
     private static byte[] ReadPixels(WriteableBitmap wb, int byteCount)
     {

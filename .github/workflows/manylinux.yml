@@ -245,15 +245,15 @@ jobs:
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 \
-            --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 \
+            --results-directory TestResults --report-xunit-trx --report-xunit-trx-filename test-results.trx < /dev/null
 
       - name: Test Avalonia extensions
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia
           dotnet build -c Release -f net10.0
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime linux-x64 < /dev/null
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime linux-x64 < /dev/null
 
       # Headless has the same module set as full except highgui, so it runs the same xunit
       # suite minus the one test class that calls into highgui (WaitKey/PollKey/...).
@@ -265,9 +265,9 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so bin/Release/net10.0/libOpenCvSharpExtern.so
           cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so ./libOpenCvSharpExtern.so
           sudo cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so /usr/lib/libOpenCvSharpExtern.so
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --no-build \
-            --filter "FullyQualifiedName!~OpenCvSharp.Tests.HighGui.HighGuiTest" \
-            --logger "trx;LogFileName=test-results-headless.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --no-build \
+            --filter-not-class OpenCvSharp.Tests.HighGui.HighGuiTest \
+            --results-directory TestResults --report-xunit-trx --report-xunit-trx-filename test-results-headless.trx < /dev/null
 
       - name: Stop local RTSP test server
         if: always()
@@ -284,7 +284,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: test-results-manylinux
-          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results*.trx
+          path: test/OpenCvSharp.Tests/TestResults/test-results*.trx
 
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the manylinux-built binaries.

@@ -18,17 +18,3 @@ public sealed class ExplicitTheoryAttribute : TheoryAttribute
         }
     }
 }
-
-public sealed class ExplicitStaTheoryAttribute : StaTheoryAttribute
-{
-    public ExplicitStaTheoryAttribute(
-        [CallerFilePath] string? sourceFilePath = null,
-        [CallerLineNumber] int sourceLineNumber = -1)
-        : base(sourceFilePath, sourceLineNumber)
-    {
-        if (!Debugger.IsAttached)
-        {
-            Skip = "Only running in interactive mode.";
-        }
-    }
-}

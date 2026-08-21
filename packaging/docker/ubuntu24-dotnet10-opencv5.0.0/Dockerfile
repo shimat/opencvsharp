@@ -146,13 +146,15 @@ RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 li
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
+COPY global.json /opencvsharp/global.json
 COPY src/ /opencvsharp/src/
 COPY test/ /opencvsharp/test/
+WORKDIR /opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \
     dotnet build -c Release -f net8.0
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test --project /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --results-directory /opencvsharp/test/OpenCvSharp.Tests/TestResults --report-xunit-trx --report-xunit-trx-filename test-results.trx < /dev/null
 
 # Restore and publish as separate steps: see windows.yml's "Test NativeAOT publish" step for why
 # a combined restore+publish invocation fails restore with NETSDK1207 (NuGet's static graph

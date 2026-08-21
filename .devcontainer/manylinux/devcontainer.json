@@ -10,8 +10,8 @@
 // To run the OCR test after setup:
 //   cd /work/test/OpenCvSharp.Tests
 //   cp /work/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so .
-//   LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 \
-//       --filter "FullyQualifiedName~OCRTesseractTest"
+//   LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net8.0 \
+//       --filter-method "*OCRTesseractTest*"
 {
     "name": "manylinux_2_28 (build)",
     "build": {

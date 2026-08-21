@@ -55,21 +55,22 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: |
           /tmp/vcpkg/vcpkg install \
             --triplet x64-osx-static \
-            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
+            --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -215,21 +216,22 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: |
           /tmp/vcpkg/vcpkg install \
             --triplet arm64-osx-static \
-            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
+            --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -355,13 +357,13 @@ jobs:
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib ./
           sudo mkdir -p /usr/local/lib
           sudo cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib /usr/local/lib/
-          # --blame-crash* collects a full memory dump and a Sequence_*.xml (listing tests executed,
-          # in order) into TestResults\ if the test host crashes, so an intermittent native crash
+          # The MTP crash dump extension collects a full memory dump and a test sequence file into
+          # TestResults/ if the test host crashes, so an intermittent native crash
           # (e.g. the dynafu::WarpField SIGSEGV) can be attributed to a specific test without a
           # re-run. See "Upload crash dumps on failure" below (separate from the .ips upload above).
-          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
-            --logger "trx;LogFileName=test-results.trx" \
-            --blame-crash --blame-crash-dump-type full < /dev/null
+          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-arm64 \
+            --results-directory TestResults --report-xunit-trx --report-xunit-trx-filename test-results.trx \
+            --crashdump --crashdump-type Full < /dev/null
 
       - name: Test RTSP capture
         uses: ./.github/actions/test-rtsp-macos
@@ -373,7 +375,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia
           dotnet build -c Release -f net10.0
           cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
-          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia dotnet test OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime osx-arm64 < /dev/null
+          DYLD_LIBRARY_PATH=/usr/local/lib:${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia dotnet test --project OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime osx-arm64 < /dev/null
 
       - name: Test NativeAOT publish
         run: |
@@ -389,7 +391,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: test-results-macos
-          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
+          path: test/OpenCvSharp.Tests/TestResults/test-results.trx
 
       # Safety net: on a crash/failure, upload the macOS crash reports (.ips) so a
       # native fault can be diagnosed from the faulting backtrace without a re-run.
