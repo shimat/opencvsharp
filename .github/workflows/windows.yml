@@ -51,6 +51,7 @@ jobs:
           $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
           git -C $env:VCPKG_INSTALLATION_ROOT fetch --depth=1 origin $baseline
           git -C $env:VCPKG_INSTALLATION_ROOT checkout $baseline
+          & "$env:VCPKG_INSTALLATION_ROOT/bootstrap-vcpkg.bat" -disableMetrics
 
       - name: Install vcpkg dependencies
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -355,6 +356,7 @@ jobs:
           $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
           git -C $env:VCPKG_INSTALLATION_ROOT fetch --depth=1 origin $baseline
           git -C $env:VCPKG_INSTALLATION_ROOT checkout $baseline
+          & "$env:VCPKG_INSTALLATION_ROOT/bootstrap-vcpkg.bat" -disableMetrics
 
       - name: Install vcpkg dependencies
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
