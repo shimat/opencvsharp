@@ -423,11 +423,10 @@ static cv::Moments cpp(const interop::Moments &m)
 // no heap cv::_InputArray is allocated per call. Use the InProxy/OutProxy/IoProxy
 // views below at the head of a CVAPI body.
 //
-// Scalar/Double inputs: cv::_InputArray references a cv::Scalar, so the caller must
-// keep `scalarScratch` alive for the whole OpenCV call (one scratch per input that
-// may be a scalar).
-// Vec inputs: cv::_InputArray references proxy.payload; the by-value parameter copy
-// stays valid for the call.
+// Scalar inputs: cv::_InputArray references a cv::Scalar, so the caller must keep
+// `scalarScratch` alive for the whole OpenCV call (one scratch per scalar input).
+// Double/Vec inputs: cv::_InputArray references proxy.payload; the proxy stays valid
+// for the call.
 // -------------------------------------------------------------------------
 static cv::_InputArray fromInputProxy(const interop::InputArrayProxy &p, cv::Scalar &scalarScratch)
 {
@@ -437,9 +436,9 @@ static cv::_InputArray fromInputProxy(const interop::InputArrayProxy &p, cv::Sca
     case 2: return cv::_InputArray(*static_cast<cv::UMat *>(p.handle));
     case 3: return cv::_InputArray(*static_cast<cv::MatExpr *>(p.handle));
     case 4:
-    case 5:
         scalarScratch = cv::Scalar(p.payload[0], p.payload[1], p.payload[2], p.payload[3]);
         return cv::_InputArray(scalarScratch);
+    case 5: return cv::_InputArray(p.payload[0]);
     case 6:
         switch (p.vecDepth)
         {
@@ -493,10 +492,10 @@ static cv::_InputOutputArray fromInputOutputProxy(const interop::InputOutputArra
 class InProxy
 {
     // Stable storage for a scalar operand. A cv::_InputArray built from a cv::Scalar keeps a POINTER
-    // to that Scalar (it does not copy it), so the Scalar must outlive the _InputArray's use. For
-    // Scalar/Double kinds fromInputProxy() writes scratch_ and returns a cv::_InputArray referencing
+    // to that Scalar (it does not copy it), so the Scalar must outlive the _InputArray's use.
+    // For the Scalar kind, fromInputProxy() writes scratch_ and returns a cv::_InputArray referencing
     // it; holding scratch_ as a member keeps it alive for the whole OpenCV call (the InProxy lives to
-    // the end of the call expression). Unused for Mat/UMat/MatExpr/Vec/Raw kinds.
+    // the end of the call expression). Unused for Mat/UMat/MatExpr/Double/Vec/Raw kinds.
     cv::Scalar scratch_;
     cv::_InputArray ia_;
 public:
