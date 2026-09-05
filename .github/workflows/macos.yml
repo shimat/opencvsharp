@@ -5,10 +5,26 @@ on:
 
   pull_request:
     types: [synchronize, opened, reopened]
+    paths:
+      - '.gitmodules'
+      - '.github/actions/test-rtsp-macos/**'
+      - '.github/workflows/macos.yml'
+      - 'cmake/**'
+      - 'global.json'
+      - 'opencv'
+      - 'opencv_contrib'
+      - 'packaging/nuget/**'
+      - 'src/**'
+      - 'test/**'
+      - 'vcpkg.json'
 
   push:
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   OPENCV_VERSION: 5.0.0
@@ -55,7 +71,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -66,11 +82,11 @@ jobs:
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
-        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
+          key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -84,19 +100,14 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          # Disable the ASM language so OpenCV 5's vendored MLAS turns off and DNN
-          # falls back to its built-in SGEMM. The MLAS FP16/GQA path references
-          # MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls but never
-          # defines, breaking the extern link (same fix as windows.yml / linux-arm64.yml).
-          # Image codecs come from vcpkg here, so no other ASM language is needed.
           cmake \
             -G Ninja \
-            -C cmake/opencv_build_options.cmake \
+            -C cmake/opencv_build_options_macos.cmake \
             -S opencv \
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
@@ -105,20 +116,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-osx-static \
             -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
-            -D BUILD_JPEG=OFF \
-            -D BUILD_PNG=OFF \
-            -D BUILD_TIFF=OFF \
-            -D BUILD_WEBP=OFF \
-            -D BUILD_ZLIB=ON \
-            -D WITH_TBB=OFF \
-            -D WITH_OPENEXR=OFF \
-            -D WITH_JASPER=OFF \
-            -D WITH_OPENGL=OFF \
-            -D WITH_VA=OFF \
-            -D WITH_VA_INTEL=OFF \
-            -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
-            -D CMAKE_ASM_COMPILER="" \
             2>&1 | tee /tmp/opencv-configure.log
 
       - name: Verify OpenCV cmake features
@@ -149,11 +146,11 @@ jobs:
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
@@ -216,7 +213,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -227,11 +224,11 @@ jobs:
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
-        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/libaec/**') }}
+          key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -245,19 +242,14 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          # Disable the ASM language so OpenCV 5's vendored MLAS turns off and DNN
-          # falls back to its built-in SGEMM. The MLAS FP16/GQA path references
-          # MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls but never
-          # defines, breaking the extern link (same fix as windows.yml / linux-arm64.yml).
-          # Image codecs come from vcpkg here, so no other ASM language is needed.
           cmake \
             -G Ninja \
-            -C cmake/opencv_build_options.cmake \
+            -C cmake/opencv_build_options_macos.cmake \
             -S opencv \
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
@@ -266,20 +258,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=arm64-osx-static \
             -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
-            -D BUILD_JPEG=OFF \
-            -D BUILD_PNG=OFF \
-            -D BUILD_TIFF=OFF \
-            -D BUILD_WEBP=OFF \
-            -D BUILD_ZLIB=ON \
-            -D WITH_TBB=OFF \
-            -D WITH_OPENEXR=OFF \
-            -D WITH_JASPER=OFF \
-            -D WITH_OPENGL=OFF \
-            -D WITH_VA=OFF \
-            -D WITH_VA_INTEL=OFF \
-            -D OPENCV_FFMPEG_SKIP_BUILD_CHECK=ON \
-            -D CMAKE_ASM_COMPILER="" \
             2>&1 | tee /tmp/opencv-configure.log
 
       - name: Verify OpenCV cmake features
@@ -310,11 +288,11 @@ jobs:
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
