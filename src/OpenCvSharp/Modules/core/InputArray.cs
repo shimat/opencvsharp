@@ -27,7 +27,7 @@ public enum ArrayProxyKind
     MatExpr = 3,
     /// <summary>A <see cref="Scalar"/> value (inline).</summary>
     Scalar = 4,
-    /// <summary>A scalar <see cref="double"/> value (inline, as Scalar(d,0,0,0)).</summary>
+    /// <summary>A scalar <see cref="double"/> value (inline, as a 1x1 CV_64F input).</summary>
     Double = 5,
     /// <summary>A small fixed-length vector value (inline).</summary>
     Vec = 6,
@@ -137,7 +137,7 @@ public readonly ref struct InputArray
     public static implicit operator InputArray(Scalar s) =>
         new(null, InputArrayProxy.FromScalar(s));
 
-    /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline as Scalar(d,0,0,0)).</summary>
+    /// <summary>Wraps a <see cref="double"/> value (no allocation; travels inline as a 1x1 CV_64F input).</summary>
     public static implicit operator InputArray(double d) =>
         new(null, new InputArrayProxy { Kind = (int)ArrayProxyKind.Double, Payload0 = d });
 

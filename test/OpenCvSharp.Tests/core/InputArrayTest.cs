@@ -53,6 +53,30 @@ public class InputArrayTest : TestBase
     }
 
     [Fact]
+    public void DoubleAndScalar_PreserveDistinctMultiChannelSemantics()
+    {
+        using var src = new Mat(1, 1, MatType.CV_64FC4, Scalar.All(10));
+
+        using var fromDouble = new Mat();
+        Cv2.Add(src, 5.0, fromDouble);
+        Assert.Equal(new Vec4d(15, 15, 15, 15), fromDouble.At<Vec4d>(0, 0));
+
+        using var fromScalar = new Mat();
+        Cv2.Add(src, new Scalar(5), fromScalar);
+        Assert.Equal(new Vec4d(15, 10, 10, 10), fromScalar.At<Vec4d>(0, 0));
+    }
+
+    [Fact]
+    public void Randu_DoubleBoundsBroadcastAcrossChannels()
+    {
+        using var mat = new Mat(1, 1, MatType.CV_8UC4);
+
+        Cv2.Randu(mat, 100, 101);
+
+        Assert.Equal(new Vec4b(100, 100, 100, 100), mat.At<Vec4b>(0, 0));
+    }
+
+    [Fact]
     public void Transpose_Vec_IsAllocationFree()
     {
         var v = new Vec3d(1, 2, 3);
