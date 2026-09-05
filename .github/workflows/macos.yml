@@ -5,10 +5,25 @@ on:
 
   pull_request:
     types: [synchronize, opened, reopened]
+    paths:
+      - '.github/actions/test-rtsp-macos/**'
+      - '.github/workflows/macos.yml'
+      - 'cmake/**'
+      - 'global.json'
+      - 'opencv'
+      - 'opencv_contrib'
+      - 'packaging/nuget/**'
+      - 'src/**'
+      - 'test/**'
+      - 'vcpkg.json'
 
   push:
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   OPENCV_VERSION: 5.0.0
@@ -66,7 +81,7 @@ jobs:
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
-        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
@@ -84,7 +99,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -149,11 +164,11 @@ jobs:
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/x64-osx-static.cmake') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
@@ -227,7 +242,7 @@ jobs:
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
       - name: Save vcpkg package cache
-        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
@@ -245,7 +260,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -310,11 +325,11 @@ jobs:
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('.github/workflows/macos.yml', 'vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/triplets/arm64-osx-static.cmake') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
