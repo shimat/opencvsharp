@@ -3,7 +3,25 @@
   "extends": ["config:recommended"],
   "labels": ["dependencies"],
   "schedule": ["before 9am on Monday"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track stable OpenCV 5.x releases",
+      "managerFilePatterns": ["/^\\.github\\/opencv-version$/"],
+      "matchStrings": ["(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "depNameTemplate": "opencv/opencv",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
+  ],
   "packageRules": [
+    {
+      "description": "Notify about stable OpenCV 5.x releases",
+      "matchPackageNames": ["opencv/opencv"],
+      "allowedVersions": "/^5\\./",
+      "automerge": false,
+      "prBodyNotes": ["This PR is a release notification only. OpenCVSharp build settings and submodules must be updated separately."]
+    },
     {
       "description": "Group xunit packages",
       "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Microsoft.Testing.Extensions.CrashDump"],
