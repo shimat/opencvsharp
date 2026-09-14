@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.0" />
     <!-- Avalonia.Headless.XUnit 12.1.1 calls xUnit 3 discovery internals that changed in xUnit 4.
          Use HeadlessUnitTestSession directly until the integration package supports xUnit 4. -->
     <PackageReference Include="Avalonia.Headless" Version="12.1.2" />
