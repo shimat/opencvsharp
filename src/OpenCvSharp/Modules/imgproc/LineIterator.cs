@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Text;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -259,6 +261,17 @@ public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
     /// while the source image has not been disposed.</param>
     public readonly record struct Pixel(Point Pos, IntPtr Ptr)
     {
+        // The synthesized implementation emits constrained. byte* for ValuePointer,
+        // which NativeAOT cannot compile. Format its address through IntPtr instead.
+        private bool PrintMembers(StringBuilder builder)
+        {
+            var address = Ptr.ToString(CultureInfo.CurrentCulture);
+            builder.Append("Pos = ").Append(Pos.ToString());
+            builder.Append(", Ptr = ").Append(address);
+            builder.Append(", ValuePointer = ").Append(address);
+            return true;
+        }
+
         /// <summary>
         /// Pointer to the pixel as a byte pointer.
         /// </summary>
