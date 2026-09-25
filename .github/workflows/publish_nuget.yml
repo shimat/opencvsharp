@@ -18,13 +18,13 @@ permissions:
 
 jobs:
   Prepare:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@v7
 
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -32,7 +32,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download windows arm64 artifact
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -41,7 +41,7 @@ jobs:
 
       - name: Download ubuntu arm64 artifact
         if: ${{ !contains(inputs.skip_platforms, 'linux-arm64') }}
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm64.yml
@@ -50,7 +50,7 @@ jobs:
 
       - name: Download macos artifact
         if: ${{ !contains(inputs.skip_platforms, 'macos') }}
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: macos.yml
@@ -59,7 +59,7 @@ jobs:
 
       - name: Download wasm artifact
         if: ${{ !contains(inputs.skip_platforms, 'wasm') }}
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
@@ -68,7 +68,7 @@ jobs:
 
       - name: Download manylinux artifact
         if: ${{ !contains(inputs.skip_platforms, 'manylinux') }}
-        uses: dawidd6/action-download-artifact@v24
+        uses: dawidd6/action-download-artifact@v25
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
@@ -287,7 +287,7 @@ jobs:
 
   Publish:
     needs: [Prepare, PackageSmokeTest]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: nuget-production
 
     steps:
