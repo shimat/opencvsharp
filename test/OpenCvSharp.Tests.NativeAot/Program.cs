@@ -8,6 +8,14 @@ using OpenCvSharp;
 
 try
 {
+    // Issue #2138: record-generated PrintMembers called ToString on byte*, causing
+    // NativeAOT code generation to fail even without loading the native library.
+    var pixelPos = new Point(1, 2);
+    var pixelPtr = new IntPtr(123);
+    var pixelText = new LineIterator.Pixel(pixelPos, pixelPtr).ToString();
+    if (pixelText != $"Pixel {{ Pos = {pixelPos}, Ptr = {pixelPtr}, ValuePointer = {pixelPtr} }}")
+        throw new InvalidOperationException($"Unexpected pixel formatting: {pixelText}");
+
     var version = Cv2.GetVersionString();
 
     using var mat = new Mat(256, 256, MatType.CV_8UC1, Scalar.All(0));

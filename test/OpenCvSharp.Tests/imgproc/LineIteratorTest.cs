@@ -5,6 +5,19 @@ namespace OpenCvSharp.Tests.ImgProc;
 
 public class LineIteratorTest : TestBase
 {
+    [Theory]
+    [InlineData(0)]
+    [InlineData(123)]
+    public void PixelToString(int address)
+    {
+        var pos = new Point(1, 2);
+        var ptr = new IntPtr(address);
+        var pixel = new LineIterator.Pixel(pos, ptr);
+
+        // Formatting an address must not dereference it or call methods on byte*.
+        Assert.Equal($"Pixel {{ Pos = {pos}, Ptr = {ptr}, ValuePointer = {ptr} }}", pixel.ToString());
+    }
+
     [Fact]
     public void CountProperty()
     {
