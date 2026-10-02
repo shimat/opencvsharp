@@ -33,7 +33,8 @@ option(OPENCVSHARP_BUILD_WITH_DEBUG_INFO "Generate compiler and linker symbols f
 
 # Enable MSVC security hardening flags (issue #1841)
 if(MSVC)
-  add_compile_options(/guard:cf /GS)
+  # Large wrapper translation units can exceed the COFF section limit with VS 2026 on ARM64.
+  add_compile_options(/guard:cf /GS /bigobj)
   # /HIGHENTROPYVA: enable high-entropy 64-bit ASLR
   add_link_options(/guard:cf /DYNAMICBASE /HIGHENTROPYVA)
   if(OPENCVSHARP_BUILD_WITH_DEBUG_INFO)
