@@ -1122,6 +1122,18 @@ CVAPI(ExceptionStatus) core_mulSpectrums(
     });
 }
 
+CVAPI(ExceptionStatus) core_divSpectrums(
+    const interop::InputArrayProxy* a,
+    const interop::InputArrayProxy* b,
+    const interop::OutputArrayProxy* c,
+    int flags,
+    int conjB)
+{
+    return cvTry([&] {
+        cv::divSpectrums(InProxy(*a), InProxy(*b), OutProxy(*c), flags, conjB != 0);
+    });
+}
+
 CVAPI(ExceptionStatus) core_getOptimalDFTSize(int vecsize, int *returnValue)
 {
     return cvTry([&] {
