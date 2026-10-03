@@ -25,7 +25,7 @@ jobs:
   # ---------------------------------------------------------------------------
   build_full:
     name: Linux (x64, full)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     container:
       image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
       credentials:
@@ -59,7 +59,7 @@ jobs:
   # ---------------------------------------------------------------------------
   build_headless:
     name: Linux (x64, headless)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     container:
       image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
       credentials:
@@ -96,7 +96,7 @@ jobs:
   # ---------------------------------------------------------------------------
   build_slim:
     name: Linux (x64, slim)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     container:
       image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
       credentials:
@@ -188,7 +188,7 @@ jobs:
   test:
     name: Linux (test)
     needs: [build_full, build_headless, build_slim]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@v7
@@ -294,7 +294,7 @@ jobs:
     name: Linux (nuget)
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@v7
