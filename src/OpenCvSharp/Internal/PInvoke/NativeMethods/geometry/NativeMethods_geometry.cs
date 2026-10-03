@@ -92,6 +92,20 @@ static partial class NativeMethods
         [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_solveP3P(
+        in InputArrayProxy objectPoints, in InputArrayProxy imagePoints,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        IntPtr rvecs, IntPtr tvecs, int flags, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus geometry_solvePnPGeneric(
+        in InputArrayProxy objectPoints, in InputArrayProxy imagePoints,
+        in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs,
+        IntPtr rvecs, IntPtr tvecs, int useExtrinsicGuess, int flags,
+        in InputArrayProxy rvec, in InputArrayProxy tvec,
+        in OutputArrayProxy reprojectionError, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus geometry_solvePnPRansac_InputArray(
         in InputArrayProxy objectPoints, in InputArrayProxy imagePoints,
         in InputArrayProxy cameraMatrix, in InputArrayProxy distCoeffs, in OutputArrayProxy rvec, in OutputArrayProxy tvec,

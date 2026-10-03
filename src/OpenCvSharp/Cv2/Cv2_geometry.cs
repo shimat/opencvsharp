@@ -635,6 +635,75 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Finds all pose solutions from three 3D-to-2D point correspondences.
+    /// </summary>
+    /// <param name="objectPoints">Three object points.</param>
+    /// <param name="imagePoints">Corresponding image points.</param>
+    /// <param name="cameraMatrix">Camera intrinsic matrix.</param>
+    /// <param name="distCoeffs">Distortion coefficients, or an empty input for zero distortion.</param>
+    /// <param name="rvecs">Output rotation vectors, sorted by reprojection error.</param>
+    /// <param name="tvecs">Output translation vectors, sorted by reprojection error.</param>
+    /// <param name="flags">P3P or AP3P solver.</param>
+    /// <returns>Number of solutions.</returns>
+    public static int SolveP3P(
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        out Mat[] rvecs, out Mat[] tvecs, SolvePnPMethod flags = SolvePnPMethod.P3P)
+    {
+        using var rvecsVec = new VectorOfMat();
+        using var tvecsVec = new VectorOfMat();
+        NativeMethods.HandleException(NativeMethods.geometry_solveP3P(
+            objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+            rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, out var count));
+        rvecs = rvecsVec.ToArray();
+        tvecs = tvecsVec.ToArray();
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        return count;
+    }
+
+    /// <summary>
+    /// Finds all pose solutions supported by the selected PnP solver.
+    /// </summary>
+    /// <param name="objectPoints">Object points.</param>
+    /// <param name="imagePoints">Corresponding image points.</param>
+    /// <param name="cameraMatrix">Camera intrinsic matrix.</param>
+    /// <param name="distCoeffs">Distortion coefficients, or an empty input for zero distortion.</param>
+    /// <param name="rvecs">Output rotation vectors.</param>
+    /// <param name="tvecs">Output translation vectors.</param>
+    /// <param name="useExtrinsicGuess">Use the supplied rotation and translation as an initial estimate.</param>
+    /// <param name="flags">PnP solver.</param>
+    /// <param name="rvec">Optional initial rotation vector.</param>
+    /// <param name="tvec">Optional initial translation vector.</param>
+    /// <param name="reprojectionError">Optional per-solution reprojection errors.</param>
+    /// <returns>Number of solutions.</returns>
+    public static int SolvePnPGeneric(
+        InputArray objectPoints, InputArray imagePoints, InputArray cameraMatrix, InputArray distCoeffs,
+        out Mat[] rvecs, out Mat[] tvecs, bool useExtrinsicGuess = false,
+        SolvePnPMethod flags = SolvePnPMethod.Iterative,
+        InputArray rvec = default, InputArray tvec = default,
+        OutputArray reprojectionError = default)
+    {
+        using var rvecsVec = new VectorOfMat();
+        using var tvecsVec = new VectorOfMat();
+        NativeMethods.HandleException(NativeMethods.geometry_solvePnPGeneric(
+            objectPoints.Proxy, imagePoints.Proxy, cameraMatrix.Proxy, distCoeffs.Proxy,
+            rvecsVec.CvPtr, tvecsVec.CvPtr, useExtrinsicGuess ? 1 : 0, (int) flags,
+            rvec.Proxy, tvec.Proxy, reprojectionError.Proxy, out var count));
+        rvecs = rvecsVec.ToArray();
+        tvecs = tvecsVec.ToArray();
+        GC.KeepAlive(objectPoints.Source);
+        GC.KeepAlive(imagePoints.Source);
+        GC.KeepAlive(cameraMatrix.Source);
+        GC.KeepAlive(distCoeffs.Source);
+        GC.KeepAlive(rvec.Source);
+        GC.KeepAlive(tvec.Source);
+        GC.KeepAlive(reprojectionError.Source);
+        return count;
+    }
+
+    /// <summary>
     /// Finds an object pose from 3D-2D point correspondences.
     /// </summary>
     /// <param name="objectPoints"> Array of object points in the object coordinate space, 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, 
