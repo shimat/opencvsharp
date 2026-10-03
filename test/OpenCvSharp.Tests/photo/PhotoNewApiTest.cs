@@ -27,6 +27,9 @@ public class PhotoNewApiTest : TestBase
         merger.Process(new[] { first, second }, hdr, times);
         Assert.Equal(MatType.CV_32FC3, hdr.Type());
         Assert.Equal(first.Size(), hdr.Size());
+
+        using var wrongTimes = Mat.FromArray(new double[] { 0.5, 1.0 });
+        Assert.Throws<OpenCVException>(() => merger.Process(new[] { first, second }, hdr, wrongTimes));
     }
 
     private static void DisposeAll(IEnumerable<Mat> mats)

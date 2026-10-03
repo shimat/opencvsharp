@@ -37,7 +37,7 @@ public sealed class AlignMTB : Algorithm
         return output.ToArray();
     }
 
-    /// <summary>Aligns images using exposure times and a camera response curve.</summary>
+    /// <summary>Aligns images. OpenCV 5.0.0 ignores times and response for this aligner.</summary>
     public Mat[] Process(IEnumerable<Mat> src, InputArray times, InputArray response)
     {
         ThrowIfDisposed();

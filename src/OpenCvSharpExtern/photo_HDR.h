@@ -257,7 +257,12 @@ CVAPI(ExceptionStatus) photo_MergeRobertson_process(cv::MergeRobertson* obj,
     std::vector<cv::Mat>* src, const interop::OutputArrayProxy* dst,
     const interop::InputArrayProxy* times)
 {
-    return cvTry([&] { obj->process(*src, OutProxy(*dst), InProxy(*times)); });
+    return cvTry([&] {
+        const auto input = InProxy(*times);
+        const cv::Mat timesMat = static_cast<const cv::_InputArray&>(input).getMat();
+        CV_Assert(timesMat.type() == CV_32FC1);
+        obj->process(*src, OutProxy(*dst), timesMat);
+    });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
