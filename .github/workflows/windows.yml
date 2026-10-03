@@ -15,7 +15,7 @@ on:
 
 env:
   OPENCV_VERSION: "5.0.0"
-  OPENCV_ARM64_CACHE_REVISION: "2"
+  OPENCV_ARM64_CACHE_REVISION: "3"
   MEDIAMTX_VERSION: "1.19.3"
   MEDIAMTX_SHA256: "5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe"
 
@@ -328,7 +328,7 @@ jobs:
   build-arm64:
     name: Windows (arm64)
 
-    runs-on: windows-11-arm
+    runs-on: windows-11-vs2026-arm
 
     steps:
       - name: Checkout
@@ -348,7 +348,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static-vs2026
 
       - name: Update vcpkg to match builtin-baseline
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -367,7 +367,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-arm64-windows-static-vs2026
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -390,10 +390,8 @@ jobs:
           # its built-in SGEMM, matching a clean local VS build. Windows builds the
           # image codecs via vcpkg, so no other ASM language is needed.
           # OpenCV 5's vendored MLAS uses GNU-syntax aarch64 .S SGEMM kernels that
-          # armasm64 (the only ASM compiler on the VS2022 ARM64 toolchain, which
-          # windows-11-arm ships instead of VS2026) cannot assemble, and
-          # CMAKE_ASM_COMPILER="" does not disable ASM under the VS ARM64 generator
-          # (it does under VS2026 x64). MLAS is an OpenCV 5 addition (absent in
+          # armasm64 cannot assemble. CMAKE_ASM_COMPILER="" does not disable ASM under the VS ARM64 generator
+          # (it does under VS x64). MLAS is an OpenCV 5 addition (absent in
           # OpenCV 4), so skip building it on this toolchain; DNN keeps working via
           # its built-in SGEMM (as OpenCV 4 ARM64 did). Drop the add_subdirectory
           # that pulls MLAS into opencv_dnn.
@@ -404,7 +402,7 @@ jobs:
             -C cmake/opencv_build_options.cmake `
             -S opencv `
             -B opencv/build `
-            -G "Visual Studio 17 2022" -A ARM64 `
+            -G "Visual Studio 18 2026" -A ARM64 `
             -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
@@ -461,7 +459,7 @@ jobs:
           cmake `
             -S src `
             -B src/build_arm64 `
-            -G "Visual Studio 17 2022" -A ARM64 `
+            -G "Visual Studio 18 2026" -A ARM64 `
             -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
@@ -479,7 +477,7 @@ jobs:
           cmake `
             -S src `
             -B src/build_arm64_slim `
-            -G "Visual Studio 17 2022" -A ARM64 `
+            -G "Visual Studio 18 2026" -A ARM64 `
             -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
