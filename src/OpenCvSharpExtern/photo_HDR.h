@@ -4,6 +4,70 @@
 
 #include "include_opencv.h"
 
+CVAPI(ExceptionStatus) photo_AlignMTB_create(int maxBits, int excludeRange, int cut, cv::Ptr<cv::AlignMTB>** returnValue)
+{
+    return cvTry([&] {
+        *returnValue = clone(cv::createAlignMTB(maxBits, excludeRange, cut != 0));
+    });
+}
+
+CVAPI(ExceptionStatus) photo_Ptr_AlignMTB_delete(cv::Ptr<cv::AlignMTB>* obj)
+{
+    return cvTry([&] { delete obj; });
+}
+
+CVAPI(ExceptionStatus) photo_Ptr_AlignMTB_get(cv::Ptr<cv::AlignMTB>* obj, cv::AlignMTB** returnValue)
+{
+    return cvTry([&] { *returnValue = obj->get(); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_process(cv::AlignMTB* obj, std::vector<cv::Mat>* src,
+    std::vector<cv::Mat>* dst, const interop::InputArrayProxy* times,
+    const interop::InputArrayProxy* response)
+{
+    return cvTry([&] { obj->process(*src, *dst, InProxy(*times), InProxy(*response)); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_processShort(cv::AlignMTB* obj,
+    std::vector<cv::Mat>* src, std::vector<cv::Mat>* dst)
+{
+    return cvTry([&] { obj->process(*src, *dst); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_calculateShift(cv::AlignMTB* obj,
+    const interop::InputArrayProxy* img0, const interop::InputArrayProxy* img1,
+    interop::Point* returnValue)
+{
+    return cvTry([&] { *returnValue = c(obj->calculateShift(InProxy(*img0), InProxy(*img1))); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_shiftMat(cv::AlignMTB* obj,
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst,
+    interop::Point shift)
+{
+    return cvTry([&] { obj->shiftMat(InProxy(*src), OutProxy(*dst), cpp(shift)); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_computeBitmaps(cv::AlignMTB* obj,
+    const interop::InputArrayProxy* img, const interop::OutputArrayProxy* tb,
+    const interop::OutputArrayProxy* eb)
+{
+    return cvTry([&] { obj->computeBitmaps(InProxy(*img), OutProxy(*tb), OutProxy(*eb)); });
+}
+
+CVAPI(ExceptionStatus) photo_AlignMTB_getMaxBits(cv::AlignMTB* obj, int* value)
+{ return cvTry([&] { *value = obj->getMaxBits(); }); }
+CVAPI(ExceptionStatus) photo_AlignMTB_setMaxBits(cv::AlignMTB* obj, int value)
+{ return cvTry([&] { obj->setMaxBits(value); }); }
+CVAPI(ExceptionStatus) photo_AlignMTB_getExcludeRange(cv::AlignMTB* obj, int* value)
+{ return cvTry([&] { *value = obj->getExcludeRange(); }); }
+CVAPI(ExceptionStatus) photo_AlignMTB_setExcludeRange(cv::AlignMTB* obj, int value)
+{ return cvTry([&] { obj->setExcludeRange(value); }); }
+CVAPI(ExceptionStatus) photo_AlignMTB_getCut(cv::AlignMTB* obj, int* value)
+{ return cvTry([&] { *value = obj->getCut() ? 1 : 0; }); }
+CVAPI(ExceptionStatus) photo_AlignMTB_setCut(cv::AlignMTB* obj, int value)
+{ return cvTry([&] { obj->setCut(value != 0); }); }
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -178,6 +242,22 @@ CVAPI(ExceptionStatus) photo_createMergeMertens(cv::Ptr<cv::MergeMertens>** retu
     return cvTry([&] {
         *returnValue = clone(cv::createMergeMertens());
     });
+}
+
+CVAPI(ExceptionStatus) photo_createMergeRobertson(cv::Ptr<cv::MergeRobertson>** returnValue)
+{
+    return cvTry([&] { *returnValue = clone(cv::createMergeRobertson()); });
+}
+CVAPI(ExceptionStatus) photo_Ptr_MergeRobertson_delete(cv::Ptr<cv::MergeRobertson>* obj)
+{ return cvTry([&] { delete obj; }); }
+CVAPI(ExceptionStatus) photo_Ptr_MergeRobertson_get(cv::Ptr<cv::MergeRobertson>* obj, cv::MergeRobertson** returnValue)
+{ return cvTry([&] { *returnValue = obj->get(); }); }
+
+CVAPI(ExceptionStatus) photo_MergeRobertson_process(cv::MergeRobertson* obj,
+    std::vector<cv::Mat>* src, const interop::OutputArrayProxy* dst,
+    const interop::InputArrayProxy* times)
+{
+    return cvTry([&] { obj->process(*src, OutProxy(*dst), InProxy(*times)); });
 }
 CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
