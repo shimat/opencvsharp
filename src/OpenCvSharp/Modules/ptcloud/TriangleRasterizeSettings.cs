@@ -37,6 +37,12 @@ public readonly record struct TriangleRasterizeSettings(
     TriangleCullingMode CullingMode = TriangleCullingMode.Clockwise,
     TriangleGlCompatibleMode GlCompatibleMode = TriangleGlCompatibleMode.Disabled)
 {
+    /// <summary>Initializes OpenCV's rasterization defaults. The default expression zero-initializes the fields instead.</summary>
+    public TriangleRasterizeSettings()
+        : this(TriangleShadingType.Shaded, TriangleCullingMode.Clockwise, TriangleGlCompatibleMode.Disabled)
+    {
+    }
+
     /// <summary>OpenCV's default rasterization settings.</summary>
     public static TriangleRasterizeSettings Default => new(
         TriangleShadingType.Shaded, TriangleCullingMode.Clockwise, TriangleGlCompatibleMode.Disabled);

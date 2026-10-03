@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 
 static partial class Cv2
 {
-    /// <summary>Rasterizes a triangle mesh into color and depth buffers.</summary>
+    /// <summary>Rasterizes a triangle mesh into color and depth buffers. Initialize a new depth buffer to zFar, or 1.0 in InverseDepth mode; keep its contents when rendering over an existing scene.</summary>
     public static void TriangleRasterize(InputArray vertices, InputArray indices, InputArray colors,
         InputOutputArray colorBuf, InputOutputArray depthBuf, InputArray world2cam,
         double fovY, double zNear, double zFar, TriangleRasterizeSettings? settings = null)
@@ -26,7 +26,7 @@ static partial class Cv2
         GC.KeepAlive(world2cam.Source);
     }
 
-    /// <summary>Rasterizes a triangle mesh into an existing depth buffer.</summary>
+    /// <summary>Rasterizes a triangle mesh into a depth buffer. Initialize a new buffer to zFar, or 1.0 in InverseDepth mode; keep its contents when rendering over an existing scene.</summary>
     public static void TriangleRasterizeDepth(InputArray vertices, InputArray indices,
         InputOutputArray depthBuf, InputArray world2cam,
         double fovY, double zNear, double zFar, TriangleRasterizeSettings? settings = null)

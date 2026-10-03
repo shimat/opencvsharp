@@ -22,6 +22,7 @@ public class PtcloudNewApiTest : TestBase
     [Fact]
     public void TriangleRasterizeFillsColorAndDepth()
     {
+        Assert.Equal(TriangleRasterizeSettings.Default, new TriangleRasterizeSettings());
         using var vertices = Mat.FromPixelData(1, 3, MatType.CV_32FC3,
             new float[] { -0.5f, -0.5f, -2, 0.5f, -0.5f, -2, 0, 0.5f, -2 });
         using var indices = Mat.FromPixelData(1, 1, MatType.CV_32SC3, new[] { 0, 1, 2 });

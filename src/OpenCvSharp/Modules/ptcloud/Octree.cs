@@ -15,10 +15,18 @@ public sealed class Octree : CvPtrObject
     {
         if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create Octree.");
-        NativeMethods.HandleException(NativeMethods.ptcloud_Ptr_Octree_get(smartPtr, out var rawPtr));
-        if (rawPtr == IntPtr.Zero)
-            throw new OpenCvSharpException("Failed to create Octree.");
-        return rawPtr;
+        try
+        {
+            NativeMethods.HandleException(NativeMethods.ptcloud_Ptr_Octree_get(smartPtr, out var rawPtr));
+            if (rawPtr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create Octree.");
+            return rawPtr;
+        }
+        catch
+        {
+            NativeMethods.ptcloud_Ptr_Octree_delete(smartPtr);
+            throw;
+        }
     }
 
     /// <summary>Creates an empty octree with a maximum depth and bounding cube.</summary>

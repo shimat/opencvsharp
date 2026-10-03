@@ -3,6 +3,17 @@
 #include "include_opencv.h"
 #include <opencv2/ptcloud.hpp>
 
+static cv::Mat ptcloud_octreeInputRow(const cv::_InputArray& input)
+{
+    if (input.empty()) return {};
+    cv::Mat mat = input.getMat();
+    // Octree::fill transposes into the same Mat variable. A column vector can
+    // alias its transposed destination and fail on some architectures.
+    if (mat.channels() == 3 && mat.cols == 1 && mat.rows > 1)
+        return mat.t();
+    return mat;
+}
+
 CVAPI(ExceptionStatus) ptcloud_Octree_createWithDepthSize(int maxDepth, double size,
     interop::Point3f origin, int withColors, cv::Ptr<cv::Octree>** returnValue)
 {
@@ -14,8 +25,12 @@ CVAPI(ExceptionStatus) ptcloud_Octree_createWithDepthCloud(int maxDepth,
     const interop::InputArrayProxy* cloud, const interop::InputArrayProxy* colors,
     cv::Ptr<cv::Octree>** returnValue)
 {
-    return cvTry([&] { *returnValue = new cv::Ptr<cv::Octree>(
-        cv::Octree::createWithDepth(maxDepth, InProxy(*cloud), InProxy(*colors))); });
+    return cvTry([&] {
+        const cv::Mat cloudMat = ptcloud_octreeInputRow(InProxy(*cloud));
+        const cv::Mat colorsMat = ptcloud_octreeInputRow(InProxy(*colors));
+        *returnValue = new cv::Ptr<cv::Octree>(
+            cv::Octree::createWithDepth(maxDepth, cloudMat, colorsMat));
+    });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Octree_createWithResolutionSize(double resolution,
@@ -29,8 +44,12 @@ CVAPI(ExceptionStatus) ptcloud_Octree_createWithResolutionCloud(double resolutio
     const interop::InputArrayProxy* cloud, const interop::InputArrayProxy* colors,
     cv::Ptr<cv::Octree>** returnValue)
 {
-    return cvTry([&] { *returnValue = new cv::Ptr<cv::Octree>(
-        cv::Octree::createWithResolution(resolution, InProxy(*cloud), InProxy(*colors))); });
+    return cvTry([&] {
+        const cv::Mat cloudMat = ptcloud_octreeInputRow(InProxy(*cloud));
+        const cv::Mat colorsMat = ptcloud_octreeInputRow(InProxy(*colors));
+        *returnValue = new cv::Ptr<cv::Octree>(
+            cv::Octree::createWithResolution(resolution, cloudMat, colorsMat));
+    });
 }
 
 CVAPI(ExceptionStatus) ptcloud_Ptr_Octree_delete(cv::Ptr<cv::Octree>* obj)
