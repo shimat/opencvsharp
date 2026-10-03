@@ -10,6 +10,31 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_SinusoidalPattern_create(
+        int width, int height, int periods, float shiftValue, int methodId,
+        int pixelsBetweenMarkers, int horizontal, int setMarkers, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_Ptr_SinusoidalPattern_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_Ptr_SinusoidalPattern_get(IntPtr obj, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_SinusoidalPattern_computePhaseMap(
+        OpenCvSafeHandle obj, IntPtr images, in OutputArrayProxy wrappedPhaseMap,
+        in OutputArrayProxy shadowMask, in InputArrayProxy fundamental);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_SinusoidalPattern_unwrapPhaseMap(
+        OpenCvSafeHandle obj, in InputArrayProxy wrappedPhaseMap,
+        in OutputArrayProxy unwrappedPhaseMap, Size camSize, in InputArrayProxy shadowMask);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_SinusoidalPattern_findProCamMatches(
+        OpenCvSafeHandle obj, in InputArrayProxy projectorPhase,
+        in InputArrayProxy cameraPhase, IntPtr matches);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus structured_light_SinusoidalPattern_computeDataModulationTerm(
+        OpenCvSafeHandle obj, IntPtr images, in OutputArrayProxy modulation,
+        in InputArrayProxy shadowMask);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus structured_light_Ptr_GrayCodePattern_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

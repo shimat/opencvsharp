@@ -5,6 +5,73 @@
 #include "include_opencv.h"
 #include <opencv2/structured_light.hpp>
 
+CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_create(
+    int width, int height, int periods, float shiftValue, int methodId,
+    int pixelsBetweenMarkers, int horizontal, int setMarkers,
+    cv::Ptr<cv::structured_light::SinusoidalPattern>** returnValue)
+{
+    return cvTry([&] {
+        auto params = cv::makePtr<cv::structured_light::SinusoidalPattern::Params>();
+        params->width = width;
+        params->height = height;
+        params->nbrOfPeriods = periods;
+        params->shiftValue = shiftValue;
+        params->methodId = methodId;
+        params->nbrOfPixelsBetweenMarkers = pixelsBetweenMarkers;
+        params->horizontal = horizontal != 0;
+        params->setMarkers = setMarkers != 0;
+        const auto ptr = cv::structured_light::SinusoidalPattern::create(params);
+        *returnValue = new cv::Ptr<cv::structured_light::SinusoidalPattern>(ptr);
+    });
+}
+
+CVAPI(ExceptionStatus) structured_light_Ptr_SinusoidalPattern_delete(
+    cv::Ptr<cv::structured_light::SinusoidalPattern>* obj)
+{ return cvTry([&] { delete obj; }); }
+
+CVAPI(ExceptionStatus) structured_light_Ptr_SinusoidalPattern_get(
+    cv::Ptr<cv::structured_light::SinusoidalPattern>* obj,
+    cv::structured_light::SinusoidalPattern** returnValue)
+{ return cvTry([&] { *returnValue = obj->get(); }); }
+
+CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_computePhaseMap(
+    cv::structured_light::SinusoidalPattern* obj, std::vector<cv::Mat>* images,
+    const interop::OutputArrayProxy* wrappedPhaseMap,
+    const interop::OutputArrayProxy* shadowMask,
+    const interop::InputArrayProxy* fundamental)
+{
+    return cvTry([&] { obj->computePhaseMap(*images, OutProxy(*wrappedPhaseMap),
+        OutProxy(*shadowMask), InProxy(*fundamental)); });
+}
+
+CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_unwrapPhaseMap(
+    cv::structured_light::SinusoidalPattern* obj,
+    const interop::InputArrayProxy* wrappedPhaseMap,
+    const interop::OutputArrayProxy* unwrappedPhaseMap,
+    interop::Size camSize, const interop::InputArrayProxy* shadowMask)
+{
+    return cvTry([&] { obj->unwrapPhaseMap(InProxy(*wrappedPhaseMap),
+        OutProxy(*unwrappedPhaseMap), cpp(camSize), InProxy(*shadowMask)); });
+}
+
+CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_findProCamMatches(
+    cv::structured_light::SinusoidalPattern* obj,
+    const interop::InputArrayProxy* projectorPhase,
+    const interop::InputArrayProxy* cameraPhase, std::vector<cv::Mat>* matches)
+{
+    return cvTry([&] { obj->findProCamMatches(InProxy(*projectorPhase),
+        InProxy(*cameraPhase), *matches); });
+}
+
+CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_computeDataModulationTerm(
+    cv::structured_light::SinusoidalPattern* obj, std::vector<cv::Mat>* images,
+    const interop::OutputArrayProxy* modulation,
+    const interop::InputArrayProxy* shadowMask)
+{
+    return cvTry([&] { obj->computeDataModulationTerm(*images,
+        OutProxy(*modulation), InProxy(*shadowMask)); });
+}
+
 CVAPI(ExceptionStatus) structured_light_Ptr_GrayCodePattern_delete(
     cv::Ptr<cv::structured_light::GrayCodePattern>* obj)
 {
