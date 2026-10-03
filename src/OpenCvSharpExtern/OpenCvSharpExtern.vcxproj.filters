@@ -558,6 +558,12 @@
     <ClInclude Include="ptcloud_io.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ptcloud_Octree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_rasterize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="rgbd_colored_kinfu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
