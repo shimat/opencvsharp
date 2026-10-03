@@ -7,3 +7,5 @@
 #include "ptcloud_RgbdNormals.h"
 #include "ptcloud_depth.h"
 #include "ptcloud_io.h"
+#include "ptcloud_rasterize.h"
+#include "ptcloud_Octree.h"

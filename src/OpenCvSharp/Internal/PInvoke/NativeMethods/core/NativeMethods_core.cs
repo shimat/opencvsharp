@@ -448,6 +448,9 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_mulSpectrums(in InputArrayProxy a, in InputArrayProxy b, in OutputArrayProxy c, int flags, int conjB);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_divSpectrums(in InputArrayProxy a, in InputArrayProxy b, in OutputArrayProxy c, int flags, int conjB);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus core_getOptimalDFTSize(int vecsize, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -326,6 +326,44 @@ CVAPI(ExceptionStatus) geometry_solvePnP_vector(
     });
 }
 
+CVAPI(ExceptionStatus) geometry_solveP3P(
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    std::vector<cv::Mat>* rvecs,
+    std::vector<cv::Mat>* tvecs,
+    int flags,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::solveP3P(InProxy(*objectPoints), InProxy(*imagePoints),
+            InProxy(*cameraMatrix), InProxy(*distCoeffs), *rvecs, *tvecs, flags);
+    });
+}
+
+CVAPI(ExceptionStatus) geometry_solvePnPGeneric(
+    const interop::InputArrayProxy* objectPoints,
+    const interop::InputArrayProxy* imagePoints,
+    const interop::InputArrayProxy* cameraMatrix,
+    const interop::InputArrayProxy* distCoeffs,
+    std::vector<cv::Mat>* rvecs,
+    std::vector<cv::Mat>* tvecs,
+    int useExtrinsicGuess,
+    int flags,
+    const interop::InputArrayProxy* rvec,
+    const interop::InputArrayProxy* tvec,
+    const interop::OutputArrayProxy* reprojectionError,
+    int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::solvePnPGeneric(InProxy(*objectPoints), InProxy(*imagePoints),
+            InProxy(*cameraMatrix), InProxy(*distCoeffs), *rvecs, *tvecs,
+            useExtrinsicGuess != 0, flags, InProxy(*rvec), InProxy(*tvec),
+            OutProxy(*reprojectionError));
+    });
+}
+
 
 CVAPI(ExceptionStatus) geometry_solvePnPRansac_InputArray(
     const interop::InputArrayProxy* objectPoints,

@@ -2216,6 +2216,26 @@ public static partial class Cv2
     }
 
     /// <summary>
+    /// Performs per-element division of two Fourier spectra.
+    /// </summary>
+    /// <param name="a">First input spectrum.</param>
+    /// <param name="b">Second input spectrum of the same size and type.</param>
+    /// <param name="c">Output spectrum of the same size and type.</param>
+    /// <param name="flags">Operation flags; DftFlags.Rows treats each row as an independent spectrum.</param>
+    /// <param name="conjB">Whether to conjugate the second input before division.</param>
+    public static void DivSpectrums(
+        InputArray a, InputArray b, OutputArray c,
+        DftFlags flags, bool conjB = false)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_divSpectrums(a.Proxy, b.Proxy, c.Proxy, (int) flags, conjB ? 1 : 0));
+
+        GC.KeepAlive(a.Source);
+        GC.KeepAlive(b.Source);
+        GC.KeepAlive(c.Source);
+    }
+
+    /// <summary>
     /// Returns the optimal DFT size for a given vector size.
     /// </summary>
     /// <param name="vecSize">vector size.</param>

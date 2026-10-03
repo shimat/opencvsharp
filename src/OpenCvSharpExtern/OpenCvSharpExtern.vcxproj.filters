@@ -408,6 +408,9 @@
     <ClInclude Include="stitching_detail_Warpers.h">
       <Filter>Header Files\stitching</Filter>
     </ClInclude>
+    <ClInclude Include="stitching_detail_Utilities.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
     <ClInclude Include="photo_Tonemap.h">
       <Filter>Header Files\photo</Filter>
     </ClInclude>
@@ -556,6 +559,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ptcloud_io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_Octree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ptcloud_rasterize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rgbd_colored_kinfu.h">
