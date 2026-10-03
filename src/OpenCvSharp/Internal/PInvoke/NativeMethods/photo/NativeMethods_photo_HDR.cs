@@ -10,6 +10,39 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_create(int maxBits, int excludeRange, int cut, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_Ptr_AlignMTB_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_Ptr_AlignMTB_get(IntPtr obj, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_process(OpenCvSafeHandle obj, IntPtr src, IntPtr dst,
+        in InputArrayProxy times, in InputArrayProxy response);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_processShort(OpenCvSafeHandle obj, IntPtr src, IntPtr dst);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_calculateShift(OpenCvSafeHandle obj,
+        in InputArrayProxy img0, in InputArrayProxy img1, out Point returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_shiftMat(OpenCvSafeHandle obj,
+        in InputArrayProxy src, in OutputArrayProxy dst, Point shift);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_computeBitmaps(OpenCvSafeHandle obj,
+        in InputArrayProxy img, in OutputArrayProxy tb, in OutputArrayProxy eb);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_getMaxBits(OpenCvSafeHandle obj, out int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_setMaxBits(OpenCvSafeHandle obj, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_getExcludeRange(OpenCvSafeHandle obj, out int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_setExcludeRange(OpenCvSafeHandle obj, int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_getCut(OpenCvSafeHandle obj, out int value);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_AlignMTB_setCut(OpenCvSafeHandle obj, int value);
+
     // CalibrateDebevec
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -75,6 +108,16 @@ static partial class NativeMethods
     public static partial ExceptionStatus photo_Ptr_MergeDebevec_delete(IntPtr obj);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_Ptr_MergeDebevec_get(IntPtr obj, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_createMergeRobertson(out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_Ptr_MergeRobertson_delete(IntPtr obj);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_Ptr_MergeRobertson_get(IntPtr obj, out IntPtr returnValue);
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus photo_MergeRobertson_process(OpenCvSafeHandle obj,
+        IntPtr src, in OutputArrayProxy dst, in InputArrayProxy times);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus photo_createMergeMertens(out IntPtr returnValue);
