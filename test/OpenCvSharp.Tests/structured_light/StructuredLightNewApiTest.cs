@@ -15,6 +15,13 @@ public class StructuredLightNewApiTest : TestBase
     }
 
     [Fact]
+    public void SinusoidalPatternRejectsMarkersOnOnePixelPeriods()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => SinusoidalPattern.Create(
+            new SinusoidalPatternParams { Width = 20, Height = 20, NumberOfPeriods = 20, SetMarkers = true }));
+    }
+
+    [Fact]
     public void SinusoidalPatternGeneratesImages()
     {
         using var pattern = SinusoidalPattern.Create(new SinusoidalPatternParams
@@ -59,11 +66,39 @@ public class StructuredLightNewApiTest : TestBase
             Assert.Throws<ArgumentException>(() => pattern.ComputePhaseMap(images.Take(2), phase));
             using var uPhase = new UMat();
             Assert.Throws<ArgumentException>(() => pattern.ComputePhaseMap(images, uPhase));
+            using var wrongPhase = new Mat(1, 1, MatType.CV_32FC1);
+            Assert.Throws<ArgumentException>(() => pattern.ComputePhaseMap(images, wrongPhase));
         }
         finally
         {
             DisposeAll(images);
         }
+    }
+
+    [Fact]
+    public void SinusoidalPatternValidatesUnwrapInputs()
+    {
+        using var pattern = SinusoidalPattern.Create();
+        using var wrapped = new Mat(32, 32, MatType.CV_32FC1, Scalar.All(0));
+        using var unwrapped = new Mat();
+        using var wrongMask = new Mat(1, 1, MatType.CV_8UC1);
+        Assert.Throws<ArgumentException>(() => pattern.UnwrapPhaseMap(
+            wrapped, unwrapped, new Size(32, 32), wrongMask));
+        pattern.UnwrapPhaseMap(wrapped, unwrapped, new Size(32, 32));
+        Assert.Equal(new Size(32, 32), unwrapped.Size());
+    }
+
+    [Fact]
+    public void SinusoidalPatternRejectsFloatDataModulationImages()
+    {
+        using var pattern = SinusoidalPattern.Create();
+        using var image1 = new Mat(8, 8, MatType.CV_32FC1);
+        using var image2 = new Mat(8, 8, MatType.CV_32FC1);
+        using var image3 = new Mat(8, 8, MatType.CV_32FC1);
+        using var modulation = new Mat();
+        using var mask = new Mat();
+        Assert.Throws<ArgumentException>(() => pattern.ComputeDataModulationTerm(
+            [image1, image2, image3], modulation, mask));
     }
 
     private static void DisposeAll(IEnumerable<Mat> mats)

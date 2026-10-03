@@ -22,6 +22,26 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         ArgumentOutOfRangeException.ThrowIfGreaterThan(parameters.NumberOfPeriods,
             parameters.Horizontal ? parameters.Height : parameters.Width);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(parameters.PixelsBetweenMarkers);
+        if (parameters.SetMarkers)
+        {
+            var period = (parameters.Horizontal ? parameters.Height : parameters.Width) / parameters.NumberOfPeriods;
+            ArgumentOutOfRangeException.ThrowIfLessThan(period, 2);
+            var rows = parameters.Horizontal ? parameters.Width : parameters.Height;
+            var cols = parameters.Horizontal ? parameters.Height : parameters.Width;
+            var markersPerRow = Math.Max(0, (rows - 10) / parameters.PixelsBetweenMarkers);
+            if (markersPerRow > 0)
+            {
+                var n = parameters.NumberOfPeriods / 3;
+                var lastRow = 10L + (long)(markersPerRow - 1) * parameters.PixelsBetweenMarkers +
+                              (long)(n - 1) * (parameters.PixelsBetweenMarkers / n);
+                var firstColumn = 3 * period / 4;
+                var lastColumn = 3L * period / 4 + (long)(n - 1) * period +
+                                 2L * period * n - 2 * period / 3;
+                if (lastRow >= rows - 1 || firstColumn < 1 || lastColumn >= cols - 1)
+                    throw new ArgumentOutOfRangeException(nameof(parameters),
+                        "Marker centers must leave space for their four neighboring pixels.");
+            }
+        }
         NativeMethods.HandleException(NativeMethods.structured_light_SinusoidalPattern_create(
             parameters.Width, parameters.Height, parameters.NumberOfPeriods,
             parameters.ShiftValue, (int) parameters.Method,
@@ -40,13 +60,20 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         throw new NotSupportedException("OpenCV 5.0.0 does not implement SinusoidalPattern.Decode.");
     }
 
-    /// <summary>Computes a wrapped phase map from captured sinusoidal patterns.</summary>
+    /// <summary>Computes a wrapped phase map from three CV_8UC1 patterns. The destination must be empty.</summary>
     public void ComputePhaseMap(IEnumerable<Mat> patternImages, OutputArray wrappedPhaseMap,
         OutputArray shadowMask = default, InputArray fundamental = default)
     {
         ThrowIfDisposed();
         RequireMat(wrappedPhaseMap.Proxy.Kind, nameof(wrappedPhaseMap));
-        var images = PreparePatternImages(patternImages, allowFloat: false);
+        var images = PreparePatternImages(patternImages);
+        var size = images[0].Size();
+        if (Cv2.GetOptimalDFTSize(size.Width) != size.Width || Cv2.GetOptimalDFTSize(size.Height) != size.Height)
+            throw new ArgumentException("Pattern image dimensions must be optimal DFT sizes for OpenCV 5.0.0.",
+                nameof(patternImages));
+        if (!((Mat)wrappedPhaseMap.Source!).Empty())
+            throw new ArgumentException("The phase destination must be empty for OpenCV 5.0.0.",
+                nameof(wrappedPhaseMap));
         using var temporaryMask = shadowMask.Proxy.Kind == (int)ArrayProxyKind.None ? new Mat() : null;
         var effectiveMask = temporaryMask is null ? shadowMask : OutputArray.Create(temporaryMask);
         RequireMat(effectiveMask.Proxy.Kind, nameof(shadowMask));
@@ -67,10 +94,22 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         ThrowIfDisposed();
         RequireMat(wrappedPhaseMap.Proxy.Kind, nameof(wrappedPhaseMap));
         RequireMat(unwrappedPhaseMap.Proxy.Kind, nameof(unwrappedPhaseMap));
+        if (cameraSize.Width <= 0 || cameraSize.Height <= 0)
+            throw new ArgumentOutOfRangeException(nameof(cameraSize));
+        ValidateInputMat((Mat)wrappedPhaseMap.Source!, cameraSize, MatType.CV_32FC1,
+            nameof(wrappedPhaseMap));
+        ValidateOutputMat((Mat)unwrappedPhaseMap.Source!, cameraSize, MatType.CV_32FC1,
+            nameof(unwrappedPhaseMap));
         if (shadowMask.Proxy.Kind != (int)ArrayProxyKind.None)
+        {
             RequireMat(shadowMask.Proxy.Kind, nameof(shadowMask));
+            ValidateInputMat((Mat)shadowMask.Source!, cameraSize, MatType.CV_8UC1, nameof(shadowMask));
+        }
+        using var temporaryMask = shadowMask.Proxy.Kind == (int)ArrayProxyKind.None
+            ? new Mat(cameraSize, MatType.CV_8UC1, Scalar.All(255)) : null;
+        var effectiveMask = temporaryMask is null ? shadowMask : (InputArray)temporaryMask;
         NativeMethods.HandleException(NativeMethods.structured_light_SinusoidalPattern_unwrapPhaseMap(
-            Handle, wrappedPhaseMap.Proxy, unwrappedPhaseMap.Proxy, cameraSize, shadowMask.Proxy));
+            Handle, wrappedPhaseMap.Proxy, unwrappedPhaseMap.Proxy, cameraSize, effectiveMask.Proxy));
         GC.KeepAlive(this);
         GC.KeepAlive(wrappedPhaseMap.Source);
         GC.KeepAlive(unwrappedPhaseMap.Source);
@@ -91,7 +130,14 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         ThrowIfDisposed();
         RequireMat(modulation.Proxy.Kind, nameof(modulation));
         RequireMat(shadowMask.Proxy.Kind, nameof(shadowMask));
-        var images = PreparePatternImages(patternImages, allowFloat: true);
+        var images = PreparePatternImages(patternImages);
+        var size = images[0].Size();
+        if (size.Width < 4 || size.Height < 4)
+            throw new ArgumentException("Pattern images must be at least 4 by 4 pixels.", nameof(patternImages));
+        ValidateOutputMat((Mat)modulation.Source!, size, MatType.CV_8UC1, nameof(modulation));
+        var mask = (Mat)shadowMask.Source!;
+        if (!mask.Empty())
+            ValidateInputMat(mask, size, MatType.CV_8UC1, nameof(shadowMask));
         using var input = new VectorOfMat(images);
         NativeMethods.HandleException(NativeMethods.structured_light_SinusoidalPattern_computeDataModulationTerm(
             Handle, input.CvPtr, modulation.Proxy, shadowMask.Proxy));
@@ -101,7 +147,7 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         GC.KeepAlive(shadowMask.Source);
     }
 
-    private static Mat[] PreparePatternImages(IEnumerable<Mat> patternImages, bool allowFloat)
+    private static Mat[] PreparePatternImages(IEnumerable<Mat> patternImages)
     {
         ArgumentNullException.ThrowIfNull(patternImages);
         var images = patternImages.ToArray();
@@ -114,9 +160,8 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         }
         var size = images[0].Size();
         var type = images[0].Type();
-        if (size.Width <= 0 || size.Height <= 0 ||
-            (type != MatType.CV_8UC1 && (!allowFloat || type != MatType.CV_32FC1)))
-            throw new ArgumentException("Pattern images must be nonempty CV_8UC1 or CV_32FC1 matrices.", nameof(patternImages));
+        if (size.Width <= 0 || size.Height <= 0 || type != MatType.CV_8UC1)
+            throw new ArgumentException("Pattern images must be nonempty CV_8UC1 matrices.", nameof(patternImages));
         foreach (var image in images)
         {
             if (image.Size() != size || image.Type() != type)
@@ -129,5 +174,17 @@ public sealed class SinusoidalPattern : StructuredLightPattern
     {
         if (kind != (int)ArrayProxyKind.Mat)
             throw new ArgumentException("OpenCV 5.0.0 requires a Mat for this parameter.", parameterName);
+    }
+
+    private static void ValidateInputMat(Mat mat, Size size, MatType type, string parameterName)
+    {
+        if (mat.Empty() || mat.Size() != size || mat.Type() != type)
+            throw new ArgumentException($"Expected a nonempty {type} Mat of size {size}.", parameterName);
+    }
+
+    private static void ValidateOutputMat(Mat mat, Size size, MatType type, string parameterName)
+    {
+        if (!mat.Empty())
+            ValidateInputMat(mat, size, type, parameterName);
     }
 }
