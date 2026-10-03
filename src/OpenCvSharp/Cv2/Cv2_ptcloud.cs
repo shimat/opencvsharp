@@ -8,6 +8,55 @@ namespace OpenCvSharp;
 
 static partial class Cv2
 {
+    /// <summary>Rasterizes a triangle mesh into color and depth buffers. Initialize a new depth buffer to zFar, or 1.0 in InverseDepth mode; keep its contents when rendering over an existing scene.</summary>
+    public static void TriangleRasterize(InputArray vertices, InputArray indices, InputArray colors,
+        InputOutputArray colorBuf, InputOutputArray depthBuf, InputArray world2cam,
+        double fovY, double zNear, double zFar, TriangleRasterizeSettings? settings = null)
+    {
+        var s = settings ?? TriangleRasterizeSettings.Default;
+        NativeMethods.HandleException(NativeMethods.ptcloud_triangleRasterize(
+            vertices.Proxy, indices.Proxy, colors.Proxy, colorBuf.Proxy, depthBuf.Proxy,
+            world2cam.Proxy, fovY, zNear, zFar,
+            (int)s.ShadingType, (int)s.CullingMode, (int)s.GlCompatibleMode));
+        GC.KeepAlive(vertices.Source);
+        GC.KeepAlive(indices.Source);
+        GC.KeepAlive(colors.Source);
+        GC.KeepAlive(colorBuf.Source);
+        GC.KeepAlive(depthBuf.Source);
+        GC.KeepAlive(world2cam.Source);
+    }
+
+    /// <summary>Rasterizes a triangle mesh into a depth buffer. Initialize a new buffer to zFar, or 1.0 in InverseDepth mode; keep its contents when rendering over an existing scene.</summary>
+    public static void TriangleRasterizeDepth(InputArray vertices, InputArray indices,
+        InputOutputArray depthBuf, InputArray world2cam,
+        double fovY, double zNear, double zFar, TriangleRasterizeSettings? settings = null)
+    {
+        var s = settings ?? TriangleRasterizeSettings.Default;
+        NativeMethods.HandleException(NativeMethods.ptcloud_triangleRasterizeDepth(
+            vertices.Proxy, indices.Proxy, depthBuf.Proxy, world2cam.Proxy,
+            fovY, zNear, zFar, (int)s.ShadingType, (int)s.CullingMode, (int)s.GlCompatibleMode));
+        GC.KeepAlive(vertices.Source);
+        GC.KeepAlive(indices.Source);
+        GC.KeepAlive(depthBuf.Source);
+        GC.KeepAlive(world2cam.Source);
+    }
+
+    /// <summary>Rasterizes a triangle mesh into an existing color buffer.</summary>
+    public static void TriangleRasterizeColor(InputArray vertices, InputArray indices, InputArray colors,
+        InputOutputArray colorBuf, InputArray world2cam,
+        double fovY, double zNear, double zFar, TriangleRasterizeSettings? settings = null)
+    {
+        var s = settings ?? TriangleRasterizeSettings.Default;
+        NativeMethods.HandleException(NativeMethods.ptcloud_triangleRasterizeColor(
+            vertices.Proxy, indices.Proxy, colors.Proxy, colorBuf.Proxy, world2cam.Proxy,
+            fovY, zNear, zFar, (int)s.ShadingType, (int)s.CullingMode, (int)s.GlCompatibleMode));
+        GC.KeepAlive(vertices.Source);
+        GC.KeepAlive(indices.Source);
+        GC.KeepAlive(colors.Source);
+        GC.KeepAlive(colorBuf.Source);
+        GC.KeepAlive(world2cam.Source);
+    }
+
     /// <summary>
     /// Registers depth data to an external camera.
     /// </summary>

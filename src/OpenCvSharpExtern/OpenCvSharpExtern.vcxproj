@@ -189,11 +189,13 @@
     <ClInclude Include="ptcloud_Odometry.h" />
     <ClInclude Include="ptcloud_OdometryFrame.h" />
     <ClInclude Include="ptcloud_OdometrySettings.h" />
+    <ClInclude Include="ptcloud_Octree.h" />
     <ClInclude Include="ptcloud_RgbdNormals.h" />
     <ClInclude Include="ptcloud_Volume.h" />
     <ClInclude Include="ptcloud_VolumeSettings.h" />
     <ClInclude Include="ptcloud_depth.h" />
     <ClInclude Include="ptcloud_io.h" />
+    <ClInclude Include="ptcloud_rasterize.h" />
     <ClInclude Include="quality.h" />
     <ClInclude Include="rgbd_colored_kinfu.h" />
     <ClInclude Include="rgbd_dynafu.h" />
