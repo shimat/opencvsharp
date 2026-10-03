@@ -54,15 +54,6 @@ CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_unwrapPhaseMap(
         OutProxy(*unwrappedPhaseMap), cpp(camSize), InProxy(*shadowMask)); });
 }
 
-CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_findProCamMatches(
-    cv::structured_light::SinusoidalPattern* obj,
-    const interop::InputArrayProxy* projectorPhase,
-    const interop::InputArrayProxy* cameraPhase, std::vector<cv::Mat>* matches)
-{
-    return cvTry([&] { obj->findProCamMatches(InProxy(*projectorPhase),
-        InProxy(*cameraPhase), *matches); });
-}
-
 CVAPI(ExceptionStatus) structured_light_SinusoidalPattern_computeDataModulationTerm(
     cv::structured_light::SinusoidalPattern* obj, std::vector<cv::Mat>* images,
     const interop::OutputArrayProxy* modulation,

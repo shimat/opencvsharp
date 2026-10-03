@@ -26,10 +26,6 @@ static partial class NativeMethods
         OpenCvSafeHandle obj, in InputArrayProxy wrappedPhaseMap,
         in OutputArrayProxy unwrappedPhaseMap, Size camSize, in InputArrayProxy shadowMask);
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus structured_light_SinusoidalPattern_findProCamMatches(
-        OpenCvSafeHandle obj, in InputArrayProxy projectorPhase,
-        in InputArrayProxy cameraPhase, IntPtr matches);
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus structured_light_SinusoidalPattern_computeDataModulationTerm(
         OpenCvSafeHandle obj, IntPtr images, in OutputArrayProxy modulation,
         in InputArrayProxy shadowMask);
