@@ -7,3 +7,4 @@
 #include "stitching_detail_Blenders.h"
 #include "stitching_detail_MotionEstimators.h"
 #include "stitching_detail_Warpers.h"
+#include "stitching_detail_Utilities.h"

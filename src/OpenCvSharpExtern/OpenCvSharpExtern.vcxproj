@@ -221,6 +221,7 @@
     <ClInclude Include="stitching_detail_Blenders.h" />
     <ClInclude Include="stitching_detail_MotionEstimators.h" />
     <ClInclude Include="stitching_detail_Warpers.h" />
+    <ClInclude Include="stitching_detail_Utilities.h" />
     <ClInclude Include="superres.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="text_ERFilter.h" />
