@@ -1,0 +1,4 @@
+[*.cs]
+
+# Test inputs intentionally use fresh constant arrays; caching them obscures individual cases.
+dotnet_diagnostic.CA1861.severity = none
