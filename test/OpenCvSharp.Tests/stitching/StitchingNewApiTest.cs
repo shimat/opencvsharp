@@ -21,6 +21,8 @@ public class StitchingNewApiTest : TestBase
         using var image0 = new UMat(10, 10, MatType.CV_8UC1);
         using var image1 = new UMat(10, 10, MatType.CV_8UC1);
         Assert.Equal(new Rect(0, 0, 15, 15), Cv2.Detail.ResultRoi(corners, new[] { image0, image1 }));
+        image1.Dispose();
+        Assert.Throws<ObjectDisposedException>(() => Cv2.Detail.ResultRoi(corners, new[] { image0, image1 }));
     }
 
     [Fact]

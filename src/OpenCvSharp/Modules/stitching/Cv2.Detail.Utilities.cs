@@ -57,7 +57,12 @@ public static partial class Cv2
             var cornerArray = corners.ToArray();
             var imageArray = images.ToArray();
             ValidateRegionCount(cornerArray.Length, imageArray.Length);
-            var pointers = imageArray.Select(image => image.CvPtr).ToArray();
+            var pointers = imageArray.Select(image =>
+            {
+                ArgumentNullException.ThrowIfNull(image);
+                image.ThrowIfDisposed();
+                return image.CvPtr;
+            }).ToArray();
             NativeMethods.HandleException(NativeMethods.stitching_detail_resultRoiImages(
                 cornerArray, pointers, cornerArray.Length, out var result));
             GC.KeepAlive(imageArray);
