@@ -89,6 +89,18 @@ public class StructuredLightNewApiTest : TestBase
     }
 
     [Fact]
+    public void SinusoidalPatternRejectsUndersizedPhaseImages()
+    {
+        using var pattern = SinusoidalPattern.Create();
+        using var image1 = new Mat(32, 32, MatType.CV_8UC1);
+        using var image2 = new Mat(32, 32, MatType.CV_8UC1);
+        using var image3 = new Mat(32, 32, MatType.CV_8UC1);
+        using var phase = new Mat();
+        Assert.Throws<ArgumentException>(() => pattern.ComputePhaseMap(
+            [image1, image2, image3], phase));
+    }
+
+    [Fact]
     public void SinusoidalPatternRejectsFloatDataModulationImages()
     {
         using var pattern = SinusoidalPattern.Create();

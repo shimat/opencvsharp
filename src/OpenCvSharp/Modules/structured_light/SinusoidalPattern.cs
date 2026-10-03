@@ -71,6 +71,9 @@ public sealed class SinusoidalPattern : StructuredLightPattern
         if (Cv2.GetOptimalDFTSize(size.Width) != size.Width || Cv2.GetOptimalDFTSize(size.Height) != size.Height)
             throw new ArgumentException("Pattern image dimensions must be optimal DFT sizes for OpenCV 5.0.0.",
                 nameof(patternImages));
+        if (size.Width < 42 || size.Height < 42)
+            throw new ArgumentException("Pattern image dimensions must be at least 42 by 42 for OpenCV 5.0.0.",
+                nameof(patternImages));
         if (!((Mat)wrappedPhaseMap.Source!).Empty())
             throw new ArgumentException("The phase destination must be empty for OpenCV 5.0.0.",
                 nameof(wrappedPhaseMap));
