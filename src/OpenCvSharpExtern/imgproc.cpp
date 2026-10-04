@@ -6,5 +6,7 @@
 #include "imgproc_GeneralizedHough.h"
 #include "imgproc_Segmentation.h"
 #include "imgproc_LineSegmentDetector.h"
+#ifndef OPENCVSHARP_MINIMAL
 #include "imgproc_undistort.h"
+#endif
 #include "imgproc_FontFace.h"

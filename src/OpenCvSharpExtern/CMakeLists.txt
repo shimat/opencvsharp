@@ -11,6 +11,9 @@ IF(APPLE)
 ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
+if(OPENCVSHARP_MINIMAL)
+	set(OPENCVSHARP_FILES core.cpp imgproc.cpp imgcodecs.cpp std_string.cpp std_vector.cpp)
+endif()
 
 # Resolve Eigen3 and HDF5 targets before OpenCV config is loaded.
 # OpenCV's static cmake config references these targets but does not
