@@ -52,10 +52,14 @@ if(TARGET opencv_surface_matching)
 	add_compile_definitions(HAVE_OPENCV_SURFACE_MATCHING)
 endif()
 
-# iconv support isn't automatic on some systems
-find_package(Iconv QUIET)
-if(NOT Iconv_FOUND)
-  add_compile_definitions(NO_ICONV=1)
+# iconv and Tesseract are not part of the minimal Android module profile.
+if(OPENCVSHARP_MINIMAL)
+	add_compile_definitions(NO_ICONV=1)
+else()
+	find_package(Iconv QUIET)
+	if(NOT Iconv_FOUND)
+		add_compile_definitions(NO_ICONV=1)
+	endif()
 endif()
 
 if(OpenCV_FOUND)
@@ -98,7 +102,7 @@ if(OpenCV_FOUND)
 	# Linux:   installed as a static library by packaging/docker/manylinux/build_static_deps.sh
 	#          into CMAKE_PREFIX_PATH (typically /opt/deps).
 	# macOS:   installed as a static library via vcpkg (CMAKE_PREFIX_PATH includes vcpkg_installed/).
-	if(NOT EMSCRIPTEN)
+	if(NOT EMSCRIPTEN AND NOT OPENCVSHARP_MINIMAL)
 		find_package(Tesseract QUIET)
 		if(Tesseract_FOUND)
 			if(WIN32)

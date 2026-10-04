@@ -2,7 +2,7 @@
 
 `OpenCvSharp5.runtime.android` supplies the native `OpenCvSharpExtern` library for Android arm64-v8a and x86_64. It works with the regular `OpenCvSharp5` managed package in a `net10.0-android` application. The minimum Android API level is 24.
 
-The native package is CPU-only and builds OpenCV 5 from the repository's pinned `opencv` submodule with NDK `27.3.13750724`. Its supported module profile is `core`, `imgproc`, and `imgcodecs`. The managed assembly contains declarations for other platforms too; calling an API whose native export is absent from this profile fails at runtime. Do not use this package for `VideoCapture`, `VideoWriter`, `highgui` windows, DNN, contrib modules, MAUI UI integration, or hardware acceleration. Camera applications should acquire frames with Android platform APIs and then pass the image data to OpenCvSharp.
+The native package is CPU-only and builds OpenCV 5 from the repository's pinned `opencv` submodule with NDK `27.3.13750724`. Its supported module profile is `core`, `imgproc`, and `imgcodecs`. The managed assembly contains declarations for other platforms too; calling an API whose native export is absent from this profile fails at runtime. `Subdiv2D`, `IntelligentScissorsMB`, and `GoodFeaturesToTrack` are excluded because OpenCV 5 provides them through the `geometry`, `photo`, and `features` modules. Do not use this package for `VideoCapture`, `VideoWriter`, `highgui` windows, DNN, contrib modules, MAUI UI integration, or hardware acceleration. Camera applications should acquire frames with Android platform APIs and then pass the image data to OpenCvSharp.
 
 Add the managed and runtime packages to an Android application:
 

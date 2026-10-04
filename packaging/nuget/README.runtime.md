@@ -56,7 +56,7 @@ The `slim` packages bundle a smaller native library with a reduced OpenCV module
 
 ## Android Profile
 
-The Android runtime is CPU-only and contains OpenCV `core`, `imgproc`, and `imgcodecs`. It supports Android API 24 or later on arm64-v8a and x86_64. Use it with `OpenCvSharp5` in a `net10.0-android` application. The managed assembly exposes more APIs than this native profile implements; calls into modules outside the profile fail at runtime. In particular, camera capture, `VideoCapture`, `highgui`, DNN, contrib modules, and hardware acceleration are not included. Acquire camera frames through Android platform APIs and pass their image data to OpenCvSharp.
+The Android runtime is CPU-only and contains OpenCV `core`, `imgproc`, and `imgcodecs`. It supports Android API 24 or later on arm64-v8a and x86_64. Use it with `OpenCvSharp5` in a `net10.0-android` application. The managed assembly exposes more APIs than this native profile implements; calls into modules outside the profile fail at runtime. `Subdiv2D`, `IntelligentScissorsMB`, and `GoodFeaturesToTrack` are excluded because OpenCV 5 places them in the `geometry`, `photo`, and `features` modules. Camera capture, `VideoCapture`, `highgui`, DNN, contrib modules, and hardware acceleration are not included. Acquire camera frames through Android platform APIs and pass their image data to OpenCvSharp.
 
 ## Resources
 
