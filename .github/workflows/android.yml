@@ -1,0 +1,189 @@
+name: Android
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  OPENCV_VERSION: 5.0.0
+  ANDROID_NDK_VERSION: 27.3.13750724
+  ANDROID_API_LEVEL: 24
+
+jobs:
+  native:
+    name: Native (${{ matrix.abi }})
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [x86_64, arm64-v8a]
+        include:
+          - abi: x86_64
+            machine: Advanced Micro Devices X86-64
+          - abi: arm64-v8a
+            machine: AArch64
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+
+      - name: Identify pinned OpenCV source
+        id: opencv-revision
+        run: echo "sha=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache/restore@v4
+        id: opencv-cache
+        with:
+          path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          ndk="${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}"
+          test -f "$ndk/build/cmake/android.toolchain.cmake"
+          opencv_install="$RUNNER_TEMP/opencv-install-${{ matrix.abi }}"
+          cmake -G Ninja -C cmake/opencv_build_options_android.cmake \
+            -S opencv -B "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}" \
+            -DCMAKE_TOOLCHAIN_FILE="$ndk/build/cmake/android.toolchain.cmake" \
+            -DANDROID_ABI=${{ matrix.abi }} \
+            -DANDROID_PLATFORM=android-${ANDROID_API_LEVEL} \
+            -DANDROID_STL=c++_static \
+            -DCMAKE_INSTALL_PREFIX="$opencv_install"
+          cmake --build "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}" --parallel 3
+          cmake --install "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}"
+
+      - uses: actions/cache/save@v4
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+
+      - name: Build OpenCvSharpExtern
+        shell: bash
+        run: |
+          set -euo pipefail
+          ndk="${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}"
+          opencv_install="$RUNNER_TEMP/opencv-install-${{ matrix.abi }}"
+          cmake -G Ninja -S src -B "$RUNNER_TEMP/extern-build-${{ matrix.abi }}" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE="$ndk/build/cmake/android.toolchain.cmake" \
+            -DANDROID_ABI=${{ matrix.abi }} \
+            -DANDROID_PLATFORM=android-${ANDROID_API_LEVEL} \
+            -DANDROID_STL=c++_static \
+            -DCMAKE_PREFIX_PATH="$opencv_install" \
+            -DOpenCV_DIR="$opencv_install/sdk/native/jni" \
+            -DOPENCVSHARP_MINIMAL=ON
+          cmake --build "$RUNNER_TEMP/extern-build-${{ matrix.abi }}" --parallel 3
+          mkdir -p "packaging/nuget/android/${{ matrix.abi }}"
+          cp "$RUNNER_TEMP/extern-build-${{ matrix.abi }}/OpenCvSharpExtern/libOpenCvSharpExtern.so" \
+            "packaging/nuget/android/${{ matrix.abi }}/"
+
+      - name: Verify Android ELF
+        shell: bash
+        run: |
+          set -euo pipefail
+          library="packaging/nuget/android/${{ matrix.abi }}/libOpenCvSharpExtern.so"
+          file "$library"
+          readelf -h "$library" | grep -F 'Machine:' | grep -F '${{ matrix.machine }}'
+          for symbol in core_Mat_sizeof imgproc_GaussianBlur imgcodecs_imencode_vector imgcodecs_imdecode_vector; do
+            nm -D --defined-only "$library" | grep -E " ${symbol}$"
+          done
+          while read -r needed; do
+            case "$needed" in
+              libc.so|libm.so|libdl.so|liblog.so|libz.so|libandroid.so) ;;
+              *) echo "Unexpected Android dependency: $needed" >&2; exit 1 ;;
+            esac
+          done < <(readelf -d "$library" | sed -n 's/.*Shared library: \[\(.*\)\]/\1/p')
+          readelf -d "$library" | grep NEEDED
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-native-${{ matrix.abi }}
+          path: packaging/nuget/android/${{ matrix.abi }}/libOpenCvSharpExtern.so
+
+  package:
+    name: Pack Android NuGet
+    needs: native
+    runs-on: ubuntu-26.04
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: android-native-x86_64
+          path: packaging/nuget/android/x86_64
+      - uses: actions/download-artifact@v8
+        with:
+          name: android-native-arm64-v8a
+          path: packaging/nuget/android/arm64-v8a
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Pack and inspect packages
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${OPENCV_VERSION}.$(date -u +%Y%m%d)-beta"
+          echo "value=$version" >> "$GITHUB_OUTPUT"
+          mkdir -p artifacts
+          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version="$version"
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.android.csproj -o artifacts -p:Version="$version"
+          package="artifacts/OpenCvSharp5.runtime.android.${version}.nupkg"
+          unzip -Z1 "$package" | tee "$RUNNER_TEMP/android-package-files.txt"
+          for asset in \
+            runtimes/android-x64/native/libOpenCvSharpExtern.so \
+            runtimes/android-arm64/native/libOpenCvSharpExtern.so; do
+            grep -Fx "$asset" "$RUNNER_TEMP/android-package-files.txt"
+          done
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-nuget-packages
+          path: artifacts/OpenCvSharp5.runtime.android.*.nupkg
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-smoke-packages
+          path: artifacts/*.nupkg
+
+  smoke:
+    name: Managed emulator (${{ matrix.rid }})
+    needs: package
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [android-x64, android-arm64]
+    env:
+      ANDROID_TEST_RID: ${{ matrix.rid }}
+      ANDROID_PACKAGE_VERSION: ${{ needs.package.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: android-smoke-packages
+          path: artifacts
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Install .NET Android workload
+        run: dotnet workload install android
+      - name: Run managed OpenCvSharp smoke test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash test/OpenCvSharp.AndroidSmoke/run-smoke.sh

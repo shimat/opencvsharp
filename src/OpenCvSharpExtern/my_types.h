@@ -341,7 +341,9 @@ OCS_INTEROP_BITCAST(TermCriteria, cv::TermCriteria)
 OCS_INTEROP_BITCAST(RotatedRect, cv::RotatedRect)
 OCS_INTEROP_BITCAST(KeyPoint, cv::KeyPoint)
 OCS_INTEROP_BITCAST(DMatch, cv::DMatch)
+#ifndef OPENCVSHARP_MINIMAL
 OCS_INTEROP_BITCAST(MSTEdge, cv::MSTEdge)
+#endif
 
 #undef OCS_INTEROP_BITCAST
 

@@ -36,16 +36,17 @@ Releases are produced by running the following workflows in order:
 2. **`linux-arm64.yml`** — builds the Linux ARM64 native library.
 3. **`manylinux.yml`** — builds the Linux x64 native library.
 4. **`wasm.yml`** — builds the WASM native library.
-5. **`publish_nuget.yml`** — collects all artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
+5. **`android.yml`** — builds both Android ABIs, validates the local runtime package in a managed Android emulator smoke test, and packs the Android runtime NuGet package.
+6. **`publish_nuget.yml`** — collects all artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
 
-The `OPENCV_VERSION` environment variable in `windows.yml` controls the OpenCV version embedded in the package version string. Update it there when upgrading OpenCV.
+The `OPENCV_VERSION` environment variables in `windows.yml` and `android.yml` control the OpenCV version embedded in their package version strings. Keep them aligned with the pinned OpenCV submodule when upgrading OpenCV.
 
 ---
 
 ## Upgrading OpenCV
 
 1. Update the `opencv` and `opencv_contrib` submodules to the new tag.
-2. Update `OPENCV_VERSION` in `.github/workflows/windows.yml`.
+2. Update `OPENCV_VERSION` in `.github/workflows/windows.yml` and `.github/workflows/android.yml`.
 3. Update the ffmpeg DLL filename reference in `packaging/nuget/OpenCvSharp5.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg500_64.dll` → `opencv_videoio_ffmpeg510_64.dll`).
 4. Run the full CI pipeline and verify all tests pass.
 5. `AssemblyVersion` does **not** need to be changed for a minor/patch OpenCV upgrade.

@@ -34,6 +34,8 @@
 
 #include <opencv2/opencv.hpp>
 
+#ifndef OPENCVSHARP_MINIMAL
+
 // OpenCV 5 split calib3d into the calib / 3d / stereo modules, and opencv.hpp
 // now pulls the new headers (opencv2/3d.hpp, objdetect.hpp). The legacy
 // opencv2/calib3d.hpp still re-declares the same enums (LMEDS, SolvePnPMethod,
@@ -88,6 +90,7 @@
 #include <opencv2/xphoto.hpp>
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/img_hash.hpp>
+#endif // OPENCVSHARP_MINIMAL
 #ifndef NO_CONTRIB
 #include <opencv2/rgbd/linemod.hpp>
 #include <opencv2/rgbd/kinfu.hpp>

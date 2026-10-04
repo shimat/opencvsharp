@@ -1,6 +1,6 @@
 # Installation
 
-This page creates a .NET console application and installs the packages selected in [Choose a Version and Package](package-selection.md). The commands require the [.NET 8 SDK or later](https://dotnet.microsoft.com/download).
+This page creates a .NET console application and installs the packages selected in [Choose a Version and Package](package-selection.md). Android requires a `net10.0-android` application instead of the console project below. The commands require the [.NET 8 SDK or later](https://dotnet.microsoft.com/download).
 
 ## Create a project
 
@@ -75,6 +75,17 @@ For an Intel Mac:
 dotnet add package OpenCvSharp5
 dotnet add package OpenCvSharp5.runtime.osx.x64
 ```
+
+## Android (preview)
+
+In a `net10.0-android` application targeting Android API 24 or later:
+
+```bash
+dotnet add package OpenCvSharp5
+dotnet add package OpenCvSharp5.runtime.android
+```
+
+The runtime supports arm64-v8a and x86_64 and contains only `core`, `imgproc`, and `imgcodecs`. See [Android runtime support](android.md) before using other managed APIs.
 
 ## WebAssembly
 

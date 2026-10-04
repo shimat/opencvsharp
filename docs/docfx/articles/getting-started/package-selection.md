@@ -23,9 +23,12 @@ The examples in this documentation use OpenCvSharp5. Replace `OpenCvSharp5` with
 | Linux ARM64 | `OpenCvSharp5` and `OpenCvSharp5.runtime.linux-arm64` |
 | macOS Intel | `OpenCvSharp5` and `OpenCvSharp5.runtime.osx.x64` |
 | macOS Apple Silicon | `OpenCvSharp5` and `OpenCvSharp5.runtime.osx.arm64` |
+| Android API 24+ (preview) | `OpenCvSharp5` and `OpenCvSharp5.runtime.android` |
 | WebAssembly | `OpenCvSharp5` and `OpenCvSharp5.runtime.wasm` |
 
 Use only one native runtime package for a given deployment target. The runtime package must match the operating system and process architecture.
+
+The Android package contains arm64-v8a and x86_64 native libraries and supports only the `core`, `imgproc`, and `imgcodecs` module profile. See [Android runtime support](android.md) for its scope and CI checks.
 
 ## Full, headless, and slim Linux packages
 
