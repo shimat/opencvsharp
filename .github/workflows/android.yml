@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 env:
+  OPENCV_VERSION: 5.0.0
   ANDROID_NDK_VERSION: 27.3.13750724
   ANDROID_API_LEVEL: 24
 
@@ -77,23 +78,7 @@ jobs:
             -DANDROID_STL=c++_static \
             -DCMAKE_PREFIX_PATH="$opencv_install" \
             -DOpenCV_DIR="$opencv_install/sdk/native/jni" \
-            -DOPENCVSHARP_MINIMAL=ON \
-            -DNO_CONTRIB=ON \
-            -DNO_STITCHING=ON \
-            -DNO_GEOMETRY=ON \
-            -DNO_CALIB=ON \
-            -DNO_STEREO=ON \
-            -DNO_PTCLOUD=ON \
-            -DNO_VIDEO=ON \
-            -DNO_FEATURES=ON \
-            -DNO_FLANN=ON \
-            -DNO_DNN=ON \
-            -DNO_ML=ON \
-            -DNO_OBJDETECT=ON \
-            -DNO_PHOTO=ON \
-            -DNO_BARCODE=ON \
-            -DNO_HIGHGUI=ON \
-            -DNO_VIDEOIO=ON
+            -DOPENCVSHARP_MINIMAL=ON
           cmake --build "$RUNNER_TEMP/extern-build-${{ matrix.abi }}" --parallel 3
           mkdir -p "packaging/nuget/android/${{ matrix.abi }}"
           cp "$RUNNER_TEMP/extern-build-${{ matrix.abi }}/OpenCvSharpExtern/libOpenCvSharpExtern.so" \
@@ -126,6 +111,8 @@ jobs:
     name: Pack Android NuGet
     needs: native
     runs-on: ubuntu-26.04
+    outputs:
+      version: ${{ steps.version.outputs.value }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
@@ -141,10 +128,12 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Pack and inspect packages
+        id: version
         shell: bash
         run: |
           set -euo pipefail
-          version="5.0.0-android-ci.${GITHUB_RUN_NUMBER}"
+          version="${OPENCV_VERSION}.$(date -u +%Y%m%d)-beta"
+          echo "value=$version" >> "$GITHUB_OUTPUT"
           mkdir -p artifacts
           dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version="$version"
           dotnet pack packaging/nuget/OpenCvSharp5.runtime.android.csproj -o artifacts -p:Version="$version"
@@ -159,6 +148,11 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: android-nuget-packages
+          path: artifacts/OpenCvSharp5.runtime.android.*.nupkg
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-smoke-packages
           path: artifacts/*.nupkg
 
   smoke:
@@ -172,11 +166,12 @@ jobs:
         rid: [android-x64, android-arm64]
     env:
       ANDROID_TEST_RID: ${{ matrix.rid }}
+      ANDROID_PACKAGE_VERSION: ${{ needs.package.outputs.version }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
-          name: android-nuget-packages
+          name: android-smoke-packages
           path: artifacts
       - uses: actions/setup-dotnet@v6
         with:

@@ -11,7 +11,7 @@
     <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OpenCvSharp5" Version="5.0.0-android-ci.$(AndroidCiVersion)" />
-    <PackageReference Include="OpenCvSharp5.runtime.android" Version="5.0.0-android-ci.$(AndroidCiVersion)" />
+    <PackageReference Include="OpenCvSharp5" Version="$(AndroidPackageVersion)" />
+    <PackageReference Include="OpenCvSharp5.runtime.android" Version="$(AndroidPackageVersion)" />
   </ItemGroup>
 </Project>

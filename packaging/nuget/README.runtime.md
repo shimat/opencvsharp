@@ -37,6 +37,7 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp5.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
 | `OpenCvSharp5.runtime.osx.x64` | macOS x64 (Intel) |
 | `OpenCvSharp5.runtime.osx.arm64` | macOS 11.0+ arm64 (Apple Silicon) |
+| `OpenCvSharp5.runtime.android` | Android API 24+, arm64-v8a and x86_64 (preview) |
 
 > **Note:** `OpenCvSharp5.runtime.linux-arm` has been renamed to `OpenCvSharp5.runtime.linux-arm64` to correctly reflect the ARM64 (AArch64) RID. The old package is kept as a compatibility shim that automatically pulls in the renamed package, but new projects should reference `OpenCvSharp5.runtime.linux-arm64` directly.
 
@@ -52,6 +53,10 @@ The `slim` packages bundle a smaller native library with a reduced OpenCV module
 |---|---|
 | **Enabled** | `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo` |
 | **Disabled** | `contrib`, `dnn`, `ml`, `video`, `videoio`, `highgui`, `stitching`, `barcode` |
+
+## Android Profile
+
+The Android runtime is CPU-only and contains OpenCV `core`, `imgproc`, and `imgcodecs`. It supports Android API 24 or later on arm64-v8a and x86_64. Use it with `OpenCvSharp5` in a `net10.0-android` application. The managed assembly exposes more APIs than this native profile implements; calls into modules outside the profile fail at runtime. In particular, camera capture, `VideoCapture`, `highgui`, DNN, contrib modules, and hardware acceleration are not included. Acquire camera frames through Android platform APIs and pass their image data to OpenCvSharp.
 
 ## Resources
 

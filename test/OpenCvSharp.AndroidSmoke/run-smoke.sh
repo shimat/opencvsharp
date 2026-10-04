@@ -2,7 +2,7 @@
 set -euo pipefail
 
 : "${ANDROID_TEST_RID:?Set ANDROID_TEST_RID}"
-: "${GITHUB_RUN_NUMBER:?Set GITHUB_RUN_NUMBER}"
+: "${ANDROID_PACKAGE_VERSION:?Set ANDROID_PACKAGE_VERSION}"
 
 case "$ANDROID_TEST_RID" in
   android-x64) expected_arch=X64 ;;
@@ -12,12 +12,12 @@ esac
 
 project=test/OpenCvSharp.AndroidSmoke/OpenCvSharp.AndroidSmoke.csproj
 dotnet restore "$project" \
-  -p:AndroidCiVersion="$GITHUB_RUN_NUMBER" \
+  -p:AndroidPackageVersion="$ANDROID_PACKAGE_VERSION" \
   -p:RuntimeIdentifier="$ANDROID_TEST_RID" \
   --source "$PWD/artifacts" \
   --source https://api.nuget.org/v3/index.json
 dotnet publish "$project" -c Release -f net10.0-android \
-  -p:AndroidCiVersion="$GITHUB_RUN_NUMBER" \
+  -p:AndroidPackageVersion="$ANDROID_PACKAGE_VERSION" \
   -p:RuntimeIdentifier="$ANDROID_TEST_RID" \
   --no-restore
 

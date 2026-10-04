@@ -14,6 +14,7 @@ See [OpenCV C++, Python (cv2), and OpenCvSharp](https://shimat.github.io/opencvs
 |---|---|
 | .NET 8.0 or later | `net8.0` (also AvaloniaExtensions, cross-platform) |
 | Windows desktop (.NET 8+) | `net8.0-windows` (WpfExtensions) |
+| Android API 24+ | `net10.0-android` (arm64-v8a or x86_64, preview runtime) |
 
 Target OpenCV version: **5.0.x** (with opencv_contrib)
 
@@ -41,6 +42,17 @@ dotnet add package OpenCvSharp5.runtime.osx.x64
 # Apple Silicon (arm64):
 dotnet add package OpenCvSharp5.runtime.osx.arm64
 ```
+
+### Android (preview)
+
+In a `net10.0-android` project, add both packages:
+
+```bash
+dotnet add package OpenCvSharp5
+dotnet add package OpenCvSharp5.runtime.android
+```
+
+The Android runtime contains only OpenCV `core`, `imgproc`, and `imgcodecs`. Camera capture, `VideoCapture`, native windows, DNN, and contrib modules are outside this profile.
 
 For more installation options, see [Installation on GitHub](https://github.com/shimat/opencvsharp#installation).
 
