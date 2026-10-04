@@ -16,7 +16,7 @@ jobs:
   build:
     name: Linux (arm64)
 
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     
     steps:
       - uses: actions/checkout@v7
@@ -34,7 +34,7 @@ jobs:
             make \
             cmake \
             libtbb-dev \
-            libatlas-base-dev \
+            libopenblas-dev \
             libgtk-3-dev \
             libavcodec-dev \
             libavformat-dev \

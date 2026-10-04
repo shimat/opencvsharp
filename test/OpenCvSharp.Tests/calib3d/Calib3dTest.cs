@@ -620,31 +620,52 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
     [Fact]
     public void FindFundamentalMat()
     {
-        var imgPt1 = new[]
+        // Use varied depths and positions instead of the numerically fragile rectangle fixture.
+        var worldPoints = new[]
         {
-            new Point2d(1017.0883, 848.23529),
-            new Point2d(1637, 848.23529),
-            new Point2d(1637, 1648.7059),
-            new Point2d(1017.0883, 1648.7059),
-            new Point2d(2282.2144, 772),
-            new Point2d(3034.9644, 772),
-            new Point2d(3034.9644, 1744),
-            new Point2d(2282.2144, 1744),
+            new Point3d(-1.2, -0.8, 3.0),
+            new Point3d(-0.4, 0.3, 4.5),
+            new Point3d(0.6, -0.5, 5.2),
+            new Point3d(1.3, 0.7, 3.7),
+            new Point3d(-0.9, 1.1, 6.0),
+            new Point3d(0.2, -1.0, 4.0),
+            new Point3d(1.5, 0.2, 5.5),
+            new Point3d(-1.4, 0.5, 3.4),
+            new Point3d(0.8, 1.2, 4.8),
+            new Point3d(-0.2, -0.3, 6.5),
         };
-        var imgPt2 = new[]
+        const double focalLength = 800;
+        const double baseline = 0.25;
+        var imgPt1 = new Point2d[worldPoints.Length];
+        var imgPt2 = new Point2d[worldPoints.Length];
+        for (var i = 0; i < worldPoints.Length; i++)
         {
-            new Point2d(414.88824, 848.23529),
-            new Point2d(1034.8, 848.23529),
-            new Point2d(1034.8, 1648.7059),
-            new Point2d(414.88824, 1648.7059),
-            new Point2d(1550.9714, 772),
-            new Point2d(2303.7214, 772),
-            new Point2d(2303.7214, 1744),
-            new Point2d(1550.9714, 1744),
-        };
+            var point = worldPoints[i];
+            imgPt1[i] = new Point2d(
+                320 + focalLength * point.X / point.Z,
+                240 + focalLength * point.Y / point.Z);
+            imgPt2[i] = new Point2d(
+                320 + focalLength * (point.X - baseline) / point.Z,
+                240 + focalLength * point.Y / point.Z);
+        }
 
         using var f = Cv2.FindFundamentalMat(imgPt1, imgPt2, FundamentalMatMethods.Point8);
-        Assert.True(f.Empty()); // TODO 
+        Assert.False(f.Empty());
+        Assert.Equal(3, f.Rows);
+        Assert.Equal(3, f.Cols);
+        Assert.Equal(MatType.CV_64FC1, f.Type());
+
+        for (var i = 0; i < imgPt1.Length; i++)
+        {
+            var p1 = imgPt1[i];
+            var p2 = imgPt2[i];
+            var a = f.Get<double>(0, 0) * p1.X + f.Get<double>(0, 1) * p1.Y + f.Get<double>(0, 2);
+            var b = f.Get<double>(1, 0) * p1.X + f.Get<double>(1, 1) * p1.Y + f.Get<double>(1, 2);
+            var c = f.Get<double>(2, 0) * p1.X + f.Get<double>(2, 1) * p1.Y + f.Get<double>(2, 2);
+            var distance = Math.Abs(a * p2.X + b * p2.Y + c) / Math.Sqrt(a * a + b * b);
+            Assert.True(double.IsFinite(distance));
+            Assert.InRange(distance, 0, 1e-3);
+        }
     }
 
     // https://github.com/shimat/opencvsharp/issues/1069
