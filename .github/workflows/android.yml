@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   push:
-    branches: [main]
+    branches: [main, codex/android-runtime-2103]
   workflow_dispatch:
 
 env:
