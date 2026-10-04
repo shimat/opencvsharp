@@ -29,7 +29,18 @@ jobs:
         with:
           submodules: true
 
-      - name: Build OpenCV and OpenCvSharpExtern
+      - name: Identify pinned OpenCV source
+        id: opencv-revision
+        run: echo "sha=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache/restore@v4
+        id: opencv-cache
+        with:
+          path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -46,6 +57,18 @@ jobs:
           cmake --build "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}" --parallel 3
           cmake --install "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}"
 
+      - uses: actions/cache/save@v4
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+
+      - name: Build OpenCvSharpExtern
+        shell: bash
+        run: |
+          set -euo pipefail
+          ndk="${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}"
+          opencv_install="$RUNNER_TEMP/opencv-install-${{ matrix.abi }}"
           cmake -G Ninja -S src -B "$RUNNER_TEMP/extern-build-${{ matrix.abi }}" \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_TOOLCHAIN_FILE="$ndk/build/cmake/android.toolchain.cmake" \
@@ -53,6 +76,7 @@ jobs:
             -DANDROID_PLATFORM=android-${ANDROID_API_LEVEL} \
             -DANDROID_STL=c++_static \
             -DCMAKE_PREFIX_PATH="$opencv_install" \
+            -DOpenCV_DIR="$opencv_install/sdk/native/jni" \
             -DOPENCVSHARP_MINIMAL=ON \
             -DNO_CONTRIB=ON \
             -DNO_STITCHING=ON \
