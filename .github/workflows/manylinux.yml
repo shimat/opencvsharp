@@ -18,16 +18,30 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Build full libOpenCvSharpExtern.so inside manylinux_2_28.
+  # Build full libOpenCvSharpExtern.so inside manylinux_2_28 (x64 and arm64).
   # Static deps (FFmpeg via build_static_deps.sh cached in /opt/ffmpeg;
   # image libs + Tesseract + Leptonica via vcpkg cached in vcpkg_installed/)
   # The resulting .so depends only on glibc / libstdc++ system libraries.
+  # The aarch64 image is referenced by tag until sync-manylinux-image.yml has
+  # mirrored it and its digest can be pinned like the x86_64 one.
   # ---------------------------------------------------------------------------
   build_full:
-    name: Linux (x64, full)
-    runs-on: ubuntu-26.04
+    name: Linux (${{ matrix.arch }}, full)
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: ubuntu-26.04
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+            artifact_suffix: ''
+          - arch: arm64
+            runner: ubuntu-26.04-arm
+            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            artifact_suffix: '-arm64'
     container:
-      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      image: ${{ matrix.image }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -40,6 +54,7 @@ jobs:
 
       - uses: ./.github/actions/build-manylinux-variant
         with:
+          arch: ${{ matrix.arch }}
           opencv_version: ${{ env.OPENCV_VERSION }}
           variant_label: full
           install_gtk3_devel: 'true'
@@ -48,7 +63,7 @@ jobs:
           extern_build_dir: src/build
           save_shared_caches: 'true'
           output_so_name: libOpenCvSharpExtern.so
-          artifact_name: libOpenCvSharpExtern-full
+          artifact_name: libOpenCvSharpExtern-full${{ matrix.artifact_suffix }}
 
   # ---------------------------------------------------------------------------
   # Build headless libOpenCvSharpExtern.so inside manylinux_2_28.
@@ -58,10 +73,22 @@ jobs:
   # but don't want the GTK3 runtime dependency of "full". See issue #2065.
   # ---------------------------------------------------------------------------
   build_headless:
-    name: Linux (x64, headless)
-    runs-on: ubuntu-26.04
+    name: Linux (${{ matrix.arch }}, headless)
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: ubuntu-26.04
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+            artifact_suffix: ''
+          - arch: arm64
+            runner: ubuntu-26.04-arm
+            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            artifact_suffix: '-arm64'
     container:
-      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      image: ${{ matrix.image }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -75,6 +102,7 @@ jobs:
 
       - uses: ./.github/actions/build-manylinux-variant
         with:
+          arch: ${{ matrix.arch }}
           opencv_version: ${{ env.OPENCV_VERSION }}
           variant_label: headless
           install_gtk3_devel: 'false'
@@ -87,7 +115,7 @@ jobs:
           verify_no_gui_deps: 'true'
           save_shared_caches: 'false'
           output_so_name: libOpenCvSharpExtern-headless.so
-          artifact_name: libOpenCvSharpExtern-headless
+          artifact_name: libOpenCvSharpExtern-headless${{ matrix.artifact_suffix }}
 
   # ---------------------------------------------------------------------------
   # Build slim libOpenCvSharpExtern.so inside manylinux_2_28.
@@ -95,10 +123,22 @@ jobs:
   # jpeg/png/tiff/webp/zlib internally.
   # ---------------------------------------------------------------------------
   build_slim:
-    name: Linux (x64, slim)
-    runs-on: ubuntu-26.04
+    name: Linux (${{ matrix.arch }}, slim)
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: ubuntu-26.04
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+            artifact_suffix: ''
+          - arch: arm64
+            runner: ubuntu-26.04-arm
+            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            artifact_suffix: '-arm64'
     container:
-      image: ghcr.io/shimat/opencvsharp-manylinux@sha256:fdb9a9c223b215604dc7b6f7e8fff4b39bfea5fbaa7777a2e5544a60dfa437f8
+      image: ${{ matrix.image }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -118,7 +158,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Configure OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -157,7 +197,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
         run: |
@@ -178,17 +218,30 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: libOpenCvSharpExtern-slim
+          name: libOpenCvSharpExtern-slim${{ matrix.artifact_suffix }}
           path: libOpenCvSharpExtern-slim.so
 
   # ---------------------------------------------------------------------------
-  # Integration test: run the manylinux-built .so on bare Ubuntu 24.04 (no container).
+  # Integration test: run the manylinux-built .so on bare Ubuntu (no container),
+  # natively on each architecture.
   # This validates that a glibc 2.28-built binary works on a newer distro.
   # ---------------------------------------------------------------------------
   test:
-    name: Linux (test)
+    name: Linux (test${{ matrix.name_suffix }})
     needs: [build_full, build_headless, build_slim]
-    runs-on: ubuntu-26.04
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-26.04
+            rid: linux-x64
+            artifact_suffix: ''
+            name_suffix: ''
+          - runner: ubuntu-26.04-arm
+            rid: linux-arm64
+            artifact_suffix: '-arm64'
+            name_suffix: ', arm64'
 
     steps:
       - uses: actions/checkout@v7
@@ -198,19 +251,19 @@ jobs:
       - name: Download full artifact
         uses: actions/download-artifact@v8
         with:
-          name: libOpenCvSharpExtern-full
+          name: libOpenCvSharpExtern-full${{ matrix.artifact_suffix }}
           path: packaging/nuget/
 
       - name: Download headless artifact
         uses: actions/download-artifact@v8
         with:
-          name: libOpenCvSharpExtern-headless
+          name: libOpenCvSharpExtern-headless${{ matrix.artifact_suffix }}
           path: nuget-headless/
 
       - name: Download slim artifact
         uses: actions/download-artifact@v8
         with:
-          name: libOpenCvSharpExtern-slim
+          name: libOpenCvSharpExtern-slim${{ matrix.artifact_suffix }}
           path: nuget-slim/
 
       - name: Install .NET
@@ -245,7 +298,7 @@ jobs:
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 \
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime ${{ matrix.rid }} \
             --results-directory TestResults --report-xunit-trx --report-xunit-trx-filename test-results.trx < /dev/null
 
       - name: Test Avalonia extensions
@@ -253,7 +306,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Avalonia
           dotnet build -c Release -f net10.0
           cp ${GITHUB_WORKSPACE}/packaging/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
-          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime linux-x64 < /dev/null
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.Avalonia.csproj -c Release -f net10.0 --runtime ${{ matrix.rid }} < /dev/null
 
       # Headless has the same module set as full except highgui, so it runs the same xunit
       # suite minus the one test class that calls into highgui (WaitKey/PollKey/...).
@@ -265,7 +318,7 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so bin/Release/net10.0/libOpenCvSharpExtern.so
           cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so ./libOpenCvSharpExtern.so
           sudo cp ${GITHUB_WORKSPACE}/nuget-headless/libOpenCvSharpExtern-headless.so /usr/lib/libOpenCvSharpExtern.so
-          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --no-build \
+          LD_LIBRARY_PATH=. dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime ${{ matrix.rid }} --no-build \
             --filter-not-class OpenCvSharp.Tests.HighGui.HighGuiTest \
             --results-directory TestResults --report-xunit-trx --report-xunit-trx-filename test-results-headless.trx < /dev/null
 
@@ -283,7 +336,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: test-results-manylinux
+          name: test-results-manylinux${{ matrix.artifact_suffix }}
           path: test/OpenCvSharp.Tests/TestResults/test-results*.trx
 
   # ---------------------------------------------------------------------------
@@ -299,23 +352,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Download full artifact
+      - name: Download native artifacts (x64 + arm64)
         uses: actions/download-artifact@v8
         with:
-          name: libOpenCvSharpExtern-full
-          path: /tmp/so-full/
-
-      - name: Download headless artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: libOpenCvSharpExtern-headless
-          path: /tmp/so-headless/
-
-      - name: Download slim artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: libOpenCvSharpExtern-slim
-          path: /tmp/so-slim/
+          pattern: libOpenCvSharpExtern-*
+          path: /tmp/so/
 
       - name: Install .NET
         uses: actions/setup-dotnet@v6
@@ -326,24 +367,24 @@ jobs:
         env:
           BETA: "-beta"
         run: |
+          set -euo pipefail
           yyyymmdd=$(date '+%Y%m%d')
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
 
-          # Full package
-          cp /tmp/so-full/libOpenCvSharpExtern.so packaging/nuget/libOpenCvSharpExtern.so
-          dotnet pack packaging/nuget/OpenCvSharp5.official.runtime.linux-x64.csproj \
-            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+          # Every package's csproj packs packaging/nuget/libOpenCvSharpExtern.so, so overwrite it before each pack.
+          pack() {
+            cp "/tmp/so/$1" packaging/nuget/libOpenCvSharpExtern.so
+            dotnet pack "packaging/nuget/$2" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+          }
 
-          # Headless package (overwrite .so in packaging/nuget/ with headless binary)
-          cp /tmp/so-headless/libOpenCvSharpExtern-headless.so packaging/nuget/libOpenCvSharpExtern.so
-          dotnet pack packaging/nuget/OpenCvSharp5.official.runtime.linux-x64.headless.csproj \
-            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
-
-          # Slim package (overwrite .so in packaging/nuget/ with slim binary)
-          cp /tmp/so-slim/libOpenCvSharpExtern-slim.so packaging/nuget/libOpenCvSharpExtern.so
-          dotnet pack packaging/nuget/OpenCvSharp5.official.runtime.linux-x64.slim.csproj \
-            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+          for arch in x64 arm64; do
+            suffix=""
+            if [ "$arch" = "arm64" ]; then suffix="-arm64"; fi
+            pack "libOpenCvSharpExtern-full${suffix}/libOpenCvSharpExtern.so" "OpenCvSharp5.official.runtime.linux-${arch}.csproj"
+            pack "libOpenCvSharpExtern-headless${suffix}/libOpenCvSharpExtern-headless.so" "OpenCvSharp5.official.runtime.linux-${arch}.headless.csproj"
+            pack "libOpenCvSharpExtern-slim${suffix}/libOpenCvSharpExtern-slim.so" "OpenCvSharp5.official.runtime.linux-${arch}.slim.csproj"
+          done
 
           ls ${GITHUB_WORKSPACE}/artifacts
 

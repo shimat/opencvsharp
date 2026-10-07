@@ -46,6 +46,7 @@ dotnet add package OpenCvSharp5.official.runtime.linux-x64
 # dotnet add package OpenCvSharp5.official.runtime.linux-x64.headless
 # optional slim profile (smaller native dependency surface)
 # dotnet add package OpenCvSharp5.official.runtime.linux-x64.slim
+# ARM64 (AArch64): use OpenCvSharp5.official.runtime.linux-arm64 (.headless / .slim) instead
 ```
 
 ### macOS
@@ -76,7 +77,7 @@ For more installation options, see the [Installation](#installation) section bel
 ```
 PS1> Install-WindowsFeature Server-Media-Foundation
 ```
-* (Linux) The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions with glibc 2.28+. The full package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
+* (Linux) The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions with glibc 2.28+. The full package includes FFmpeg (LGPL v2.1) and Tesseract statically linked. The `OpenCvSharp5.official.runtime.linux-arm64` packages (full, headless, slim) are the ARM64 (AArch64) counterparts, built the same way on manylinux_2_28_aarch64.
   * The **full** package uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 is pre-installed on standard Ubuntu/Debian/RHEL environments. In minimal or container environments where it is absent, install it manually (`apt-get install libgtk-3-0` or `dnf install gtk3`), or use the **headless** or **slim** profile instead.
   * The **headless** package (`OpenCvSharp5.official.runtime.linux-x64.headless`) keeps the full module set (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but disables `highgui`, so it has no GTK3/X11 dependency — suitable for containerized services that need more than the slim module set below.
   * The **slim** package (`OpenCvSharp5.official.runtime.linux-x64.slim`) disables `highgui` and reduces the module set — also has no GUI dependencies.
@@ -101,7 +102,7 @@ For a smaller feature profile, use `OpenCvSharp5.runtime.win-arm64.slim` instead
 > **Note:** FFmpeg-based video I/O is not available in the ARM64 packages because no ARM64 Windows prebuilt is provided by the upstream OpenCV project. All other OpenCV modules are included in the full package.
 
 ### Linux (Ubuntu and other distributions)
-Add `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64` NuGet packages to your project. This package uses the portable `linux-x64` RID and works with .NET 8+ publish/deploy workflows out of the box.
+Add `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64` NuGet packages to your project. This package uses the portable `linux-x64` RID and works with .NET 8+ publish/deploy workflows out of the box. On ARM64 (AArch64), use `OpenCvSharp5.official.runtime.linux-arm64` (or its `.headless` / `.slim` variants) instead.
 ```bash
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
@@ -148,6 +149,7 @@ This profile is used by:
 - `OpenCvSharp5.runtime.win.slim`
 - `OpenCvSharp5.Windows.Slim`
 - `OpenCvSharp5.official.runtime.linux-x64.slim`
+- `OpenCvSharp5.official.runtime.linux-arm64.slim`
 
 ## Usage
 For step-by-step guides, package selection, and troubleshooting, see the **[OpenCvSharp documentation](https://shimat.github.io/opencvsharp/)**. More complete programs are available in the **[samples repository](https://github.com/shimat/opencvsharp_samples/)**.
@@ -227,6 +229,9 @@ https://shimat.github.io/opencvsharp/
 |**[OpenCvSharp5.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended). Built on manylinux_2_28. Includes FFmpeg and Tesseract statically linked. Requires GTK3 runtime (`libgtk-3.so.0`) for highgui (`Cv2.ImShow` etc.). |
 |**[OpenCvSharp5.official.runtime.linux-x64.headless](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-x64.headless/)**| Headless native bindings for Linux x64 (portable RID). Same module set as the full package, but `highgui` is disabled, so it has no GTK3/X11 dependency. |
 |**[OpenCvSharp5.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,barcode` enabled. No external runtime dependencies. |
+|**[OpenCvSharp5.official.runtime.linux-arm64](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-arm64/)**| Native bindings for Linux ARM64 (AArch64, portable RID). Built on manylinux_2_28. Includes FFmpeg and Tesseract statically linked. Requires GTK3 runtime (`libgtk-3.so.0`) for highgui (`Cv2.ImShow` etc.). |
+|**[OpenCvSharp5.official.runtime.linux-arm64.headless](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-arm64.headless/)**| Headless native bindings for Linux ARM64 (portable RID). Same module set as the full package, but `highgui` is disabled, so it has no GTK3/X11 dependency. |
+|**[OpenCvSharp5.official.runtime.linux-arm64.slim](https://www.nuget.org/packages/OpenCvSharp5.official.runtime.linux-arm64.slim/)**| Slim native bindings for Linux ARM64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,barcode` enabled. No external runtime dependencies. |
 |**[OpenCvSharp5.runtime.linux-arm64](https://www.nuget.org/packages/OpenCvSharp5.runtime.linux-arm64/)**| Native bindings for Linux ARM64 (AArch64) |
 |**[OpenCvSharp5.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp5.runtime.wasm/)**| Native bindings for WebAssembly |
 |**[OpenCvSharp5.runtime.osx.x64](https://www.nuget.org/packages/OpenCvSharp5.runtime.osx.x64/)**| Native bindings for macOS Intel (x64). Includes FFmpeg, Tesseract, HDF, and Freetype. |

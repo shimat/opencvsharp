@@ -3,10 +3,10 @@ name: Sync manylinux image to GHCR
 on:
   workflow_dispatch:
     inputs:
-      source_ref:
-        description: Upstream manylinux image reference to mirror
+      source_tag:
+        description: Upstream manylinux_2_28 image tag to mirror (applied to both x86_64 and aarch64)
         required: true
-        default: quay.io/pypa/manylinux_2_28_x86_64:latest
+        default: latest
         type: string
 
 permissions:
@@ -18,21 +18,27 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  DEFAULT_SOURCE_REF: quay.io/pypa/manylinux_2_28_x86_64:latest
-  DESTINATION_IMAGE: ghcr.io/shimat/opencvsharp-manylinux
-  DESTINATION_TAG: manylinux_2_28_x86_64
+  DESTINATION_IMAGE: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux
 
 jobs:
   sync:
-    name: Mirror manylinux_2_28 x64
-    runs-on: ubuntu-26.04
+    name: Mirror manylinux_2_28 ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: x86_64
+            runner: ubuntu-26.04
+          - platform: aarch64
+            runner: ubuntu-26.04-arm
 
     steps:
       - name: Pull upstream image with retries
         id: pull
         env:
-          SOURCE_REF: ${{ inputs.source_ref || env.DEFAULT_SOURCE_REF }}
+          SOURCE_REF: quay.io/pypa/manylinux_2_28_${{ matrix.platform }}:${{ inputs.source_tag || 'latest' }}
         run: |
           set -euo pipefail
 
@@ -62,6 +68,7 @@ jobs:
         id: push
         env:
           SOURCE_REF: ${{ steps.pull.outputs.source_ref }}
+          DESTINATION_TAG: manylinux_2_28_${{ matrix.platform }}
         run: |
           set -euo pipefail
 
@@ -81,7 +88,7 @@ jobs:
 
           echo "digest=${digest}" >> "${GITHUB_OUTPUT}"
           {
-            echo "### manylinux mirror"
+            echo "### manylinux mirror (${{ matrix.platform }})"
             echo
             echo "- Source: \`${SOURCE_REF}\`"
             echo "- Destination: \`${destination_ref}\`"

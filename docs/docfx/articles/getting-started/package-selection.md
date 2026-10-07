@@ -20,7 +20,10 @@ The examples in this documentation use OpenCvSharp5. Replace `OpenCvSharp5` with
 | Linux x64 with GUI support | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64` |
 | Linux x64 without GUI support | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64.headless` |
 | Linux x64 with a reduced module set | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-x64.slim` |
-| Linux ARM64 | `OpenCvSharp5` and `OpenCvSharp5.runtime.linux-arm64` |
+| Linux ARM64 with GUI support | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-arm64` |
+| Linux ARM64 without GUI support | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-arm64.headless` |
+| Linux ARM64 with a reduced module set | `OpenCvSharp5` and `OpenCvSharp5.official.runtime.linux-arm64.slim` |
+| Linux ARM64 (Ubuntu-built) | `OpenCvSharp5` and `OpenCvSharp5.runtime.linux-arm64` |
 | macOS Intel | `OpenCvSharp5` and `OpenCvSharp5.runtime.osx.x64` |
 | macOS Apple Silicon | `OpenCvSharp5` and `OpenCvSharp5.runtime.osx.arm64` |
 | WebAssembly | `OpenCvSharp5` and `OpenCvSharp5.runtime.wasm` |

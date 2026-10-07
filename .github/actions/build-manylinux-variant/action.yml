@@ -1,10 +1,13 @@
 name: Build manylinux OpenCvSharpExtern variant
 description: >-
   Builds OpenCV + libOpenCvSharpExtern.so for one "full-module-set" flavor (full or headless)
-  inside a manylinux_2_28 container. Not used by the "slim" flavor, which has a
+  inside a manylinux_2_28 (x86_64 or aarch64) container. Not used by the "slim" flavor, which has a
   structurally different build (no vcpkg/FFmpeg, reduced OpenCV module list).
 
 inputs:
+  arch:
+    description: Target architecture, matching the container (x64 or arm64); selects the vcpkg triplet
+    required: true
   opencv_version:
     description: OpenCV version being built (e.g. 5.0.0), used in the OpenCV cache key
     required: true
@@ -53,11 +56,30 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Validate architecture (${{ inputs.variant_label }})
+      shell: bash
+      run: |
+        case "${{ inputs.arch }}:$(uname -m)" in
+          x64:x86_64|arm64:aarch64) ;;
+          *)
+            echo "ERROR: arch input '${{ inputs.arch }}' does not match container architecture $(uname -m)"
+            exit 1
+            ;;
+        esac
+        echo "VCPKG_TRIPLET=${{ inputs.arch }}-linux-static" >> "$GITHUB_ENV"
+        if [ "${{ inputs.arch }}" = "arm64" ]; then
+          # vcpkg does not ship prebuilt tool binaries (cmake/ninja/...) for every Linux arm64 host.
+          echo "VCPKG_FORCE_SYSTEM_BINARIES=1" >> "$GITHUB_ENV"
+        fi
+
     # -- System tools ---------------------------------------------------------
     - name: Install system tools (${{ inputs.variant_label }})
       shell: bash
       run: |
-        pkgs="git zip unzip pkg-config ninja-build nasm yasm kernel-headers perl-IPC-Cmd perl-Time-Piece"
+        pkgs="git zip unzip pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece"
+        if [ "${{ inputs.arch }}" = "x64" ]; then
+          pkgs="$pkgs nasm yasm"
+        fi
         if [ "${{ inputs.install_gtk3_devel }}" = "true" ]; then
           pkgs="$pkgs gtk3-devel"
         fi
@@ -81,14 +103,14 @@ runs:
       uses: actions/cache/restore@v6
       with:
         path: ${{ github.workspace }}/vcpkg_installed
-        key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+        key: vcpkg-${{ inputs.arch }}-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles(format('cmake/triplets/{0}-linux-static.cmake', inputs.arch)) }}
 
     - name: Install packages via vcpkg (${{ inputs.variant_label }})
       if: steps.vcpkg-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         /opt/vcpkg/vcpkg install \
-          --triplet x64-linux-static \
+          --triplet ${VCPKG_TRIPLET} \
           --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
 
     - name: Save vcpkg package cache (${{ inputs.variant_label }})
@@ -96,7 +118,7 @@ runs:
       uses: actions/cache/save@v6
       with:
         path: ${{ github.workspace }}/vcpkg_installed
-        key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+        key: vcpkg-${{ inputs.arch }}-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles(format('cmake/triplets/{0}-linux-static.cmake', inputs.arch)) }}
 
     # -- FFmpeg cache -----------------------------------------------------------
     - name: Restore FFmpeg cache (${{ inputs.variant_label }})
@@ -104,7 +126,7 @@ runs:
       uses: actions/cache/restore@v6
       with:
         path: /opt/ffmpeg
-        key: manylinux2_28-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
+        key: manylinux2_28-${{ inputs.arch }}-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
 
     - name: Build FFmpeg (${{ inputs.variant_label }})
       if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
@@ -119,7 +141,7 @@ runs:
       if: inputs.save_shared_caches == 'true'
       uses: actions/upload-artifact@v7
       with:
-        name: ffmpeg-feature-inventory
+        name: ffmpeg-feature-inventory-${{ inputs.arch }}
         path: /opt/ffmpeg/share/opencvsharp/ffmpeg-feature-inventory.txt
 
     - name: Save FFmpeg cache (${{ inputs.variant_label }})
@@ -127,7 +149,7 @@ runs:
       uses: actions/cache/save@v6
       with:
         path: /opt/ffmpeg
-        key: manylinux2_28-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
+        key: manylinux2_28-${{ inputs.arch }}-ffmpeg-${{ hashFiles('packaging/docker/manylinux/build_static_deps.sh') }}
 
     # -- OpenCV cache -------------------------------------------------------------
     - name: Restore OpenCV cache (${{ inputs.variant_label }})
@@ -135,12 +157,18 @@ runs:
       uses: actions/cache/restore@v6
       with:
         path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
-        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.arch }}-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
 
     - name: Configure OpenCV (${{ inputs.variant_label }})
       if: steps.opencv-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        arch_args=()
+        if [ "${{ inputs.arch }}" = "arm64" ]; then
+          # Disable the generic ASM language so OpenCV 5's vendored MLAS is skipped: on aarch64 its
+          # FP16/GQA path calls MlasHGemmSupported(), which OpenCV 5.0.0 never defines (see linux-arm64.yml).
+          arch_args+=(-D "CMAKE_ASM_COMPILER=")
+        fi
         cmake \
           -G Ninja \
           -C cmake/opencv_build_options.cmake \
@@ -149,7 +177,7 @@ runs:
           -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
           -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }} \
           -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
-          -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+          -D VCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
           -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
           -D CMAKE_PREFIX_PATH=/opt/ffmpeg \
           -D BUILD_JPEG=OFF \
@@ -163,6 +191,7 @@ runs:
           -D WITH_OPENGL=OFF \
           -D WITH_VA=OFF \
           -D WITH_VA_INTEL=OFF \
+          "${arch_args[@]}" \
           ${{ inputs.extra_opencv_cmake_args }} \
           2>&1 | tee /tmp/opencv-configure-${{ inputs.variant_label }}.log
 
@@ -217,7 +246,7 @@ runs:
       uses: actions/cache/save@v6
       with:
         path: ${{ github.workspace }}/${{ inputs.artifacts_dir }}
-        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
+        key: opencv-${{ inputs.opencv_version }}-manylinux2_28-${{ inputs.arch }}-${{ inputs.variant_label }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'packaging/docker/manylinux/build_static_deps.sh', '.github/actions/build-manylinux-variant/action.yml') }}-${{ inputs.extra_opencv_cmake_args }}
 
     # -- OpenCvSharpExtern --------------------------------------------------------
     - name: Build OpenCvSharpExtern (${{ inputs.variant_label }})
@@ -229,13 +258,13 @@ runs:
           -B ${{ inputs.extern_build_dir }} \
           -D CMAKE_BUILD_TYPE=Release \
           -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
-          -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+          -D VCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
           -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
           -D OpenCV_DIR=${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }}/lib64/cmake/opencv4 \
-          -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }};/opt/ffmpeg;${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static" \
-          -D ZLIB_LIBRARY="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib/libz.a" \
-          -D ZLIB_INCLUDE_DIR="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/include" \
-          -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib" \
+          -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/${{ inputs.artifacts_dir }};/opt/ffmpeg;${GITHUB_WORKSPACE}/vcpkg_installed/${VCPKG_TRIPLET}" \
+          -D ZLIB_LIBRARY="${GITHUB_WORKSPACE}/vcpkg_installed/${VCPKG_TRIPLET}/lib/libz.a" \
+          -D ZLIB_INCLUDE_DIR="${GITHUB_WORKSPACE}/vcpkg_installed/${VCPKG_TRIPLET}/include" \
+          -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/${VCPKG_TRIPLET}/lib" \
           ${{ inputs.extra_extern_cmake_args }}
         cmake --build ${{ inputs.extern_build_dir }} -j
         cp ${{ inputs.extern_build_dir }}/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/${{ inputs.output_so_name }}
