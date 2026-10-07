@@ -65,9 +65,17 @@ if ! grep -qx -- '--disable-autodetect' "${INVENTORY_PATH}"; then
     exit 1
 fi
 
+case "$(uname -m)" in
+    x86_64)  required_asm=x86asm ;;
+    aarch64) required_asm=neon ;;
+    *)
+        echo "ERROR: unsupported architecture: $(uname -m)"
+        exit 1
+        ;;
+esac
 if grep -qx -- '--disable-asm' "${INVENTORY_PATH}" ||
-   ! grep -qx -- 'x86asm=1' "${INVENTORY_PATH}"; then
-    echo "ERROR: FFmpeg x86-64 assembly optimizations are disabled"
+   ! grep -qx -- "${required_asm}=1" "${INVENTORY_PATH}"; then
+    echo "ERROR: FFmpeg $(uname -m) assembly optimizations (${required_asm}) are disabled"
     exit 1
 fi
 

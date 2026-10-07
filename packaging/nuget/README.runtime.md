@@ -6,13 +6,13 @@ The managed OpenCvSharp API is intentionally designed to stay as close as practi
 
 > In most cases you do not need to reference this package directly. Use one of the all-in-one packages instead:
 > - **Windows:** `OpenCvSharp5.Windows` or `OpenCvSharp5.Windows.Slim`
-> - **Linux:** `OpenCvSharp5` + `OpenCvSharp5.official.runtime.linux-x64`
+> - **Linux:** `OpenCvSharp5` + `OpenCvSharp5.official.runtime.linux-x64` (or `OpenCvSharp5.official.runtime.linux-arm64` on ARM64)
 
 > The `OpenCvSharp5.*` runtime packages target OpenCV 5.x. An identically-named `OpenCvSharp4.*` counterpart (OpenCV 4.13.0) is also published for .NET Framework / older runtimes.
 
 > 🔄 **Already using OpenCvSharp4?** See the [Migration Guide (4 → 5)](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md) on GitHub for target framework changes, package/namespace renames, and OpenCV 5 API changes.
 
-The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
+The Linux `linux-x64` and `official.runtime.linux-arm64` packages are built on **manylinux_2_28** (glibc 2.28) and work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) packages include FFmpeg (LGPL v2.1) and Tesseract statically linked.
 
 > **Linux `highgui` dependency:** The **full** `linux-x64` package uses GTK3 for `highgui` (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 is pre-installed on standard Ubuntu/Debian/RHEL environments. In minimal or container environments where it is absent, install it manually:
 > - Ubuntu/Debian: `apt-get install libgtk-3-0`
@@ -33,6 +33,9 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 | `OpenCvSharp5.official.runtime.linux-x64` | Linux x64 (portable, manylinux_2_28) |
 | `OpenCvSharp5.official.runtime.linux-x64.headless` | Linux x64 (portable, manylinux_2_28, headless — full module set minus `highgui`) |
 | `OpenCvSharp5.official.runtime.linux-x64.slim` | Linux x64 (portable, manylinux_2_28, slim) |
+| `OpenCvSharp5.official.runtime.linux-arm64` | Linux ARM64 (portable, manylinux_2_28) |
+| `OpenCvSharp5.official.runtime.linux-arm64.headless` | Linux ARM64 (portable, manylinux_2_28, headless — full module set minus `highgui`) |
+| `OpenCvSharp5.official.runtime.linux-arm64.slim` | Linux ARM64 (portable, manylinux_2_28, slim) |
 | `OpenCvSharp5.runtime.linux-arm64` | Linux ARM64 (AArch64) |
 | `OpenCvSharp5.runtime.linux-arm` | Linux ARM64 — **deprecated**, use `linux-arm64` |
 | `OpenCvSharp5.runtime.osx.x64` | macOS x64 (Intel) |
@@ -42,7 +45,7 @@ The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and 
 
 ## Headless Profile (Linux only)
 
-The `OpenCvSharp5.official.runtime.linux-x64.headless` package has the same module set as the full `linux-x64` package (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled at build time, so it never links GTK3/X11 and needs no GUI dependency to be installed. Use it for containerized/headless services (e.g. an ASP.NET Core service using `VideoCapture`/`imgcodecs`) that need more than the `slim` module set below but never call `highgui`.
+The `OpenCvSharp5.official.runtime.linux-x64.headless` and `OpenCvSharp5.official.runtime.linux-arm64.headless` packages have the same module set as the corresponding full package (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled at build time, so it never links GTK3/X11 and needs no GUI dependency to be installed. Use it for containerized/headless services (e.g. an ASP.NET Core service using `VideoCapture`/`imgcodecs`) that need more than the `slim` module set below but never call `highgui`.
 
 ## Slim Profile
 

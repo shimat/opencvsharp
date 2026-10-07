@@ -57,8 +57,10 @@ The official Linux x64 packages require glibc 2.28 or later.
 
 ```bash
 dotnet add package OpenCvSharp5
-dotnet add package OpenCvSharp5.runtime.linux-arm64
+dotnet add package OpenCvSharp5.official.runtime.linux-arm64
 ```
+
+The `.headless` and `.slim` variants (`OpenCvSharp5.official.runtime.linux-arm64.headless`, `OpenCvSharp5.official.runtime.linux-arm64.slim`) are available as on x64, and also require glibc 2.28 or later. `OpenCvSharp5.runtime.linux-arm64`, built on Ubuntu, remains available as well.
 
 ## macOS
 
