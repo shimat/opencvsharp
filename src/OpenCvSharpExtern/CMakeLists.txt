@@ -12,7 +12,7 @@ ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
-# Resolve Eigen3 and HDF5 targets before OpenCV config is loaded.
+# Resolve Eigen3, HDF5 and libavif targets before OpenCV config is loaded.
 # OpenCV's static cmake config references these targets but does not
 # call find_package for them, so they must be pre-defined.
 # Note: OpenCV's bundled protobuf (libprotobuf) is defined by OpenCV's own
@@ -20,6 +20,7 @@ file(GLOB OPENCVSHARP_FILES *.cpp)
 if(APPLE)
 	find_package(Eigen3 CONFIG REQUIRED)
 	find_package(HDF5 CONFIG REQUIRED)
+	find_package(libavif CONFIG REQUIRED)
 endif()
 
 # On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
