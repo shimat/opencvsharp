@@ -76,6 +76,12 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+		if(ANDROID)
+			# NDK r27 needs explicit 16 KB ELF and RELRO alignment for 16 KB page devices.
+			target_link_options(OpenCvSharpExtern PRIVATE
+				-Wl,-z,max-page-size=16384
+				-Wl,-z,common-page-size=16384)
+		endif()
 
 		if(UNIX AND NOT APPLE)
 			# Drop NEEDED entries for libraries that are passed on the link line by some static

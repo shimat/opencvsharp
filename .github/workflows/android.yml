@@ -91,6 +91,14 @@ jobs:
           library="packaging/nuget/android/${{ matrix.abi }}/libOpenCvSharpExtern.so"
           file "$library"
           readelf -h "$library" | grep -F 'Machine:' | grep -F '${{ matrix.machine }}'
+          load_alignments=$(readelf -lW "$library" | awk '$1 == "LOAD" { print $NF }')
+          test -n "$load_alignments"
+          while read -r alignment; do
+            if (( alignment < 0x4000 )); then
+              echo "Android LOAD segment is not 16 KB aligned: $alignment" >&2
+              exit 1
+            fi
+          done <<< "$load_alignments"
           for symbol in core_Mat_sizeof imgproc_GaussianBlur imgcodecs_imencode_vector imgcodecs_imdecode_vector; do
             nm -D --defined-only "$library" | grep -E " ${symbol}$"
           done
