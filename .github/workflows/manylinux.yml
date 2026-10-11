@@ -22,8 +22,7 @@ jobs:
   # Static deps (FFmpeg via build_static_deps.sh cached in /opt/ffmpeg;
   # image libs + Tesseract + Leptonica via vcpkg cached in vcpkg_installed/)
   # The resulting .so depends only on glibc / libstdc++ system libraries.
-  # The aarch64 image is referenced by tag until sync-manylinux-image.yml has
-  # mirrored it and its digest can be pinned like the x86_64 one.
+  # Both architecture-specific images are pinned to GHCR digests.
   # ---------------------------------------------------------------------------
   build_full:
     name: Linux (${{ matrix.arch }}, full)
@@ -38,7 +37,7 @@ jobs:
             artifact_suffix: ''
           - arch: arm64
             runner: ubuntu-26.04-arm
-            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:abd1230aa9e4058a74b89d27cd14ba18c0db036d7bfe6e6f219a29ea63c24eb6
             artifact_suffix: '-arm64'
     container:
       image: ${{ matrix.image }}
@@ -85,7 +84,7 @@ jobs:
             artifact_suffix: ''
           - arch: arm64
             runner: ubuntu-26.04-arm
-            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:abd1230aa9e4058a74b89d27cd14ba18c0db036d7bfe6e6f219a29ea63c24eb6
             artifact_suffix: '-arm64'
     container:
       image: ${{ matrix.image }}
@@ -135,7 +134,7 @@ jobs:
             artifact_suffix: ''
           - arch: arm64
             runner: ubuntu-26.04-arm
-            image: ghcr.io/${{ github.repository_owner }}/opencvsharp-manylinux:manylinux_2_28_aarch64
+            image: ghcr.io/shimat/opencvsharp-manylinux@sha256:abd1230aa9e4058a74b89d27cd14ba18c0db036d7bfe6e6f219a29ea63c24eb6
             artifact_suffix: '-arm64'
     container:
       image: ${{ matrix.image }}
