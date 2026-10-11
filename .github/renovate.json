@@ -16,6 +16,12 @@
   ],
   "packageRules": [
     {
+      "description": "Keep the shipped analyzer compatible with the Roslyn version in .NET 8 SDK 8.0.100",
+      "matchPackageNames": ["Microsoft.CodeAnalysis.CSharp", "Microsoft.CodeAnalysis.Analyzers"],
+      "matchFileNames": ["src/OpenCvSharp.Analyzers/OpenCvSharp.Analyzers.csproj", "test/OpenCvSharp.Analyzers.Tests/OpenCvSharp.Analyzers.Tests.csproj"],
+      "enabled": false
+    },
+    {
       "description": "Notify about stable OpenCV 5.x releases",
       "matchPackageNames": ["opencv/opencv"],
       "allowedVersions": "/^5\\./",
