@@ -13,6 +13,7 @@ public class ImgCodecsTest : TestBase
 
     // Platform check for conditional test execution
     public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+    public static bool IsMacOS => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
     public ImgCodecsTest(ITestOutputHelper testOutputHelper)
     {
@@ -400,6 +401,19 @@ public class ImgCodecsTest : TestBase
         var (width, height) = IdentifyImageBytes(imageData, ext);
         Assert.Equal(mat.Rows, height);
         Assert.Equal(mat.Cols, width);
+    }
+
+    [Fact(Skip = "Only runs on macOS", SkipUnless = nameof(IsMacOS))]
+    public void AvifRoundTripOnMacOS()
+    {
+        using var source = new Mat(16, 16, MatType.CV_8UC3, Scalar.Blue);
+        Assert.True(Cv2.ImEncode(".avif", source, out var encoded));
+        Assert.NotEmpty(encoded);
+
+        using var decoded = Cv2.ImDecode(encoded, ImreadModes.Color);
+        Assert.False(decoded.Empty());
+        Assert.Equal(source.Rows, decoded.Rows);
+        Assert.Equal(source.Cols, decoded.Cols);
     }
 
     [Theory]

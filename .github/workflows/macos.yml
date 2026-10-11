@@ -123,7 +123,7 @@ jobs:
         run: |
           log=/tmp/opencv-configure.log
           fail=0
-          for feature in JPEG PNG TIFF WEBP FFMPEG Tesseract; do
+          for feature in JPEG PNG TIFF WEBP AVIF FFMPEG Tesseract; do
             val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
             if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
               echo "OK: $feature = $val"
@@ -170,7 +170,24 @@ jobs:
       - name: Check dylib architecture
         run: |
           file ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
-          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | head -20
+          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+          if otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | grep -E 'libavif(\.[0-9]+)*\.dylib'; then
+            echo "libavif is dynamically linked"
+            exit 1
+          fi
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Test AVIF image I/O
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib bin/Release/net10.0/
+          DYLD_LIBRARY_PATH=${GITHUB_WORKSPACE} dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-x64 \
+            --filter-method OpenCvSharp.Tests.ImgCodecs.ImgCodecsTest.AvifRoundTripOnMacOS < /dev/null
 
       - uses: actions/upload-artifact@v7
         with:
@@ -265,7 +282,7 @@ jobs:
         run: |
           log=/tmp/opencv-configure.log
           fail=0
-          for feature in JPEG PNG TIFF WEBP FFMPEG Tesseract; do
+          for feature in JPEG PNG TIFF WEBP AVIF FFMPEG Tesseract; do
             val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
             if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
               echo "OK: $feature = $val"
@@ -312,7 +329,11 @@ jobs:
       - name: Check dylib architecture
         run: |
           file ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
-          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | head -20
+          otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+          if otool -L ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib | grep -E 'libavif(\.[0-9]+)*\.dylib'; then
+            echo "libavif is dynamically linked"
+            exit 1
+          fi
 
       - uses: actions/upload-artifact@v7
         with:

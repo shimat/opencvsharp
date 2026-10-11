@@ -10,6 +10,11 @@
     "tiff",
     "libwebp",
     {
+      "name": "libavif",
+      "features": ["aom"],
+      "platform": "osx"
+    },
+    {
       "name": "ffmpeg",
       "platform": "osx"
     },
