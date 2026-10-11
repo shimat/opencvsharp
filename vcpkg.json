@@ -11,6 +11,7 @@
     "libwebp",
     {
       "name": "libavif",
+      "features": ["aom"],
       "platform": "osx"
     },
     {
