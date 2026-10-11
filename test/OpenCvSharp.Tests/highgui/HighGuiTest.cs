@@ -92,12 +92,14 @@ public partial class HighGuiTest : TestBase
         {
             var receivedPos = -1;
             var callCount = 0;
-            var value = 0;
+            var value = 17;
             Cv2.CreateTrackbar(trackbarName, winName, ref value, 100, (pos, _) =>
             {
                 receivedPos = pos;
                 callCount++;
             });
+
+            Assert.Equal(17, Cv2.GetTrackbarPos(trackbarName, winName));
 
             Cv2.SetTrackbarPos(trackbarName, winName, 42);
 

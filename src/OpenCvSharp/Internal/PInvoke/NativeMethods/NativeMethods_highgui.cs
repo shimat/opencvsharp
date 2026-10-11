@@ -87,11 +87,6 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
         IntPtr value, int count, IntPtr onChange, IntPtr userData, out int returnValue);
 
-    [LibraryImport(DllExtern, EntryPoint = "highgui_createTrackbar"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus highgui_createTrackbar(
-        [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
-        ref int value, int count, IntPtr onChange, IntPtr userData, out int returnValue);
-
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus highgui_getTrackbarPos(
         [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName, out int returnValue);

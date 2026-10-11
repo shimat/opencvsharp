@@ -77,7 +77,7 @@ public class UndistortTest : TestBase
         using var rvec = Mat.ZerosMat(3, 1, MatType.CV_64FC1);
         using var tvec = Mat.FromPixelData(3, 1, MatType.CV_64FC1, UnitZTranslation);
 
-        Cv2.DrawFrameAxes(image, k, d, rvec, tvec, 1.0f);
+        Cv2.DrawFrameAxes(image, k, d, rvec, tvec, 0.1f);
 
         // Drawing the axes must have painted some non-zero (colored) pixels onto the black image.
         Assert.True(Cv2.CountNonZero(image.Reshape(1)) > 0);
