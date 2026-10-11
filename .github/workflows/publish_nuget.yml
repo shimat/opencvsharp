@@ -134,6 +134,9 @@ jobs:
             check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
             check_package "OpenCvSharp5.official.runtime.linux-x64.headless.*.nupkg"
             check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
+            check_package "OpenCvSharp5.official.runtime.linux-arm64.[0-9]*.nupkg"
+            check_package "OpenCvSharp5.official.runtime.linux-arm64.headless.*.nupkg"
+            check_package "OpenCvSharp5.official.runtime.linux-arm64.slim.*.nupkg"
           fi
 
           if skip_has macos; then
@@ -246,6 +249,8 @@ jobs:
             runtime_package: OpenCvSharp5.Windows
           - os: ubuntu-latest
             runtime_package: OpenCvSharp5.official.runtime.linux-x64
+          - os: ubuntu-26.04-arm
+            runtime_package: OpenCvSharp5.official.runtime.linux-arm64
     runs-on: ${{ matrix.os }}
 
     steps:

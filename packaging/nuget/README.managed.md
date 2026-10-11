@@ -30,6 +30,7 @@ dotnet add package OpenCvSharp5.Windows
 ```bash
 dotnet add package OpenCvSharp5
 dotnet add package OpenCvSharp5.official.runtime.linux-x64
+# ARM64 (AArch64): use OpenCvSharp5.official.runtime.linux-arm64 instead
 ```
 
 ### macOS
@@ -53,7 +54,7 @@ For more installation options, see [Installation on GitHub](https://github.com/s
   ```
 
 ### Linux (Ubuntu and other distributions)
-The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions.
+The official `OpenCvSharp5.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The `OpenCvSharp5.official.runtime.linux-arm64` packages are the ARM64 (AArch64) counterparts, with the same full/headless/slim variants described below.
 
 - **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **headless** or **slim** package below, neither of which has GUI dependencies.
 - **Headless package** (`OpenCvSharp5.official.runtime.linux-x64.headless`): same module set as full (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled, so it has no GTK3/X11 dependency. Suitable for containerized services that need more than the slim module set (e.g. `VideoCapture`) but never call `highgui`.

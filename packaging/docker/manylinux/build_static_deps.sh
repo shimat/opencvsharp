@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # build_static_deps.sh — builds FFmpeg as a static library inside the
-# quay.io/pypa/manylinux_2_28_x86_64 container for the portable Linux NuGet package.
+# quay.io/pypa/manylinux_2_28_{x86_64,aarch64} container for the portable Linux NuGet package.
 #
 # Other third-party libraries (libjpeg-turbo, libpng, libtiff, libwebp, Tesseract,
-# Leptonica) are now managed by vcpkg (vcpkg.json + cmake/triplets/x64-linux-static.cmake).
+# Leptonica) are now managed by vcpkg (vcpkg.json + cmake/triplets/{x64,arm64}-linux-static.cmake).
 #
 # After this script runs, /opt/ffmpeg contains a static FFmpeg build.
 # The resulting libOpenCvSharpExtern.so depends only on glibc / libstdc++.
@@ -90,7 +90,7 @@ mkdir -p "${INVENTORY_DIR}"
 
     echo
     echo "[assembly]"
-    for option in inline_asm x86asm; do
+    for option in inline_asm x86asm neon; do
         value=$(awk -v macro="HAVE_${option^^}" '$1 == "#define" && $2 == macro { print $3 }' config.h)
         echo "${option}=${value:-0}"
     done
