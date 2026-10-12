@@ -111,7 +111,8 @@ CVAPI(ExceptionStatus) bioinspired_TransientAreasSegmentation_run(
     const interop::InputArrayProxy* input, int channelIndex)
 {
     return cvTry([&] {
-        const cv::Mat image = InProxy(*input).getMat();
+        InProxy source(*input);
+        const cv::Mat image = static_cast<const cv::_InputArray&>(source).getMat();
         if (channelIndex < 0 || channelIndex >= image.channels())
             CV_Error(cv::Error::StsOutOfRange, "Channel index is outside the input image");
 
