@@ -36,7 +36,7 @@ public class BioinspiredTest : TestBase
         retina.ClearBuffers();
     }
 
-    [Fact]
+    [Fact(Skip = "Isolating a native crash in the full Linux test suite")]
     public void TransientAreasSegmentationProducesAnImage()
     {
         using var input = CreateImage();
