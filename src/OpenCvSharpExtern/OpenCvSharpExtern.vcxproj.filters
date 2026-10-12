@@ -40,6 +40,9 @@
     <ClCompile Include="imgproc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="intensity_transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="line_descriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -502,6 +505,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="intensity_transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xstereo_QuasiDenseStereo.h">
