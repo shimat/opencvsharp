@@ -58,6 +58,9 @@ endif()
 if(TARGET opencv_bioinspired)
 	add_compile_definitions(HAVE_OPENCV_BIOINSPIRED)
 endif()
+if(TARGET opencv_dnn_objdetect)
+	add_compile_definitions(HAVE_OPENCV_DNN_OBJDETECT)
+endif()
 
 # iconv support isn't automatic on some systems
 find_package(Iconv QUIET)
