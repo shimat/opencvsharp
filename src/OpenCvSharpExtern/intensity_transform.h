@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NO_CONTRIB
+#if !defined(NO_CONTRIB) && defined(HAVE_OPENCV_INTENSITY_TRANSFORM)
 #include "include_opencv.h"
 #include <opencv2/intensity_transform.hpp>
 
@@ -38,4 +38,4 @@ CVAPI(ExceptionStatus) intensity_transform_bimef2(
 {
     return cvTry([&] { cv::intensity_transform::BIMEF(InProxy(*input), OutProxy(*output), exposureRatio, mu, a, b); });
 }
-#endif // NO_CONTRIB
+#endif // !NO_CONTRIB && HAVE_OPENCV_INTENSITY_TRANSFORM
