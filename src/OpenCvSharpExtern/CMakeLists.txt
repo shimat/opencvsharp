@@ -44,13 +44,16 @@ find_package(OpenCV REQUIRED)
 
 # OpenCV's installed package exposes built modules as imported targets, but it
 # does not propagate the HAVE_OPENCV_* macros used by OpenCV's own build. Mirror
-# those two module-presence macros so the bindings stay disabled in slim/WASM
+# module-presence macros so the bindings stay disabled in slim/WASM
 # profiles where the corresponding targets are absent.
 if(TARGET opencv_structured_light)
 	add_compile_definitions(HAVE_OPENCV_STRUCTURED_LIGHT)
 endif()
 if(TARGET opencv_surface_matching)
 	add_compile_definitions(HAVE_OPENCV_SURFACE_MATCHING)
+endif()
+if(TARGET opencv_intensity_transform)
+	add_compile_definitions(HAVE_OPENCV_INTENSITY_TRANSFORM)
 endif()
 
 # iconv and Tesseract are not part of the minimal Android module profile.

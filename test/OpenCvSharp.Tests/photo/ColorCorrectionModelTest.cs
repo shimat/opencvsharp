@@ -7,7 +7,7 @@ public class ColorCorrectionModelTest : TestBase
     // 24 synthetic RGB patch colors in [0, 1], matching the patch count of the built-in Macbeth
     // ColorChecker. The values are arbitrary - this only exercises the P/Invoke plumbing, not the
     // numerical quality of the fitted correction matrix.
-    private static Mat MakeSyntheticPatches()
+    private static Mat<Vec3d> MakeSyntheticPatches()
     {
         var values = new Vec3d[24];
         var rnd = new Random(42);

@@ -2,3 +2,6 @@
 
 # Test inputs intentionally use fresh constant arrays; caching them obscures individual cases.
 dotnet_diagnostic.CA1861.severity = none
+
+# Test data does not require cryptographically secure randomness.
+dotnet_diagnostic.CA5394.severity = none

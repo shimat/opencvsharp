@@ -68,6 +68,7 @@
     <ClCompile Include="img_hash.cpp" />
     <ClCompile Include="imgcodecs.cpp" />
     <ClCompile Include="imgproc.cpp" />
+    <ClCompile Include="intensity_transform.cpp" />
     <ClCompile Include="line_descriptor.cpp" />
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="imgcodecs_Animation.h" />
     <ClInclude Include="imgcodecs_ImageCollection.h" />
     <ClInclude Include="imgproc.h" />
+    <ClInclude Include="intensity_transform.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="imgproc_GeneralizedHough.h" />
     <ClInclude Include="imgproc_LineIterator.h" />
