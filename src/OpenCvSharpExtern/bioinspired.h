@@ -110,7 +110,17 @@ CVAPI(ExceptionStatus) bioinspired_TransientAreasSegmentation_run(
     cv::bioinspired::TransientAreasSegmentationModule* obj,
     const interop::InputArrayProxy* input, int channelIndex)
 {
-    return cvTry([&] { obj->run(InProxy(*input), channelIndex); });
+    return cvTry([&] {
+        const cv::Mat image = InProxy(*input).getMat();
+        if (channelIndex < 0 || channelIndex >= image.channels())
+            CV_Error(cv::Error::StsOutOfRange, "Channel index is outside the input image");
+
+        // OpenCV 5.0.0 stores only one channel in its internal buffer.
+        // Extract the requested channel before invoking the module.
+        cv::Mat channel;
+        cv::extractChannel(image, channel, channelIndex);
+        obj->run(channel, 0);
+    });
 }
 
 CVAPI(ExceptionStatus) bioinspired_TransientAreasSegmentation_getPicture(
