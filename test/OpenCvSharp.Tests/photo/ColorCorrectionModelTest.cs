@@ -10,12 +10,10 @@ public class ColorCorrectionModelTest : TestBase
     private static Mat<Vec3d> MakeSyntheticPatches()
     {
         var values = new Vec3d[24];
+        var rnd = new Random(42);
         for (var i = 0; i < values.Length; i++)
         {
-            values[i] = new Vec3d(
-                ((i * 37 + 13) % 97) / 96.0,
-                ((i * 53 + 29) % 97) / 96.0,
-                ((i * 71 + 43) % 97) / 96.0);
+            values[i] = new Vec3d(rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble());
         }
         return Mat.FromArray(values);
     }
