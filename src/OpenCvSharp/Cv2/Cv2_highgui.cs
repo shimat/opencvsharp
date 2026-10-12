@@ -469,10 +469,7 @@ static partial class Cv2
 
     /// <summary>
     /// Creates a trackbar and attaches it to the specified window.
-    /// The function createTrackbar creates a trackbar(a slider or range control) with the specified name 
-    /// and range, assigns a variable value to be a position synchronized with the trackbar and specifies 
-    /// the callback function onChange to be called on the trackbar position change.The created trackbar is 
-    /// displayed in the specified window winName.
+    /// An optional callback reports changes to the trackbar position.
     /// </summary>
     /// <param name="trackbarName">Name of the created trackbar.</param>
     /// <param name="winName">Name of the window that will be used as a parent of the created trackbar.</param>
@@ -505,10 +502,7 @@ static partial class Cv2
         
     /// <summary>
     /// Creates a trackbar and attaches it to the specified window.
-    /// The function createTrackbar creates a trackbar(a slider or range control) with the specified name 
-    /// and range, assigns a variable value to be a position synchronized with the trackbar and specifies 
-    /// the callback function onChange to be called on the trackbar position change.The created trackbar is 
-    /// displayed in the specified window winName.
+    /// An optional callback reports changes to the trackbar position.
     /// </summary>
     /// <param name="trackbarName">Name of the created trackbar.</param>
     /// <param name="winName">Name of the window that will be used as a parent of the created trackbar.</param>
@@ -516,7 +510,7 @@ static partial class Cv2
     /// <param name="onChange">Pointer to the function to be called every time the slider changes position. 
     /// This function should be prototyped as void Foo(int, void\*); , where the first parameter is the trackbar 
     /// position and the second parameter is the user data(see the next parameter). If the callback is 
-    /// the NULL pointer, no callbacks are called, but only value is updated.</param>
+    /// the NULL pointer, no callbacks are called; use <see cref="GetTrackbarPos"/> to read the position.</param>
     /// <param name="userData">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
     /// <returns></returns>
     public static int CreateTrackbar(string trackbarName, string winName,
