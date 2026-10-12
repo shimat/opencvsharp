@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <PackageId>OpenCvSharp5.runtime.android</PackageId>
+    <Title>OpenCvSharp native bindings for Android</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>CPU-only OpenCvSharp5 runtime for Android arm64-v8a and x86_64</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp android arm64 x64</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="android/arm64-v8a/libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/android-arm64/native/" />
+    <None Include="android/x86_64/libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/android-x64/native/" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.runtime.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

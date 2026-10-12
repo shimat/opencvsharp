@@ -29,7 +29,17 @@ option(NO_BARCODE "Disable barcode bindings" OFF)
 option(NO_HIGHGUI "Disable highgui bindings" OFF)
 option(NO_VIDEOIO "Disable videoio bindings" OFF)
 option(NO_INSTALL_TO_TEST "Skip copying built DLL to the test project directory (Windows only)" OFF)
+option(OPENCVSHARP_MINIMAL "Build only core, imgproc, and imgcodecs bindings" OFF)
 option(OPENCVSHARP_BUILD_WITH_DEBUG_INFO "Generate compiler and linker symbols for MSVC diagnostics" OFF)
+
+if(OPENCVSHARP_MINIMAL)
+    foreach(disabled_module IN ITEMS
+        NO_CONTRIB NO_STITCHING NO_GEOMETRY NO_CALIB NO_STEREO NO_PTCLOUD
+        NO_VIDEO NO_FEATURES NO_FLANN NO_DNN NO_ML NO_OBJDETECT NO_PHOTO
+        NO_BARCODE NO_HIGHGUI NO_VIDEOIO)
+        set(${disabled_module} ON)
+    endforeach()
+endif()
 
 # Enable MSVC security hardening flags (issue #1841)
 if(MSVC)
@@ -92,6 +102,9 @@ if(NO_HIGHGUI)
 endif()
 if(NO_VIDEOIO)
     add_compile_definitions(NO_VIDEOIO)
+endif()
+if(OPENCVSHARP_MINIMAL)
+    add_compile_definitions(OPENCVSHARP_MINIMAL)
 endif()
 
 add_subdirectory(OpenCvSharpExtern)

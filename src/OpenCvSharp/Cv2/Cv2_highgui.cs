@@ -469,20 +469,16 @@ static partial class Cv2
 
     /// <summary>
     /// Creates a trackbar and attaches it to the specified window.
-    /// The function createTrackbar creates a trackbar(a slider or range control) with the specified name 
-    /// and range, assigns a variable value to be a position synchronized with the trackbar and specifies 
-    /// the callback function onChange to be called on the trackbar position change.The created trackbar is 
-    /// displayed in the specified window winName.
+    /// An optional callback reports changes to the trackbar position.
     /// </summary>
     /// <param name="trackbarName">Name of the created trackbar.</param>
     /// <param name="winName">Name of the window that will be used as a parent of the created trackbar.</param>
-    /// <param name="value">Optional pointer to an integer variable whose value reflects the position of the slider.Upon creation,
-    ///  the slider position is defined by this variable.</param>
+    /// <param name="value">Initial slider position. To read later changes, use the callback or <see cref="GetTrackbarPos"/>.</param>
     /// <param name="count">Maximal position of the slider. The minimal position is always 0.</param>
     /// <param name="onChange">Pointer to the function to be called every time the slider changes position. 
     /// This function should be prototyped as void Foo(int, void\*); , where the first parameter is the trackbar 
     /// position and the second parameter is the user data(see the next parameter). If the callback is 
-    /// the NULL pointer, no callbacks are called, but only value is updated.</param>
+    /// the NULL pointer, no callbacks are called; use <see cref="GetTrackbarPos"/> to read the position.</param>
     /// <param name="userData">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
     /// <returns></returns>
     public static int CreateTrackbar(string trackbarName, string winName,
@@ -491,42 +487,22 @@ static partial class Cv2
         ArgumentNullException.ThrowIfNull(trackbarName);
         ArgumentNullException.ThrowIfNull(winName);
 
-        GCHandle? contextHandle = null;
-        var onChangePtr = IntPtr.Zero;
-        if (onChange is not null)
-        {
-            contextHandle = GCHandle.Alloc(new TrackbarCallbackContext { Callback = onChange, UserData = userData });
-            onChangePtr = GetTrackbarCallbackTrampolinePointer();
-        }
-
-        int ret;
         lock (highguiCallbackSync)
         {
-            try
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.highgui_createTrackbar(
-                        trackbarName, winName, ref value, count, onChangePtr,
-                        contextHandle.HasValue ? GCHandle.ToIntPtr(contextHandle.Value) : IntPtr.Zero, out ret));
-            }
-            catch
-            {
-                contextHandle?.Free();
-                throw;
-            }
-
-            // Root the context (and thus the delegate) for the lifetime of the window (see registry note above).
-            RegisterTrackbarCallback(winName, trackbarName, contextHandle);
+            // OpenCV retains a non-null value pointer after this call. A managed ref is only
+            // pinned during P/Invoke, so use the null-pointer overload and set the initial
+            // position after the callback context has been registered.
+            var ret = CreateTrackbar(trackbarName, winName, count, onChange, userData);
+            if (ret == 0)
+                return ret;
+            SetTrackbarPos(trackbarName, winName, value);
+            return ret;
         }
-        return ret;
     }
         
     /// <summary>
     /// Creates a trackbar and attaches it to the specified window.
-    /// The function createTrackbar creates a trackbar(a slider or range control) with the specified name 
-    /// and range, assigns a variable value to be a position synchronized with the trackbar and specifies 
-    /// the callback function onChange to be called on the trackbar position change.The created trackbar is 
-    /// displayed in the specified window winName.
+    /// An optional callback reports changes to the trackbar position.
     /// </summary>
     /// <param name="trackbarName">Name of the created trackbar.</param>
     /// <param name="winName">Name of the window that will be used as a parent of the created trackbar.</param>
@@ -534,7 +510,7 @@ static partial class Cv2
     /// <param name="onChange">Pointer to the function to be called every time the slider changes position. 
     /// This function should be prototyped as void Foo(int, void\*); , where the first parameter is the trackbar 
     /// position and the second parameter is the user data(see the next parameter). If the callback is 
-    /// the NULL pointer, no callbacks are called, but only value is updated.</param>
+    /// the NULL pointer, no callbacks are called; use <see cref="GetTrackbarPos"/> to read the position.</param>
     /// <param name="userData">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
     /// <returns></returns>
     public static int CreateTrackbar(string trackbarName, string winName,

@@ -7,7 +7,9 @@
 #include "core_Mat.h"
 #include "core_UMat.h"
 #include "core_MatExpr.h"
+#ifndef OPENCVSHARP_MINIMAL
 #include "core_ocl.h"
+#endif
 #include "core_OutputArray.h"
 #include "core_PCA.h"
 #include "core_SparseMat.h"

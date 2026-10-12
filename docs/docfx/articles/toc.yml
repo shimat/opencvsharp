@@ -6,6 +6,8 @@
       href: getting-started/package-selection.md
     - name: Installation
       href: getting-started/installation.md
+    - name: Android runtime support
+      href: getting-started/android.md
     - name: First Application
       href: getting-started/first-application.md
     - name: From OpenCV C++ or Python

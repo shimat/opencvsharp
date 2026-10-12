@@ -344,6 +344,7 @@ CVAPI(ExceptionStatus) imgproc_cornerSubPix(
     });
 }
 
+#ifndef OPENCVSHARP_MINIMAL
 CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrack(
     const interop::InputArrayProxy* src,
     std::vector<cv::Point2f> *corners,
@@ -397,6 +398,7 @@ CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrackWithQuality(
             InProxy(*mask), OutProxy(*cornersQuality), blockSize, gradientSize, useHarrisDetector != 0, k);
     });
 }
+#endif // OPENCVSHARP_MINIMAL
 
 CVAPI(ExceptionStatus) imgproc_HoughLines(
     const interop::InputArrayProxy* src,

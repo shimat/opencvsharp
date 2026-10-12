@@ -148,7 +148,7 @@ jobs:
 
           if [ "$failed" -gt 0 ]; then
             echo ""
-            echo "ERROR: $failed expected package(s) not found. Detected .nupkg files:"
+            echo "ERROR: $failed package validation issue(s). Detected .nupkg files:"
             find "$PWD" -maxdepth 4 -type f -name "*.nupkg" -print
             exit 1
           fi
