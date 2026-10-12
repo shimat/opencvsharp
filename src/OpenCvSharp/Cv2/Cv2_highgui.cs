@@ -496,6 +496,8 @@ static partial class Cv2
             // pinned during P/Invoke, so use the null-pointer overload and set the initial
             // position after the callback context has been registered.
             var ret = CreateTrackbar(trackbarName, winName, count, onChange, userData);
+            if (ret == 0)
+                return ret;
             SetTrackbarPos(trackbarName, winName, value);
             return ret;
         }

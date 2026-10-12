@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
       skip_platforms:
-        description: "Comma-separated platforms to skip (linux-arm64, macos, wasm, manylinux, android)"
+        description: "Comma-separated platforms to skip (linux-arm64, macos, wasm, manylinux)"
         type: string
         default: ""
 
@@ -73,15 +73,6 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
           name: nuget-packages-manylinux
-          branch: ${{ github.ref_name }}
-
-      - name: Download Android artifact
-        if: ${{ !contains(inputs.skip_platforms, 'android') }}
-        uses: dawidd6/action-download-artifact@v27
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: android.yml
-          name: android-nuget-packages
           branch: ${{ github.ref_name }}
 
       - run: |
@@ -153,18 +144,6 @@ jobs:
           else
             check_package "OpenCvSharp5.runtime.osx.x64.*.nupkg"
             check_package "OpenCvSharp5.runtime.osx.arm64.*.nupkg"
-          fi
-
-          if skip_has android; then
-            echo "skip_platforms: skipping android package checks"
-          else
-            check_package "OpenCvSharp5.runtime.android.*.nupkg"
-            managed_versions=$(find "$PWD" -maxdepth 4 -type f -name "OpenCvSharp5.[0-9]*.nupkg" -printf '%f\n' | sed -E 's/^OpenCvSharp5\.//; s/\.nupkg$//' | sort -u)
-            android_versions=$(find "$PWD" -maxdepth 4 -type f -name "OpenCvSharp5.runtime.android.*.nupkg" -printf '%f\n' | sed -E 's/^OpenCvSharp5\.runtime\.android\.//; s/\.nupkg$//' | sort -u)
-            if [ -n "$managed_versions" ] && [ -n "$android_versions" ] && [ "$managed_versions" != "$android_versions" ]; then
-              echo "MISMATCH: OpenCvSharp5 version ($managed_versions) differs from OpenCvSharp5.runtime.android version ($android_versions)"
-              failed=$((failed + 1))
-            fi
           fi
 
           if [ "$failed" -gt 0 ]; then

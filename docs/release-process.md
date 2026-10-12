@@ -6,7 +6,7 @@ This document describes the steps required to publish a new version of OpenCvSha
 
 ## Version numbering
 
-NuGet package versions follow the pattern `{opencv_version}.{YYYYMMDD}`, e.g. `4.13.0.20260530`. Every build produced by `windows.yml` / `linux-arm64.yml` / `manylinux.yml` / `macos.yml` / `wasm.yml` carries a `-beta` suffix. By default, `publish_nuget.yml` strips this suffix (from both the package file name and the embedded `.nuspec`) before pushing to NuGet.org. Run the workflow with the `keep_beta` input set to `true` to publish the packages as a pre-release with the `-beta` suffix kept instead (e.g. for the first publish of a new package line).
+NuGet package versions follow the pattern `{opencv_version}.{YYYYMMDD}`, e.g. `5.0.0.20261012`. Every build produced by `windows.yml` / `linux-arm64.yml` / `manylinux.yml` / `macos.yml` / `wasm.yml` carries a `-beta` suffix. By default, `publish_nuget.yml` strips this suffix (from both the package file name and the embedded `.nuspec`) before pushing to NuGet.org. Run the workflow with the `keep_beta` input set to `true` to publish those packages as a pre-release instead. Android is published separately and always keeps its `-beta` suffix.
 
 The version is passed at pack time via `-p:Version=...` in CI. **No source file needs to be edited to change the version number.**
 
@@ -36,8 +36,9 @@ Releases are produced by running the following workflows in order:
 2. **`linux-arm64.yml`** — builds the Linux ARM64 native library.
 3. **`manylinux.yml`** — builds the Linux x64 native library.
 4. **`wasm.yml`** — builds the WASM native library.
-5. **`android.yml`** — builds both Android ABIs, validates the local runtime package in a managed Android emulator smoke test, and packs the Android runtime NuGet package.
-6. **`publish_nuget.yml`** — collects all artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
+5. **`publish_nuget.yml`** — collects the non-Android artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
+
+For an Android beta release, wait for `android.yml` to complete successfully on the current `main` commit, then run `publish_android_preview.yml` with that Android run ID. It publishes only `OpenCvSharp5.runtime.android` with its `-beta` suffix; it does not change the regular release workflow.
 
 The `OPENCV_VERSION` environment variables in `windows.yml` and `android.yml` control the OpenCV version embedded in their package version strings. Keep them aligned with the pinned OpenCV submodule when upgrading OpenCV.
 
