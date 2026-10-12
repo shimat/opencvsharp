@@ -28,7 +28,8 @@ jobs:
           read -r workflow branch sha conclusion < <(
             gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ANDROID_RUN_ID" \
               --jq '[.name, .head_branch, .head_sha, .conclusion] | @tsv')
-          [[ "$workflow" == Android && "$branch" == main && "$sha" == "$GITHUB_SHA" && "$conclusion" == success ]]
+          main_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
+          [[ "$workflow" == Android && "$branch" == main && "$sha" == "$main_sha" && "$conclusion" == success ]]
           gh run download "$ANDROID_RUN_ID" --repo "$GITHUB_REPOSITORY" \
             --name android-nuget-packages --dir artifacts
           mapfile -t packages < <(find artifacts -maxdepth 1 -type f -name '*.nupkg')
