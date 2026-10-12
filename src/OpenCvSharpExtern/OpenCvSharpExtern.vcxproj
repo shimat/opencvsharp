@@ -62,6 +62,7 @@
     <ClCompile Include="face.cpp" />
     <ClCompile Include="features.cpp" />
     <ClCompile Include="flann.cpp" />
+    <ClCompile Include="fuzzy.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="hfs.cpp" />
     <ClCompile Include="highgui.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="features_DescriptorMatcher.h" />
     <ClInclude Include="features_Feature2D.h" />
     <ClInclude Include="flann.h" />
+    <ClInclude Include="fuzzy.h" />
     <ClInclude Include="flann_IndexParams.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="hfs_HfsSegment.h" />
