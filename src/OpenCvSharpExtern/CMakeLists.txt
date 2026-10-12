@@ -55,6 +55,9 @@ endif()
 if(TARGET opencv_intensity_transform)
 	add_compile_definitions(HAVE_OPENCV_INTENSITY_TRANSFORM)
 endif()
+if(TARGET opencv_fuzzy)
+	add_compile_definitions(HAVE_OPENCV_FUZZY)
+endif()
 
 # iconv and Tesseract are not part of the minimal Android module profile.
 if(OPENCVSHARP_MINIMAL)

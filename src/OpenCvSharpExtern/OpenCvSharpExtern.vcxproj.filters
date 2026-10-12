@@ -49,6 +49,9 @@
     <ClCompile Include="flann.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fuzzy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -380,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="flann.h">
       <Filter>Header Files\flann</Filter>
+    </ClInclude>
+    <ClInclude Include="fuzzy.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="std_vector_nesting.h">
       <Filter>Header Files\std_vector</Filter>
