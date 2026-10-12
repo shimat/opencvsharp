@@ -6,20 +6,6 @@ namespace OpenCvSharp.Tests.Bioinspired;
 public class BioinspiredTest : TestBase
 {
     [Fact]
-    public void FastToneMappingProducesAnImage()
-    {
-        using var input = CreateImage();
-        using var mapper = RetinaFastToneMapping.Create(input.Size());
-        mapper.Setup();
-        using var output = new Mat();
-
-        mapper.Apply(input, output);
-
-        Assert.False(output.Empty());
-        Assert.Equal(input.Size(), output.Size());
-    }
-
-    [Fact(Skip = "Isolating a native crash in the full Linux test suite")]
     public void RetinaProducesDetailAndMotionChannels()
     {
         using var input = CreateImage();
@@ -36,7 +22,7 @@ public class BioinspiredTest : TestBase
         retina.ClearBuffers();
     }
 
-    [Fact(Skip = "Isolating a native crash in the full Linux test suite")]
+    [Fact]
     public void TransientAreasSegmentationProducesAnImage()
     {
         using var input = CreateImage();

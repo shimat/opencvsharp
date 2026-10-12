@@ -4,42 +4,6 @@
 #include "include_opencv.h"
 #include <opencv2/bioinspired.hpp>
 
-CVAPI(ExceptionStatus) bioinspired_Ptr_RetinaFastToneMapping_delete(
-    cv::Ptr<cv::bioinspired::RetinaFastToneMapping>* obj)
-{
-    return cvTry([&] { delete obj; });
-}
-
-CVAPI(ExceptionStatus) bioinspired_Ptr_RetinaFastToneMapping_get(
-    cv::Ptr<cv::bioinspired::RetinaFastToneMapping>* ptr,
-    cv::bioinspired::RetinaFastToneMapping** returnValue)
-{
-    return cvTry([&] { *returnValue = ptr->get(); });
-}
-
-CVAPI(ExceptionStatus) bioinspired_RetinaFastToneMapping_create(
-    int width, int height, cv::Ptr<cv::bioinspired::RetinaFastToneMapping>** returnValue)
-{
-    return cvTry([&] {
-        *returnValue = new cv::Ptr<cv::bioinspired::RetinaFastToneMapping>(
-            cv::bioinspired::RetinaFastToneMapping::create(cv::Size(width, height)));
-    });
-}
-
-CVAPI(ExceptionStatus) bioinspired_RetinaFastToneMapping_setup(
-    cv::bioinspired::RetinaFastToneMapping* obj, float photoreceptorsRadius,
-    float ganglionCellsRadius, float meanLuminanceModulator)
-{
-    return cvTry([&] { obj->setup(photoreceptorsRadius, ganglionCellsRadius, meanLuminanceModulator); });
-}
-
-CVAPI(ExceptionStatus) bioinspired_RetinaFastToneMapping_apply(
-    cv::bioinspired::RetinaFastToneMapping* obj,
-    const interop::InputArrayProxy* input, const interop::OutputArrayProxy* output)
-{
-    return cvTry([&] { obj->applyFastToneMapping(InProxy(*input), OutProxy(*output)); });
-}
-
 CVAPI(ExceptionStatus) bioinspired_Ptr_Retina_delete(cv::Ptr<cv::bioinspired::Retina>* obj)
 {
     return cvTry([&] { delete obj; });

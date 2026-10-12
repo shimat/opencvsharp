@@ -10,24 +10,6 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus bioinspired_Ptr_RetinaFastToneMapping_delete(IntPtr obj);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus bioinspired_Ptr_RetinaFastToneMapping_get(IntPtr ptr, out IntPtr returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus bioinspired_RetinaFastToneMapping_create(
-        int width, int height, out IntPtr returnValue);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus bioinspired_RetinaFastToneMapping_setup(
-        OpenCvSafeHandle obj, float photoreceptorsRadius, float ganglionCellsRadius, float meanLuminanceModulator);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus bioinspired_RetinaFastToneMapping_apply(
-        OpenCvSafeHandle obj, in InputArrayProxy input, in OutputArrayProxy output);
-
-    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus bioinspired_Ptr_Retina_delete(IntPtr obj);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
