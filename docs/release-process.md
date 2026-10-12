@@ -36,7 +36,8 @@ Releases are produced by running the following workflows in order:
 2. **`linux-arm64.yml`** — builds the Linux ARM64 native library.
 3. **`manylinux.yml`** — builds the Linux x64 native library.
 4. **`wasm.yml`** — builds the WASM native library.
-5. **`publish_nuget.yml`** — collects the non-Android artifacts, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org.
+5. Wait for the Windows, Linux ARM64, manylinux, WASM, and macOS workflows to finish successfully on the same `main` commit.
+6. **`publish_nuget.yml`** — downloads only artifacts built from its own commit, validates the package set, strips the `-beta` suffix (unless `keep_beta` is set), and pushes to NuGet.org. If any required build has not completed successfully on that commit, the publish workflow fails rather than using an older artifact.
 
 For an Android beta release, wait for `android.yml` to complete successfully on the current `main` commit, then run `publish_android_preview.yml` with that Android run ID. It publishes only `OpenCvSharp5.runtime.android` with its `-beta` suffix; it does not change the regular release workflow.
 
