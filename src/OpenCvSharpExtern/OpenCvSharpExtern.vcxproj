@@ -59,6 +59,7 @@
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
     <ClCompile Include="dnn.cpp" />
+    <ClCompile Include="dnn_objdetect.cpp" />
     <ClCompile Include="dnn_superres.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="features.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="dnn.h" />
+    <ClInclude Include="dnn_objdetect.h" />
     <ClInclude Include="dnn_Model.h" />
     <ClInclude Include="dnn_TextModel.h" />
     <ClInclude Include="dnn_Net.h" />
