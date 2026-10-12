@@ -34,7 +34,7 @@ jobs:
         id: opencv-revision
         run: echo "sha=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v6
         id: opencv-cache
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
@@ -58,7 +58,7 @@ jobs:
           cmake --build "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}" --parallel 3
           cmake --install "$RUNNER_TEMP/opencv-build-${{ matrix.abi }}"
 
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v6
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
