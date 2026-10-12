@@ -54,6 +54,7 @@
     <ClCompile Include="aruco.cpp" />
     <ClCompile Include="barcode.cpp" />
     <ClCompile Include="bgsegm.cpp" />
+    <ClCompile Include="bioinspired.cpp" />
     <ClCompile Include="calib.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="aruco.h" />
     <ClInclude Include="barcode.h" />
     <ClInclude Include="bgsegm.h" />
+    <ClInclude Include="bioinspired.h" />
     <ClInclude Include="calib.h" />
     <ClInclude Include="calib_fisheye.h" />
     <ClInclude Include="calib_multiview.h" />

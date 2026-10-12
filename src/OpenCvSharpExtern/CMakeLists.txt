@@ -58,6 +58,9 @@ endif()
 if(TARGET opencv_fuzzy)
 	add_compile_definitions(HAVE_OPENCV_FUZZY)
 endif()
+if(TARGET opencv_bioinspired)
+	add_compile_definitions(HAVE_OPENCV_BIOINSPIRED)
+endif()
 
 # iconv and Tesseract are not part of the minimal Android module profile.
 if(OPENCVSHARP_MINIMAL)
