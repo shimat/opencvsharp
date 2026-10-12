@@ -46,6 +46,8 @@ public static partial class Cv2
         {
             ValidateFunction(function);
             ValidateRadius(radius);
+            if (!Enum.IsDefined(algorithm))
+                throw new ArgumentOutOfRangeException(nameof(algorithm));
             NativeMethods.HandleException(NativeMethods.fuzzy_inpaint(
                 image.Proxy, mask.Proxy, output.Proxy, radius, (int)function, (int)algorithm));
             GC.KeepAlive(image.Source);
