@@ -23,13 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Every package must come from this release commit. If a producer has not
+      # finished successfully, fail instead of publishing an older artifact.
       - name: Download windows artifact
         uses: dawidd6/action-download-artifact@v27
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
           name: packages_windows
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - name: Download windows arm64 artifact
         uses: dawidd6/action-download-artifact@v27
@@ -37,7 +39,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
           name: packages_windows_arm64
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - name: Download ubuntu arm64 artifact
         if: ${{ !contains(inputs.skip_platforms, 'linux-arm64') }}
@@ -46,7 +48,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm64.yml
           name: artifacts_linux_arm64
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - name: Download macos artifact
         if: ${{ !contains(inputs.skip_platforms, 'macos') }}
@@ -55,7 +57,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: macos.yml
           name: nuget-packages-macos
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - name: Download wasm artifact
         if: ${{ !contains(inputs.skip_platforms, 'wasm') }}
@@ -64,7 +66,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
           name: artifacts_wasm
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - name: Download manylinux artifact
         if: ${{ !contains(inputs.skip_platforms, 'manylinux') }}
@@ -73,7 +75,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
           name: nuget-packages-manylinux
-          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
 
       - run: |
           ls -l
