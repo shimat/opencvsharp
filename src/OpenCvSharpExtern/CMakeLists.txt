@@ -55,6 +55,9 @@ endif()
 if(TARGET opencv_fuzzy)
 	add_compile_definitions(HAVE_OPENCV_FUZZY)
 endif()
+if(TARGET opencv_bioinspired)
+	add_compile_definitions(HAVE_OPENCV_BIOINSPIRED)
+endif()
 
 # iconv support isn't automatic on some systems
 find_package(Iconv QUIET)

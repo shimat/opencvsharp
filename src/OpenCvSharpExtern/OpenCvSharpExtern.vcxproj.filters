@@ -7,6 +7,9 @@
     <ClCompile Include="bgsegm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bioinspired.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="calib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgsegm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bioinspired.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="aruco.h">
