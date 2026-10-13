@@ -6,8 +6,6 @@ namespace OpenCvSharp.Dpm;
 /// <summary>Object detector using OpenCV's deformable part models.</summary>
 public sealed class DpmDetector : CvPtrObject
 {
-    private readonly object detectLock = new();
-
     private DpmDetector(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.dpm_Ptr_DPMDetector_delete(p)))
     { }
@@ -87,11 +85,7 @@ public sealed class DpmDetector : CvPtrObject
         if (image.Type() != MatType.CV_8UC1 && image.Type() != MatType.CV_8UC3)
             throw new ArgumentException("Expected an 8-bit grayscale or BGR image.", nameof(image));
 
-        IntPtr detections;
-        lock (detectLock)
-        {
-            NativeMethods.HandleException(NativeMethods.dpm_DPMDetector_detect(RawPtr, image.CvPtr, out detections));
-        }
+        NativeMethods.HandleException(NativeMethods.dpm_DPMDetector_detect(RawPtr, image.CvPtr, out var detections));
         GC.KeepAlive(image);
         try
         {
