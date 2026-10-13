@@ -56,6 +56,7 @@
     <ClCompile Include="bgsegm.cpp" />
     <ClCompile Include="bioinspired.cpp" />
     <ClCompile Include="calib.cpp" />
+    <ClCompile Include="ccalib.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
     <ClCompile Include="dnn.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="bioinspired.h" />
     <ClInclude Include="calib.h" />
+    <ClInclude Include="ccalib.h" />
     <ClInclude Include="calib_fisheye.h" />
     <ClInclude Include="calib_multiview.h" />
     <ClInclude Include="core.h" />

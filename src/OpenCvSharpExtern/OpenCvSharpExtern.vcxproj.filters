@@ -16,6 +16,9 @@
     <ClCompile Include="calib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ccalib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -344,6 +347,9 @@
     </ClInclude>
     <ClInclude Include="calib.h">
       <Filter>Header Files\calib</Filter>
+    </ClInclude>
+    <ClInclude Include="ccalib.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="geometry.h">
       <Filter>Header Files</Filter>
