@@ -27,6 +27,17 @@ public class DpmDetectorTest : TestBase
     {
         Assert.Throws<FileNotFoundException>(() => DpmDetector.Create(["missing-dpm-model.xml"]));
         Assert.Throws<ArgumentException>(() => DpmDetector.Create([SampleModelPath], ["a", "b"]));
+
+        var unsupportedPath = Path.Combine(Path.GetTempPath(), $"dpm-{Guid.NewGuid():N}.XML");
+        try
+        {
+            File.WriteAllText(unsupportedPath, string.Empty);
+            Assert.Throws<ArgumentException>(() => DpmDetector.Create([unsupportedPath]));
+        }
+        finally
+        {
+            File.Delete(unsupportedPath);
+        }
     }
 
     private static string SampleModelPath => Path.Combine(AppContext.BaseDirectory, "_data", "dpm", "inriaperson.xml");

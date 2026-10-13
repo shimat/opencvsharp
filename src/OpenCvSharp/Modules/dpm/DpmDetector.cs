@@ -6,6 +6,8 @@ namespace OpenCvSharp.Dpm;
 /// <summary>Object detector using OpenCV's deformable part models.</summary>
 public sealed class DpmDetector : CvPtrObject
 {
+    private readonly object detectLock = new();
+
     private DpmDetector(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.dpm_Ptr_DPMDetector_delete(p)))
     { }
@@ -24,6 +26,8 @@ public sealed class DpmDetector : CvPtrObject
             ArgumentException.ThrowIfNullOrEmpty(path);
             if (!File.Exists(path))
                 throw new FileNotFoundException("DPM model file was not found.", path);
+            if (path.Length < 5 || !path.EndsWith(".xml", StringComparison.Ordinal))
+                throw new ArgumentException("DPM model paths must end with .xml.", nameof(modelPaths));
         }
 
         var names = classNames?.ToArray() ?? [];
@@ -83,7 +87,11 @@ public sealed class DpmDetector : CvPtrObject
         if (image.Type() != MatType.CV_8UC1 && image.Type() != MatType.CV_8UC3)
             throw new ArgumentException("Expected an 8-bit grayscale or BGR image.", nameof(image));
 
-        NativeMethods.HandleException(NativeMethods.dpm_DPMDetector_detect(RawPtr, image.CvPtr, out var detections));
+        IntPtr detections;
+        lock (detectLock)
+        {
+            NativeMethods.HandleException(NativeMethods.dpm_DPMDetector_detect(RawPtr, image.CvPtr, out detections));
+        }
         GC.KeepAlive(image);
         try
         {
