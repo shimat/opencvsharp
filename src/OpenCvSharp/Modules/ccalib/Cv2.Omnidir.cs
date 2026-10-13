@@ -132,8 +132,10 @@ public static partial class Cv2
         {
             ArgumentNullException.ThrowIfNull(objectPoints);
             ArgumentNullException.ThrowIfNull(imagePoints);
-            using var objectPointsVec = new VectorOfMat(objectPoints);
-            using var imagePointsVec = new VectorOfMat(imagePoints);
+            var objectPointsArray = objectPoints.ToArray();
+            var imagePointsArray = imagePoints.ToArray();
+            using var objectPointsVec = new VectorOfMat(objectPointsArray);
+            using var imagePointsVec = new VectorOfMat(imagePointsArray);
             using var rvecsVec = new VectorOfMat();
             using var tvecsVec = new VectorOfMat();
             var criteriaValue = criteria.GetValueOrDefault(
@@ -146,8 +148,8 @@ public static partial class Cv2
 
             rvecs = rvecsVec.ToArray();
             tvecs = tvecsVec.ToArray();
-            GC.KeepAlive(objectPoints);
-            GC.KeepAlive(imagePoints);
+            GC.KeepAlive(objectPointsArray);
+            GC.KeepAlive(imagePointsArray);
             GC.KeepAlive(k.Source);
             GC.KeepAlive(xi.Source);
             GC.KeepAlive(d.Source);
