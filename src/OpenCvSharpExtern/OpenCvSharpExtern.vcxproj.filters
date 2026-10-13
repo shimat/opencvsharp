@@ -13,6 +13,9 @@
     <ClCompile Include="dnn_objdetect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dpm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="calib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,6 +160,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dnn_objdetect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dpm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="aruco.h">

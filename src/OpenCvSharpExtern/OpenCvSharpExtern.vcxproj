@@ -62,6 +62,7 @@
     <ClCompile Include="dnn.cpp" />
     <ClCompile Include="dnn_objdetect.cpp" />
     <ClCompile Include="dnn_superres.cpp" />
+    <ClCompile Include="dpm.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="features.cpp" />
     <ClCompile Include="flann.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_objdetect.h" />
+    <ClInclude Include="dpm.h" />
     <ClInclude Include="dnn_Model.h" />
     <ClInclude Include="dnn_TextModel.h" />
     <ClInclude Include="dnn_Net.h" />
