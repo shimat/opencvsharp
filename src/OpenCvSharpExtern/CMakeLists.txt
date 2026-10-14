@@ -67,6 +67,9 @@ endif()
 if(TARGET opencv_dnn_objdetect)
 	add_compile_definitions(HAVE_OPENCV_DNN_OBJDETECT)
 endif()
+if(TARGET opencv_dpm)
+	add_compile_definitions(HAVE_OPENCV_DPM)
+endif()
 
 # iconv and Tesseract are not part of the minimal Android module profile.
 if(OPENCVSHARP_MINIMAL)
