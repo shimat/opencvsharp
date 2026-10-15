@@ -60,5 +60,5 @@ public class CvRapidTest : TestBase
     }
 
     private static Mat CreateTriangles() => Mat.FromPixelData(2, 1, MatType.CV_32SC3,
-        new[] { new Vec3i(0, 2, 1), new Vec3i(0, 3, 2) });
+        new[] { new Vec3i(0, 1, 2), new Vec3i(0, 2, 3) });
 }
