@@ -79,6 +79,9 @@
     <ClCompile Include="quality.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rapid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -232,6 +235,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="quality.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rapid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xphoto.h">

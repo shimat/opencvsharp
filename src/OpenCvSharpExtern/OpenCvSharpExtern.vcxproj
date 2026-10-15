@@ -84,6 +84,7 @@
     <ClCompile Include="plot.cpp" />
     <ClCompile Include="ptcloud.cpp" />
     <ClCompile Include="quality.cpp" />
+    <ClCompile Include="rapid.cpp" />
     <ClCompile Include="rgbd.cpp" />
     <ClCompile Include="saliency.cpp" />
     <ClCompile Include="shape.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="ptcloud_io.h" />
     <ClInclude Include="ptcloud_rasterize.h" />
     <ClInclude Include="quality.h" />
+    <ClInclude Include="rapid.h" />
     <ClInclude Include="rgbd_colored_kinfu.h" />
     <ClInclude Include="rgbd_dynafu.h" />
     <ClInclude Include="rgbd_kinfu.h" />

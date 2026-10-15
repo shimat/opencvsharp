@@ -70,6 +70,9 @@ endif()
 if(TARGET opencv_dpm)
 	add_compile_definitions(HAVE_OPENCV_DPM)
 endif()
+if(TARGET opencv_rapid)
+	add_compile_definitions(HAVE_OPENCV_RAPID)
+endif()
 
 # iconv and Tesseract are not part of the minimal Android module profile.
 if(OPENCVSHARP_MINIMAL)
