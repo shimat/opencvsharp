@@ -99,7 +99,7 @@ public static class CvRapid
     private static void ValidatePose(Mat pose, string paramName)
     {
         if ((pose.Type() != MatType.CV_32FC1 && pose.Type() != MatType.CV_64FC1) ||
-            !((pose.Rows == 3 && pose.Cols == 1) || (pose.Rows == 1 && pose.Cols == 3)))
-            throw new ArgumentException("Expected a three-element float or double vector.", paramName);
+            pose.Rows != 3 || pose.Cols != 1)
+            throw new ArgumentException("Expected a 3-by-1 float or double vector.", paramName);
     }
 }

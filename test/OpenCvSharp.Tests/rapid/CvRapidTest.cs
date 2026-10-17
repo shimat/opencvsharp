@@ -52,11 +52,17 @@ public class CvRapidTest : TestBase
         using var camera = Mat.Eye(3, 3, MatType.CV_64FC1).ToMat();
         using var rotation = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new double[3]);
         using var translation = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new double[] { 0, 0, 2 });
+        using var rowRotation = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[3]);
+        using var rowTranslation = Mat.FromPixelData(1, 3, MatType.CV_64FC1, new double[] { 0, 0, 2 });
 
         Assert.Throws<ArgumentOutOfRangeException>(() => CvRapid.Track(
             image, 2, 5, vertices, triangles, camera, rotation, translation, out _));
         Assert.Throws<ArgumentOutOfRangeException>(() => CvRapid.Track(
             image, 3, 0, vertices, triangles, camera, rotation, translation, out _));
+        Assert.Throws<ArgumentException>(() => CvRapid.Track(
+            image, 3, 5, vertices, triangles, camera, rowRotation, translation, out _));
+        Assert.Throws<ArgumentException>(() => CvRapid.Track(
+            image, 3, 5, vertices, triangles, camera, rotation, rowTranslation, out _));
     }
 
     private static Mat CreateTriangles() => Mat.FromPixelData(2, 1, MatType.CV_32SC3,
