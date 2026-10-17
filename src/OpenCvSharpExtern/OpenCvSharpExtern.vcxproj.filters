@@ -82,6 +82,9 @@
     <ClCompile Include="rapid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="reg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -238,6 +241,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rapid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xphoto.h">
