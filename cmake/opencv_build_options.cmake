@@ -40,7 +40,7 @@ set(BUILD_opencv_reg                       ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_stereo                    ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_structured_light          ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_surface_matching          ON  CACHE BOOL "" FORCE)
-set(BUILD_opencv_videostab                 OFF CACHE BOOL "" FORCE)
+set(BUILD_opencv_videostab                 ON  CACHE BOOL "" FORCE)
 set(BUILD_opencv_wechat_qrcode             ON  CACHE BOOL "" FORCE)
 
 # Require Tesseract OCR (provided via vcpkg on Windows/manylinux, libtesseract-dev on Linux ARM)

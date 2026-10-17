@@ -86,6 +86,7 @@
     <ClCompile Include="quality.cpp" />
     <ClCompile Include="rapid.cpp" />
     <ClCompile Include="reg.cpp" />
+    <ClCompile Include="videostab.cpp" />
     <ClCompile Include="rgbd.cpp" />
     <ClCompile Include="saliency.cpp" />
     <ClCompile Include="shape.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="quality.h" />
     <ClInclude Include="rapid.h" />
     <ClInclude Include="reg.h" />
+    <ClInclude Include="videostab.h" />
     <ClInclude Include="rgbd_colored_kinfu.h" />
     <ClInclude Include="rgbd_dynafu.h" />
     <ClInclude Include="rgbd_kinfu.h" />
