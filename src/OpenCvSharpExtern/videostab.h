@@ -3,6 +3,7 @@
 #if !defined(NO_CONTRIB) && defined(HAVE_OPENCV_VIDEOSTAB)
 #include "include_opencv.h"
 #include <opencv2/videostab/stabilizer.hpp>
+#include <climits>
 
 class videostab_MemoryFrameSource final : public cv::videostab::IFrameSource
 {
@@ -25,7 +26,8 @@ CVAPI(ExceptionStatus) videostab_stabilize(
     cv::Mat** stabilizedFrames)
 {
     return cvTry([&] {
-        CV_Assert(count >= 2 && radius > 0 && trimRatio >= 0.f && trimRatio < 0.5f);
+        CV_Assert(count >= 2 && radius > 0 && radius < count && radius <= INT_MAX / 2 &&
+                  trimRatio >= 0.f && trimRatio < 0.5f);
         CV_Assert(motionModel >= cv::videostab::MM_TRANSLATION &&
                   motionModel <= cv::videostab::MM_HOMOGRAPHY);
 

@@ -7,7 +7,7 @@ public static class CvVideoStab
 {
     /// <summary>Stabilizes a sequence of frames using OpenCV's one-pass Gaussian motion filter.</summary>
     /// <param name="frames">At least two consecutive 8-bit grayscale or BGR frames with the same dimensions.</param>
-    /// <param name="radius">Motion smoothing radius in frames.</param>
+    /// <param name="radius">Motion smoothing radius in frames, capped to the available sequence length.</param>
     /// <param name="trimRatio">Fraction trimmed from each edge of each output frame, from zero to less than one half.</param>
     /// <param name="motionModel">Motion model estimated between adjacent frames.</param>
     /// <returns>One new frame per input frame, in the same order. The caller owns the returned images.</returns>
@@ -21,6 +21,7 @@ public static class CvVideoStab
             throw new ArgumentException("At least two frames are required.", nameof(frames));
         if (radius < 1)
             throw new ArgumentOutOfRangeException(nameof(radius));
+        var effectiveRadius = Math.Min(radius, Math.Min(input.Length - 1, int.MaxValue / 2));
         if (!float.IsFinite(trimRatio) || trimRatio < 0f || trimRatio >= 0.5f)
             throw new ArgumentOutOfRangeException(nameof(trimRatio));
         if (!Enum.IsDefined(motionModel))
@@ -50,7 +51,7 @@ public static class CvVideoStab
                 results[i] = new Mat();
             NativeMethods.HandleException(NativeMethods.videostab_stabilize(
                 input.Select(static frame => frame.CvPtr).ToArray(), input.Length,
-                radius, trimRatio, (int)motionModel,
+                effectiveRadius, trimRatio, (int)motionModel,
                 results.Select(static frame => frame.CvPtr).ToArray()));
             GC.KeepAlive(input);
             return results;

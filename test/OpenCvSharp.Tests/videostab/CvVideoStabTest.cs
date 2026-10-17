@@ -6,9 +6,9 @@ namespace OpenCvSharp.Tests.VideoStab;
 public class CvVideoStabTest : TestBase
 {
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void StabilizeReturnsOneFramePerInput(bool color)
+    [InlineData(false, 2)]
+    [InlineData(true, int.MaxValue)]
+    public void StabilizeReturnsOneFramePerInput(bool color, int radius)
     {
         var frameType = color ? MatType.CV_8UC3 : MatType.CV_8UC1;
         using var baseFrame = CreateFrame(frameType);
@@ -19,7 +19,7 @@ public class CvVideoStabTest : TestBase
 
         var stabilized = CvVideoStab.Stabilize(
             [baseFrame, shifted, baseFrame, shifted, baseFrame],
-            radius: 2, trimRatio: 0.1f, motionModel: VideoStabMotionModel.Translation);
+            radius: radius, trimRatio: 0.1f, motionModel: VideoStabMotionModel.Translation);
         try
         {
             Assert.Equal(5, stabilized.Length);
