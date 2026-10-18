@@ -85,6 +85,9 @@
     <ClCompile Include="reg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="videostab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -244,6 +247,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="reg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="videostab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xphoto.h">
