@@ -47,12 +47,12 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
-      <Version>10.0.12</Version>
+      <Version>10.0.13</Version>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.402" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
