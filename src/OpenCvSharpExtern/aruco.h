@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NO_CONTRIB
+#ifndef NO_OBJDETECT
 
 #include "include_opencv.h"
 
@@ -981,4 +981,4 @@ CVAPI(ExceptionStatus) aruco_GridBoard_getMarkerSeparation(const cv::aruco::Grid
 	});
 }
 
-#endif // NO_CONTRIB
+#endif // NO_OBJDETECT

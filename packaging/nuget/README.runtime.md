@@ -18,7 +18,7 @@ The Linux `linux-x64` and `official.runtime.linux-arm64` packages are built on *
 > - Ubuntu/Debian: `apt-get install libgtk-3-0`
 > - RHEL/AlmaLinux: `dnf install gtk3`
 >
-> For headless servers or minimal containers that still need `videoio`, `dnn`, `ml`, `contrib`, `stitching`, etc., use the **headless** package (`OpenCvSharp5.official.runtime.linux-x64.headless`) instead: same module set as full, `highgui` disabled, no GTK3/X11 dependency. If the reduced **slim** module set (see below) is enough, that has no GUI dependencies either.
+> For headless servers or minimal containers that still need `videoio`, `dnn`, `ml`, supported contrib bindings, `stitching`, etc., use the **headless** package (`OpenCvSharp5.official.runtime.linux-x64.headless`) instead: same supported modules as full, `highgui` disabled, no GTK3/X11 dependency. If the reduced **slim** module set (see below) is enough, that has no GUI dependencies either.
 
 > **macOS:** The `osx.x64` and `osx.arm64` packages include FFmpeg, Tesseract, Freetype, and all standard OpenCV modules, statically linked.
 
@@ -46,7 +46,7 @@ The Linux `linux-x64` and `official.runtime.linux-arm64` packages are built on *
 
 ## Headless Profile (Linux only)
 
-The `OpenCvSharp5.official.runtime.linux-x64.headless` and `OpenCvSharp5.official.runtime.linux-arm64.headless` packages have the same module set as the corresponding full package (`videoio`, `dnn`, `ml`, `contrib`, `stitching`, `barcode`, ...) but `highgui` is disabled at build time, so it never links GTK3/X11 and needs no GUI dependency to be installed. Use it for containerized/headless services (e.g. an ASP.NET Core service using `VideoCapture`/`imgcodecs`) that need more than the `slim` module set below but never call `highgui`.
+The `OpenCvSharp5.official.runtime.linux-x64.headless` and `OpenCvSharp5.official.runtime.linux-arm64.headless` packages have the same supported modules as the corresponding full package (`videoio`, `dnn`, `ml`, supported contrib bindings, `stitching`, `barcode`, ...) but `highgui` is disabled at build time, so it never links GTK3/X11 and needs no GUI dependency to be installed. Use it for containerized/headless services (e.g. an ASP.NET Core service using `VideoCapture`/`imgcodecs`) that need more than the `slim` module set below but never call `highgui`.
 
 ## Slim Profile
 
@@ -54,8 +54,10 @@ The `slim` packages bundle a smaller native library with a reduced OpenCV module
 
 | | Modules |
 |---|---|
-| **Enabled** | `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo` |
-| **Disabled** | `contrib`, `dnn`, `ml`, `video`, `videoio`, `highgui`, `stitching`, `barcode` |
+| **Enabled** | `core`, `imgproc`, `imgcodecs`, `geometry`, `calib`, `stereo`, `ptcloud`, `features`, `flann`, `objdetect` (including ArUco, `barcode`, and selected `xobjdetect` APIs), `photo`, `ml`, `video`, `bgsegm`, `img_hash`, selected `ximgproc` and `xphoto` APIs, and BRISK/KAZE/AKAZE/AGAST from `xfeatures2d` |
+| **Disabled** | `dnn`, `videoio`, `highgui`, `stitching`, and most contrib bindings |
+
+See the [OpenCV module coverage matrix](https://shimat.github.io/opencvsharp/articles/getting-started/module-coverage.html) for full, headless, slim, and Android availability. A listed module does not imply complete API coverage.
 
 ## Android Profile
 

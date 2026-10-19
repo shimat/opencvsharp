@@ -26,7 +26,7 @@ extern "C"
     };
 
     // Mirrors cv::aruco::DetectorParameters (see aruco.h's aruco_DetectorParameters). Kept as an
-    // independent local copy so this file has no compile-time dependency on aruco.h/NO_CONTRIB.
+    // independent local copy so this file has no compile-time dependency on aruco.h.
     // A static_assert(sizeof(...)) cross-check against aruco_DetectorParameters is deliberately NOT
     // used here: it would require including aruco.h, reintroducing exactly the dependency this
     // duplication exists to avoid. Instead: whenever cv::aruco::DetectorParameters gains, loses, or

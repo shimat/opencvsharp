@@ -329,7 +329,26 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/nuget-slim/
           mv libOpenCvSharpExtern-slim.so libOpenCvSharpExtern.so
-          echo -ne "#include <stdio.h>\nint core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          cat > test.c <<'EOF'
+          #include <stdio.h>
+          int core_Mat_sizeof(void);
+          int aruco_getPredefinedDictionary(int name, void** result);
+          int aruco_Dictionary_delete(void* dictionary);
+          int xfeatures2d_BRISK_create1(int threshold, int octaves, float patternScale, void** result);
+          int xfeatures2d_Ptr_BRISK_delete(void* brisk);
+          int main(void)
+          {
+              void* dictionary = NULL;
+              void* brisk = NULL;
+              if (core_Mat_sizeof() <= 0) return 1;
+              if (aruco_getPredefinedDictionary(0, &dictionary) != 0 || dictionary == NULL) return 2;
+              if (xfeatures2d_BRISK_create1(30, 3, 1.0f, &brisk) != 0 || brisk == NULL) return 3;
+              if (xfeatures2d_Ptr_BRISK_delete(brisk) != 0) return 4;
+              if (aruco_Dictionary_delete(dictionary) != 0) return 5;
+              puts("slim core, ArUco, and BRISK bindings are available");
+              return 0;
+          }
+          EOF
           gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
           LD_LIBRARY_PATH=. ./test
 

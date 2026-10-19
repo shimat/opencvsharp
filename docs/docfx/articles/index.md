@@ -15,6 +15,8 @@ Start with these pages in order:
 
 Already familiar with OpenCV C++ or Python (`cv2`)? Start with the [API comparison and translation guide](getting-started/opencv-api-comparison.md).
 
+To check which modules have OpenCvSharp bindings in the full, headless, slim, and Android runtimes, see [OpenCV module coverage](getting-started/module-coverage.md).
+
 ## OpenCvSharp and .NET guides
 
 - [Browse the OpenCvSharp and .NET guides](guides/index.md)

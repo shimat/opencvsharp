@@ -4,6 +4,8 @@
   items:
     - name: Choose a Version and Package
       href: getting-started/package-selection.md
+    - name: OpenCV Module Coverage
+      href: getting-started/module-coverage.md
     - name: Installation
       href: getting-started/installation.md
     - name: Android runtime support
