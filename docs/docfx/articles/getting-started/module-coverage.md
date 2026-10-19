@@ -28,7 +28,6 @@ OpenCV 5 split the former `calib3d` module into `geometry`, `calib`, `stereo`, a
 | `aruco` (`objdetect` APIs) | ✓ | ✓ | ✓ | — | Marker and ChArUco APIs use the existing `objdetect` module. |
 | `barcode` (`objdetect` APIs) | ✓ | ✓ | ✓ | — | Barcode detection is part of `objdetect` in OpenCV 5. |
 | `photo` | ✓ | ✓ | ✓ | — | Computational photography. |
-| `ml` | ✓ | ✓ | ✓ | — | Machine learning. |
 | `video` | ✓ | ✓ | ✓ | — | Video analysis; distinct from `videoio`. |
 | `dnn` | ✓ | ✓ | — | — | Deep neural networks. |
 | `stitching` | ✓ | ✓ | — | — | Panorama stitching. |
@@ -37,12 +36,13 @@ OpenCV 5 split the former `calib3d` module into `geometry`, `calib`, `stereo`, a
 
 ## opencv_contrib modules
 
-The table lists contrib modules with OpenCvSharp bindings. `xobjdetect` supplies some `objdetect` bindings above, including cascade and HOG APIs, rather than a separate managed API group. Some contrib modules remain in slim even though that native binding build sets `NO_CONTRIB=ON`. This is why the OpenCV build list alone cannot determine whether a particular OpenCvSharp binding is available.
+These tables include contrib modules with and without OpenCvSharp bindings. OpenCV 5 places `ml` in opencv_contrib. `xobjdetect` supplies some `objdetect` bindings above, including cascade and HOG APIs, rather than a separate managed API group. Some contrib modules remain in slim even though that native binding build sets `NO_CONTRIB=ON`. This is why the OpenCV build list alone cannot determine whether a particular OpenCvSharp binding is available.
 
 | Module | Full | Headless | Slim | Android | Notes |
 |---|:---:|:---:|:---:|:---:|---|
 | `bgsegm` | ✓ | ✓ | ✓ | — | Background segmentation. |
 | `img_hash` | ✓ | ✓ | ✓ | — | Perceptual image hashes. |
+| `ml` | ✓ | ✓ | ✓ | — | Machine learning. |
 | `xobjdetect` | ✓ | ✓ | ✓ | — | Selected APIs appear under OpenCvSharp's `objdetect` bindings. |
 | `ximgproc` | ✓ | ✓ | ✓ | — | Extended image processing. |
 | `xphoto` | ✓ | ✓ | ✓ | — | Extended photography. |
@@ -76,7 +76,37 @@ The table lists contrib modules with OpenCvSharp bindings. `xobjdetect` supplies
 | `xfeatures2d` | ✓ | ✓ | ✓ | — | Slim exposes BRISK, KAZE, AKAZE, and AGAST; the other bindings remain full/headless only. |
 | `xstereo` | ✓ | ✓ | — | — | |
 
-The following upstream contrib modules have no OpenCvSharp5 bindings in these runtime profiles: `alphamat`, `cannops`, `cnn_3dobj`, `cvv`, `datasets`, `dnns_easily_fooled`, `fastcv`, `freetype`, `gapi`, `hdf`, `ovis`, `sfm`, and `viz`. The CUDA modules `cudev`, `cudaarithm`, `cudabgsegm`, `cudacodec`, `cudafeatures2d`, `cudafilters`, `cudaimgproc`, `cudalegacy`, `cudaobjdetect`, `cudaoptflow`, `cudastereo`, and `cudawarping` are also unsupported. Language-specific `julia` and `matlab` contrib modules, and the OpenCV `java`, `js`, `objc`, `python`, and `ts` binding generators, are outside the .NET binding scope. The upstream `world` target aggregates modules and has no separate API row here.
+The following opencv_contrib modules have no OpenCvSharp5 bindings, including in the full runtime. Some may be built as dependencies or for upstream internal use, but they do not expose a corresponding OpenCvSharp API.
+
+| Module | Full | Headless | Slim | Android | Notes |
+|---|:---:|:---:|:---:|:---:|---|
+| `alphamat` | — | — | — | — | |
+| `cannops` | — | — | — | — | |
+| `cnn_3dobj` | — | — | — | — | |
+| `cvv` | — | — | — | — | |
+| `datasets` | — | — | — | — | |
+| `dnns_easily_fooled` | — | — | — | — | |
+| `fastcv` | — | — | — | — | |
+| `freetype` | — | — | — | — | The library may be bundled for other features; its module API is not wrapped. |
+| `gapi` | — | — | — | — | Disabled in the full OpenCV build configuration. |
+| `hdf` | — | — | — | — | |
+| `ovis` | — | — | — | — | |
+| `sfm` | — | — | — | — | |
+| `viz` | — | — | — | — | |
+| `cudev` | — | — | — | — | CUDA infrastructure; no OpenCvSharp CUDA bindings. |
+| `cudaarithm` | — | — | — | — | |
+| `cudabgsegm` | — | — | — | — | |
+| `cudacodec` | — | — | — | — | |
+| `cudafeatures2d` | — | — | — | — | |
+| `cudafilters` | — | — | — | — | |
+| `cudaimgproc` | — | — | — | — | |
+| `cudalegacy` | — | — | — | — | |
+| `cudaobjdetect` | — | — | — | — | |
+| `cudaoptflow` | — | — | — | — | |
+| `cudastereo` | — | — | — | — | |
+| `cudawarping` | — | — | — | — | |
+
+Language-specific `julia` and `matlab` contrib modules, and the OpenCV `java`, `js`, `objc`, and `python` binding generators, are outside the .NET binding scope. OpenCV's `ts` module provides test support, while `world` aggregates modules; neither has a separate end-user API row here.
 
 ## Profile details and limits
 
