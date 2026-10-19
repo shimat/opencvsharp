@@ -39,7 +39,7 @@ The full Linux x64 package contains the complete module set, including `highgui`
 
 The headless package contains the same module set as the full package except for `highgui`. It is the usual choice for services and containers that need features such as `videoio`, DNN, ML, or contrib modules but do not display native windows.
 
-The slim package has no GUI dependency and reduces the native module set. It omits contrib, DNN, `videoio`, and `highgui`, among other modules. Choose it only when the reduced feature set is sufficient.
+The slim package has no GUI dependency and reduces the native module set. It omits DNN, `videoio`, `highgui`, `stitching`, and most contrib bindings, but retains several useful contrib APIs. Check the [OpenCV module coverage matrix](module-coverage.md) before choosing it for a specific feature.
 
 ## Windows convenience packages
 

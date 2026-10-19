@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef NO_CONTRIB
+#ifdef HAVE_OPENCV_XFEATURES2D
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -381,4 +381,4 @@ CVAPI(ExceptionStatus) xfeatures2d_AKAZE_getDiffusivity(cv::xfeatures2d::AKAZE *
 }
 
 #pragma endregion
-#endif // NO_CONTRIB
+#endif // HAVE_OPENCV_XFEATURES2D

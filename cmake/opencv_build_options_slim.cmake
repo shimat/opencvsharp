@@ -15,13 +15,15 @@ set(ENABLE_CXX11      ON      CACHE BOOL   "" FORCE)
 #     so it is kept in slim to match the family and the wrapped Volume/Odometry API.
 #   - features2d was renamed to features
 #   - barcode was merged into objdetect (no standalone module anymore)
+#   - ArUco was also merged into objdetect; its OpenCvSharp bindings are kept in slim.
 #   - CascadeClassifier / HOGDescriptor / groupRectangles moved to the contrib
 #     xobjdetect module (lightweight: depends only on core/imgproc/imgcodecs/
 #     features), kept in the slim profile. Pulled from OPENCV_EXTRA_MODULES_PATH.
 #   - BRISK / KAZE / AKAZE / AGAST / FREAK / BRIEF / DAISY / ... moved to the
 #     contrib xfeatures2d module. Its required deps (core/imgproc/features/
 #     geometry) are all in this list and it pulls no heavy external dependency,
-#     so it is kept in the slim profile too.
+#     so it is kept in the slim profile too. OpenCvSharp enables only the
+#     BRISK/KAZE/AKAZE/AGAST bindings from this module in slim.
 # Additional lightweight contrib kept in slim (deps all in this list, no heavy
 # external dependency): ximgproc, xphoto, bgsegm, img_hash.
 # stitching is dropped from slim (large, niche); the extern is built with
