@@ -26,7 +26,7 @@ jobs:
       # Every package must come from this release commit. If a producer has not
       # finished successfully, fail instead of publishing an older artifact.
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -34,7 +34,7 @@ jobs:
           commit: ${{ github.sha }}
 
       - name: Download windows arm64 artifact
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -43,7 +43,7 @@ jobs:
 
       - name: Download ubuntu arm64 artifact
         if: ${{ !contains(inputs.skip_platforms, 'linux-arm64') }}
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm64.yml
@@ -52,7 +52,7 @@ jobs:
 
       - name: Download macos artifact
         if: ${{ !contains(inputs.skip_platforms, 'macos') }}
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: macos.yml
@@ -61,7 +61,7 @@ jobs:
 
       - name: Download wasm artifact
         if: ${{ !contains(inputs.skip_platforms, 'wasm') }}
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
@@ -70,7 +70,7 @@ jobs:
 
       - name: Download manylinux artifact
         if: ${{ !contains(inputs.skip_platforms, 'manylinux') }}
-        uses: dawidd6/action-download-artifact@v27
+        uses: dawidd6/action-download-artifact@v28
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
