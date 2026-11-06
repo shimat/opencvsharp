@@ -1,5 +1,8 @@
 name: Linux ARM64
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     types: [synchronize, opened]
