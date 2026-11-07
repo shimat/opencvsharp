@@ -156,7 +156,8 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build --config Release -j 4
 
       - name: Verify FFmpeg plugin deployment
@@ -186,7 +187,8 @@ jobs:
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
             -D NO_STITCHING=ON `
-            -D NO_INSTALL_TO_TEST=ON
+            -D NO_INSTALL_TO_TEST=ON `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build_slim --config Release -j 4
 
       - name: Test
