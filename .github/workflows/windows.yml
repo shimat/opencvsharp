@@ -381,14 +381,14 @@ jobs:
         uses: actions/attest-sbom@v4
         with:
           subject-path: src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
-          sbom-path: sbom/win-x64/sbom/OpenCvSharp5.runtime.win.spdx.json
+          sbom-path: sbom/win-x64/sbom/OpenCvSharp5.runtime.win.cdx.json
 
       - name: Attest SBOM (slim)
         if: github.event_name != 'pull_request'
         uses: actions/attest-sbom@v4
         with:
           subject-path: src/build_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
-          sbom-path: sbom/win-x64-slim/sbom/OpenCvSharp5.runtime.win.slim.spdx.json
+          sbom-path: sbom/win-x64-slim/sbom/OpenCvSharp5.runtime.win.slim.cdx.json
 
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v7

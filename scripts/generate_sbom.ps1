@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Generates a best-effort SPDX 2.3 SBOM and a THIRD-PARTY-NOTICES.txt for one Windows native runtime package.
+    Generates a best-effort CycloneDX 1.6 SBOM and a THIRD-PARTY-NOTICES.txt for one Windows native runtime package.
 
 .DESCRIPTION
     OpenCvSharpExtern.dll is a single DLL that statically links OpenCV, opencv_contrib, libraries that OpenCV
@@ -28,7 +28,9 @@
         up as a separate library in the map. It is covered only as far as OpenCV's own etc/licenses files cover
         it; those files are reproduced in THIRD-PARTY-NOTICES.txt even when no component can be matched.
       * License values are what vcpkg port metadata or upstream declare. They are not reviewed conclusions, so
-        licenseConcluded is always NOASSERTION.
+        every license is recorded with acknowledgement 'declared', never 'concluded'.
+      * The SBOM states these gaps itself: the dependency lists of the DLL and of prebuilt binaries are marked
+        with a composition aggregate of 'incomplete', and the limitations are recorded as an annotation.
       * Prebuilt binaries shipped next to the DLL (the FFmpeg videoio plugin) are recorded with hashes and the
         license files OpenCV ships for them, but their own dependencies are not enumerated.
       * The result describes exactly one build. It cannot be reconstructed for releases built before this
@@ -36,7 +38,7 @@
       * It is not legal advice.
 
     Outputs, all under -OutputDir:
-      sbom/<PackageId>.spdx.json   SPDX 2.3 document (packed into the .nupkg)
+      sbom/<PackageId>.cdx.json    CycloneDX 1.6 JSON document (packed into the .nupkg)
       THIRD-PARTY-NOTICES.txt      component list plus license texts (packed into the .nupkg)
       licenses/                    license files that are not plain text, e.g. .rtf/.htm (packed into the .nupkg)
       linker-inventory.txt         every linked library and object file with its component (CI artifact only)
@@ -130,15 +132,32 @@ function Get-GitCommit([string] $Path) {
     }
 }
 
-function Get-Checksums([string] $Path) {
+function Get-Hashes([string] $Path) {
+    # SHA-512 is what BSI TR-03183-2 asks for; SHA-256 is what gh attestation verify and most tools use.
     return @(
-        [ordered]@{ algorithm = 'SHA1'; checksumValue = (Get-FileHash -LiteralPath $Path -Algorithm SHA1).Hash.ToLowerInvariant() },
-        [ordered]@{ algorithm = 'SHA256'; checksumValue = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
+        [ordered]@{ alg = 'SHA-256'; content = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() },
+        [ordered]@{ alg = 'SHA-512'; content = (Get-FileHash -LiteralPath $Path -Algorithm SHA512).Hash.ToLowerInvariant() }
     )
 }
 
-function ConvertTo-SpdxId([string] $Prefix, [string] $Value) {
-    return "SPDXRef-$Prefix-" + ($Value -replace '[^A-Za-z0-9.\-]+', '-')
+function ConvertTo-BomRef([string] $Prefix, [string] $Value) {
+    return "${Prefix}:" + ($Value -replace '[^A-Za-z0-9.\-_]+', '-')
+}
+
+function New-BomProperty([string] $Name, [string] $Value) {
+    return [ordered]@{ name = "opencvsharp:$Name"; value = $Value }
+}
+
+function Get-SourceReference([string] $Location) {
+    # git+https://<host>/<owner>/<repo>[.git]@<ref>  ->  vcs reference; a plain http(s) URL  ->  distribution reference.
+    if (-not $Location) { return $null }
+    if ($Location -match '^git\+(?<url>https?://[^@#\s]+?)(?:@(?<ref>[^#\s]+))?$') {
+        $reference = [ordered]@{ type = 'vcs'; url = $Matches.url }
+        if ($Matches.ref) { $reference.comment = "Revision $($Matches.ref)" }
+        return $reference
+    }
+    if ($Location -match '^https?://') { return [ordered]@{ type = 'distribution'; url = $Location } }
+    return $null
 }
 
 function Get-GitHubPurl([string] $DownloadLocation) {
@@ -308,17 +327,17 @@ if ($protobufMatch) {
 }
 
 $bundledTable = @(
-    @{ Pattern = '^ippicv'; Id = 'ippicv'; Name = 'Intel IPP ICV (Integrated Performance Primitives subset distributed for OpenCV)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippicv-*'); Comment = "Proprietary Intel license, not Apache-2.0. See the ippicv-* license files.$ippPackageNote" },
-    @{ Pattern = '^ippiw'; Id = 'ippiw'; Name = 'Intel IPP Integration Wrappers (IPP IW)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippiw-*'); Comment = "Built from sources shipped in the IPP ICV package. See the ippiw-* license files.$ippPackageNote" },
-    @{ Pattern = '^ittnotify'; Id = 'ittnotify'; Name = 'Intel ITT API (ittnotify)'; Supplier = 'Organization: Intel Corporation'; License = 'BSD-3-Clause OR GPL-2.0-only'; LicenseFiles = @('ittnotify-*') },
-    @{ Pattern = '^libprotobuf'; Id = 'protobuf'; Name = 'Protocol Buffers (copy bundled with OpenCV)'; Supplier = 'Organization: Google LLC'; Version = $protobufVersion; License = 'BSD-3-Clause'; LicenseFiles = @('protobuf-*') },
+    @{ Pattern = '^ippicv'; Id = 'ippicv'; Name = 'Intel IPP ICV (Integrated Performance Primitives subset distributed for OpenCV)'; Supplier = 'Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippicv-*'); Comment = "Proprietary Intel license, not Apache-2.0. See the ippicv-* license files.$ippPackageNote" },
+    @{ Pattern = '^ippiw'; Id = 'ippiw'; Name = 'Intel IPP Integration Wrappers (IPP IW)'; Supplier = 'Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippiw-*'); Comment = "Built from sources shipped in the IPP ICV package. See the ippiw-* license files.$ippPackageNote" },
+    @{ Pattern = '^ittnotify'; Id = 'ittnotify'; Name = 'Intel ITT API (ittnotify)'; Supplier = 'Intel Corporation'; License = 'BSD-3-Clause OR GPL-2.0-only'; LicenseFiles = @('ittnotify-*') },
+    @{ Pattern = '^libprotobuf'; Id = 'protobuf'; Name = 'Protocol Buffers (copy bundled with OpenCV)'; Supplier = 'Google LLC'; Version = $protobufVersion; License = 'BSD-3-Clause'; LicenseFiles = @('protobuf-*') },
     @{ Pattern = '^libopenjp2'; Id = 'openjpeg'; Name = 'OpenJPEG (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('libopenjp2-*') },
     @{ Pattern = '^(lib)?clapack'; Id = 'clapack'; Name = 'CLAPACK (LAPACK, copy bundled with OpenCV)'; LicenseFiles = @('clapack-*'); Comment = 'BSD-style LAPACK license; see clapack-lapack_LICENSE.' },
     @{ Pattern = '^quirc'; Id = 'quirc'; Name = 'quirc (copy bundled with OpenCV)'; License = 'ISC'; LicenseFiles = @('quirc-*') },
     @{ Pattern = '^(ilmimf|openexr)'; Id = 'openexr'; Name = 'OpenEXR (copy bundled with OpenCV)'; License = 'BSD-3-Clause'; LicenseFiles = @('openexr-*') },
     @{ Pattern = '^libspng'; Id = 'libspng'; Name = 'libspng (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('libspng-*') },
-    @{ Pattern = '^tbb'; Id = 'tbb'; Name = 'oneTBB (copy bundled with OpenCV)'; Supplier = 'Organization: Intel Corporation'; License = 'Apache-2.0'; LicenseFiles = @('tbb-*') },
-    @{ Pattern = '^kleidicv'; Id = 'kleidicv'; Name = 'KleidiCV (copy bundled with OpenCV)'; Supplier = 'Organization: Arm Limited'; License = 'Apache-2.0'; LicenseFiles = @('kleidicv-*') }
+    @{ Pattern = '^tbb'; Id = 'tbb'; Name = 'oneTBB (copy bundled with OpenCV)'; Supplier = 'Intel Corporation'; License = 'Apache-2.0'; LicenseFiles = @('tbb-*') },
+    @{ Pattern = '^kleidicv'; Id = 'kleidicv'; Name = 'KleidiCV (copy bundled with OpenCV)'; Supplier = 'Arm Limited'; License = 'Apache-2.0'; LicenseFiles = @('kleidicv-*') }
 )
 # MLAS is not listed: OpenCV 5 compiles it as an OBJECT library into opencv_dnn, so it never shows up as its own
 # library in the map (and Windows CI builds disable it). It is covered by the OpenCV component and its license files.
@@ -338,8 +357,9 @@ $kindOrder = @{ 'opencvsharp' = 0; 'opencv' = 1; 'opencv_contrib' = 2; 'opencv-b
 function Get-Component([string] $Id, [hashtable] $Properties) {
     if (-not $script:components.Contains($Id)) {
         $component = [ordered]@{
-            Id = $Id; Kind = 'unresolved'; Name = $Id; Version = $null; Supplier = 'NOASSERTION'; DownloadLocation = 'NOASSERTION'
-            Homepage = $null; License = 'NOASSERTION'; Purl = $null; Comment = $null
+            Id = $Id; Kind = 'unresolved'; Name = $Id; Version = $null; Supplier = $null; DownloadLocation = $null
+            # License is an SPDX license expression as declared upstream, or $null when nothing usable is declared.
+            Homepage = $null; License = $null; Purl = $null; Comment = $null
             LicenseFiles = New-Object System.Collections.Generic.List[string]
             LicenseFilePatterns = @()
             Libraries = [System.Collections.Generic.SortedSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
@@ -356,20 +376,20 @@ function Get-Component([string] $Id, [hashtable] $Properties) {
 
 function Get-OpenCvComponent([bool] $Contrib) {
     if ($Contrib) {
-        $download = 'NOASSERTION'
+        $download = $null
         if ($contribCommit) { $download = "git+https://github.com/opencv/opencv_contrib@$contribCommit" }
         return Get-Component 'opencv_contrib' @{
-            Kind = 'opencv_contrib'; Name = 'opencv_contrib'; Version = $openCvVersion; Supplier = 'Organization: OpenCV'
+            Kind = 'opencv_contrib'; Name = 'opencv_contrib'; Version = $openCvVersion; Supplier = 'OpenCV'
             DownloadLocation = $download; Purl = (Get-GitHubPurl $download); Homepage = 'https://github.com/opencv/opencv_contrib'; License = 'Apache-2.0'
             LicenseFiles = @((Join-Path $contribSource 'LICENSE'))
             Comment = "Built with OPENCV_ENABLE_NONFREE=$nonFree. Non-free (patent-encumbered) implementations live in contrib modules; the linked libraries and objects are listed in linker-inventory.txt."
         }
     }
-    $download = 'NOASSERTION'
+    $download = $null
     if ($openCvCommit) { $download = "git+https://github.com/opencv/opencv@$openCvCommit" }
     $optionText = ($openCvOptions.Keys | ForEach-Object { "$_=$($openCvOptions[$_])" }) -join ', '
     return Get-Component 'opencv' @{
-        Kind = 'opencv'; Name = 'OpenCV'; Version = $openCvVersion; Supplier = 'Organization: OpenCV'
+        Kind = 'opencv'; Name = 'OpenCV'; Version = $openCvVersion; Supplier = 'OpenCV'
         DownloadLocation = $download; Purl = (Get-GitHubPurl $download); Homepage = 'https://opencv.org'; License = 'Apache-2.0'
         LicenseFiles = @((Join-Path $openCvSource 'LICENSE'), (Join-Path $openCvSource 'COPYRIGHT'))
         Comment = "Static build. CMake initial cache ($([System.IO.Path]::GetFileName($OpenCvBuildOptionsFile))): $optionText. Platform-specific -D options passed by the workflow are not included here."
@@ -381,9 +401,9 @@ function Get-VcpkgComponent([string] $Port) {
     if ($script:components.Contains($id)) { return $script:components[$id] }
     $shareDir = Join-Path $VcpkgInstalledDir "$Triplet/share/$Port"
     $version = $vcpkg.PortVersions[$Port]
-    $license = 'NOASSERTION'
+    $license = $null
     $homepage = $null
-    $download = 'NOASSERTION'
+    $download = $null
     $notes = New-Object System.Collections.Generic.List[string]
     $notes.Add("Installed by vcpkg (port '$Port', triplet $Triplet, builtin-baseline $vcpkgBaseline).")
     $spdxPath = Join-Path $shareDir 'vcpkg.spdx.json'
@@ -404,15 +424,15 @@ function Get-VcpkgComponent([string] $Port) {
         foreach ($resource in $resources) {
             $location = Get-JsonProperty $resource 'downloadLocation'
             if (-not $location -or $location -eq 'NOASSERTION') { continue }
-            if ($download -eq 'NOASSERTION') { $download = $location } else { $notes.Add("Additional source: $location") }
+            if (-not $download) { $download = $location } else { $notes.Add("Additional source: $location") }
         }
     } else {
         $notes.Add('vcpkg.spdx.json not found; version taken from the vcpkg info file name.')
     }
-    if ($license -like '*LicenseRef-*') {
-        # A LicenseRef needs an extracted license text in the document; keep the value as a note instead.
+    if ($license -and $license -like '*LicenseRef-*') {
+        # A LicenseRef only has a meaning inside vcpkg's own SPDX document; keep the value as a note instead.
         $notes.Add("Declared license (vcpkg): $license")
-        $license = 'NOASSERTION'
+        $license = $null
     }
     return Get-Component $id @{
         Kind = 'vcpkg'; Name = $Port; Version = $version; DownloadLocation = $download; Purl = (Get-GitHubPurl $download)
@@ -421,12 +441,12 @@ function Get-VcpkgComponent([string] $Port) {
 }
 
 # OpenCvSharp's own object files
-$opencvsharpDownload = 'NOASSERTION'
+$opencvsharpDownload = $null
 if ($opencvsharpCommit) { $opencvsharpDownload = "git+$repositoryUrl@$opencvsharpCommit" }
 $opencvsharpComment = 'OpenCvSharpExtern (src/OpenCvSharpExtern).'
 if (@($BuildOptions).Count -gt 0) { $opencvsharpComment += ' CMake options: ' + ($BuildOptions -join ', ') + '.' }
 $opencvsharp = Get-Component 'opencvsharp' @{
-    Kind = 'opencvsharp'; Name = 'OpenCvSharp'; Version = $PackageVersion; Supplier = 'Organization: OpenCvSharp'
+    Kind = 'opencvsharp'; Name = 'OpenCvSharp'; Version = $PackageVersion; Supplier = 'OpenCvSharp'
     DownloadLocation = $opencvsharpDownload; Purl = (Get-GitHubPurl $opencvsharpDownload); Homepage = $repositoryUrl; License = 'Apache-2.0'
     LicenseFiles = @((Join-Path $RepoRoot 'LICENSE')); Comment = $opencvsharpComment
 }
@@ -451,14 +471,14 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
     else {
         $entry = $bundledTable | Where-Object { $library -match $_.Pattern } | Select-Object -First 1
         if ($entry) {
-            $properties = @{ Kind = 'opencv-bundled'; License = 'NOASSERTION' }
+            $properties = @{ Kind = 'opencv-bundled' }
             foreach ($key in $entry.Keys) { if ($key -ne 'Pattern' -and $key -ne 'Id' -and $key -ne 'LicenseFiles') { $properties[$key] = $entry[$key] } }
             $properties['LicenseFilePatterns'] = $entry.LicenseFiles
             $component = Get-Component "bundled-$($entry.Id)" $properties
         }
         elseif ($library -match $runtimePattern) {
             $component = Get-Component 'msvc-runtime' @{
-                Kind = 'msvc-runtime'; Name = 'Microsoft C/C++ runtime libraries (static)'; Supplier = 'Organization: Microsoft Corporation'
+                Kind = 'msvc-runtime'; Name = 'Microsoft C/C++ runtime libraries (static)'; Supplier = 'Microsoft Corporation'
                 Comment = 'Static CRT/STL from the MSVC toolset and Windows SDK used for the build. Their terms are Microsoft license terms that have no SPDX identifier.'
             }
         }
@@ -497,10 +517,10 @@ foreach ($binary in $AdditionalBinaries) {
     $leaf = [System.IO.Path]::GetFileName($binary)
     if ($leaf -like 'opencv_videoio_ffmpeg*') {
         $commitMatch = Find-InFile (Join-Path $openCvSource '3rdparty/ffmpeg/ffmpeg.cmake') 'FFMPEG_BINARIES_COMMIT\s+"?([0-9a-f]{7,40})'
-        $download = 'NOASSERTION'
+        $download = $null
         if ($commitMatch) { $download = 'git+https://github.com/opencv/opencv_3rdparty@' + $commitMatch.Groups[1].Value }
         $component = Get-Component 'ffmpeg' @{
-            Kind = 'prebuilt'; Name = 'FFmpeg (opencv_videoio_ffmpeg plugin, prebuilt by OpenCV)'; Supplier = 'Organization: OpenCV'
+            Kind = 'prebuilt'; Name = 'FFmpeg (opencv_videoio_ffmpeg plugin, prebuilt by OpenCV)'; Supplier = 'OpenCV'
             DownloadLocation = $download; Homepage = 'https://ffmpeg.org'; License = 'LGPL-2.1-or-later'; LicenseFilePatterns = $ffmpegLicenseFiles
             Comment = "Downloaded prebuilt by OpenCV's build (opencv/3rdparty/ffmpeg/ffmpeg.cmake), not compiled by this workflow. The declared license follows the license file OpenCV ships with it. The libraries statically linked into this plugin are not enumerated here."
         }
@@ -550,113 +570,142 @@ foreach ($stale in 'sbom', 'licenses', 'THIRD-PARTY-NOTICES.txt', 'linker-invent
 }
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 
-$limitations = 'Best-effort inventory generated by scripts/generate_sbom.ps1 from the MSVC linker map of this build, vcpkg port metadata and the license files OpenCV installs. It is not guaranteed to be complete: code that OpenCV compiles directly into its module libraries (vendored sources, generated code, header-only libraries) is not identified as separate components, the dependencies of prebuilt binaries are not enumerated, and license values are declared values that have not been reviewed (licenseConcluded is NOASSERTION throughout). It is not legal advice.'
+$limitations = 'Best-effort inventory generated by scripts/generate_sbom.ps1 from the MSVC linker map of this build, vcpkg port metadata and the license files OpenCV installs. It is not guaranteed to be complete: code that OpenCV compiles directly into its module libraries (vendored sources, generated code, header-only libraries) is not identified as separate components, the dependencies of prebuilt binaries are not enumerated, and license values are declared values that have not been reviewed (they are recorded with acknowledgement ''declared''). It is not legal advice.'
 $contribSummary = 'none'
 if ($contribLibraries.Count -gt 0) { $contribSummary = $contribLibraries -join ', ' }
 
-# --- SPDX 2.3 ---------------------------------------------------------------------------------------------------
-$rootId = 'SPDXRef-Package-NuGet'
-$dllId = 'SPDXRef-File-' + ([System.IO.Path]::GetFileName($NativeBinary) -replace '[^A-Za-z0-9.\-]+', '-')
-$packages = New-Object System.Collections.Generic.List[object]
-$files = New-Object System.Collections.Generic.List[object]
-$relationships = New-Object System.Collections.Generic.List[object]
+# --- CycloneDX 1.6 ----------------------------------------------------------------------------------------------
+# Layout: metadata.component is the NuGet package. The top-level components are the binaries it ships (type 'file',
+# with hashes) and the components linked into them (type 'library'). The dependency graph says what is in what:
+# package -> shipped binaries, OpenCvSharpExtern.dll -> statically linked components, prebuilt binary -> its origin.
+$generatedAt = [DateTime]::UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", [System.Globalization.CultureInfo]::InvariantCulture)
+$supplier = [ordered]@{ name = 'OpenCvSharp'; url = @($repositoryUrl) }
+$rootRef = "pkg:nuget/$PackageId@$PackageVersion"
+$dllName = [System.IO.Path]::GetFileName($NativeBinary)
+$dllRef = ConvertTo-BomRef 'file' $dllName
+$bomComponents = New-Object System.Collections.Generic.List[object]
+$dependencies = New-Object System.Collections.Generic.List[object]
 
-$packages.Add([ordered]@{
-    name = $PackageId
-    SPDXID = $rootId
-    versionInfo = $PackageVersion
-    supplier = 'Organization: OpenCvSharp'
-    downloadLocation = "https://www.nuget.org/packages/$PackageId/$PackageVersion"
-    # true because the package CONTAINS the hashed native binaries below (SPDX forbids that with false).
-    filesAnalyzed = $true
-    homepage = $repositoryUrl
-    licenseConcluded = 'NOASSERTION'
-    licenseDeclared = 'Apache-2.0'
-    copyrightText = 'NOASSERTION'
-    primaryPackagePurpose = 'LIBRARY'
-    externalRefs = @([ordered]@{ referenceCategory = 'PACKAGE-MANAGER'; referenceType = 'purl'; referenceLocator = "pkg:nuget/$PackageId@$PackageVersion" })
-    comment = 'Apache-2.0 is the license of OpenCvSharp itself, as declared in the NuGet metadata. The native binaries in this package also contain the third-party components described in this document, under their own licenses.'
+$dllProperties = @(
+    (New-BomProperty 'package-path' "$nativePackagePath/$dllName"),
+    (New-BomProperty 'opencv-enable-nonfree' $nonFree),
+    (New-BomProperty 'opencv-contrib-libraries' $contribSummary)
+)
+$bomComponents.Add([ordered]@{
+    type = 'file'
+    'bom-ref' = $dllRef
+    supplier = $supplier
+    name = $dllName
+    version = $PackageVersion
+    description = 'Built from OpenCvSharpExtern. Statically links the components listed as its dependencies.'
+    hashes = @(Get-Hashes $NativeBinary)
+    properties = $dllProperties
 })
-$relationships.Add([ordered]@{ spdxElementId = 'SPDXRef-DOCUMENT'; relationshipType = 'DESCRIBES'; relatedSpdxElement = $rootId })
 
-$files.Add([ordered]@{
-    fileName = "./$nativePackagePath/$([System.IO.Path]::GetFileName($NativeBinary))"
-    SPDXID = $dllId
-    fileTypes = @('BINARY')
-    checksums = Get-Checksums $NativeBinary
-    licenseConcluded = 'NOASSERTION'
-    copyrightText = 'NOASSERTION'
-    comment = "Built from OpenCvSharpExtern; statically links the components related to it by STATIC_LINK. OPENCV_ENABLE_NONFREE=$nonFree. opencv_contrib libraries with linked objects: $contribSummary."
-})
-$relationships.Add([ordered]@{ spdxElementId = $rootId; relationshipType = 'CONTAINS'; relatedSpdxElement = $dllId })
-
+$prebuiltComponentIds = @{}
+$prebuiltRefs = New-Object System.Collections.Generic.List[string]
 foreach ($prebuilt in $prebuiltFiles) {
-    $fileId = 'SPDXRef-File-' + ($prebuilt.Leaf -replace '[^A-Za-z0-9.\-]+', '-')
-    $files.Add([ordered]@{
-        fileName = "./$nativePackagePath/$($prebuilt.Leaf)"
-        SPDXID = $fileId
-        fileTypes = @('BINARY')
-        checksums = Get-Checksums $prebuilt.Path
-        licenseConcluded = 'NOASSERTION'
-        copyrightText = 'NOASSERTION'
+    $fileRef = ConvertTo-BomRef 'file' $prebuilt.Leaf
+    $prebuiltRefs.Add($fileRef)
+    $prebuiltComponentIds[$prebuilt.Component.Id] = $true
+    $bomComponents.Add([ordered]@{
+        type = 'file'
+        'bom-ref' = $fileRef
+        name = $prebuilt.Leaf
+        description = 'Prebuilt binary shipped next to OpenCvSharpExtern.dll. Its origin is listed as its dependency.'
+        hashes = @(Get-Hashes $prebuilt.Path)
+        properties = @((New-BomProperty 'package-path' "$nativePackagePath/$($prebuilt.Leaf)"))
     })
-    $relationships.Add([ordered]@{ spdxElementId = $rootId; relationshipType = 'CONTAINS'; relatedSpdxElement = $fileId })
-    $relationships.Add([ordered]@{ spdxElementId = $fileId; relationshipType = 'GENERATED_FROM'; relatedSpdxElement = (ConvertTo-SpdxId 'Package' $prebuilt.Component.Id) })
+    $dependencies.Add([ordered]@{ ref = $fileRef; dependsOn = @((ConvertTo-BomRef 'component' $prebuilt.Component.Id)) })
 }
 
+$linkedRefs = New-Object System.Collections.Generic.List[string]
 foreach ($component in $orderedComponents) {
-    $spdxId = ConvertTo-SpdxId 'Package' $component.Id
-    $package = [ordered]@{ name = $component.Name; SPDXID = $spdxId }
-    if ($component.Version) { $package.versionInfo = "$($component.Version)" }
-    $package.supplier = $component.Supplier
-    $package.downloadLocation = $component.DownloadLocation
-    $package.filesAnalyzed = $false
-    if ($component.Homepage) { $package.homepage = $component.Homepage }
-    $package.licenseConcluded = 'NOASSERTION'
-    $package.licenseDeclared = $component.License
-    $package.copyrightText = 'NOASSERTION'
-    if ($component.Purl) {
-        $package.externalRefs = @([ordered]@{ referenceCategory = 'PACKAGE-MANAGER'; referenceType = 'purl'; referenceLocator = $component.Purl })
+    $ref = ConvertTo-BomRef 'component' $component.Id
+    $bomComponent = [ordered]@{ type = 'library'; 'bom-ref' = $ref }
+    if ($component.Supplier) { $bomComponent.supplier = [ordered]@{ name = $component.Supplier } }
+    $bomComponent.name = $component.Name
+    if ($component.Version) { $bomComponent.version = "$($component.Version)" }
+    if ($component.Comment) { $bomComponent.description = $component.Comment }
+    if ($component.License) {
+        # Never 'concluded': nothing here has been reviewed.
+        $bomComponent.licenses = @([ordered]@{ expression = $component.License; acknowledgement = 'declared' })
     }
-    $notes = @()
-    if ($component.Comment) { $notes += $component.Comment }
+    if ($component.Purl) { $bomComponent.purl = $component.Purl }
+    $references = New-Object System.Collections.Generic.List[object]
+    $source = Get-SourceReference $component.DownloadLocation
+    if ($source) { $references.Add($source) }
+    if ($component.Homepage) { $references.Add([ordered]@{ type = 'website'; url = $component.Homepage }) }
+    if ($references.Count -gt 0) { $bomComponent.externalReferences = $references.ToArray() }
+    $properties = New-Object System.Collections.Generic.List[object]
+    $properties.Add((New-BomProperty 'origin' $component.Kind))
     if ($component.Kind -ne 'prebuilt' -and $component.Libraries.Count -gt 0) {
-        $notes += "Linked libraries: $(@($component.Libraries) -join ', ') ($($component.ObjectCount) object files)."
+        $properties.Add((New-BomProperty 'linked-libraries' (@($component.Libraries) -join ', ')))
     }
+    if ($component.ObjectCount -gt 0) { $properties.Add((New-BomProperty 'linked-object-files' "$($component.ObjectCount)")) }
     if ($component.Kind -eq 'opencv' -and $unattributedLicenseFiles.Count -gt 0) {
-        $notes += 'OpenCV also installs license files for code vendored inside its modules: ' + (@($unattributedLicenseFiles | ForEach-Object { [System.IO.Path]::GetFileName($_) }) -join ', ') + '.'
+        $properties.Add((New-BomProperty 'vendored-license-files' (@($unattributedLicenseFiles | ForEach-Object { [System.IO.Path]::GetFileName($_) }) -join ', ')))
     }
-    if ($notes.Count -gt 0) { $package.comment = $notes -join ' ' }
-    $packages.Add($package)
-    if ($component.Kind -ne 'prebuilt') {
-        $relationships.Add([ordered]@{ spdxElementId = $dllId; relationshipType = 'STATIC_LINK'; relatedSpdxElement = $spdxId })
-    }
+    $bomComponent.properties = $properties.ToArray()
+    $bomComponents.Add($bomComponent)
+    if (-not $prebuiltComponentIds.ContainsKey($component.Id)) { $linkedRefs.Add($ref) }
 }
 
-$creationComment = @()
-if ($env:GITHUB_RUN_ID) { $creationComment += "Workflow run: $($env:GITHUB_SERVER_URL)/$($env:GITHUB_REPOSITORY)/actions/runs/$($env:GITHUB_RUN_ID)." }
-if ($env:ImageOS) { $creationComment += "Runner image: $($env:ImageOS) $($env:ImageVersion)." }
-if ($vcpkgBaseline) { $creationComment += "vcpkg builtin-baseline: $vcpkgBaseline." }
-$creationInfo = [ordered]@{
-    created = [DateTime]::UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", [System.Globalization.CultureInfo]::InvariantCulture)
-    creators = @('Tool: opencvsharp-generate_sbom.ps1', 'Organization: OpenCvSharp')
-}
-if ($creationComment.Count -gt 0) { $creationInfo.comment = $creationComment -join ' ' }
+$shippedRefs = @($dllRef) + @($prebuiltRefs)
+$dependencies.Insert(0, [ordered]@{ ref = $dllRef; dependsOn = $linkedRefs.ToArray() })
+$dependencies.Insert(0, [ordered]@{ ref = $rootRef; dependsOn = $shippedRefs })
 
-$document = [ordered]@{
-    spdxVersion = 'SPDX-2.3'
-    dataLicense = 'CC0-1.0'
-    SPDXID = 'SPDXRef-DOCUMENT'
-    name = "$PackageId $PackageVersion ($RuntimeIdentifier)"
-    documentNamespace = "$repositoryUrl/sbom/$PackageId/$PackageVersion/$([guid]::NewGuid())"
-    creationInfo = $creationInfo
-    comment = $limitations
-    packages = $packages.ToArray()
-    files = $files.ToArray()
-    relationships = $relationships.ToArray()
+$metadataProperties = New-Object System.Collections.Generic.List[object]
+if ($env:GITHUB_RUN_ID) { $metadataProperties.Add((New-BomProperty 'workflow-run' "$($env:GITHUB_SERVER_URL)/$($env:GITHUB_REPOSITORY)/actions/runs/$($env:GITHUB_RUN_ID)")) }
+if ($env:ImageOS) { $metadataProperties.Add((New-BomProperty 'runner-image' "$($env:ImageOS) $($env:ImageVersion)")) }
+if ($vcpkgBaseline) { $metadataProperties.Add((New-BomProperty 'vcpkg-builtin-baseline' $vcpkgBaseline)) }
+$toolReference = [ordered]@{ type = 'vcs'; url = $repositoryUrl }
+if ($opencvsharpCommit) { $toolReference.comment = "scripts/generate_sbom.ps1 at revision $opencvsharpCommit" }
+
+$metadata = [ordered]@{
+    timestamp = $generatedAt
+    lifecycles = @([ordered]@{ phase = 'build' })
+    tools = [ordered]@{
+        components = @([ordered]@{ type = 'application'; name = 'generate_sbom.ps1'; group = 'OpenCvSharp'; externalReferences = @($toolReference) })
+    }
+    component = [ordered]@{
+        type = 'library'
+        'bom-ref' = $rootRef
+        supplier = $supplier
+        name = $PackageId
+        version = $PackageVersion
+        description = 'Apache-2.0 is the license of OpenCvSharp itself, as declared in the NuGet metadata. The native binaries in this package also contain the third-party components listed in this SBOM, under their own licenses.'
+        licenses = @([ordered]@{ expression = 'Apache-2.0'; acknowledgement = 'declared' })
+        purl = $rootRef
+        externalReferences = @(
+            [ordered]@{ type = 'distribution'; url = "https://www.nuget.org/packages/$PackageId/$PackageVersion" },
+            [ordered]@{ type = 'website'; url = $repositoryUrl }
+        )
+    }
+    supplier = $supplier
 }
-$sbomPath = Join-Path $OutputDir "sbom/$PackageId.spdx.json"
-Write-TextFile $sbomPath (($document | ConvertTo-Json -Depth 20) + "`n")
+if ($metadataProperties.Count -gt 0) { $metadata.properties = $metadataProperties.ToArray() }
+
+$bom = [ordered]@{
+    '$schema' = 'http://cyclonedx.org/schema/bom-1.6.schema.json'
+    bomFormat = 'CycloneDX'
+    specVersion = '1.6'
+    serialNumber = "urn:uuid:$([guid]::NewGuid())"
+    version = 1
+    metadata = $metadata
+    components = $bomComponents.ToArray()
+    dependencies = $dependencies.ToArray()
+    # The dependency lists of the shipped binaries are known to be incomplete (see KNOWN GAPS above).
+    compositions = @([ordered]@{ aggregate = 'incomplete'; dependencies = $shippedRefs })
+    annotations = @([ordered]@{
+        subjects = @($rootRef)
+        annotator = [ordered]@{ organization = $supplier }
+        timestamp = $generatedAt
+        text = $limitations
+    })
+}
+$sbomPath = Join-Path $OutputDir "sbom/$PackageId.cdx.json"
+Write-TextFile $sbomPath (($bom | ConvertTo-Json -Depth 20) + "`n")
 
 # --- THIRD-PARTY-NOTICES.txt ------------------------------------------------------------------------------------
 $binaryExtensions = @('.rtf', '.htm', '.html', '.pdf', '.doc', '.docx')
@@ -692,7 +741,7 @@ $shippedBinaries = @([System.IO.Path]::GetFileName($NativeBinary)) + @($prebuilt
 Add-Notice 'THIRD-PARTY SOFTWARE NOTICES AND INFORMATION'
 Add-Notice "$PackageId $PackageVersion ($RuntimeIdentifier)"
 Add-Notice
-Add-Notice "This package ships $($shippedBinaries -join ', ') in $nativePackagePath. OpenCvSharpExtern.dll statically links OpenCV and the third-party components listed below. The list was generated from the linker map of this particular build; a machine-readable SPDX 2.3 document for the same build is included as sbom/$PackageId.spdx.json."
+Add-Notice "This package ships $($shippedBinaries -join ', ') in $nativePackagePath. OpenCvSharpExtern.dll statically links OpenCV and the third-party components listed below. The list was generated from the linker map of this particular build; a machine-readable CycloneDX 1.6 SBOM for the same build is included as sbom/$PackageId.cdx.json."
 Add-Notice
 Add-Notice "IMPORTANT: this list is generated automatically and is best-effort; it may be incomplete. Code that OpenCV compiles directly into its own module libraries, header-only libraries and the dependencies of prebuilt binaries are not identified individually (the license files OpenCV installs for such code are reproduced at the end). License identifiers are as declared upstream and have not been reviewed. This is not legal advice; please review the upstream license terms yourself."
 Add-Notice
@@ -703,8 +752,10 @@ foreach ($component in $orderedComponents) {
     $version = ''
     if ($component.Version) { $version = " $($component.Version)" }
     Add-Notice ("{0,3}. {1}{2}" -f $index, $component.Name, $version)
-    Add-Notice "     License (declared): $($component.License)"
-    if ($component.DownloadLocation -ne 'NOASSERTION') { Add-Notice "     Source: $($component.DownloadLocation)" }
+    $declared = 'none declared, see the license texts below'
+    if ($component.License) { $declared = $component.License }
+    Add-Notice "     License (declared): $declared"
+    if ($component.DownloadLocation) { Add-Notice "     Source: $($component.DownloadLocation)" }
     elseif ($component.Homepage) { Add-Notice "     Homepage: $($component.Homepage)" }
     if ($component.Libraries.Count -gt 0) { Add-Notice "     Files: $(@($component.Libraries) -join ', ')" }
     $index++

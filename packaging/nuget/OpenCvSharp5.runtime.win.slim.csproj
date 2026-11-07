@@ -30,7 +30,7 @@
        Optional so that packing without a generated SBOM keeps working locally. -->
   <ItemGroup Condition="Exists('../../sbom/win-x64-slim/THIRD-PARTY-NOTICES.txt')">
     <None Include="../../sbom/win-x64-slim/THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="" />
-    <None Include="../../sbom/win-x64-slim/sbom/*.spdx.json" Pack="true" PackagePath="sbom/" />
+    <None Include="../../sbom/win-x64-slim/sbom/*.cdx.json" Pack="true" PackagePath="sbom/" />
     <None Include="../../sbom/win-x64-slim/licenses/*" Pack="true" PackagePath="licenses/" />
   </ItemGroup>
 </Project>
