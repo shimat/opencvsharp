@@ -301,7 +301,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
 
-          $date = Get-Date -Format "yyyyMMdd"
+          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
           $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
 
@@ -517,7 +517,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
 
-          $date = Get-Date -Format "yyyyMMdd"
+          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
           $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
 
