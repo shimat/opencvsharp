@@ -31,6 +31,7 @@ option(NO_VIDEOIO "Disable videoio bindings" OFF)
 option(NO_INSTALL_TO_TEST "Skip copying built DLL to the test project directory (Windows only)" OFF)
 option(OPENCVSHARP_MINIMAL "Build only core, imgproc, and imgcodecs bindings" OFF)
 option(OPENCVSHARP_BUILD_WITH_DEBUG_INFO "Generate compiler and linker symbols for MSVC diagnostics" OFF)
+option(OPENCVSHARP_GENERATE_LINKER_MAP "Write an MSVC linker map for OpenCvSharpExtern (input for scripts/generate_sbom.ps1)" OFF)
 
 if(OPENCVSHARP_MINIMAL)
     foreach(disabled_module IN ITEMS

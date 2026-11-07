@@ -107,6 +107,12 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+		if(MSVC AND OPENCVSHARP_GENERATE_LINKER_MAP)
+			# The map lists every object file the linker actually pulled in, as <library>:<object>.
+			# scripts/generate_sbom.ps1 reads it to find which static libraries contributed code to
+			# the DLL. Writing a map does not change the DLL itself.
+			target_link_options(OpenCvSharpExtern PRIVATE "/MAP:${CMAKE_CURRENT_BINARY_DIR}/OpenCvSharpExtern.map")
+		endif()
 		if(ANDROID)
 			# NDK r27 needs explicit 16 KB ELF and RELRO alignment for 16 KB page devices.
 			target_link_options(OpenCvSharpExtern PRIVATE
