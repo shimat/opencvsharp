@@ -307,8 +307,10 @@ jobs:
         shell: pwsh
         run: |
           # Shared by the SBOM and the packages. publish_nuget.yml releases these packages with the
-          # -beta suffix stripped, so the SBOM records the version without it.
-          $base = "${env:OPENCV_VERSION}.$(Get-Date -Format yyyyMMdd)"
+          # -beta suffix stripped, so the SBOM records the version without it. UTC, so that the x64 and
+          # arm64 jobs agree on the date.
+          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
+          $base = "${env:OPENCV_VERSION}.${date}"
           "PACKAGE_VERSION_BASE=$base" >> $env:GITHUB_ENV
           "PACKAGE_VERSION=$base-beta" >> $env:GITHUB_ENV
 
@@ -592,7 +594,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
 
-          $date = Get-Date -Format "yyyyMMdd"
+          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
           $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
 
