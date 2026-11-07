@@ -17,6 +17,10 @@ jobs:
     if: github.repository == 'shimat/opencvsharp' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-26.04
     environment: nuget-production
+    permissions:
+      actions: read
+      contents: read
+      id-token: write # OIDC token for NuGet trusted publishing
     steps:
       - name: Verify Android run and package
         env:
@@ -41,11 +45,19 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      # Exchange the GitHub OIDC token for a short-lived (1 hour) nuget.org API key.
+      # Requires a trusted publishing policy on nuget.org for this repo, workflow
+      # file (publish_android_preview.yml) and environment (nuget-production).
+      - name: NuGet login (OIDC -> temporary API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
       - name: Push Android beta to nuget.org
         env:
-          NUGET_ORG_API_KEY: ${{ secrets.NUGET_ORG_API_KEY }}
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
           set -euo pipefail
-          : "${NUGET_ORG_API_KEY:?}"
+          : "${NUGET_API_KEY:?}"
           dotnet nuget push "$PACKAGE" --force-english-output \
-            -k "$NUGET_ORG_API_KEY" -s https://api.nuget.org/v3/index.json
+            -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json
