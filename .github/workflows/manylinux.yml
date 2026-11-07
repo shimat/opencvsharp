@@ -336,11 +336,11 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the manylinux-built binaries.
-  # Only runs on push to main.
+  # Only runs on push to main or 4.x (publish_nuget.yml downloads this artifact from the dispatching branch).
   # ---------------------------------------------------------------------------
   nuget:
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/4.x')
     runs-on: ubuntu-24.04
 
     steps:
