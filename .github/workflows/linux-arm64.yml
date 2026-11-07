@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - 4.x
 
 env:
   DEBIAN_FRONTEND: noninteractive
