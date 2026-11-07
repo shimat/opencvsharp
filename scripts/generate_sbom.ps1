@@ -292,13 +292,14 @@ if (-not $openCvLicenseDir) { Write-BuildWarning "No licenses directory found un
 # Libraries that OpenCV builds or downloads itself (opencv/3rdparty). LicenseFiles are the name patterns that
 # OpenCV's ocv_install_3rdparty_licenses() uses in etc/licenses. Versions are probed from the OpenCV sources
 # where that is cheap; otherwise they stay unknown.
-$ippicvCmake = Join-Path $openCvSource '3rdparty/ippicv/ippicv.cmake'
-$ippVersionMatch = Find-InFile $ippicvCmake 'ippicv_(\d{4}\.\d+(?:\.\d+)?)_win_intel64_(\d{8})'
+# ippicv.cmake sets IPPICV_COMMIT per platform, so record the pinned Windows x64 package name instead of a commit.
+$ippPackageMatch = Find-InFile (Join-Path $openCvSource '3rdparty/ippicv/ippicv.cmake') 'ippicv_(\d{4}\.\d+(?:\.\d+)?)_win_intel64_(\d{8})_general\.zip'
 $ippVersion = $null
-if ($ippVersionMatch) { $ippVersion = '{0} ({1})' -f $ippVersionMatch.Groups[1].Value, $ippVersionMatch.Groups[2].Value }
-$ippCommitMatch = Find-InFile $ippicvCmake 'IPPICV_COMMIT\s+"?([0-9a-f]{7,40})'
-$ippDownload = 'NOASSERTION'
-if ($ippCommitMatch) { $ippDownload = 'git+https://github.com/opencv/opencv_3rdparty@' + $ippCommitMatch.Groups[1].Value }
+$ippPackageNote = ''
+if ($ippPackageMatch) {
+    $ippVersion = '{0} ({1})' -f $ippPackageMatch.Groups[1].Value, $ippPackageMatch.Groups[2].Value
+    $ippPackageNote = " Downloaded by OpenCV's build as $($ippPackageMatch.Value) from opencv/opencv_3rdparty (pinned in opencv/3rdparty/ippicv/ippicv.cmake)."
+}
 $protobufVersion = $null
 $protobufMatch = Find-InFile (Join-Path $openCvSource '3rdparty/protobuf/src/google/protobuf/stubs/common.h') '#define\s+GOOGLE_PROTOBUF_VERSION\s+(\d+)'
 if ($protobufMatch) {
@@ -307,17 +308,20 @@ if ($protobufMatch) {
 }
 
 $bundledTable = @(
-    @{ Pattern = '^ippicv'; Id = 'ippicv'; Name = 'Intel IPP ICV (Integrated Performance Primitives subset distributed for OpenCV)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; DownloadLocation = $ippDownload; LicenseFiles = @('ippicv-*'); Comment = 'Proprietary Intel license, not Apache-2.0. See the ippicv-* license files.' },
-    @{ Pattern = '^ippiw'; Id = 'ippiw'; Name = 'Intel IPP Integration Wrappers (IPP IW)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; DownloadLocation = $ippDownload; LicenseFiles = @('ippiw-*'); Comment = 'Shipped in the same package as IPP ICV. See the ippiw-* license files.' },
+    @{ Pattern = '^ippicv'; Id = 'ippicv'; Name = 'Intel IPP ICV (Integrated Performance Primitives subset distributed for OpenCV)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippicv-*'); Comment = "Proprietary Intel license, not Apache-2.0. See the ippicv-* license files.$ippPackageNote" },
+    @{ Pattern = '^ippiw'; Id = 'ippiw'; Name = 'Intel IPP Integration Wrappers (IPP IW)'; Supplier = 'Organization: Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippiw-*'); Comment = "Built from sources shipped in the IPP ICV package. See the ippiw-* license files.$ippPackageNote" },
     @{ Pattern = '^ittnotify'; Id = 'ittnotify'; Name = 'Intel ITT API (ittnotify)'; Supplier = 'Organization: Intel Corporation'; License = 'BSD-3-Clause OR GPL-2.0-only'; LicenseFiles = @('ittnotify-*') },
     @{ Pattern = '^libprotobuf'; Id = 'protobuf'; Name = 'Protocol Buffers (copy bundled with OpenCV)'; Supplier = 'Organization: Google LLC'; Version = $protobufVersion; License = 'BSD-3-Clause'; LicenseFiles = @('protobuf-*') },
-    @{ Pattern = '^libopenjp2'; Id = 'openjpeg'; Name = 'OpenJPEG (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('openjpeg-*') },
+    @{ Pattern = '^libopenjp2'; Id = 'openjpeg'; Name = 'OpenJPEG (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('libopenjp2-*') },
+    @{ Pattern = '^(lib)?clapack'; Id = 'clapack'; Name = 'CLAPACK (LAPACK, copy bundled with OpenCV)'; LicenseFiles = @('clapack-*'); Comment = 'BSD-style LAPACK license; see clapack-lapack_LICENSE.' },
     @{ Pattern = '^quirc'; Id = 'quirc'; Name = 'quirc (copy bundled with OpenCV)'; License = 'ISC'; LicenseFiles = @('quirc-*') },
     @{ Pattern = '^(ilmimf|openexr)'; Id = 'openexr'; Name = 'OpenEXR (copy bundled with OpenCV)'; License = 'BSD-3-Clause'; LicenseFiles = @('openexr-*') },
     @{ Pattern = '^libspng'; Id = 'libspng'; Name = 'libspng (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('libspng-*') },
-    @{ Pattern = '^mlas'; Id = 'mlas'; Name = 'MLAS (copy bundled with OpenCV dnn)'; Supplier = 'Organization: Microsoft Corporation'; License = 'MIT'; LicenseFiles = @('mlas-*') },
+    @{ Pattern = '^tbb'; Id = 'tbb'; Name = 'oneTBB (copy bundled with OpenCV)'; Supplier = 'Organization: Intel Corporation'; License = 'Apache-2.0'; LicenseFiles = @('tbb-*') },
     @{ Pattern = '^kleidicv'; Id = 'kleidicv'; Name = 'KleidiCV (copy bundled with OpenCV)'; Supplier = 'Organization: Arm Limited'; License = 'Apache-2.0'; LicenseFiles = @('kleidicv-*') }
 )
+# MLAS is not listed: OpenCV 5 compiles it as an OBJECT library into opencv_dnn, so it never shows up as its own
+# library in the map (and Windows CI builds disable it). It is covered by the OpenCV component and its license files.
 # License file patterns for components that are not static libraries.
 $ffmpegLicenseFiles = @('ffmpeg-*')
 
