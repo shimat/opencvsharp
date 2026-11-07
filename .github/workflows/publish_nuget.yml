@@ -151,6 +151,9 @@ jobs:
     needs: Prepare
     runs-on: ubuntu-24.04
     environment: nuget-production
+    permissions:
+      contents: read
+      id-token: write # OIDC token for NuGet trusted publishing
 
     steps:
       - name: Download release packages
@@ -161,7 +164,18 @@ jobs:
       - name: List packages
         run: ls -lh *.nupkg *.snupkg 2>/dev/null || true
 
+      # Exchange the GitHub OIDC token for a short-lived (1 hour) nuget.org API key.
+      # Requires a trusted publishing policy on nuget.org for this repo, workflow
+      # file (publish_nuget.yml) and environment (nuget-production).
+      - name: NuGet login (OIDC -> temporary API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to nuget.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
           set -euo pipefail
 
@@ -177,7 +191,7 @@ jobs:
             if output=$(dotnet nuget push "$file" \
                 --skip-duplicate \
                 --force-english-output \
-                -k ${{secrets.NUGET_ORG_API_KEY}} \
+                -k "$NUGET_API_KEY" \
                 -s https://api.nuget.org/v3/index.json 2>&1); then
               echo "$output"
               if echo "$output" | grep -qi "already exists"; then
