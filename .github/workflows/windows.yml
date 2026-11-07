@@ -1,5 +1,8 @@
 name: Windows Server 2025
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:

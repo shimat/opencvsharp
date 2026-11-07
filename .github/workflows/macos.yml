@@ -1,5 +1,8 @@
 name: macOS x64/arm64
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
 
