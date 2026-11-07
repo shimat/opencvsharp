@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - 4.x
 
 env:
   OPENCV_VERSION: 4.13.0
