@@ -46,7 +46,7 @@
     Compatible with Windows PowerShell 5.1 and PowerShell 7.
 
 .EXAMPLE
-    ./scripts/generate_sbom.ps1 -PackageId OpenCvSharp5.runtime.win -PackageVersion 5.0.0.20261107 `
+    ./scripts/generate_sbom.ps1 -PackageId OpenCvSharp5.runtime.win -PackageVersion 5.0.0.20261107-beta `
         -RuntimeIdentifier win-x64 -Triplet x64-windows-static `
         -NativeBinary src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll `
         -LinkerMap src/build/OpenCvSharpExtern/OpenCvSharpExtern.map `

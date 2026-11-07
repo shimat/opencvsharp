@@ -161,6 +161,28 @@ jobs:
           set -euo pipefail
           shopt -s nullglob
 
+          # Strips -beta / -betaN from the package version in a CycloneDX SBOM (see the loop below).
+          strip_bom="$RUNNER_TEMP/strip_bom_beta.py"
+          cat > "$strip_bom" <<'PY'
+          import json, re, sys
+          pattern = re.compile(r'([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{8})-beta-?[0-9]*')
+          def strip(node):
+              if isinstance(node, str):
+                  return pattern.sub(r'\1', node)
+              if isinstance(node, list):
+                  return [strip(item) for item in node]
+              if isinstance(node, dict):
+                  return {key: strip(value) for key, value in node.items()}
+              return node
+          path = sys.argv[1]
+          with open(path, encoding='utf-8') as f:
+              bom = strip(json.load(f))
+          bom['version'] = bom.get('version', 1) + 1
+          with open(path, 'w', encoding='utf-8') as f:
+              json.dump(bom, f, indent=2)
+              f.write('\n')
+          PY
+
           for f in *.nupkg *.snupkg; do
             case "$f" in
               *-beta*) ;;
@@ -191,6 +213,24 @@ jobs:
               zip -q -d "$f" "$nuspec_entry"
               zip -q -j "$f" "$nuspec_local"
             fi
+
+            # The Windows runtime packages also carry a best-effort SBOM and THIRD-PARTY-NOTICES.txt (written by
+            # scripts/generate_sbom.ps1) that record the package version; strip -beta / -betaN there too. The SBOM
+            # keeps its serialNumber and gets its BOM version incremented, as CycloneDX asks of a modified BOM.
+            # The unmodified build-time BOM is the one windows.yml attests.
+            pkg="$PWD/$f"
+            extra_entries=$(unzip -Z1 "$f" | grep -E '^(sbom/[^/]+\.cdx\.json|THIRD-PARTY-NOTICES\.txt)$' || true)
+            while IFS= read -r entry; do
+              [ -n "$entry" ] || continue
+              unzip -q -o "$f" "$entry" -d "$tmpdir/payload"
+              local_entry="$tmpdir/payload/$entry"
+              case "$entry" in
+                *.cdx.json) python3 "$strip_bom" "$local_entry" ;;
+                *) sed -i -E 's/([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{8})-beta-?[0-9]*/\1/g' "$local_entry" ;;
+              esac
+              # Same entry name, so zip replaces it in place
+              (cd "$tmpdir/payload" && zip -q "$pkg" "$entry")
+            done <<< "$extra_entries"
             rm -rf "$tmpdir"
 
             newname=$(echo "$f" | sed -E 's/-beta-?[0-9]*//')

@@ -306,13 +306,11 @@ jobs:
       - name: Compute package version
         shell: pwsh
         run: |
-          # Shared by the SBOM and the packages. publish_nuget.yml releases these packages with the
-          # -beta suffix stripped, so the SBOM records the version without it. UTC, so that the x64 and
-          # arm64 jobs agree on the date.
+          # Shared by the SBOM and the packages, so the SBOM records the version the packages are built
+          # with. When publish_nuget.yml strips -beta for a release, it strips it from the packed SBOM
+          # and notices too. UTC, so that the x64 and arm64 jobs agree on the date.
           $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
-          $base = "${env:OPENCV_VERSION}.${date}"
-          "PACKAGE_VERSION_BASE=$base" >> $env:GITHUB_ENV
-          "PACKAGE_VERSION=$base-beta" >> $env:GITHUB_ENV
+          "PACKAGE_VERSION=${env:OPENCV_VERSION}.${date}-beta" >> $env:GITHUB_ENV
 
       # Best-effort: derived from the linker maps, vcpkg port metadata and OpenCV's license files.
       # See the KNOWN GAPS section in scripts/generate_sbom.ps1 for what it cannot see.
@@ -320,7 +318,7 @@ jobs:
         shell: pwsh
         run: |
           $common = @{
-            PackageVersion    = $env:PACKAGE_VERSION_BASE
+            PackageVersion    = $env:PACKAGE_VERSION
             RuntimeIdentifier = 'win-x64'
             Triplet           = 'x64-windows-static'
             OpenCvInstallDir  = 'opencv_artifacts'
@@ -369,7 +367,8 @@ jobs:
       # copy can check where it came from: gh attestation verify OpenCvSharpExtern.dll -R shimat/opencvsharp
       # The .nupkg files are not attested: publish_nuget.yml rewrites them and nuget.org re-signs them, which
       # changes their hashes, while the DLLs inside stay byte-identical. Skipped for pull requests (fork PRs
-      # get no OIDC token).
+      # get no OIDC token). The attested SBOMs are the build-time originals with the -beta version; a release
+      # packs the same BOM (same serialNumber) with -beta stripped and its BOM version incremented to 2.
       - name: Attest build provenance
         if: github.event_name != 'pull_request'
         uses: actions/attest-build-provenance@v4
