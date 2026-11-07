@@ -270,4 +270,110 @@ public class BitmapConverterTest : TestBase
         Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1]), 9);
         Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2]), 9);
     }
+
+    /// <summary>
+    /// GDI+ pads 8bpp rows to a 4-byte boundary. ToMat must copy only the logical width of each row,
+    /// otherwise it writes past the end of each dst row (and past the end of the dst buffer).
+    /// </summary>
+    [Theory]
+    [InlineData(1, 1)]
+    [InlineData(1, 3)]
+    [InlineData(2, 2)]
+    [InlineData(3, 4)]
+    [InlineData(5, 3)]
+    [InlineData(7, 2)]
+    [InlineData(8, 2)]
+    // ReSharper disable once InconsistentNaming
+    public void ToMat8bppIndexedDoesNotWritePastDstRows(int width, int height)
+    {
+        const byte Guard = 0xCC;
+        const int GuardLength = 8;
+
+        using var bitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+        var palette = bitmap.Palette;
+        for (var i = 0; i < 256; i++)
+            palette.Entries[i] = Color.FromArgb(i ^ 0x5A, i ^ 0x5A, i ^ 0x5A);
+        bitmap.Palette = palette;
+
+        var expected = new byte[width * height];
+        var bits = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+        try
+        {
+            var stride = Math.Abs(bits.Stride);
+            var row = new byte[stride];
+            for (var y = 0; y < height; y++)
+            {
+                for (var i = 0; i < row.Length; i++)
+                    row[i] = 0xFF; // padding bytes
+                for (var x = 0; x < width; x++)
+                {
+                    var index = (byte)(y * width + x + 1);
+                    row[x] = index;
+                    expected[y * width + x] = (byte)(index ^ 0x5A);
+                }
+                Marshal.Copy(row, 0, bits.Scan0 + y * bits.Stride, stride);
+            }
+        }
+        finally
+        {
+            bitmap.UnlockBits(bits);
+        }
+
+        var guarded = new byte[width * height + GuardLength];
+        for (var i = 0; i < guarded.Length; i++)
+            guarded[i] = Guard;
+        using (var mat = Mat.FromPixelData(height, width, MatType.CV_8UC1, guarded))
+        {
+            BitmapConverter.ToMat(bitmap, mat);
+        }
+
+        for (var i = 0; i < expected.Length; i++)
+            Assert.Equal(expected[i], guarded[i]);
+        for (var i = expected.Length; i < guarded.Length; i++)
+            Assert.Equal(Guard, guarded[i]);
+    }
+
+    [Theory]
+    [InlineData(1, 1)]
+    [InlineData(3, 2)]
+    [InlineData(5, 3)]
+    // ReSharper disable once InconsistentNaming
+    public void ToMat8bppIndexed8UC3DoesNotCorruptMemory(int width, int height)
+    {
+        using var bitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+        var palette = bitmap.Palette;
+        for (var i = 0; i < 256; i++)
+            palette.Entries[i] = Color.FromArgb(i, 255 - i, i / 2);
+        bitmap.Palette = palette;
+        var bits = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+        try
+        {
+            for (var y = 0; y < height; y++)
+            {
+                var row = new byte[Math.Abs(bits.Stride)];
+                for (var x = 0; x < width; x++)
+                    row[x] = (byte)(y * width + x + 1);
+                Marshal.Copy(row, 0, bits.Scan0 + y * bits.Stride, row.Length);
+            }
+        }
+        finally
+        {
+            bitmap.UnlockBits(bits);
+        }
+
+        using var mat = new Mat(height, width, MatType.CV_8UC3);
+        BitmapConverter.ToMat(bitmap, mat);
+
+        for (var y = 0; y < height; y++)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                var i = y * width + x + 1;
+                var v = mat.Get<Vec3b>(y, x);
+                Assert.Equal(i / 2, v.Item0); // B
+                Assert.Equal(255 - i, v.Item1); // G
+                Assert.Equal(i, v.Item2); // R
+            }
+        }
+    }
 }

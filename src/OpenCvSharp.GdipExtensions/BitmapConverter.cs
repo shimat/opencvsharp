@@ -141,7 +141,7 @@ public static class BitmapConverter
         // ReSharper disable once InconsistentNaming
         void Format8bppIndexed()
         {
-            static void Ch1(Mat dst, int height, int srcStep, uint dstStep, IntPtr srcData, byte[] palette)
+            static void Ch1(Mat dst, int width, int height, int srcStep, uint dstStep, IntPtr srcData, byte[] palette)
             {
                 if (dstStep == srcStep && !dst.IsSubmatrix() && dst.IsContinuous())
                 {
@@ -161,15 +161,19 @@ public static class BitmapConverter
                     // Copy line bytes from src to dst for each line
                     var sp = (byte*) srcData;
                     var dp = (byte*) dst.Data;
-                    var buffer = new byte[srcStep];
+                    // GDI+ pads each 8bpp row to a 4-byte boundary (srcStep >= width),
+                    // so only the logical pixel width may be copied into the dst row.
+                    // The stride is used solely to advance the source pointer.
+                    var buffer = new byte[width];
                     for (var y = 0; y < height; y++)
                     {
                         // Read Bitmap pixel data to managed array
-                        Marshal.Copy(new IntPtr(sp), buffer, 0, buffer.Length);
+                        Marshal.Copy(new IntPtr(sp), buffer, 0, width);
                         // Apply conversion by palette 
-                        buffer = buffer.Select(b => palette[b]).ToArray();
+                        for (var x = 0; x < width; x++)
+                            buffer[x] = palette[buffer[x]];
                         // Write to dst Mat
-                        Marshal.Copy(buffer, 0, new IntPtr(dp), buffer.Length);
+                        Marshal.Copy(buffer, 0, new IntPtr(dp), width);
 
                         sp += srcStep;
                         dp += dstStep;
@@ -191,7 +195,7 @@ public static class BitmapConverter
                     // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
                     palette[i] = src.Palette.Entries[i].R;
                 }
-                Ch1(dst, h, srcStep, dstStep, bd.Scan0, palette);
+                Ch1(dst, w, h, srcStep, dstStep, bd.Scan0, palette);
             }
             else if (channels == 3)
             {
@@ -212,9 +216,9 @@ public static class BitmapConverter
                 using var dstG = new Mat(h, w, MatType.CV_8UC1);
                 using var dstB = new Mat(h, w, MatType.CV_8UC1);
 
-                Ch1(dstR, h, srcStep, (uint)dstR.Step(), bd.Scan0, paletteR);
-                Ch1(dstG, h, srcStep, (uint)dstG.Step(), bd.Scan0, paletteG);
-                Ch1(dstB, h, srcStep, (uint)dstB.Step(), bd.Scan0, paletteB);
+                Ch1(dstR, w, h, srcStep, (uint)dstR.Step(), bd.Scan0, paletteR);
+                Ch1(dstG, w, h, srcStep, (uint)dstG.Step(), bd.Scan0, paletteG);
+                Ch1(dstB, w, h, srcStep, (uint)dstB.Step(), bd.Scan0, paletteB);
                 Cv2.Merge([dstB, dstG, dstR], dst);
             }
             else
