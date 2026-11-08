@@ -124,11 +124,11 @@ jobs:
           # Depth 3 includes files at depth 4 relative to the working directory.
           $packages = @(Get-ChildItem -LiteralPath . -Depth 3 -File -Force |
               Where-Object { $_.Name -clike '*.nupkg' })
-          $skipPlatforms = $env:SKIP_PLATFORMS -split ','
+          $skipPlatforms = $env:SKIP_PLATFORMS -split ',' | ForEach-Object { $_.Trim() }
           $failed = 0
 
           foreach ($platform in $requiredPackages.Keys) {
-              if ($platform -ne 'windows' -and $skipPlatforms -ccontains $platform) {
+              if ($platform -ne 'windows' -and $skipPlatforms -icontains $platform) {
                   Write-Output "skip_platforms: skipping $platform package checks"
                   continue
               }
