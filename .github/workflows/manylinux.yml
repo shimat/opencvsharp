@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - codex/pr2191-dry-run
 
 permissions:
   contents: read
@@ -359,12 +360,12 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the manylinux-built binaries.
-  # Only runs on push to main.
+  # Runs on push to main and the temporary validation branch.
   # ---------------------------------------------------------------------------
   nuget:
     name: Linux (nuget)
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/pr2191-dry-run')
     runs-on: ubuntu-26.04
 
     steps:
