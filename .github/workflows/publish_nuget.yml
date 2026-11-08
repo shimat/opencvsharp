@@ -256,6 +256,18 @@ jobs:
             *.snupkg
           retention-days: 7
 
+      - name: Upload Windows x64 linker maps
+        if: ${{ !inputs.keep_beta }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-windows-linker-maps
+          path: |
+            OpenCvSharpExtern-win-x64-full.map
+            OpenCvSharpExtern-win-x64-slim.map
+            windows-x64-dll-sha256.txt
+          if-no-files-found: error
+          retention-days: 7
+
   # ---------------------------------------------------------------------------
   # Consume the actual, about-to-be-published .nupkg files as a real PackageReference
   # (against a local feed, not a ProjectReference against source) before anything gets
@@ -337,12 +349,20 @@ jobs:
       - name: Push to nuget.org
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+          KEEP_BETA: ${{ inputs.keep_beta }}
         run: |
           # Keep processing the remaining packages if one push fails.
           $PSNativeCommandUseErrorActionPreference = $false
           $counts = [ordered]@{ Pushed = 0; Skipped = 0; Failed = 0 }
           @('## Push Results', '| Package | Status |', '|---------|--------|') |
               Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+
+          function Get-NativeDllHash([System.IO.Compression.ZipArchive] $archive) {
+              $entry = $archive.GetEntry('runtimes/win-x64/native/OpenCvSharpExtern.dll')
+              $stream = $entry.Open()
+              try { (Get-FileHash -InputStream $stream).Hash }
+              finally { $stream.Dispose() }
+          }
 
           # dotnet nuget push also uploads any matching .snupkg in the same directory.
           foreach ($package in (Get-ChildItem -File -Filter '*.nupkg' | Sort-Object Name)) {
@@ -354,6 +374,32 @@ jobs:
               $status = if ($pushExitCode -ne 0) { 'Failed' }
                   elseif ($output -match 'already exists') { 'Skipped' }
                   else { 'Pushed' }
+
+              # A duplicate version can come from another build. Only attach its map if the DLL matches.
+              if ($status -eq 'Skipped' -and $env:KEEP_BETA -ne 'true' -and
+                  $package.Name -cmatch '^(OpenCvSharp5\.runtime\.win(?:\.slim)?)\.([0-9]+\.[0-9]+\.[0-9]+\.[0-9]{8})\.nupkg$') {
+                  try {
+                      $id = $Matches[1].ToLowerInvariant()
+                      $version = $Matches[2]
+                      $index = Invoke-RestMethod https://api.nuget.org/v3/index.json
+                      $base = ($index.resources | Where-Object { $_.'@type' -eq 'PackageBaseAddress/3.0.0' } |
+                          Select-Object -First 1).'@id'
+                      $response = Invoke-WebRequest "${base}$id/$version/$id.$version.nupkg" -MaximumRetryCount 3 -RetryIntervalSec 10
+                      $response.RawContentStream.Position = 0
+                      $published = [System.IO.Compression.ZipArchive]::new($response.RawContentStream)
+                      try {
+                          $local = [System.IO.Compression.ZipFile]::OpenRead($package.FullName)
+                          try {
+                              if ((Get-NativeDllHash $local) -ne (Get-NativeDllHash $published)) {
+                                  throw 'Published DLL differs from the DLL built with the linker map.'
+                              }
+                          } finally { $local.Dispose() }
+                      } finally { $published.Dispose() }
+                  } catch {
+                      Write-Output "Could not verify the published DLL for $($package.Name): $_"
+                      $status = 'Failed'
+                  }
+              }
               $counts[$status]++
               Write-Output ('{0}: {1}' -f $status, $package.Name)
               '| {0} | {1} |' -f $package.Name, $status | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
@@ -382,6 +428,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Download Windows x64 linker maps
+        uses: actions/download-artifact@v8
+        with:
+          name: release-windows-linker-maps
+
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -393,37 +444,48 @@ jobs:
 
           $releaseVersion = $env:RELEASE_VERSION
           $sourceCommit = $env:GITHUB_SHA
+          $assets = @(
+              'OpenCvSharpExtern-win-x64-full.map'
+              'OpenCvSharpExtern-win-x64-slim.map'
+              'windows-x64-dll-sha256.txt'
+          )
+          Get-Item -LiteralPath $assets | Out-Null
 
           # --target only applies to a new tag. Check an existing tag before using it.
           $tagCommit = git rev-parse --verify --quiet "refs/tags/${releaseVersion}^{commit}"
+          if ($LASTEXITCODE -eq 0 -and $tagCommit -cne $sourceCommit) {
+              throw "Tag $releaseVersion points to $tagCommit, expected $sourceCommit"
+          }
+
+          $releaseJson = gh release view $releaseVersion --json isDraft,targetCommitish,assets 2>$null
           if ($LASTEXITCODE -eq 0) {
-              if ($tagCommit -cne $sourceCommit) {
-                  Write-Output "Tag $releaseVersion points to $tagCommit, expected $sourceCommit"
-                  exit 1
-              }
-              $isDraft = gh release view $releaseVersion --json isDraft --jq .isDraft
-              if ($LASTEXITCODE -eq 0) {
-                  if ($isDraft -ceq 'false') {
-                      Write-Output "GitHub Release $releaseVersion already exists"
-                      exit 0
+              $release = $releaseJson | ConvertFrom-Json
+              if (-not $release.isDraft) {
+                  if ($tagCommit -cne $sourceCommit -or ($assets | Where-Object { $_ -cnotin $release.assets.name })) {
+                      throw "Published Release $releaseVersion has an unexpected tag or missing assets"
                   }
-                  Write-Output "A draft already exists for $releaseVersion. Review and publish it on GitHub."
-                  exit 1
+                  Write-Output "GitHub Release $releaseVersion already exists with its assets"
+                  exit 0
               }
+              if ($release.targetCommitish -cne $sourceCommit) {
+                  throw "Draft Release $releaseVersion does not target $sourceCommit"
+              }
+          } else {
+              # Stay on this commit's history and use the highest older stable 5.x tag.
+              $tags = git tag --merged $sourceCommit --sort=-version:refname --list '5.*'
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+              $previousTag = $tags | Where-Object {
+                  $_ -cmatch '^5\.[0-9]+\.[0-9]+\.[0-9]{8}$' -and [version]$_ -lt [version]$releaseVersion
+              } | Select-Object -First 1
+              if (-not $previousTag) {
+                  throw "No previous stable 5.x tag found in the history of $sourceCommit"
+              }
+              gh release create $releaseVersion --target $sourceCommit --generate-notes --notes-start-tag $previousTag --draft
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
 
-          # Stay on this commit's history and use the highest older stable 5.x tag.
-          $tags = git tag --merged $sourceCommit --sort=-version:refname --list '5.*'
-          if ($LASTEXITCODE -ne 0) {
-              exit $LASTEXITCODE
-          }
-          $previousTag = $tags | Where-Object {
-              $_ -cmatch '^5\.[0-9]+\.[0-9]+\.[0-9]{8}$' -and [version]$_ -lt [version]$releaseVersion
-          } | Select-Object -First 1
-          if (-not $previousTag) {
-              Write-Output "No previous stable 5.x tag found in the history of $sourceCommit"
-              exit 1
-          }
-
-          gh release create $releaseVersion --target $sourceCommit --generate-notes --notes-start-tag $previousTag
+          # A failed upload leaves a draft that the next attempt can resume.
+          gh release upload $releaseVersion @assets --clobber
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          gh release edit $releaseVersion --draft=false
           exit $LASTEXITCODE
