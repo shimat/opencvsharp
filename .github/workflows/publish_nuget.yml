@@ -3,6 +3,10 @@ name: Publish NuGet
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Prepare and smoke-test packages without publishing"
+        type: boolean
+        default: false
       keep_beta:
         description: "Publish with the -beta suffix kept (pre-release)"
         type: boolean
@@ -305,6 +309,7 @@ jobs:
 
   Publish:
     needs: [Prepare, PackageSmokeTest]
+    if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-26.04
     environment: nuget-production
     permissions:
