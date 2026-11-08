@@ -301,4 +301,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_VERSION: ${{ needs.Prepare.outputs.version }}
-        run: bash scripts/publish-github-release.sh
+        shell: pwsh
+        run: ./.github/scripts/publish-github-release.ps1
