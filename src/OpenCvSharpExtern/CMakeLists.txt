@@ -98,7 +98,11 @@ if(OpenCV_FOUND)
 	#set(LIBS ${LIBS} ${OpenCV_LIBRARIES})
 
 	if(CMAKE_GENERATOR MATCHES "Visual Studio")
-		set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib")
+		# The Visual Studio project template's default libraries, minus odbc32.lib and odbccp32.lib: nothing here
+		# uses ODBC. odbccp32.lib is a static library that carries its own copies of the CRT's Control Flow Guard
+		# objects (guard_*.obj); listed ahead of the CRT, it supplied those instead of LIBCMT, as the linker map
+		# that scripts/generate_sbom.ps1 reads showed.
+		set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib")
 	endif()
 
 	if(EMSCRIPTEN)

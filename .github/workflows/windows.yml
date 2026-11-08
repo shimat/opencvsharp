@@ -313,7 +313,9 @@ jobs:
           "PACKAGE_VERSION=${env:OPENCV_VERSION}.${date}-beta" >> $env:GITHUB_ENV
 
       # Best-effort: derived from the linker maps, vcpkg port metadata and OpenCV's license files.
-      # See the KNOWN GAPS section in scripts/generate_sbom.ps1 for what it cannot see.
+      # See the KNOWN GAPS section in scripts/generate_sbom.ps1 for what it cannot see. A linked library that the
+      # script cannot attribute fails the build, so a new dependency gets classified instead of shipping as
+      # "unresolved".
       - name: Generate SBOM and third-party notices
         shell: pwsh
         run: |
@@ -323,6 +325,7 @@ jobs:
             Triplet           = 'x64-windows-static'
             OpenCvInstallDir  = 'opencv_artifacts'
             VcpkgInstalledDir = 'vcpkg_installed'
+            FailOnUnresolved  = $true
           }
           ./scripts/generate_sbom.ps1 @common `
             -PackageId OpenCvSharp5.runtime.win `

@@ -13,6 +13,7 @@
         <library>:<object>. A static library whose objects were all left out does not appear at all.
       * Each library is attributed to a component:
           - opencv_<module>*.lib            -> OpenCV, or opencv_contrib if opencv_contrib/modules/<module> exists
+          - ipphal.lib (opencv/hal/ipp)     -> OpenCV
           - a library installed by vcpkg    -> that vcpkg port (vcpkg_installed/vcpkg/info/*.list); version,
                                                declared license and upstream source come from the port's
                                                share/<port>/vcpkg.spdx.json
@@ -344,7 +345,16 @@ $bundledTable = @(
 # License file patterns for components that are not static libraries.
 $ffmpegLicenseFiles = @('ffmpeg-*')
 
+# Static libraries that OpenCV builds from its own sources outside modules/. ipphal is the IPP HAL (opencv/hal/ipp):
+# OpenCV code under the OpenCV license that calls into IPP ICV/IW, which are listed separately above.
+$openCvOwnLibraryPattern = '^ipphal$'
+
 $runtimePattern = '^(libcmt|libcpmt1?|libconcrt|libvcruntime|libucrt|oldnames|legacy_stdio_definitions|msvcrt|msvcprt|vcruntime|ucrt|concrt|delayimp)d?$'
+# vcomp.lib is the import library of the MSVC OpenMP runtime (VCOMP140.DLL) plus one static object, unique.obj. A
+# dependency compiled with /openmp names it as a default library, so unique.obj can be linked although nothing calls
+# OpenMP; that alone counts as MSVC runtime. A VCOMP140.DLL import is left unresolved instead: that DLL is neither a
+# Windows system DLL nor shipped in the package.
+$openMpRuntimePattern = '^vcompd?$'
 $sdkStaticPattern = '^(uuid|strmiids|mfuuid|dxguid|wbemuuid|comsuppw?|ksguid|ksuser)$'
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -460,10 +470,14 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
     $objects = $map.Libraries[$library]
     $component = $null
     $label = $null
+    $importedDlls = @($objects | Where-Object { $_.EndsWith('.dll', [System.StringComparison]::OrdinalIgnoreCase) })
 
     if ($library -match '^opencv_(?<module>[a-z0-9_]+?)\d*$') {
         $isContrib = Test-Path -LiteralPath (Join-Path $contribModules $Matches.module)
         $component = Get-OpenCvComponent $isContrib
+    }
+    elseif ($library -match $openCvOwnLibraryPattern) {
+        $component = Get-OpenCvComponent $false
     }
     elseif ($vcpkg.LibraryToPort.ContainsKey($library)) {
         $component = Get-VcpkgComponent $vcpkg.LibraryToPort[$library]
@@ -476,13 +490,13 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
             $properties['LicenseFilePatterns'] = $entry.LicenseFiles
             $component = Get-Component "bundled-$($entry.Id)" $properties
         }
-        elseif ($library -match $runtimePattern) {
+        elseif ($library -match $runtimePattern -or ($library -match $openMpRuntimePattern -and $importedDlls.Count -eq 0)) {
             $component = Get-Component 'msvc-runtime' @{
                 Kind = 'msvc-runtime'; Name = 'Microsoft C/C++ runtime libraries (static)'; Supplier = 'Microsoft Corporation'
                 Comment = 'Static CRT/STL from the MSVC toolset and Windows SDK used for the build. Their terms are Microsoft license terms that have no SPDX identifier.'
             }
         }
-        elseif (@($objects | Where-Object { -not $_.EndsWith('.dll', [System.StringComparison]::OrdinalIgnoreCase) }).Count -eq 0) {
+        elseif ($library -notmatch $openMpRuntimePattern -and $importedDlls.Count -eq $objects.Count) {
             foreach ($o in $objects) { [void]$systemImports.Add($o) }
             $label = 'Windows import library (DLL imports only)'
         }
@@ -491,7 +505,10 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
         }
         else {
             $hint = 'It was found neither in the vcpkg install tree nor among the libraries this script knows OpenCV to bundle.'
-            if ($openCvLibraries.ContainsKey($library)) {
+            if ($library -match $openMpRuntimePattern) {
+                $hint = "The DLL imports the MSVC OpenMP runtime ($($importedDlls -join ', ')), which is neither a Windows system DLL nor shipped in the package."
+            }
+            elseif ($openCvLibraries.ContainsKey($library)) {
                 $relative = $openCvLibraries[$library].Substring($OpenCvInstallDir.Length).TrimStart('\', '/').Replace('\', '/')
                 $hint = "It is installed by the OpenCV build ($relative), probably from opencv/3rdparty, but is not in this script's table of known bundled libraries."
             }
