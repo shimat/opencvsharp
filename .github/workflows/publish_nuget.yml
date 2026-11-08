@@ -85,11 +85,13 @@ jobs:
       - name: Validate expected packages exist
         env:
           SKIP_PLATFORMS: ${{ inputs.skip_platforms }}
-        run: bash -e scripts/validate-nuget-packages.sh
+        shell: pwsh
+        run: ./.github/scripts/validate-nuget-packages.ps1
 
       - name: Strip beta suffix from packages
         if: ${{ !inputs.keep_beta }}
-        run: bash -e scripts/strip-nuget-beta-suffix.sh
+        shell: pwsh
+        run: ./.github/scripts/strip-nuget-beta-suffix.ps1
 
       - name: Verify no beta versions remain
         if: ${{ !inputs.keep_beta }}
