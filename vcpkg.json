@@ -1,6 +1,17 @@
 {
   "dependencies": [
     "tesseract",
+    {
+      "$comment": "Tesseract asks for libarchive and curl without default features, but vcpkg drops a port's default features only when the top-level manifest asks for that too. Without these two entries, libarchive's defaults (crypto -> OpenSSL, xar, bzip2, lz4, zstd, lzma) and curl's (ssl, non-http) are statically linked into OpenCvSharpExtern. OpenCV's text module never gives Tesseract a URL (curl), and Tesseract uses libarchive only to try each .traineddata file as an archive first: plain files and zip/gzip archives still load, archives compressed with bzip2, xz, lz4 or zstd may not. Windows only: scripts/generate_sbom.ps1 checks the result there, and the macOS build links lz4 and zstd explicitly (macos.yml).",
+      "name": "libarchive",
+      "default-features": false,
+      "platform": "windows"
+    },
+    {
+      "name": "curl",
+      "default-features": false,
+      "platform": "windows"
+    },
     "zlib",
     "libpng",
     {
