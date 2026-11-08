@@ -3,6 +3,10 @@ name: Publish NuGet
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Prepare and smoke-test packages without publishing"
+        type: boolean
+        default: false
       keep_beta:
         description: "Publish with the -beta suffix kept (pre-release)"
         type: boolean
@@ -15,6 +19,10 @@ on:
 permissions:
   actions: read
   contents: read
+
+defaults:
+  run:
+    shell: pwsh
 
 jobs:
   Prepare:
@@ -77,151 +85,148 @@ jobs:
           name: nuget-packages-manylinux
           commit: ${{ github.sha }}
 
-      - run: |
-          ls -l
-
       - name: Validate expected packages exist
         env:
           SKIP_PLATFORMS: ${{ inputs.skip_platforms }}
         run: |
-          set -euo pipefail
-
-          failed=0
-          check_package() {
-            local pattern="$1"
-            local count
-            count=$(find "$PWD" -maxdepth 4 -type f -name "${pattern}" | wc -l)
-            if [ "$count" -eq 0 ]; then
-              echo "MISSING: $pattern"
-              failed=$((failed + 1))
-            else
-              echo "OK: $pattern"
-            fi
+          $requiredPackages = [ordered]@{
+              windows = @(
+                  'OpenCvSharp5.5.*.nupkg'
+                  'OpenCvSharp5.GdipExtensions.*.nupkg'
+                  'OpenCvSharp5.WpfExtensions.*.nupkg'
+                  'OpenCvSharp5.AvaloniaExtensions.*.nupkg'
+                  'OpenCvSharp5.runtime.win.[0-9]*.nupkg'
+                  'OpenCvSharp5.runtime.win-arm64.[0-9]*.nupkg'
+                  'OpenCvSharp5.runtime.win-arm64.slim.*.nupkg'
+                  'OpenCvSharp5.runtime.win.slim.*.nupkg'
+                  'OpenCvSharp5.Windows.[0-9]*.nupkg'
+                  'OpenCvSharp5.Windows.Slim.*.nupkg'
+              )
+              'linux-arm64' = @(
+                  'OpenCvSharp5.runtime.linux-arm.*.nupkg'
+                  'OpenCvSharp5.runtime.linux-arm64.*.nupkg'
+              )
+              wasm = @('OpenCvSharp5.runtime.wasm.*.nupkg')
+              manylinux = @(
+                  'OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg'
+                  'OpenCvSharp5.official.runtime.linux-x64.headless.*.nupkg'
+                  'OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg'
+                  'OpenCvSharp5.official.runtime.linux-arm64.[0-9]*.nupkg'
+                  'OpenCvSharp5.official.runtime.linux-arm64.headless.*.nupkg'
+                  'OpenCvSharp5.official.runtime.linux-arm64.slim.*.nupkg'
+              )
+              macos = @(
+                  'OpenCvSharp5.runtime.osx.x64.*.nupkg'
+                  'OpenCvSharp5.runtime.osx.arm64.*.nupkg'
+              )
           }
 
-          skip_has() {
-            case ",${SKIP_PLATFORMS}," in
-              *",$1,"*) return 0 ;;
-              *) return 1 ;;
-            esac
+          # Depth 3 includes files at depth 4 relative to the working directory.
+          $packages = @(Get-ChildItem -LiteralPath . -Depth 3 -File -Force |
+              Where-Object { $_.Name -clike '*.nupkg' })
+          $skipPlatforms = $env:SKIP_PLATFORMS -split ',' | ForEach-Object { $_.Trim() }
+          $failed = 0
+
+          foreach ($platform in $requiredPackages.Keys) {
+              if ($platform -ne 'windows' -and $skipPlatforms -icontains $platform) {
+                  Write-Output "skip_platforms: skipping $platform package checks"
+                  continue
+              }
+
+              foreach ($pattern in $requiredPackages[$platform]) {
+                  if ($packages.Name -clike $pattern) {
+                      Write-Output "OK: $pattern"
+                  } else {
+                      Write-Output "MISSING: $pattern"
+                      $failed++
+                  }
+              }
           }
 
-          check_package "OpenCvSharp5.5.*.nupkg"
-          check_package "OpenCvSharp5.GdipExtensions.*.nupkg"
-          check_package "OpenCvSharp5.WpfExtensions.*.nupkg"
-          check_package "OpenCvSharp5.AvaloniaExtensions.*.nupkg"
-          check_package "OpenCvSharp5.runtime.win.[0-9]*.nupkg"
-          check_package "OpenCvSharp5.runtime.win-arm64.[0-9]*.nupkg"
-          check_package "OpenCvSharp5.runtime.win-arm64.slim.*.nupkg"
-          check_package "OpenCvSharp5.runtime.win.slim.*.nupkg"
-          check_package "OpenCvSharp5.Windows.[0-9]*.nupkg"
-          check_package "OpenCvSharp5.Windows.Slim.*.nupkg"
-
-          if skip_has linux-arm64; then
-            echo "skip_platforms: skipping linux-arm64 package checks"
-          else
-            check_package "OpenCvSharp5.runtime.linux-arm.*.nupkg"
-            check_package "OpenCvSharp5.runtime.linux-arm64.*.nupkg"
-          fi
-
-          if skip_has wasm; then
-            echo "skip_platforms: skipping wasm package checks"
-          else
-            check_package "OpenCvSharp5.runtime.wasm.*.nupkg"
-          fi
-
-          if skip_has manylinux; then
-            echo "skip_platforms: skipping manylinux package checks"
-          else
-            check_package "OpenCvSharp5.official.runtime.linux-x64.[0-9]*.nupkg"
-            check_package "OpenCvSharp5.official.runtime.linux-x64.headless.*.nupkg"
-            check_package "OpenCvSharp5.official.runtime.linux-x64.slim.*.nupkg"
-            check_package "OpenCvSharp5.official.runtime.linux-arm64.[0-9]*.nupkg"
-            check_package "OpenCvSharp5.official.runtime.linux-arm64.headless.*.nupkg"
-            check_package "OpenCvSharp5.official.runtime.linux-arm64.slim.*.nupkg"
-          fi
-
-          if skip_has macos; then
-            echo "skip_platforms: skipping macos package checks"
-          else
-            check_package "OpenCvSharp5.runtime.osx.x64.*.nupkg"
-            check_package "OpenCvSharp5.runtime.osx.arm64.*.nupkg"
-          fi
-
-          if [ "$failed" -gt 0 ]; then
-            echo ""
-            echo "ERROR: $failed package validation issue(s). Detected .nupkg files:"
-            find "$PWD" -maxdepth 4 -type f -name "*.nupkg" -print
-            exit 1
-          fi
+          if ($failed -gt 0) {
+              Write-Output ''
+              Write-Output "ERROR: $failed package validation issue(s). Detected .nupkg files:"
+              $packages.FullName
+              exit 1
+          }
 
       - name: Strip beta suffix from packages
         if: ${{ !inputs.keep_beta }}
         run: |
-          set -euo pipefail
-          shopt -s nullglob
+          $packages = Get-ChildItem -LiteralPath . -File |
+              Where-Object { $_.Name -cmatch '-beta.*\.s?nupkg$' } |
+              Sort-Object Extension, Name
 
-          for f in *.nupkg *.snupkg; do
-            case "$f" in
-              *-beta*) ;;
-              *) continue ;;
-            esac
+          foreach ($package in $packages) {
+              if ($package.Name -cnotmatch '^OpenCvSharp5\..*[0-9]{8}-beta[0-9]*\.s?nupkg$') {
+                  Write-Output "ERROR: Unexpected -beta package file name: $($package.Name)"
+                  exit 1
+              }
 
-            if ! [[ "$f" =~ ^OpenCvSharp5\..*[0-9]{8}-beta[0-9]*\.s?nupkg$ ]]; then
-              echo "ERROR: Unexpected -beta package file name: $f"
-              exit 1
-            fi
+              $archive = [System.IO.Compression.ZipFile]::Open($package.FullName, 'Update')
+              try {
+                  $nuspecs = @($archive.Entries | Where-Object { $_.FullName -clike '*.nuspec' })
+                  if ($nuspecs.Count -gt 1) {
+                      throw "Multiple .nuspec entries in $($package.Name)"
+                  }
+                  if ($nuspecs.Count -eq 1) {
+                      $entry = $nuspecs[0]
+                      $entryName = $entry.Name
+                      # Use a byte-preserving encoding because the replacements only touch ASCII.
+                      $encoding = [System.Text.Encoding]::Latin1
+                      $reader = [System.IO.StreamReader]::new($entry.Open(), $encoding, $false)
+                      try {
+                          $nuspec = $reader.ReadToEnd()
+                      } finally {
+                          $reader.Dispose()
+                      }
 
-            tmpdir=$(mktemp -d)
-            nuspec_entry=$(unzip -Z1 "$f" | grep '\.nuspec$' || true)
-            if [ -n "$nuspec_entry" ]; then
-              nuspec_local="$tmpdir/$(basename "$nuspec_entry")"
-              unzip -p "$f" "$nuspec_entry" > "$nuspec_local"
+                      # Strip the package's own beta suffix and, except for ubuntu packages, dependency suffixes.
+                      $nuspec = $nuspec -creplace '(?m)^([^\r\n]*?)-beta-?[0-9]*(</version>)', '$1$2'
+                      if ($package.Name -cnotlike '*ubuntu*') {
+                          $nuspec = $nuspec -creplace '(version="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{8})-beta-?[0-9]*', '$1'
+                      }
 
-              # Strip -beta / -betaN from the package's own <version>
-              sed -i -E 's/-beta-?[0-9]*(<\/version>)/\1/' "$nuspec_local"
+                      $entry.Delete()
+                      $writer = [System.IO.StreamWriter]::new($archive.CreateEntry($entryName).Open(), $encoding)
+                      try {
+                          $writer.Write($nuspec)
+                      } finally {
+                          $writer.Dispose()
+                      }
+                  }
+              } finally {
+                  $archive.Dispose()
+              }
 
-              # Strip -beta / -betaN from dependency version references (meta-packages), except ubuntu/manylinux ones
-              case "$f" in
-                *ubuntu*) ;;
-                *) sed -i -E 's/(version="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{8})-beta-?[0-9]*/\1/g' "$nuspec_local" ;;
-              esac
-
-              # Replace the existing .nuspec entry in place without touching the rest of the archive
-              zip -q -d "$f" "$nuspec_entry"
-              zip -q -j "$f" "$nuspec_local"
-            fi
-            rm -rf "$tmpdir"
-
-            newname=$(echo "$f" | sed -E 's/-beta-?[0-9]*//')
-            mv "$f" "$newname"
-          done
+              $newName = [regex]::new('-beta-?[0-9]*').Replace($package.Name, '', 1)
+              Move-Item -LiteralPath $package.FullName -Destination (Join-Path $package.DirectoryName $newName) -Force
+          }
 
       - name: Verify no beta versions remain
         if: ${{ !inputs.keep_beta }}
         run: |
-          if find . -maxdepth 1 -name "*-beta*" -type f | grep -q .; then
-            echo "ERROR: beta packages still exist after rename"
-            find . -maxdepth 1 -name "*-beta*" -type f
-            exit 1
-          fi
+          $betaFiles = Get-ChildItem -File -Force | Where-Object { $_.Name -clike '*-beta*' }
+          if ($betaFiles) {
+              Write-Output 'ERROR: beta packages still exist after rename'
+              $betaFiles.FullName
+              exit 1
+          }
 
       - name: List packages to publish
         run: |
-          echo "=== Packages ready for publishing ==="
-          ls -lh *.nupkg *.snupkg 2>/dev/null || true
+          $packages = @(Get-ChildItem -File -Filter '*.nupkg')
+          $symbols = @(Get-ChildItem -File -Filter '*.snupkg')
+          $packages + $symbols | Select-Object Name, Length | Format-Table
 
-          echo "## NuGet Packages to Publish" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Package | Size |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------|------|" >> $GITHUB_STEP_SUMMARY
-          for f in *.nupkg; do
-            [ -f "$f" ] || continue
-            size=$(numfmt --to=iec --suffix=B --format="%.2f" "$(stat -c %s "$f")")
-            echo "| \`${f}\` | ${size} |" >> $GITHUB_STEP_SUMMARY
-          done
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Total:** $(find . -maxdepth 1 -name '*.nupkg' | wc -l) nupkg, $(find . -maxdepth 1 -name '*.snupkg' | wc -l) snupkg" >> $GITHUB_STEP_SUMMARY
+          @('## NuGet Packages to Publish', '', '| Package | Size |', '|---------|------|') |
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+          foreach ($package in $packages) {
+              '| {0} | {1:N2} MiB |' -f $package.Name, ($package.Length / 1MB) |
+                  Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+          }
+          @('', "**Total:** $($packages.Count) nupkg, $($symbols.Count) snupkg") |
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
       - name: Upload release packages
         uses: actions/upload-artifact@v7
@@ -271,29 +276,34 @@ jobs:
 
       - name: Determine package version
         id: version
-        shell: bash
         run: |
-          file=$(ls release-packages/OpenCvSharp5.[0-9]*.nupkg | head -1)
-          name=$(basename "$file")
-          version=${name#OpenCvSharp5.}
-          version=${version%.nupkg}
-          echo "Package version under test: $version"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          $package = Get-ChildItem -LiteralPath release-packages -File -Filter '*.nupkg' |
+              Where-Object { $_.Name -clike 'OpenCvSharp5.[0-9]*.nupkg' } |
+              Sort-Object Name | Select-Object -First 1
+          if (-not $package) {
+              throw 'OpenCvSharp5 package not found'
+          }
+          $version = $package.BaseName.Substring('OpenCvSharp5.'.Length)
+          Write-Output "Package version under test: $version"
+          "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Run package smoke test
-        shell: bash
         env:
           SMOKE_TEST_VERSION: ${{ steps.version.outputs.version }}
           SMOKE_TEST_RUNTIME_PACKAGE: ${{ matrix.runtime_package }}
         run: |
-          cd test/OpenCvSharp.PackageSmokeTest
-          dotnet run -c Release \
-            -p:RestoreAdditionalProjectSources="$GITHUB_WORKSPACE/release-packages" \
-            -p:SmokeTestPackageVersion="$SMOKE_TEST_VERSION" \
-            -p:SmokeTestRuntimePackage="$SMOKE_TEST_RUNTIME_PACKAGE"
+          $PSNativeCommandUseErrorActionPreference = $true
+          Set-Location test/OpenCvSharp.PackageSmokeTest
+          $buildProperties = @(
+              "-p:RestoreAdditionalProjectSources=$env:GITHUB_WORKSPACE/release-packages"
+              "-p:SmokeTestPackageVersion=$env:SMOKE_TEST_VERSION"
+              "-p:SmokeTestRuntimePackage=$env:SMOKE_TEST_RUNTIME_PACKAGE"
+          )
+          dotnet run -c Release @buildProperties
 
   Publish:
     needs: [Prepare, PackageSmokeTest]
+    if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-26.04
     environment: nuget-production
     permissions:
@@ -307,7 +317,7 @@ jobs:
           name: release-packages
 
       - name: List packages
-        run: ls -lh *.nupkg *.snupkg 2>/dev/null || true
+        run: Get-ChildItem -File -Include *.nupkg, *.snupkg -Path ./* | Select-Object Name, Length | Format-Table
 
       # Exchange the GitHub OIDC token for a short-lived (1 hour) nuget.org API key.
       # Requires a trusted publishing policy on nuget.org for this repo, workflow
@@ -322,57 +332,31 @@ jobs:
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
-          set -euo pipefail
+          # Keep processing the remaining packages if one push fails.
+          $PSNativeCommandUseErrorActionPreference = $false
+          $counts = [ordered]@{ Pushed = 0; Skipped = 0; Failed = 0 }
+          @('## Push Results', '| Package | Status |', '|---------|--------|') |
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
-          pushed=0
-          skipped=0
-          failed=0
+          # dotnet nuget push also uploads any matching .snupkg in the same directory.
+          foreach ($package in (Get-ChildItem -File -Filter '*.nupkg' | Sort-Object Name)) {
+              $pushOptions = @('--skip-duplicate', '--force-english-output', '-k', $env:NUGET_API_KEY)
+              $output = dotnet nuget push $package.Name @pushOptions -s https://api.nuget.org/v3/index.json 2>&1
+              $pushExitCode = $LASTEXITCODE
+              $output | ForEach-Object { Write-Output $_.ToString() }
 
-          push_package() {
-            local file="$1"
-            local name
-            name=$(basename "$file")
-            local output
-            if output=$(dotnet nuget push "$file" \
-                --skip-duplicate \
-                --force-english-output \
-                -k "$NUGET_API_KEY" \
-                -s https://api.nuget.org/v3/index.json 2>&1); then
-              echo "$output"
-              if echo "$output" | grep -qi "already exists"; then
-                echo "SKIPPED (already exists): $name"
-                echo "| \`$name\` | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
-                skipped=$((skipped + 1))
-              else
-                echo "PUSHED: $name"
-                echo "| \`$name\` | ✅ Pushed |" >> $GITHUB_STEP_SUMMARY
-                pushed=$((pushed + 1))
-              fi
-            else
-              echo "FAILED: $name"
-              echo "$output"
-              echo "| \`$name\` | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
-              failed=$((failed + 1))
-            fi
+              $status = if ($pushExitCode -ne 0) { 'Failed' }
+                  elseif ($output -match 'already exists') { 'Skipped' }
+                  else { 'Pushed' }
+              $counts[$status]++
+              Write-Output ('{0}: {1}' -f $status, $package.Name)
+              '| {0} | {1} |' -f $package.Name, $status | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
           }
+          @('', "**Pushed:** $($counts.Pushed)  **Skipped:** $($counts.Skipped)  **Failed:** $($counts.Failed)") |
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
-          echo "## Push Results" >> $GITHUB_STEP_SUMMARY
-          echo "| Package | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
-
-          # dotnet nuget push automatically uploads the matching .snupkg when pushing a .nupkg
-          # if the file exists in the same directory (nupkg is pushed first, then snupkg).
-          # See: https://learn.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg#publishing-a-symbol-package
-          echo "--- Pushing .nupkg (and corresponding .snupkg automatically) ---"
-          for f in *.nupkg; do
-            [ -f "$f" ] || continue
-            push_package "$f"
-          done
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Pushed:** $pushed  **Skipped:** $skipped  **Failed:** $failed" >> $GITHUB_STEP_SUMMARY
-
-          if [ "$failed" -gt 0 ]; then
-            echo "ERROR: $failed package(s) failed to push."
-            exit 1
-          fi
+          if ($counts.Failed -gt 0) {
+              throw "$($counts.Failed) package(s) failed to push."
+          }
+          # GitHub's pwsh wrapper propagates the last native command's exit code.
+          exit 0
