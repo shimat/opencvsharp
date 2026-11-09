@@ -444,12 +444,13 @@ jobs:
 
           $releaseVersion = $env:RELEASE_VERSION
           $sourceCommit = $env:GITHUB_SHA
-          $assets = @(
+          $archiveName = 'windows-x64-linker-maps.zip'
+          $archiveFiles = @(
               'OpenCvSharpExtern-win-x64-full.map'
               'OpenCvSharpExtern-win-x64-slim.map'
               'windows-x64-dll-sha256.txt'
           )
-          Get-Item -LiteralPath $assets | Out-Null
+          Get-Item -LiteralPath $archiveFiles | Out-Null
 
           # --target only applies to a new tag. Check an existing tag before using it.
           $tagCommit = git rev-parse --verify --quiet "refs/tags/${releaseVersion}^{commit}"
@@ -461,7 +462,7 @@ jobs:
           if ($LASTEXITCODE -eq 0) {
               $release = $releaseJson | ConvertFrom-Json
               if (-not $release.isDraft) {
-                  if ($tagCommit -cne $sourceCommit -or ($assets | Where-Object { $_ -cnotin $release.assets.name })) {
+                  if ($tagCommit -cne $sourceCommit -or $archiveName -cnotin $release.assets.name) {
                       throw "Published Release $releaseVersion has an unexpected tag or missing assets"
                   }
                   Write-Output "GitHub Release $releaseVersion already exists with its assets"
@@ -485,7 +486,18 @@ jobs:
           }
 
           # A failed upload leaves a draft that the next attempt can resume.
-          gh release upload $releaseVersion @assets --clobber
+          Compress-Archive -LiteralPath $archiveFiles -DestinationPath $archiveName -Force
+          gh release upload $releaseVersion $archiveName --clobber
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          gh release edit $releaseVersion --draft=false
+
+          $notesJson = gh release view $releaseVersion --json body
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $notes = ($notesJson | ConvertFrom-Json).body.TrimEnd()
+          $notice = 'Install OpenCvSharp via NuGet. The optional `windows-x64-linker-maps.zip` contains linker maps and DLL checksums for troubleshooting.'
+          if (-not $notes.EndsWith($notice, [StringComparison]::Ordinal)) {
+              $notes = "$notes`n`n$notice".TrimStart()
+          }
+          $notesPath = Join-Path $env:RUNNER_TEMP 'github-release-notes.md'
+          Set-Content -LiteralPath $notesPath -Value $notes
+          gh release edit $releaseVersion --notes-file $notesPath --draft=false
           exit $LASTEXITCODE
