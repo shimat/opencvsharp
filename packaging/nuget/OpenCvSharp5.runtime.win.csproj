@@ -29,4 +29,12 @@
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
+
+  <!-- Best-effort SBOM and third-party notices written by scripts/generate_sbom.ps1 (see windows.yml).
+       Optional so that packing without a generated SBOM keeps working locally. -->
+  <ItemGroup Condition="Exists('../../sbom/win-x64/THIRD-PARTY-NOTICES.txt')">
+    <None Include="../../sbom/win-x64/THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="" />
+    <None Include="../../sbom/win-x64/sbom/*.cdx.json" Pack="true" PackagePath="sbom/" />
+    <None Include="../../sbom/win-x64/licenses/*" Pack="true" PackagePath="licenses/" />
+  </ItemGroup>
 </Project>

@@ -98,7 +98,11 @@ if(OpenCV_FOUND)
 	#set(LIBS ${LIBS} ${OpenCV_LIBRARIES})
 
 	if(CMAKE_GENERATOR MATCHES "Visual Studio")
-		set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib")
+		# The Visual Studio project template's default libraries, minus odbc32.lib and odbccp32.lib: nothing here
+		# uses ODBC. odbccp32.lib is a static library that carries its own copies of the CRT's Control Flow Guard
+		# objects (guard_*.obj); listed ahead of the CRT, it supplied those instead of LIBCMT, as the linker map
+		# that scripts/generate_sbom.ps1 reads showed.
+		set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib")
 	endif()
 
 	if(EMSCRIPTEN)
@@ -107,6 +111,12 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+		if(MSVC AND OPENCVSHARP_GENERATE_LINKER_MAP)
+			# The map lists every object file the linker actually pulled in, as <library>:<object>.
+			# scripts/generate_sbom.ps1 reads it to find which static libraries contributed code to
+			# the DLL. Writing a map does not change the DLL itself.
+			target_link_options(OpenCvSharpExtern PRIVATE "/MAP:${CMAKE_CURRENT_BINARY_DIR}/OpenCvSharpExtern.map")
+		endif()
 		if(ANDROID)
 			# NDK r27 needs explicit 16 KB ELF and RELRO alignment for 16 KB page devices.
 			target_link_options(OpenCvSharpExtern PRIVATE

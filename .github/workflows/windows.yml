@@ -28,6 +28,12 @@ jobs:
 
     runs-on: windows-2025
 
+    permissions:
+      contents: read
+      # Required by the build provenance / SBOM attestation steps.
+      id-token: write
+      attestations: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -156,7 +162,8 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build --config Release -j 4
 
       - name: Verify FFmpeg plugin deployment
@@ -186,7 +193,8 @@ jobs:
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
             -D NO_STITCHING=ON `
-            -D NO_INSTALL_TO_TEST=ON
+            -D NO_INSTALL_TO_TEST=ON `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build_slim --config Release -j 4
 
       - name: Test
@@ -295,14 +303,50 @@ jobs:
           }
           Write-Host "Security hardening verified: no actionable failures."
 
+      - name: Compute package version
+        shell: pwsh
+        run: |
+          # Shared by the SBOM and the packages, so the SBOM records the version the packages are built
+          # with. When publish_nuget.yml strips -beta for a release, it strips it from the packed SBOM
+          # and notices too. UTC, so that the x64 and arm64 jobs agree on the date.
+          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
+          "PACKAGE_VERSION=${env:OPENCV_VERSION}.${date}-beta" >> $env:GITHUB_ENV
+
+      # Best-effort: derived from the linker maps, vcpkg port metadata and OpenCV's license files.
+      # See the KNOWN GAPS section in scripts/generate_sbom.ps1 for what it cannot see. A linked library that the
+      # script cannot attribute fails the build, so a new dependency gets classified instead of shipping as
+      # "unresolved".
+      - name: Generate SBOM and third-party notices
+        shell: pwsh
+        run: |
+          $common = @{
+            PackageVersion    = $env:PACKAGE_VERSION
+            RuntimeIdentifier = 'win-x64'
+            Triplet           = 'x64-windows-static'
+            OpenCvInstallDir  = 'opencv_artifacts'
+            VcpkgInstalledDir = 'vcpkg_installed'
+            FailOnUnresolved  = $true
+          }
+          ./scripts/generate_sbom.ps1 @common `
+            -PackageId OpenCvSharp5.runtime.win `
+            -NativeBinary src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll `
+            -LinkerMap src/build/OpenCvSharpExtern/OpenCvSharpExtern.map `
+            -AdditionalBinaries opencv_artifacts/x64/vc18/bin/opencv_videoio_ffmpeg500_64.dll `
+            -OutputDir sbom/win-x64
+          ./scripts/generate_sbom.ps1 @common `
+            -PackageId OpenCvSharp5.runtime.win.slim `
+            -NativeBinary src/build_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll `
+            -LinkerMap src/build_slim/OpenCvSharpExtern/OpenCvSharpExtern.map `
+            -BuildOptions 'NO_CONTRIB=ON', 'NO_VIDEOIO=ON', 'NO_HIGHGUI=ON', 'NO_DNN=ON', 'NO_STITCHING=ON' `
+            -OutputDir sbom/win-x64-slim
+
       - name: Pack NuGet packages
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
 
-          $date = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
-          $version = "${env:OPENCV_VERSION}.${date}-beta"
+          $version = $env:PACKAGE_VERSION
           Write-Host "version = ${version}"
 
           # Pack main libraries (dotnet pack triggers build implicitly)
@@ -322,11 +366,46 @@ jobs:
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
+      # Attestations bind the exact DLL bytes (SHA-256) to this commit and workflow run, so anyone holding a
+      # copy can check where it came from: gh attestation verify OpenCvSharpExtern.dll -R shimat/opencvsharp
+      # The .nupkg files are not attested: publish_nuget.yml rewrites them and nuget.org re-signs them, which
+      # changes their hashes, while the DLLs inside stay byte-identical. Skipped for pull requests (fork PRs
+      # get no OIDC token). The attested SBOMs are the build-time originals with the -beta version; a release
+      # packs the same BOM (same serialNumber) with -beta stripped and its BOM version incremented to 2.
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+            src/build_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+
+      - name: Attest SBOM (full)
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-sbom@v4
+        with:
+          subject-path: src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+          sbom-path: sbom/win-x64/sbom/OpenCvSharp5.runtime.win.cdx.json
+
+      - name: Attest SBOM (slim)
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-sbom@v4
+        with:
+          subject-path: src/build_slim/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll
+          sbom-path: sbom/win-x64-slim/sbom/OpenCvSharp5.runtime.win.slim.cdx.json
+
       - name: Upload NuGet packages
         uses: actions/upload-artifact@v7
         with:
           name: packages_windows
           path: ${{ github.workspace }}\artifacts
+
+      # Includes linker-inventory.txt (every linked library and object file), which is not packed.
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v7
+        with:
+          name: sbom_windows
+          path: ${{ github.workspace }}\sbom
 
   build-arm64:
     name: Windows (arm64)

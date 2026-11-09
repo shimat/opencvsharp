@@ -131,6 +131,7 @@ UpgradeLog*.XML
 /opencv_artifacts_arm64/
 /tesseract_artifacts/
 /vcpkg_installed/
+/sbom/
 /src/build/
 /src/build-arm64/
 /opencv_files

@@ -197,6 +197,45 @@ jobs:
                           $writer.Dispose()
                       }
                   }
+
+                  if ($package.Name -cmatch '^(OpenCvSharp5\.runtime\.win(?:\.slim)?)\.([0-9]+\.[0-9]+\.[0-9]+\.[0-9]{8})(-beta[0-9]*)\.nupkg$') {
+                      $packageId = $Matches[1]
+                      $stableVersion = $Matches[2]
+                      $betaVersion = $stableVersion + $Matches[3]
+                      $versionPattern = [regex]::Escape($betaVersion) + '(?![0-9])'
+                      $sbomPath = "sbom/$packageId.cdx.json"
+
+                      foreach ($entryPath in @($sbomPath, 'THIRD-PARTY-NOTICES.txt')) {
+                          $entry = $archive.GetEntry($entryPath)
+                          if ($null -eq $entry) { continue }
+
+                          $reader = [System.IO.StreamReader]::new($entry.Open())
+                          try {
+                              $original = $reader.ReadToEnd()
+                          } finally {
+                              $reader.Dispose()
+                          }
+
+                          # Update every reference to this package version together.
+                          $updated = $original -creplace $versionPattern, $stableVersion
+                          if ($updated -ceq $original) { continue }
+
+                          if ($entryPath -ceq $sbomPath) {
+                              # Keep the serial number. The build-time attestation covers the original BOM.
+                              $bom = ConvertFrom-Json -InputObject $updated -AsHashtable -DateKind String
+                              $bom.version = [int]$bom.version + 1
+                              $updated = (ConvertTo-Json -InputObject $bom -Depth 100) + "`n"
+                          }
+
+                          $entry.Delete()
+                          $writer = [System.IO.StreamWriter]::new($archive.CreateEntry($entryPath).Open())
+                          try {
+                              $writer.Write($updated)
+                          } finally {
+                              $writer.Dispose()
+                          }
+                      }
+                  }
               } finally {
                   $archive.Dispose()
               }
