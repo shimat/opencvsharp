@@ -156,7 +156,8 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build --config Release -j 4
 
       - name: Verify FFmpeg plugin deployment
@@ -186,7 +187,8 @@ jobs:
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
             -D NO_STITCHING=ON `
-            -D NO_INSTALL_TO_TEST=ON
+            -D NO_INSTALL_TO_TEST=ON `
+            -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build_slim --config Release -j 4
 
       - name: Test
@@ -322,7 +324,20 @@ jobs:
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
           dotnet pack packaging/nuget/OpenCvSharp5.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
-      - name: Upload NuGet packages
+      - name: Collect Windows x64 linker maps
+        shell: pwsh
+        run: |
+          $builds = [ordered]@{ full = 'src/build'; slim = 'src/build_slim' }
+          $checksums = foreach ($profile in $builds.Keys) {
+            $nativeDir = "$($builds[$profile])/OpenCvSharpExtern"
+            Copy-Item "$nativeDir/OpenCvSharpExtern.map" "artifacts/OpenCvSharpExtern-win-x64-$profile.map"
+            $hash = (Get-FileHash "$nativeDir/Release/OpenCvSharpExtern.dll").Hash.ToLowerInvariant()
+            "$hash  $profile/OpenCvSharpExtern.dll"
+          }
+          $checksums | Set-Content artifacts/windows-x64-dll-sha256.txt
+
+      # The maps and packages are uploaded together so a release always gets them from the same run.
+      - name: Upload NuGet packages and linker maps
         uses: actions/upload-artifact@v7
         with:
           name: packages_windows

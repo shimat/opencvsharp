@@ -107,6 +107,9 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+		if(MSVC AND OPENCVSHARP_GENERATE_LINKER_MAP)
+			target_link_options(OpenCvSharpExtern PRIVATE "/MAP:${CMAKE_CURRENT_BINARY_DIR}/OpenCvSharpExtern.map")
+		endif()
 		if(ANDROID)
 			# NDK r27 needs explicit 16 KB ELF and RELRO alignment for 16 KB page devices.
 			target_link_options(OpenCvSharpExtern PRIVATE
