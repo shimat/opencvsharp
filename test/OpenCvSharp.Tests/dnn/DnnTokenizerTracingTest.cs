@@ -11,7 +11,7 @@ public class DnnTokenizerTracingTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+    private static string MnistModelPath => Path.Combine("_data", "model", "mnist-8.onnx");
 
     [Theory(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     [InlineData(TracingMode.None)]
@@ -19,7 +19,7 @@ public class DnnTokenizerTracingTest : TestBase
     [InlineData(TracingMode.Op)]
     public void TracingModeRoundTrip(TracingMode mode)
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
         net!.TracingMode = mode;
         Assert.Equal(mode, net.TracingMode);
@@ -31,7 +31,7 @@ public class DnnTokenizerTracingTest : TestBase
     [InlineData(ProfilingMode.Detailed)]
     public void ProfilingModeRoundTrip(ProfilingMode mode)
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
         net!.ProfilingMode = mode;
         Assert.Equal(mode, net.ProfilingMode);
@@ -40,11 +40,10 @@ public class DnnTokenizerTracingTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void FinalizeNetIsWired()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
 
-        // finalizeNet is a new-engine operation; for a classic-engine net it may succeed or raise
-        // an OpenCVException. Either way it must reach OpenCV (not fail in the P/Invoke layer).
+        // Verify that finalizeNet reaches OpenCV even if the model cannot be finalized.
         var ex = Record.Exception(() => net!.FinalizeNet());
         Assert.True(ex is null or OpenCVException, ex?.ToString());
     }
@@ -52,7 +51,7 @@ public class DnnTokenizerTracingTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void RegisterOutputIsWired()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
 
         var ex = Record.Exception(() => net!.RegisterOutput("___out___", 0, 0));

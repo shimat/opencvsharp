@@ -16,68 +16,14 @@ public static partial class Cv2
     public static partial class Dnn
     {
         /// <summary>
-        /// Reads a network model stored in Tensorflow model file.
+        /// Loads a network and infers the format from its file extension.
+        /// Supports ONNX, TensorFlow Lite and OpenVINO IR.
         /// </summary>
-        /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
-        /// <param name="config">path to the .pbtxt file that contains text graph definition in protobuf format.</param>
-        /// <returns>Resulting Net object is built by text graph using weights from a binary one that
-        /// let us make it more flexible.</returns>
-        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
-        {
-            return Net.ReadNetFromTensorflow(model, config, engine);
-        }
-
-        /// <summary>
-        /// Reads a network model stored in Tensorflow model file from memory.
-        /// </summary>
-        /// <param name="bufferModel">buffer containing the content of the pb file</param>
-        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
-        /// <returns></returns>
-        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
-        {
-            return Net.ReadNetFromTensorflow(bufferModel, bufferConfig, engine);
-        }
-
-        /// <summary>
-        /// Reads a network model stored in Tensorflow model file from stream.
-        /// </summary>
-        /// <param name="bufferModel">buffer containing the content of the pb file</param>
-        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
-        /// <returns></returns>
-        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-        public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null, EngineType engine = EngineType.Auto)
-        {
-            ArgumentNullException.ThrowIfNull(bufferModel);
-            return Net.ReadNetFromTensorflow(
-                StreamToArray(bufferModel),
-                bufferConfig is null ? null : StreamToArray(bufferConfig),
-                engine);
-        }
-
-        /// <summary>
-        /// Read deep learning network represented in one of the supported formats.
-        ///
-        /// This function automatically detects an origin framework of trained model
-        /// and calls an appropriate function such @ref readNetFromTensorflow, @ref readNetFromONNX,
-        /// or @ref readNetFromModelOptimizer. The Caffe, Darknet and Torch parsers were removed in OpenCV 5.
-        /// </summary>
-        /// <param name="model">Binary file contains trained weights. The following file
-        /// *                  extensions are expected for models from different frameworks:
-        /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
-        /// *                  * `*.onnx` (ONNX, https://onnx.ai/)
-        /// *                  * `*.bin` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
-        /// <param name="config">Text file contains network configuration. It could be a
-        /// *                   file with the following extensions:
-        /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
-        /// *                  * `*.xml` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="model">Path to the .onnx, .tflite or .bin model.</param>
+        /// <param name="config">Path to the .xml network definition for OpenVINO IR.</param>
         /// <param name="framework">Explicit framework name tag to determine a format.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         public static Net ReadNet(string model, string config = "", string framework = "", EngineType engine = EngineType.Auto)
         {
             return Net.ReadNet(model, config, framework, engine);
@@ -88,7 +34,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="onnxFile"></param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
         {
@@ -100,7 +46,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
         {
@@ -112,7 +58,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
         {
@@ -124,7 +70,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="onnxFileStream">memory of the first byte of the buffer.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(Stream onnxFileStream, EngineType engine = EngineType.Auto)
         {
@@ -137,7 +83,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
         {
@@ -149,7 +95,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
         {
@@ -161,7 +107,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel, EngineType engine = EngineType.Auto)
         {
@@ -173,7 +119,7 @@ public static partial class Cv2
         /// </summary>
         /// <param name="bufferModelStream">stream containing the content of the tflite file.</param>
         /// <returns></returns>
-        /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+        /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromTFLite(Stream bufferModelStream, EngineType engine = EngineType.Auto)
         {
@@ -312,20 +258,6 @@ public static partial class Cv2
             return imagesVec.ToArray();
         }
 
-        /// <summary>
-        /// Create a text representation for a binary network stored in protocol buffer format.
-        /// </summary>
-        /// <param name="model">A path to binary network.</param>
-        /// <param name="output">A path to output text file to be created.</param>
-        public static void WriteTextGraph(string model, string output)
-        {
-            ArgumentNullException.ThrowIfNull(model);
-            ArgumentNullException.ThrowIfNull(output);
-
-            NativeMethods.HandleException(
-                NativeMethods.dnn_writeTextGraph(model, output));
-        }
-        
         /// <summary>
         /// Performs non maximum suppression given boxes and corresponding scores.
         /// </summary>

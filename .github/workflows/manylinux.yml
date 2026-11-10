@@ -13,7 +13,7 @@ permissions:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 5.0.0
+  OPENCV_VERSION: 5.1.0
   MEDIAMTX_VERSION: 1.19.3
 
 jobs:

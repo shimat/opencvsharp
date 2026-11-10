@@ -11,23 +11,6 @@ namespace OpenCvSharp.Internal;
 // ReSharper disable InconsistentNaming
 static partial class NativeMethods
 {
-    // readNetFromTensorflow (UTF-8 everywhere; on Windows the native side reads non-ANSI paths via a
-    // wide stream and the in-memory buffer overload)
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTensorflow"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_readNetFromTensorflow(
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string model,
-        [MarshalAs(UnmanagedType.LPUTF8Str)] string? config,
-        int engine,
-        out IntPtr returnValue);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_readNetFromTensorflow_InputArray"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static unsafe partial ExceptionStatus dnn_readNetFromTensorflow(
-        byte* bufferModel, IntPtr modelDataLength,
-        byte* bufferConfig, IntPtr configDataLength,
-        int engine,
-        out IntPtr returnValue);
-
     // readNet (UTF-8 everywhere; non-ANSI paths read via wide + buffer overload on Windows, with the
     // framework inferred from the model extension when not given)
 
@@ -83,23 +66,6 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_blobFromImages(
         IntPtr[] images, int imagesLength, double scaleFactor, Size size, Scalar mean, int swapRB, int crop, out IntPtr returnValue);
-
-    // writeTextGraph
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_writeTextGraph"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_writeTextGraph_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string model, [MarshalAs(StringUnmanagedTypeNotWindows)] string output);
-
-    [LibraryImport(DllExtern, EntryPoint = "dnn_writeTextGraph"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial ExceptionStatus dnn_writeTextGraph_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string model, [MarshalAs(StringUnmanagedTypeWindows)] string output);
-
-    public static ExceptionStatus dnn_writeTextGraph(string path, string output)
-    {
-        if (IsWindows())
-            return dnn_writeTextGraph_Windows(path, output);
-        return dnn_writeTextGraph_NotWindows(path, output);
-    }
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_NMSBoxes_Rect(

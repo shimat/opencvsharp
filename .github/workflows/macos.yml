@@ -30,7 +30,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  OPENCV_VERSION: 5.0.0
+  OPENCV_VERSION: 5.1.0
   CACHE_VERSION: "1"
   MEDIAMTX_VERSION: 1.19.3
 

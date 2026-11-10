@@ -270,5 +270,5 @@ public enum ColorConversionCodes
     BayerRG2RGB_EA = BayerBG2BGR_EA,
     BayerGR2RGB_EA = BayerGB2BGR_EA,
 
-    COLORCVT_MAX = 139
+    COLORCVT_MAX = 159
 }

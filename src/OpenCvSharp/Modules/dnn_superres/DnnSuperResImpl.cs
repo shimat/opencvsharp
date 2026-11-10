@@ -67,7 +67,7 @@ public class DnnSuperResImpl : CvObject
     }
         
     /// <summary>
-    /// Read the model from the given path
+    /// Load an ONNX super-resolution model.
     /// </summary>
     /// <param name="path">Path to the model file.</param>
     /// <returns></returns>
@@ -79,11 +79,12 @@ public class DnnSuperResImpl : CvObject
     }
 
     /// <summary>
-    /// Read the model from the given path
+    /// Load an ONNX super-resolution model.
     /// </summary>
-    /// <param name="weights">Path to the model weights file.</param>
-    /// <param name="definition">Path to the model definition file.</param>
+    /// <param name="weights">Path to the ONNX model.</param>
+    /// <param name="definition">Ignored by OpenCV 5.1.</param>
     /// <returns></returns>
+    [Obsolete("Use ReadModel(string) with an ONNX model.")]
     public void ReadModel(string weights, string definition)
     {
         ThrowIfDisposed();

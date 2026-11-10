@@ -6,8 +6,8 @@ namespace OpenCvSharp.Tests.DnnSuperres;
 public class DnnSuperResImplTest : TestBase
 {
     // https://github.com/opencv/opencv_contrib/tree/master/modules/dnn_superres#models
-    // https://github.com/Saafke/FSRCNN_Tensorflow/tree/master/models
-    private const string ModelFileName = "_data/model/FSRCNN_x4.pb";
+    // https://github.com/opencv/opencv_extra/blob/5.1.0/testdata/cv/dnn_superres/FSRCNN_x3.onnx
+    private const string ModelFileName = "_data/model/FSRCNN_x3.onnx";
         
     [Fact]
     public void New()
@@ -18,7 +18,7 @@ public class DnnSuperResImplTest : TestBase
     [Fact]
     public void Upsample()
     {
-        using var dnn = new DnnSuperResImpl("fsrcnn", 4);
+        using var dnn = new DnnSuperResImpl("fsrcnn", 3);
         dnn.ReadModel(ModelFileName);
 
         using var src = new Mat("_data/image/mandrill.png");
@@ -26,8 +26,8 @@ public class DnnSuperResImplTest : TestBase
         dnn.Upsample(src, dst);
 
         Assert.False(dst.Empty());
-        Assert.True(src.Rows < dst.Rows);
-        Assert.True(src.Cols < dst.Cols);
+        Assert.Equal(src.Rows * 3, dst.Rows);
+        Assert.Equal(src.Cols * 3, dst.Cols);
 
         ShowImagesWhenDebugMode(src, dst);
     }
@@ -35,7 +35,7 @@ public class DnnSuperResImplTest : TestBase
     [Fact]
     public void UpsampleMultioutput()
     {
-        using var dnn = new DnnSuperResImpl("fsrcnn", 4);
+        using var dnn = new DnnSuperResImpl("fsrcnn", 3);
         dnn.ReadModel(ModelFileName);
 
         using var src = new Mat("_data/image/mandrill.png");
@@ -45,7 +45,7 @@ public class DnnSuperResImplTest : TestBase
         // native and failing on an unknown output node still proves the InputArray param
         // (img) and the vector<int>/vector<string> params are marshalled correctly.
         var ex = Assert.Throws<OpenCVException>(() =>
-            dnn.UpsampleMultioutput(src, out _, [4], ["not_a_real_output_node"]));
+            dnn.UpsampleMultioutput(src, out _, [3], ["not_a_real_output_node"]));
         Assert.NotNull(ex.Message);
     }
 

@@ -1,5 +1,5 @@
 ########## Build arguments ##########
-ARG OPENCV_VERSION=5.0.0
+ARG OPENCV_VERSION=5.1.0
 
 ########## Build OpenCV ##########
 FROM ubuntu:resolute AS opencv-builder

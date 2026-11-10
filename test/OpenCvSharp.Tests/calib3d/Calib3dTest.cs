@@ -306,12 +306,10 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         var rms = Cv2.FishEye.Calibrate([objectPoints], [imagePoints], image.Size(), cameraMatrix,
             distCoeffs, out var rotationVectors, out var translationVectors);
 
-        var distCoeffValues = distCoeffs.ToArray();
-        //Assert.Equal(109.35, rms, 2);
-        Assert.True(rms > 8, $"rms = {rms}");
-        Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
-        Assert.NotEmpty(rotationVectors);
-        Assert.NotEmpty(translationVectors);
+        Assert.Contains(distCoeffs.ToArray(), d => Math.Abs(d) > 1e-20);
+        using var rotation = Assert.Single(rotationVectors);
+        using var translation = Assert.Single(translationVectors);
+        AssertFishEyeReprojection(rms, objectPoints, imagePoints, cameraMatrix, distCoeffs, rotation, translation);
     }
 
     // Regression test for issue #2080-adjacent enum drift: FishEyeCalibrationFlags used to carry
@@ -383,9 +381,25 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
         var rms = Cv2.FishEye.Calibrate([objectPoints], [imagePoints], image.Size(), cameraMatrix,
             distCoeffs, out var rotationVectors, out var translationVectors);
 
-        Assert.True(rms > 8, $"rms = {rms}");
-        Assert.NotEmpty(rotationVectors);
-        Assert.NotEmpty(translationVectors);
+        using var rotation = Assert.Single(rotationVectors);
+        using var translation = Assert.Single(translationVectors);
+        AssertFishEyeReprojection(rms, objectPoints, imagePoints, cameraMatrix, distCoeffs, rotation, translation);
+    }
+
+    private static void AssertFishEyeReprojection(
+        double rms, Mat objectPoints, Mat imagePoints, Mat cameraMatrix, Mat distCoeffs, Mat rotation, Mat translation)
+    {
+        // This single-view fixture can converge to different solutions across builds.
+        // Verify the reported RMS against the points projected by the fitted camera.
+        using var contiguousObjectPoints = objectPoints.Clone();
+        using var projected = new Mat();
+        var alpha = cameraMatrix.At<double>(0, 1) / cameraMatrix.At<double>(0, 0);
+        Cv2.FishEye.ProjectPoints(contiguousObjectPoints, projected, rotation, translation, cameraMatrix, distCoeffs, alpha);
+        using var projectedColumn = projected.Reshape(2, imagePoints.Rows);
+        var reprojectionRms = Cv2.Norm(imagePoints, projectedColumn, NormTypes.L2) / Math.Sqrt(imagePoints.Total());
+
+        Assert.True(double.IsFinite(rms), $"rms = {rms}");
+        Assert.Equal(reprojectionRms, rms, 3);
     }
 
     /// <summary>
