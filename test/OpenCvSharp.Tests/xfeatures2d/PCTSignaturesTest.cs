@@ -91,14 +91,11 @@ public class PCTSignaturesTest : TestBase
     {
         using var alg = PCTSignatures.Create(50, 10);
 
-        // OpenCV's PCTSignatures_Impl::getSampleCount() (opencv_contrib
-        // xfeatures2d/src/pct_signatures.cpp:132) is a copy-paste bug: it calls
-        // mSampler->getGrayscaleBits() instead of returning the actual sample count, so it's
-        // always identical to GrayscaleBits (default 4), never the value passed to Create().
-        Assert.Equal(4, alg.SampleCount);
+        Assert.Equal(50, alg.SampleCount);
 
         alg.GrayscaleBits = 6;
         Assert.Equal(6, alg.GrayscaleBits);
+        Assert.Equal(50, alg.SampleCount);
 
         alg.WindowRadius = 4;
         Assert.Equal(4, alg.WindowRadius);

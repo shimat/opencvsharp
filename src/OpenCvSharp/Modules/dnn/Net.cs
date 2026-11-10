@@ -73,92 +73,14 @@ public class Net : CvObject
     }
 
     /// <summary>
-    /// Reads a network model stored in Tensorflow model file.
+    /// Loads a network and infers the format from its file extension.
+    /// Supports ONNX, TensorFlow Lite and OpenVINO IR.
     /// </summary>
-    /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
-    /// <param name="config">path to the .pbtxt file that contains text graph definition in protobuf format.</param>
-    /// <returns>Resulting Net object is built by text graph using weights from a binary one that
-    /// let us make it more flexible.</returns>
-    /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-    public static Net? ReadNetFromTensorflow(string model, string? config = null, EngineType engine = EngineType.Auto)
-    {
-        ArgumentNullException.ThrowIfNull(model);
-
-        NativeMethods.HandleException(
-            NativeMethods.dnn_readNetFromTensorflow(model, config, (int)engine, out var p));
-        return (p == IntPtr.Zero) ? null : new Net(p);
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Tensorflow model from memory.
-    /// </summary>
-    /// <param name="bufferModel">buffer containing the content of the pb file</param>
-    /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-    public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null, EngineType engine = EngineType.Auto)
-    {
-        ArgumentNullException.ThrowIfNull(bufferModel);
-
-        var ret = ReadNetFromTensorflow(
-            new ReadOnlySpan<byte>(bufferModel),
-            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig),
-            engine);
-        GC.KeepAlive(bufferModel);
-        GC.KeepAlive(bufferConfig);
-        return ret;
-    }
-
-    /// <summary>
-    /// Reads a network model stored in Tensorflow model from memory.
-    /// </summary>
-    /// <param name="bufferModel">buffer containing the content of the pb file</param>
-    /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
-    /// <returns></returns>
-    /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
-    public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default, EngineType engine = EngineType.Auto)
-    {
-        if (bufferModel.IsEmpty)
-            throw new ArgumentException("Empty span", nameof(bufferModel));
-
-        unsafe
-        {
-            fixed (byte* bufferModelPtr = bufferModel)
-            fixed (byte* bufferConfigPtr = bufferConfig)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.dnn_readNetFromTensorflow(
-                        bufferModelPtr, new IntPtr(bufferModel.Length),
-                        bufferConfigPtr, new IntPtr(bufferConfig.Length),
-                        (int)engine,
-                        out var p));
-                return (p == IntPtr.Zero) ? null : new Net(p);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Read deep learning network represented in one of the supported formats.
-    ///
-    /// This function automatically detects an origin framework of trained model
-    /// and calls an appropriate function such @ref readNetFromTensorflow, @ref readNetFromONNX,
-    /// or @ref readNetFromModelOptimizer. The Caffe, Darknet and Torch parsers were removed in OpenCV 5.
-    /// </summary>
-    /// <param name="model">Binary file contains trained weights. The following file
-    /// *                  extensions are expected for models from different frameworks:
-    /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
-    /// *                  * `*.onnx` (ONNX, https://onnx.ai/)
-    /// *                  * `*.bin` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
-    /// <param name="config">Text file contains network configuration. It could be a
-    /// *                   file with the following extensions:
-    /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
-    /// *                  * `*.xml` (OpenVINO, https://software.intel.com/openvino-toolkit)</param>
+    /// <param name="model">Path to the .onnx, .tflite or .bin model.</param>
+    /// <param name="config">Path to the .xml network definition for OpenVINO IR.</param>
     /// <param name="framework">Explicit framework name tag to determine a format.</param>
     /// <returns></returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     public static Net ReadNet(string model, string config = "", string framework = "", EngineType engine = EngineType.Auto)
     {
         if (string.IsNullOrEmpty(model))
@@ -193,7 +115,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(string onnxFile, EngineType engine = EngineType.Auto)
     {
@@ -209,7 +131,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(byte[] onnxFileData, EngineType engine = EngineType.Auto)
     {
@@ -226,7 +148,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData, EngineType engine = EngineType.Auto)
     {
@@ -249,7 +171,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="model">path to the .tflite file with binary flatbuffers description of the network architecture.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromTFLite(string model, EngineType engine = EngineType.Auto)
     {
@@ -265,7 +187,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromTFLite(byte[] bufferModel, EngineType engine = EngineType.Auto)
     {
@@ -281,7 +203,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="bufferModel">buffer containing the content of the tflite file.</param>
     /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-    /// <param name="engine">DNN engine to use. <see cref="EngineType.Auto"/> tries the new engine first and falls back to the classic one.</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="EngineType.Auto"/>.</param>
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromTFLite(ReadOnlySpan<byte> bufferModel, EngineType engine = EngineType.Auto)
     {

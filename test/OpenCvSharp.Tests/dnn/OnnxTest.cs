@@ -6,7 +6,7 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn;
 
-public class TensorflowTest : TestBase
+public class OnnxTest : TestBase
 {
     // Platform check for conditional test execution
     public static bool IsWindowsOrLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
@@ -15,18 +15,18 @@ public class TensorflowTest : TestBase
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromFile_NetRecognizesAnImageOfA9Correctly()
     {
-        using var imgOf9 = LoadImage(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
+        using var imgOf9 = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
             
-        var img9DataBlob = Cv2.Dnn.BlobFromImage(imgOf9, 1f / 255.0f);
-        var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+        using var img9DataBlob = Cv2.Dnn.BlobFromImage(imgOf9, 1.0 / 255.0, new Size(28, 28));
+        var modelPath = Path.Combine("_data", "model", "mnist-8.onnx");
         var res = -1;
 
-        using (var tfGraph = Cv2.Dnn.ReadNetFromTensorflow(modelPath))
+        using (var net = Cv2.Dnn.ReadNetFromONNX(modelPath))
         {
-            Assert.NotNull(tfGraph);
-            tfGraph!.SetInput(img9DataBlob);
+            Assert.NotNull(net);
+            net!.SetInput(img9DataBlob);
                
-            using (var prob = tfGraph.Forward())
+            using (var prob = net.Forward())
                 res = GetResultClass(prob);
         }
 
@@ -39,18 +39,18 @@ public class TensorflowTest : TestBase
     {
         using var imgOf5 = LoadImage(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
 
-        var img5DataBlob = Cv2.Dnn.BlobFromImage(imgOf5, 1f / 255.0f);
-        var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+        using var img5DataBlob = Cv2.Dnn.BlobFromImage(imgOf5, 1.0 / 255.0, new Size(28, 28));
+        var modelPath = Path.Combine("_data", "model", "mnist-8.onnx");
         var res = -1;
 
         using (var stream = new FileStream(modelPath, FileMode.Open))
         {
-            using (var tfGraph = Cv2.Dnn.ReadNetFromTensorflow(stream))
+            using (var net = Cv2.Dnn.ReadNetFromONNX(stream))
             {
-                Assert.NotNull(tfGraph);
-                tfGraph!.SetInput(img5DataBlob);
+                Assert.NotNull(net);
+                net!.SetInput(img5DataBlob);
 
-                using (var prob = tfGraph.Forward())
+                using (var prob = net.Forward())
                     res = GetResultClass(prob);
             }
         }
@@ -60,10 +60,8 @@ public class TensorflowTest : TestBase
 
     private static int GetResultClass(Mat prob)
     {
-        var dims = prob.Dims;
-        var imgCnt = prob.Size(0);
         var channels = prob.Size(1);
-        Mat strip = prob.Reshape(1, channels);
+        using Mat strip = prob.Reshape(1, channels);
 
         var minIdx = new[] {-1};
         var maxIdx = new[] { -1 };

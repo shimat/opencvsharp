@@ -10,12 +10,12 @@ public class PerfProfileDetailedTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+    private static string MnistModelPath => Path.Combine("_data", "model", "mnist-8.onnx");
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void GetPerfProfileDetailedIsWired()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
 
         // Must reach OpenCV (the three string arrays come back with matching lengths) rather than

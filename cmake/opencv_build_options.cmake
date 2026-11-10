@@ -69,3 +69,8 @@ if(WIN32)
   set(ENABLE_BUILD_HARDENING ON CACHE BOOL "" FORCE)
 endif()
 
+# Retain the embedded text fonts and build HarfBuzz for the target platform.
+set(WITH_HARFBUZZ ON CACHE BOOL "" FORCE)
+set(BUILD_HARFBUZZ ON CACHE BOOL "" FORCE)
+set(WITH_UNIFONT ON CACHE BOOL "" FORCE)
+set(WITH_ITALICFONT ON CACHE BOOL "" FORCE)

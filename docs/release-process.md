@@ -41,14 +41,14 @@ Releases are produced by running the following workflows in order:
 
 For an Android beta release, wait for `android.yml` to complete successfully on the current `main` commit, then run `publish_android_preview.yml` with that Android run ID. It publishes only `OpenCvSharp5.runtime.android` with its `-beta` suffix; it does not change the regular release workflow.
 
-The `OPENCV_VERSION` environment variables in `windows.yml` and `android.yml` control the OpenCV version embedded in their package version strings. Keep them aligned with the pinned OpenCV submodule when upgrading OpenCV.
+The `OPENCV_VERSION` environment variables in the platform build workflows control the OpenCV version embedded in their package version strings. Keep them aligned with the pinned OpenCV submodule when upgrading OpenCV.
 
 ---
 
 ## Upgrading OpenCV
 
 1. Update the `opencv` and `opencv_contrib` submodules to the new tag.
-2. Update `OPENCV_VERSION` in `.github/workflows/windows.yml` and `.github/workflows/android.yml`.
+2. Update `.github/opencv-version`, `OPENCV_VERSION` in the platform build workflows, and the Docker build contexts and image names.
 3. Update the ffmpeg DLL filename reference in `packaging/nuget/OpenCvSharp5.runtime.win.csproj` if the ffmpeg DLL name changed (e.g. `opencv_videoio_ffmpeg500_64.dll` → `opencv_videoio_ffmpeg510_64.dll`).
 4. Run the full CI pipeline and verify all tests pass.
 5. `AssemblyVersion` does **not** need to be changed for a minor/patch OpenCV upgrade.

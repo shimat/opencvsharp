@@ -12,7 +12,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 5.0.0
+  OPENCV_VERSION: 5.1.0
   # Must match the Emscripten version bundled with the .NET wasm SDK below (currently
   # Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk), since OpenCvSharpExtern.a built here gets
   # statically linked by that SDK's own emcc/wasm-ld later - mixing Emscripten versions across
@@ -139,6 +139,10 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_wasm \
             -DCMAKE_C_FLAGS='-s WASM=1' -DCMAKE_CXX_FLAGS='-s WASM=1' \
             -DWITH_ITT=OFF \
+            -DWITH_HARFBUZZ=ON \
+            -DBUILD_HARFBUZZ=ON \
+            -DWITH_UNIFONT=ON \
+            -DWITH_ITALICFONT=ON \
             -DWITH_JPEG=ON \
             -DWITH_TIFF=ON \
             -DWITH_PNG=ON \

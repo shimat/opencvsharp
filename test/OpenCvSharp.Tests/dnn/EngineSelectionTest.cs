@@ -11,16 +11,15 @@ public class EngineSelectionTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+    private static string OnnxModelPath => Path.Combine("_data", "wechat_qrcode", "sr.onnx");
 
     [Fact]
     public void EngineTypeValuesMatchOpenCv()
     {
         // Must match cv::dnn::EngineType in modules/dnn/include/opencv2/dnn/dnn.hpp
-        Assert.Equal(1, (int)EngineType.Classic);
-        Assert.Equal(2, (int)EngineType.New);
-        Assert.Equal(3, (int)EngineType.Auto);
-        Assert.Equal(4, (int)EngineType.Ort);
+        Assert.Equal(0, (int)EngineType.Auto);
+        Assert.Equal(1, (int)EngineType.OpenCv);
+        Assert.Equal(2, (int)EngineType.Ort);
     }
 
     [Fact]
@@ -47,21 +46,13 @@ public class EngineSelectionTest : TestBase
         Assert.Equal(10, (int)Target.CPU_FP16);
     }
 
-    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
-    public void ReadNetFromTensorflowWithClassicEngine()
+    [Theory(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
+    [InlineData(EngineType.Auto)]
+    [InlineData(EngineType.OpenCv)]
+    public void ReadNetFromOnnxWithOpenCvEngine(EngineType engine)
     {
-        // The classic engine parses every legacy format, so the committed TF model loads.
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Classic);
+        using var net = Cv2.Dnn.ReadNetFromONNX(OnnxModelPath, engine);
         Assert.NotNull(net);
-        Assert.False(net!.Empty());
-    }
-
-    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
-    public void ReadNetFromTensorflowWithAutoEngine()
-    {
-        // Auto is the default; it must keep working for the TF model.
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath, engine: EngineType.Auto);
-        Assert.NotNull(net);
-        Assert.False(net!.Empty());
+        Assert.False(net.Empty());
     }
 }
