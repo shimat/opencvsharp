@@ -49,7 +49,7 @@
     <None Update="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="opencv_videoio_ffmpeg500_64.dll">
+    <None Update="opencv_videoio_ffmpeg510_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
