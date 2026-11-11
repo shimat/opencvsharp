@@ -77,6 +77,32 @@ public class VideoWriterTest : TestBase
         }
     }
         
+    public static bool HasFfmpegBackend => Cv2.VideoIORegistry.HasBackend(VideoCaptureAPIs.FFMPEG);
+
+    [Fact(Skip = "Requires the FFmpeg backend", SkipUnless = nameof(HasFfmpegBackend))]
+    public void FfmpegEncoderControls()
+    {
+        const string fileName = "temp_FfmpegEncoderControls.avi";
+        const int bitrate = 250_000;
+        const int gopSize = 12;
+        try
+        {
+            using var frame = new Mat(48, 64, MatType.CV_8UC3, Scalar.Blue);
+            using var writer = new VideoWriter(
+                fileName, VideoCaptureAPIs.FFMPEG, FourCC.MJPG, 10, frame.Size(),
+                [(int)VideoWriterProperties.BitRate, bitrate, (int)VideoWriterProperties.GopSize, gopSize]);
+
+            Assert.True(writer.IsOpened());
+            Assert.Equal(bitrate, writer.Get(VideoWriterProperties.BitRate));
+            Assert.Equal(gopSize, writer.Get(VideoWriterProperties.GopSize));
+            Assert.True(writer.Write(frame));
+        }
+        finally
+        {
+            DeleteFile(fileName);
+        }
+    }
+
     [Fact]
     public void XVID()
     {
