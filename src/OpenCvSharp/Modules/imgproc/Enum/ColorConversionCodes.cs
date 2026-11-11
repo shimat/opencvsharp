@@ -270,5 +270,17 @@ public enum ColorConversionCodes
     BayerRG2RGB_EA = BayerBG2BGR_EA,
     BayerGR2RGB_EA = BayerGB2BGR_EA,
 
+    /// <summary>Converts BGR to perceptual Oklab. Supports 8-bit unsigned and 32-bit floating-point images.</summary>
+    BGR2Oklab = 155,
+
+    /// <summary>Converts RGB to perceptual Oklab. Supports 8-bit unsigned and 32-bit floating-point images.</summary>
+    RGB2Oklab = 156,
+
+    /// <summary>Converts perceptual Oklab to BGR.</summary>
+    Oklab2BGR = 157,
+
+    /// <summary>Converts perceptual Oklab to RGB.</summary>
+    Oklab2RGB = 158,
+
     COLORCVT_MAX = 159
 }

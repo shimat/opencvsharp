@@ -136,6 +136,13 @@ public enum ImwriteFlags
     TiffCompression = 259,
 
     /// <summary>
+    /// Sets the TIFF compression level for the scheme selected by <see cref="TiffCompression"/>.
+    /// Supported ranges are 1 to 9 for DEFLATE, 0 to 9 for LZMA, 1 to 22 for ZSTD, and 1 to 100 for WebP.
+    /// Use -1 for the codec default.
+    /// </summary>
+    TiffCompressionLevel = 260,
+
+    /// <summary>
     /// For TIFF, use to specify the number of rows per strip.
     /// </summary>
     TiffRowsPerStrip = 278,
@@ -152,12 +159,13 @@ public enum ImwriteFlags
     Jpeg2000CompressionX1000 = 272,
 
     /// <summary>
-    /// For AVIF, it can be a quality between 0 and 100 (the higher the better). Default is 95.
+    /// Sets the AVIF color-plane quality from 0 to 100. Higher values give better quality. Defaults to 95.
     /// </summary>
     AvifQuality = 512,
 
     /// <summary>
-    /// For AVIF, it can be 8, 10 or 12. If &gt;8, it is stored/read as CV_16U. Default is 8.
+    /// Sets the AVIF bit depth to 8, 10, 12, or 16. Depths above 8 use CV_16U Mats.
+    /// 16-bit AVIF requires libavif 1.4.0 or later and is available for still images. Defaults to 8.
     /// </summary>
     AvifDepth = 513,
 
@@ -165,6 +173,12 @@ public enum ImwriteFlags
     /// For AVIF, it is between 0 (slowest) and 10 (fastest). Default is 9.
     /// </summary>
     AvifSpeed = 514,
+
+    /// <summary>
+    /// Sets the AVIF alpha-plane quality from 0 to 100. Defaults to the color-plane quality
+    /// selected by <see cref="AvifQuality"/>.
+    /// </summary>
+    AvifAlphaQuality = 515,
 
     /// <summary>
     /// For JPEG XL, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.

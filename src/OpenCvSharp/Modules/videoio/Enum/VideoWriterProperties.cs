@@ -87,8 +87,10 @@ public enum VideoWriterProperties
     DtsDelay = 13,
 
     /// <summary>
-    /// (open-only) GStreamer backend only. Pixel format for the encoding profile. Default is "I420". Other values:
-    /// "NV12", "BGRx". See GStreamer raw video formats for more options.
+    /// (open-only) Pixel format as a FourCC. FFmpeg and GStreamer backends.
+    /// FFmpeg uses the same codes as <see cref="VideoCaptureProperties.CodecPixelFormat"/> and requires
+    /// the selected encoder to support the format. FFmpeg hardware encoding accepts only NV12.
+    /// GStreamer uses raw video formats such as I420, NV12, and BGRx.
     /// </summary>
     ColorSpace = 14,
 
@@ -96,4 +98,28 @@ public enum VideoWriterProperties
     /// (open-only) FFmpeg backend only. Defines that input frames contain alpha channel.
     /// </summary>
     EnableAlpha = 15,
+
+    /// <summary>
+    /// (open-only) Target bitrate in bits per second. <see cref="Crf"/> takes precedence.
+    /// FFmpeg and GStreamer backends, when supported by the selected encoder.
+    /// </summary>
+    BitRate = 16,
+
+    /// <summary>
+    /// (open-only) Constant rate factor. Lower values give better quality and larger files.
+    /// The range depends on the encoder. FFmpeg and GStreamer backends, when supported by the selected encoder.
+    /// </summary>
+    Crf = 17,
+
+    /// <summary>
+    /// (open-only) Encoding speed and compression trade-off. Pass a <see cref="VideoWriterPresets"/> value.
+    /// Supported by FFmpeg libx264 and libx265 and the corresponding GStreamer encoder elements.
+    /// </summary>
+    Preset = 18,
+
+    /// <summary>
+    /// (open-only) Maximum interval between key frames, in frames.
+    /// FFmpeg and GStreamer backends, when supported by the selected encoder.
+    /// </summary>
+    GopSize = 19,
 }

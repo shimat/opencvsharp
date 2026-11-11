@@ -1074,6 +1074,26 @@ public class ImgProcTest : TestBase
         Assert.Equal(MatType.CV_8UC1, dst.Type());
     }
 
+    [Theory]
+    [InlineData(ColorConversionCodes.BGR2Oklab, ColorConversionCodes.Oklab2BGR, false)]
+    [InlineData(ColorConversionCodes.RGB2Oklab, ColorConversionCodes.Oklab2RGB, true)]
+    public void CvtColorOklab(ColorConversionCodes toOklab, ColorConversionCodes fromOklab, bool isRgb)
+    {
+        var red = isRgb ? new Scalar(1, 0, 0) : new Scalar(0, 0, 1);
+        using var source = new Mat(1, 1, MatType.CV_32FC3, red);
+        using var oklab = new Mat();
+        Cv2.CvtColor(source, oklab, toOklab);
+
+        var pixel = oklab.At<Vec3f>(0, 0);
+        Assert.Equal(0.627955f, pixel.Item0, 4);
+        Assert.Equal(0.224863f, pixel.Item1, 4);
+        Assert.Equal(0.125846f, pixel.Item2, 4);
+
+        using var restored = new Mat();
+        Cv2.CvtColor(oklab, restored, fromOklab);
+        Assert.InRange(Cv2.Norm(source, restored, NormTypes.INF), 0, 0.001);
+    }
+
     [Fact]
     public void CvtColorTwoPlane()
     {
