@@ -293,6 +293,10 @@ static partial class NativeMethods
         in InputArrayProxy src1, in InputArrayProxy src2, in InputArrayProxy weights1, in InputArrayProxy weights2, in OutputArrayProxy dst);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus imgproc_alphaComposite(
+        in InputArrayProxy overlay, in InputArrayProxy background, in OutputArrayProxy dst, int op, int premultiplied);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus imgproc_cvtColor(in InputArrayProxy src, in OutputArrayProxy dst, int code, int dstCn, int hint);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

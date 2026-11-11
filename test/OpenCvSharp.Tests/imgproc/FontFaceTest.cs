@@ -6,6 +6,11 @@ namespace OpenCvSharp.Tests.ImgProc;
 // PutText / GetTextSize + PutTextFlags).
 public class FontFaceTest : TestBase
 {
+    private static readonly string BuiltinFontFixturePath =
+        Path.Combine(AppContext.BaseDirectory, "_data", "fonts", "Rubik-Italic.ttf.gz");
+
+    public static bool BuiltinFontFixtureAvailable => File.Exists(BuiltinFontFixturePath);
+
     [Fact]
     public void CreateDefault()
     {
@@ -20,6 +25,42 @@ public class FontFaceTest : TestBase
     {
         using var ff = new FontFace(name);
         Assert.False(string.IsNullOrEmpty(ff.Name));
+    }
+
+    [Fact]
+    public void SetBuiltinFontRejectsUnknownSlot()
+    {
+        Assert.False(FontFace.SetBuiltinFont("unknown", ""));
+    }
+
+    [Fact(Skip = "Requires the font fixture from the OpenCV submodule", SkipUnless = nameof(BuiltinFontFixtureAvailable))]
+    public void SetBuiltinFontReplacesAndRestoresSlot()
+    {
+        static void Draw(FontFace font, Mat image) =>
+            Cv2.PutText(image, "Hello", new Point(10, 55), Scalar.White, font, 48);
+
+        using var original = new FontFace("sans");
+        using var before = new Mat(70, 160, MatType.CV_8UC1, Scalar.Black);
+        using var after = new Mat(70, 160, MatType.CV_8UC1, Scalar.Black);
+        Draw(original, before);
+        try
+        {
+            Assert.True(FontFace.SetBuiltinFont("sans", BuiltinFontFixturePath));
+            Assert.False(FontFace.SetBuiltinFont("sans", BuiltinFontFixturePath + ".missing"));
+            using var registered = new FontFace("sans");
+            Draw(registered, after);
+            Assert.True(Cv2.CountNonZero(after) > 0);
+            Assert.True(Cv2.Norm(before, after, NormTypes.INF) > 0);
+        }
+        finally
+        {
+            Assert.True(FontFace.SetBuiltinFont("sans", ""));
+        }
+
+        after.SetTo(Scalar.Black);
+        using var restored = new FontFace("sans");
+        Draw(restored, after);
+        ImageEquals(before, after);
     }
 
     [Fact]

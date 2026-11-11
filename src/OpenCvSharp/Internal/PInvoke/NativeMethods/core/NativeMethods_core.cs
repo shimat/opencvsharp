@@ -383,6 +383,10 @@ static partial class NativeMethods
     internal static partial ExceptionStatus core_solveLP(in InputArrayProxy func, in InputArrayProxy constr, in OutputArrayProxy z, out int returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_linearAssignment(
+        in InputArrayProxy cost, IntPtr assignment, double costThreshold, out double returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_sort(in InputArrayProxy src, in OutputArrayProxy dst, int flags);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

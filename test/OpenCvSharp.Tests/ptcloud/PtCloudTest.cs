@@ -46,6 +46,19 @@ public class PtCloudTest : TestBase
     }
 
     [Fact]
+    public void ColorHashTSDFVolumeCreatesAndControlsGrowth()
+    {
+        using var settings = new VolumeSettings(VolumeType.ColorHashTSDF);
+        using var volume = new Volume(VolumeType.ColorHashTSDF, settings);
+
+        Assert.Equal(0, volume.GetTotalVolumeUnits());
+        volume.SetEnableGrowth(false);
+        Assert.False(volume.GetEnableGrowth());
+        volume.SetEnableGrowth(true);
+        Assert.True(volume.GetEnableGrowth());
+    }
+
+    [Fact]
     public void VolumeReset()
     {
         using var settings = new VolumeSettings(VolumeType.TSDF);

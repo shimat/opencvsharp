@@ -39,6 +39,14 @@ CVAPI(ExceptionStatus) imgproc_FontFace_set(
     });
 }
 
+CVAPI(ExceptionStatus) imgproc_FontFace_setBuiltinFont(
+    const char* fontName, const char* fontPath, int* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::FontFace::setBuiltinFont(fontName, fontPath) ? 1 : 0;
+    });
+}
+
 CVAPI(ExceptionStatus) imgproc_FontFace_getName(cv::FontFace *obj, std::string *returnValue)
 {
     return cvTry([&] {

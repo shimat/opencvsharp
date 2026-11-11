@@ -906,6 +906,17 @@ CVAPI(ExceptionStatus) core_solveLP(
     });
 }
 
+CVAPI(ExceptionStatus) core_linearAssignment(
+    const interop::InputArrayProxy* cost,
+    std::vector<int>* assignment,
+    double costThreshold,
+    double* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::linearAssignment(InProxy(*cost), *assignment, costThreshold);
+    });
+}
+
 CVAPI(ExceptionStatus) core_sort(const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int flags)
 {
     return cvTry([&] {

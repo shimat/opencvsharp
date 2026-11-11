@@ -21,5 +21,10 @@ public enum VolumeType
     /// <summary>
     /// Colored Truncated Signed Distance Function volume.
     /// </summary>
-    ColorTSDF = 2
+    ColorTSDF = 2,
+
+    /// <summary>
+    /// Hash-based Truncated Signed Distance Function volume with color.
+    /// </summary>
+    ColorHashTSDF = 3
 }
