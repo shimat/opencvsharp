@@ -6,7 +6,7 @@ using OpenCvSharp.Internal;
 namespace OpenCvSharp;
 
 /// <summary>
-/// Custom volume (TSDF, HashTSDF or ColorTSDF) for point cloud integration and raycasting.
+/// Custom volume (TSDF, HashTSDF, ColorTSDF or ColorHashTSDF) for point cloud integration and raycasting.
 /// </summary>
 public class Volume : CvObject
 {
@@ -15,7 +15,7 @@ public class Volume : CvObject
     /// <summary>
     /// Constructor of custom volume.
     /// </summary>
-    /// <param name="vtype">the volume type [TSDF, HashTSDF, ColorTSDF].</param>
+    /// <param name="vtype">The volume type. For type-specific defaults, pass a matching <see cref="VolumeSettings"/>.</param>
     /// <param name="settings">the custom settings for volume. If null, a default VolumeSettings(TSDF) is used.</param>
     public Volume(VolumeType vtype = VolumeType.TSDF, VolumeSettings? settings = null)
     {
@@ -92,10 +92,10 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Integrates the input data to the volume (only for ColorTSDF).
+    /// Integrates depth and color into a ColorTSDF or ColorHashTSDF volume.
     /// </summary>
     /// <param name="depth">the depth image.</param>
-    /// <param name="image">the color image (only for ColorTSDF).</param>
+    /// <param name="image">The color image registered to the depth image.</param>
     /// <param name="pose">the pose of camera in global coordinates.</param>
     public void IntegrateColor(InputArray depth, InputArray image, InputArray pose)
     {
@@ -126,12 +126,12 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Renders the volume contents into an image, also outputting colors (only for ColorTSDF).
+    /// Renders a ColorTSDF or ColorHashTSDF volume, including colors.
     /// </summary>
     /// <param name="cameraPose">the pose of camera in global coordinates.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
+    /// <param name="colors">Image to store rendered colors corresponding to points.</param>
     public void RaycastColor(InputArray cameraPose, OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
@@ -159,7 +159,7 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Renders the volume contents into an image of the given size with the given intrinsics, also outputting colors (only for ColorTSDF).
+    /// Renders a ColorTSDF or ColorHashTSDF volume with the given image size and intrinsics, including colors.
     /// </summary>
     /// <param name="cameraPose">the pose of camera in global coordinates.</param>
     /// <param name="height">the height of result image.</param>
@@ -167,7 +167,7 @@ public class Volume : CvObject
     /// <param name="K">camera raycast intrinsics.</param>
     /// <param name="points">image to store rendered points.</param>
     /// <param name="normals">image to store rendered normals corresponding to points.</param>
-    /// <param name="colors">image to store rendered colors corresponding to points (only for ColorTSDF).</param>
+    /// <param name="colors">Image to store rendered colors corresponding to points.</param>
     public void RaycastExColor(InputArray cameraPose, int height, int width, InputArray K, OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
@@ -207,11 +207,11 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Extracts all points, normals and colors from the volume (only for ColorTSDF).
+    /// Extracts all points, normals and colors from a ColorTSDF or ColorHashTSDF volume.
     /// </summary>
     /// <param name="points">the storage of all points.</param>
     /// <param name="normals">the storage of all normals, corresponding to points.</param>
-    /// <param name="colors">the storage of all colors, corresponding to points (only for ColorTSDF).</param>
+    /// <param name="colors">Output colors corresponding to points.</param>
     public void FetchPointsNormalsColors(OutputArray points, OutputArray normals, OutputArray colors)
     {
         ThrowIfDisposed();
@@ -268,7 +268,7 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Enables or disables new volume unit allocation during integration (HashTSDF only).
+    /// Enables or disables new volume unit allocation during integration for HashTSDF and ColorHashTSDF.
     /// </summary>
     public void SetEnableGrowth(bool v)
     {
@@ -278,7 +278,7 @@ public class Volume : CvObject
     }
 
     /// <summary>
-    /// Returns whether new volume units are allocated during integration (HashTSDF only).
+    /// Returns whether new volume units are allocated during integration for HashTSDF and ColorHashTSDF.
     /// </summary>
     public bool GetEnableGrowth()
     {

@@ -44,6 +44,21 @@ static partial class NativeMethods
             ? imgproc_FontFace_set_Windows(obj, fontPathOrName, out returnValue)
             : imgproc_FontFace_set_NotWindows(obj, fontPathOrName, out returnValue);
 
+    [LibraryImport(DllExtern, EntryPoint = "imgproc_FontFace_setBuiltinFont"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial ExceptionStatus imgproc_FontFace_setBuiltinFont_NotWindows(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fontName,
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string fontPath, out int returnValue);
+
+    [LibraryImport(DllExtern, EntryPoint = "imgproc_FontFace_setBuiltinFont"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial ExceptionStatus imgproc_FontFace_setBuiltinFont_Windows(
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string fontName,
+        [MarshalAs(StringUnmanagedTypeWindows)] string fontPath, out int returnValue);
+
+    internal static ExceptionStatus imgproc_FontFace_setBuiltinFont(string fontName, string fontPath, out int returnValue)
+        => IsWindows()
+            ? imgproc_FontFace_setBuiltinFont_Windows(fontName, fontPath, out returnValue)
+            : imgproc_FontFace_setBuiltinFont_NotWindows(fontName, fontPath, out returnValue);
+
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus imgproc_FontFace_getName(OpenCvSafeHandle obj, IntPtr returnValue);
 

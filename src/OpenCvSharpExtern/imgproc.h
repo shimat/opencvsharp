@@ -975,6 +975,18 @@ CVAPI(ExceptionStatus) imgproc_blendLinear(
     });
 }
 
+CVAPI(ExceptionStatus) imgproc_alphaComposite(
+    const interop::InputArrayProxy* overlay,
+    const interop::InputArrayProxy* background,
+    const interop::OutputArrayProxy* dst,
+    int op,
+    int premultiplied)
+{
+    return cvTry([&] {
+        cv::alphaComposite(InProxy(*overlay), InProxy(*background), OutProxy(*dst), op, premultiplied != 0);
+    });
+}
+
 CVAPI(ExceptionStatus) imgproc_cvtColor(
     const interop::InputArrayProxy* src,
     const interop::OutputArrayProxy* dst,

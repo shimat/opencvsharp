@@ -1862,6 +1862,26 @@ static partial class Cv2
     }
         
     /// <summary>
+    /// Composites an image with alpha onto a background using a Porter-Duff operator.
+    /// </summary>
+    /// <param name="overlay">An 8-bit RGBA or BGRA image with the same size and color channel order as the background.</param>
+    /// <param name="background">An 8-bit image with three or four channels. A three-channel background is treated as opaque.</param>
+    /// <param name="dst">Output image with the background's size and type. It can be the background itself.
+    /// For a three-channel output, the result is written as premultiplied color with the alpha channel dropped.</param>
+    /// <param name="op">The compositing operation.</param>
+    /// <param name="premultiplied">True when the input alpha is premultiplied. The output uses the same alpha convention if it has four channels.</param>
+    public static void AlphaComposite(InputArray overlay, InputArray background, OutputArray dst,
+        AlphaCompositeOperations op = AlphaCompositeOperations.Over, bool premultiplied = false)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_alphaComposite(overlay.Proxy, background.Proxy, dst.Proxy, (int)op, premultiplied ? 1 : 0));
+
+        GC.KeepAlive(overlay.Source);
+        GC.KeepAlive(background.Source);
+        GC.KeepAlive(dst.Source);
+    }
+
+    /// <summary>
     /// Converts image from one color space to another
     /// </summary>
     /// <param name="src">The source image, 8-bit unsigned, 16-bit unsigned or single-precision floating-point</param>

@@ -389,6 +389,24 @@ public class CoreTest : TestBase
     }
 
     [Fact]
+    public void LinearAssignmentFindsMinimumCost()
+    {
+        using var cost = Mat.FromArray(new int[,] { { 9, 1 }, { 5, 9 }, { 10, 11 } });
+
+        Assert.Equal(6d, Cv2.LinearAssignment(cost, out var assignment));
+        Assert.Equal([1, 0, -1], assignment);
+    }
+
+    [Fact]
+    public void LinearAssignmentHonorsThreshold()
+    {
+        using var cost = Mat.FromArray(new double[,] { { double.NaN, 1 }, { 5, 9 }, { double.PositiveInfinity, 11 } });
+
+        Assert.Equal(1d, Cv2.LinearAssignment(cost, out var assignment, costThreshold: 3));
+        Assert.Equal([1, -1, -1], assignment);
+    }
+
+    [Fact]
     public void Partition()
     {
         var array = new[] {1, 3, 8, 8, 1, 3, 3, };

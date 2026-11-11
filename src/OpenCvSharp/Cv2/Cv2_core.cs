@@ -1782,6 +1782,26 @@ public static partial class Cv2
     }
 
     /// <summary>
+    /// Finds a minimum-cost one-to-one assignment between rows and columns of a cost matrix.
+    /// </summary>
+    /// <param name="cost">A nonempty CV_32FC1, CV_64FC1 or CV_32SC1 cost matrix.
+    /// NaN and infinite costs forbid the corresponding pairs.</param>
+    /// <param name="assignment">Output array with one entry per row. Each entry is the matched
+    /// zero-based column index, or -1 for an unmatched row.</param>
+    /// <param name="costThreshold">Maximum allowed pair cost and the penalty for leaving a pair unmatched.</param>
+    /// <returns>The sum of the matched costs, excluding the penalties for unmatched pairs.</returns>
+    public static double LinearAssignment(InputArray cost, out int[] assignment, double costThreshold = double.MaxValue)
+    {
+        using var matches = new StdVector<int>();
+        NativeMethods.HandleException(
+            NativeMethods.core_linearAssignment(cost.Proxy, matches.CvPtr, costThreshold, out var totalCost));
+
+        GC.KeepAlive(cost.Source);
+        assignment = matches.ToArray();
+        return totalCost;
+    }
+
+    /// <summary>
     /// sorts independently each matrix row or each matrix column
     /// </summary>
     /// <param name="src">The source single-channel array</param>
