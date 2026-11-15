@@ -269,7 +269,6 @@ jobs:
       EM_VERSION: ${{ matrix.emscripten }}
       WORKLOAD_EM_VERSION: ${{ matrix.workload_emscripten || matrix.emscripten }}
       PACKAGE_VERSION: ${{ needs.pack.outputs.version }}
-      NUGET_PACKAGES: ${{ runner.temp }}/wasm-nuget-packages
     steps:
       - uses: actions/checkout@v7
         with:
@@ -305,6 +304,8 @@ jobs:
 
       - name: Restore and publish the NuGet consumer in Release
         shell: bash
+        env:
+          NUGET_PACKAGES: ${{ runner.temp }}/wasm-nuget-packages
         run: |
           project=test/OpenCvSharp.Tests.Wasm/OpenCvSharp.Tests.Wasm.csproj
           properties=(-p:TargetFramework="$FRAMEWORK" -p:OpenCvSharpPackageVersion="$PACKAGE_VERSION")
