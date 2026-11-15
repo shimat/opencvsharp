@@ -22,6 +22,10 @@ static partial class NativeMethods
     public static partial ExceptionStatus videoio_registry_getCameraBackends(IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus videoio_registry_enumerateDevices(
+        int apiPreference, OpenCvSafeHandle indices, OpenCvSafeHandle names, OpenCvSafeHandle backends);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus videoio_registry_getStreamBackends(IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -304,6 +304,13 @@ CVAPI(ExceptionStatus) dnn_Net_enableKVCache(cv::dnn::Net* net)
     });
 }
 
+CVAPI(ExceptionStatus) dnn_Net_reserveKVCache(cv::dnn::Net* net, int maxSequenceLength)
+{
+    return cvTry([&] {
+        net->reserveKVCache(maxSequenceLength);
+    });
+}
+
 CVAPI(ExceptionStatus) dnn_Net_disableKVCache(cv::dnn::Net* net)
 {
     return cvTry([&] {

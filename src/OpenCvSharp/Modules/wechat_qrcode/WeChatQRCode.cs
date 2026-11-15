@@ -30,6 +30,29 @@ public class WeChatQRCode : CvObject
                 detectorModelPath, superResolutionModelPath,
                 out var ptr));
 
+        SetHandle(ptr);
+    }
+
+    private WeChatQRCode(IntPtr ptr)
+    {
+        SetHandle(ptr);
+    }
+
+    /// <summary>Loads the detector and super-resolution ONNX models from memory.</summary>
+    /// <param name="detectorModel">Buffer containing the detector model.</param>
+    /// <param name="superResolutionModel">Buffer containing the super-resolution model.</param>
+    /// <returns>A detector using both models.</returns>
+    public static WeChatQRCode CreateFromMemory(ReadOnlySpan<byte> detectorModel, ReadOnlySpan<byte> superResolutionModel)
+    {
+        ArgumentOutOfRangeException.ThrowIfZero(detectorModel.Length, nameof(detectorModel));
+        ArgumentOutOfRangeException.ThrowIfZero(superResolutionModel.Length, nameof(superResolutionModel));
+        NativeMethods.HandleException(NativeMethods.wechat_qrcode_create_buffer(
+            detectorModel, (nuint)detectorModel.Length, superResolutionModel, (nuint)superResolutionModel.Length, out var ptr));
+        return new WeChatQRCode(ptr);
+    }
+
+    private void SetHandle(IntPtr ptr)
+    {
         SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_delete(h))));
     }

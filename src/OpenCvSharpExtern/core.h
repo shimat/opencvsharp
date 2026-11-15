@@ -777,12 +777,109 @@ CVAPI(ExceptionStatus) core_transpose(const interop::InputArrayProxy* src, const
     });
 }
 
+static std::vector<int> makeIntVector(const int* values, int count)
+{
+    if (count == 0)
+        return {};
+    return std::vector<int>(values, values + count);
+}
+
 CVAPI(ExceptionStatus) core_transposeND(
     const interop::InputArrayProxy* src, const int* order, int orderLength, const interop::OutputArrayProxy* dst)
 {
     return cvTry([&] {
-        const std::vector<int> orderVec(order, order + orderLength);
-        cv::transposeND(InProxy(*src), orderVec, OutProxy(*dst));
+        cv::transpose(InProxy(*src), makeIntVector(order, orderLength), OutProxy(*dst));
+    });
+}
+
+static std::vector<cv::Mat> makeMatVector(const cv::Mat* const* src, int count)
+{
+    std::vector<cv::Mat> mats(static_cast<size_t>(count));
+    for (int i = 0; i < count; ++i)
+        mats[i] = *src[i];
+    return mats;
+}
+
+CVAPI(ExceptionStatus) core_concat(
+    const cv::Mat* const* src, int count, int axis, const interop::OutputArrayProxy* dst)
+{
+    return cvTry([&] {
+        cv::concat(makeMatVector(src, count), axis, OutProxy(*dst));
+    });
+}
+
+CVAPI(ExceptionStatus) core_texpr(
+    const char* expression, const cv::Mat* const* inputs, int count, std::vector<cv::Mat>* outputs)
+{
+    return cvTry([&] {
+        cv::texpr(expression, makeMatVector(inputs, count), *outputs);
+    });
+}
+
+CVAPI(ExceptionStatus) core_splitND(
+    const interop::InputArrayProxy* src, int axis, const int* sizes, int count, std::vector<cv::Mat>* dst)
+{
+    return cvTry([&] {
+        cv::split(InProxy(*src), axis, makeIntVector(sizes, count), *dst);
+    });
+}
+
+CVAPI(ExceptionStatus) core_slice(
+    const interop::InputArrayProxy* src, const int* starts, int startCount, const int* ends, int endCount,
+    const int* steps, int stepCount, const interop::OutputArrayProxy* dst)
+{
+    return cvTry([&] {
+        cv::slice(InProxy(*src), makeIntVector(starts, startCount), makeIntVector(ends, endCount),
+            makeIntVector(steps, stepCount), OutProxy(*dst));
+    });
+}
+
+CVAPI(ExceptionStatus) core_repeatND(
+    const interop::InputArrayProxy* src, const int* repeats, int count, const interop::OutputArrayProxy* dst)
+{
+    return cvTry([&] {
+        cv::repeat(InProxy(*src), makeIntVector(repeats, count), OutProxy(*dst));
+    });
+}
+
+CVAPI(ExceptionStatus) core_squeeze(
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, const int* axes, int count)
+{
+    return cvTry([&] {
+        cv::squeeze(InProxy(*src), OutProxy(*dst), makeIntVector(axes, count));
+    });
+}
+
+CVAPI(ExceptionStatus) core_unsqueeze(
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, const int* axes, int count)
+{
+    return cvTry([&] {
+        cv::unsqueeze(InProxy(*src), OutProxy(*dst), makeIntVector(axes, count));
+    });
+}
+
+CVAPI(ExceptionStatus) core_flatten(
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, int startAxis, int endAxis)
+{
+    return cvTry([&] {
+        cv::flatten(InProxy(*src), OutProxy(*dst), startAxis, endAxis);
+    });
+}
+
+CVAPI(ExceptionStatus) core_reshape(
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst, const int* shape, int count, int allowZero)
+{
+    return cvTry([&] {
+        cv::reshape(InProxy(*src), OutProxy(*dst), makeIntVector(shape, count), allowZero != 0);
+    });
+}
+
+CVAPI(ExceptionStatus) core_reduceND(
+    const interop::InputArrayProxy* src, const interop::OutputArrayProxy* dst,
+    int rtype, const int* axes, int count, int keepDims, int dtype)
+{
+    return cvTry([&] {
+        cv::reduce(InProxy(*src), OutProxy(*dst), cv::ReduceParams(rtype, makeIntVector(axes, count), keepDims != 0, dtype));
     });
 }
 
@@ -903,6 +1000,17 @@ CVAPI(ExceptionStatus) core_solveLP(
 {
     return cvTry([&] {
         *returnValue = cv::solveLP(InProxy(*Func), InProxy(*Constr), OutProxy(*z));
+    });
+}
+
+CVAPI(ExceptionStatus) core_linearAssignment(
+    const interop::InputArrayProxy* cost,
+    std::vector<int>* assignment,
+    double costThreshold,
+    double* returnValue)
+{
+    return cvTry([&] {
+        *returnValue = cv::linearAssignment(InProxy(*cost), *assignment, costThreshold);
     });
 }
 

@@ -70,6 +70,23 @@ CVAPI(ExceptionStatus) videoio_registry_getCameraBackends(std::vector<int> *retu
     });
 }
 
+CVAPI(ExceptionStatus) videoio_registry_enumerateDevices(
+    int apiPreference, std::vector<int>* indices, std::vector<std::string>* names, std::vector<int>* backends)
+{
+    return cvTry([&] {
+        const auto devices = cv::videoio_registry::enumerateDevices(static_cast<cv::VideoCaptureAPIs>(apiPreference));
+        indices->reserve(devices.size());
+        names->reserve(devices.size());
+        backends->reserve(devices.size());
+        for (const auto& device : devices)
+        {
+            indices->push_back(device.cam_idx);
+            names->push_back(device.cam_name);
+            backends->push_back(static_cast<int>(device.backend));
+        }
+    });
+}
+
 CVAPI(ExceptionStatus) videoio_registry_getStreamBackends(std::vector<int> *returnValue)
 {
     return cvTry([&] {

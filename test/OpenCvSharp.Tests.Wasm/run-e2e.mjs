@@ -17,8 +17,9 @@ const TIMEOUT_MS = 60_000;
 const pageErrors = [];
 let result = null;
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ channel: 'chrome' });
 try {
+  console.log('Google Chrome ' + browser.version());
   const page = await browser.newPage();
 
   page.on('pageerror', (err) => pageErrors.push(String(err)));

@@ -66,53 +66,6 @@ static cv::dnn::Net dnn_readNetGated(const char *model, const char *config, cons
 #endif
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(
-    const char *model,
-    const char *config,
-    int engine,
-    cv::dnn::Net **returnValue)
-{
-    return cvTry([&] {
-#ifdef _WIN32
-        const bool hasConfig = (config != nullptr && config[0] != '\0');
-        std::string modelAcp, configAcp;
-        cv::dnn::Net net;
-        if (pathRoundTripsAcp(model, modelAcp) && (!hasConfig || pathRoundTripsAcp(config, configAcp)))
-        {
-            net = cv::dnn::readNetFromTensorflow(cv::String(modelAcp), hasConfig ? cv::String(configAcp) : cv::String(), engine);
-        }
-        else
-        {
-            const std::vector<uchar> modelBuf = dnn_readFileWideOrThrow(model);
-            const std::vector<uchar> configBuf = hasConfig ? dnn_readFileWideOrThrow(config) : std::vector<uchar>();
-            net = cv::dnn::readNetFromTensorflow(
-                reinterpret_cast<const char*>(modelBuf.data()), modelBuf.size(),
-                hasConfig ? reinterpret_cast<const char*>(configBuf.data()) : nullptr, hasConfig ? configBuf.size() : 0,
-                engine);
-        }
-        *returnValue = new cv::dnn::Net(net);
-#else
-        const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
-        const auto net = cv::dnn::readNetFromTensorflow(model, configStr, engine);
-        *returnValue = new cv::dnn::Net(net);
-#endif
-    });
-}
-
-CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(
-    const char *model,
-    size_t lenModel,
-    const char *config,
-    size_t lenConfig,
-    int engine,
-    cv::dnn::Net **returnValue)
-{
-    return cvTry([&] {
-        const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig, engine);
-        *returnValue = new cv::dnn::Net(net);
-    });
-}
-
 CVAPI(ExceptionStatus) dnn_readNet(
     const char *model,
     const char *config,
@@ -207,37 +160,30 @@ CVAPI(ExceptionStatus) dnn_blobFromImage(
     const interop::Scalar mean,
     const int swapRB,
     const int crop,
+    const int interpolation,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-        const auto blob = cv::dnn::blobFromImage(*image, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
+        const auto blob = cv::dnn::blobFromImage(*image, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0,
+            CV_32F, interpolation);
         *returnValue = new cv::Mat(blob);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImages(
-    const cv::Mat **images,
-    const int imagesLength,
+    const std::vector<cv::Mat>* images,
     const double scalefactor,
     const interop::Size size,
     const interop::Scalar mean,
     const int swapRB,
     const int crop,
+    const int interpolation,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-        std::vector<cv::Mat> imagesVec;
-        toVec(images, imagesLength, imagesVec);
-
-        const auto blob = cv::dnn::blobFromImages(imagesVec, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0);
+        const auto blob = cv::dnn::blobFromImages(*images, scalefactor, cpp(size), cpp(mean), swapRB != 0, crop != 0,
+            CV_32F, interpolation);
         *returnValue = new cv::Mat(blob);
-    });
-}
-
-CVAPI(ExceptionStatus) dnn_writeTextGraph(const char *model, const char *output)
-{
-    return cvTry([&] {
-        cv::dnn::writeTextGraph(model, output);
     });
 }
 
@@ -370,20 +316,21 @@ CVAPI(ExceptionStatus) dnn_blobFromImageWithParams(
     const int datalayout,
     const int paddingmode,
     const interop::Scalar borderValue,
+    const int interpolation,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
         const cv::dnn::Image2BlobParams param(
             cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
-            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode),
+            cpp(borderValue), interpolation);
         const auto blob = cv::dnn::blobFromImageWithParams(InProxy(*image), param);
         *returnValue = new cv::Mat(blob);
     });
 }
 
 CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
-    cv::Mat **images,
-    const int imagesLength,
+    const std::vector<cv::Mat>* images,
     const interop::Scalar scalefactor,
     const interop::Size size,
     const interop::Scalar mean,
@@ -392,15 +339,15 @@ CVAPI(ExceptionStatus) dnn_blobFromImagesWithParams(
     const int datalayout,
     const int paddingmode,
     const interop::Scalar borderValue,
+    const int interpolation,
     cv::Mat **returnValue)
 {
     return cvTry([&] {
-        std::vector<cv::Mat> imagesVec;
-        toVec(images, imagesLength, imagesVec);
         const cv::dnn::Image2BlobParams param(
             cpp(scalefactor), cpp(size), cpp(mean), swapRB != 0, ddepth,
-            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode), cpp(borderValue));
-        const auto blob = cv::dnn::blobFromImagesWithParams(imagesVec, param);
+            static_cast<cv::DataLayout>(datalayout), static_cast<cv::dnn::ImagePaddingMode>(paddingmode),
+            cpp(borderValue), interpolation);
+        const auto blob = cv::dnn::blobFromImagesWithParams(*images, param);
         *returnValue = new cv::Mat(blob);
     });
 }

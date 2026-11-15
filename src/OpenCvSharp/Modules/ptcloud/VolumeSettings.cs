@@ -6,7 +6,7 @@ using OpenCvSharp.Internal;
 namespace OpenCvSharp;
 
 /// <summary>
-/// Settings for a TSDF/HashTSDF/ColorTSDF Volume.
+/// Settings for a TSDF, HashTSDF, ColorTSDF or ColorHashTSDF volume.
 /// </summary>
 public class VolumeSettings : CvObject
 {

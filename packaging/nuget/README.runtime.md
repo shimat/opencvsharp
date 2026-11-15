@@ -8,7 +8,7 @@ The managed OpenCvSharp API is intentionally designed to stay as close as practi
 > - **Windows:** `OpenCvSharp5.Windows` or `OpenCvSharp5.Windows.Slim`
 > - **Linux:** `OpenCvSharp5` + `OpenCvSharp5.official.runtime.linux-x64` (or `OpenCvSharp5.official.runtime.linux-arm64` on ARM64)
 
-> The `OpenCvSharp5.*` runtime packages target OpenCV 5.x. An identically-named `OpenCvSharp4.*` counterpart (OpenCV 4.13.0) is also published for .NET Framework / older runtimes.
+> The `OpenCvSharp5.*` runtime packages target OpenCV 5.1.x. An identically-named `OpenCvSharp4.*` counterpart (OpenCV 4.13.0) is also published for .NET Framework / older runtimes.
 
 > 🔄 **Already using OpenCvSharp4?** See the [Migration Guide (4 → 5)](https://github.com/shimat/opencvsharp/blob/main/docs/migration-4-to-5.md) on GitHub for target framework changes, package/namespace renames, and OpenCV 5 API changes.
 

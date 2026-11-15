@@ -17,7 +17,7 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: "5.0.0"
+  OPENCV_VERSION: "5.1.0"
   OPENCV_ARM64_CACHE_REVISION: "3"
   MEDIAMTX_VERSION: "1.19.3"
   MEDIAMTX_SHA256: "5d82148d1032a6a190d9909a2997d9989457aaadf49af87dd02cd4512d31bebe"
@@ -72,7 +72,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -134,7 +134,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -163,7 +163,7 @@ jobs:
       - name: Verify FFmpeg plugin deployment
         shell: pwsh
         run: |
-          $ffmpegPlugin = "test\OpenCvSharp.Tests\opencv_videoio_ffmpeg500_64.dll"
+          $ffmpegPlugin = "test\OpenCvSharp.Tests\opencv_videoio_ffmpeg510_64.dll"
           if (-not (Test-Path $ffmpegPlugin)) {
             throw "OpenCV FFmpeg plugin was not deployed to the test project: $ffmpegPlugin"
           }
@@ -251,7 +251,7 @@ jobs:
           dotnet publish -c Release -f net10.0 --runtime win-x64 -p:PublishAot=true --no-restore
 
           # Only OpenCvSharpExtern.dll is needed: this smoke test never touches video/ffmpeg, and
-          # opencv_videoio_ffmpeg500_64.dll is only conditionally copied by CMake's POST_BUILD step
+          # opencv_videoio_ffmpeg510_64.dll is only conditionally copied by CMake's POST_BUILD step
           # in the first place (see OpenCvSharpExtern/CMakeLists.txt's `if(EXISTS ...)` guard), so
           # it is not guaranteed to exist here.
           $publishDir = "bin\Release\net10.0\win-x64\publish"
@@ -392,7 +392,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -468,7 +468,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Build OpenCvSharpExtern (full)
         shell: powershell

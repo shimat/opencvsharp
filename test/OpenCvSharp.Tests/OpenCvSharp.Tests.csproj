@@ -25,6 +25,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+    <None Include="..\..\opencv\modules\imgproc\fonts\Rubik-Italic.ttf.gz"
+          Condition="Exists('..\..\opencv\modules\imgproc\fonts\Rubik-Italic.ttf.gz')"
+          Link="_data\fonts\Rubik-Italic.ttf.gz"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +39,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CrashDump" Version="2.5.2" PrivateAssets="all" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.660" />
     <PackageReference Include="SkiaSharp" Version="4.155.0" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.155.0" />
@@ -50,7 +54,7 @@
     <None Update="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="opencv_videoio_ffmpeg500_64.dll">
+    <None Update="opencv_videoio_ffmpeg510_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

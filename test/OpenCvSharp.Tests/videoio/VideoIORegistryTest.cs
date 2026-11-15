@@ -22,6 +22,27 @@ public class VideoIORegistryTest : TestBase
     }
 
     [Fact]
+    public void EnumerateDevicesReturnsCameraMetadata()
+    {
+        var devices = Cv2.VideoIORegistry.EnumerateDevices();
+        var backends = Cv2.VideoIORegistry.GetCameraBackends();
+        Assert.All(devices, device =>
+        {
+            Assert.True(device.Index >= 0);
+            Assert.False(string.IsNullOrEmpty(device.Name));
+            Assert.Contains(device.Backend, backends);
+        });
+    }
+
+    [Fact]
+    public void EnumerateDevicesFiltersBackends()
+    {
+        Assert.Empty(Cv2.VideoIORegistry.EnumerateDevices(VideoCaptureAPIs.IMAGES));
+        Assert.All(Cv2.VideoIORegistry.EnumerateDevices(VideoCaptureAPIs.MSMF),
+            device => Assert.Equal(VideoCaptureAPIs.MSMF, device.Backend));
+    }
+
+    [Fact]
     public void GetStreamBackends()
     {
         var backends = Cv2.VideoIORegistry.GetStreamBackends();

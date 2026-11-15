@@ -24,17 +24,19 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="scoreThreshold">Match confidence threshold.</param>
     /// <param name="backend">DNN backend (see <see cref="Dnn.Backend"/>). Default is 0 (DEFAULT).</param>
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
-    public static LightGlueMatcher Create(string modelPath, float scoreThreshold = 0.0f, int backend = 0, int target = 0)
+    /// <param name="type">Variant of the ONNX model.</param>
+    public static LightGlueMatcher Create(string modelPath, float scoreThreshold = 0.0f, int backend = 0, int target = 0,
+        LightGlueType type = LightGlueType.Aliked)
     {
         ArgumentNullException.ThrowIfNull(modelPath);
 
         if (ModelPathUtil.RequiresBufferFallback(modelPath))
         {
-            return CreateFromMemory(File.ReadAllBytes(modelPath), scoreThreshold, backend, target);
+            return CreateFromMemory(File.ReadAllBytes(modelPath), scoreThreshold, backend, target, type);
         }
 
         NativeMethods.HandleException(
-            NativeMethods.features_LightGlueMatcher_create(modelPath, scoreThreshold, backend, target, out var smartPtr));
+            NativeMethods.features_LightGlueMatcher_create(modelPath, scoreThreshold, backend, target, (int)type, out var smartPtr));
         NativeMethods.HandleException(
             NativeMethods.features_Ptr_LightGlueMatcher_get(smartPtr, out var rawPtr));
         return new LightGlueMatcher(smartPtr, rawPtr);
@@ -47,17 +49,38 @@ public class LightGlueMatcher : DescriptorMatcher
     /// <param name="scoreThreshold">Match confidence threshold.</param>
     /// <param name="backend">DNN backend (see <see cref="Dnn.Backend"/>). Default is 0 (DEFAULT).</param>
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
-    public static LightGlueMatcher CreateFromMemory(byte[] modelData, float scoreThreshold = 0.0f, int backend = 0, int target = 0)
+    /// <param name="type">Variant of the ONNX model.</param>
+    public static LightGlueMatcher CreateFromMemory(byte[] modelData, float scoreThreshold = 0.0f, int backend = 0, int target = 0,
+        LightGlueType type = LightGlueType.Aliked)
     {
         ArgumentNullException.ThrowIfNull(modelData);
 
         NativeMethods.HandleException(
             NativeMethods.features_LightGlueMatcher_create_buffer(
-                modelData, new IntPtr(modelData.Length), scoreThreshold, backend, target, out var smartPtr));
+                modelData, new IntPtr(modelData.Length), scoreThreshold, backend, target, (int)type, out var smartPtr));
         GC.KeepAlive(modelData);
         NativeMethods.HandleException(
             NativeMethods.features_Ptr_LightGlueMatcher_get(smartPtr, out var rawPtr));
         return new LightGlueMatcher(smartPtr, rawPtr);
+    }
+
+    /// <summary>
+    /// Gets or sets how pixel keypoints passed with an image size are normalized.
+    /// Keypoints passed with an empty image size are already normalized.
+    /// </summary>
+    public LightGlueNormalization KeypointNormalization
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.features_LightGlueMatcher_getKeypointNormalization(Handle, out var value));
+            return (LightGlueNormalization)value;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.features_LightGlueMatcher_setKeypointNormalization(Handle, (int)value));
+        }
     }
 
     /// <summary>

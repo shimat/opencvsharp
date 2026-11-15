@@ -16,7 +16,7 @@ See [OpenCV C++, Python (cv2), and OpenCvSharp](https://shimat.github.io/opencvs
 | Windows desktop (.NET 8+) | `net8.0-windows` (WpfExtensions) |
 | Android API 24+ | `net10.0-android` (arm64-v8a or x86_64, preview runtime) |
 
-Target OpenCV version: **5.0.x** (with opencv_contrib)
+Target OpenCV version: **5.1.x** (with opencv_contrib)
 
 ## Quick Start
 

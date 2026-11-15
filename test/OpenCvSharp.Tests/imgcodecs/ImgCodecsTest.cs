@@ -406,14 +406,40 @@ public class ImgCodecsTest : TestBase
     [Fact(Skip = "Only runs on macOS", SkipUnless = nameof(IsMacOS))]
     public void AvifRoundTripOnMacOS()
     {
-        using var source = new Mat(16, 16, MatType.CV_8UC3, Scalar.Blue);
-        Assert.True(Cv2.ImEncode(".avif", source, out var encoded));
-        Assert.NotEmpty(encoded);
+        using var source = new Mat(64, 64, MatType.CV_8UC4, Scalar.Blue);
+        using var alpha = new Mat(source.Size(), MatType.CV_8UC1);
+        for (var y = 0; y < alpha.Rows; y++)
+        {
+            for (var x = 0; x < alpha.Cols; x++)
+                alpha.Set(y, x, (byte)((x * 5 + y * 3) % 256));
+        }
 
-        using var decoded = Cv2.ImDecode(encoded, ImreadModes.Color);
-        Assert.False(decoded.Empty());
-        Assert.Equal(source.Rows, decoded.Rows);
-        Assert.Equal(source.Cols, decoded.Cols);
+        Cv2.InsertChannel(alpha, source, 3);
+        Assert.True(Cv2.ImEncode(".avif", source, out var encoded,
+            [new(ImwriteFlags.AvifQuality, 10), new(ImwriteFlags.AvifAlphaQuality, 100)]));
+
+        using var decoded = Cv2.ImDecode(encoded, ImreadModes.Unchanged);
+        Assert.Equal(source.Size(), decoded.Size());
+        Assert.Equal(MatType.CV_8UC4, decoded.Type());
+
+        using var decodedAlpha = new Mat();
+        Cv2.ExtractChannel(decoded, decodedAlpha, 3);
+        Assert.Equal(0, Cv2.Norm(alpha, decodedAlpha, NormTypes.INF));
+    }
+
+    [Fact]
+    public void TiffDeflateCompressionLevel()
+    {
+        using var source = new Mat(256, 256, MatType.CV_8UC1, Scalar.All(42));
+        var compression = new ImageEncodingParam(ImwriteFlags.TiffCompression, (int)ImwriteTiffCompressionFlags.AdobeDeflate);
+        Assert.True(Cv2.ImEncode(".tiff", source, out var fast,
+            [compression, new(ImwriteFlags.TiffCompressionLevel, 1)]));
+        Assert.True(Cv2.ImEncode(".tiff", source, out var small,
+            [compression, new(ImwriteFlags.TiffCompressionLevel, 9)]));
+        Assert.True(small.Length < fast.Length, $"Level 9 encoded {small.Length} bytes, level 1 encoded {fast.Length}.");
+
+        using var decoded = Cv2.ImDecode(small, ImreadModes.Unchanged);
+        Assert.Equal(0, Cv2.Norm(source, decoded, NormTypes.INF));
     }
 
     [Theory]

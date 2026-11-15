@@ -89,6 +89,29 @@ public class ImgProcTest : TestBase
     }
 
     [Fact]
+    public void AlphaCompositeOver()
+    {
+        using var overlay = new Mat(1, 1, MatType.CV_8UC4, new Scalar(255, 0, 0, 128));
+        using var background = new Mat(1, 1, MatType.CV_8UC4, new Scalar(0, 0, 255, 255));
+        using var dst = new Mat();
+
+        Cv2.AlphaComposite(overlay, background, dst);
+
+        Assert.Equal(new Vec4b(128, 0, 127, 255), dst.At<Vec4b>(0, 0));
+    }
+
+    [Fact]
+    public void AlphaCompositeDestOverPremultipliedInPlace()
+    {
+        using var overlay = new Mat(1, 1, MatType.CV_8UC4, new Scalar(128, 0, 0, 128));
+        using var background = new Mat(1, 1, MatType.CV_8UC4, new Scalar(0, 0, 128, 128));
+
+        Cv2.AlphaComposite(overlay, background, background, AlphaCompositeOperations.DestOver, premultiplied: true);
+
+        Assert.Equal(new Vec4b(64, 0, 128, 192), background.At<Vec4b>(0, 0));
+    }
+
+    [Fact]
     public void Demosaicing()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
@@ -1072,6 +1095,26 @@ public class ImgProcTest : TestBase
 
         Assert.Equal(src.Size(), dst.Size());
         Assert.Equal(MatType.CV_8UC1, dst.Type());
+    }
+
+    [Theory]
+    [InlineData(ColorConversionCodes.BGR2Oklab, ColorConversionCodes.Oklab2BGR, false)]
+    [InlineData(ColorConversionCodes.RGB2Oklab, ColorConversionCodes.Oklab2RGB, true)]
+    public void CvtColorOklab(ColorConversionCodes toOklab, ColorConversionCodes fromOklab, bool isRgb)
+    {
+        var red = isRgb ? new Scalar(1, 0, 0) : new Scalar(0, 0, 1);
+        using var source = new Mat(1, 1, MatType.CV_32FC3, red);
+        using var oklab = new Mat();
+        Cv2.CvtColor(source, oklab, toOklab);
+
+        var pixel = oklab.At<Vec3f>(0, 0);
+        Assert.Equal(0.627955f, pixel.Item0, 4);
+        Assert.Equal(0.224863f, pixel.Item1, 4);
+        Assert.Equal(0.125846f, pixel.Item2, 4);
+
+        using var restored = new Mat();
+        Cv2.CvtColor(oklab, restored, fromOklab);
+        Assert.InRange(Cv2.Norm(source, restored, NormTypes.INF), 0, 0.001);
     }
 
     [Fact]

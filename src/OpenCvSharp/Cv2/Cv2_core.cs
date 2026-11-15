@@ -1530,15 +1530,11 @@ public static partial class Cv2
     /// <param name="src">The source array</param>
     /// <param name="order">Permutation of axes, e.g. { 1, 0, 2 } to swap the first two axes.</param>
     /// <param name="dst">The destination array</param>
+    /// <remarks>Prefer the axis-order overload of <see cref="Transpose(InputArray, ReadOnlySpan{int}, OutputArray)"/>.</remarks>
     public static void TransposeND(InputArray src, int[] order, OutputArray dst)
     {
         ArgumentNullException.ThrowIfNull(order);
-
-        NativeMethods.HandleException(
-            NativeMethods.core_transposeND(src.Proxy, order, order.Length, dst.Proxy));
-
-        GC.KeepAlive(src.Source);
-        GC.KeepAlive(dst.Source);
+        Transpose(src, order, dst);
     }
 
     /// <summary>
@@ -1779,6 +1775,26 @@ public static partial class Cv2
         GC.KeepAlive(constr.Source);
         GC.KeepAlive(z.Source);
         return (SolveLPResult) ret;
+    }
+
+    /// <summary>
+    /// Finds a minimum-cost one-to-one assignment between rows and columns of a cost matrix.
+    /// </summary>
+    /// <param name="cost">A nonempty CV_32FC1, CV_64FC1 or CV_32SC1 cost matrix.
+    /// NaN and infinite costs forbid the corresponding pairs.</param>
+    /// <param name="assignment">Output array with one entry per row. Each entry is the matched
+    /// zero-based column index, or -1 for an unmatched row.</param>
+    /// <param name="costThreshold">Maximum allowed pair cost and the penalty for leaving a pair unmatched.</param>
+    /// <returns>The sum of the matched costs, excluding the penalties for unmatched pairs.</returns>
+    public static double LinearAssignment(InputArray cost, out int[] assignment, double costThreshold = double.MaxValue)
+    {
+        using var matches = new StdVector<int>();
+        NativeMethods.HandleException(
+            NativeMethods.core_linearAssignment(cost.Proxy, matches.CvPtr, costThreshold, out var totalCost));
+
+        GC.KeepAlive(cost.Source);
+        assignment = matches.ToArray();
+        return totalCost;
     }
 
     /// <summary>
