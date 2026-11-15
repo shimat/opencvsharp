@@ -10,6 +10,7 @@
 
     <!-- The default 32MB wasm heap is too small to even link the real OpenCV wasm binary. -->
     <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
+    <EmccInitialHeapSize Condition="'$(TargetFramework)' == 'net8.0'">$(WasmInitialHeapSize)</EmccInitialHeapSize>
 
     <!--
       Some OpenCvSharp P/Invoke declarations have no corresponding symbol in the wasm-built
