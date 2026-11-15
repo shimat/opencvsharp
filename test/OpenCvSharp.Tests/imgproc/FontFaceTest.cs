@@ -39,6 +39,9 @@ public class FontFaceTest : TestBase
         static void Draw(FontFace font, Mat image) =>
             Cv2.PutText(image, "Hello", new Point(10, 55), Scalar.White, font, 48);
 
+        // Earlier text tests can change the cached built-in face's variable-font settings.
+        // Reset the slot so both comparisons start with a freshly loaded compiled-in face.
+        Assert.True(FontFace.SetBuiltinFont("sans", ""));
         using var original = new FontFace("sans");
         using var before = new Mat(70, 160, MatType.CV_8UC1, Scalar.Black);
         using var after = new Mat(70, 160, MatType.CV_8UC1, Scalar.Black);
