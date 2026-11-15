@@ -370,8 +370,8 @@ public readonly record struct MatType(int value) : IEquatable<int>
 
     public static MatType MakeType(int depth, int channels)
     {
-        if (channels <= 0 || channels >= CV_CN_MAX)
-            throw new OpenCvSharpException("Channels count should be 1.." + (CV_CN_MAX - 1));
+        if (channels <= 0 || channels > CV_CN_MAX)
+            throw new OpenCvSharpException("Channels count should be 1.." + CV_CN_MAX);
         if (depth < 0 || depth >= CV_DEPTH_MAX)
             throw new OpenCvSharpException("Data type depth should be 0.." + (CV_DEPTH_MAX - 1));
         return (depth & (CV_DEPTH_MAX - 1)) + ((channels - 1) << CV_CN_SHIFT);
