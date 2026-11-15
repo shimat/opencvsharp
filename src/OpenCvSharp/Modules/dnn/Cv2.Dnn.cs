@@ -194,12 +194,15 @@ public static partial class Cv2
         {
             ArgumentNullException.ThrowIfNull(images);
 
-            using var imagesVector = new VectorOfMat(images);
+            var imageArray = images as Mat[] ?? images.ToArray();
+            using var imagesVector = new VectorOfMat(imageArray);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImages(
                     imagesVector.Handle, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, (int)interpolation,
                     out var ret));
+            // The vector copies Mat headers. The source Mats own any managed pixel pins.
+            GC.KeepAlive(imageArray);
             return new Mat(ret);
         }
 
@@ -234,12 +237,14 @@ public static partial class Cv2
             ArgumentNullException.ThrowIfNull(images);
             param ??= new Image2BlobParams();
 
-            using var imagesVector = new VectorOfMat(images);
+            var imageArray = images as Mat[] ?? images.ToArray();
+            using var imagesVector = new VectorOfMat(imageArray);
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImagesWithParams(
                     imagesVector.Handle, param.ScaleFactor, param.Size, param.Mean,
                     param.SwapRB ? 1 : 0, (int)param.Depth, (int)param.DataLayout, (int)param.PaddingMode, param.BorderValue,
                     (int)param.Interpolation, out var ret));
+            GC.KeepAlive(imageArray);
             return new Mat(ret);
         }
 
