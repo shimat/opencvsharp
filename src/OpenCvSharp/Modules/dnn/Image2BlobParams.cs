@@ -54,6 +54,9 @@ public class Image2BlobParams
     /// </summary>
     public Scalar BorderValue { get; set; }
 
+    /// <summary>Interpolation method used when resizing.</summary>
+    public InterpolationFlags Interpolation { get; set; } = InterpolationFlags.Linear;
+
     /// <summary>
     /// Creates parameters with default values.
     /// </summary>

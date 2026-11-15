@@ -369,6 +369,7 @@ public class Net : CvObject
     /// </summary>
     /// <param name="outputName">name for layer which output is needed to get</param>
     /// <returns>blob for first output of specified layer.</returns>
+    /// <remarks>The returned matrix preserves FP16 and BF16 output depths declared by the model.</remarks>
     public Mat Forward(string? outputName = null)
     {
         NativeMethods.HandleException(
@@ -683,6 +684,15 @@ public class Net : CvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_enableKVCache(Handle));
+    }
+
+    /// <summary>Reserves key-value cache pages before the first forward pass of a model with paged attention.</summary>
+    /// <param name="maxSequenceLength">Number of tokens to reserve for. The cache can grow past this length.</param>
+    /// <remarks>Call after <see cref="EnableKVCache"/>. <see cref="ResetKVCache"/> discards the reservation.</remarks>
+    public void ReserveKVCache(int maxSequenceLength)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(NativeMethods.dnn_Net_reserveKVCache(Handle, maxSequenceLength));
     }
 
     /// <summary>

@@ -117,6 +117,9 @@ static partial class NativeMethods
     public static partial ExceptionStatus dnn_Net_enableKVCache(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial ExceptionStatus dnn_Net_reserveKVCache(OpenCvSafeHandle net, int maxSequenceLength);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_Net_disableKVCache(OpenCvSafeHandle net);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
