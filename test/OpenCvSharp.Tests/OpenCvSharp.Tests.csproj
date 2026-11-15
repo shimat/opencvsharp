@@ -25,6 +25,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+    <None Include="..\..\opencv\modules\imgproc\fonts\Rubik-Italic.ttf.gz"
+          Condition="Exists('..\..\opencv\modules\imgproc\fonts\Rubik-Italic.ttf.gz')"
+          Link="_data\fonts\Rubik-Italic.ttf.gz"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

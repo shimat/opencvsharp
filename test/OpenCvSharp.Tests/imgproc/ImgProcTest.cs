@@ -89,6 +89,29 @@ public class ImgProcTest : TestBase
     }
 
     [Fact]
+    public void AlphaCompositeOver()
+    {
+        using var overlay = new Mat(1, 1, MatType.CV_8UC4, new Scalar(255, 0, 0, 128));
+        using var background = new Mat(1, 1, MatType.CV_8UC4, new Scalar(0, 0, 255, 255));
+        using var dst = new Mat();
+
+        Cv2.AlphaComposite(overlay, background, dst);
+
+        Assert.Equal(new Vec4b(128, 0, 127, 255), dst.At<Vec4b>(0, 0));
+    }
+
+    [Fact]
+    public void AlphaCompositeDestOverPremultipliedInPlace()
+    {
+        using var overlay = new Mat(1, 1, MatType.CV_8UC4, new Scalar(128, 0, 0, 128));
+        using var background = new Mat(1, 1, MatType.CV_8UC4, new Scalar(0, 0, 128, 128));
+
+        Cv2.AlphaComposite(overlay, background, background, AlphaCompositeOperations.DestOver, premultiplied: true);
+
+        Assert.Equal(new Vec4b(64, 0, 128, 192), background.At<Vec4b>(0, 0));
+    }
+
+    [Fact]
     public void Demosaicing()
     {
         using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
