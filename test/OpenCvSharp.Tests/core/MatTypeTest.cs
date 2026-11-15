@@ -198,9 +198,9 @@ public class MatTypeTest : TestBase
     [Fact]
     public void MaxChannels()
     {
-        // OpenCV 5 reduced CV_CN_MAX from 512 to 128.
-        Assert.Equal(127, MatType.CV_8UC(127).Channels);
-        Assert.Throws<OpenCvSharpException>(() => MatType.CV_8UC(128));
+        Assert.Equal(128, MatType.CV_8UC(128).Channels);
+        var exception = Assert.Throws<OpenCvSharpException>(() => MatType.CV_8UC(129));
+        Assert.Equal("Channels count should be 1..128", exception.Message);
     }
 
     [Fact]

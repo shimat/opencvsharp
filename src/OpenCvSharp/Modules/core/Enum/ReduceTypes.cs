@@ -30,4 +30,22 @@ public enum ReduceTypes
     /// The output is the minimum (column/row-wise) of all the matrix rows/columns.
     /// </summary>
     Min = 3,
+
+    /// <summary>Sum of squared elements.</summary>
+    Sum2 = 4,
+
+    /// <summary>Product of the elements.</summary>
+    Prod = 5,
+
+    /// <summary>Sum of absolute values.</summary>
+    L1 = 6,
+
+    /// <summary>Square root of the sum of squares.</summary>
+    L2 = 7,
+
+    /// <summary>Natural logarithm of the sum.</summary>
+    LogSum = 8,
+
+    /// <summary>Natural logarithm of the sum of the exponentials.</summary>
+    LogSumExp = 9,
 }
