@@ -231,6 +231,7 @@ jobs:
           done
           unzip -p "$runtime" build/net8.0/OpenCvSharp5.runtime.wasm.props > /dev/null
           unzip -p "$runtime" build/net11.0/OpenCvSharp5.runtime.wasm.props > /dev/null
+          unzip -p "$runtime" lib/net8.0/_._ > /dev/null
           unzip -p "managed-test-package/OpenCvSharp5.$VERSION.nupkg" lib/net8.0/OpenCvSharp.dll > /dev/null
 
       - uses: actions/upload-artifact@v7
