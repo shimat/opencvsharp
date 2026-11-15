@@ -22,8 +22,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <!-- Declare the minimum compatible framework for this native-only package. -->
+    <None Include="wasm-net8/_._" Pack="true" PackagePath="lib/net8.0" />
     <None Include="OpenCvSharp5.runtime.wasm.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="OpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/4.0.23" />
+    <None Include="wasm-net11/OpenCvSharp5.runtime.wasm.props" Pack="true" PackagePath="build/net11.0" />
+    <None Include="../../runtimes/browser-wasm/3.1.56/OpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/3.1.56" />
+    <None Include="../../runtimes/browser-wasm/6.0.2/OpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/6.0.2" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>

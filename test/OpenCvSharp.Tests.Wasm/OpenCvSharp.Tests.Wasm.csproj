@@ -6,9 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <NoWarn>CA1303;CA2007</NoWarn>
+    <RunAOTCompilation Condition="'$(Configuration)' == 'Release' and '$(TargetFramework)' != 'net8.0'">true</RunAOTCompilation>
 
     <!-- The default 32MB wasm heap is too small to even link the real OpenCV wasm binary. -->
     <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
+    <EmccInitialHeapSize Condition="'$(TargetFramework)' == 'net8.0'">$(WasmInitialHeapSize)</EmccInitialHeapSize>
 
     <!--
       Some OpenCvSharp P/Invoke declarations have no corresponding symbol in the wasm-built
@@ -19,43 +21,35 @@
     -->
     <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
 
-    <!--
-      OpenCvSharpExtern.a is built with a separately-installed, newer Emscripten (see EM_VERSION in
-      .github/workflows/wasm.yml) than the one bundled with this .NET SDK's wasm workload. At the
-      default O2, emcc's link step runs its bundled wasm-opt with feature flags derived from the
-      newer toolchain's object files, which the older bundled wasm-opt binary doesn't recognize
-      (unknown option "enable bulk memory opt"). O1 skips that Binaryen optimization pass.
-    -->
-    <EmccLinkOptimizationFlag>-O1</EmccLinkOptimizationFlag>
+    <!-- Older workloads bundle Binaryen versions with fewer optimization flags. -->
+    <EmccLinkOptimizationFlag Condition="'$(TargetFramework)' != 'net11.0'">-O1</EmccLinkOptimizationFlag>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.14" PrivateAssets="all" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.34" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.34" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.15" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="11.0.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
+    <PackageReference Include="OpenCvSharp5" Version="$(OpenCvSharpPackageVersion)" />
+    <PackageReference Include="OpenCvSharp5.runtime.wasm" Version="$(OpenCvSharpPackageVersion)" />
   </ItemGroup>
 
-  <!--
-    Consume the wasm native binding the same way a real NuGet consumer does: NativeFileReference
-    resolves the P/Invoke module name from the native file's %(Filename). Importing the actual
-    shipped .props (instead of hand-rolling a NativeFileReference here) means this test exercises
-    the same file that ships in OpenCvSharp5.runtime.wasm, catching issues like #2039 (module name
-    mismatch -> DllNotFoundException) and #2037 (OpenCL/UMat probe crashing on wasm) end-to-end.
-  -->
-  <Import Project="..\..\packaging\nuget\OpenCvSharp5.runtime.wasm.props" />
-
-  <!--
-    OpenCvSharp.csproj's OpenCvSharp.dll.config (a native-library-search-path hint irrelevant on
-    wasm, which statically links everything) ends up in @(ResolvedFileToPublish) twice - once from
-    its declared source path and once from OpenCvSharp's own build output - which fails publish
-    with NETSDK1152. Drop it; nothing on wasm needs it.
-  -->
-  <Target Name="RemoveOpenCvSharpDllConfigDuplicate" BeforeTargets="_HandleFileConflictsForPublish">
+  <!-- Keep OpenCvSharp available for type resolution while avoiding the Mono AOT assertion
+       in opencvsharp_blazor_sample#8. This matches the sample's partial AOT configuration. -->
+  <Target Name="MarkOpenCvSharpForInterpretation" BeforeTargets="_WasmAotCompileApp">
     <ItemGroup>
-      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(FileName)%(Extension)' == 'OpenCvSharp.dll.config'" />
+      <_WasmAssembliesInternal Condition="'%(_WasmAssembliesInternal.FileName)' == 'OpenCvSharp'" AOT_InternalForceToInterpret="true" />
     </ItemGroup>
   </Target>
 
