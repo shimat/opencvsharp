@@ -61,11 +61,13 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_blobFromImage(
-        IntPtr image, double scaleFactor, Size size, Scalar mean, int swapRB, int crop, out IntPtr returnValue);
+        OpenCvSafeHandle image, double scaleFactor, Size size, Scalar mean, int swapRB, int crop,
+        int interpolation, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_blobFromImages(
-        IntPtr[] images, int imagesLength, double scaleFactor, Size size, Scalar mean, int swapRB, int crop, out IntPtr returnValue);
+        OpenCvSafeHandle images, double scaleFactor, Size size, Scalar mean, int swapRB, int crop,
+        int interpolation, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_NMSBoxes_Rect(
@@ -112,12 +114,12 @@ static partial class NativeMethods
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus dnn_blobFromImageWithParams(
         in InputArrayProxy image, Scalar scalefactor, Size size, Scalar mean,
-        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, int interpolation, out IntPtr returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus dnn_blobFromImagesWithParams(
-        IntPtr[] images, int imagesLength, Scalar scalefactor, Size size, Scalar mean,
-        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, out IntPtr returnValue);
+        OpenCvSafeHandle images, Scalar scalefactor, Size size, Scalar mean,
+        int swapRB, int ddepth, int datalayout, int paddingmode, Scalar borderValue, int interpolation, out IntPtr returnValue);
 
     // Image2BlobParams.BlobRectToImageRect / BlobRectsToImageRects
 

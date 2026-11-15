@@ -153,19 +153,21 @@ public static partial class Cv2
         /// to be in (mean-R, mean-G, mean-B) order if @p image has BGR ordering and @p swapRB is true.</param>
         /// <param name="swapRB">flag which indicates that swap first and last channels in 3-channel image is necessary.</param>
         /// <param name="crop">flag which indicates whether image will be cropped after resize or not</param>
+        /// <param name="interpolation">Interpolation method used when resizing.</param>
         /// <returns>4-dimansional Mat with NCHW dimensions order.</returns>
         /// <remarks>if @p crop is true, input image is resized so one side after resize is equal to corresponing 
         /// dimension in @p size and another one is equal or larger.Then, crop from the center is performed. 
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImage(
             Mat image, double scaleFactor = 1.0, Size size = default,
-            Scalar mean = default, bool swapRB = true, bool crop = true)
+            Scalar mean = default, bool swapRB = true, bool crop = true,
+            InterpolationFlags interpolation = InterpolationFlags.Linear)
         {
             ArgumentNullException.ThrowIfNull(image);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImage(
-                    image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, out var ret));
+                    image.Handle, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, (int)interpolation, out var ret));
             return new Mat(ret);
         }
 
@@ -180,28 +182,33 @@ public static partial class Cv2
         /// to be in (mean-R, mean-G, mean-B) order if @p image has BGR ordering and @p swapRB is true.</param>
         /// <param name="swapRB">flag which indicates that swap first and last channels in 3-channel image is necessary.</param>
         /// <param name="crop">flag which indicates whether image will be cropped after resize or not</param>
+        /// <param name="interpolation">Interpolation method used when resizing.</param>
         /// <returns>4-dimansional Mat with NCHW dimensions order.</returns>
         /// <remarks>if @p crop is true, input image is resized so one side after resize is equal to corresponing 
         /// dimension in @p size and another one is equal or larger.Then, crop from the center is performed. 
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImages(
             IEnumerable<Mat> images, double scaleFactor,
-            Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true)
+            Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true,
+            InterpolationFlags interpolation = InterpolationFlags.Linear)
         {
             ArgumentNullException.ThrowIfNull(images);
 
-            var imagesPointers = images.Select(x => x.CvPtr).ToArray();
+            var imageArray = images as Mat[] ?? images.ToArray();
+            using var imagesVector = new VectorOfMat(imageArray);
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImages(
-                    imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0,
+                    imagesVector.Handle, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, (int)interpolation,
                     out var ret));
+            // The vector copies Mat headers. The source Mats own any managed pixel pins.
+            GC.KeepAlive(imageArray);
             return new Mat(ret);
         }
 
         /// <summary>
         /// Creates 4-dimensional blob from image with given params.
-        /// This function is an extension of <see cref="BlobFromImage(Mat, double, Size, Scalar, bool, bool)"/> to meet more image preprocess needs.
+        /// This function is an extension of <see cref="BlobFromImage"/> with additional preprocessing options.
         /// </summary>
         /// <param name="image">input image (all with 1-, 3- or 4-channels).</param>
         /// <param name="param">params with preprocessing parameters. If null, default params are used.</param>
@@ -214,7 +221,7 @@ public static partial class Cv2
                 NativeMethods.dnn_blobFromImageWithParams(
                     image.Proxy, param.ScaleFactor, param.Size, param.Mean,
                     param.SwapRB ? 1 : 0, (int)param.Depth, (int)param.DataLayout, (int)param.PaddingMode, param.BorderValue,
-                    out var ret));
+                    (int)param.Interpolation, out var ret));
             GC.KeepAlive(image.Source);
             return new Mat(ret);
         }
@@ -230,13 +237,14 @@ public static partial class Cv2
             ArgumentNullException.ThrowIfNull(images);
             param ??= new Image2BlobParams();
 
-            var imagesPointers = images.Select(x => x.CvPtr).ToArray();
+            var imageArray = images as Mat[] ?? images.ToArray();
+            using var imagesVector = new VectorOfMat(imageArray);
             NativeMethods.HandleException(
                 NativeMethods.dnn_blobFromImagesWithParams(
-                    imagesPointers, imagesPointers.Length, param.ScaleFactor, param.Size, param.Mean,
+                    imagesVector.Handle, param.ScaleFactor, param.Size, param.Mean,
                     param.SwapRB ? 1 : 0, (int)param.Depth, (int)param.DataLayout, (int)param.PaddingMode, param.BorderValue,
-                    out var ret));
-            GC.KeepAlive(images);
+                    (int)param.Interpolation, out var ret));
+            GC.KeepAlive(imageArray);
             return new Mat(ret);
         }
 

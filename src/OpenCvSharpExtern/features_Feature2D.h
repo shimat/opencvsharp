@@ -891,6 +891,69 @@ CVAPI(ExceptionStatus) features_Ptr_ALIKED_delete(cv::Ptr<cv::ALIKED> *ptr)
 
 #pragma endregion
 
+#pragma region XFeat
+
+CVAPI(ExceptionStatus) features_XFeat_create(
+    const char* modelPath, int maxKeypoints, float scoreThreshold, interop::Size inputSize,
+    int backend, int target, cv::Ptr<cv::XFeat>** returnValue)
+{
+    return cvTry([&] {
+        *returnValue = clone(cv::XFeat::create(modelPath, maxKeypoints, scoreThreshold, cpp(inputSize), backend, target));
+    });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_create_buffer(
+    const uchar* modelData, size_t length, int maxKeypoints, float scoreThreshold, interop::Size inputSize,
+    int backend, int target, cv::Ptr<cv::XFeat>** returnValue)
+{
+    return cvTry([&] {
+        const std::vector<uchar> model(modelData, modelData + length);
+        *returnValue = clone(cv::XFeat::create(model, maxKeypoints, scoreThreshold, cpp(inputSize), backend, target));
+    });
+}
+
+CVAPI(ExceptionStatus) features_Ptr_XFeat_get(cv::Ptr<cv::XFeat>* obj, cv::XFeat** value)
+{
+    return cvTry([&] { *value = obj->get(); });
+}
+
+CVAPI(ExceptionStatus) features_Ptr_XFeat_delete(cv::Ptr<cv::XFeat>* obj)
+{
+    return cvTry([&] { delete obj; });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_getMaxKeypoints(cv::XFeat* obj, int* value)
+{
+    return cvTry([&] { *value = obj->getMaxKeypoints(); });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_setMaxKeypoints(cv::XFeat* obj, int value)
+{
+    return cvTry([&] { obj->setMaxKeypoints(value); });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_getScoreThreshold(cv::XFeat* obj, float* value)
+{
+    return cvTry([&] { *value = obj->getScoreThreshold(); });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_setScoreThreshold(cv::XFeat* obj, float value)
+{
+    return cvTry([&] { obj->setScoreThreshold(value); });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_getInputSize(cv::XFeat* obj, interop::Size* value)
+{
+    return cvTry([&] { *value = c(obj->getInputSize()); });
+}
+
+CVAPI(ExceptionStatus) features_XFeat_setInputSize(cv::XFeat* obj, interop::Size value)
+{
+    return cvTry([&] { obj->setInputSize(cpp(value)); });
+}
+
+#pragma endregion
+
 #endif // HAVE_OPENCV_DNN
 
 #endif // NO_FEATURES

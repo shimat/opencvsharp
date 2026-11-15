@@ -16,6 +16,11 @@ static partial class NativeMethods
         [MarshalAs(UnmanagedType.LPStr)] string super_resolution_model_path, out IntPtr ptr);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus wechat_qrcode_create_buffer(
+        ReadOnlySpan<byte> detectorModel, nuint detectorLength, ReadOnlySpan<byte> superResolutionModel, nuint superResolutionLength,
+        out IntPtr ptr);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(OpenCvSafeHandle obj, in InputArrayProxy inputImage, IntPtr points, IntPtr texts);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

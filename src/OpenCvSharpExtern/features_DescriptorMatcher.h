@@ -333,10 +333,11 @@ CVAPI(ExceptionStatus) features_LightGlueMatcher_create(
     float scoreThreshold,
     int backend,
     int target,
+    int type,
     cv::Ptr<cv::LightGlueMatcher> **returnValue)
 {
     return cvTry([&] {
-        const auto ptr = cv::LightGlueMatcher::create(cv::String(modelPath), scoreThreshold, backend, target);
+        const auto ptr = cv::LightGlueMatcher::create(cv::String(modelPath), scoreThreshold, backend, target, type);
         *returnValue = clone(ptr);
     });
 }
@@ -347,13 +348,26 @@ CVAPI(ExceptionStatus) features_LightGlueMatcher_create_buffer(
     float scoreThreshold,
     int backend,
     int target,
+    int type,
     cv::Ptr<cv::LightGlueMatcher> **returnValue)
 {
     return cvTry([&] {
-        const std::vector<uchar> buf(modelData, modelData + modelDataLength);
-        const auto ptr = cv::LightGlueMatcher::create(buf, scoreThreshold, backend, target);
+        std::vector<uchar> buf;
+        if (modelDataLength != 0)
+            buf.assign(modelData, modelData + modelDataLength);
+        const auto ptr = cv::LightGlueMatcher::create(buf, scoreThreshold, backend, target, type);
         *returnValue = clone(ptr);
     });
+}
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_setKeypointNormalization(cv::LightGlueMatcher* obj, int value)
+{
+    return cvTry([&] { obj->setKeypointNormalization(value); });
+}
+
+CVAPI(ExceptionStatus) features_LightGlueMatcher_getKeypointNormalization(cv::LightGlueMatcher* obj, int* value)
+{
+    return cvTry([&] { *value = obj->getKeypointNormalization(); });
 }
 
 CVAPI(ExceptionStatus) features_LightGlueMatcher_setPairInfo(

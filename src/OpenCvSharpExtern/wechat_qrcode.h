@@ -18,6 +18,16 @@ CVAPI(ExceptionStatus) wechat_qrcode_create1(
     });
 }
 
+CVAPI(ExceptionStatus) wechat_qrcode_create_buffer(
+    const char* detectorModel, size_t detectorLength, const char* superResolutionModel, size_t superResolutionLength,
+    cv::wechat_qrcode::WeChatQRCode** returnValue)
+{
+    return cvTry([&] {
+        *returnValue = new cv::wechat_qrcode::WeChatQRCode(
+            detectorModel, detectorLength, superResolutionModel, superResolutionLength);
+    });
+}
+
 CVAPI(ExceptionStatus) wechat_qrcode_delete(cv::wechat_qrcode::WeChatQRCode* obj)
 {
     return cvTry([&] {
