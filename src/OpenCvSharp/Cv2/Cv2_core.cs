@@ -1530,15 +1530,11 @@ public static partial class Cv2
     /// <param name="src">The source array</param>
     /// <param name="order">Permutation of axes, e.g. { 1, 0, 2 } to swap the first two axes.</param>
     /// <param name="dst">The destination array</param>
+    /// <remarks>Prefer the axis-order overload of <see cref="Transpose(InputArray, ReadOnlySpan{int}, OutputArray)"/>.</remarks>
     public static void TransposeND(InputArray src, int[] order, OutputArray dst)
     {
         ArgumentNullException.ThrowIfNull(order);
-
-        NativeMethods.HandleException(
-            NativeMethods.core_transposeND(src.Proxy, order, order.Length, dst.Proxy));
-
-        GC.KeepAlive(src.Source);
-        GC.KeepAlive(dst.Source);
+        Transpose(src, order, dst);
     }
 
     /// <summary>
