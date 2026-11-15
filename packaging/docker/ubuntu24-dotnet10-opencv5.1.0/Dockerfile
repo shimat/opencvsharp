@@ -51,6 +51,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Copy cmake options (needed before OpenCV configure)
 COPY cmake/opencv_build_options.cmake /opencv_build_options.cmake
+COPY cmake/opencv-hooks/ /opencv-hooks/
 
 # Fetch OpenCV and opencv_contrib sources
 RUN set -eux; \

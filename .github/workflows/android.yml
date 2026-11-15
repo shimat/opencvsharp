@@ -41,7 +41,7 @@ jobs:
         id: opencv-cache
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
-          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -65,7 +65,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
-          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake') }}
+          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Build OpenCvSharpExtern
         shell: bash

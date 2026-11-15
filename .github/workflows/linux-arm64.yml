@@ -61,7 +61,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm64.yml') }}
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', '.github/workflows/linux-arm64.yml') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -115,7 +115,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm64.yml') }}
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', '.github/workflows/linux-arm64.yml') }}
 
       - name: Build OpenCvSharpExtern
         run: |

@@ -72,7 +72,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -134,7 +134,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -392,7 +392,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -468,7 +468,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-arm64-v${{ env.OPENCV_ARM64_CACHE_REVISION }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Build OpenCvSharpExtern (full)
         shell: powershell

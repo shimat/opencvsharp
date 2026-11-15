@@ -109,7 +109,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}-${{ hashFiles('cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
@@ -171,6 +171,7 @@ jobs:
             -DWITH_HARFBUZZ=ON \
             -DBUILD_HARFBUZZ=ON \
             -DWITH_UNIFONT=ON \
+            -DOPENCV_CMAKE_HOOKS_DIR="${GITHUB_WORKSPACE}/cmake/opencv-hooks" \
             -DWITH_ITALICFONT=ON \
             -DWITH_JPEG=ON \
             -DWITH_TIFF=ON \
@@ -196,7 +197,7 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/include
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
-          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}-${{ hashFiles('cmake/opencv-hooks/POST_FINALIZE.cmake') }}
       
       - name: Build OpenCvSharpExtern
         run: |
