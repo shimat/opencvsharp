@@ -6,8 +6,8 @@ namespace OpenCvSharp.Tests.Dnn;
 
 // Tests for the high-level dnn Model API.
 //
-// The end-to-end tests reuse the MNIST TensorFlow model and digit images that
-// already ship in the repository (also used by TensorflowTest), so they run in
+// The end-to-end tests reuse the MNIST ONNX model and digit images that
+// already ship in the repository (also used by OnnxTest), so they run in
 // CI without downloading anything. They prove the full pipeline really works:
 // input preprocessing -> forward pass -> result decoding.
 //
@@ -20,7 +20,7 @@ public class ModelTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+    private static string MnistModelPath => Path.Combine("_data", "model", "mnist-8.onnx");
 
     [Theory(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     [InlineData("MNIST_5.png", 5)]
@@ -30,8 +30,8 @@ public class ModelTest : TestBase
         using var image = LoadImage(Path.Combine("Dnn", imageFileName), ImreadModes.Grayscale);
 
         using var model = new ClassificationModel(MnistModelPath);
-        // scale 1/255, input size = image size (the digit images already match the model input), grayscale.
-        model.SetInputParams(1.0 / 255.0, image.Size());
+        // The ONNX model expects 28x28 grayscale images with values in [0, 1].
+        model.SetInputParams(1.0 / 255.0, new Size(28, 28));
 
         model.Classify(image, out var classId, out var conf);
 
@@ -45,7 +45,7 @@ public class ModelTest : TestBase
         using var image = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
 
         using var model = new Model(MnistModelPath);
-        model.SetInputParams(1.0 / 255.0, image.Size());
+        model.SetInputParams(1.0 / 255.0, new Size(28, 28));
 
         var outputs = model.Predict(image);
         try
@@ -69,23 +69,23 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void ModelFromNetSharesBaseSetters()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         Assert.NotNull(net);
 
         using var model = new Model(net!);
-        model.SetInputSize(new Size(26, 26));
-        model.SetInputSize(26, 26);
+        model.SetInputSize(new Size(28, 28));
+        model.SetInputSize(28, 28);
         model.SetInputMean(new Scalar(0));
         model.SetInputScale(new Scalar(1.0 / 255));
         model.SetInputCrop(false);
         model.SetInputSwapRB(false);
-        model.SetInputParams(1.0 / 255.0, new Size(26, 26), new Scalar(0), false, false);
+        model.SetInputParams(1.0 / 255.0, new Size(28, 28), new Scalar(0), false, false);
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void ClassificationModelSoftmaxToggle()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         using var model = new ClassificationModel(net!);
 
         model.SetEnableSoftmaxPostProcessing(true);
@@ -97,7 +97,8 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void DetectionModelLifecycle()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        var modelPath = Path.Combine("_data", "wechat_qrcode", "detect.onnx");
+        using var net = Cv2.Dnn.ReadNetFromONNX(modelPath);
         using var model = new DetectionModel(net!);
 
         model.SetNmsAcrossClasses(true);
@@ -105,22 +106,20 @@ public class ModelTest : TestBase
         model.SetNmsAcrossClasses(false);
         Assert.False(model.GetNmsAcrossClasses());
 
-        model.SetInputParams(1.0 / 255.0, new Size(26, 26));
-
-        // Smoke test for the ArrayProxy wiring: the MNIST classifier's output tensor
-        // doesn't have the [batch, N, 7] detection layout DetectionModel expects, so this
-        // is expected to throw - reaching native and failing there still proves the
-        // InputArray (frame) param and the three StdVector out-params are wired correctly.
-        using var image = LoadImage(Path.Combine("Dnn", "MNIST_9.png"), ImreadModes.Grayscale);
-        Assert.ThrowsAny<Exception>(() => model.Detect(image, out _, out _, out _));
+        using var image = LoadImage("qr.png", ImreadModes.Grayscale);
+        model.SetInputParams(1.0 / 255.0, image.Size());
+        model.Detect(image, out var classIds, out var confidences, out var boxes, confThreshold: 0.1f);
+        Assert.Contains(1, classIds);
+        Assert.Equal(classIds.Length, confidences.Length);
+        Assert.Equal(classIds.Length, boxes.Length);
     }
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void SegmentationModelLifecycle()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         using var model = new SegmentationModel(net!);
-        model.SetInputParams(1.0 / 255.0, new Size(26, 26));
+        model.SetInputParams(1.0 / 255.0, new Size(28, 28));
 
         // Smoke test for the ArrayProxy wiring (InputArray frame + OutputArray mask):
         // the MNIST classifier's output isn't a per-pixel class map, but reaching native
@@ -140,9 +139,9 @@ public class ModelTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void KeypointsModelLifecycle()
     {
-        using var net = Cv2.Dnn.ReadNetFromTensorflow(MnistModelPath);
+        using var net = Cv2.Dnn.ReadNetFromONNX(MnistModelPath);
         using var model = new KeypointsModel(net!);
-        model.SetInputParams(1.0 / 255.0, new Size(26, 26));
+        model.SetInputParams(1.0 / 255.0, new Size(28, 28));
 
         // Smoke test for the ArrayProxy wiring: MNIST's output isn't a keypoint heatmap,
         // but reaching native and getting back a (possibly nonsensical) result or a clean

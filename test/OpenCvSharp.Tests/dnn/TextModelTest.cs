@@ -1,7 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Text;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
 using OpenCvSharp.Dnn;
 using Xunit;
 
@@ -18,21 +15,13 @@ public class TextModelTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    // https://github.com/opencv/opencv_extra/blob/master/testdata/dnn/download_models.py
-    private const string EastModelUrl = "https://www.dropbox.com/s/r2ingd0l3zt8hxs/frozen_east_text_detection.tar.gz?dl=1";
-    private const string EastRawModelPath = "_data/model/frozen_east_text_detection.tar.gz";
-    private const string EastModelPath = "_data/model/frozen_east_text_detection.pb";
-    private static readonly object lockObj = new();
-
     [ExplicitTheory]
     [InlineData("_data/image/abbey_road.jpg")]
     public void TextDetectionModelEastDetectsText(string imageFileName)
     {
-        PrepareEastModel();
-
         using var img = new Mat(imageFileName);
 
-        using var model = new TextDetectionModelEAST(EastModelPath);
+        using var model = new TextDetectionModelEAST(EastTextDetectionTest.PrepareModel());
         model.SetConfidenceThreshold(0.5f);
         model.SetNMSThreshold(0.4f);
         // EAST expects the input size to be a multiple of 32.
@@ -106,27 +95,5 @@ public class TextModelTest : TestBase
         Assert.Equal(2.0, model.GetUnclipRatio());
         model.SetMaxCandidates(200);
         Assert.Equal(200, model.GetMaxCandidates());
-    }
-
-    private static void PrepareEastModel()
-    {
-        lock (lockObj)
-        {
-            if (!File.Exists(EastRawModelPath))
-            {
-                var contents = FileDownloader.DownloadData(new Uri(EastModelUrl));
-                File.WriteAllBytes(EastRawModelPath, contents);
-            }
-
-            if (!File.Exists(EastModelPath))
-            {
-                using var inputStream = new FileStream(EastRawModelPath, FileMode.Open, FileAccess.Read);
-                using var gzipStream = new GZipInputStream(inputStream);
-                using var tarArchive = TarArchive.CreateInputTarArchive(gzipStream, Encoding.UTF8);
-                tarArchive.ExtractContents(Path.GetDirectoryName(EastRawModelPath)!);
-            }
-
-            Assert.True(File.Exists(EastModelPath), $"'{EastModelPath}' not found");
-        }
     }
 }

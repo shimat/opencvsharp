@@ -9,4 +9,6 @@ reviews:
   suggested_reviewers: false
   auto_review:
     enabled: true
-    drafts: false
+    drafts: true
+    base_branches:
+      - ".*"

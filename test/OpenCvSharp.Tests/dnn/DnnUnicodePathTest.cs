@@ -12,20 +12,20 @@ public class DnnUnicodePathTest : TestBase
     public static bool IsWindowsOrLinux =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    private static string MnistModelPath => Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
+    private static string MnistModelPath => Path.Combine("_data", "model", "mnist-8.onnx");
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
-    public void ReadNetFromTensorflowUnicodePath()
+    public void ReadNetFromONNXUnicodePath()
     {
         Assert.True(File.Exists(MnistModelPath), $"'{MnistModelPath}' not found");
 
         // Emoji cannot be represented in any ANSI code page, so this reliably exercises the Windows wide path.
-        var unicodePath = Path.Combine("_data", "model", "mnist_😀🍀.pb");
+        var unicodePath = Path.Combine("_data", "model", "mnist_😀🍀.onnx");
         try
         {
             File.Copy(MnistModelPath, unicodePath, true);
 
-            using var net = Cv2.Dnn.ReadNetFromTensorflow(unicodePath);
+            using var net = Cv2.Dnn.ReadNetFromONNX(unicodePath);
             Assert.NotNull(net);
             Assert.False(net!.Empty());
         }
@@ -39,11 +39,11 @@ public class DnnUnicodePathTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void ReadNetUnicodePath()
     {
-        // Generic ReadNet infers the framework (tensorflow) from the .pb extension; on Windows the
+        // Generic ReadNet infers the ONNX from the file extension; on Windows the
         // non-representable path is read via wide + the framework-explicit buffer overload.
         Assert.True(File.Exists(MnistModelPath), $"'{MnistModelPath}' not found");
 
-        var unicodePath = Path.Combine("_data", "model", "mnist_readnet_😀🍀.pb");
+        var unicodePath = Path.Combine("_data", "model", "mnist_readnet_😀🍀.onnx");
         try
         {
             File.Copy(MnistModelPath, unicodePath, true);
@@ -62,13 +62,11 @@ public class DnnUnicodePathTest : TestBase
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void DetectionModelUnicodePath()
     {
-        // Model constructors build the net through the same gated reader; verify a non-ANSI path works.
-        Assert.True(File.Exists(MnistModelPath), $"'{MnistModelPath}' not found");
-
-        var unicodePath = Path.Combine("_data", "model", "mnist_model_😀🍀.pb");
+        var modelPath = Path.Combine("_data", "wechat_qrcode", "detect.onnx");
+        var unicodePath = Path.Combine("_data", "model", "detector_😀🍀.onnx");
         try
         {
-            File.Copy(MnistModelPath, unicodePath, true);
+            File.Copy(modelPath, unicodePath, true);
 
             using var model = new DetectionModel(unicodePath);
             Assert.NotNull(model);

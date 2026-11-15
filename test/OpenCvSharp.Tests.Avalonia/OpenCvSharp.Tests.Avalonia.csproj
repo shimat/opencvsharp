@@ -21,14 +21,14 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <!-- Avalonia.Headless.XUnit 12.1.1 calls xUnit 3 discovery internals that changed in xUnit 4.
          Use HeadlessUnitTestSession directly until the integration package supports xUnit 4. -->
-    <PackageReference Include="Avalonia.Headless" Version="12.1.4" />
+    <PackageReference Include="Avalonia.Headless" Version="12.1.5" />
     <!-- Real Skia-backed WriteableBitmap storage for the tests; not needed by the library itself. -->
-    <PackageReference Include="Avalonia.Skia" Version="12.1.4" />
+    <PackageReference Include="Avalonia.Skia" Version="12.1.5" />
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.v3" Version="4.0.2" />
+    <PackageReference Include="xunit.v3" Version="4.0.3" />
   </ItemGroup>
 
   <PropertyGroup>

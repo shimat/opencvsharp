@@ -13,7 +13,7 @@ permissions:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 5.0.0
+  OPENCV_VERSION: 5.1.0
   MEDIAMTX_VERSION: 1.19.3
 
 jobs:
@@ -157,7 +157,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Configure OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -196,7 +196,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-${{ matrix.arch }}-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
         run: |

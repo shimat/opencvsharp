@@ -126,20 +126,26 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern, EntryPoint = "features_LightGlueMatcher_create"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_LightGlueMatcher_create_NotWindows(
-        [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+        [MarshalAs(StringUnmanagedTypeNotWindows)] string modelPath, float scoreThreshold, int backend, int target, int type, out IntPtr returnValue);
 
     [LibraryImport(DllExtern, EntryPoint = "features_LightGlueMatcher_create"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_LightGlueMatcher_create_Windows(
-        [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+        [MarshalAs(StringUnmanagedTypeWindows)] string modelPath, float scoreThreshold, int backend, int target, int type, out IntPtr returnValue);
 
-    public static ExceptionStatus features_LightGlueMatcher_create(string modelPath, float scoreThreshold, int backend, int target, out IntPtr returnValue)
+    public static ExceptionStatus features_LightGlueMatcher_create(string modelPath, float scoreThreshold, int backend, int target, int type, out IntPtr returnValue)
         => IsWindows()
-            ? features_LightGlueMatcher_create_Windows(modelPath, scoreThreshold, backend, target, out returnValue)
-            : features_LightGlueMatcher_create_NotWindows(modelPath, scoreThreshold, backend, target, out returnValue);
+            ? features_LightGlueMatcher_create_Windows(modelPath, scoreThreshold, backend, target, type, out returnValue)
+            : features_LightGlueMatcher_create_NotWindows(modelPath, scoreThreshold, backend, target, type, out returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial ExceptionStatus features_LightGlueMatcher_create_buffer(
-        byte[] modelData, IntPtr modelDataLength, float scoreThreshold, int backend, int target, out IntPtr returnValue);
+        byte[] modelData, IntPtr modelDataLength, float scoreThreshold, int backend, int target, int type, out IntPtr returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus features_LightGlueMatcher_setKeypointNormalization(OpenCvSafeHandle obj, int value);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus features_LightGlueMatcher_getKeypointNormalization(OpenCvSafeHandle obj, out int value);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus features_LightGlueMatcher_setPairInfo(

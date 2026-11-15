@@ -342,8 +342,48 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_transposeND(
-        in InputArrayProxy src, [In] int[] order, int orderLength, in OutputArrayProxy dst);
+        in InputArrayProxy src, ReadOnlySpan<int> order, int orderLength, in OutputArrayProxy dst);
 
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_concat(
+        ReadOnlySpan<IntPtr> src, int count, int axis, in OutputArrayProxy dst);
+
+    [LibraryImport(DllExtern, StringMarshalling = StringMarshalling.Utf8), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_texpr(
+        string expression, ReadOnlySpan<IntPtr> inputs, int count, OpenCvSafeHandle outputs);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_splitND(
+        in InputArrayProxy src, int axis, ReadOnlySpan<int> sizes, int count, OpenCvSafeHandle dst);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_slice(
+        in InputArrayProxy src, ReadOnlySpan<int> starts, int startCount, ReadOnlySpan<int> ends, int endCount,
+        ReadOnlySpan<int> steps, int stepCount, in OutputArrayProxy dst);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_repeatND(
+        in InputArrayProxy src, ReadOnlySpan<int> repeats, int count, in OutputArrayProxy dst);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_squeeze(
+        in InputArrayProxy src, in OutputArrayProxy dst, ReadOnlySpan<int> axes, int count);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_unsqueeze(
+        in InputArrayProxy src, in OutputArrayProxy dst, ReadOnlySpan<int> axes, int count);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_flatten(
+        in InputArrayProxy src, in OutputArrayProxy dst, int startAxis, int endAxis);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_reshape(
+        in InputArrayProxy src, in OutputArrayProxy dst, ReadOnlySpan<int> shape, int count, int allowZero);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_reduceND(
+        in InputArrayProxy src, in OutputArrayProxy dst, int rtype, ReadOnlySpan<int> axes, int count, int keepDims, int dtype);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_transform(in InputArrayProxy src, in OutputArrayProxy dst, in InputArrayProxy m);
@@ -381,6 +421,10 @@ static partial class NativeMethods
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_solveLP(in InputArrayProxy func, in InputArrayProxy constr, in OutputArrayProxy z, out int returnValue);
+
+    [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus core_linearAssignment(
+        in InputArrayProxy cost, IntPtr assignment, double costThreshold, out double returnValue);
 
     [LibraryImport(DllExtern), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus core_sort(in InputArrayProxy src, in OutputArrayProxy dst, int flags);

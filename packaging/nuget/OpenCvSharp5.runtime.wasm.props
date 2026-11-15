@@ -13,6 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <NativeFileReference Include="$(MSBuildThisFileDirectory)..\..\runtimes\browser-wasm\4.0.23\OpenCvSharpExtern.a" />
+    <NativeFileReference Include="$(MSBuildThisFileDirectory)..\..\runtimes\browser-wasm\3.1.56\OpenCvSharpExtern.a" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,4 @@
-using System.Runtime.InteropServices;
-using System.Text;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
+using System.Security.Cryptography;
 using OpenCvSharp.Dnn;
 using Xunit;
 
@@ -14,103 +11,47 @@ namespace OpenCvSharp.Tests.Dnn;
 /// <see cref="https://github.com/shimat/opencvsharp/issues/702"/>
 public class EastTextDetectionTest : TestBase
 {
-    // https://github.com/opencv/opencv_extra/blob/322b475403899abc2411c4fbf68318afa77d3191/testdata/dnn/download_models.py#L302
-    const string ModelUrl = "https://www.dropbox.com/s/r2ingd0l3zt8hxs/frozen_east_text_detection.tar.gz?dl=1"; 
-    const string LocalRawModelPath = "_data/model/frozen_east_text_detection.tar.gz";
-    const string LocalModelPath = "_data/model/frozen_east_text_detection.pb";
+    private const string ModelUrl = "https://huggingface.co/opencv/opencv_contribution/resolve/53892e2f90a148cb1126768a6adc8aa138745bfa/east_text_detection/east_text_detection_2026jul.onnx";
+    private const string ModelSha256 = "63F96881E90B81F3F0E7FD79DC705EAD31276DA70D3C7DCA008CA28D3554883A";
+    private const string LocalModelPath = "_data/model/east_text_detection_2026jul.onnx";
+    private static readonly object ModelLock = new();
 
-    private readonly object lockObj = new object();
-
-    private readonly ITestOutputHelper testOutputHelper;
-
-    /// <summary>
-    /// Download model file
-    /// </summary>
-    /// <param name="testOutputHelper"></param>
-    public EastTextDetectionTest(ITestOutputHelper testOutputHelper)
+    internal static string PrepareModel()
     {
-        ArgumentNullException.ThrowIfNull(testOutputHelper);
-        this.testOutputHelper = testOutputHelper;
-            
-        testOutputHelper.WriteLine("Downloading EAST Model...");
-        PrepareModel(new Uri(ModelUrl), LocalRawModelPath);
-        testOutputHelper.WriteLine("Done");
-        Assert.True(File.Exists(LocalRawModelPath), $"'{LocalRawModelPath}' not found");
-
-        if (!File.Exists(LocalModelPath))
+        lock (ModelLock)
         {
-            var modelDirectory = Path.GetDirectoryName(LocalRawModelPath)!;
-            ExtractTarGz(LocalRawModelPath, modelDirectory);
+            if (!File.Exists(LocalModelPath))
+            {
+                var contents = FileDownloader.DownloadData(new Uri(ModelUrl));
+                Assert.Equal(ModelSha256, Convert.ToHexString(SHA256.HashData(contents)));
+                File.WriteAllBytes(LocalModelPath, contents);
+            }
         }
 
-        var fileInfo = new FileInfo(LocalModelPath);
-        Assert.True(fileInfo.Exists, $"'{LocalModelPath}' not found");
-        Assert.True(fileInfo.Length > 90 * 1024 * 1024, $"Too small data ('{fileInfo.Length}' bytes)");
-    }
-
-    /// <summary>
-    /// Download model file if it does not exist on local disk
-    /// </summary>
-    /// <param name="uri"></param>
-    /// <param name="fileName"></param>
-    private void PrepareModel(Uri uri, string fileName)
-    {
-        lock (lockObj)
-        {
-            if (File.Exists(fileName)) 
-                return;
-
-            var contents = FileDownloader.DownloadData(uri);
-            File.WriteAllBytes(fileName, contents);
-        }
-    }
-
-    /// <summary>
-    /// Simple full extract from a TGZ
-    /// https://github.com/icsharpcode/SharpZipLib/wiki/GZip-and-Tar-Samples
-    /// </summary>
-    /// <param name="inputFile"></param>
-    /// <param name="dstFolder"></param>
-    private static void ExtractTarGz(string inputFile, string dstFolder)
-    {
-        using var inputStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read);
-        using var gzipStream = new GZipInputStream(inputStream);
-        using var tarArchive = TarArchive.CreateInputTarArchive(gzipStream, Encoding.UTF8);
-        tarArchive.ExtractContents(dstFolder);
+        return LocalModelPath;
     }
 
     [ExplicitFact]
     public void Load()
     {
-        Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
-
-        using var net = Cv2.Dnn.ReadNet(LocalModelPath);
+        using var net = Cv2.Dnn.ReadNet(PrepareModel());
+        Assert.False(net.Empty());
     }
 
     [ExplicitFact]
-    public void NotSupportedUnicodeFileName()
+    public void LoadFromUnicodeFileName()
     {
-        Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
-
-        var unicodeFileName = Path.Combine(Path.GetDirectoryName(LocalModelPath)!, "🤣🍀.pb");
-        if (!File.Exists(unicodeFileName))
+        var modelPath = PrepareModel();
+        var unicodeFileName = Path.Combine(Path.GetDirectoryName(modelPath)!, "🤣🍀.onnx");
+        File.Copy(modelPath, unicodeFileName, true);
+        try
         {
-            File.Copy(LocalModelPath, unicodeFileName, true);
+            using var net = Cv2.Dnn.ReadNet(unicodeFileName);
+            Assert.False(net.Empty());
         }
-
-        // Check that ArgumentException(unicode unmappable char) does not occur.
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        finally
         {
-            var ex = Assert.Throws<OpenCVException>(() =>
-            {
-                using var net = Cv2.Dnn.ReadNet(unicodeFileName);
-            });
-            Assert.StartsWith("FAILED: fs.is_open(). Can't open", ex.Message, StringComparison.InvariantCulture);
-            Assert.Equal("cv::dnn::ReadProtoFromBinaryFile", ex.FuncName);
-        }
-        else
-        {
-            // No error
+            File.Delete(unicodeFileName);
         }
     }
 
@@ -130,25 +71,18 @@ public class EastTextDetectionTest : TestBase
         const float NmsThreshold = 0.4f;
 
         // Load network.
-        using (Net net = Cv2.Dnn.ReadNet(Path.GetFullPath(LocalModelPath)))
+        using (Net net = Cv2.Dnn.ReadNet(PrepareModel()))
         using (Mat img = new Mat(fileName))
 
             // Prepare input image
         using (var blob = Cv2.Dnn.BlobFromImage(img, 1.0, new Size(InputWidth, InputHeight), new Scalar(123.68, 116.78, 103.94), true, false))
         {
-            // Forward Pass
-            // Now that we have prepared the input, we will pass it through the network. There are two outputs of the network.
-            // One specifies the geometry of the Text-box and the other specifies the confidence score of the detected box.
-            // These are given by the layers :
-            //   feature_fusion/concat_3
-            //   feature_fusion/Conv_7/Sigmoid
-            var outputBlobNames = new string[] { "feature_fusion/Conv_7/Sigmoid", "feature_fusion/concat_3" };
-            var outputBlobs = outputBlobNames.Select(_ => new Mat()).ToArray();
+            var outputBlobNames = new[] { "feature_fusion/Conv_7/Sigmoid:0", "feature_fusion/concat_3:0" };
+            using var scores = new Mat();
+            using var geometry = new Mat();
 
             net.SetInput(blob);
-            net.Forward(outputBlobs, outputBlobNames);
-            Mat scores = outputBlobs[0];
-            Mat geometry = outputBlobs[1];
+            net.Forward(new[] { scores, geometry }, outputBlobNames);
 
             // Decode predicted bounding boxes (decode the positions of the text boxes along with their orientation)
             Decode(scores, geometry, ConfThreshold, out var boxes, out var confidences);

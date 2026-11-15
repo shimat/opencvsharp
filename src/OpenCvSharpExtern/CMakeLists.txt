@@ -110,11 +110,14 @@ if(OpenCV_FOUND)
 		add_library(OpenCvSharpExtern STATIC ${OPENCVSHARP_FILES} ${WASM_LIB})
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
+		if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND TARGET libharfbuzz)
+			# OpenCV's rasterizer uses its bundled HarfBuzz. Resolve those symbols before
+			# GTK can supply system HarfBuzz, and keep the bundled symbols private to this library.
+			target_link_libraries(OpenCvSharpExtern "-Wl,--whole-archive" libharfbuzz "-Wl,--no-whole-archive")
+			target_link_options(OpenCvSharpExtern PRIVATE "-Wl,--exclude-libs,$<TARGET_FILE_NAME:libharfbuzz>")
+		endif()
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
 		if(MSVC AND OPENCVSHARP_GENERATE_LINKER_MAP)
-			# The map lists every object file the linker actually pulled in, as <library>:<object>.
-			# scripts/generate_sbom.ps1 reads it to find which static libraries contributed code to
-			# the DLL. Writing a map does not change the DLL itself.
 			target_link_options(OpenCvSharpExtern PRIVATE "/MAP:${CMAKE_CURRENT_BINARY_DIR}/OpenCvSharpExtern.map")
 		endif()
 		if(ANDROID)

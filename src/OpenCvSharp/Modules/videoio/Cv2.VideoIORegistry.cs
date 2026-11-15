@@ -57,6 +57,36 @@ public static partial class Cv2
         public static VideoCaptureAPIs[] GetCameraBackends() => GetBackendsCore(NativeMethods.videoio_registry_getCameraBackends);
 
         /// <summary>
+        /// Lists camera devices in backend priority order.
+        /// </summary>
+        /// <param name="apiPreference">The backend to query, or <see cref="VideoCaptureAPIs.ANY"/> to query all camera backends.</param>
+        /// <returns>The devices reported by backends that support enumeration. The array may be empty.</returns>
+        /// <remarks>
+        /// Multiple backends can report the same physical camera. Pass each device's
+        /// <see cref="VideoDeviceInfo.Index"/> and <see cref="VideoDeviceInfo.Backend"/> together to
+        /// <see cref="VideoCapture.VideoCapture(int, VideoCaptureAPIs)"/> to open it.
+        /// </remarks>
+        public static VideoDeviceInfo[] EnumerateDevices(VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
+        {
+            using var indices = new StdVector<int>();
+            using var names = new VectorOfString();
+            using var backends = new StdVector<int>();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_registry_enumerateDevices((int)apiPreference, indices.Handle, names.Handle, backends.Handle));
+
+            var deviceIndices = indices.ToArray();
+            if (deviceIndices.Length == 0)
+                return [];
+
+            var deviceNames = names.ToArray();
+            var deviceBackends = backends.ToArray<VideoCaptureAPIs>();
+            var devices = new VideoDeviceInfo[deviceIndices.Length];
+            for (var i = 0; i < devices.Length; i++)
+                devices[i] = new VideoDeviceInfo(deviceIndices[i], deviceNames[i], deviceBackends[i]);
+            return devices;
+        }
+
+        /// <summary>
         /// Returns list of available backends which works via VideoCapture(filename)
         /// </summary>
         /// <returns></returns>

@@ -30,6 +30,25 @@ public class BlobAndNmsTest : TestBase
         Assert.True(Cv2.Norm(expected, actual, NormTypes.L1) < 1e-3, "blobs differ");
     }
 
+    [Fact]
+    public void BlobPreprocessingForwardsResizeInterpolation()
+    {
+        using var image = Mat.FromArray(new byte[,] { { 0, 100 }, { 200, 255 } });
+        var size = new Size(3, 3);
+        using var linear = Cv2.Dnn.BlobFromImage(image, size: size, crop: false);
+        using var nearest = Cv2.Dnn.BlobFromImage(image, size: size, crop: false, interpolation: InterpolationFlags.Nearest);
+        Assert.Equal(139f, linear.Get<float>(0, 0, 1, 1));
+        Assert.Equal(0f, nearest.Get<float>(0, 0, 1, 1));
+
+        using var batch = Cv2.Dnn.BlobFromImages([image], 1, size, crop: false, interpolation: InterpolationFlags.Nearest);
+        var parameters = new Image2BlobParams { Size = size, Interpolation = InterpolationFlags.Nearest };
+        using var configured = Cv2.Dnn.BlobFromImageWithParams(image, parameters);
+        using var configuredBatch = Cv2.Dnn.BlobFromImagesWithParams([image], parameters);
+        Assert.Equal(0, Cv2.Norm(nearest, batch, NormTypes.INF));
+        Assert.Equal(0, Cv2.Norm(nearest, configured, NormTypes.INF));
+        Assert.Equal(0, Cv2.Norm(nearest, configuredBatch, NormTypes.INF));
+    }
+
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     public void BlobFromImageWithParamsLetterbox()
     {

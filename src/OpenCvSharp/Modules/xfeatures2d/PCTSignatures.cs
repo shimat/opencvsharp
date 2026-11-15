@@ -152,11 +152,6 @@ public class PCTSignatures : Algorithm
     /// <summary>
     /// Number of initial samples taken from the image.
     /// </summary>
-    /// <remarks>
-    /// OpenCV's native implementation of this getter is a known copy-paste bug: it returns the
-    /// same value as <see cref="GrayscaleBits"/> instead of the actual sample count passed to
-    /// Create().
-    /// </remarks>
     public int SampleCount
     {
         get

@@ -58,7 +58,7 @@ public readonly record struct MatType(int value) : IEquatable<int>
     /// Returns true if the depth is an integer type.
     /// Mirrors OpenCV's CV_IS_INT_TYPE: integer depths are CV_8U, CV_8S, CV_16U, CV_16S,
     /// CV_32S, CV_Bool, CV_64U, CV_64S and CV_32U (the bitmask 0x1e1f), while CV_32F, CV_64F,
-    /// CV_16F and CV_16BF are floating-point.
+    /// CV_16F, CV_16BF, CV_8F_E4M3FN and CV_8F_E4M3FNUZ are floating-point.
     /// </summary>
     public bool IsInteger => ((1 << Depth) & 0x1e1f) != 0;
 
@@ -127,6 +127,12 @@ public readonly record struct MatType(int value) : IEquatable<int>
             case CV_32U:
                 s = "CV_32U";
                 break;
+            case CV_8F_E4M3FN:
+                s = "CV_8F_E4M3FN";
+                break;
+            case CV_8F_E4M3FNUZ:
+                s = "CV_8F_E4M3FNUZ";
+                break;
             default:
                 return $"Unsupported type value ({Value})";
         }
@@ -163,6 +169,9 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_64U = 10,
         CV_64S = 11,
         CV_32U = 12,
+        CV_8F_E4M3FN = 13,
+        CV_8F_E4M3FNUZ = 14,
+        CV_8F = CV_8F_E4M3FN,
         CV_USRTYPE1 = CV_16F;
 
     /// <summary>
@@ -220,7 +229,19 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_32UC1 = CV_32UC(1),
         CV_32UC2 = CV_32UC(2),
         CV_32UC3 = CV_32UC(3),
-        CV_32UC4 = CV_32UC(4);
+        CV_32UC4 = CV_32UC(4),
+        CV_8F_E4M3FNC1 = CV_8F_E4M3FNC(1),
+        CV_8F_E4M3FNC2 = CV_8F_E4M3FNC(2),
+        CV_8F_E4M3FNC3 = CV_8F_E4M3FNC(3),
+        CV_8F_E4M3FNC4 = CV_8F_E4M3FNC(4),
+        CV_8F_E4M3FNUZC1 = CV_8F_E4M3FNUZC(1),
+        CV_8F_E4M3FNUZC2 = CV_8F_E4M3FNUZC(2),
+        CV_8F_E4M3FNUZC3 = CV_8F_E4M3FNUZC(3),
+        CV_8F_E4M3FNUZC4 = CV_8F_E4M3FNUZC(4),
+        CV_8FC1 = CV_8F_E4M3FNC1,
+        CV_8FC2 = CV_8F_E4M3FNC2,
+        CV_8FC3 = CV_8F_E4M3FNC3,
+        CV_8FC4 = CV_8F_E4M3FNC4;
     /*
     public const int 
         CV_8UC1 = 0,
@@ -332,10 +353,25 @@ public readonly record struct MatType(int value) : IEquatable<int>
         return MakeType(CV_32U, ch);
     }
 
+    public static MatType CV_8F_E4M3FNC(int ch)
+    {
+        return MakeType(CV_8F_E4M3FN, ch);
+    }
+
+    public static MatType CV_8F_E4M3FNUZC(int ch)
+    {
+        return MakeType(CV_8F_E4M3FNUZ, ch);
+    }
+
+    public static MatType CV_8FC(int ch)
+    {
+        return CV_8F_E4M3FNC(ch);
+    }
+
     public static MatType MakeType(int depth, int channels)
     {
-        if (channels <= 0 || channels >= CV_CN_MAX)
-            throw new OpenCvSharpException("Channels count should be 1.." + (CV_CN_MAX - 1));
+        if (channels <= 0 || channels > CV_CN_MAX)
+            throw new OpenCvSharpException("Channels count should be 1.." + CV_CN_MAX);
         if (depth < 0 || depth >= CV_DEPTH_MAX)
             throw new OpenCvSharpException("Data type depth should be 0.." + (CV_DEPTH_MAX - 1));
         return (depth & (CV_DEPTH_MAX - 1)) + ((channels - 1) << CV_CN_SHIFT);

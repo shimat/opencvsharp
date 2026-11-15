@@ -30,7 +30,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  OPENCV_VERSION: 5.0.0
+  OPENCV_VERSION: 5.1.0
   CACHE_VERSION: "1"
   MEDIAMTX_VERSION: 1.19.3
 
@@ -103,7 +103,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -153,7 +153,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-x64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/x64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
@@ -262,7 +262,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -312,7 +312,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-arm64-v${{ env.CACHE_VERSION }}-${{ steps.opencv-revs.outputs.opencv }}-${{ steps.opencv-revs.outputs.contrib }}-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake', 'cmake/opencv_build_options_macos.cmake', 'cmake/triplets/arm64-osx-static.cmake', 'cmake/vcpkg-overlay-ports/**') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern

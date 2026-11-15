@@ -36,6 +36,24 @@ public class FontFace : CvObject
         InitSafeHandle(p);
     }
 
+    /// <summary>
+    /// Registers an external font for a built-in font slot.
+    /// The registration is global and takes effect for subsequently created font faces.
+    /// </summary>
+    /// <param name="fontName">The slot name, either "sans", "italic" or "uni".</param>
+    /// <param name="fontPath">Path to a font file, optionally gzip-compressed. An empty path
+    /// restores the compiled-in font or clears the slot if it has no compiled-in font.</param>
+    /// <returns>True on success. An unknown slot or a font that cannot be loaded returns false and preserves the registration.</returns>
+    public static bool SetBuiltinFont(string fontName, string fontPath)
+    {
+        ArgumentNullException.ThrowIfNull(fontName);
+        ArgumentNullException.ThrowIfNull(fontPath);
+
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_FontFace_setBuiltinFont(fontName, fontPath, out var result));
+        return result != 0;
+    }
+
     private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
         SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,

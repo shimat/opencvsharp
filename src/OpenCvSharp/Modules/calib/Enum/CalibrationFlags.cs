@@ -131,9 +131,7 @@ public enum CalibrationFlags
     /// <summary>
     /// Disable Schur complement (use Bouguet calibration engine).
     /// </summary>
-#pragma warning disable CA1069 // Enums should not have duplicate values (matches native CALIB_TILTED_MODEL, per opencv2/calib.hpp)
-    DisableSchurComplement = 1 << 18,
-#pragma warning restore CA1069
+    DisableSchurComplement = 1 << 27,
 
     /// <summary>
     /// For stereo and multi-view calibration. Use user provided extrinsics (R, T) as initial point for optimization.

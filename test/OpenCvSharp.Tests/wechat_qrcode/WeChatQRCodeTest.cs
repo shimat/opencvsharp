@@ -15,6 +15,17 @@ public class WeChatQRCodeTest(ITestOutputHelper testOutputHelper) : TestBase
         "Helloこんにちは你好안녕하세요"
     ];
 
+    [Fact]
+    public void DetectAndDecodeLoadsModelsFromMemory()
+    {
+        SkipIfModelFilesNotFound();
+        using var qr = OpenCvSharp.WeChatQRCode.CreateFromMemory(
+            File.ReadAllBytes(DetectorModelPath), File.ReadAllBytes(SuperResolutionModelPath));
+        using var image = LoadImage("qr_multi.png", ImreadModes.Grayscale);
+
+        Assert.Equal(ExpectedMultiQRTexts.OrderBy(x => x), qr.DetectAndDecode(image, out _).OrderBy(x => x));
+    }
+
     /// <summary>
     /// Requires no model files. Verifies the no-arg constructor succeeds.
     /// </summary>

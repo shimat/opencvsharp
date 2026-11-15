@@ -1,5 +1,5 @@
 ########## Build arguments ##########
-ARG OPENCV_VERSION=5.0.0
+ARG OPENCV_VERSION=5.1.0
 
 ########## Build OpenCV (slim) ##########
 FROM ubuntu:resolute AS opencv-builder
@@ -37,6 +37,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Copy cmake options (needed before OpenCV configure)
 COPY cmake/opencv_build_options_slim.cmake /opencv_build_options_slim.cmake
+COPY cmake/opencv-hooks/ /opencv-hooks/
 
 # Fetch OpenCV and opencv_contrib sources
 RUN set -eux; \

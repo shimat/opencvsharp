@@ -21,12 +21,7 @@ public enum ModelFormat
     ONNX = 1,
 
     /// <summary>
-    /// TensorFlow model.
-    /// </summary>
-    TF = 2,
-
-    /// <summary>
     /// TFLite model.
     /// </summary>
-    TFLite = 3,
+    TFLite = 2,
 }

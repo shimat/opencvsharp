@@ -26,12 +26,12 @@ public class ALIKED : Feature2D
     /// <param name="modelPath">Path to the ONNX model file.</param>
     /// <param name="inputSize">Input image size for the network. Default is 640x640.</param>
     /// <param name="normalizeDescriptors">Whether to L2-normalize descriptors. Default is true.</param>
-    /// <param name="engine">DNN engine type (cv::dnn::EngineType). Default is 2 (ENGINE_NEW).</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="Dnn.EngineType.Auto"/>.</param>
     /// <param name="backend">DNN backend (see <see cref="Dnn.Backend"/>). Default is 0 (DEFAULT).</param>
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
     public static ALIKED Create(
         string modelPath, Size? inputSize = null, bool normalizeDescriptors = true,
-        int engine = 2, int backend = 0, int target = 0)
+        int engine = (int)Dnn.EngineType.Auto, int backend = 0, int target = 0)
     {
         ArgumentNullException.ThrowIfNull(modelPath);
         var size = inputSize ?? new Size(640, 640);
@@ -55,12 +55,12 @@ public class ALIKED : Feature2D
     /// <param name="modelData">Buffer containing the model data.</param>
     /// <param name="inputSize">Input image size for the network. Default is 640x640.</param>
     /// <param name="normalizeDescriptors">Whether to L2-normalize descriptors. Default is true.</param>
-    /// <param name="engine">DNN engine type (cv::dnn::EngineType). Default is 2 (ENGINE_NEW).</param>
+    /// <param name="engine">DNN engine to use. The default is <see cref="Dnn.EngineType.Auto"/>.</param>
     /// <param name="backend">DNN backend (see <see cref="Dnn.Backend"/>). Default is 0 (DEFAULT).</param>
     /// <param name="target">DNN target (see <see cref="Dnn.Target"/>). Default is 0 (CPU).</param>
     public static ALIKED CreateFromMemory(
         byte[] modelData, Size? inputSize = null, bool normalizeDescriptors = true,
-        int engine = 2, int backend = 0, int target = 0)
+        int engine = (int)Dnn.EngineType.Auto, int backend = 0, int target = 0)
     {
         ArgumentNullException.ThrowIfNull(modelData);
         var size = inputSize ?? new Size(640, 640);
