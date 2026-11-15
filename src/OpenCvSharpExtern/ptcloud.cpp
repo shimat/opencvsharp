@@ -10,4 +10,5 @@
 #include "ptcloud_io.h"
 #include "ptcloud_processing.h"
 #include "ptcloud_rasterize.h"
+#include "ptcloud_viz3d.h"
 #include "ptcloud_Octree.h"

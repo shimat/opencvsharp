@@ -36,5 +36,10 @@ public enum WindowPropertyFlags
     /// <summary>
     /// property to toggle normal window being topmost or not
     /// </summary>
-    Topmost = 5
+    Topmost = 5,
+
+    /// <summary>
+    /// Vertical synchronization for an OpenGL window.
+    /// </summary>
+    VSync = 6,
 }
