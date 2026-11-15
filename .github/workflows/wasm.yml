@@ -9,26 +9,26 @@ on:
   push:
     branches:
       - main
+      - codex/opencv-5.1.0-wasm-dual-toolchain
 
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 5.1.0
-  # Must match the Emscripten version bundled with the .NET wasm SDK below (currently
-  # Microsoft.NET.Runtime.Emscripten.3.1.56.Sdk), since OpenCvSharpExtern.a built here gets
-  # statically linked by that SDK's own emcc/wasm-ld later - mixing Emscripten versions across
-  # that link boundary is unsupported and has already caused one silent bug (#2039, a wasm-opt
-  # feature-flag mismatch) plus a suspected second one (a setjmp/longjmp hang; see #2043).
-  EM_VERSION: 3.1.56
   EM_CACHE_FOLDER: 'emsdk-cache'
   # Bump this whenever the OpenCV cmake flags below change, to bust the OpenCV build cache.
   OPENCV_CACHE_VERSION: 3
 
 jobs:
   build:
-    name: Wasm
-
+    name: Build WASM archive (Emscripten ${{ matrix.emscripten }})
     runs-on: ubuntu-26.04
-    
+    strategy:
+      fail-fast: false
+      matrix:
+        emscripten: ['3.1.56', '6.0.2']
+    env:
+      EM_VERSION: ${{ matrix.emscripten }}
+
     steps:
       - uses: actions/checkout@v7
         with:
@@ -41,11 +41,11 @@ jobs:
         run: |
           echo "opencv=$(git rev-parse HEAD:opencv)" >> "${GITHUB_OUTPUT}"
           echo "opencv_contrib=$(git rev-parse HEAD:opencv_contrib)" >> "${GITHUB_OUTPUT}"
-          
+
       - name: Install dependencies
         run: |
           current_path=$(pwd)
-          sudo apt-get update -y 
+          sudo apt-get update -y
           sudo apt-get install -y  --no-install-recommends \
             apt-transport-https \
             software-properties-common \
@@ -70,36 +70,7 @@ jobs:
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
             x264 \
-            libtesseract-dev 
-
-      - name: Install .NET
-        uses: actions/setup-dotnet@v6
-        env:
-          # Keep the runner's preinstalled SDKs out of workload and publish SDK resolution.
-          DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet-wasm
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Install wasm-tools workload
-        run: |
-          dotnet --version
-          dotnet workload install wasm-tools
-
-      - name: Verify EM_VERSION matches the .NET wasm SDK's bundled Emscripten
-        run: |
-          shopt -s nullglob
-          packs=("${DOTNET_ROOT}"/packs/Microsoft.NET.Runtime.Emscripten.*.Sdk.*)
-          if [ "${#packs[@]}" -ne 1 ]; then
-            echo "::error::Expected one Emscripten SDK pack under ${DOTNET_ROOT}/packs, found ${#packs[@]}."
-            exit 1
-          fi
-          installed=$(basename "${packs[0]}" | sed -E 's/Microsoft\.NET\.Runtime\.Emscripten\.([0-9]+\.[0-9]+\.[0-9]+)\.Sdk.*/\1/')
-          echo "wasm.yml EM_VERSION: ${EM_VERSION}"
-          echo ".NET wasm SDK's bundled Emscripten: ${installed}"
-          if [ "$installed" != "$EM_VERSION" ]; then
-            echo "::error::EM_VERSION (${EM_VERSION}) must match the .NET wasm SDK's bundled Emscripten (${installed})."
-            exit 1
-          fi
+            libtesseract-dev
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -121,7 +92,7 @@ jobs:
         with:
           version: ${{env.EM_VERSION}}
           actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
-          
+
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
@@ -190,7 +161,7 @@ jobs:
           ls
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push'
         uses: actions/cache/save@v6
         with:
           path: |
@@ -198,79 +169,182 @@ jobs:
             ${{ github.workspace }}/opencv_wasm/lib
             ${{ github.workspace }}/opencv_wasm/libopencv.o
           key: opencv-${{ steps.opencv-revisions.outputs.opencv }}-${{ steps.opencv-revisions.outputs.opencv_contrib }}-wasm-${{ env.EM_VERSION }}-v${{ env.OPENCV_CACHE_VERSION }}-${{ hashFiles('cmake/opencv-hooks/POST_FINALIZE.cmake') }}
-      
+
       - name: Build OpenCvSharpExtern
         run: |
-          ls ${GITHUB_WORKSPACE}/opencv_wasm
-          echo "-----"
-          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv5 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
-          cmake --build src/build --parallel $(nproc)
-          ls src/build/OpenCvSharpExtern
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/packaging/nuget/OpenCvSharpExtern.a
+          emcc --version
+          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release \
+            -DOpenCV_DIR="$GITHUB_WORKSPACE/opencv_wasm/lib/cmake/opencv5" \
+            -DWASM_LIB="$GITHUB_WORKSPACE/opencv_wasm/libopencv.o"
+          cmake --build src/build --parallel "$(nproc)"
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a OpenCvSharpExtern.a
 
-          # Also stage it where OpenCvSharp5.runtime.wasm.props expects it (relative to the props
-          # file's own location), so test/OpenCvSharp.Tests.Wasm can import that same .props and
-          # link against this build directly, without a NuGet pack/restore round-trip.
-          mkdir -p ${GITHUB_WORKSPACE}/runtimes/browser-wasm/4.0.23
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/runtimes/browser-wasm/4.0.23/OpenCvSharpExtern.a
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wasm-native-${{ matrix.emscripten }}
+          path: OpenCvSharpExtern.a
+          if-no-files-found: error
+          retention-days: 3
 
-      - name: Create NuGet package
+  pack:
+    name: Pack WASM NuGet
+    needs: build
+    runs-on: ubuntu-26.04
+    outputs:
+      version: ${{ steps.pack.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: wasm-native-*
+          path: native-archives
+
+      - uses: actions/setup-dotnet@v6
         env:
-          BETA: "-beta"
+          DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet-wasm
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Create NuGet packages
+        id: pack
         run: |
-          yyyymmdd=`date '+%Y%m%d'`
-          echo $yyyymmdd
-          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
-          echo "Package version: $version"
+          for emscripten in 3.1.56 6.0.2; do
+            mkdir -p "runtimes/browser-wasm/$emscripten"
+            cp "native-archives/wasm-native-$emscripten/OpenCvSharpExtern.a" "runtimes/browser-wasm/$emscripten/"
+          done
+          version="${OPENCV_VERSION}.$(date -u +%Y%m%d)-beta"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          dotnet pack packaging/nuget/OpenCvSharp5.runtime.wasm.csproj -c Release -o artifacts_wasm -p:Version="$version"
+          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o managed-test-package -p:Version="$version"
 
-          dotnet pack ${GITHUB_WORKSPACE}/packaging/nuget/OpenCvSharp5.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm -p:Version=$version
-
-          ls ${GITHUB_WORKSPACE}/artifacts_wasm
+      - name: Check NuGet package contents
+        env:
+          VERSION: ${{ steps.pack.outputs.version }}
+        run: |
+          runtime="artifacts_wasm/OpenCvSharp5.runtime.wasm.$VERSION.nupkg"
+          unzip -l "$runtime"
+          for emscripten in 3.1.56 6.0.2; do
+            unzip -p "$runtime" "runtimes/browser-wasm/$emscripten/OpenCvSharpExtern.a" | cmp - "runtimes/browser-wasm/$emscripten/OpenCvSharpExtern.a"
+          done
+          unzip -p "$runtime" build/net8.0/OpenCvSharp5.runtime.wasm.props > /dev/null
+          unzip -p "$runtime" build/net11.0/OpenCvSharp5.runtime.wasm.props > /dev/null
+          unzip -p "managed-test-package/OpenCvSharp5.$VERSION.nupkg" lib/net8.0/OpenCvSharp.dll > /dev/null
 
       - uses: actions/upload-artifact@v7
         with:
           name: artifacts_wasm
           path: artifacts_wasm
+          if-no-files-found: error
 
-      - name: Check OpenCvSharpExtern package contents
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wasm-managed-test-package
+          path: managed-test-package/*.nupkg
+          if-no-files-found: error
+          retention-days: 3
+
+  browser:
+    name: Chrome (${{ matrix.framework }})
+    needs: pack
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - framework: net8.0
+            sdk: '8.0.x'
+            emscripten: '3.1.56'
+            workload_emscripten: '3.1.34'
+          - framework: net10.0
+            sdk: '10.0.x'
+            emscripten: '3.1.56'
+          - framework: net11.0
+            sdk: '11.0.x'
+            emscripten: '6.0.2'
+    env:
+      FRAMEWORK: ${{ matrix.framework }}
+      EM_VERSION: ${{ matrix.emscripten }}
+      WORKLOAD_EM_VERSION: ${{ matrix.workload_emscripten || matrix.emscripten }}
+      PACKAGE_VERSION: ${{ needs.pack.outputs.version }}
+      NUGET_PACKAGES: ${{ runner.temp }}/wasm-nuget-packages
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        env:
+          DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet-wasm
+        with:
+          dotnet-version: ${{ matrix.sdk }}
+
+      - name: Install the matching WASM workload
         run: |
-          nupkg=$(ls ${GITHUB_WORKSPACE}/artifacts_wasm/*.nupkg)
-          echo "Inspecting $nupkg"
-          unzip -l "$nupkg"
+          dotnet --version
+          dotnet workload install wasm-tools
+          shopt -s nullglob
+          packs=("$DOTNET_ROOT"/packs/Microsoft.NET.Runtime.Emscripten.*.Sdk.*)
+          if [[ ${#packs[@]} != 1 || ${packs[0]:-} != */Microsoft.NET.Runtime.Emscripten."$WORKLOAD_EM_VERSION".Sdk.* ]]; then
+            echo "::error::Expected Emscripten $WORKLOAD_EM_VERSION for $FRAMEWORK. Found: ${packs[*]}"
+            exit 1
+          fi
+          echo "WASM toolchain: ${packs[0]}"
 
-          # #2039 regression guard: the native lib must ship WITHOUT the "lib" prefix, since
-          # NativeFileReference derives the P/Invoke module name from the file's %(Filename).
-          unzip -p "$nupkg" runtimes/browser-wasm/4.0.23/OpenCvSharpExtern.a > /dev/null
-          unzip -p "$nupkg" build/net8.0/OpenCvSharp5.runtime.wasm.props > /dev/null
+      - uses: actions/download-artifact@v7
+        with:
+          name: artifacts_wasm
+          path: wasm-test-feed
 
-      - name: Publish wasm E2E consumer test
+      - uses: actions/download-artifact@v7
+        with:
+          name: wasm-managed-test-package
+          path: wasm-test-feed
+
+      - name: Restore and publish the NuGet consumer in Release
+        shell: bash
         run: |
-          dotnet publish ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/OpenCvSharp.Tests.Wasm.csproj -c Release -o ${GITHUB_WORKSPACE}/artifacts_wasm_e2e
-
-      - name: Run wasm E2E consumer test
-        run: |
-          set -e
-          npx --yes http-server ${GITHUB_WORKSPACE}/artifacts_wasm_e2e/wwwroot -p 8080 --silent &
-          SERVER_PID=$!
-          for i in $(seq 1 30); do
-            if curl -sf http://127.0.0.1:8080/index.html -o /dev/null; then
-              break
-            fi
-            sleep 1
-          done
-          if ! curl -sf http://127.0.0.1:8080/index.html -o /dev/null; then
-            echo "ERROR: http-server did not become ready on port 8080 within 30s"
-            kill $SERVER_PID || true
+          project=test/OpenCvSharp.Tests.Wasm/OpenCvSharp.Tests.Wasm.csproj
+          properties=(-p:TargetFramework="$FRAMEWORK" -p:OpenCvSharpPackageVersion="$PACKAGE_VERSION")
+          config="$RUNNER_TEMP/wasm.NuGet.Config"
+          cat > "$config" <<EOF
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="workflow" value="$GITHUB_WORKSPACE/wasm-test-feed" />
+              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+            </packageSources>
+            <packageSourceMapping>
+              <packageSource key="workflow">
+                <package pattern="OpenCvSharp5" />
+                <package pattern="OpenCvSharp5.runtime.wasm" />
+              </packageSource>
+              <packageSource key="nuget.org"><package pattern="*" /></packageSource>
+            </packageSourceMapping>
+          </configuration>
+          EOF
+          dotnet restore "$project" --configfile "$config" "${properties[@]}"
+          dotnet msbuild "$project" -getItem:NativeFileReference "${properties[@]}" |
+            jq -er --arg path "$NUGET_PACKAGES/opencvsharp5.runtime.wasm/$PACKAGE_VERSION/runtimes/browser-wasm/$EM_VERSION/OpenCvSharpExtern.a" \
+              '.Items.NativeFileReference | select(length == 1) | .[0].FullPath | select(. == $path)'
+          log="$RUNNER_TEMP/publish.log"
+          dotnet publish "$project" --no-restore -c Release -o artifacts_wasm_e2e "${properties[@]}" 2>&1 | tee "$log"
+          if [[ "$FRAMEWORK" != net8.0 ]]; then
+            grep -E 'OpenCvSharp.Tests.Wasm\.dll -> .*\.bc' "$log"
+          fi
+          if grep -E 'OpenCvSharp\.dll -> .*\.bc|undefined symbol: (saveSetjmp|testSetjmp)' "$log"; then
             exit 1
           fi
 
-          mkdir -p ${RUNNER_TEMP}/wasm-e2e
-          cp ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests.Wasm/run-e2e.mjs ${RUNNER_TEMP}/wasm-e2e/run-e2e.mjs
-          cd ${RUNNER_TEMP}/wasm-e2e
-          npm init -y > /dev/null 2>&1
-          npm install playwright > /dev/null 2>&1
-          npx playwright install --with-deps chromium
-
-          node run-e2e.mjs http://127.0.0.1:8080
-
-          kill $SERVER_PID || true
+      - name: Run the published NuGet consumer in Chrome
+        run: |
+          test_dir="$RUNNER_TEMP/wasm-e2e"
+          npm install --prefix "$test_dir" --no-save --no-package-lock playwright@1.65.1
+          cp test/OpenCvSharp.Tests.Wasm/run-e2e.mjs "$test_dir/"
+          python3 -m http.server 8080 --bind 127.0.0.1 --directory artifacts_wasm_e2e/wwwroot &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          curl --fail --silent --show-error --retry 10 --retry-connrefused http://127.0.0.1:8080/ -o /dev/null
+          node "$test_dir/run-e2e.mjs" http://127.0.0.1:8080

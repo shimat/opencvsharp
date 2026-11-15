@@ -4,9 +4,8 @@
    DllNotFoundException here; an OpenCL/UMat probe crash (#2037) either throws or hangs this
    component forever, which the runner's timeout also catches. An ImEncode/ImDecode round trip
    for JPEG/PNG/TIFF guards against the codecs building but silently no-op'ing - or hanging - on
-   wasm (#2043). libjpeg-turbo/libpng/libtiff use setjmp/longjmp for error handling, which hung
-   (rather than threw) when OpenCvSharpExtern.a was built with a different Emscripten version than
-   the one the .NET wasm SDK links it with; see EM_VERSION in .github/workflows/wasm.yml. A
+   wasm (#2043). libjpeg-turbo/libpng/libtiff use setjmp/longjmp for error handling. An archive
+   built with the wrong Emscripten version can fail when these codecs run. A
    Cv2.Dnn.BlobFromImage call exercises the dnn module's native wrapper without needing a trained
    model file on disk, guarding against the OpenCV build config showing dnn as built while the
    wasm wrapper actually fails to link or crashes at runtime. *@
@@ -32,6 +31,14 @@
             using var descriptors = new Mat();
             orb.DetectAndCompute(mat, default, out var keypoints, descriptors);
 
+            using var akaze = AKAZE.Create();
+            using var akazeDescriptors = new Mat();
+            akaze.DetectAndCompute(mat, default, out var akazeKeypoints, akazeDescriptors);
+            using var keypointImage = new Mat();
+            Cv2.DrawKeypoints(mat, akazeKeypoints, keypointImage, Scalar.Yellow, DrawMatchesFlags.DrawRichKeypoints);
+            if (akazeDescriptors.Empty() || keypointImage.Empty())
+                throw new InvalidOperationException("AKAZE did not produce descriptors and a keypoint image");
+
             foreach (var ext in new[] { ".jpg", ".png", ".tiff" })
             {
                 var encoded = Cv2.ImEncode(ext, mat, out var buf);
@@ -53,7 +60,7 @@
             var blobShape = string.Join('x', Enumerable.Range(0, blob.Dims).Select(blob.Size));
 
             status = "ok";
-            detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}, dnn blob shape: {blobShape}";
+            detail = $"OpenCV {version}, ORB keypoints: {keypoints.Length}, AKAZE keypoints: {akazeKeypoints.Length}, JPEG/PNG/TIFF round trips and DNN blob shape: {blobShape}";
         }
         catch (Exception ex)
         {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <!-- Match the exception and setjmp/longjmp mode used by the native archive. -->
+    <WasmEnableExceptionHandling>false</WasmEnableExceptionHandling>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <NativeFileReference Include="$(MSBuildThisFileDirectory)..\..\runtimes\browser-wasm\6.0.2\OpenCvSharpExtern.a" />
+  </ItemGroup>
+</Project>
