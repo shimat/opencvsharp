@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - codex/opencv-5.1.0-wasm-dual-toolchain
 
 env:
   DEBIAN_FRONTEND: noninteractive
@@ -161,7 +160,7 @@ jobs:
           ls
 
       - name: Save OpenCV cache
-        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push'
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v6
         with:
           path: |
