@@ -45,10 +45,12 @@ public class PtCloudTest : TestBase
         Assert.True(volume.GetTotalVolumeUnits() >= 0);
     }
 
-    [Fact]
-    public void ColorHashTSDFVolumeCreatesAndControlsGrowth()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ColorHashTSDFVolumeCreatesAndControlsGrowth(bool useDefaultSettings)
     {
-        using var settings = new VolumeSettings(VolumeType.ColorHashTSDF);
+        using var settings = useDefaultSettings ? null : new VolumeSettings(VolumeType.ColorHashTSDF);
         using var volume = new Volume(VolumeType.ColorHashTSDF, settings);
 
         Assert.Equal(0, volume.GetTotalVolumeUnits());

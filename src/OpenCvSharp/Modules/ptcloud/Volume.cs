@@ -15,8 +15,8 @@ public class Volume : CvObject
     /// <summary>
     /// Constructor of custom volume.
     /// </summary>
-    /// <param name="vtype">The volume type. For type-specific defaults, pass a matching <see cref="VolumeSettings"/>.</param>
-    /// <param name="settings">the custom settings for volume. If null, a default VolumeSettings(TSDF) is used.</param>
+    /// <param name="vtype">The volume type.</param>
+    /// <param name="settings">Custom settings for the volume. If null, uses the defaults for <paramref name="vtype"/>.</param>
     public Volume(VolumeType vtype = VolumeType.TSDF, VolumeSettings? settings = null)
     {
         VolumeSettings? ownedSettings = null;
@@ -25,7 +25,7 @@ public class Volume : CvObject
             var s = settings;
             if (s is null)
             {
-                ownedSettings = new VolumeSettings(VolumeType.TSDF);
+                ownedSettings = new VolumeSettings(vtype);
                 s = ownedSettings;
             }
             s.ThrowIfDisposed();
