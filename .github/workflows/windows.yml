@@ -73,12 +73,26 @@ jobs:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
+      # The SBOM records the checked-out opencv and opencv_contrib commits as the source of the OpenCV libraries, so
+      # the cache key includes them: OPENCV_VERSION does not change when a submodule moves to another commit, and a
+      # cache hit would then pair libraries built from the old commit with an SBOM that names the new one.
+      # generate_sbom.ps1 reads the commits the same way (git -C <submodule> rev-parse HEAD).
+      - name: Get OpenCV source commits
+        id: opencv-src
+        shell: pwsh
+        run: |
+          $opencv = git -C opencv rev-parse HEAD
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $contrib = git -C opencv_contrib rev-parse HEAD
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "commits=$opencv-$contrib" >> $env:GITHUB_OUTPUT
+
       - name: Restore OpenCV cache
         id: opencv-cache
         uses: actions/cache/restore@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ steps.opencv-src.outputs.commits }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -140,7 +154,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ steps.opencv-src.outputs.commits }}-${{ hashFiles('cmake/opencv_build_options.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step

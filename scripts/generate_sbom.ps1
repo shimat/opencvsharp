@@ -18,7 +18,8 @@
                                                declared license and upstream source come from the port's
                                                share/<port>/vcpkg.spdx.json
           - a library OpenCV bundles        -> a known opencv/3rdparty component (table below)
-          - the static MSVC C/C++ runtime, and Windows import libraries (which only add DLL imports)
+          - the static MSVC C/C++ runtime, and import libraries that only add imports of known Windows
+            system DLLs ($systemDllPattern)
           - anything else                   -> reported as unresolved, never guessed
       * License texts come from vcpkg's share/<port>/copyright files, the OpenCV / opencv_contrib LICENSE files
         and the license files OpenCV installs into etc/licenses.
@@ -326,6 +327,9 @@ if ($protobufMatch) {
     $n = [int]$protobufMatch.Groups[1].Value
     $protobufVersion = '{0}.{1}.{2}' -f [math]::Floor($n / 1000000), ([math]::Floor($n / 1000) % 1000), ($n % 1000)
 }
+$harfbuzzVersion = $null
+$harfbuzzMatch = Find-InFile (Join-Path $openCvSource '3rdparty/harfbuzz/src/hb-version.h') '#define\s+HB_VERSION_STRING\s+"([^"]+)"'
+if ($harfbuzzMatch) { $harfbuzzVersion = $harfbuzzMatch.Groups[1].Value }
 
 $bundledTable = @(
     @{ Pattern = '^ippicv'; Id = 'ippicv'; Name = 'Intel IPP ICV (Integrated Performance Primitives subset distributed for OpenCV)'; Supplier = 'Intel Corporation'; Version = $ippVersion; LicenseFiles = @('ippicv-*'); Comment = "Proprietary Intel license, not Apache-2.0. See the ippicv-* license files.$ippPackageNote" },
@@ -337,6 +341,7 @@ $bundledTable = @(
     @{ Pattern = '^quirc'; Id = 'quirc'; Name = 'quirc (copy bundled with OpenCV)'; License = 'ISC'; LicenseFiles = @('quirc-*') },
     @{ Pattern = '^(ilmimf|openexr)'; Id = 'openexr'; Name = 'OpenEXR (copy bundled with OpenCV)'; License = 'BSD-3-Clause'; LicenseFiles = @('openexr-*') },
     @{ Pattern = '^libspng'; Id = 'libspng'; Name = 'libspng (copy bundled with OpenCV)'; License = 'BSD-2-Clause'; LicenseFiles = @('libspng-*') },
+    @{ Pattern = '^libharfbuzz'; Id = 'harfbuzz'; Name = 'HarfBuzz (copy bundled with OpenCV)'; Version = $harfbuzzVersion; License = 'MIT-Modern-Variant AND MIT'; LicenseFiles = @('harfbuzz-*'); Comment = 'HarfBuzz calls its main license "Old MIT" (SPDX MIT-Modern-Variant); some files are under MIT. The expression is the one the vcpkg harfbuzz port declares.' },
     @{ Pattern = '^tbb'; Id = 'tbb'; Name = 'oneTBB (copy bundled with OpenCV)'; Supplier = 'Intel Corporation'; License = 'Apache-2.0'; LicenseFiles = @('tbb-*') },
     @{ Pattern = '^kleidicv'; Id = 'kleidicv'; Name = 'KleidiCV (copy bundled with OpenCV)'; Supplier = 'Arm Limited'; License = 'Apache-2.0'; LicenseFiles = @('kleidicv-*') }
 )
@@ -356,6 +361,11 @@ $runtimePattern = '^(libcmt|libcpmt1?|libconcrt|libvcruntime|libucrt|oldnames|le
 # Windows system DLL nor shipped in the package.
 $openMpRuntimePattern = '^vcompd?$'
 $sdkStaticPattern = '^(uuid|strmiids|mfuuid|dxguid|wbemuuid|comsuppw?|ksguid|ksuser)$'
+# Windows DLLs that the DLL may import without listing them as components: they are part of Windows, so nothing
+# is shipped for them. An import library that adds imports of any other DLL is reported as unresolved, because the
+# DLL would then need, at run time, a DLL that is neither part of Windows nor recorded in the SBOM. When a build
+# change adds an import of another Windows DLL, add that DLL here.
+$systemDllPattern = '^(advapi32|bcrypt|comdlg32|d3d11|dxgi|gdi32|iphlpapi|kernel32|mf|mfplat|mfreadwrite|ole32|oleaut32|shlwapi|user32|ws2_32)\.dll$'
 
 # ---------------------------------------------------------------------------------------------------------------
 # Components
@@ -496,7 +506,8 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
                 Comment = 'Static CRT/STL from the MSVC toolset and Windows SDK used for the build. Their terms are Microsoft license terms that have no SPDX identifier.'
             }
         }
-        elseif ($library -notmatch $openMpRuntimePattern -and $importedDlls.Count -eq $objects.Count) {
+        elseif ($library -notmatch $openMpRuntimePattern -and $importedDlls.Count -eq $objects.Count -and
+                @($importedDlls | Where-Object { $_ -notmatch $systemDllPattern }).Count -eq 0) {
             foreach ($o in $objects) { [void]$systemImports.Add($o) }
             $label = 'Windows import library (DLL imports only)'
         }
@@ -507,6 +518,10 @@ foreach ($library in @($map.Libraries.Keys | Sort-Object)) {
             $hint = 'It was found neither in the vcpkg install tree nor among the libraries this script knows OpenCV to bundle.'
             if ($library -match $openMpRuntimePattern) {
                 $hint = "The DLL imports the MSVC OpenMP runtime ($($importedDlls -join ', ')), which is neither a Windows system DLL nor shipped in the package."
+            }
+            elseif ($importedDlls.Count -eq $objects.Count) {
+                $unknownDlls = @($importedDlls | Where-Object { $_ -notmatch $systemDllPattern })
+                $hint = "It only adds DLL imports, and these are not in this script's list of Windows system DLLs: $($unknownDlls -join ', '). The DLL would need them at run time without the SBOM recording them. If they are part of Windows, add them to `$systemDllPattern."
             }
             elseif ($openCvLibraries.ContainsKey($library)) {
                 $relative = $openCvLibraries[$library].Substring($OpenCvInstallDir.Length).TrimStart('\', '/').Replace('\', '/')
