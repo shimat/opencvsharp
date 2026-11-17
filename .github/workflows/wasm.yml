@@ -335,7 +335,7 @@ jobs:
           if [[ "$FRAMEWORK" != net8.0 ]]; then
             grep -E 'OpenCvSharp.Tests.Wasm\.dll -> .*\.bc' "$log"
           fi
-          if grep -E 'OpenCvSharp\.dll -> .*\.bc|undefined symbol: (saveSetjmp|testSetjmp)' "$log"; then
+          if grep -E 'OpenCvSharp\.dll -> .*\.bc|undefined symbol:' "$log"; then
             exit 1
           fi
 

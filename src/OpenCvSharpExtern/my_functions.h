@@ -7,6 +7,7 @@
 #endif
 
 #include <opencv2/opencv.hpp>
+#include <string_view>
 
 
 #ifdef _WIN32
@@ -153,6 +154,18 @@ inline LastNativeException& lastNativeException()
     return value;
 }
 
+inline ExceptionStatus reportNativeError(
+    int code, std::string_view func, std::string_view message, std::string_view file, int line)
+{
+    auto& last = lastNativeException();
+    last.code = code;
+    last.line = line;
+    last.func = func;
+    last.file = file;
+    last.message = message;
+    return ExceptionStatus::Occurred;
+}
+
 // Runs an exported function body and converts any C++ exception into an ExceptionStatus
 // return value, uniformly on all platforms. Every catchable C++ exception is recorded into
 // the per-thread LastNativeException and reported as Occurred; the managed side turns that
@@ -176,13 +189,7 @@ ExceptionStatus cvTry(TFunc&& body)
     }
     catch (const cv::Exception& e)
     {
-        auto& last = lastNativeException();
-        last.code = e.code;
-        last.line = e.line;
-        last.func = e.func;
-        last.file = e.file;
-        last.message = e.err;
-        return ExceptionStatus::Occurred;
+        return reportNativeError(e.code, e.func, e.err, e.file, e.line);
     }
     catch (const std::exception& e)
     {
