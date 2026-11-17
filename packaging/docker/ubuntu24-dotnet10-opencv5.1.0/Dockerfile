@@ -110,7 +110,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
 # OpenBLAS/LAPACKE in the opencv-builder stage). Installed fresh here (rather than
 # relying on the /usr/lib copy below) because the update-alternatives symlinks that
 # make libopenblas.so.0 resolvable live outside /usr/lib and would otherwise be lost.
-RUN apt-get update && apt-get -y install --no-install-recommends gcc libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# The C smoke test needs the standard library headers provided by libc6-dev.
+RUN apt-get update && apt-get -y install --no-install-recommends gcc libc6-dev libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 # OpenBLAS's own pthread-based internal thread pool crashes (SIGABRT) when called
 # concurrently from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher
 # matches image pairs on multiple threads, each hitting LAPACK/SVD). Force OpenBLAS to
