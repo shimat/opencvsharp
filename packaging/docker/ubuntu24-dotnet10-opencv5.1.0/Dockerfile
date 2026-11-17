@@ -64,13 +64,8 @@ RUN set -eux; \
     rm ${OPENCV_VERSION}.zip; \
     mv opencv_contrib-${OPENCV_VERSION} /opencv_contrib
 
-# Configure, build, and install OpenCV with ccache and parallel build
-#
-# -D CMAKE_ASM_COMPILER="": disables the ASM language so OpenCV 5's vendored
-# MLAS turns off and DNN falls back to its built-in SGEMM. The MLAS FP16/GQA
-# path references MlasHGemmSupported(), which OpenCV 5.0.0 declares and calls
-# but never defines, breaking the extern link with an undefined reference
-# (same fix as windows.yml / linux-arm64.yml / macos.yml).
+# Configure, build, and install OpenCV with ccache and parallel build.
+# CMake's LAPACK package search finds Ubuntu's multiarch BLAS and LAPACK headers.
 RUN --mount=type=cache,target=/root/.ccache \
     set -eux; \
     cmake -G Ninja \
@@ -80,8 +75,8 @@ RUN --mount=type=cache,target=/root/.ccache \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_C_COMPILER_LAUNCHER=ccache \
       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -D CMAKE_INSTALL_PREFIX=/opencv_artifacts \
-      -D CMAKE_ASM_COMPILER=""; \
+      -D OPENCV_LAPACK_FIND_PACKAGE_ONLY=ON \
+      -D CMAKE_INSTALL_PREFIX=/opencv_artifacts; \
     cmake --build /opencv/build --parallel "$(nproc)"; \
     cmake --install /opencv/build; \
     ldconfig
@@ -147,10 +142,13 @@ RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 li
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
-COPY global.json /opencvsharp/global.json
+COPY .editorconfig global.json /opencvsharp/
 COPY src/ /opencvsharp/src/
 COPY test/ /opencvsharp/test/
 WORKDIR /opencvsharp
+# The test build context has no Git metadata.
+ENV EnableSourceControlManagerQueries=false \
+    EnableSourceLink=false
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.GdipExtensions && \

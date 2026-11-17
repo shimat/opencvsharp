@@ -50,7 +50,8 @@ RUN set -eux; \
     rm ${OPENCV_VERSION}.zip; \
     mv opencv_contrib-${OPENCV_VERSION} /opencv_contrib
 
-# Configure, build, and install OpenCV (slim profile)
+# Configure, build, and install OpenCV (slim profile).
+# CMake's LAPACK package search finds Ubuntu's multiarch BLAS and LAPACK headers.
 RUN --mount=type=cache,target=/root/.ccache \
     set -eux; \
     cmake -G Ninja \
@@ -60,6 +61,7 @@ RUN --mount=type=cache,target=/root/.ccache \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_C_COMPILER_LAUNCHER=ccache \
       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -D OPENCV_LAPACK_FIND_PACKAGE_ONLY=ON \
       -D CMAKE_INSTALL_PREFIX=/opencv_artifacts; \
     cmake --build /opencv/build --parallel "$(nproc)"; \
     cmake --install /opencv/build; \

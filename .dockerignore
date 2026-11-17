@@ -13,5 +13,6 @@ src/build*/
 # Test projects
 !test/
 
-# Test runner configuration
+# Managed build and test configuration
+!.editorconfig
 !global.json

@@ -8,6 +8,7 @@ on:
     types: [synchronize, opened]
     paths:
       - '.dockerignore'
+      - '.editorconfig'
       - '.github/workflows/docker-test-ubuntu.yml'
       - 'cmake/**'
       - 'global.json'
