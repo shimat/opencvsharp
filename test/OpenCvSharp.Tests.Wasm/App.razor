@@ -67,7 +67,10 @@
             // the by-value Scalar and reports an unavailable module through OpenCVException.
             try
             {
-                CvRapid.DrawWireframe(mat, mat, mat, Scalar.All(0));
+                using var points = Mat.FromPixelData(3, 1, MatType.CV_32FC2,
+                    new[] { new Point2f(10, 10), new Point2f(20, 10), new Point2f(10, 20) });
+                using var triangles = Mat.FromPixelData(1, 1, MatType.CV_32SC3, new[] { new Vec3i(0, 1, 2) });
+                CvRapid.DrawWireframe(mat, points, triangles, Scalar.All(0));
                 throw new InvalidOperationException("RAPID unexpectedly ran in the Wasm build");
             }
             catch (OpenCVException ex) when (ex.Status == ErrorCode.StsNotImplemented &&
