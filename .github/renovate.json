@@ -30,7 +30,7 @@
     },
     {
       "description": "Group xunit packages",
-      "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Microsoft.Testing.Extensions.CrashDump"],
+      "matchPackageNames": ["xunit.v3", "xunit.runner.visualstudio", "Microsoft.Testing.Extensions.CrashDump", "Microsoft.Testing.Platform"],
       "groupName": "xunit"
     },
     {

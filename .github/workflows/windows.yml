@@ -156,7 +156,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCVSHARP_GENERATE_LINKER_MAP=ON
           cmake --build src/build --config Release -j 4
 
@@ -181,7 +180,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D NO_CONTRIB=ON `
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
@@ -483,7 +481,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCVSHARP_BUILD_WITH_DEBUG_INFO=ON
           cmake --build src/build_arm64 --config Release -j 4
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -501,7 +498,6 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
-            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D NO_CONTRIB=ON `
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
