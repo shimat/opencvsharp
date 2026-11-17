@@ -145,7 +145,7 @@ CVAPI(ExceptionStatus) shape_AffineTransformer_getFullAffine(cv::AffineTransform
 
 
 // ============================================================
-// Upcast helpers: typed Ptr<Derived> → new Ptr<ShapeTransformer>
+// Upcast helpers create a new Ptr<ShapeTransformer> from a typed Ptr<Derived>.
 // Used by SetTransformAlgorithm on ShapeContextDistanceExtractor.
 // ============================================================
 

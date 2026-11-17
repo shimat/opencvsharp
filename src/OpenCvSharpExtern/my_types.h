@@ -236,7 +236,7 @@ namespace interop
     // 48-byte payload), OutputArray/InputOutputArrayProxy are 16. That is much larger than the old
     // 8-byte cv::_InputArray* argument, but it is NOT a regression: the old path had to heap-allocate
     // a cv::_InputArray per call (core_InputArray_new_byMat) and free it (SafeHandle/finalizer + GC
-    // pressure), whereas this path allocates nothing — passing the proxy is just a small stack copy
+    // pressure), whereas this path allocates nothing. Passing the proxy is just a small stack copy
     // (and on the Win x64 ABI a >8-byte struct is passed as a hidden pointer to a caller-side copy
     // anyway). A 72-byte memcpy is negligible next to an eliminated heap alloc/free/GC, so the
     // ref-struct path is a net win. The 48-byte payload is the deliberate price of carrying a
