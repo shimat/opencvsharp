@@ -117,15 +117,15 @@ RUN apt-get update && apt-get -y install --no-install-recommends gcc libopenblas
 # stay single-threaded internally; OpenCV's own parallelism is unaffected.
 ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
-RUN echo "\n\
-#include <stdio.h> \n\
-int core_Mat_sizeof(); \n\
-int main(){ \n\
-  int i = core_Mat_sizeof(); \n\
-  printf(\"sizeof(Mat) = %d\", i); \n\
-  return 0; \n\
-}" > /test.c && \
-    gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern && \
+RUN printf '%s\n' \
+    '#include <stdio.h>' \
+    'int core_Mat_sizeof(void);' \
+    'int main(void)' \
+    '{' \
+    '    printf("sizeof(Mat) = %d\n", core_Mat_sizeof());' \
+    '    return 0;' \
+    '}' > /test.c && \
+    gcc -Werror=implicit-function-declaration -L. test.c -o test -lOpenCvSharpExtern && \
     LD_LIBRARY_PATH=. ./test
 
 ########## Test .NET class libraries ##########
