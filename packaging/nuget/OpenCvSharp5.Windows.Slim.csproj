@@ -36,6 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Match the dependency groups for this package, which contains no assemblies. -->
+    <None Include="_._" Pack="true" PackagePath="lib/net8.0/;lib/net8.0-windows7.0/" />
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
     <None Include="README.managed.md" Pack="true" PackagePath="" />
   </ItemGroup>

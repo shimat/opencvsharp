@@ -3,6 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <PackageId>OpenCvSharp5.runtime.android</PackageId>
     <Title>OpenCvSharp native bindings for Android</Title>
     <Authors>shimat</Authors>
