@@ -1,6 +1,7 @@
 #pragma once
 
 #include "include_opencv.h"
+#include <opencv2/cvconfig.h>
 #include <opencv2/core/ocl.hpp>
 
 // ReSharper disable CppInconsistentNaming
@@ -59,6 +60,7 @@ CVAPI(ExceptionStatus) core_ocl_PlatformInfoVector_size(OclPlatformInfoVector* o
     });
 }
 
+#ifdef HAVE_OPENCL
 CVAPI(ExceptionStatus) core_ocl_PlatformInfoVector_getPlatform(
     OclPlatformInfoVector* obj,
     int platformIndex,
@@ -79,6 +81,14 @@ CVAPI(ExceptionStatus) core_ocl_PlatformInfoVector_getPlatform(
         *deviceCount = platform.deviceNumber();
     });
 }
+#else
+CVAPI(ExceptionStatus) core_ocl_PlatformInfoVector_getPlatform(
+    OclPlatformInfoVector*, int, std::string*, std::string*, std::string*, int*, int*, int*)
+{
+    return reportNativeError(
+        cv::Error::StsNotImplemented, __func__, "OpenCL is unavailable in this OpenCV build.", __FILE__, __LINE__);
+}
+#endif
 
 CVAPI(ExceptionStatus) core_ocl_PlatformInfoVector_getDevice(
     OclPlatformInfoVector* obj,

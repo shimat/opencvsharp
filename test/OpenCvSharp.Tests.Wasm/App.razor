@@ -10,6 +10,7 @@
    model file on disk, guarding against the OpenCV build config showing dnn as built while the
    wasm wrapper actually fails to link or crashes at runtime. *@
 
+@using OpenCvSharp.Rapid
 @using OpenCvSharp.XFeatures2D
 
 <pre id="result" data-status="@status">@status: @detail</pre>
@@ -23,6 +24,9 @@
         try
         {
             var version = Cv2.GetVersionString();
+
+            if (Cv2.Ocl.HaveOpenCL() || Cv2.Ocl.GetPlatformsInfo().Count != 0)
+                throw new InvalidOperationException("The Wasm build should expose no OpenCL platforms");
 
             using var mat = new Mat(256, 256, MatType.CV_8UC1, Scalar.All(0));
             Cv2.Rectangle(mat, new Rect(40, 40, 120, 120), Scalar.All(255), thickness: -1);
@@ -58,6 +62,22 @@
             using var blob = Cv2.Dnn.BlobFromImage(mat, size: new Size(64, 64));
             if (blob.Empty())
                 throw new InvalidOperationException("Cv2.Dnn.BlobFromImage produced an empty blob");
+
+            // RAPID is disabled in the Wasm archive. Verify that its entry point accepts
+            // the by-value Scalar and reports an unavailable module through OpenCVException.
+            try
+            {
+                using var points = Mat.FromPixelData(3, 1, MatType.CV_32FC2,
+                    new[] { new Point2f(10, 10), new Point2f(20, 10), new Point2f(10, 20) });
+                using var triangles = Mat.FromPixelData(1, 1, MatType.CV_32SC3, new[] { new Vec3i(0, 1, 2) });
+                CvRapid.DrawWireframe(mat, points, triangles, Scalar.All(0));
+                throw new InvalidOperationException("RAPID unexpectedly ran in the Wasm build");
+            }
+            catch (OpenCVException ex) when (ex.Status == ErrorCode.StsNotImplemented &&
+                                             ex.FuncName == "rapid_drawWireframe")
+            {
+                // Expected for this Wasm profile.
+            }
 
             var blobShape = string.Join('x', Enumerable.Range(0, blob.Dims).Select(blob.Size));
 

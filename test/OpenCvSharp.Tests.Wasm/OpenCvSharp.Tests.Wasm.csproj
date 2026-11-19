@@ -12,14 +12,7 @@
     <WasmInitialHeapSize>268435456</WasmInitialHeapSize>
     <EmccInitialHeapSize Condition="'$(TargetFramework)' == 'net8.0'">$(WasmInitialHeapSize)</EmccInitialHeapSize>
 
-    <!--
-      Some OpenCvSharp P/Invoke declarations have no corresponding symbol in the wasm-built
-      OpenCvSharpExtern.a - unlike the dynamically-linked Windows/Linux/macOS runtimes, wasm
-      statically links everything, so any consumer app hits this at publish time regardless of
-      whether it actually calls the affected API. Tracked separately; not calling those APIs
-      here, so allow the link to proceed.
-    -->
-    <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+    <WasmAllowUndefinedSymbols>false</WasmAllowUndefinedSymbols>
 
     <!-- Older workloads bundle Binaryen versions with fewer optimization flags. -->
     <EmccLinkOptimizationFlag Condition="'$(TargetFramework)' != 'net11.0'">-O1</EmccLinkOptimizationFlag>

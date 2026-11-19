@@ -1,5 +1,7 @@
 #pragma once
 
+#include <opencv2/opencv_modules.hpp>
+
 #ifdef HAVE_OPENCV_XFEATURES2D
 
 // ReSharper disable IdentifierTypo
