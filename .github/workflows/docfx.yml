@@ -8,6 +8,7 @@ on:
     paths:
       - "docs/**"
       - "src/OpenCvSharp/**"
+      - "src/OpenCvSharp.Analyzers/**"
       - ".github/workflows/docfx.yml"
   push:
     branches:
@@ -43,6 +44,10 @@ jobs:
         shell: pwsh
         run: dotnet tool install -g docfx
         
+      - name: Build analyzer
+        shell: pwsh
+        run: dotnet build src/OpenCvSharp.Analyzers/OpenCvSharp.Analyzers.csproj -c Release
+
       - name: Build Documentation
         shell: pwsh
         run: docfx docs/docfx/docfx.json
