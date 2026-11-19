@@ -50,7 +50,8 @@ RUN set -eux; \
     rm ${OPENCV_VERSION}.zip; \
     mv opencv_contrib-${OPENCV_VERSION} /opencv_contrib
 
-# Configure, build, and install OpenCV (slim profile)
+# Configure, build, and install OpenCV (slim profile).
+# CMake's LAPACK package search finds Ubuntu's multiarch BLAS and LAPACK headers.
 RUN --mount=type=cache,target=/root/.ccache \
     set -eux; \
     cmake -G Ninja \
@@ -60,6 +61,7 @@ RUN --mount=type=cache,target=/root/.ccache \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_C_COMPILER_LAUNCHER=ccache \
       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -D OPENCV_LAPACK_FIND_PACKAGE_ONLY=ON \
       -D CMAKE_INSTALL_PREFIX=/opencv_artifacts; \
     cmake --build /opencv/build --parallel "$(nproc)"; \
     cmake --install /opencv/build; \
@@ -97,22 +99,23 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
 # OpenBLAS/LAPACKE in the opencv-builder stage). Installed fresh here (rather than
 # relying on the /usr/lib copy below) because the update-alternatives symlinks that
 # make libopenblas.so.0 resolvable live outside /usr/lib and would otherwise be lost.
-RUN apt-get update && apt-get -y install --no-install-recommends gcc libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+# The C smoke test needs the standard library headers provided by libc6-dev.
+RUN apt-get update && apt-get -y install --no-install-recommends gcc libc6-dev libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
 # OpenBLAS's own pthread-based internal thread pool crashes (SIGABRT) when called
 # concurrently from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher
 # matches image pairs on multiple threads, each hitting LAPACK/SVD). Force OpenBLAS to
 # stay single-threaded internally; OpenCV's own parallelism is unaffected.
 ENV OPENBLAS_NUM_THREADS=1
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
-RUN echo "\n\
-#include <stdio.h> \n\
-int core_Mat_sizeof(); \n\
-int main(){ \n\
-  int i = core_Mat_sizeof(); \n\
-  printf(\"sizeof(Mat) = %d\", i); \n\
-  return 0; \n\
-}" > /test.c && \
-    gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern && \
+RUN printf '%s\n' \
+    '#include <stdio.h>' \
+    'int core_Mat_sizeof(void);' \
+    'int main(void)' \
+    '{' \
+    '    printf("sizeof(Mat) = %d\n", core_Mat_sizeof());' \
+    '    return 0;' \
+    '}' > /test.c && \
+    gcc -Werror=implicit-function-declaration -L. test.c -o test -lOpenCvSharpExtern && \
     LD_LIBRARY_PATH=. ./test
 
 ########## Final images ##########
