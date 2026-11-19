@@ -31,6 +31,7 @@ concurrency:
 
 env:
   OPENCV_VERSION: 5.1.0
+  MACOSX_DEPLOYMENT_TARGET: "11.0"
   CACHE_VERSION: "1"
   MEDIAMTX_VERSION: 1.19.3
 
@@ -90,6 +91,9 @@ jobs:
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
+
+      - name: Verify vcpkg deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/x64-osx-static/lib
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -167,8 +171,17 @@ jobs:
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
-          cmake --build src/build -j
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+          if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
+            echo "A dependency exceeds the macOS deployment target"
+            exit 1
+          fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - name: Verify OpenCV and Extern deployment targets
+        run: |
+          python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" \
+            opencv_artifacts/lib libOpenCvSharpExtern.dylib
 
       - name: Check dylib architecture
         run: |
@@ -250,6 +263,9 @@ jobs:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
 
+      - name: Verify vcpkg deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/arm64-osx-static/lib
+
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
         id: opencv-revs
@@ -326,8 +342,17 @@ jobs:
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
             -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
-          cmake --build src/build -j
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+          if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
+            echo "A dependency exceeds the macOS deployment target"
+            exit 1
+          fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - name: Verify OpenCV and Extern deployment targets
+        run: |
+          python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" \
+            opencv_artifacts/lib libOpenCvSharpExtern.dylib
 
       - name: Check dylib architecture
         run: |
