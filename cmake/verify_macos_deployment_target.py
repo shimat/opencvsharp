@@ -43,6 +43,12 @@ def main():
             r"\s+(?:minos|version) ([\d.]+)",
             result.stdout,
         )
+        if not versions and path.name == "libippicv.a":
+            # OpenCV's prebuilt macOS IPP 2021.9.1 archive has no version
+            # commands in any of its 15,958 objects. Tracked in issue #2213.
+            print(f"{path}: prebuilt IPP archive has no deployment-version commands")
+            continue
+
         if not versions:
             print(f"ERROR: No macOS deployment version found in {path}", file=sys.stderr)
             failed = True
