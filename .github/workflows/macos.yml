@@ -165,6 +165,7 @@ jobs:
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
         run: |
+          set -euo pipefail
           cmake \
             -G Ninja \
             -S src \
@@ -337,6 +338,7 @@ jobs:
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern
         run: |
+          set -euo pipefail
           cmake \
             -G Ninja \
             -S src \
