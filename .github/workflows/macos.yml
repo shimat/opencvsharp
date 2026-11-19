@@ -85,15 +85,15 @@ jobs:
             --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
+      - name: Verify vcpkg deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/x64-osx-static/lib
+
       - name: Save vcpkg package cache
         if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
-
-      - name: Verify vcpkg deployment targets
-        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/x64-osx-static/lib
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -152,6 +152,9 @@ jobs:
           find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
+      - name: Verify OpenCV deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" opencv_artifacts/lib
+
       - name: Save OpenCV cache
         if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
@@ -169,7 +172,7 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
             -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
           cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
@@ -178,10 +181,8 @@ jobs:
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
 
-      - name: Verify OpenCV and Extern deployment targets
-        run: |
-          python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" \
-            opencv_artifacts/lib libOpenCvSharpExtern.dylib
+      - name: Verify Extern deployment target
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
 
       - name: Check dylib architecture
         run: |
@@ -256,15 +257,15 @@ jobs:
             --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets \
             --overlay-ports=${GITHUB_WORKSPACE}/cmake/vcpkg-overlay-ports
 
+      - name: Verify vcpkg deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/arm64-osx-static/lib
+
       - name: Save vcpkg package cache
         if: github.ref == 'refs/heads/main' && steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-arm64-osx-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/arm64-osx-static.cmake') }}-${{ hashFiles('cmake/vcpkg-overlay-ports/**') }}
-
-      - name: Verify vcpkg deployment targets
-        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" vcpkg_installed/arm64-osx-static/lib
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Capture OpenCV revisions
@@ -323,6 +324,9 @@ jobs:
           find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
+      - name: Verify OpenCV deployment targets
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" opencv_artifacts/lib
+
       - name: Save OpenCV cache
         if: github.ref == 'refs/heads/main' && steps.opencv-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
@@ -340,7 +344,7 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
             -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
           cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
@@ -349,10 +353,8 @@ jobs:
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
 
-      - name: Verify OpenCV and Extern deployment targets
-        run: |
-          python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" \
-            opencv_artifacts/lib libOpenCvSharpExtern.dylib
+      - name: Verify Extern deployment target
+        run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
 
       - name: Check dylib architecture
         run: |
