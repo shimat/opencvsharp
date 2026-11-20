@@ -72,6 +72,7 @@ jobs:
           context: .
           file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
           target: test-dotnet
+          no-cache-filters: ${{ inputs.clean_build && 'test-dotnet' || '' }}
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
           outputs: type=cacheonly
@@ -88,6 +89,7 @@ jobs:
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
           outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv5.1.0:latest
+          no-cache-filters: ${{ inputs.clean_build && 'final-sdk,final' || '' }}
           cache-from: type=gha,scope=full-main
           cache-to: ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=min,scope=full-main' || '' }}
 
@@ -124,5 +126,6 @@ jobs:
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
           outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv5.1.0-slim:latest
+          no-cache-filters: ${{ inputs.clean_build && 'final-sdk,final' || '' }}
           cache-from: type=gha,scope=slim-main
           cache-to: ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=min,scope=slim-main' || '' }}

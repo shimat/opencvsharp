@@ -14,8 +14,8 @@ ENV CCACHE_MAXSIZE=2G
 WORKDIR /
 
 # Install build and OpenCV dependencies (with BuildKit cache for apt)
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt/lists \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     set -eux; \
     sh /install-system-packages.sh \
       apt-transport-https \
