@@ -16,3 +16,6 @@ src/build*/
 # Managed build and test configuration
 !.editorconfig
 !global.json
+
+# Shared package installation for the Ubuntu Docker builds
+!packaging/docker/install-system-packages.sh

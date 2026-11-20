@@ -5,6 +5,11 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      clean_build:
+        description: Build vcpkg and OpenCV without restoring caches
+        type: boolean
+        default: false
 
   pull_request:
     types: [synchronize, opened, reopened]
@@ -71,6 +76,7 @@ jobs:
           /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
       - name: Restore vcpkg package cache
+        if: ${{ !inputs.clean_build }}
         id: vcpkg-cache
         uses: actions/cache/restore@v6
         with:
@@ -103,6 +109,7 @@ jobs:
           echo "contrib=$(git -C opencv_contrib rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Restore OpenCV cache
+        if: ${{ !inputs.clean_build }}
         id: opencv-cache
         uses: actions/cache/restore@v6
         with:
@@ -244,6 +251,7 @@ jobs:
           /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
       - name: Restore vcpkg package cache
+        if: ${{ !inputs.clean_build }}
         id: vcpkg-cache
         uses: actions/cache/restore@v6
         with:
@@ -276,6 +284,7 @@ jobs:
           echo "contrib=$(git -C opencv_contrib rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Restore OpenCV cache
+        if: ${{ !inputs.clean_build }}
         id: opencv-cache
         uses: actions/cache/restore@v6
         with:
