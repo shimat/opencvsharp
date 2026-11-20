@@ -47,7 +47,10 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_readModel2(
     const char *definition)
 {
     return cvTry([&] {
+        // The obsolete managed overload intentionally forwards to this deprecated overload.
+        CV_SUPPRESS_DEPRECATED_START
         obj->readModel(weights, definition);
+        CV_SUPPRESS_DEPRECATED_END
     });
 }
 
