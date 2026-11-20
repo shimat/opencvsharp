@@ -5,6 +5,10 @@ description: >-
   structurally different build (no vcpkg/FFmpeg, reduced OpenCV module list).
 
 inputs:
+  clean_build:
+    description: Build dependencies and OpenCV without restoring caches
+    required: false
+    default: 'false'
   arch:
     description: Target architecture, matching the container (x64 or arm64); selects the vcpkg triplet
     required: true
@@ -83,7 +87,7 @@ runs:
         if [ "${{ inputs.install_gtk3_devel }}" = "true" ]; then
           pkgs="$pkgs gtk3-devel"
         fi
-        dnf install -y $pkgs
+        bash "$GITHUB_ACTION_PATH/install-system-tools.sh" $pkgs
 
     # -- vcpkg (image libs + Tesseract + Leptonica) ----------------------------
     - name: Bootstrap vcpkg (${{ inputs.variant_label }})
@@ -99,6 +103,7 @@ runs:
         /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
     - name: Restore vcpkg package cache (${{ inputs.variant_label }})
+      if: inputs.clean_build != 'true'
       id: vcpkg-cache
       uses: actions/cache/restore@v6
       with:
@@ -122,6 +127,7 @@ runs:
 
     # -- FFmpeg cache -----------------------------------------------------------
     - name: Restore FFmpeg cache (${{ inputs.variant_label }})
+      if: inputs.clean_build != 'true'
       id: ffmpeg-cache
       uses: actions/cache/restore@v6
       with:
@@ -153,6 +159,7 @@ runs:
 
     # -- OpenCV cache -------------------------------------------------------------
     - name: Restore OpenCV cache (${{ inputs.variant_label }})
+      if: inputs.clean_build != 'true'
       id: opencv-cache
       uses: actions/cache/restore@v6
       with:

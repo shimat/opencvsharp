@@ -3,6 +3,10 @@
 ###############################################################################
 * text=auto
 
+# These scripts run inside Linux containers, including builds from Windows checkouts.
+/.github/actions/build-manylinux-variant/install-system-tools.sh text eol=lf
+/packaging/docker/install-system-packages.sh text eol=lf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #

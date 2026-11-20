@@ -3,6 +3,7 @@ ARG OPENCV_VERSION=5.1.0
 
 ########## Build OpenCV ##########
 FROM ubuntu:resolute AS opencv-builder
+COPY packaging/docker/install-system-packages.sh /install-system-packages.sh
 
 ARG OPENCV_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,11 +14,10 @@ ENV CCACHE_MAXSIZE=2G
 WORKDIR /
 
 # Install build and OpenCV dependencies (with BuildKit cache for apt)
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt/lists \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     set -eux; \
-    apt-get -o Acquire::Retries=3 update; \
-    apt-get -y install --no-install-recommends \
+    sh /install-system-packages.sh \
       apt-transport-https \
       software-properties-common \
       wget \
@@ -106,12 +106,13 @@ RUN --mount=type=cache,target=/root/.ccache \
 
 ########## Test native .so file ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
+COPY packaging/docker/install-system-packages.sh /install-system-packages.sh
 # libopenblas0/liblapacke: runtime deps of libOpenCvSharpExtern.so (linked against
 # OpenBLAS/LAPACKE in the opencv-builder stage). Installed fresh here (rather than
 # relying on the /usr/lib copy below) because the update-alternatives symlinks that
 # make libopenblas.so.0 resolvable live outside /usr/lib and would otherwise be lost.
 # The C smoke test needs the standard library headers provided by libc6-dev.
-RUN apt-get update && apt-get -y install --no-install-recommends gcc libc6-dev libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+RUN sh /install-system-packages.sh gcc libc6-dev libopenblas0 liblapacke
 # OpenBLAS's own pthread-based internal thread pool crashes (SIGABRT) when called
 # concurrently from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher
 # matches image pairs on multiple threads, each hitting LAPACK/SVD). Force OpenBLAS to
@@ -131,6 +132,7 @@ RUN printf '%s\n' \
 
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
+COPY packaging/docker/install-system-packages.sh /install-system-packages.sh
 # See test-native above for why these are installed fresh instead of relying on
 # the /usr/lib copy. clang/zlib1g-dev are link-time dependencies of PublishAot's ILCompiler
 # (used by the NativeAOT smoke test further below) - installed here, in the same apt-get pass as
@@ -138,7 +140,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
 # pass hit a reproducible `apt-get` segfault (`libapt-private.so.0.0: no version information
 # available` followed by SIGSEGV) in this same container stage, immediately after the 1700+ tests
 # above it had run. Root cause unconfirmed, but installing everything up front sidesteps it.
-RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke clang zlib1g-dev && rm -rf /var/lib/apt/lists/*
+RUN sh /install-system-packages.sh libopenblas0 liblapacke clang zlib1g-dev
 # See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
@@ -168,9 +170,10 @@ RUN cd /opencvsharp/test/OpenCvSharp.Tests.NativeAot && \
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk
+COPY packaging/docker/install-system-packages.sh /install-system-packages.sh
 # See test-native above for why these are installed fresh instead of relying on
 # the /usr/lib copy.
-RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+RUN sh /install-system-packages.sh libopenblas0 liblapacke
 # See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
@@ -178,7 +181,8 @@ COPY --from=opencvsharp-builder /usr/lib /usr/lib
 COPY --from=opencvsharp-builder /artifacts /artifacts
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS final
-RUN apt-get update && apt-get -y install --no-install-recommends libopenblas0 liblapacke && rm -rf /var/lib/apt/lists/*
+COPY packaging/docker/install-system-packages.sh /install-system-packages.sh
+RUN sh /install-system-packages.sh libopenblas0 liblapacke
 # See test-native above: keep OpenBLAS single-threaded to avoid crashing when called
 # from OpenCV's own parallel_for_ (e.g. stitching's BestOf2NearestMatcher).
 ENV OPENBLAS_NUM_THREADS=1
