@@ -221,7 +221,7 @@ jobs:
           sysctl -n machdep.cpu.brand_string | tee ipp-comparison/cpu.txt
           clang++ -O3 -std=c++17 -I opencv_artifacts/include/opencv5 \
             .github/benchmarks/macos_ipp.cpp \
-            "$GITHUB_WORKSPACE/libOpenCvSharpExtern.dylib" -o /tmp/ipp-benchmark
+            "$GITHUB_WORKSPACE/libOpenCvSharpExtern.dylib" -Wl,-rpath,"$GITHUB_WORKSPACE" -o /tmp/ipp-benchmark
           /tmp/ipp-benchmark | tee ipp-comparison/ipp-runtime.csv
           cp libOpenCvSharpExtern.dylib ipp-comparison/with-ipp.dylib
           xcrun ld -help 2>&1 | grep -E 'warn|platform' > ipp-comparison/linker-options.txt || true
@@ -245,7 +245,8 @@ jobs:
           cp src/build-noipp/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ipp-comparison/without-ipp.dylib
           clang++ -O3 -std=c++17 -I opencv_noipp_artifacts/include/opencv5 \
             .github/benchmarks/macos_ipp.cpp \
-            "$GITHUB_WORKSPACE/ipp-comparison/without-ipp.dylib" -o /tmp/noipp-benchmark
+            "$GITHUB_WORKSPACE/src/build-noipp/OpenCvSharpExtern/libOpenCvSharpExtern.dylib" \
+            -Wl,-rpath,"$GITHUB_WORKSPACE/src/build-noipp/OpenCvSharpExtern" -o /tmp/noipp-benchmark
           /tmp/noipp-benchmark | tee ipp-comparison/noipp-runtime.csv
           ls -l ipp-comparison/*.dylib | tee ipp-comparison/sizes.txt
           python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" ipp-comparison/without-ipp.dylib

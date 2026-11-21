@@ -163,6 +163,16 @@ if(OpenCV_FOUND)
 	endif()
 
 	if(APPLE)
+		if(POLICY CMP0179)
+			set_property(TARGET OpenCvSharpExtern PROPERTY LINK_LIBRARIES_STRATEGY REORDER_FREELY)
+		endif()
+		# The cached OpenCV text module exports Tesseract as a bare library name.
+		# Use its resolved target so CMake can track the location and dependencies.
+		if(TARGET ocv.3rdparty.tesseract AND TARGET Tesseract::libtesseract)
+			get_target_property(text_libraries ocv.3rdparty.tesseract INTERFACE_LINK_LIBRARIES)
+			list(TRANSFORM text_libraries REPLACE "^(-l)?tesseract$" "Tesseract::libtesseract")
+			set_property(TARGET ocv.3rdparty.tesseract PROPERTY INTERFACE_LINK_LIBRARIES "${text_libraries}")
+		endif()
 		# Resolve static codec dependencies through CMAKE_PREFIX_PATH. Keeping these
 		# in the target's link graph lets CMake deduplicate OpenCV's transitive inputs.
 		foreach(dependency IN ITEMS lzma zstd sharpyuv webp webpmux webpdemux webpdecoder
