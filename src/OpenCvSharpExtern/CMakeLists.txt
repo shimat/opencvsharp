@@ -4,11 +4,15 @@ include_directories(${OpenCV_INCLUDE_DIR})
 IF(!EMSCRIPTEN)
 	link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
 ENDIF()
-IF(APPLE)
-    # Fix linking on 10.14+. See https://stackoverflow.com/questions/54068035
-    # Intel Homebrew: /usr/local/lib; Apple Silicon Homebrew: /opt/homebrew/lib
-    link_directories(/usr/local/lib /opt/homebrew/lib)
-ENDIF()
+if(APPLE)
+    # Apple's linker rescans static archives, so repeated dependencies are unnecessary.
+    if(POLICY CMP0156)
+        cmake_policy(SET CMP0156 NEW)
+    endif()
+    if(POLICY CMP0179)
+        cmake_policy(SET CMP0179 NEW)
+    endif()
+endif()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 if(OPENCVSHARP_MINIMAL)
@@ -156,6 +160,27 @@ if(OpenCV_FOUND)
 			endif()
 			target_link_libraries(OpenCvSharpExtern Tesseract::libtesseract)
 		endif()
+	endif()
+
+	if(APPLE)
+		# Resolve static codec dependencies through CMAKE_PREFIX_PATH. Keeping these
+		# in the target's link graph lets CMake deduplicate OpenCV's transitive inputs.
+		foreach(dependency IN ITEMS lzma zstd sharpyuv webp webpmux webpdemux webpdecoder
+			jpeg png16 tiff leptonica gif freetype harfbuzz lz4)
+			find_library(OPENCVSHARP_${dependency}_LIBRARY NAMES ${dependency})
+			if(NOT OPENCVSHARP_${dependency}_LIBRARY)
+				message(FATAL_ERROR "Missing macOS static dependency: ${dependency}")
+			endif()
+			target_link_libraries(OpenCvSharpExtern "${OPENCVSHARP_${dependency}_LIBRARY}")
+		endforeach()
+		foreach(framework IN ITEMS AudioToolbox VideoToolbox CoreMedia CoreVideo CoreAudio
+			AVFoundation OpenGL IOSurface QuartzCore CoreFoundation)
+			find_library(OPENCVSHARP_${framework}_FRAMEWORK NAMES ${framework})
+			if(NOT OPENCVSHARP_${framework}_FRAMEWORK)
+				message(FATAL_ERROR "Missing macOS framework: ${framework}")
+			endif()
+			target_link_libraries(OpenCvSharpExtern "${OPENCVSHARP_${framework}_FRAMEWORK}")
+		endforeach()
 	endif()
 
 	install(TARGETS OpenCvSharpExtern
