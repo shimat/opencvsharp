@@ -177,21 +177,8 @@ if(OpenCV_FOUND)
 		# The cached OpenCV text module exports Tesseract as a bare library name.
 		# Use its resolved target so CMake can track the location and dependencies.
 		if(TARGET ocv.3rdparty.tesseract AND TARGET Tesseract::libtesseract)
-			get_target_property(text_libraries ocv.3rdparty.tesseract INTERFACE_LINK_LIBRARIES)
-			string(REGEX REPLACE "(^|;|:)(-l)?tesseract(;|>|$)" "\\1Tesseract::libtesseract\\3"
-				text_libraries "${text_libraries}")
-			set_property(TARGET ocv.3rdparty.tesseract PROPERTY INTERFACE_LINK_LIBRARIES "${text_libraries}")
+			set_property(TARGET ocv.3rdparty.tesseract PROPERTY INTERFACE_LINK_LIBRARIES Tesseract::libtesseract)
 		endif()
-		# Resolve static codec dependencies through CMAKE_PREFIX_PATH. Keeping these
-		# in the target's link graph lets CMake deduplicate OpenCV's transitive inputs.
-		foreach(dependency IN ITEMS lzma zstd sharpyuv webp webpmux webpdemux webpdecoder
-			jpeg png16 tiff leptonica gif freetype harfbuzz lz4)
-			find_library(OPENCVSHARP_${dependency}_LIBRARY NAMES ${dependency})
-			if(NOT OPENCVSHARP_${dependency}_LIBRARY)
-				message(FATAL_ERROR "Missing macOS static dependency: ${dependency}")
-			endif()
-			target_link_libraries(OpenCvSharpExtern "${OPENCVSHARP_${dependency}_LIBRARY}")
-		endforeach()
 		foreach(framework IN ITEMS AudioToolbox VideoToolbox CoreMedia CoreVideo CoreAudio
 			AVFoundation OpenGL IOSurface QuartzCore CoreFoundation)
 			find_library(OPENCVSHARP_${framework}_FRAMEWORK NAMES ${framework})
