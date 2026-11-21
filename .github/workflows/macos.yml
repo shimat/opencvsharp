@@ -60,7 +60,7 @@ jobs:
       # would pick up those headers (requiring C++17) instead of its own (C++11).
       - name: Install system tools
         run: |
-          brew install cmake ninja pkg-config nasm yasm
+          brew install ninja pkg-config nasm yasm
           brew uninstall protobuf abseil 2>/dev/null || true
 
       # -- vcpkg (image libs) --------------------------------------------------
@@ -181,12 +181,19 @@ jobs:
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET"
-          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log | python3 cmake/summarize_macos_linker_warnings.py
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
             echo "A dependency exceeds the macOS deployment target"
             exit 1
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: extern-linker-log-osx-x64
+          path: /tmp/extern-build.log
+          if-no-files-found: ignore
 
       - name: Verify Extern deployment target
         run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
@@ -213,52 +220,6 @@ jobs:
           DYLD_LIBRARY_PATH=${GITHUB_WORKSPACE} dotnet test --project OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime osx-x64 \
             --filter-method OpenCvSharp.Tests.ImgCodecs.ImgCodecsTest.AvifRoundTripOnMacOS < /dev/null
 
-
-      - name: Compare Intel IPP performance and artifact size
-        run: |
-          set -euo pipefail
-          mkdir -p ipp-comparison
-          sysctl -n machdep.cpu.brand_string | tee ipp-comparison/cpu.txt
-          clang++ -O3 -std=c++17 -I opencv_artifacts/include/opencv5 \
-            .github/benchmarks/macos_ipp.cpp \
-            "$GITHUB_WORKSPACE/libOpenCvSharpExtern.dylib" -Wl,-rpath,"$GITHUB_WORKSPACE" -o /tmp/ipp-benchmark
-          /tmp/ipp-benchmark | tee ipp-comparison/ipp-runtime.csv
-          cp libOpenCvSharpExtern.dylib ipp-comparison/with-ipp.dylib
-          xcrun ld -help 2>&1 | grep -E 'warn|platform' > ipp-comparison/linker-options.txt || true
-          cmake -G Ninja -C cmake/opencv_build_options_macos.cmake \
-            -S opencv -B opencv/build-noipp \
-            -D OPENCV_EXTRA_MODULES_PATH="$GITHUB_WORKSPACE/opencv_contrib/modules" \
-            -D CMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/opencv_noipp_artifacts" \
-            -D CMAKE_TOOLCHAIN_FILE=/tmp/vcpkg/scripts/buildsystems/vcpkg.cmake \
-            -D VCPKG_TARGET_TRIPLET=x64-osx-static \
-            -D VCPKG_INSTALLED_DIR="$GITHUB_WORKSPACE/vcpkg_installed" \
-            -D CMAKE_OSX_ARCHITECTURES=x86_64 -D WITH_IPP=OFF \
-            2>&1 | tee ipp-comparison/noipp-configure.log
-          cmake --build opencv/build-noipp -j 3 > ipp-comparison/noipp-build.log 2>&1
-          cmake --install opencv/build-noipp > /dev/null
-          cmake -G Ninja -S src -B src/build-noipp \
-            -D CMAKE_BUILD_TYPE=Release \
-            -D CMAKE_PREFIX_PATH="$GITHUB_WORKSPACE/opencv_noipp_artifacts;$GITHUB_WORKSPACE/vcpkg_installed/x64-osx-static" \
-            -D CMAKE_OSX_ARCHITECTURES=x86_64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET"
-          cmake --build src/build-noipp -j 3 2>&1 | tee ipp-comparison/noipp-extern-build.log
-          cp src/build-noipp/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ipp-comparison/without-ipp.dylib
-          clang++ -O3 -std=c++17 -I opencv_noipp_artifacts/include/opencv5 \
-            .github/benchmarks/macos_ipp.cpp \
-            "$GITHUB_WORKSPACE/src/build-noipp/OpenCvSharpExtern/libOpenCvSharpExtern.dylib" \
-            -Wl,-rpath,"$GITHUB_WORKSPACE/src/build-noipp/OpenCvSharpExtern" -o /tmp/noipp-benchmark
-          /tmp/noipp-benchmark | tee ipp-comparison/noipp-runtime.csv
-          ls -l ipp-comparison/*.dylib | tee ipp-comparison/sizes.txt
-          python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" ipp-comparison/without-ipp.dylib
-          cp /tmp/extern-build.log ipp-comparison/ipp-extern-build.log
-
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: macos-ipp-comparison
-          path: ipp-comparison/
-          retention-days: 3
-
       - uses: actions/upload-artifact@v7
         with:
           name: libOpenCvSharpExtern-osx-x64
@@ -280,7 +241,7 @@ jobs:
       # NOTE: Do NOT install protobuf via Homebrew — see build_x64 comment.
       - name: Install system tools
         run: |
-          brew install cmake ninja pkg-config nasm yasm
+          brew install ninja pkg-config nasm yasm
           brew uninstall protobuf abseil 2>/dev/null || true
 
       # -- vcpkg (image libs) --------------------------------------------------
@@ -401,12 +362,19 @@ jobs:
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
             -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET"
-          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log | python3 cmake/summarize_macos_linker_warnings.py
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
             echo "A dependency exceeds the macOS deployment target"
             exit 1
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: extern-linker-log-osx-arm64
+          path: /tmp/extern-build.log
+          if-no-files-found: ignore
 
       - name: Verify Extern deployment target
         run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
