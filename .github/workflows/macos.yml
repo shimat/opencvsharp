@@ -180,14 +180,20 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=x86_64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
-            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
-          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET"
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log | python3 cmake/summarize_macos_linker_warnings.py
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
             echo "A dependency exceeds the macOS deployment target"
             exit 1
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: extern-linker-log-osx-x64
+          path: /tmp/extern-build.log
+          if-no-files-found: ignore
 
       - name: Verify Extern deployment target
         run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
@@ -355,14 +361,20 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static" \
             -D CMAKE_OSX_ARCHITECTURES=arm64 \
-            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
-            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/arm64-osx-static/lib -llzma -lzstd -lsharpyuv -lwebp -lwebpmux -lwebpdemux -lwebpdecoder -ljpeg -lpng16 -ltiff -ltesseract -lleptonica -lgif -lfreetype -lharfbuzz -llz4 -framework AudioToolbox -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreAudio -framework AVFoundation -framework OpenGL -framework IOSurface -framework QuartzCore -framework CoreFoundation"
-          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log
+            -D CMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET"
+          cmake --build src/build -j 2>&1 | tee /tmp/extern-build.log | python3 cmake/summarize_macos_linker_warnings.py
           if grep -E "was built for newer .* version .* than being linked" /tmp/extern-build.log; then
             echo "A dependency exceeds the macOS deployment target"
             exit 1
           fi
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.dylib
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: extern-linker-log-osx-arm64
+          path: /tmp/extern-build.log
+          if-no-files-found: ignore
 
       - name: Verify Extern deployment target
         run: python3 cmake/verify_macos_deployment_target.py "$MACOSX_DEPLOYMENT_TARGET" libOpenCvSharpExtern.dylib
