@@ -171,10 +171,16 @@ if(OpenCV_FOUND)
 		if(TARGET ocv.3rdparty.tesseract AND TARGET Tesseract::libtesseract)
 			set_property(TARGET ocv.3rdparty.tesseract PROPERTY INTERFACE_LINK_LIBRARIES Tesseract::libtesseract)
 		endif()
-		# LibArchive's exported dependencies omit these optional compression libraries.
-		find_package(lz4 CONFIG REQUIRED)
-		find_package(zstd CONFIG REQUIRED)
-		target_link_libraries(OpenCvSharpExtern lz4::lz4 zstd::libzstd_static)
+		# Cached LibArchive builds may use optional codecs absent from its exported
+		# dependencies. Link installed codec packages without requiring those features.
+		find_package(lz4 CONFIG QUIET)
+		if(TARGET lz4::lz4)
+			target_link_libraries(OpenCvSharpExtern lz4::lz4)
+		endif()
+		find_package(zstd CONFIG QUIET)
+		if(TARGET zstd::libzstd_static)
+			target_link_libraries(OpenCvSharpExtern zstd::libzstd_static)
+		endif()
 		foreach(framework IN ITEMS AudioToolbox VideoToolbox CoreMedia CoreVideo CoreAudio
 			AVFoundation OpenGL IOSurface QuartzCore CoreFoundation)
 			find_library(OPENCVSHARP_${framework}_FRAMEWORK NAMES ${framework})
