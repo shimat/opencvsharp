@@ -9,7 +9,7 @@ def main():
     warnings = Counter()
     pattern = re.compile(
         r"ld: warning: no platform load command found in '(.+\.a)"
-        r"\[\d+\]\([^']+\)', assuming: macOS"
+        r"(?:\[[^\]]+\])?\[\d+\]\([^']+\)', assuming: macOS"
     )
     for line in sys.stdin:
         match = pattern.fullmatch(line.rstrip("\r\n"))
