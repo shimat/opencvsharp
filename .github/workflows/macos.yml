@@ -60,7 +60,7 @@ jobs:
       # would pick up those headers (requiring C++17) instead of its own (C++11).
       - name: Install system tools
         run: |
-          brew install ninja pkg-config nasm yasm
+          brew install cmake ninja pkg-config nasm yasm
           brew uninstall protobuf abseil 2>/dev/null || true
 
       # -- vcpkg (image libs) --------------------------------------------------
@@ -280,7 +280,7 @@ jobs:
       # NOTE: Do NOT install protobuf via Homebrew — see build_x64 comment.
       - name: Install system tools
         run: |
-          brew install ninja pkg-config nasm yasm
+          brew install cmake ninja pkg-config nasm yasm
           brew uninstall protobuf abseil 2>/dev/null || true
 
       # -- vcpkg (image libs) --------------------------------------------------
