@@ -110,6 +110,13 @@ if(OpenCV_FOUND)
 			target_link_options(OpenCvSharpExtern PRIVATE "-Wl,--exclude-libs,$<TARGET_FILE_NAME:libharfbuzz>")
 		endif()
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+		if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND VCPKG_TARGET_TRIPLET)
+			# OpenCV exports the static TIFF archive without its private codec dependencies.
+			# vcpkg's imported target supplies LZMA, JPEG, and zlib after that archive.
+			find_package(TIFF REQUIRED)
+			target_link_libraries(OpenCvSharpExtern TIFF::TIFF)
+			target_link_options(OpenCvSharpExtern PRIVATE -Wl,-z,defs)
+		endif()
 		if(MSVC AND OPENCVSHARP_GENERATE_LINKER_MAP)
 			target_link_options(OpenCvSharpExtern PRIVATE "/MAP:${CMAKE_CURRENT_BINARY_DIR}/OpenCvSharpExtern.map")
 		endif()
