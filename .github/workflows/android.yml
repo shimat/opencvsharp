@@ -38,7 +38,7 @@ jobs:
         run: echo "sha=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Install pinned Android NDK
-        run: sdkmanager --install "ndk;${ANDROID_NDK_VERSION}"
+        run: '"${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --install "ndk;${ANDROID_NDK_VERSION}"'
 
       - uses: actions/cache/restore@v6
         id: opencv-cache
