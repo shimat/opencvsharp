@@ -27,6 +27,8 @@ public class PtCloudIoTest : TestBase
             Assert.True(File.Exists(path));
 
             using var loaded = new Mat();
+            if (ext == ".obj")
+                ExplainExpectedNativeWarning("The OBJ writer emits an object-name record that the point-cloud reader ignores. Vertex data must round-trip.");
             Cv2.LoadPointCloud(path, loaded);
 
             Assert.Equal(4, (int)loaded.Total());

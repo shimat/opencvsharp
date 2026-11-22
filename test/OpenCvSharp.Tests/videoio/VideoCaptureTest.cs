@@ -44,6 +44,7 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.Read(frame1));
             Assert.True(capture.Read(frame2));
             Assert.True(capture.Read(frame3));
+            ExplainExpectedNativeWarning("Reading past the three-image sequence probes the missing shapes4.png and must return false.");
             Assert.False(capture.Read(frame4));
             Assert.False(frame1.Empty());
             Assert.False(frame2.Empty());
@@ -85,6 +86,7 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.Retrieve(frame2));
             Assert.True(capture.Grab());
             Assert.True(capture.Retrieve(frame3));
+            ExplainExpectedNativeWarning("Grabbing past the three-image sequence probes the missing shapes4.png and must return false.");
             Assert.False(capture.Grab());
             Assert.False(capture.Retrieve(frame4));
 

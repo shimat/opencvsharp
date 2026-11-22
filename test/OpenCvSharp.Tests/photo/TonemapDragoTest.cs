@@ -15,7 +15,11 @@ public class TonemapDragoTest : TestBase
         using var src32f = new Mat();
         src.ConvertTo(src32f, MatType.CV_32FC3);
 
+        ExplainExpectedNativeWarning("TonemapDrago normalizes multi-channel input through MatExpr, which can emit OpenCV's once-per-process semantics warning.");
         tonemap.Process(src32f, dst);
+        Assert.Equal(src.Size(), dst.Size());
+        Assert.Equal(MatType.CV_32FC3, dst.Type());
+        Assert.True(Cv2.CheckRange(dst));
 
         ShowImagesWhenDebugMode(dst);
     }

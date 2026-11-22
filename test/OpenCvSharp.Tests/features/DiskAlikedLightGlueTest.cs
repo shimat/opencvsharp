@@ -53,6 +53,7 @@ public class DiskAlikedLightGlueTest : TestBase
     {
         // Construction only needs a valid ONNX graph. No feature matching is performed.
         var model = File.ReadAllBytes(Path.Combine("_data", "wechat_qrcode", "sr.onnx"));
+        ExplainExpectedNativeWarning("LightGlue internally selects the CPU target, which the CPU-only graph engine reports as unsupported.");
         using var matcher = LightGlueMatcher.CreateFromMemory(model, type: LightGlueType.Disk);
         Assert.Equal(LightGlueNormalization.Model, matcher.KeypointNormalization);
         matcher.KeypointNormalization = LightGlueNormalization.MaxSide;
@@ -65,6 +66,7 @@ public class DiskAlikedLightGlueTest : TestBase
         // Three identity outputs use the names required by XFeat. This graph tests construction and options.
         var model = Convert.FromBase64String(
             "CAg6/gEKGwoBeBIMb3V0cHV0X2ZlYXRzIghJZGVudGl0eQofCgF4EhBvdXRwdXRfa2V5cG9pbnRzIghJZGVudGl0eQodCgF4Eg5vdXRwdXRfaGVhdG1hcCIISWRlbnRpdHkSBHRlc3RaGwoBeBIWChQIARIQCgIIAQoCCAEKAggICgIICGImCgxvdXRwdXRfZmVhdHMSFgoUCAESEAoCCAEKAggBCgIICAoCCAhiKgoQb3V0cHV0X2tleXBvaW50cxIWChQIARIQCgIIAQoCCAEKAggICgIICGIoCg5vdXRwdXRfaGVhdG1hcBIWChQIARIQCgIIAQoCCAEKAggICgIICEICEBI=");
+        ExplainExpectedNativeWarning("XFeat internally selects the CPU target, which the CPU-only graph engine reports as unsupported.");
         using var detector = XFeat.CreateFromMemory(model, maxKeypoints: 120, inputSize: new Size(80, 64));
         Assert.Equal(120, detector.MaxKeypoints);
         Assert.Equal(0.5f, detector.ScoreThreshold);
