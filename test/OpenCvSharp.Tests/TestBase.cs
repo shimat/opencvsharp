@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Xunit;
 
@@ -12,6 +13,9 @@ namespace OpenCvSharp.Tests;
 
 public abstract class TestBase
 {
+    protected static void ExplainExpectedNativeWarning(string reason, [CallerMemberName] string testName = "")
+        => Console.Error.WriteLine($"[Expected OpenCV warning in {testName}] {reason}");
+
     static TestBase()
     {
 #if NET48

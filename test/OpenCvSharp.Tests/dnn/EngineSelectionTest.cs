@@ -54,5 +54,11 @@ public class EngineSelectionTest : TestBase
         using var net = Cv2.Dnn.ReadNetFromONNX(OnnxModelPath, engine);
         Assert.NotNull(net);
         Assert.False(net.Empty());
+        net.SetPreferableBackend(Backend.OPENCV);
+        using var input = new Mat([1, 1, 16, 16], MatType.CV_32F, Scalar.All(0));
+        net.SetInput(input);
+        using var output = net.Forward();
+        Assert.False(output.Empty());
+        Assert.Equal(MatType.CV_32F, output.Type());
     }
 }

@@ -24,12 +24,14 @@ public class DnnOutputDepthTest : TestBase
     }
 
     [Fact]
-    public void ReserveKVCacheRequiresEnable()
+    public void ReserveKVCacheWithoutAttentionRequiresEnable()
     {
         using var network = Cv2.Dnn.ReadNetFromONNX(Path.Combine("_data", "wechat_qrcode", "sr.onnx"), EngineType.OpenCv);
         Assert.NotNull(network);
         Assert.ThrowsAny<OpenCVException>(() => network.ReserveKVCache(32));
         network.EnableKVCache();
+        ExplainExpectedNativeWarning(
+            "sr.onnx has no attention layers, so reserving its KV cache is an intentional no-op after enabling the cache.");
         network.ReserveKVCache(32);
         network.ResetKVCache();
     }

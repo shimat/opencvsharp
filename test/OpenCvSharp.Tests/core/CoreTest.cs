@@ -64,6 +64,7 @@ public class CoreTest : TestBase
     {
         using Mat image = LoadImage("lenna.png");
         using Mat dst1 = new ();
+        ExplainExpectedNativeWarning("The multi-channel MatExpr scalar operation can emit OpenCV's once-per-process semantics warning.");
         using Mat dst2 = new Scalar(255) - image;
         Cv2.Subtract(new Scalar(255), image, dst1);
 

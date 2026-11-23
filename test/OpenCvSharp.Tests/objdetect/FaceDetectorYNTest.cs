@@ -20,6 +20,10 @@ public class FaceDetectorYNTest : TestBase
             var contents = FileDownloader.DownloadData(new Uri(ModelUrl));
             File.WriteAllBytes(ModelPath, contents);
         }
+
+        ExplainExpectedNativeWarning(
+            "FaceDetectorYN internally selects the CPU target. OpenCV's CPU-only graph engine warns that target selection is unsupported.",
+            nameof(FaceDetectorYNTest));
     }
 
     [Fact]
@@ -43,7 +47,7 @@ public class FaceDetectorYNTest : TestBase
             scoreThreshold: 0.8f,
             nmsThreshold: 0.4f,
             topK: 3000,
-            backendId: Backend.DEFAULT,
+            backendId: Backend.OPENCV,
             targetId: Target.CPU);
 
         Assert.NotNull(detector);

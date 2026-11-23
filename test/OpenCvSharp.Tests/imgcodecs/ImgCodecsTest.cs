@@ -44,6 +44,7 @@ public class ImgCodecsTest : TestBase
     [Fact]
     public void ImReadFailure()
     {
+        ExplainExpectedNativeWarning("The missing input file must produce an empty Mat.");
         using var image = Cv2.ImRead("not_exist.png", ImreadModes.Grayscale);
         Assert.NotNull(image);
         Assert.True(image.Empty());
@@ -155,6 +156,7 @@ public class ImgCodecsTest : TestBase
     [Fact]
     public void ImReadUnicodeMissingFileReturnsEmpty()
     {
+        ExplainExpectedNativeWarning("The missing Unicode input path must produce an empty Mat.");
         using var image = Cv2.ImRead("_data/image/does_not_exist♥😀.png");
         Assert.NotNull(image);
         Assert.True(image.Empty());
