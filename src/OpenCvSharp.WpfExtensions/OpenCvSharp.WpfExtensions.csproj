@@ -34,7 +34,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="10.0.15" />
+    <PackageReference Include="System.Drawing.Common" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
