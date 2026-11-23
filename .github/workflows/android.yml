@@ -12,7 +12,7 @@ on:
 
 env:
   OPENCV_VERSION: 5.1.0
-  ANDROID_NDK_VERSION: 27.3.13750724
+  ANDROID_NDK_VERSION: 30.0.16248370
   ANDROID_API_LEVEL: 24
 
 jobs:
@@ -37,11 +37,14 @@ jobs:
         id: opencv-revision
         run: echo "sha=$(git -C opencv rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
+      - name: Install pinned Android NDK
+        run: '"${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --install "ndk;${ANDROID_NDK_VERSION}"'
+
       - uses: actions/cache/restore@v6
         id: opencv-cache
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
-          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
+          key: android-opencv-${{ matrix.abi }}-ndk${{ env.ANDROID_NDK_VERSION }}-api${{ env.ANDROID_API_LEVEL }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -65,7 +68,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ runner.temp }}/opencv-install-${{ matrix.abi }}
-          key: android-opencv-${{ matrix.abi }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
+          key: android-opencv-${{ matrix.abi }}-ndk${{ env.ANDROID_NDK_VERSION }}-api${{ env.ANDROID_API_LEVEL }}-${{ steps.opencv-revision.outputs.sha }}-${{ hashFiles('cmake/opencv_build_options_android.cmake', 'cmake/opencv-hooks/POST_FINALIZE.cmake') }}
 
       - name: Build OpenCvSharpExtern
         shell: bash
@@ -201,5 +204,5 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_5
-          emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu swiftshader -no-metrics -noaudio -no-boot-anim -camera-back none -camera-front none
           script: bash test/OpenCvSharp.AndroidSmoke/run-smoke.sh
