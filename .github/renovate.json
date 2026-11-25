@@ -22,14 +22,17 @@
       "enabled": false
     },
     {
-      "description": "Keep framework-coupled dependencies on their selected major; review major upgrades manually",
+      "description": "Block framework-coupled updates that change the declared major; review major upgrades manually",
       "matchManagers": ["nuget"],
       "matchPackageNames": [
         "Microsoft.AspNetCore.Components.WebAssembly",
         "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
         "System.Drawing.Common"
       ],
-      "allowedVersions": "/^{{major}}\\./"
+      "matchJsonata": [
+        "$exists(currentValue) and $exists(newVersion) and $split(currentValue, '.')[0] != $split(newVersion, '.')[0]"
+      ],
+      "enabled": false
     },
     {
       "description": "Update private SourceLink build tooling separately from framework-coupled dependencies",
