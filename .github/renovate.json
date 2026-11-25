@@ -22,6 +22,16 @@
       "enabled": false
     },
     {
+      "description": "Use declared SemVer literals as the lookup baseline, including deprecated releases",
+      "matchManagers": ["nuget"],
+      "matchPackageNames": [
+        "Microsoft.AspNetCore.Components.WebAssembly",
+        "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+        "System.Drawing.Common"
+      ],
+      "versioning": "semver"
+    },
+    {
       "description": "Block framework-coupled updates that change the declared major; review major upgrades manually",
       "matchManagers": ["nuget"],
       "matchPackageNames": [
