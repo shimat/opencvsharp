@@ -22,6 +22,36 @@
       "enabled": false
     },
     {
+      "description": "Use declared SemVer literals as the lookup baseline, including deprecated releases",
+      "matchManagers": ["nuget"],
+      "matchPackageNames": [
+        "Microsoft.AspNetCore.Components.WebAssembly",
+        "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+        "System.Drawing.Common"
+      ],
+      "versioning": "semver"
+    },
+    {
+      "description": "Block framework-coupled updates that change the declared major; review major upgrades manually",
+      "matchManagers": ["nuget"],
+      "matchPackageNames": [
+        "Microsoft.AspNetCore.Components.WebAssembly",
+        "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+        "System.Drawing.Common"
+      ],
+      "matchJsonata": [
+        "$exists(currentValue) and $exists(newVersion) and $split(currentValue, '.')[0] != $split(newVersion, '.')[0]"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Update private SourceLink build tooling separately from framework-coupled dependencies",
+      "matchManagers": ["nuget"],
+      "matchPackageNames": ["Microsoft.SourceLink.GitHub"],
+      "groupName": "SourceLink",
+      "groupSlug": "sourcelink"
+    },
+    {
       "description": "Notify about stable OpenCV 5.x releases",
       "matchPackageNames": ["opencv/opencv"],
       "allowedVersions": "/^5\\./",
