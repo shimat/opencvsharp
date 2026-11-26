@@ -1,5 +1,5 @@
 ########## Build arguments ##########
-ARG OPENCV_VERSION=4.13.0
+ARG OPENCV_VERSION=4.14.0
 
 ########## Build OpenCV ##########
 FROM ubuntu:noble AS opencv-builder

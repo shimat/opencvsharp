@@ -12,7 +12,7 @@ on:
       - 4.x
 
 env:
-  OPENCV_VERSION: 4.13.0
+  OPENCV_VERSION: 4.14.0
   CACHE_VERSION: "1"
 
 jobs:
