@@ -43,7 +43,7 @@ For more installation options, see the [Installation](#installation) section bel
 * OpenCvSharp provides functions for converting from `Mat` to `Bitmap` (GDI+) or `WriteableBitmap` (WPF).
 
 ## Target OpenCV
-* [OpenCV 4.13.0](https://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* [OpenCV 4.14.0](https://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 
 ## Requirements
 * [.NET 8](https://www.microsoft.com/net/download) or later / .NET Standard 2.0 / .NET Standard 2.1

@@ -12,7 +12,7 @@ A cross-platform .NET wrapper for [OpenCV](https://opencv.org/), providing image
 | .NET Framework 4.6.1+ | via `netstandard2.0` |
 | .NET Framework 4.8 | direct target (WpfExtensions only) |
 
-Target OpenCV version: **4.13.0** (with opencv_contrib)
+Target OpenCV version: **4.14.0** (with opencv_contrib)
 
 ## Quick Start
 
